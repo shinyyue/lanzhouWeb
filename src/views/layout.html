@@ -1,0 +1,21 @@
+<div class="layui-layout layui-layout-admin" style="width: 1350px;height: 100%;margin: 0 auto;position: relative;">
+    <div id="app-header">
+        <div class="app-header-left">虚拟仿真实验教学管理平台</div>
+        <script type="text/html" template lay-done="layui.element.render('nav','nepadmin-header'); layui.admin.navBarFocus()">
+            <ul class="layui-nav layui-layout-right" lay-filter="nepadmin-header">
+                <li class="layui-nav-item layui-this"><a href="/index.html#/">首页</a></li>
+                <li class="layui-nav-item"><a href="/index.html#/course/index">课程管理</a></li>
+                <li class="layui-nav-item">开课管理</li>
+                <li class="layui-nav-item">实验管理</li>
+                <li class="layui-nav-item">资源管理</li>
+                <li class="layui-nav-item">题库管理</li>
+                <li class="layui-nav-item">课程表</li>
+                <li class="layui-nav-item">答疑室</li>
+                <li class="layui-nav-item">个人信息</li>
+                <li class="layui-nav-item">退出系统</li>
+            </ul>
+        </script>
+    </div>
+    <!-- 主体内容 -->
+    <div class="layui-body" id="app-body"></div>
+</div>
