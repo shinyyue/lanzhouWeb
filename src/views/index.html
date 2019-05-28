@@ -1,4 +1,11 @@
 <div class="layui-fluid" lay-title="首页" id="VIEW-index">
+    <table id="list-table" lay-filter="list-table"></table>
+    <script type="text/html" id="course-opt">
+        <button class="course-set-btn ">课程设置</button>
+    </script>
+    <div class="app-table-page" id="home-table-page">
+
+    </div>
 </div>
 
 <!-- 侧边菜单 -->
@@ -21,3 +28,99 @@
         </div>
     </div>
 </div>
+
+<style>
+    .course-set-btn {
+        padding: 4px 10px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+</style>
+
+
+<script>
+    layui.use(['table', 'jquery'], function (table, $) {
+        var tableFilter = 'list-table';
+        var laypage = layui.laypage;
+
+        table.render({
+            page: false,
+            data: [{
+                id: 1,
+                courceName: '发电机哈哈',
+                times: 2,
+                time: '星期一',
+                address: '三角',
+                count: 10,
+                score: 80
+            }],
+            elem: '[lay-filter="' + tableFilter + '"]',
+            height: 'full-165',
+            cols: [
+                [{
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center'
+                    },
+                    {
+                        title: '课程名称',
+                        field: 'courceName',
+                        width: 120,
+                        align: 'center'
+
+                    },
+                    {
+                        title: '上课周次',
+                        field: 'times',
+                        minWidth: 120,
+                        align: 'center'
+                    },
+                    {
+                        title: '上课时间',
+                        minWidth: 120,
+                        field: 'time',
+                        align: 'center',
+                    },
+                    {
+                        title: '上课地点',
+                        align: 'center',
+                        field: 'address',
+                        minWidth: 120
+                    },
+                    {
+                        title: '选课人数',
+                        align: 'center',
+                        field: 'count',
+                        minWidth: 120
+                    },
+                    {
+                        field: 'score',
+                        title: '学分',
+                        align: 'center',
+                        width: 80
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        templet: '#course-opt'
+                    }
+                ]
+            ]
+        })
+
+
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'home-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+            count: 50, //数据总数，从服务端得到
+            limit: 10,
+            first: '首页',
+            last: '尾页',
+            hash: 'page',
+            curr: location.hash.replace('#!page=', ''),
+            layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount']
+        });
+
+    })
+</script>

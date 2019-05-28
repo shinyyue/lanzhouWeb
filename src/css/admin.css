@@ -141,6 +141,13 @@ html,
 }
 */
 
+/* 修改表格样式 */
+.layui-table-header .layui-table .layui-table-cell {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
 #app-header .layui-nav-bar,
 .layui-bg-black {
     width: 0;
@@ -242,18 +249,21 @@ html,
     background-color: #f6f6f6 !important;
 }
 
-.layui-table tbody tr:hover,
+/* .layui-table tbody tr:hover, */
 .layui-table thead tr,
 .layui-table-click,
 .layui-table-header,
-.layui-table-hover,
 .layui-table-mend,
 .layui-table-patch,
 .layui-table-tool,
 .layui-table-total,
 .layui-table-total tr,
 .layui-table[lay-even] tr:nth-child(even) {
-    background-color: #f6f6f6 !important;
+    background-color: rgba(231, 235, 244, 1) !important;
+}
+
+.layui-table-hover {
+    background-color: rgba(242, 242, 242, 1) !important;
 }
 
 .layui-badge-rim,
@@ -979,6 +989,7 @@ html,
     left: 220px;
     width: 1130px;
     position: relative;
+    background: #fff;
 }
 
 #app-body .layui-fluid {

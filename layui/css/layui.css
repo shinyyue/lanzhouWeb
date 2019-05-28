@@ -3347,7 +3347,7 @@ hr {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    box-sizing: border-box
+    box-sizing: border-box;
 }
 
 .layui-table-cell .layui-form-checkbox[lay-skin=primary] {

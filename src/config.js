@@ -32,7 +32,7 @@ layui.define(function (exports) {
         tableName: 'nepadmin',
         //全局设置 headers 信息
         requestHeaders: {
-            'Test-User-Agent': 'os=pc;ver=0.0.1;imei=asdasdas'
+            // 'Test-User-Agent': 'os=pc;ver=0.0.1;imei=asdasdas'
         },
         //request 基础URL
         requestUrl: './',
