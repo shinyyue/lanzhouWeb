@@ -21,6 +21,11 @@ a:hover {
     color: #1e51c7;
 }
 
+button {
+    border: none;
+    outline: none;
+}
+
 /** 修改滚动条样式 部分浏览器不支持 */
 ::-webkit-scrollbar {
     width: 0px;
@@ -363,6 +368,7 @@ html,
     background: rgba(26, 52, 113, 1) !important;
     padding: 0 20px 0;
     z-index: 2000;
+    box-sizing: border-box;
 }
 
 .nepadmin-tabs-wrap {
@@ -985,12 +991,12 @@ html,
 /*
     修改 app-body 的样式
 */
-#app-body {
+/* #app-body {
     left: 220px;
     width: 1130px;
     position: relative;
     background: #fff;
-}
+} */
 
 #app-body .layui-fluid {
     margin-top: 15px;

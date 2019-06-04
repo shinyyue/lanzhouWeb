@@ -1,31 +1,13 @@
 <div class="layui-fluid" lay-title="首页" id="VIEW-index">
+    <div class="home-title">
+        <span>您本学期在虚拟实验中心承担<i id="course-count">1</i>门课程</span>
+        <span class="home-title-time">2018-2019-2</span>
+    </div>
     <table id="list-table" lay-filter="list-table"></table>
     <script type="text/html" id="course-opt">
         <button class="course-set-btn ">课程设置</button>
     </script>
     <div class="app-table-page" id="home-table-page">
-
-    </div>
-</div>
-
-<!-- 侧边菜单 -->
-<div class="layui-side" id="app-sidebar">
-    <div class="layui-side-scroll">
-        <div class="layui-logo">
-            <img src="src/images/logo_1.png" class="layui-logo-img">
-        </div>
-        <div class="sidebar-user">
-            <img src="src/images/user_logo.png" class="user-logo">
-            <div class="user-info">
-                <div class="user-info-name">王小虎</div>
-                <div>老师</div>
-            </div>
-        </div>
-        <div id="home-welcome" class="home-welcome">
-            <span>Welcome!</span>
-            <p>欢迎您使用虚拟仿真实验教学平台！</p>
-            <p>教师在任课期间点击主菜单栏的“答疑室”可接受学生的咨询、整理常见问题、维护答疑库。当您不在答疑室期间，学生针对您所任课程的问题将直接发往您本人登记的电子邮件，请您及时回答学生的问题。</p>
-        </div>
     </div>
 </div>
 
@@ -35,6 +17,21 @@
         border: 1px solid #ccc;
         cursor: pointer;
     }
+
+    .home-title {
+        padding: 20px;
+        font-size: 16px;
+    }
+
+    .home-title .home-title-time {
+        color: red;
+        float: right;
+    }
+
+    .home-title i {
+        font-weight: bold;
+        font-style: normal;
+    }
 </style>
 
 
@@ -42,6 +39,8 @@
     layui.use(['table', 'jquery'], function (table, $) {
         var tableFilter = 'list-table';
         var laypage = layui.laypage;
+
+        console.log(111, $.ajax)
 
         table.render({
             page: false,
@@ -55,7 +54,7 @@
                 score: 80
             }],
             elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-165',
+            height: 'full-300',
             cols: [
                 [{
                         title: '序号',

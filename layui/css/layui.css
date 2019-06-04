@@ -3342,7 +3342,7 @@ hr {
 .layui-table-cell {
     height: 28px;
     line-height: 28px;
-    padding: 0 15px;
+    /* padding: 0 15px; */
     position: relative;
     overflow: hidden;
     text-overflow: ellipsis;

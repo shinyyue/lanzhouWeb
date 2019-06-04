@@ -2,8 +2,7 @@ layui
     .extend({
         conf: 'config',
         api: 'lay/modules/api',
-        view: 'lay/modules/view',
-        myModal: 'lay/modules/modal'
+        view: 'lay/modules/view'
     })
     .define(['conf', 'view', 'api', 'jquery'], function (exports) {
         POPUP_DATA = {}
@@ -164,12 +163,13 @@ layui
                 elem.click()
             }
         }
-
         self.navBarFocus = function (url) {
             url = url || self.route.href
-            var elem = $('#app-header')
+            var elem = $('#header_nav')
                 .find('[lay-href="' + url + '"]')
                 .eq(0)
+
+            console.log(elem)
             if (elem.length > 0) {
                 elem.parents('.layui-nav-item').addClass('layui-nav-itemed')
                 elem.click()

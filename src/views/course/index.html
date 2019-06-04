@@ -1,27 +1,37 @@
 <div class="layui-fluid" id="course" lay-title="课程管理">
-
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>课程管理 > 课程库</span>
+        </div>
+        <div class="course-title-search">
+            <span class="search-project">课程名称</span>
+            <input type="text">
+            <select name="" id="">
+                <option value="">所有年级</option>
+            </select>
+            <select name="" id="">
+                <option value="">请选择学期</option>
+            </select>
+            <button class="search-confirm">
+                <img src="src/images/search.png">
+            </button>
+        </div>
+    </div>
+    <div class="course-add">
+        <button class="add-btn">添加</button>
+    </div>
+    <table id="course-list-table" lay-filter="course-list-table"></table>
+    <script type="text/html" id="course-opt">
+        <button class="course-set-btn ">修改</button>
+        <button class="course-set-btn ">删除</button>
+        <button class="course-set-btn ">查看</button>
+    </script>
+    <div class="app-table-page" id="course-table-page"></div>
 </div>
 
-<script type="text/html" id="TPL-app-tabsmenu" template>
-    {{# if(layui.conf.viewTabs == true){ }}
-    <div class="nepadmin-tabs-wrap">
-        <span style="display: none;">
-            data: {{JSON.stringify(layui.view.tab.data.reverse())}}
-        </span>
-        <ul class="nepadmin-tabs-menu">
-            {{# layui.each(layui.view.tab.data.reverse(),function(i,item){ }}
-                <li data-type="page" class="nepadmin-tabs-btn" lay-url="{{item.fileurl}}">
-                    {{ item.title }} {{ i === layui.view.tab.data.length -1 ? '': '>'}}
-                </li>
-                {{# }) 
-            }}
-        </ul>
-    </div>
-    {{# } }}
-</script>
-
 <!-- 侧边菜单 -->
-<div class="layui-side" id="app-sidebar">
+<!-- <div class="layui-side" id="app-sidebar">
     <div class="layui-side-scroll">
         <div class="layui-logo">
             <img src="src/images/logo_1.png" class="layui-logo-img">
@@ -58,4 +68,170 @@
 </ul>
     </script>
     </div>
-</div>
+</div> -->
+
+<script>
+    layui.use(['table', 'jquery'], function (table, $) {
+        var tableFilter = 'course-list-table';
+        var laypage = layui.laypage;
+
+        table.render({
+            page: false,
+            data: [{
+                id: 1,
+                courceName: '发电机哈哈',
+                courseCode: 20190101,
+                responsor: '王小虎',
+                time: '第一学期',
+                class: '所有年级',
+                isCommon: false,
+                score: 1
+            }],
+            elem: '[lay-filter="' + tableFilter + '"]',
+            height: 'full-300',
+            cols: [
+                [{
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center'
+                    },
+                    {
+                        title: '课程名称',
+                        field: 'courceName',
+                        align: 'center'
+
+                    },
+                    {
+                        title: '课程代码',
+                        field: 'courseCode',
+                        align: 'center'
+                    },
+                    {
+                        title: '负责人',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '学时',
+                        align: 'center',
+                        field: 'times',
+                        width: 80
+                    },
+                    {
+                        title: '学分',
+                        align: 'center',
+                        field: 'score',
+                        width: 80
+                    },
+                    {
+                        field: 'score',
+                        title: '年级',
+                        align: 'center',
+                    },
+                    {
+                        field: 'time',
+                        title: '学期',
+                        align: 'center',
+                    },
+                    {
+                        field: 'isCommon',
+                        title: '适合所有专业',
+                        align: 'center',
+                        width: 140,
+                        templet: function (d) {
+                            return d ? '是' : '否'
+                        }
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        templet: '#course-opt',
+                        width: 180
+                    }
+                ]
+            ]
+        })
+
+
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'course-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+            count: 50, //数据总数，从服务端得到
+            limit: 10,
+            first: '首页',
+            last: '尾页',
+            hash: 'page',
+            curr: location.hash.replace('#!page=', ''),
+            layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount']
+        });
+
+    })
+</script>
+
+<style>
+    .layui-table {
+        width: 100%;
+    }
+
+    .course-title {
+        overflow: hidden;
+        clear: both;
+        padding-bottom: 20px;
+        line-height: 30px;
+        border-bottom: 1px solid rgba(231, 235, 244, 1);
+    }
+
+    .course-title .course-title-location {
+        float: left;
+    }
+
+    .course-title .course-title-search {
+        float: right;
+        text-align: right;
+    }
+
+    .course-title .course-title-search select,
+    .course-title .course-title-search input {
+        width: 118px;
+        height: 30px;
+        padding: 0 4px;
+        border-radius: 0;
+    }
+
+    .course-title .course-title-search .search-project {
+        line-height: 30px;
+    }
+
+    .course-title .course-title-search .search-confirm {
+        width: 51px;
+        height: 30px;
+        background: #ff6600;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .course-add {
+        text-align: right;
+        padding: 20px 0 10px;
+    }
+
+    .course-add .add-btn {
+        width: 70px;
+        height: 30px;
+        background: #ff6600;
+        color: #fff;
+        font-size: 16px;
+    }
+
+    #course-opt {
+        width: 200px;
+    }
+
+    .course-set-btn {
+        padding: 4px 10px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+</style>

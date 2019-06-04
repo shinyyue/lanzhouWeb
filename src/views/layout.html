@@ -1,4 +1,4 @@
-<div class="layui-layout layui-layout-admin" style="width: 1350px;height: 100%;margin: 0 auto;position: relative;">
+<!-- <div class="layui-layout layui-layout-admin" style="width: 1350px;height: 100%;margin: 0 auto;position: relative;">
     <div id="app-header">
         <div class="app-header-left">虚拟仿真实验教学管理平台</div>
         <script type="text/html" template lay-done="layui.element.render('nav','nepadmin-header'); layui.admin.navBarFocus()">
@@ -16,6 +16,228 @@
             </ul>
         </script>
     </div>
-    <!-- 主体内容 -->
     <div class="layui-body" id="app-body"></div>
+</div> -->
+
+<div class="common-layout">
+    <div class="layout-sider">
+        <div class="layui-logo">
+            <img src="src/images/logo_1.png" class="layui-logo-img">
+        </div>
+        <div class="sidebar-user">
+            <img src="src/images/user_logo.png" class="user-logo">
+            <div class="user-info">
+                <div class="user-info-name">王小虎</div>
+                <div>老师</div>
+            </div>
+        </div>
+        <!-- 配置部分 -->
+        <div id="home-welcome" class="home-welcome">
+            <span>Welcome!</span>
+            <p>欢迎您使用虚拟仿真实验教学平台！</p>
+            <p>教师在任课期间点击主菜单栏的“答疑室”可接受学生的咨询、整理常见问题、维护答疑库。当您不在答疑室期间，学生针对您所任课程的问题将直接发往您本人登记的电子邮件，请您及时回答学生的问题。</p>
+        </div>
+
+        <div id="side_nav" layui-filter="side_nav"></div>
+    </div>
+    <div class="layout-right">
+        <div class="layout-header">
+            <div class="layout-header-left">虚拟仿真实验教学管理平台</div>
+            <ul class="layout-header-right" id="header_nav">
+                <!-- <li><a href="">首页</a></li> -->
+            </ul>
+        </div>
+        <div class="layout-containner" id="app-body"></div>
+    </div>
 </div>
+
+<script>
+    layui.config({
+        base: 'src/plugins/' //自定义layui组件的目录
+    }).use(['element', 'layer', 'navbar', 'tab'], function () {
+
+        var element = layui.element,
+            $ = layui.jquery,
+            layer = layui.layer,
+            nav = layui.navbar(),
+            navbar = layui.navbar();
+
+        // todo: 根据角色加载头部导航栏数据
+
+
+
+        // 点击头部导航栏，请求侧边栏数据
+        var navList = [{
+            "title": "首页",
+            "spread": false,
+            "href": "/" //点击之后，右侧iframe显示的页面路径
+        }, {
+            "title": "课程设计",
+            "spread": false,
+            "href": "/course/index"
+        }];
+
+
+        var navBarList = [{
+                "title": "首页",
+                "spread": false,
+                "href": "/" //点击之后，右侧iframe显示的页面路径
+            }
+            // , {
+            //     "title": "课程设计",
+            //     "spread": false,
+            //     "href": "/course/index"
+            // }
+        ];
+
+        nav.set({
+            spreadOne: true,
+            elem: "#header_nav",
+            cached: false,
+            data: navList
+        });
+
+        navbar.set({
+            spreadOne: true,
+            elem: "#side_nav",
+            cached: false,
+            data: navBarList
+        });
+
+        //渲染navbar
+        nav.render();
+        navbar.render();
+
+        //监听点击事件
+        // navbar.on('click(side_nav)', function (data) {
+        //     var childHtml = data.field.href; //获取当前点击项的路径
+        //     console.log(111, data)
+        //     // $(".layui-body iframe").attr("src", childHtml); //将路径赋值给右侧iframe
+        // });
+
+
+
+        // $.ajax({
+        //     type: 'get',
+        //     url: "${pageContext.request.contextPath }/mainIndexData",
+        //     success: function (data) {
+        //         var navData = data.functionList;
+        //         $("#admin_userName").text(data.fullname); //用户名称
+
+        //         //设置navbar
+        //         navbar.set({
+        //             spreadOne: true,
+        //             elem: "#navbar_side",
+        //             cached: false,
+        //             data: navData
+        //         });
+
+        //         //渲染navbar
+        //         navbar.render();
+
+        //         //监听点击事件
+        //         navbar.on('click(side)', function (data) {
+        //             var childHtml = data.field.href; //获取当前点击项的路径
+        //             $(".layui-body iframe").attr("src", childHtml); //将路径赋值给右侧iframe
+        //         });
+        //     }
+        // });
+    })
+</script>
+
+<style>
+    .common-layout {
+        width: 1350px;
+        height: 100%;
+        margin: 0 auto;
+    }
+
+    .common-layout .layout-sider {
+        width: 220px;
+        height: 100%;
+        background: rgba(26, 52, 113, 1);
+        float: left;
+    }
+
+    .layui-logo {
+        line-height: 50px;
+        text-align: center;
+        color: #009688;
+        font-size: 16px;
+        background: rgba(10, 96, 147, 1);
+    }
+
+    .layui-logo .layui-logo-img {
+        width: 158px;
+        height: 44px;
+        margin-right: 10px;
+    }
+
+    .sidebar-user {
+        background: rgba(26, 52, 113, 1);
+        border: 1px solid #333;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 20px 20px 40px;
+        color: #fff;
+    }
+
+    .sidebar-user .user-logo {
+        width: 40px;
+        height: 40px;
+        margin: 0 10px 0 30px;
+    }
+
+    .home-welcome {
+        background: rgba(0, 176, 202, 1);
+        padding: 20px 20px 80px;
+        color: #fff;
+    }
+
+    .common-layout .layout-right {
+        width: 1130px;
+        height: 100%;
+        background: #fff;
+        float: right;
+    }
+
+    .common-layout .layout-right .layout-header {
+        background: rgba(26, 52, 113, 1);
+        height: 50px;
+        padding: 0 20px;
+    }
+
+    .layout-header-left {
+        float: left;
+        font-size: 18px;
+        color: #fff;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .layout-header-right {
+        float: right;
+    }
+
+    .layout-header-right .header-nav-item {
+        float: left;
+    }
+
+    .layout-header-right .header-nav-item>a {
+        display: block;
+        height: 50px;
+        line-height: 50px;
+        padding: 0 15px;
+        color: #fff;
+    }
+
+    .layout-header-right .header-nav-item>a:hover {
+        background: #00b0ca;
+    }
+
+    .layout-header-right .header-nav-item.header-nav-this a {
+        background: #00b0ca;
+    }
+</style>
