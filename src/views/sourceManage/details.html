@@ -1,0 +1,95 @@
+<div id="source-manage-details">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>资源管理 > 我的资源库 > 查看资源</span>
+        </div>
+    </div>
+
+    <div class="source-details-inner">
+        <div class="source-display"></div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">资源名称</label>
+                <span>铁路</span>
+            </div>
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">所属课程</label>
+                <span>铁路信号知识</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">负责教师</label>
+                <span>铁路</span>
+            </div>
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">使用权限</label>
+                <span>公开</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label">资源描述</label>
+                <div class="layui-col-md9">
+                    <textarea name="desc" class="layui-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">点击量</label>
+                <span>100</span>
+            </div>
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">下载量</label>
+                <span>0</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label">资源评分</label>
+                <span>55</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label "></label>
+                <div>
+                    <button class="layui-btn primary-btn" lay-submit lay-filter="collect">收藏</button>
+                    <button class="layui-btn primary-btn" lay-submit lay-filter="download">下载</button>
+                    <button class="layui-btn layui-btn-primary cancel-btn" id="sourmanage-add-cancle">返回</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    #source-manage-details {}
+
+    .source-details-inner {
+        padding: 20px 0;
+    }
+
+    .source-display {
+        width: 100%;
+        height: 415px;
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    #source-manage-details .layui-form-item span {
+        display: inline-block;
+        padding: 9px 0px;
+        font-size: 16px;
+    }
+
+    .layui-textarea {
+        width: 100%;
+    }
+</style>
+
+<script>
+    layui.use('', function () {})
+</script>

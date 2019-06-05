@@ -1,0 +1,142 @@
+<div id="source-manage-mylist" class="layui-fluid" lay-title="我的资源库">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>资源管理 > 我的资源库</span>
+        </div>
+        <div class="course-title-search">
+            <span class="search-project">所属课程</span>
+            <input type="text">
+            <select name="" id="">
+                <option value="">选择课程</option>
+                <option value="">课程1</option>
+                <option value="">课程2</option>
+            </select>
+            <select name="" id="">
+                <option value="">请选择资源类型</option>
+                <option value="">资源类型1</option>
+                <option value="">资源类型2</option>
+                <option value="">资源类型3</option>
+            </select>
+            <button class="search-confirm">
+                <img src="src/images/search.png">
+            </button>
+        </div>
+    </div>
+    <div class="course-add">
+        <button class="primary-btn" id="sourcemanage-mylist">添加资源</button>
+    </div>
+    <table id="sourcemanage-mylist-table" lay-filter="sourcemanage-mylist-table"></table>
+    <script type="text/html" id="sourcelist-opt">
+        <button class="course-set-btn" id="sourcemanage-mylist-check">查看</button>
+    </script>
+    <div class="app-table-page" id="sourcemanage-mylist-page"></div>
+</div>
+
+<script>
+    layui.use(['table', 'jquery'], function (table, $) {
+
+        var $ = layui.jquery,
+            laypage = layui.laypage,
+            tableFilter = 'sourcemanage-mylist-table',
+            table = layui.table;
+
+        table.render({
+            page: false,
+            data: [{
+                id: 1,
+                courceName: '发电机哈哈',
+                courseCode: 20190101,
+                responsor: '王小虎',
+                time: '第一学期',
+                class: '所有年级',
+                isCommon: false,
+                score: 1
+            }],
+            elem: '[lay-filter="' + tableFilter + '"]',
+            height: 'full-300',
+            cols: [
+                [{
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center'
+                    },
+                    {
+                        title: '资源名称',
+                        field: 'courseCode',
+                        align: 'center'
+                    },
+                    {
+                        title: '类型',
+                        field: 'courceName',
+                        align: 'center'
+
+                    },
+                    {
+                        title: '所属课程',
+                        field: 'courseCode',
+                        align: 'center'
+                    },
+                    {
+                        title: '上传日期',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '上传人',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '使用权限',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '点击',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '下载',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '评分',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        templet: '#sourcelist-opt',
+                    }
+                ]
+            ]
+        })
+
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'sourcemanage-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
+            count: 50, //数据总数，从服务端得到
+            limit: 10,
+            first: '首页',
+            last: '尾页',
+            hash: 'page',
+            curr: location.hash.replace('#/sourcemanage/mylist&page=', ''),
+            layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount']
+        });
+
+
+        $('#sourcemanage-mylist-check').on('click', function () {
+            location.href = 'index.html#/sourcemanage/details'
+        })
+
+    })
+</script>
+
+<style>
+    #source-manage-mylist {}
+</style>

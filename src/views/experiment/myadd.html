@@ -149,6 +149,12 @@
         $('#experiment-add-cancle').on('click', function () {
             window.history.back(-1);
         })
+
+        //监听提交
+        form.on('submit(submit)', function (data) {
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
     })
 </script>
 

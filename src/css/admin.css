@@ -998,9 +998,6 @@ html,
     background: #fff;
 } */
 
-#app-body .layui-fluid {
-    margin-top: 15px;
-}
 
 #app-body .layui-fluid>.layui-table-view,
 #app-body .layui-fluid>.layui-card>.layui-table-view {

@@ -1,0 +1,128 @@
+<div id="source-manage-mylist-add">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>资源管理 > 我的资源库 > 添加资源</span>
+        </div>
+    </div>
+    <form action="" class="layui-form mylist-add-form">
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label require">资源类型</label>
+                <select name="sourceType" lay-verify="">
+                    <option value="">选择资源类型</option>
+                    <option value="0">文档</option>
+                    <option value="1">图片</option>
+                    <option value="2">视频</option>
+                    <option value="3">exe</option>
+                    <option value="4">U3D</option>
+                    <option value="5">scorm课件</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label">选择文件</label>
+                <button type="button" class="layui-btn" id="upload-file">
+                    <i class="layui-icon">&#xe67c;</i>选择文件
+                </button>
+                <span style="margin-left: 50px; color: red;">注：U3D上传zip、rar文件包； exe上传压缩包</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label require">资源名称</label>
+                <input class="common-form-input" type="text" name="sourceName" placeholder="请输入资源名称">
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label require">所属课程</label>
+                <select name="sourceType" lay-verify="">
+                    <option value="">选择所属课程</option>
+                    <option value="0">铁路信号知识</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label">对外访问</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="isOpen" value="公开" title="公开">
+                    <input type="radio" name="isOpen" value="私有" title="私有" checked>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label require">资源描述</label>
+                <div class="layui-col-md9">
+                    <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label">是否下载</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="isDownload" value="true" title="是" checked>
+                    <input type="radio" name="isDownload" value="false" title="否">
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label"></label>
+                <div>
+                    <button class="layui-btn primary-btn" lay-submit lay-filter="submit">提交</button>
+                    <button class="layui-btn layui-btn-primary cancel-btn" id="sourmanage-add-cancle">返回</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use(['form', 'upload'], function () {
+        var form = layui.form,
+            upload = layui.upload,
+            $ = layui.jquery;
+
+        form.render();
+
+        upload.render({
+            elem: '#upload-file' //绑定元素
+                ,
+            url: '/upload/' //上传接口
+                ,
+            done: function (res) {
+                //上传完毕回调
+            },
+            error: function () {
+                //请求异常回调
+            }
+        });
+
+        //监听提交
+        form.on('submit(submit)', function (data) {
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+
+        $('#sourmanage-add-cancle').on('click', function () {
+            window.history.back(-1);
+        })
+
+    })
+</script>
+
+<style>
+    #source-manage-mylist-add {}
+
+    #source-manage-mylist-add .mylist-add-form {
+        padding: 20px 0;
+    }
+
+    #source-manage-mylist-add .layui-textarea {
+        width: 100%;
+    }
+</style>

@@ -25,6 +25,7 @@
     font-weight: bold;
     width: 120px;
     display: inline-block;
+    margin-right: 20px;
 }
 
 .common-form-input {
@@ -68,4 +69,59 @@
     background: #fff;
     color: #666;
     text-align: center;
+}
+
+
+/* 业务通用样式 */
+.layui-table {
+    width: 100%;
+}
+
+.course-title .course-title-location {
+    float: left;
+}
+
+.course-title .course-title-search {
+    float: right;
+    text-align: right;
+}
+
+.course-title .course-title-search select,
+.course-title .course-title-search input {
+    width: 118px;
+    height: 30px;
+    padding: 0 4px;
+    border-radius: 0;
+}
+
+.course-title .course-title-search .search-project {
+    line-height: 30px;
+}
+
+.course-title .course-title-search .search-confirm {
+    width: 51px;
+    height: 30px;
+    background: #ff6600;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.course-add {
+    text-align: right;
+    padding: 20px 0 10px;
+}
+
+.course-add .add-btn {
+    width: 70px;
+    height: 30px;
+    background: #ff6600;
+    color: #fff;
+    font-size: 16px;
+}
+
+.course-set-btn {
+    padding: 4px 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
 }
