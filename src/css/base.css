@@ -15,3 +15,34 @@
     width: 230px;
     float: left;
 }
+
+.layui-layer-btn .layui-layer-btn0 {
+    padding: 0px 20px;
+    line-height: 30px;
+    height: 30px;
+    background: #ff6600;
+    color: #fff;
+    text-align: center;
+    border: none;
+}
+
+/* .layui-layer-btn a {
+    height
+} */
+
+
+.primary-btn {
+    padding: 0px 30px;
+    line-height: 38px;
+    background: #ff6600;
+    color: #fff;
+    text-align: center;
+}
+
+.cancel-btn {
+    padding: 0px 30px;
+    line-height: 38px;
+    background: #fff;
+    color: #666;
+    text-align: center;
+}

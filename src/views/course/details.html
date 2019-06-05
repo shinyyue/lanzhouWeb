@@ -1,0 +1,159 @@
+<div id="course-details" lay-title="课程管理详情">
+    <div class="course-add-content">
+        <form action="" class="layui-form">
+            <div class="layui-row">
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label require">课程名称</label>
+                    <span>铁路信号</span>
+                </div>
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label require">课程代码</label>
+                    <span>0101</span>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label">学时</label>
+                    <span>8周</span>
+                </div>
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label">学分</label>
+                    <span>24</span>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label">满分</label>
+                    <span>100</span>
+                </div>
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label require">课程负责人</label>
+                    <span>王小虎</span>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label">适合专业</label>
+                    <span>所有专业</span>
+                </div>
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label">实验室名称</label>
+                    <span>铁路信号</span>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label">先修课程</label>
+                    <span>铁路信号</span>
+                </div>
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label">适合开课年级</label>
+                    <span>所有年级</span>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label">适合开课学期</label>
+                    <span>所有学期</span>
+                </div>
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label">课程介绍</label>
+                    <span>本科目是巴拉巴拉巴拉</span>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-form-item layui-col-md12">
+                    <label class="layui-form-label"></label>
+                    <div>
+                        <button class="layui-btn primary-btn" lay-submit lay-filter="submit">提交</button>
+                        <button class="layui-btn layui-btn-primary cancel-btn " id="source-add-cancle">取消</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    layui.use(['form', 'layedit'], function () {
+        var form = layui.form,
+            layedit = layui.layedit,
+            $ = layui.jquery;
+
+
+        form.render();
+        layedit.build('course-intro-edit', {
+            tool: [
+                'strong' //加粗
+                , 'italic' //斜体
+                , 'underline' //下划线
+                , 'del' //删除线
+
+                , '|' //分割线
+
+                , 'left' //左对齐
+                , 'center' //居中对齐
+                , 'right' //右对齐
+                , 'link' //超链接
+                , 'image' //插入图片
+            ]
+        })
+
+        //监听提交
+        form.on('submit(submit)', function (data) {
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+
+
+        $('#source-add-cancle').on('click', function () {
+            window.history.back(-1);
+        })
+
+        // form.on('submit(back)', function () {
+        //     window.history.back(-1);
+        // })
+    })
+</script>
+
+<style>
+    #course-add {}
+
+    #course-details .course-add-content {
+        padding: 15px 0;
+    }
+
+    #course-details .course-add-content .layui-form-label {
+        font-size: 16px;
+        font-weight: bold;
+        width: 120px;
+        display: inline-block;
+    }
+
+    #course-details .layui-form-item {
+        clear: none;
+    }
+
+    #course-details .layui-form-item span {
+        display: inline-block;
+        padding: 9px 15px;
+        font-size: 16px;
+    }
+
+    #course-details .pre-course {
+        float: left;
+        width: calc(100 - 230px);
+    }
+
+    #course-details .pre-course .pre-course-checkbox {
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        margin-top: 10px;
+        padding: 10px;
+    }
+
+    #course-details .layui-layedit {
+        width: 83%;
+        float: left;
+        background: #fff;
+    }
+</style>

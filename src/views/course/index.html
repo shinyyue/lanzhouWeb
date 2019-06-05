@@ -23,9 +23,9 @@
     </div>
     <table id="course-list-table" lay-filter="course-list-table"></table>
     <script type="text/html" id="course-opt">
-        <button class="course-set-btn ">修改</button>
-        <button class="course-set-btn ">删除</button>
-        <button class="course-set-btn ">查看</button>
+        <button class="course-set-btn" id="course-add-edit">修改</button>
+        <button class="course-set-btn" id="course-add-delete">删除</button>
+        <button class="course-set-btn" id="course-add-check">查看</button>
     </script>
     <div class="app-table-page" id="course-table-page"></div>
 </div>
@@ -167,7 +167,31 @@
         });
 
         $('#add-cource').on('click', function () {
-            location.href = 'index.html#/course/add'
+            location.href = 'index.html#/course/update'
+        })
+
+        $('#course-add-check').on('click', function () {
+            location.href = 'index.html#/course/details'
+        })
+
+        $('#course-add-edit').on('click', function () {
+            location.href = 'index.html#/course/update'
+        })
+
+        $('#course-add-delete').on('click', function () {
+            layer.confirm('您确定要删除么?', {
+                icon: 3,
+                title: '提示',
+                shade: 0.5,
+                maxWidth: 500,
+                maxHeight: 500
+            }, function (confirm) {
+                // 用户点击确定
+                layer.close(confirm);
+            }, function (cancel) {
+                // 用户点击取消
+                layer.close(cancel);
+            });
         })
 
     })
