@@ -82,13 +82,9 @@ layui.define(function (exports) {
         extend: {
             //后台根据业务需求扩展的方法
             helper: 'lay/extends/helper',
-            //生成二维码
-            qrcode: 'lay/extends/qrcode',
-            //生成 MD5 加密
-            md5: 'lay/extends/md5',
             //生成图表
-            echarts: 'lay/extends/echarts',
-            echartsTheme: 'lay/extends/echartsTheme',
+            echarts: '../lay/extends/echarts',
+            echartsTheme: '../lay/extends/echartsTheme',
             //复制内容到剪贴板
             clipboard: 'lay/extends/clipboard'
         }

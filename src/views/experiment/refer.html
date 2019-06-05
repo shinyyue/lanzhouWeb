@@ -1,17 +1,22 @@
-<div class="layui-fluid" id="course" lay-title="课程管理">
+<div class="layui-fluid" id="experiment-index" lay-title="参考实验库">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>课程管理 > 课程库</span>
+            <span>实验管理 > 参考实验库</span>
         </div>
         <div class="course-title-search">
-            <span class="search-project">课程名称</span>
+            <span class="search-project">实验名称</span>
             <input type="text">
             <select name="" id="">
-                <option value="">所有年级</option>
+                <option value="">选择课程</option>
+                <option value="">课程1</option>
+                <option value="">课程2</option>
             </select>
             <select name="" id="">
-                <option value="">请选择学期</option>
+                <option value="">请选择实验类型</option>
+                <option value="">实验类型1</option>
+                <option value="">实验类型2</option>
+                <option value="">实验类型3</option>
             </select>
             <button class="search-confirm">
                 <img src="src/images/search.png">
@@ -22,10 +27,8 @@
         <button class="add-btn" id="add-cource">添加</button>
     </div>
     <table id="course-list-table" lay-filter="course-list-table"></table>
-    <script type="text/html" id="course-opt">
-        <button class="course-set-btn" id="course-add-edit">修改</button>
-        <button class="course-set-btn" id="course-add-delete">删除</button>
-        <button class="course-set-btn" id="course-add-check">查看</button>
+    <script type="text/html" id="refer-opt">
+        <button class="course-set-btn" id="experiment-refer-check">查看</button>
     </script>
     <div class="app-table-page" id="course-table-page"></div>
 </div>
@@ -58,56 +61,30 @@
                         align: 'center'
                     },
                     {
+                        title: '实验名称',
+                        field: 'courseCode',
+                        align: 'center'
+                    },
+                    {
                         title: '课程名称',
                         field: 'courceName',
                         align: 'center'
 
                     },
                     {
-                        title: '课程代码',
+                        title: '实验类型',
                         field: 'courseCode',
                         align: 'center'
                     },
                     {
-                        title: '负责人',
+                        title: '创建者',
                         field: 'responsor',
                         align: 'center',
                     },
                     {
-                        title: '学时',
-                        align: 'center',
-                        field: 'times',
-                        width: 80
-                    },
-                    {
-                        title: '学分',
-                        align: 'center',
-                        field: 'score',
-                        width: 80
-                    },
-                    {
-                        field: 'score',
-                        title: '年级',
-                        align: 'center',
-                    },
-                    {
-                        field: 'time',
-                        title: '学期',
-                        align: 'center',
-                    },
-                    {
-                        field: 'isCommon',
-                        title: '适合所有专业',
-                        align: 'center',
-                        width: 140,
-                        templet: function (d) {
-                            return d ? '是' : '否'
-                        }
-                    },
-                    {
                         title: '操作',
                         align: 'center',
-                        templet: '#course-opt',
+                        templet: '#refer-opt',
                         width: 180
                     }
                 ]
@@ -126,32 +103,9 @@
             layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount']
         });
 
-        $('#add-cource').on('click', function () {
-            location.href = 'index.html#/course/update'
-        })
 
-        $('#course-add-check').on('click', function () {
-            location.href = 'index.html#/course/details'
-        })
-
-        $('#course-add-edit').on('click', function () {
-            location.href = 'index.html#/course/update'
-        })
-
-        $('#course-add-delete').on('click', function () {
-            layer.confirm('您确定要删除么?', {
-                icon: 3,
-                title: '提示',
-                shade: 0.5,
-                maxWidth: 500,
-                maxHeight: 500
-            }, function (confirm) {
-                // 用户点击确定
-                layer.close(confirm);
-            }, function (cancel) {
-                // 用户点击取消
-                layer.close(cancel);
-            });
+        $('#experiment-refer-check').on('click', function () {
+            location.href = 'index.html#/experiment/mydetails'
         })
 
     })

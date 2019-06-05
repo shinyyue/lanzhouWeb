@@ -16,6 +16,29 @@
     float: left;
 }
 
+.layui-form-item {
+    clear: none;
+}
+
+.layui-form-label {
+    font-size: 16px;
+    font-weight: bold;
+    width: 120px;
+    display: inline-block;
+}
+
+.common-form-input {
+    width: 230px;
+    height: 30px;
+    line-height: 30px;
+    padding: 2px 4px;
+}
+
+.layui-form-label.require::before {
+    content: '*';
+    color: red;
+}
+
 .layui-layer-btn .layui-layer-btn0 {
     padding: 0px 20px;
     line-height: 30px;

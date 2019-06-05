@@ -1,0 +1,176 @@
+<div id="experiment-my-add" lay-title="添加实验">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>实验管理 > 我的实验库 > 添加实验</span>
+        </div>
+    </div>
+    <form action="" class="layui-form my-add-form">
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label require">实验名称</label>
+                <input class="common-form-input" type="text" name="courseName" placeholder="请输入实验名称">
+            </div>
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label require">所属课程</label>
+                <select name="testRoomName" lay-verify="">
+                    <option value="">选择课程</option>
+                    <option value="021">课程1</option>
+                    <option value="022">课程2</option>
+                    <option value="023">课程3</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label">实验类型</label>
+                <select name="testRoomName" lay-verify="">
+                    <option value="">选择实验类型</option>
+                    <option value="021">类型1</option>
+                    <option value="022">类型2</option>
+                    <option value="023">类型3</option>
+                </select>
+            </div>
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label">负责老师</label>
+                <input class="common-form-input" type="text" name="techerName" placeholder="请输入负责教师">
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label">可被引用</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="isUsed" value="是" title="是">
+                    <input type="radio" name="isUsed" value="否" title="否" checked>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label">成绩比重</label>
+                <div class="layui-input-block score-rate-inner">
+                    <span class="score-percent">
+                        <span>实验成绩比例：</span>
+                        <input class="common-form-input" type="text" name="expScoreRate">%
+                    </span>
+                    <span class="score-percent">
+                        <span>报告成绩比例：</span>
+                        <input class="common-form-input" type="text" name="repScoreRate">%
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label">实验要求</label>
+                <div class="layui-col-md10" id="experiment-rules-edit"></div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label">实验报告</label>
+                <div class="layui-col-md10" id="experiment-report-edit"></div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label">选择资源</label>
+                <select name="sourceType" lay-verify="">
+                    <option value="">选择资源类型</option>
+                    <option value="0">文档</option>
+                    <option value="1">图片</option>
+                    <option value="2">视频</option>
+                    <option value="3">exe</option>
+                    <option value="4">U3D</option>
+                    <option value="5">scorm课件</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label"></label>
+                <div>
+                    <input type="checkbox" name="goodAt[all]" lay-skin="primary" title="zk4电控转辙机">
+                    <input type="checkbox" name="goodAt[all]" lay-skin="primary" title="zk4电控转辙机">
+                    <input type="checkbox" name="goodAt[all]" lay-skin="primary" title="zk4电控转辙机">
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label"></label>
+                <div style="color: red">注： 图片可多选，其他类型单选</div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label"></label>
+                <div>
+                    <button class="layui-btn primary-btn" lay-submit lay-filter="stage">暂存</button>
+                    <button class="layui-btn primary-btn" lay-submit lay-filter="submit">提交</button>
+                    <button class="layui-btn layui-btn-primary cancel-btn" id="experiment-add-cancle">返回</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    layui.use(['form', 'layedit'], function () {
+        var form = layui.form,
+            layedit = layui.layedit,
+            $ = layui.jquery;
+
+        form.render();
+
+        function buildLayEdit(id) {
+            layedit.build(id, {
+                tool: [
+                    'strong' //加粗
+                    , 'italic' //斜体
+                    , 'underline' //下划线
+                    , 'del' //删除线
+
+                    , '|' //分割线
+
+                    , 'left' //左对齐
+                    , 'center' //居中对齐
+                    , 'right' //右对齐
+                    , 'link' //超链接
+                    , 'image' //插入图片
+                ]
+            })
+        }
+
+        buildLayEdit('experiment-rules-edit')
+        buildLayEdit('experiment-report-edit')
+
+        $('#experiment-add-cancle').on('click', function () {
+            window.history.back(-1);
+        })
+    })
+</script>
+
+<style>
+    #experiment-my-add {}
+
+    .my-add-form {
+        padding: 25px 0;
+    }
+
+    .score-percent {
+        font-size: 16px;
+        margin-right: 30px;
+    }
+
+    .score-percent input {
+        width: 100px;
+    }
+
+    #experiment-my-add .layui-layedit {
+        width: 83%;
+        float: left;
+        background: #fff;
+    }
+</style>
