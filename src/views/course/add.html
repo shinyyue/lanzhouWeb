@@ -1,0 +1,224 @@
+<div id="course-add" lay-title="添加课程管理">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>课程管理 > 增加课程</span>
+        </div>
+    </div>
+    <div class="course-add-content">
+        <form action="" class="layui-form">
+            <div class="layui-row">
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label require">课程名称</label>
+                    <input class="common-form-input" type="text" name="courseName" placeholder="请输入课程名称">
+                </div>
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label require">课程代码</label>
+                    <input type="text" require name="courseCode" class="common-form-input">
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label">学时</label>
+                    <input class="common-form-input" type="text" name="courseTime" placeholder="请输入课程名称">
+                </div>
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label">学分</label>
+                    <input type="text" name="score" class="common-form-input">
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label">满分</label>
+                    <input class="common-form-input" type="text" name="totalScore" placeholder="请输入课程名称">
+                </div>
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label require">课程负责人</label>
+                    <input type="text" name="courseSponsor" class="common-form-input">
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md12 layui-form-item">
+                    <label class="layui-form-label">适合专业</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="goodAt[all]" lay-skin="primary" title="所有专业">
+                    </div>
+                    <ul class="course-good-at">
+                        <li>
+                            <input id="good-at-tech" type="checkbox" lay-skin="primary" name="goodAt[tech]" title="教育学">
+                        </li>
+                        <li>
+                            <input type="checkbox" id="good-at-compu" lay-skin="primary" name="goodAt[compu]" title="计算机专业">
+                        </li>
+                        <li>
+                            <input type="checkbox" id="good-at-tumu" lay-skin="primary" name="goodAt[tumu]" title="土木工程">
+                        </li>
+                        <li>
+                            <input type="checkbox" id="good-at-jiaotong" lay-skin="primary" name="goodAt[jiaotong]"
+                                title="交通运输">
+                        </li>
+                        <li>
+                            <input type="checkbox" id="good-at-dianzi" name="goodAt[dianzi]" lay-skin="primary" title="电子与信息工程">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label">实验室名称</label>
+                    <select name="testRoomName" lay-verify="">
+                        <option value="">请选择一个城市</option>
+                        <option value="021">上海</option>
+                        <option value="0571">杭州</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md12 layui-form-item">
+                    <label class="layui-form-label">先修课程</label>
+                    <div class="pre-course layui-col-md10">
+                        <div>
+                            <span>搜索</span>
+                            <input class="common-form-input" type="text" name="preSourceSearch" placeholder="请输入名称">
+                        </div>
+                        <div class="pre-course-checkbox">
+                            <input type="checkbox" lay-skin="primary" name="preSource[0]" title="教育学">
+                            <input type="checkbox" lay-skin="primary" name="preSource[1]" title="教育学">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md12 layui-form-item">
+                    <label class="layui-form-label">适合开课年级</label>
+                    <div class="layui-col-md10">
+                        <input type="radio" name="class" value="" title="所有年级">
+                        <input type="radio" name="class" title="一年级">
+                        <input type="radio" name="class" value="" title="二年级">
+                        <input type="radio" name="class" value="" title="三年级">
+                        <input type="radio" name="class" value="" title="四年级">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md12 layui-form-item">
+                    <label class="layui-form-label">适合开课学期</label>
+                    <div class="layui-col-md10">
+                        <input type="radio" name="semester" value="" title="第一学期">
+                        <input type="radio" name="semester" title="第二学期">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md12 layui-form-item">
+                    <label class="layui-form-label">课程介绍</label>
+                    <div class="layui-col-md10" id="course-intro-edit"></div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-form-item layui-col-md12">
+                    <label class="layui-form-label"></label>
+                    <div>
+                        <button class="layui-btn" lay-submit lay-filter="submit">提交</button>
+                        <button class="layui-btn layui-btn-primary" id="source-add-cancle">取消</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    layui.use(['form', 'layedit'], function () {
+        var form = layui.form,
+            layedit = layui.layedit,
+            $ = layui.jquery;
+
+
+        form.render();
+        layedit.build('course-intro-edit', {
+            tool: [
+                'strong' //加粗
+                , 'italic' //斜体
+                , 'underline' //下划线
+                , 'del' //删除线
+
+                , '|' //分割线
+
+                , 'left' //左对齐
+                , 'center' //居中对齐
+                , 'right' //右对齐
+                , 'link' //超链接
+                , 'image' //插入图片
+            ]
+        })
+
+        //监听提交
+        form.on('submit(submit)', function (data) {
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+
+
+        $('#source-add-cancle').on('click', function () {
+            window.history.back(-2);
+        })
+
+        // form.on('submit(back)', function () {
+        //     window.history.back(-1);
+        // })
+    })
+</script>
+
+<style>
+    #course-add {}
+
+    #course-add .course-add-content {
+        padding: 15px 0;
+    }
+
+    #course-add .course-add-content .layui-form-label {
+        font-size: 16px;
+        font-weight: bold;
+        width: 120px;
+        display: inline-block;
+    }
+
+    #course-add .course-add-content .layui-form-label.require::before {
+        content: '*';
+        color: red;
+    }
+
+    #course-add .layui-form-item {
+        clear: none;
+    }
+
+    #course-add .course-good-at>li {
+        float: left;
+        margin-right: 20px;
+    }
+
+    #course-add .common-form-input {
+        width: 230px;
+        height: 30px;
+        line-height: 30px;
+        padding: 2px 4px;
+    }
+
+    #course-add .pre-course {
+        float: left;
+        width: calc(100 - 230px);
+    }
+
+    #course-add .pre-course .pre-course-checkbox {
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        margin-top: 10px;
+        padding: 10px;
+    }
+
+    #course-add .layui-layedit {
+        width: 83%;
+        float: left;
+        background: #fff;
+    }
+</style>

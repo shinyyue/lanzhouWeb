@@ -1,0 +1,17 @@
+.course-title {
+    overflow: hidden;
+    clear: both;
+    padding-bottom: 20px;
+    line-height: 30px;
+    border-bottom: 1px solid rgba(231, 235, 244, 1);
+}
+
+.layui-input,
+.layui-textarea {
+    width: 230px;
+}
+
+.layui-form-select {
+    width: 230px;
+    float: left;
+}

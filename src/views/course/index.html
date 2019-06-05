@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="course-add">
-        <button class="add-btn">添加</button>
+        <button class="add-btn" id="add-cource">添加</button>
     </div>
     <table id="course-list-table" lay-filter="course-list-table"></table>
     <script type="text/html" id="course-opt">
@@ -72,8 +72,9 @@
 
 <script>
     layui.use(['table', 'jquery'], function (table, $) {
-        var tableFilter = 'course-list-table';
-        var laypage = layui.laypage;
+        var tableFilter = 'course-list-table',
+            laypage = layui.laypage,
+            $ = layui.jquery;
 
         table.render({
             page: false,
@@ -153,7 +154,6 @@
             ]
         })
 
-
         //执行一个laypage实例
         laypage.render({
             elem: 'course-table-page', //注意，这里的 test1 是 ID，不用加 # 号
@@ -166,20 +166,16 @@
             layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount']
         });
 
+        $('#add-cource').on('click', function () {
+            location.href = 'index.html#/course/add'
+        })
+
     })
 </script>
 
 <style>
     .layui-table {
         width: 100%;
-    }
-
-    .course-title {
-        overflow: hidden;
-        clear: both;
-        padding-bottom: 20px;
-        line-height: 30px;
-        border-bottom: 1px solid rgba(231, 235, 244, 1);
     }
 
     .course-title .course-title-location {

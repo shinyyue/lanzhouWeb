@@ -65,7 +65,6 @@
         // todo: 根据角色加载头部导航栏数据
 
 
-
         // 点击头部导航栏，请求侧边栏数据
         var navList = [{
             "title": "首页",
@@ -97,16 +96,16 @@
             data: navList
         });
 
-        navbar.set({
-            spreadOne: true,
-            elem: "#side_nav",
-            cached: false,
-            data: navBarList
-        });
+        // navbar.set({
+        //     spreadOne: true,
+        //     elem: "#side_nav",
+        //     cached: false,
+        //     data: navBarList
+        // });
 
         //渲染navbar
         nav.render();
-        navbar.render();
+        // navbar.render();
 
         //监听点击事件
         // navbar.on('click(side_nav)', function (data) {
@@ -239,5 +238,9 @@
 
     .layout-header-right .header-nav-item.header-nav-this a {
         background: #00b0ca;
+    }
+
+    .layout-containner {
+        padding: 0 20px;
     }
 </style>

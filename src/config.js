@@ -17,7 +17,7 @@ layui.define(function (exports) {
         viewLoadBar: false,
         //公用加载的样式
         style: [
-            //layui.cache.base + "css/admin.css"
+            layui.cache.base + "css/base.css"
         ],
         //是否开启调试模式，开启的话接口异常会抛出异常 URL信息
         debug: layui.cache.debug,
