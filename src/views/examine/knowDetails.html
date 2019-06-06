@@ -1,0 +1,60 @@
+<div id="examine-knowdetails" lay-title="查看知识点">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>题库管理 > 知识点 > 查看知识点</span>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md6 layui-form-item">
+            <label class="layui-form-label">所属课程名称</label>
+            <span>铁路信息</span>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md6 layui-form-item">
+            <label class="layui-form-label">父知识点</label>
+            <span style="color: blue;">根知识点</span>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md6 layui-form-item">
+            <label class="layui-form-label">知识点名称</label>
+            <span>zk4电控转辙机</span>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md12 layui-form-item">
+            <label class="layui-form-label">知识点描述</label>
+            <span>1111</span>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md12 layui-form-item">
+            <label class="layui-form-label">知识点描述</label>
+            <span>1111</span>
+        </div>
+    </div>
+
+    <div class="layui-row">
+        <div class="layui-col-md12 layui-form-item">
+            <label class="layui-form-label"></label>
+            <button class="layui-btn layui-btn-primary cancel-btn" id="examine-knowdetails-back">返回</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    layui.use([], function () {
+        var $ = layui.jquery;
+
+        $('#examine-knowdetails-back').on('click', function () {
+            window.history.back(-1);
+        })
+    })
+</script>
+
+<style>
+    #examine-knowdetails {}
+</style>

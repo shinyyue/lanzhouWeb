@@ -20,12 +20,22 @@
     clear: none;
 }
 
+.layui-form-item span {
+    display: inline-block;
+    padding: 9px 15px;
+    font-size: 16px;
+}
+
 .layui-form-label {
     font-size: 16px;
     font-weight: bold;
     width: 120px;
     display: inline-block;
     margin-right: 20px;
+}
+
+.layui-textarea {
+    width: 100%;
 }
 
 .common-form-input {

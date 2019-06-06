@@ -1,0 +1,77 @@
+<div id="examine-addknow" lay-title="添加知识点">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>题库管理 > 知识点 > 添加知识点</span>
+        </div>
+    </div>
+    <form action="" class="layui-form my-add-form">
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label">所属课程名称</label>
+                <select name="testRoomName" lay-verify="">
+                    <option value="">选择课程</option>
+                    <option value="021">课程1</option>
+                    <option value="022">课程2</option>
+                    <option value="023">课程3</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label">父知识点</label>
+                <span style="color: blue;">根知识点</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label">知识点名称</label>
+                <input class="common-form-input" type="text" name="courseName" placeholder="请输入知识点名称">
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label">知识点描述</label>
+                <div class="layui-col-md9">
+                    <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label"></label>
+                <div>
+                    <button class="layui-btn primary-btn" lay-submit lay-filter="submit">保存</button>
+                    <button class="layui-btn layui-btn-primary cancel-btn" id="examine-addknow-back">返回</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    layui.use(['form'], function () {
+
+        var form = layui.form,
+            $ = layui.jquery;
+
+        form.render();
+
+        form.on('submit(submit)', function (data) {
+            userInfo = data.field
+            $('#login-user').addClass('show')
+        })
+
+        $('#examine-addknow-back').on('click', function () {
+            window.history.back(-1);
+        })
+    })
+</script>
+
+<style>
+    #examine-addknow {}
+
+    .my-add-form {
+        padding: 25px 0;
+    }
+</style>
