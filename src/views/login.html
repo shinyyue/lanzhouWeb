@@ -178,7 +178,7 @@
 </div>
 
 <script>
-    layui.use(['admin', 'helper', 'util', 'qrcode', 'form'], function (admin, helper, util, qrcode, form) {
+    layui.use(['admin', 'helper', 'util', 'form'], function (admin, helper, util, form) {
         var $ = layui.jquery;
         var view = $('#VIEW-login');
         var userInfo = {}
@@ -218,7 +218,8 @@
 
         //提交登录表单
         form.on('submit(login-submit)', function (data) {
-            userInfo = data.field
+            console.log(1111)
+            // userInfo = data.field
             $('#login-user').addClass('show')
         })
 
