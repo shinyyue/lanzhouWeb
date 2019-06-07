@@ -10,7 +10,11 @@
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">课程导读名称</label>
                 <span>铁路</span>
-                <button class="layui-btn layui-btn-primary" style="margin-left: 60px;" id="tech-pre-check">
+                <button
+                    class="layui-btn layui-btn-primary"
+                    style="margin-left: 60px;"
+                    id="tech-pre-check"
+                >
                     查看其他导师导读
                 </button>
             </div>
@@ -46,15 +50,20 @@
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label "></label>
-                <button class="layui-btn primary-btn" id="tech-pre-save">修改</button>
-                <button class="layui-btn cancel-btn" id="tech-pre-back">返回首页</button>
+                <button class="layui-btn primary-btn" id="tech-pre-save">
+                    修改
+                </button>
+                <button class="layui-btn cancel-btn" id="tech-pre-back">
+                    返回首页
+                </button>
             </div>
         </div>
     </form>
 </div>
 
 <style>
-    #techset-techpre {}
+    #techset-techpre {
+    }
 
     #techset-techpre .my-form {
         padding: 25px 0;
@@ -123,39 +132,39 @@
 
 <script>
     var checkDetails = {},
-        preDetailsTemp = '';
+        preDetailsTemp = ''
 
-    layui.use([], function () {
-
+    layui.use([], function() {
         var $ = layui.jquery,
-            modalTemplate = '<table class="layui-table">' +
-            '<thead>' +
-            '<tr>' +
-            '<th>序号</th>' +
-            '<th>资源名称</th>' +
-            '<th>原创者</th>' +
-            '<th>责任人</th>' +
-            '<th>引用时间</th>' +
-            '<th>建议分数</th>' +
-            '<th>操作</th>' +
-            '</tr>' +
-            '</thead>' +
-            '<tbody>' +
-            '<tr>' +
-            '<td>1</td>' +
-            '<td>计算机网络课程导读</td>' +
-            '<td>教师</td>' +
-            '<td>杨威</td>' +
-            '<td>2019-01-01</td>' +
-            '<td>150分</td>' +
-            '<td>' +
-            '<button class="layui-btn layui-btn-primary" class="pre-check-detail" onclick="check()">查看</button>' +
-            '</td>' +
-            '</tr>' +
-            '</tbody>' +
-            '</table>'
+            modalTemplate =
+                '<table class="layui-table">' +
+                '<thead>' +
+                '<tr>' +
+                '<th>序号</th>' +
+                '<th>资源名称</th>' +
+                '<th>原创者</th>' +
+                '<th>责任人</th>' +
+                '<th>引用时间</th>' +
+                '<th>建议分数</th>' +
+                '<th>操作</th>' +
+                '</tr>' +
+                '</thead>' +
+                '<tbody>' +
+                '<tr>' +
+                '<td>1</td>' +
+                '<td>计算机网络课程导读</td>' +
+                '<td>教师</td>' +
+                '<td>杨威</td>' +
+                '<td>2019-01-01</td>' +
+                '<td>150分</td>' +
+                '<td>' +
+                '<button class="layui-btn layui-btn-primary" class="pre-check-detail" onclick="check()">查看</button>' +
+                '</td>' +
+                '</tr>' +
+                '</tbody>' +
+                '</table>'
 
-        $('#tech-pre-check').on('click', function () {
+        $('#tech-pre-check').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -167,7 +176,11 @@
             })
         })
 
-        setTimeout(function () {
+        $('#tech-pre-back').on('click', function() {
+            location.href = ''
+        })
+
+        setTimeout(function() {
             checkDetails = {
                 id: 1,
                 preName: '计算机网络课程导读',
@@ -179,11 +192,7 @@
                 content: '互联网与互联网有什么不同？'
             }
         }, 500)
-
     })
-
-
-
 
     function check() {
         checkDetails = {
@@ -200,31 +209,43 @@
             '<div class="pre-details">' +
             '<div class="details-item">' +
             '<span class="details-item-label">课程导读名称</span>' +
-            '<span class="details-item-text">' + checkDetails.preName + '</span>' +
+            '<span class="details-item-text">' +
+            checkDetails.preName +
+            '</span>' +
             '</div>' +
             '<div class="details-item">' +
             '<div class="details-item-inner">' +
             '<span class="details-item-label">原创者</span>' +
-            '<span class="details-item-text">' + checkDetails.creater + '</span>' +
+            '<span class="details-item-text">' +
+            checkDetails.creater +
+            '</span>' +
             '</div>' +
             '<div class="details-item-inner">' +
             '<span class="details-item-label">是否可被引用</span>' +
-            '<span class="details-item-text">' + checkDetails.isImport + '</span>' +
+            '<span class="details-item-text">' +
+            checkDetails.isImport +
+            '</span>' +
             '</div>' +
             '</div>' +
             '<div class="details-item">' +
             '<div class="details-item-inner">' +
             '<span class="details-item-label">建议分数</span>' +
-            '<span class="details-item-text">' + checkDetails.score + '</span>' +
+            '<span class="details-item-text">' +
+            checkDetails.score +
+            '</span>' +
             '</div>' +
             '<div class="details-item-inner">' +
             '<span class="details-item-label">创建时间</span>' +
-            '<span class="details-item-text">' + checkDetails.time + '</span>' +
+            '<span class="details-item-text">' +
+            checkDetails.time +
+            '</span>' +
             '</div>' +
             '</div>' +
             '<div class="details-item details-item-content">' +
             '<span class="details-item-label">课程导读内容</span>' +
-            '<div class="details-item-text">' + checkDetails.content + '</div>' +
+            '<div class="details-item-text">' +
+            checkDetails.content +
+            '</div>' +
             '</div>' +
             '</div>'
 

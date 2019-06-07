@@ -1,0 +1,196 @@
+<div class="layui-fluid" id="readyTest" lay-title="开课管理">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>开课管理 > 铁路信号知识 > 实验准备 > 已安排实验</span>
+        </div>
+    </div>
+    <table id="readyTest-list-table" lay-filter="readyTest-list-table"></table>
+    <script type="text/html" id="readyTest-opt">
+        <button class="course-set-btn" id="readyTest-add-edit">编辑</button>
+        <button class="course-set-btn" id="readyTest-add-delete">删除</button>
+        <!-- <button class="course-set-btn" id="readyTest-add-check">查看</button> -->
+        <button class="course-set-btn" id="readyTest-add-publish">发布并邮件通知学生</button>
+    </script>
+    <div class="app-table-page" id="readyTest-table-page"></div>
+</div>
+
+<script>
+    layui.use(['table', 'jquery'], function(table, $) {
+        var tableFilter = 'readyTest-list-table',
+            laypage = layui.laypage,
+            $ = layui.jquery
+
+        table.render({
+            page: false,
+            data: [
+                {
+                    id: 1,
+                    courceName: '发电机哈哈',
+                    readyTestCode: 20190101,
+                    responsor: '王小虎',
+                    time: '第一学期',
+                    class: '所有年级',
+                    isCommon: false,
+                    score: 1
+                }
+            ],
+            elem: '[lay-filter="' + tableFilter + '"]',
+            height: 'full-300',
+            cols: [
+                [
+                    {
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center'
+                    },
+                    {
+                        title: '实验名称',
+                        field: 'courceName',
+                        align: 'center'
+                    },
+                    {
+                        title: '开课名称',
+                        field: 'readyTestCode',
+                        align: 'center'
+                    },
+                    {
+                        title: '实验类型',
+                        field: 'responsor',
+                        align: 'center'
+                    },
+                    {
+                        title: '开始时间/结束时间',
+                        align: 'center',
+                        field: 'times',
+                        width: 80
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        templet: '#readyTest-opt',
+                        width: 180
+                    }
+                ]
+            ]
+        })
+
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'readyTest-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+            count: 50, //数据总数，从服务端得到
+            limit: 10,
+            first: '首页',
+            last: '尾页',
+            hash: 'page',
+            curr: location.hash.replace('#!page=', ''),
+            layout: [
+                'first',
+                'prev',
+                'page',
+                'next',
+                'last',
+                'count',
+                'currLimit',
+                'curr',
+                'pageCount'
+            ]
+        })
+
+        $('#readyTest-add-check').on('click', function() {
+            location.href = 'index.html#/techSet/details'
+        })
+
+        $('#readyTest-add-edit').on('click', function() {
+            location.href = 'index.html#/techSet/readyDone'
+        })
+
+        $('#readyTest-add-delete').on('click', function() {
+            layer.confirm(
+                '您确定要删除么?',
+                {
+                    icon: 3,
+                    title: '提示',
+                    shade: 0.5,
+                    maxWidth: 500,
+                    maxHeight: 500
+                },
+                function(confirm) {
+                    // 用户点击确定
+                    layer.close(confirm)
+                },
+                function(cancel) {
+                    // 用户点击取消
+                    layer.close(cancel)
+                }
+            )
+        })
+
+        $('#readyTest-add-publish').on('click', function() {
+            layer.open({
+                title: '系统提示',
+                content: '邮件发送成功'
+            })
+        })
+    })
+</script>
+
+<style>
+    .layui-table {
+        width: 100%;
+    }
+
+    .readyTest-title .readyTest-title-location {
+        float: left;
+    }
+
+    .readyTest-title .readyTest-title-search {
+        float: right;
+        text-align: right;
+    }
+
+    .readyTest-title .readyTest-title-search select,
+    .readyTest-title .readyTest-title-search input {
+        width: 118px;
+        height: 30px;
+        padding: 0 4px;
+        border-radius: 0;
+    }
+
+    .readyTest-title .readyTest-title-search .search-project {
+        line-height: 30px;
+    }
+
+    .readyTest-title .readyTest-title-search .search-confirm {
+        width: 51px;
+        height: 30px;
+        background: #ff6600;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .readyTest-add {
+        text-align: right;
+        padding: 20px 0 10px;
+    }
+
+    .readyTest-add .add-btn {
+        width: 70px;
+        height: 30px;
+        background: #ff6600;
+        color: #fff;
+        font-size: 16px;
+    }
+
+    #readyTest-opt {
+        width: 200px;
+    }
+
+    .readyTest-set-btn {
+        padding: 4px 10px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+</style>
