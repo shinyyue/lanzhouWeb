@@ -1,0 +1,127 @@
+<div id="examine-ploy-detail" layui-title="添加试卷策略">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>题库管理 > 试卷策略 > 查看策略</span>
+        </div>
+    </div>
+    <form action="" class="layui-form my-add-form">
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">所属课程</label>
+                <span>转辙机</span>
+            </div>
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">策略名称</label>
+                <span>铁路信息</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">原创者</label>
+                <span>王小虎</span>
+            </div>
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">创建时间</label>
+                <span>2019-4-30 10:01:10</span>
+            </div>
+        </div>
+    </form>
+    <div class="ploy-title">试卷策略条目</div>
+    <form action="" class="layui-form my-add-form">
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label ">策略条目</label>
+                <div class="ploy-content">
+                    <div class="ploy-content-title">
+                        <button class="layui-btn layui-btn-primary">添加策略条目</button>
+                        <span style="color: red;">说明：易1分，一般2分，中等3分，难4分，非常难5分</span>
+                    </div>
+                    <table class="layui-table">
+                        <thead>
+                            <tr>
+                                <th>知识点</th>
+                                <th>习题类型</th>
+                                <th>习题难度</th>
+                                <th>参考题数</th>
+                                <th>抽题数量</th>
+                                <th>总分</th>
+                            </tr>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    根知识点
+                                </td>
+                                <td>
+                                    单选
+                                </td>
+                                <td>
+                                    难
+                                </td>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    2
+                                </td>
+                                <td>
+                                    19
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label"></label>
+                <button class="layui-btn layui-btn-primary cancel-btn" id="ploy-detail-back">返回</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    layui.use(['table'], function (table) {
+        var table = layui.table,
+            $ = layui.jquery
+
+        $('#ploy-detail-back').on('click', function () {
+            window.history.back(-1);
+        })
+    })
+</script>
+
+<style>
+    .my-add-form {
+        padding: 25px 0;
+    }
+
+    .ploy-title {
+        width: 90%;
+        padding: 15px;
+        color: #126093;
+        background: rgba(244, 245, 250, 1);
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .layui-form input[type=checkbox],
+    .layui-form input[type=radio],
+    .layui-form select {
+        display: block;
+        height: 30px;
+        line-height: 30px;
+    }
+
+    .layui-table {
+        width: 77%;
+        margin-left: 170px;
+    }
+
+    .common-form-input {
+        width: 150px;
+    }
+</style>

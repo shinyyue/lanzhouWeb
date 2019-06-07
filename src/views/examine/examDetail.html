@@ -1,0 +1,160 @@
+<div id="examine-examadd">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>题库管理 > 习题库 > 查看习题</span>
+        </div>
+    </div>
+    <form action="" class="layui-form my-add-form">
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">所属课程</label>
+                <span>铁路信息</span>
+            </div>
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">所属知识点</label>
+                <span>铁路信息</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">习题类型</label>
+                <span>单选</span>
+            </div>
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">认知类型</label>
+                <span>单选</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">难度系数</label>
+                <span>单选</span>
+            </div>
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">分数</label>
+                <span>单选</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">创建人</label>
+                <span>单选</span>
+            </div>
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">创建时间</label>
+                <span>单选</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">习题快照</label>
+                <span>转辙机坏了</span>
+            </div>
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">所属实验</label>
+                <span>转辙机</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label ">习题内容</label>
+                <span>转辙机</span>>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label ">选项 A</label>
+                <span>生锈</span>>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label ">选项 B</label>
+                <span>松动</span>>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label ">选项 C</label>
+                <span>坚固</span>>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label ">选项 D</label>
+                <span>太紧</span>>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label ">答案</label>
+                <span>B</span>>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label">习题帮助</label>
+                <span>B</span>>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label"></label>
+                <div class="layui-col-md9">
+                    <button class="layui-btn primary-btn" lay-submit lay-filter="submit" id="examine-examdetail-add">继续添加</button>
+                    <button class="layui-btn layui-btn-primary cancel-btn" id="examine-examdetail-back">返回习题列表</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    layui.use(['form', 'layedit'], function () {
+        var form = layui.form,
+            layedit = layui.layedit,
+            $ = layui.jquery;
+
+        form.render();
+        layedit.build('exam-add-edit', {
+            tool: [
+                'strong' //加粗
+                , 'italic' //斜体
+                , 'underline' //下划线
+                , 'del' //删除线
+
+                , '|' //分割线
+
+                , 'left' //左对齐
+                , 'center' //居中对齐
+                , 'right' //右对齐
+                , 'link' //超链接
+                , 'image' //插入图片
+            ]
+        })
+
+        $('#examine-examdetail-back').on('click', function () {
+            window.history.back(-1);
+        })
+
+        $('#examine-examdetail-add').on('click ', function () {
+            window.history.back(-1);
+        })
+
+    })
+</script>
+
+<style>
+    #examine-examadd {}
+
+    #examine-examadd .my-add-form {
+        padding: 25px 0;
+    }
+
+    #examine-examadd .layui-layedit {
+        width: 83%;
+        float: left;
+        background: #fff;
+    }
+</style>

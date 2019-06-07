@@ -1,0 +1,225 @@
+<div id="examine-examlist" layui-title="习题库">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>题库管理 > 习题库</span>
+        </div>
+        <div class="course-title-search">
+            <span class="search-project">所属知识点</span>
+            <select name="" id="">
+                <option value="">选择课程</option>
+                <option value="">课程1</option>
+                <option value="">课程2</option>
+            </select>
+            <span class="search-project">创建人</span>
+            <input type="text">
+            <button class="search-confirm">
+                <img src="src/images/search.png">
+            </button>
+        </div>
+    </div>
+    <div class="course-add">
+        <button class="primary-btn" id="examine-examlist-import">导入</button>
+        <button class="primary-btn" id="examine-examlist-add">添加习题</button>
+    </div>
+    <table id="examine-examlist-table" lay-filter="examlist"></table>
+    <script type="text/html" id="examine-examlist-opt">
+        <button class="course-set-btn" id="examine-examlist-edit">编辑</button>
+        <button class="course-set-btn" id="examine-examlist-check">查看</button>
+        <button class="course-set-btn" id="examine-examlist-delete" lay-event="delete">删除</button>
+        <button class="course-set-btn" id="examine-examlist-copy">复制</button>
+        <button class="course-set-btn" id="examine-examlist-push">发布</button>
+    </script>
+    <div class="app-table-page" id="examine-examlist-page"></div>
+</div>
+
+<script>
+    layui.use(['table', 'form'], function (table) {
+        var $ = layui.jquery,
+            laypage = layui.laypage,
+            form = layui.form,
+            tableFilter = 'examlist',
+            table = layui.table,
+            modalTemplate = '';
+
+        modalTemplate =
+            `<form action="" class="layui-form my-add-form">
+                <div class="layui-row">
+                    <div class="layui-col-md12 layui-form-item">
+                        <label class="layui-form-label">所属部门</label>
+                        <select class="layui-unselect layui-form-select">
+                            <option value="">选择</option>
+                            <option value="021">部门1</option>
+                            <option value="022">部门2</option>
+                            <option value="023">部门3</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-md12 layui-form-item">
+                        <label class="layui-form-label">上传</label>
+                        <button type="button" class="layui-btn layui-btn-primary">上传表格</button>
+                        <button type="button" class="layui-btn " style="background: rgba(0,193,222,1)">下载模版</button>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-md12 layui-form-item">
+                        <input type="file"><span style="color: red">删除</span>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-md12 layui-form-item">
+                        温馨提示：清先下载模版，然后根据模版填入员工信息。
+                    </div>
+                </div>
+            </form>`;
+
+        form.render();
+        table.render({
+            elem: '#examine-examlist-table',
+            page: false,
+            data: [{
+                id: 1,
+                courceName: '发电机哈哈',
+                courseCode: 20190101,
+                responsor: '未发布',
+                time: '第一学期',
+                class: '所有年级',
+                isCommon: false,
+                score: 1
+            }],
+            elem: '[lay-filter="' + tableFilter + '"]',
+            height: 'full-300',
+            cols: [
+                [{
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center'
+                    },
+                    {
+                        title: '习题快照',
+                        field: 'courseCode',
+                        align: 'center'
+                    },
+                    {
+                        title: '所属实验',
+                        field: 'courceName',
+                        align: 'center'
+
+                    },
+                    {
+                        title: '所属课程',
+                        field: 'courseCode',
+                        align: 'center'
+                    },
+                    {
+                        title: '习题类型',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '认知类型',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '难易程度',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '状态',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        templet: '#examine-examlist-opt',
+                    }
+                ]
+            ]
+        })
+
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'examine-examlist-page', //注意，这里的 test1 是 ID，不用加 # 号
+            count: 50, //数据总数，从服务端得到
+            limit: 10,
+            first: '首页',
+            last: '尾页',
+            hash: 'page',
+            curr: location.hash.replace('#/examine/examlist&page=', ''),
+            layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount']
+        });
+
+
+        $('#examine-examlist-check').on('click', function () {
+            location.href = 'index.html#/examine/examadd'
+        })
+
+        $('#examine-examlist-edit').on('click', function () {
+            location.href = 'index.html#/examine/examadd'
+        })
+
+        $('#examine-examlist-add').on('click', function () {
+            location.href = 'index.html#/examine/examadd'
+        })
+
+        table.on('tool(examlist)', function (obj) {
+            console.log(3333334, obj)
+        })
+
+        $('#examine-examlist-delete').on('click', function () {
+            layer.confirm('您确定要删除么?', {
+                icon: 3,
+                title: '提示',
+                shade: 0.5,
+                maxWidth: 500,
+                maxHeight: 500
+            }, function (confirm) {
+                // 用户点击确定
+                layer.close(confirm);
+            }, function (cancel) {
+                // 用户点击取消
+                layer.close(cancel);
+            });
+        })
+
+        $('#examine-examlist-import').on('click', function () {
+            layer.open({
+                type: 1,
+                offset: 'auto',
+                title: '批量导入',
+                content: modalTemplate,
+                area: ['500px', '400px'],
+                skin: 'import-modal',
+                shade: 0.4,
+                shadeClose: true,
+                btn: ['提交', '取消'],
+                yes: function (index, layero) {
+                    // 提交
+                }
+            })
+        })
+    })
+</script>
+
+<style>
+    .layui-form-label {
+        width: 80px;
+    }
+
+    .layui-layer-content {
+        padding: 20px;
+    }
+
+    .layui-form input[type=checkbox],
+    .layui-form input[type=radio],
+    .layui-form select {
+        display: block;
+        height: 30px;
+        line-height: 30px;
+    }
+</style>

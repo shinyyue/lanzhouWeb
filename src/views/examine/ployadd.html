@@ -1,0 +1,140 @@
+<div id="examine-ploy-add" layui-title="添加试卷策略">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>题库管理 > 试卷策略 > 添加策略</span>
+        </div>
+    </div>
+    <form action="" class="layui-form my-add-form">
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">所属课程</label>
+                <input type="text" class="common-form-input">
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label require">策略名称</label>
+                <input type="text" class="common-form-input">
+            </div>
+        </div>
+    </form>
+    <div class="ploy-title">试卷策略条目</div>
+    <form action="" class="layui-form my-add-form">
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label require">策略条目</label>
+                <div class="ploy-content">
+                    <div class="ploy-content-title">
+                        <button class="layui-btn layui-btn-primary">添加策略条目</button>
+                        <span style="color: red;">说明：易1分，一般2分，中等3分，难4分，非常难5分</span>
+                    </div>
+                    <table class="layui-table">
+                        <thead>
+                            <tr>
+                                <th>知识点</th>
+                                <th>习题类型</th>
+                                <th>习题难度</th>
+                                <th>参考题数</th>
+                                <th>抽题数量</th>
+                                <th>总分</th>
+                                <th>操作</th>
+                                </th>
+                            </tr>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <select name="" id="">
+                                        <option value="">根知识点</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="" id="">
+                                        <option value="">单选</option>
+                                        <option value="">多选</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="" id="">
+                                        <option value="">非常难</option>
+                                        <option value="">难</option>
+                                        <option value="">中等</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="common-form-input">
+                                </td>
+                                <td>
+                                    <input type="text" class="common-form-input">
+                                </td>
+                                <td>
+                                    <input type="text" class="common-form-input">
+                                </td>
+                                <td>
+                                    <i style="width: 20px;height:20px;cursor:pointer" class="layui-icon layui-icon-delete"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label"></label>
+                <button class="layui-btn primary-btn">保存</button>
+                <button class="layui-btn layui-btn-primary cancel-btn" id="ploy-add-back">返回</button>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label"></label>
+                <span style="color: red;">注：本试卷满分100分时，方可保存。</span>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    layui.use(['table'], function (table) {
+        var table = layui.table,
+            $ = layui.jquery
+
+        $('#ploy-add-back').on('click', function () {
+            window.history.back(-1);
+        })
+    })
+</script>
+
+<style>
+    .my-add-form {
+        padding: 25px 0;
+    }
+
+    .ploy-title {
+        width: 90%;
+        padding: 15px;
+        color: #126093;
+        background: rgba(244, 245, 250, 1);
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .layui-form input[type=checkbox],
+    .layui-form input[type=radio],
+    .layui-form select {
+        display: block;
+        height: 30px;
+        line-height: 30px;
+    }
+
+    .layui-table {
+        width: 60%;
+        margin-left: 170px;
+    }
+
+    .common-form-input {
+        width: 150px;
+    }
+</style>
