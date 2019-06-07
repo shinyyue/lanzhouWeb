@@ -30,6 +30,7 @@ layui
         }
         self.render = function (elem) {
             if (typeof elem == 'string') elem = $('#' + elem)
+            if (!elem.get(0)) return
             var action = elem.get(0).tagName == 'SCRIPT' ? 'next' : 'find'
             elem[action]('[is-template]').remove()
             view.parse(elem)
