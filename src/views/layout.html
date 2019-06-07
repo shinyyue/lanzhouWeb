@@ -251,22 +251,6 @@
 
 
 
-
-
-
-
-        // 
-
-        //监听点击事件
-        // navbar.on('click(side_nav)', function (data) {
-        //     console.log(111, data)
-
-        //     var childHtml = data.field.href; //获取当前点击项的路径
-        //     // $(".layui-body iframe").attr("src", childHtml); //将路径赋值给右侧iframe
-        // });
-
-
-
         // $.ajax({
         //     type: 'get',
         //     url: "${pageContext.request.contextPath }/mainIndexData",
@@ -296,6 +280,13 @@
 </script>
 
 <style>
+    #app-body {
+        width: 1110px;
+        height: calc(100% - 50px);
+        max-height: 80%;
+        overflow: auto;
+    }
+
     .common-layout {
         width: 1350px;
         height: 100%;
