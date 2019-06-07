@@ -1,0 +1,146 @@
+<div class="layui-fluid" id="readyTest" lay-title="开课管理">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>开课管理 > 铁路信号知识 > 实验结果 > 成绩导出</span>
+        </div>
+    </div>
+    <table id="readyTest-list-table" lay-filter="readyTest-list-table"></table>
+</div>
+<div class="course-add-content">
+    <form action="" class="layui-form">
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label">选择开课</label>
+                <select name="" id="">
+                    <option value="">铁路信号知识</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label require">选择实验</label>
+                <input
+                    type="checkbox"
+                    name=""
+                    title="ZK4电空转辙机"
+                    lay-skin="primary"
+                    checked
+                />
+                <input
+                    type="checkbox"
+                    name=""
+                    title="BWG-S700K型转辙机（外锁闭）"
+                    lay-skin="primary"
+                />
+                <input
+                    type="checkbox"
+                    name=""
+                    title="透镜式色灯信号机"
+                    lay-skin="primary"
+                />
+                <input
+                    type="checkbox"
+                    name=""
+                    title="铁路施工"
+                    lay-skin="primary"
+                />
+            </div>
+        </div>
+    </form>
+    <div class="course-add" style="float: left">
+        <button class="add-btn" id="add-cource">导出</button>
+    </div>
+</div>
+
+<script>
+    layui.use(['form', 'layedit'], function() {
+        var form = layui.form,
+            layedit = layui.layedit,
+            $ = layui.jquery
+
+        form.render()
+        layedit.build('techManage-intro-edit', {
+            tool: [
+                'strong', //加粗
+                'italic', //斜体
+                'underline', //下划线
+                'del', //删除线
+
+                '|', //分割线
+
+                'left', //左对齐
+                'center', //居中对齐
+                'right', //右对齐
+                'link', //超链接
+                'image' //插入图片
+            ]
+        })
+
+        //监听提交
+        form.on('submit(submit)', function(data) {
+            layer.msg(JSON.stringify(data.field))
+            return false
+        })
+
+        $('#source-add-cancle').on('click', function() {
+            window.history.back(-1)
+        })
+
+        // form.on('submit(back)', function () {
+        //     window.history.back(-1);
+        // })
+        $('#add-tech-manage').on('click', function() {
+            location.href = 'index.html#/techManage/update'
+        })
+        $('#update-tech-manage').on('click', function() {
+            location.href = 'index.html#/techManage/update'
+        })
+        $('#add-tech-manage').on('click', function() {
+            location.href = 'index.html#/techManage/update'
+        })
+    })
+</script>
+
+<style>
+    #techManage-add {
+    }
+
+    #techManage-details .techManage-add-content {
+        padding: 15px 0;
+    }
+
+    #techManage-details .techManage-add-content .layui-form-label {
+        font-size: 16px;
+        font-weight: bold;
+        width: 120px;
+        display: inline-block;
+    }
+
+    #techManage-details .layui-form-item {
+        clear: none;
+    }
+
+    #techManage-details .layui-form-item span {
+        display: inline-block;
+        padding: 9px 15px;
+        font-size: 16px;
+    }
+
+    #techManage-details .pre-techManage {
+        float: left;
+        width: calc(100 - 230px);
+    }
+
+    #techManage-details .pre-techManage .pre-techManage-checkbox {
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        margin-top: 10px;
+        padding: 10px;
+    }
+
+    #techManage-details .layui-layedit {
+        width: 83%;
+        float: left;
+        background: #fff;
+    }
+</style>

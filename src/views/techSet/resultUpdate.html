@@ -1,0 +1,235 @@
+<div class="layui-fluid" id="resultUpdate" lay-title="开课管理">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>开课管理 > 铁路信号知识 > 实验结果 > 实验批改</span>
+        </div>
+        <div class="course-title-search">
+            <span class="search-project">学生姓名</span>
+            <input type="text" />
+            <span class="search-project">学号</span>
+            <input type="text" />
+            <span class="search-project">提交状态</span>
+            <select name="" id="">
+                <option value="">请选择</option>
+                <option value="">已提交</option>
+                <option value="">未提交</option>
+            </select>
+            <button class="search-confirm">
+                <img src="src/images/search.png" />
+            </button>
+        </div>
+    </div>
+    <div class="course-add">
+        <button class="add-btn" id="add-cource">发布成绩</button>
+        <button class="add-btn" id="add-cource">成绩导出</button>
+        <button class="add-btn" id="add-cource">报告导出</button>
+    </div>
+    <table
+        id="resultUpdate-list-table"
+        lay-filter="resultUpdate-list-table"
+    ></table>
+    <script type="text/html" id="resultUpdate-opt">
+        <button class="course-set-btn" id="resultUpdate-add-edit">手动批改</button>
+    </script>
+    <div class="app-table-page" id="resultUpdate-table-page"></div>
+</div>
+
+<script>
+    layui.use(['table', 'jquery'], function(table, $) {
+        var tableFilter = 'resultUpdate-list-table',
+            laypage = layui.laypage,
+            $ = layui.jquery
+
+        table.render({
+            page: false,
+            data: [
+                {
+                    id: 1,
+                    courceName: '留存发',
+                    resultUpdateCode: 20190101,
+                    responsor: '13000000000',
+                    time: '土木工程',
+                    class: '已提交',
+                    isCommon: 88,
+                    score: 88,
+                    score: 88
+                }
+            ],
+            elem: '[lay-filter="' + tableFilter + '"]',
+            height: 'full-300',
+            cols: [
+                [
+                    {
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center'
+                    },
+                    {
+                        title: '学生姓名',
+                        field: 'courceName',
+                        align: 'center'
+                    },
+                    {
+                        title: '学号',
+                        field: 'resultUpdateCode',
+                        align: 'center'
+                    },
+                    {
+                        title: '手机',
+                        field: 'responsor',
+                        align: 'center'
+                    },
+                    {
+                        title: '班级',
+                        align: 'center',
+                        field: 'times',
+                        width: 80
+                    },
+                    {
+                        title: '提交状态',
+                        align: 'center',
+                        field: 'score',
+                        width: 80
+                    },
+                    {
+                        field: 'score',
+                        title: '实验成绩',
+                        align: 'center'
+                    },
+                    {
+                        field: 'time',
+                        title: '报告成绩',
+                        align: 'center'
+                    },
+                    {
+                        field: 'isCommon',
+                        title: '总成绩',
+                        align: 'center'
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        templet: '#resultUpdate-opt',
+                        width: 180
+                    }
+                ]
+            ]
+        })
+
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'resultUpdate-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+            count: 50, //数据总数，从服务端得到
+            limit: 10,
+            first: '首页',
+            last: '尾页',
+            hash: 'page',
+            curr: location.hash.replace('#!page=', ''),
+            layout: [
+                'first',
+                'prev',
+                'page',
+                'next',
+                'last',
+                'count',
+                'currLimit',
+                'curr',
+                'pageCount'
+            ]
+        })
+
+        $('#add-cource').on('click', function() {
+            location.href = 'index.html#/resultUpdate/update'
+        })
+
+        $('#resultUpdate-add-check').on('click', function() {
+            location.href = 'index.html#/resultUpdate/details'
+        })
+
+        $('#resultUpdate-add-edit').on('click', function() {
+            location.href = 'index.html#/resultUpdate/update'
+        })
+
+        $('#resultUpdate-add-delete').on('click', function() {
+            layer.confirm(
+                '您确定要删除么?',
+                {
+                    icon: 3,
+                    title: '提示',
+                    shade: 0.5,
+                    maxWidth: 500,
+                    maxHeight: 500
+                },
+                function(confirm) {
+                    // 用户点击确定
+                    layer.close(confirm)
+                },
+                function(cancel) {
+                    // 用户点击取消
+                    layer.close(cancel)
+                }
+            )
+        })
+    })
+</script>
+
+<style>
+    .layui-table {
+        width: 100%;
+    }
+
+    .resultUpdate-title .resultUpdate-title-location {
+        float: left;
+    }
+
+    .resultUpdate-title .resultUpdate-title-search {
+        float: right;
+        text-align: right;
+    }
+
+    .resultUpdate-title .resultUpdate-title-search select,
+    .resultUpdate-title .resultUpdate-title-search input {
+        width: 118px;
+        height: 30px;
+        padding: 0 4px;
+        border-radius: 0;
+    }
+
+    .resultUpdate-title .resultUpdate-title-search .search-project {
+        line-height: 30px;
+    }
+
+    .resultUpdate-title .resultUpdate-title-search .search-confirm {
+        width: 51px;
+        height: 30px;
+        background: #ff6600;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .resultUpdate-add {
+        text-align: right;
+        padding: 20px 0 10px;
+    }
+
+    .resultUpdate-add .add-btn {
+        width: 70px;
+        height: 30px;
+        background: #ff6600;
+        color: #fff;
+        font-size: 16px;
+    }
+
+    #resultUpdate-opt {
+        width: 200px;
+    }
+
+    .resultUpdate-set-btn {
+        padding: 4px 10px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+</style>

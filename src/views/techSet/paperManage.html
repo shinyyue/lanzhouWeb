@@ -1,23 +1,28 @@
-<div class="layui-fluid" id="readyTest" lay-title="开课管理">
+<div class="layui-fluid" id="paperManage" lay-title="开课管理">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>开课管理 > 铁路信号知识 > 实验准备 > 已安排实验</span>
+            <span>开课管理 > 铁路信号知识 > 试卷管理列表</span>
         </div>
     </div>
-    <table id="readyTest-list-table" lay-filter="readyTest-list-table"></table>
-    <script type="text/html" id="readyTest-opt">
-        <button class="course-set-btn" id="readyTest-add-edit">编辑</button>
-        <button class="course-set-btn" id="readyTest-add-delete">删除</button>
-        <!-- <button class="course-set-btn" id="readyTest-add-check">查看</button> -->
-        <button class="course-set-btn" id="readyTest-add-publish">发布并邮件通知学生</button>
+    <div class="course-add">
+        <button class="add-btn" id="add-paper">添加试卷</button>
+    </div>
+    <table
+        id="paperManage-list-table"
+        lay-filter="paperManage-list-table"
+    ></table>
+    <script type="text/html" id="paperManage-opt">
+        <button class="course-set-btn" id="paperManage-add-edit">编辑</button>
+        <button class="course-set-btn" id="paperManage-add-delete">删除</button>
+        <button class="course-set-btn" id="paperManage-add-check">查看</button>
     </script>
-    <div class="app-table-page" id="readyTest-table-page"></div>
+    <div class="app-table-page" id="paperManage-table-page"></div>
 </div>
 
 <script>
     layui.use(['table', 'jquery'], function(table, $) {
-        var tableFilter = 'readyTest-list-table',
+        var tableFilter = 'paperManage-list-table',
             laypage = layui.laypage,
             $ = layui.jquery
 
@@ -27,7 +32,7 @@
                 {
                     id: 1,
                     courceName: '发电机哈哈',
-                    readyTestCode: 20190101,
+                    paperManageCode: 20190101,
                     responsor: '王小虎',
                     time: '第一学期',
                     class: '所有年级',
@@ -46,30 +51,36 @@
                         align: 'center'
                     },
                     {
-                        title: '实验名称',
+                        title: '试卷名称',
                         field: 'courceName',
                         align: 'center'
                     },
                     {
-                        title: '开课名称',
-                        field: 'readyTestCode',
+                        title: '所谓课程',
+                        field: 'paperManageCode',
                         align: 'center'
                     },
                     {
-                        title: '实验类型',
+                        title: '编辑时间',
                         field: 'responsor',
                         align: 'center'
                     },
                     {
-                        title: '开始时间/结束时间',
+                        title: '考试时长',
                         align: 'center',
                         field: 'times',
                         width: 80
                     },
                     {
+                        title: '安排教师',
+                        align: 'center',
+                        field: 'score',
+                        width: 80
+                    },
+                    {
                         title: '操作',
                         align: 'center',
-                        templet: '#readyTest-opt',
+                        templet: '#paperManage-opt',
                         width: 180
                     }
                 ]
@@ -78,7 +89,7 @@
 
         //执行一个laypage实例
         laypage.render({
-            elem: 'readyTest-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+            elem: 'paperManage-table-page', //注意，这里的 test1 是 ID，不用加 # 号
             count: 50, //数据总数，从服务端得到
             limit: 10,
             first: '首页',
@@ -98,15 +109,19 @@
             ]
         })
 
-        $('#readyTest-add-check').on('click', function() {
-            location.href = 'index.html#/techSet/details'
+        $('#add-paper').on('click', function() {
+            location.href = 'index.html#/techSet/paperUpdate'
         })
 
-        $('#readyTest-add-edit').on('click', function() {
-            location.href = 'index.html#/techSet/readyDone'
+        $('#paperManage-add-check').on('click', function() {
+            location.href = 'index.html#/techSet/paperDetails'
         })
 
-        $('#readyTest-add-delete').on('click', function() {
+        $('#paperManage-add-edit').on('click', function() {
+            location.href = 'index.html#/techSet/paperUpdate'
+        })
+
+        $('#paperManage-add-delete').on('click', function() {
             layer.confirm(
                 '您确定要删除么?',
                 {
@@ -126,13 +141,6 @@
                 }
             )
         })
-
-        $('#readyTest-add-publish').on('click', function() {
-            layer.open({
-                title: '系统提示',
-                content: '邮件发送成功'
-            })
-        })
     })
 </script>
 
@@ -141,28 +149,28 @@
         width: 100%;
     }
 
-    .readyTest-title .readyTest-title-location {
+    .paperManage-title .paperManage-title-location {
         float: left;
     }
 
-    .readyTest-title .readyTest-title-search {
+    .paperManage-title .paperManage-title-search {
         float: right;
         text-align: right;
     }
 
-    .readyTest-title .readyTest-title-search select,
-    .readyTest-title .readyTest-title-search input {
+    .paperManage-title .paperManage-title-search select,
+    .paperManage-title .paperManage-title-search input {
         width: 118px;
         height: 30px;
         padding: 0 4px;
         border-radius: 0;
     }
 
-    .readyTest-title .readyTest-title-search .search-project {
+    .paperManage-title .paperManage-title-search .search-project {
         line-height: 30px;
     }
 
-    .readyTest-title .readyTest-title-search .search-confirm {
+    .paperManage-title .paperManage-title-search .search-confirm {
         width: 51px;
         height: 30px;
         background: #ff6600;
@@ -171,12 +179,12 @@
         cursor: pointer;
     }
 
-    .readyTest-add {
+    .paperManage-add {
         text-align: right;
         padding: 20px 0 10px;
     }
 
-    .readyTest-add .add-btn {
+    .paperManage-add .add-btn {
         width: 70px;
         height: 30px;
         background: #ff6600;
@@ -184,11 +192,11 @@
         font-size: 16px;
     }
 
-    #readyTest-opt {
+    #paperManage-opt {
         width: 200px;
     }
 
-    .readyTest-set-btn {
+    .paperManage-set-btn {
         padding: 4px 10px;
         border: 1px solid #ccc;
         cursor: pointer;
