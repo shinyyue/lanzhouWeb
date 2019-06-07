@@ -1,0 +1,171 @@
+<div id="ready-done">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>开课管理 > 铁路信号知识 > 实验准备 > 布置新实验</span>
+        </div>
+    </div>
+    <div class="ready-new-step">
+        <div class="new-step-inner">
+            <button class="layui-btn layui-btn-primary" style="background-color: rgba(0, 102, 102, 1) !important; color: #fff">选择开课</button>
+            <img src="src/images/arrow-right.svg">
+            <button class="layui-btn layui-btn-primary" style="background-color: rgba(0, 102, 102, 1) !important; color: #fff">选择实验</button>
+            <img src="src/images/arrow-right.svg">
+            <button class="layui-btn layui-btn-primary" style="background-color: rgba(0, 102, 102, 1) !important; color: #fff">设置安排属性</button>
+            <img src="src/images/arrow-right.svg">
+            <button class="layui-btn layui-btn-primary" style="color: red;">安排成功</button>
+        </div>
+    </div>
+    <form class="layui-form">
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label ">实验名称</label>
+                <span>ZK4电空转辙机</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">所属开课名称</label>
+                <span>铁路信号知识</span>
+            </div>
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">选课人数</label>
+                <span>20</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">必做/选做</label>
+                <span>必做</span>
+            </div>
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">实验类型</label>
+                <span>实物实验</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label ">成绩比重</label>
+                <span>实验成绩比例：</span><span>70%</span>
+                <span style="margin-left: 20px;">报告成绩比例：</span><span>30%</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label ">实验地点</label>
+                <span>国家级轨道交通虚拟仿真实验中心</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label ">实验报告批改类型</label>
+                <span>在线编辑模式</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label ">已安排时段</label>
+                <table class="layui-table" id="timeRange-table" layui-filter="timeRange-table">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>开始时间</th>
+                            <th>截止时间</th>
+                            <th>分配详情</th>
+                            <th>已选人数</th>
+                            <th>安排人数</th>
+                        </tr>
+                    </thead>
+                </table>
+                <!-- <script type="text/html" id="ready-done-opt">
+                    <button class="course-set-btn" id="ready-done-check">查看</button>
+                </script> -->
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label "></label>
+                <button class="primary-btn">查看已安排试验</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<script>
+    layui.use(['table', 'form'], function (table) {
+        var table = layui.table,
+            form = layui.form,
+            tableFilter = 'timeRange-table',
+            $ = layui.jquery
+
+        form.render();
+
+        table.render({
+            page: true,
+            data: [{
+                id: 1,
+                courceName: '发电机哈哈',
+                courseCode: 20190101,
+                responsor: '王小虎',
+                time: '第一学期',
+                class: '所有年级',
+                isCommon: false,
+                score: 1
+            }],
+            elem: '[lay-filter="' + tableFilter + '"]',
+            height: 'full-300',
+            cols: [
+                [{
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center'
+                    },
+                    {
+                        title: '开始时间',
+                        field: 'courseCode',
+                        align: 'center'
+                    },
+                    {
+                        title: '类截止时间',
+                        field: 'courceName',
+                        align: 'center'
+
+                    },
+                    {
+                        title: '分配详情',
+                        field: 'courseCode',
+                        align: 'center',
+                        templet: '#ready-done-opt'
+                    },
+                    {
+                        title: '已选人数',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '安排人数',
+                        field: 'responsor',
+                        align: 'center',
+                    }
+                ]
+            ]
+        })
+    })
+</script>
+
+<style>
+    .ready-new-step {
+        padding: 25px 0;
+    }
+
+    .new-step-inner {
+        width: 60%;
+        margin: 0 auto;
+    }
+
+    .layui-table {
+        width: 80%;
+    }
+</style>

@@ -108,9 +108,10 @@
     line-height: 30px;
 }
 
-.course-title .course-title-search .search-confirm {
+.search-confirm {
     width: 51px;
     height: 30px;
+    line-height: 30px;
     background: #ff6600;
     border: none;
     outline: none;
