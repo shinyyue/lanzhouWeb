@@ -1,0 +1,128 @@
+<div id="student-index" lay-title="首页">
+    <div class="home-title">
+        <span>您本学期有<i id="course-count">1</i>门课程学习</span>
+        <span class="home-title-time">2018-2019-2</span>
+    </div>
+    <div class="student-course-list">
+        <div class="course-item">
+            <div class="course-item-left">
+                <div class="course-name">开课名称：<span>zk4电空转辙机</span></div>
+                <div class="course-process">当前任务完成率：<span>40%</span></div>
+            </div>
+            <div class="course-item-right">
+                <div class="item-right-top">
+                    <span class="course-step">
+                        <span class="course-step-inner"></span>
+                    </span>
+                    <span>10</span>%
+                </div>
+                <div class="item-right-bottom">
+                    待完成任务<span>0</span>个，虚拟实验<span>0</span>个，提交报告<span>0</span>个，理论测试<span>0</span>个
+                    <button class="course-details" onclick="jumpToDetails()">详情</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function jumpToDetails() {
+        window.location.href = '';
+    }
+</script>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    #student-index {}
+
+    .home-title {
+        padding: 20px;
+        font-size: 16px;
+        border-bottom: 1px solid #ededed;
+    }
+
+    .home-title .home-title-time {
+        color: red;
+        float: right;
+    }
+
+    .home-title i {
+        font-weight: bold;
+        font-style: normal;
+    }
+
+    .student-course-list {
+        padding: 20px 0;
+        font-size: 16px;
+    }
+
+
+    .student-course-list .course-item {
+        width: 100%;
+        padding: 20px 20px 20px 40px;
+        background: rgba(244, 245, 250, 1);
+        border: 1px solid rgba(231, 235, 244, 1);
+        clear: both;
+        overflow: hidden;
+    }
+
+    .course-item-left,
+    .course-item-right {
+        float: left;
+    }
+
+    .course-item-left {
+        margin-right: 40px;
+    }
+
+    .item-right-top {
+        color: #0066cc;
+    }
+
+    .item-right-bottom {
+        clear: left;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .course-process {
+        color: #999;
+        margin-top: 10px;
+    }
+
+    .course-process>span {
+        color: #0066cc;
+    }
+
+    .course-step {
+        display: block;
+        width: 750px;
+        height: 20px;
+        background: #ccc;
+        position: relative;
+        float: left;
+    }
+
+    .course-details {
+        height: 28px;
+        line-height: 28px;
+        padding: 0px 20px;
+        margin-left: 20px;
+        background: #0066cc;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .course-step-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 10%;
+        height: 20px;
+        background: #009999;
+        vertical-align: middle;
+    }
+</style>

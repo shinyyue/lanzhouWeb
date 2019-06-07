@@ -1,0 +1,148 @@
+<div id="ready-check" layui-title="选择实验">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>开课管理 > 铁路信号知识 > 实验准备 > 选择实验</span>
+        </div>
+    </div>
+    <div class="ready-new-step">
+        <div class="new-step-inner">
+            <button class="layui-btn layui-btn-primary" style="background-color: rgba(0, 102, 102, 1) !important; color: #fff">选择开课</button>
+            <img src="src/images/arrow-right.svg">
+            <button class="layui-btn layui-btn-primary" style="color: red;">选择实验</button>
+            <img src="src/images/arrow-right.svg">
+            <button class="layui-btn layui-btn-primary">设置安排属性</button>
+            <img src="src/images/arrow-right.svg">
+            <button class="layui-btn layui-btn-primary">安排成功</button>
+        </div>
+    </div>
+    <form action="" class="layui-form ready-new-title">
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">当前开课</label>
+                <span>铁路信号知识</span>
+            </div>
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">实验名称</label>
+                <select name="" id="">
+                    <option value="">请选择实验名称</option>
+                    <option value="">信号灯</option>
+                    <option value="">转辙机</option>
+                </select>
+                <button class="search-confirm">
+                    <img src="src/images/search.png">
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <table id="ready-check-table" lay-filter="ready-check-table"></table>
+    <script type="text/html" id="ready-check-opt">
+        <button class="course-set-btn" id="ready-check-detail">查看</button>
+        <button class="course-set-btn" id="ready-check-check">选择</button>
+    </script>
+</div>
+
+<script>
+    layui.use(['form', 'table'], function (table) {
+        var form = layui.form,
+            tableFilter = 'ready-check-table',
+            table = layui.table,
+            $ = layui.jquery
+
+
+        form.render();
+        table.render({
+            page: true,
+            data: [{
+                id: 1,
+                courceName: '发电机哈哈',
+                courseCode: 20190101,
+                responsor: '王小虎',
+                time: '第一学期',
+                class: '所有年级',
+                isCommon: false,
+                score: 1
+            }],
+            elem: '[lay-filter="' + tableFilter + '"]',
+            height: 'full-300',
+            cols: [
+                [{
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center'
+                    },
+                    {
+                        title: '实验名称',
+                        field: 'courseCode',
+                        align: 'center'
+                    },
+                    {
+                        title: '所属课程',
+                        field: 'courceName',
+                        align: 'center'
+
+                    },
+                    {
+                        title: '实验类型',
+                        field: 'courseCode',
+                        align: 'center'
+                    },
+                    {
+                        title: '试验时长',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '创建者',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        templet: '#ready-check-opt',
+                    }
+                ]
+            ]
+        })
+
+        $('#ready-check-detail').on('click', function () {
+            window.location.href = 'index.html#/experiment/mydetails'
+        })
+
+        $('#ready-check-check').on('click', function () {
+            window.location.href = 'index.html#/techset/readyplan'
+        })
+
+    })
+</script>
+
+<style>
+    .ready-new-step {
+        padding: 25px 0;
+    }
+
+    .new-step-inner {
+        width: 60%;
+        margin: 0 auto;
+    }
+
+    .ready-new-title {
+        background: rgba(244, 245, 250, 1);
+    }
+
+    .ready-new-title .layui-form-item {
+        margin-bottom: 0;
+        padding: 8px 0;
+    }
+
+    .search-confirm {
+        width: 60px;
+        height: 38px;
+        line-height: 38px;
+        padding: 0 4px;
+        margin-left: 10px;
+    }
+</style>
