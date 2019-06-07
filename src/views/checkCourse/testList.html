@@ -1,0 +1,86 @@
+<div id="checkcourse-test-list">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>选课 > 铁路信号知识 > 理论测试列表</span>
+        </div>
+    </div>
+    <table id="checkcourse-testlist-table" lay-filter="checkcourse-testlist-table"></table>
+    <script type="text/html" id="checkcourse-testlist-opt">
+        <button class="course-set-btn" id="checkcourse-testlist-test">测试</button>
+    </script>
+</div>
+
+<script>
+    layui.use(['table'], function (table) {
+
+        var $ = layui.jquery,
+            table = layui.table,
+            tableFilter = 'checkcourse-testlist-table';
+
+        table.render({
+            elem: '#checkcourse-testlist-table',
+            page: true,
+            data: [{
+                id: 1,
+                courceName: '发电机哈哈',
+                courseCode: 20190101,
+                responsor: '未发布',
+                time: '第一学期',
+                class: '所有年级',
+                isCommon: false,
+                score: 1
+            }],
+            elem: '[lay-filter="' + tableFilter + '"]',
+            height: 'full-300',
+            cols: [
+                [{
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center'
+                    },
+                    {
+                        title: '试卷名称',
+                        field: 'courseCode',
+                        align: 'center'
+                    },
+                    {
+                        title: '开课名称',
+                        field: 'courceName',
+                        align: 'center'
+
+                    },
+                    {
+                        title: '开始时间',
+                        field: 'courseCode',
+                        align: 'center'
+                    },
+                    {
+                        title: '截止时间',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '制定人',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        templet: '#checkcourse-testlist-opt',
+                    }
+                ]
+            ]
+        })
+
+        $('#checkcourse-testlist-test').on('click', function () {
+            window.location.href = 'index.html#/checkcourse/testdetails';
+        })
+    })
+</script>
+
+<style>
+    #checkcourse-test-list {}
+</style>

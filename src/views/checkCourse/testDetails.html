@@ -1,0 +1,149 @@
+<div id="checkcourse-test-details">
+    <div class="test-title">
+        《转辙机》理论测试试卷
+    </div>
+    <div class="test-info">
+        <div class="test-info-item">
+            <span>试卷满分为<i>100</i>分</span>
+            <span>考试时间为<i>60</i>分钟</span>
+            <span>本次测试的考试时间：</span>
+            <span>从<i>2019-01-01 10:30</i>至<i>2019-0101 11:30</i></span>
+        </div>
+        <div class="test-info-item">
+            <span>考生：<i>李梓萌</i></span>
+            <span>本次试卷成绩：<i>0</i>分</span>
+            <span>测试用时：<i>0</i>分钟</span>
+        </div>
+    </div>
+    <div class="test-details">
+        <div class="test-tip">单选题 (请选择正确答案，本题共计<i>2</i>个小题)</div>
+        <div id="test-details-inner">
+            <div class="test-item">
+                <div class="test-question"><i>1</i>.ZK4电空转辙机的摩擦联结器下部夹板不得(分值：<i>5</i>分)</div>
+                <ul>
+                    <li>
+                        <span>选项A</span>
+                        <span>生锈</span>
+                    </li>
+                    <li>
+                        <span>选项B</span>
+                        <span>生锈</span>
+                    </li>
+                    <li>
+                        <span>选项C</span>
+                        <span>生锈</span>
+                    </li>
+                    <li>
+                        <span>选项D</span>
+                        <span>生锈</span>
+                    </li>
+                </ul>
+                <div style="color: red; margin-bottom: 10px"> <span>正确答案</span><span>B</span></div>
+                <div style="color: #006699;"> <span>我的答案</span><span>B</span></div>
+            </div>
+            <div class="test-item">
+                <div class="test-question"><i>2</i>.ZK4电空转辙机的摩擦联结器下部夹板不得(分值：<i>5</i>分)</div>
+                <ul>
+                    <li>
+                        <span>选项A</span>
+                        <span>生锈</span>
+                    </li>
+                    <li>
+                        <span>选项B</span>
+                        <span>生锈</span>
+                    </li>
+                    <li>
+                        <span>选项C</span>
+                        <span>生锈</span>
+                    </li>
+                    <li>
+                        <span>选项D</span>
+                        <span>生锈</span>
+                    </li>
+                </ul>
+                <div style="color: red; margin-bottom: 10px"> <span>正确答案</span><span>B</span></div>
+                <div style="color: #006699;"> <span>我的答案</span><span>B</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="checkcourse-test-btn">
+    <button class="layui-btn layui-btn-primary back-btn" id="checkcourse-test-back">返回理论测试列表</button>
+</div>
+
+<script>
+    layui.use([], function () {
+        var $ = layui.jquery;
+
+        $('#checkcourse-test-back').on('click', function () {
+            window.location.href = 'index.html#/checkcourse/testlist'
+        })
+    })
+</script>
+
+<style>
+    #checkcourse-test-details {
+        border: 1px solid #ededed;
+        border-bottom: 0;
+        margin: 20px 0;
+    }
+
+    #checkcourse-test-details i {
+        font-style: normal;
+    }
+
+    .test-title {
+        background: rgba(244, 245, 250, 1);
+        padding: 20px 0;
+        text-align: center;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .test-info {
+        text-align: center;
+        font-size: 16px;
+        padding: 10px 0;
+        border-bottom: 1px solid #ededed;
+    }
+
+    .test-info-item {
+        margin-bottom: 10px;
+    }
+
+    .test-info-item span {
+        margin-right: 10px;
+    }
+
+    .test-details {
+        padding: 20px;
+        font-size: 16px;
+    }
+
+    .test-details .test-tip {
+        margin-bottom: 10px;
+    }
+
+    .test-details .test-item {
+        padding: 30px 0;
+        border-bottom: 1px solid #ededed;
+    }
+
+    .test-question {
+        margin-bottom: 10px;
+    }
+
+    .test-details ul li {
+        padding: 0 20px;
+        margin-bottom: 10px;
+    }
+
+    .test-details ul li span {
+        margin-right: 30px;
+    }
+
+    .checkcourse-test-btn {
+        text-align: center;
+        padding-bottom: 30px;
+    }
+</style>
