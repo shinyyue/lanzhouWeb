@@ -1,0 +1,204 @@
+<div class="layui-fluid" id="paperManage" lay-title="开课管理">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>开课管理 > 铁路信号知识 > 试卷管理列表</span>
+        </div>
+    </div>
+    <div class="course-add">
+        <button class="add-btn" id="add-paper">添加试卷</button>
+    </div>
+    <table
+        id="paperManage-list-table"
+        lay-filter="paperManage-list-table"
+    ></table>
+    <script type="text/html" id="paperManage-opt">
+        <button class="course-set-btn" id="paperManage-add-edit">编辑</button>
+        <button class="course-set-btn" id="paperManage-add-delete">删除</button>
+        <button class="course-set-btn" id="paperManage-add-check">查看</button>
+    </script>
+    <div class="app-table-page" id="paperManage-table-page"></div>
+</div>
+
+<script>
+    layui.use(['table', 'jquery'], function(table, $) {
+        var tableFilter = 'paperManage-list-table',
+            laypage = layui.laypage,
+            $ = layui.jquery
+
+        table.render({
+            page: false,
+            data: [
+                {
+                    id: 1,
+                    courceName: '发电机哈哈',
+                    paperManageCode: 20190101,
+                    responsor: '王小虎',
+                    time: '第一学期',
+                    class: '所有年级',
+                    isCommon: false,
+                    score: 1
+                }
+            ],
+            elem: '[lay-filter="' + tableFilter + '"]',
+            height: 'full-300',
+            cols: [
+                [
+                    {
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center'
+                    },
+                    {
+                        title: '试卷名称',
+                        field: 'courceName',
+                        align: 'center'
+                    },
+                    {
+                        title: '所谓课程',
+                        field: 'paperManageCode',
+                        align: 'center'
+                    },
+                    {
+                        title: '编辑时间',
+                        field: 'responsor',
+                        align: 'center'
+                    },
+                    {
+                        title: '考试时长',
+                        align: 'center',
+                        field: 'times',
+                        width: 80
+                    },
+                    {
+                        title: '安排教师',
+                        align: 'center',
+                        field: 'score',
+                        width: 80
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        templet: '#paperManage-opt',
+                        width: 180
+                    }
+                ]
+            ]
+        })
+
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'paperManage-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+            count: 50, //数据总数，从服务端得到
+            limit: 10,
+            first: '首页',
+            last: '尾页',
+            hash: 'page',
+            curr: location.hash.replace('#!page=', ''),
+            layout: [
+                'first',
+                'prev',
+                'page',
+                'next',
+                'last',
+                'count',
+                'currLimit',
+                'curr',
+                'pageCount'
+            ]
+        })
+
+        $('#add-paper').on('click', function() {
+            location.href = 'index.html#/techSet/paperUpdate'
+        })
+
+        $('#paperManage-add-check').on('click', function() {
+            location.href = 'index.html#/techSet/paperDetails'
+        })
+
+        $('#paperManage-add-edit').on('click', function() {
+            location.href = 'index.html#/techSet/paperUpdate'
+        })
+
+        $('#paperManage-add-delete').on('click', function() {
+            layer.confirm(
+                '您确定要删除么?',
+                {
+                    icon: 3,
+                    title: '提示',
+                    shade: 0.5,
+                    maxWidth: 500,
+                    maxHeight: 500
+                },
+                function(confirm) {
+                    // 用户点击确定
+                    layer.close(confirm)
+                },
+                function(cancel) {
+                    // 用户点击取消
+                    layer.close(cancel)
+                }
+            )
+        })
+    })
+</script>
+
+<style>
+    .layui-table {
+        width: 100%;
+    }
+
+    .paperManage-title .paperManage-title-location {
+        float: left;
+    }
+
+    .paperManage-title .paperManage-title-search {
+        float: right;
+        text-align: right;
+    }
+
+    .paperManage-title .paperManage-title-search select,
+    .paperManage-title .paperManage-title-search input {
+        width: 118px;
+        height: 30px;
+        padding: 0 4px;
+        border-radius: 0;
+    }
+
+    .paperManage-title .paperManage-title-search .search-project {
+        line-height: 30px;
+    }
+
+    .paperManage-title .paperManage-title-search .search-confirm {
+        width: 51px;
+        height: 30px;
+        background: #ff6600;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .paperManage-add {
+        text-align: right;
+        padding: 20px 0 10px;
+    }
+
+    .paperManage-add .add-btn {
+        width: 70px;
+        height: 30px;
+        background: #ff6600;
+        color: #fff;
+        font-size: 16px;
+    }
+
+    #paperManage-opt {
+        width: 200px;
+    }
+
+    .paperManage-set-btn {
+        padding: 4px 10px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+</style>

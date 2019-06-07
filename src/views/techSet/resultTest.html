@@ -1,0 +1,185 @@
+<div class="layui-fluid" id="resultTest" lay-title="开课管理">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>开课管理 > 铁路信号知识 > 实验过程 > 实验统计</span>
+        </div>
+        <div class="course-title-search">
+            <input type="text" value="请输入关键字" />
+            <button class="search-confirm">
+                <img src="src/images/search.png" />
+            </button>
+        </div>
+    </div>
+    <table
+        id="resultTest-list-table"
+        lay-filter="resultTest-list-table"
+    ></table>
+    <script type="text/html" id="resultTest-opt">
+        <button class="course-set-btn" id="resultTest-add-edit">批改</button>
+        <button class="course-set-btn" id="resultTest-add-check">查看</button>
+    </script>
+    <div class="app-table-page" id="resultTest-table-page"></div>
+</div>
+
+<script>
+    layui.use(['table', 'jquery'], function(table, $) {
+        var tableFilter = 'resultTest-list-table',
+            laypage = layui.laypage,
+            $ = layui.jquery
+
+        table.render({
+            page: false,
+            data: [
+                {
+                    id: 1,
+                    courceName: '发电机哈哈',
+                    resultTestCode: 20190101,
+                    responsor: '王小虎',
+                    time: '第一学期',
+                    class: '所有年级',
+                    isCommon: false,
+                    score: 1
+                }
+            ],
+            elem: '[lay-filter="' + tableFilter + '"]',
+            height: 'full-300',
+            cols: [
+                [
+                    {
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center'
+                    },
+                    {
+                        title: '开课名称',
+                        field: 'resultTestCode',
+                        align: 'center'
+                    },
+                    {
+                        title: '实验名称',
+                        field: 'courceName',
+                        align: 'center'
+                    },
+                    {
+                        title: '开始时间/结束时间',
+                        align: 'center',
+                        field: 'times',
+                        width: 180
+                    },
+                    {
+                        title: '状态',
+                        field: 'responsor',
+                        align: 'center'
+                    },
+                    {
+                        title: '已提交',
+                        field: 'responsor',
+                        align: 'center'
+                    },
+                    {
+                        title: '未批改',
+                        field: 'responsor',
+                        align: 'center'
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        templet: '#resultTest-opt',
+                        width: 80
+                    }
+                ]
+            ]
+        })
+
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'resultTest-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+            count: 50, //数据总数，从服务端得到
+            limit: 10,
+            first: '首页',
+            last: '尾页',
+            hash: 'page',
+            curr: location.hash.replace('#!page=', ''),
+            layout: [
+                'first',
+                'prev',
+                'page',
+                'next',
+                'last',
+                'count',
+                'currLimit',
+                'curr',
+                'pageCount'
+            ]
+        })
+
+        $('#resultTest-add-check').on('click', function() {
+            location.href = 'index.html#/techSet/resultUpdate'
+        })
+
+        $('#resultTest-add-edit').on('click', function() {
+            location.href = 'index.html#/techSet/resultUpdate'
+        })
+    })
+</script>
+
+<style>
+    .layui-table {
+        width: 100%;
+    }
+
+    .resultTest-title .resultTest-title-location {
+        float: left;
+    }
+
+    .resultTest-title .resultTest-title-search {
+        float: right;
+        text-align: right;
+    }
+
+    .resultTest-title .resultTest-title-search select,
+    .resultTest-title .resultTest-title-search input {
+        width: 118px;
+        height: 30px;
+        padding: 0 4px;
+        border-radius: 0;
+    }
+
+    .resultTest-title .resultTest-title-search .search-project {
+        line-height: 30px;
+    }
+
+    .resultTest-title .resultTest-title-search .search-confirm {
+        width: 51px;
+        height: 30px;
+        background: #ff6600;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .resultTest-add {
+        text-align: right;
+        padding: 20px 0 10px;
+    }
+
+    .resultTest-add .add-btn {
+        width: 70px;
+        height: 30px;
+        background: #ff6600;
+        color: #fff;
+        font-size: 16px;
+    }
+
+    #resultTest-opt {
+        width: 200px;
+    }
+
+    .resultTest-set-btn {
+        padding: 4px 10px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+</style>

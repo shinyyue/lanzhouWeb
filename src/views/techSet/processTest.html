@@ -1,0 +1,170 @@
+<div class="layui-fluid" id="processTest" lay-title="开课管理">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>开课管理 > 铁路信号知识 > 实验过程 > 实验统计</span>
+        </div>
+        <div class="course-title-search">
+            <input type="text" value="请输入关键字" />
+            <button class="search-confirm">
+                <img src="src/images/search.png" />
+            </button>
+        </div>
+    </div>
+    <table
+        id="processTest-list-table"
+        lay-filter="processTest-list-table"
+    ></table>
+    <script type="text/html" id="processTest-opt">
+        <button class="course-set-btn" id="processTest-add-check">查看</button>
+    </script>
+    <div class="app-table-page" id="processTest-table-page"></div>
+</div>
+
+<script>
+    layui.use(['table', 'jquery'], function(table, $) {
+        var tableFilter = 'processTest-list-table',
+            laypage = layui.laypage,
+            $ = layui.jquery
+
+        table.render({
+            page: false,
+            data: [
+                {
+                    id: 1,
+                    courceName: '发电机哈哈',
+                    processTestCode: 20190101,
+                    responsor: '王小虎',
+                    time: '第一学期',
+                    class: '所有年级',
+                    isCommon: false,
+                    score: 1
+                }
+            ],
+            elem: '[lay-filter="' + tableFilter + '"]',
+            height: 'full-300',
+            cols: [
+                [
+                    {
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center'
+                    },
+                    {
+                        title: '实验名称',
+                        field: 'courceName',
+                        align: 'center'
+                    },
+                    {
+                        title: '开课名称',
+                        field: 'processTestCode',
+                        align: 'center'
+                    },
+                    {
+                        title: '实验类型',
+                        field: 'responsor',
+                        align: 'center'
+                    },
+                    {
+                        title: '开始时间/结束时间',
+                        align: 'center',
+                        field: 'times',
+                        width: 80
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        templet: '#processTest-opt',
+                        width: 180
+                    }
+                ]
+            ]
+        })
+
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'processTest-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+            count: 50, //数据总数，从服务端得到
+            limit: 10,
+            first: '首页',
+            last: '尾页',
+            hash: 'page',
+            curr: location.hash.replace('#!page=', ''),
+            layout: [
+                'first',
+                'prev',
+                'page',
+                'next',
+                'last',
+                'count',
+                'currLimit',
+                'curr',
+                'pageCount'
+            ]
+        })
+
+        $('#processTest-add-check').on('click', function() {
+            location.href = 'index.html#/techSet/processDetails'
+        })
+    })
+</script>
+
+<style>
+    .layui-table {
+        width: 100%;
+    }
+
+    .processTest-title .processTest-title-location {
+        float: left;
+    }
+
+    .processTest-title .processTest-title-search {
+        float: right;
+        text-align: right;
+    }
+
+    .processTest-title .processTest-title-search select,
+    .processTest-title .processTest-title-search input {
+        width: 118px;
+        height: 30px;
+        padding: 0 4px;
+        border-radius: 0;
+    }
+
+    .processTest-title .processTest-title-search .search-project {
+        line-height: 30px;
+    }
+
+    .processTest-title .processTest-title-search .search-confirm {
+        width: 51px;
+        height: 30px;
+        background: #ff6600;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .processTest-add {
+        text-align: right;
+        padding: 20px 0 10px;
+    }
+
+    .processTest-add .add-btn {
+        width: 70px;
+        height: 30px;
+        background: #ff6600;
+        color: #fff;
+        font-size: 16px;
+    }
+
+    #processTest-opt {
+        width: 200px;
+    }
+
+    .processTest-set-btn {
+        padding: 4px 10px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+</style>
