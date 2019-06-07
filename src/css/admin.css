@@ -210,7 +210,7 @@ html,
 #app-sidebar .layui-nav-tree .layui-this,
 #app-sidebar .layui-nav-tree .layui-this>a,
 .layui-nav-tree .layui-this>a:hover {
-    background-color: #1c1f27 !important;
+    /* background-color: #1c1f27 !important; */
 }
 
 /* 网站白色调 */

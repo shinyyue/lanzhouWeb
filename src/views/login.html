@@ -204,10 +204,23 @@
                 api: 'login',
                 data: userInfo,
                 success: function (res) {
+                    res.data.user.role = userInfo.role
+                    // 为了安全起见，不记住用户的登录状态。即将token存入seesionstorage
                     admin.login(res.data.token, {
                         user: res.data.user
-                    }, userInfo.autoLogin != 'on');
-                    admin.navigate('/');
+                    }, true);
+
+                    switch (userInfo.role) {
+                        case 'teacher':
+                            admin.navigate('/');
+                            break;
+                        case 'student':
+                            admin.navigate('/student');
+                            break;
+                        case 'admin':
+                            admin.navigate('/');
+                            break;
+                    }
                 },
                 complete: function () {
                     loading.hide();

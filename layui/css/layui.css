@@ -3749,7 +3749,6 @@ body .layui-table-tips .layui-layer-content {
 
 .layui-nav {
     position: relative;
-    padding: 0 20px;
     background-color: #393D49;
     color: #fff;
     border-radius: 2px;
@@ -3763,11 +3762,12 @@ body .layui-table-tips .layui-layer-content {
 
 .layui-nav .layui-nav-item {
     position: relative;
-    display: inline-block;
-    *display: inline;
+    display: block;
+    float: left;
+    /* *display: inline;
     *zoom: 1;
     vertical-align: middle;
-    line-height: 60px
+    line-height: 50px */
 }
 
 .layui-nav .layui-nav-item a {

@@ -11,69 +11,257 @@
             </div>
         </div>
         <!-- 配置部分 -->
-        <div id="home-welcome" class="home-welcome">
+        <div id="home_welcome" class="home-welcome">
             <span>Welcome!</span>
             <p>欢迎您使用虚拟仿真实验教学平台！</p>
             <p>教师在任课期间点击主菜单栏的“答疑室”可接受学生的咨询、整理常见问题、维护答疑库。当您不在答疑室期间，学生针对您所任课程的问题将直接发往您本人登记的电子邮件，请您及时回答学生的问题。</p>
         </div>
 
-        <div id="side_nav" layui-filter="side_nav"></div>
+        <ul id="side_nav" class="layui-nav" layui-filter="side_nav"></ul>
     </div>
     <div class="layout-right">
         <div class="layout-header">
             <div class="layout-header-left">虚拟仿真实验教学管理平台</div>
-            <!-- <ul class="layout-header-right" id="header_nav">
-            </ul> -->
-            <div class="layui-nav layui-nav-tree layout-header-right" id="header_nav" lay-filter="header_nav">
-                <div class="layui-nav-item">11</div>
-                <div class="layui-nav-item">22</div>
-            </div>
+            <ul class="layui-nav layout-header-right" id="header_nav" lay-filter="header_nav">
+                <li class="layui-nav-item" id="logout">退出系统</li>
+            </ul>
         </div>
         <div class="layout-containner" id="app-body"></div>
     </div>
 </div>
 
 <script>
-    layui.use(['element'], function () {
-        var element = layui.element
-
-        // element.init();
-        // element.render('nav', 'header_nav')
-    })
     layui.config({
         base: 'src/plugins/' //自定义layui组件的目录
-    }).use(['element', 'layer', 'navbar'], function () {
+    }).use(['element', 'layer', 'navbar', 'admin'], function () {
 
         var element = layui.element,
             $ = layui.jquery,
             layer = layui.layer,
-            navbar = layui.navbar();
+            navbar = layui.navbar(),
+            admin = layui.admin,
+            route = layui.router(),
+            currentPath = typeof route === 'string' ? route.split('#')[1] : '/';
+
+        var menuList = [{
+                "role": 'teacher',
+                "menu": [{
+                    "name": '首页',
+                    "path": '/',
+                    child: []
+                }, {
+                    "name": '课程管理',
+                    "path": '/course/index',
+                    child: [{
+                        name: '课程库',
+                        path: '/course/index',
+                        child: []
+                    }]
+                }, {
+                    "name": '开课管理',
+                    "path": '/techmanage/index',
+                    child: [{
+                        name: '开课计划',
+                        path: '/techmanage/plan',
+                        child: []
+                    }, {
+                        name: '开课列表',
+                        path: '/techmanage/index',
+                        child: []
+                    }, {
+                        name: '开课统计',
+                        path: '/techmanage/display',
+                        child: []
+                    }]
+                }, {
+                    "name": '实验管理',
+                    "path": '/experiment/mylist',
+                    child: [{
+                        name: '实验管理',
+                        path: '/experiment/refer',
+                        child: [{
+                            name: '参考实验库',
+                            path: '/experiment/refer',
+                        }, {
+                            name: '我的实验库',
+                            path: '/experiment/mylist',
+                        }]
+                    }]
+                }, {
+                    "name": '资源管理',
+                    "path": '/sourcemanage/mylist',
+                    child: [{
+                        name: '资源管理',
+                        path: '/sourcemanage/mylist',
+                        child: [{
+                            name: '我的资源库',
+                            path: '/sourcemanage/mylist',
+                        }, {
+                            name: '教学资源库',
+                            path: '/sourcemanage/techlist',
+                        }]
+                    }]
+                }, {
+                    "name": '题库管理',
+                    "path": '/examine/knowledge',
+                }, {
+                    "name": '课程表',
+                    "path": '/',
+                }, {
+                    "name": '答疑室',
+                    "path": '/',
+                }, {
+                    "name": '个人信息',
+                    "path": '/',
+                }]
+            }, {
+                "role": 'student',
+                "menu": [{
+                    "name": '首页',
+                    "path": '/student'
+                }, {
+                    "name": '选课',
+                    "path": '/checkcourse/preintro'
+                }, {
+                    "name": '资源库',
+                    "path": '/'
+                }, {
+                    "name": '课程表',
+                    "path": '/'
+                }, {
+                    "name": '答疑室',
+                    "path": '/'
+                }, {
+                    "name": '个人信息',
+                    "path": '/'
+                }]
+            }, {
+                "role": 'admin',
+                "menu": [{
+                    "name": '用户管理',
+                    "path": '/'
+                }, {
+                    "name": '系统管理',
+                    "path": '/'
+                }, {
+                    "name": '学期配置',
+                    "path": '/'
+                }, {
+                    "name": '统计管理',
+                    "path": '/'
+                }, {
+                    "name": '个人信息',
+                    "path": '/'
+                }]
+            }],
+            role = layui.data('user').user.role,
+            currentFirstMenuList = [],
+            headerNavTemp = '';
+
+        for (var i = 0; i < menuList.length; i++) {
+            if (menuList[i].role === role) {
+                currentFirstMenuList = menuList[i].menu
+            }
+        }
+
+        for (var j = 0; j < currentFirstMenuList.length; j++) {
+            var curPath = currentFirstMenuList[j].path;
+            headerNavTemp +=
+                '<li class="layui-nav-item ' + (currentPath === curPath ? 'active' : '') + '" data-path=" ' +
+                curPath + ' ">' +
+                currentFirstMenuList[j].name + '</li>'
+        }
+
+        $('#header_nav').html(headerNavTemp + $('#header_nav').html())
+
+        $(document).on('click', '#header_nav li', function () {
+            var path = $(this).data('path') && $(this).data('path').trim(),
+                index = $(this).index(),
+                curSideList = currentFirstMenuList[index] && currentFirstMenuList[index].child
+
+            // 设置一级菜单的状态
+            $(this).addClass('active');
+            $(this).siblings().removeClass('active');
+            // todo: 根据角色决定默认的路由是 / 还是/student 或者其他。
+            window.location.href = 'index.html#' + path || '/'
+
+            // 找到此一级菜单对应的侧边二级菜单
+            if (!curSideList || curSideList.length === 0) return;
+            for (var k = 0; k < curSideList.length; k++) {
+                curSideList[k].title = curSideList[k].name;
+                curSideList[k].href = curSideList[k].path;
+                curSideList[k].spread = curSideList[k].path === path;
+
+                if (curSideList[k].child && curSideList[k].child.length > 0) {
+
+                }
+            }
+
+
+            if (path === '/student') {
+                $('#home_welcome').html(
+                    '<span>Welcome!</span>' +
+                    '<p>欢迎您使用虚拟仿真实验教学平台！</p>' +
+                    '<p>如有困难请点击主菜单栏的“答疑室”搜索常见问题或者向网上值班的老师提问。如果教师不在线你的问题将自动发送到教师的邮箱中。</p>'
+                )
+            } else if (path === '/') {
+                $('#home_welcome').html(
+                    '<span>Welcome!</span>' +
+                    '<p>欢迎您使用虚拟仿真实验教学平台！</p>' +
+                    '<p>教师在任课期间点击主菜单栏的“答疑室”可接受学生的咨询、整理常见问题、维护答疑库。当您不在答疑室期间，学生针对您所任课程的问题将直接发往您本人登记的电子邮件，请您及时回答学生的问题。</p>'
+                )
+            } else {
+                $('#home_welcome').css('display', 'none')
+            }
+
+            navbar.set({
+                spreadOne: true,
+                elem: "#side_nav",
+                data: curSideList
+            });
+
+            navbar.render();
+
+
+            $('#side_nav .layui-nav-item').each(function () {
+                var index = $(this).index()
+                if ($(this).find('a').data('url') === path) {
+                    $(this).addClass('layui-this');
+                    if (curSideList[index].child && curSideList[index].child.length > 0) {
+                        for (var v = 0; v < curSideList[index].child.length; v++) {
+                            var temp = '',
+                                child = curSideList[index].child[v];
+                            temp += '<dl class="layui-nav-child" ' + (child.path === path ?
+                                    'active' : '') + '>' +
+                                '<dd><a target="' + ('' || '') + '" lay-href="' + (child.path ||
+                                    '') + '">' + child.name + '</a>' +
+                                '</dd>' +
+                                '</dl>'
+                            $(this).html($(this).html() + temp)
+                        }
+
+                    }
+                }
+            })
+        })
+
+        $('#logout').on('click', function () {
+            admin.logout()
+        })
 
 
 
-        var navBarList = [{
-            "title": "首页",
-            "spread": false,
-            "href": "/" //点击之后，右侧iframe显示的页面路径
-        }, {
-            "title": "课程设计",
-            "spread": false,
-            "href": "/course/index"
-        }];
 
-        navbar.set({
-            spreadOne: true,
-            elem: "#side_nav",
-            cached: false,
-            data: navBarList
-        });
 
-        navbar.render();
+
+
+        // 
 
         //监听点击事件
         // navbar.on('click(side_nav)', function (data) {
-        //     var childHtml = data.field.href; //获取当前点击项的路径
         //     console.log(111, data)
+
+        //     var childHtml = data.field.href; //获取当前点击项的路径
         //     // $(".layui-body iframe").attr("src", childHtml); //将路径赋值给右侧iframe
         // });
 
@@ -168,7 +356,7 @@
     .common-layout .layout-right .layout-header {
         background: rgba(26, 52, 113, 1);
         height: 50px;
-        padding: 0 20px;
+        padding: 0 0 0 20px;
     }
 
     .layout-header-left {
@@ -181,29 +369,47 @@
 
     .layout-header-right {
         float: right;
-    }
-
-    .layout-header-right .header-nav-item {
-        float: left;
-    }
-
-    .layout-header-right .header-nav-item>a {
-        display: block;
         height: 50px;
         line-height: 50px;
-        padding: 0 15px;
-        color: #fff;
+        background: rgba(26, 52, 113, 1);
+        padding: 0;
     }
 
-    .layout-header-right .header-nav-item>a:hover {
+    .layui-nav .layui-nav-item {
+        float: left;
+        height: 50px;
+        line-height: 50px;
+        cursor: pointer;
+        padding: 0 12px;
+    }
+
+    .layui-nav .layui-nav-item.active {
         background: #00b0ca;
     }
 
-    .layout-header-right .header-nav-item.header-nav-this a {
+    .layout-header-right .layui-nav-item:hover {
         background: #00b0ca;
     }
 
     .layout-containner {
-        padding: 0 20px;
+        padding: 20px;
+    }
+
+    #side_nav .layui-nav-item {
+        box-sizing: border-box;
+        width: 220px;
+    }
+
+    #side_nav .layui-nav-item a {
+        height: 50px;
+        line-height: 50px;
+    }
+
+    #side_nav .layui-nav .layui-nav-item {
+        padding: 0;
+    }
+
+    #side_nav .layui-nav-child a:hover {
+        background: rgba(0, 176, 202, 1);
     }
 </style>

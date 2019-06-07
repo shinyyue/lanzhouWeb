@@ -29,7 +29,7 @@ layui.define(function (exports) {
         engine: '.html',
         eventName: 'nepadmin-event',
         //本地存储表名
-        tableName: 'nepadmin',
+        tableName: 'user',
         //全局设置 headers 信息
         requestHeaders: {
             // 'Test-User-Agent': 'os=pc;ver=0.0.1;imei=asdasdas'

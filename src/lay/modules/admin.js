@@ -25,6 +25,7 @@ layui
         self.isInit = false
         self.routeLeaveFunc = null
         self.loginToken = null
+
         self.routeLeave = function (callback) {
             this.routeLeaveFunc = callback
         }
@@ -64,6 +65,7 @@ layui
                 isSession && sessionStorage
             )
 
+            // 将数据存到缓存
             if ($.isPlainObject(data)) {
                 var disableData = []
                 layui.each(data, function (key) {
@@ -170,7 +172,6 @@ layui
                 .find('[lay-href="' + url + '"]')
                 .eq(0)
 
-            console.log(elem)
             if (elem.length > 0) {
                 elem.parents('.layui-nav-item').addClass('layui-nav-itemed')
                 elem.click()

@@ -307,7 +307,7 @@ layui
 
                         this.minLeft = this.minLeft || parseInt(menu.css('left'))
 
-                        var offsetLeft = currentMenu.offset().left
+                        var offsetLeft = currentMenu && currentMenu.offset() && currentMenu.offset().left
                         if (offsetLeft - this.minLeft - $(this.next).width() < 0) {
                             $(this.prev).click()
                         } else if (offsetLeft - this.minLeft > menu.width() * 0.5) {
