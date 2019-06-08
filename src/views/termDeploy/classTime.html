@@ -1,0 +1,135 @@
+<div id="source-manage-mylist" class="layui-fluid" lay-title="我的资源库">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>学期配置 > 上课时间</span>
+        </div>
+        <div class="course-title-search">
+            <input type="text" value="请输入关键字" />
+            <button class="search-confirm">
+                <img src="src/images/search.png" />
+            </button>
+        </div>
+    </div>
+    <table
+        id="class-time-mylist-table"
+        lay-filter="class-time-mylist-table"
+    ></table>
+    <div class="course-add">
+        <button class="primary-btn" id="update_class_time">修改</button>
+    </div>
+</div>
+
+<script>
+    layui.use(['table', 'jquery', 'form', 'tree', 'laydate'], function(
+        table,
+        $
+    ) {
+        var $ = layui.jquery,
+            form = layui.form,
+            laypage = layui.laypage,
+            tableFilter = 'class-time-mylist-table',
+            table = layui.table,
+            laydate = layui.laydate
+
+        //执行一个laydate实例
+        //日期范围
+        laydate.render({
+            elem: '#test1',
+            range: true
+        })
+
+        table.render({
+            page: false,
+            skin: 'row,line',
+            data: [
+                {
+                    id: '第一节',
+                    courceName: '第1节',
+                    courseCode: '08:00:00',
+                    responsor: '08:50:00'
+                },
+                {
+                    id: '第一节',
+                    courceName: '第2节',
+                    courseCode: '09:00:00',
+                    responsor: '09:50:00'
+                }
+            ],
+            elem: '[lay-filter="' + tableFilter + '"]',
+            height: 'full-300',
+            cols: [
+                [
+                    {
+                        title: '大节次',
+                        field: 'id',
+                        width: 80,
+                        align: 'center'
+                    },
+                    {
+                        title: '小节次',
+                        field: 'courceName',
+                        align: 'center'
+                    },
+                    {
+                        title: '上课时间',
+                        field: 'courseCode',
+                        align: 'center'
+                    },
+                    {
+                        title: '下课时间',
+                        field: 'responsor',
+                        align: 'center'
+                    }
+                ]
+            ],
+            done: function(res, curr, count) {
+                merge(res, curr, count)
+            }
+        })
+    })
+
+    function merge(res) {
+        var data = res.data
+        var mergeIndex = 0 //定位需要添加合并属性的行数
+        var mark = 1 //这里涉及到简单的运算，mark是计算每次需要合并的格子数
+        var columsName = ['id', 'name'] //需要合并的列名称
+        var columsIndex = [0, 1] //需要合并的列索引值
+
+        for (var k = 0; k < columsName.length; k++) {
+            //这里循环所有要合并的列
+            var trArr = $('.layui-table-body>.layui-table').find('tr') //所有行
+            for (var i = 1; i < res.data.length; i++) {
+                //这里循环表格当前的数据
+                var tdCurArr = trArr
+                    .eq(i)
+                    .find('td')
+                    .eq(columsIndex[k]) //获取当前行的当前列
+                var tdPreArr = trArr
+                    .eq(mergeIndex)
+                    .find('td')
+                    .eq(columsIndex[k]) //获取相同列的第一列
+
+                if (data[i][columsName[k]] === data[i - 1][columsName[k]]) {
+                    //后一行的值与前一行的值做比较，相同就需要合并
+                    mark += 1
+                    tdPreArr.each(function() {
+                        //相同列的第一列增加rowspan属性
+                        $(this).attr('rowspan', mark)
+                    })
+                    tdCurArr.each(function() {
+                        //当前行隐藏
+                        $(this).css('display', 'none')
+                    })
+                } else {
+                    mergeIndex = i
+                    mark = 1 //一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
+                }
+            }
+            mergeIndex = 0
+            mark = 1
+        }
+    }
+</script>
+
+<style></style>
