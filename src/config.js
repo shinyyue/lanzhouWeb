@@ -39,6 +39,7 @@ layui.define(function (exports) {
         //独立页面路由，可随意添加（无需写参数）
         indPage: [
             '/login', //登入页
+            '/chat', // 聊天室
         ],
         //登录页面，当未登录或登录失效时进入
         loginPage: '/login',
@@ -81,7 +82,7 @@ layui.define(function (exports) {
         //第三方扩展
         extend: {
             //后台根据业务需求扩展的方法
-            helper: 'lay/extends/helper',
+            // helper: 'lay/extends/helper',
             //生成图表
             echarts: '../lay/extends/echarts',
             echartsTheme: '../lay/extends/echartsTheme',
