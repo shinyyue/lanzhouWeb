@@ -26,6 +26,10 @@
             <div class="tech-item-title">各学院学生及格人数和优秀人数对比分析</div>
             <div id="statistics_score_rate" style="height:400px;"></div>
         </div>
+        <div class="tech-item">
+            <div class="tech-item-title">实验成绩统计</div>
+            <div id="test_score" style="height:400px;"></div>
+        </div>
     </div>
 </div>
 
@@ -219,7 +223,7 @@
                 trigger: 'axis'
             },
             xAxis: {
-                // type: 'category',
+                type: 'category',
                 boundaryGap: false,
                 data: ['土木工程学院', '自动化与电气工程学院'],
             },
@@ -227,21 +231,88 @@
                 type: 'value'
             },
             series: [{
-                    name: '自动化与电气工程学院',
+                    name: '当前学期 及格人数',
                     type: 'line',
                     stack: '堆叠',
-                    data: [120, 132, 30, 40]
+                    data: [220, 181]
+                }, {
+                    name: '当前学期 优秀人数',
+                    type: 'line',
+                    stack: '堆叠',
+                    data: [120, 132]
                 },
                 {
-                    name: '土木工程学院',
+                    name: '近一学期 及格人数',
                     type: 'line',
                     stack: '堆叠',
-                    data: [220, 182, 40, 281]
-                },
+                    data: [182, 40]
+                }, {
+                    name: '近一学期 优秀人数',
+                    type: 'line',
+                    stack: '堆叠',
+                    data: [132, 30]
+                }
             ]
         }
 
         initChart('statistics_score_rate', rateOption)
+
+        var testScoreOption = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            legend: {
+                bottom: 10,
+                data: ['0-60分', '60-79分', '80-100分'],
+            },
+            xAxis: {
+
+            },
+            yAxis: {
+                data: ['zk3电空转辙机', '信号灯', '仿真实验']
+            },
+            series: [{
+                    name: '0-60分',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    data: [32, 12, 20]
+                },
+                {
+                    name: '60-79分',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    data: [10, 23, 41]
+                }, {
+                    name: '80-100分',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    data: [13, 21, 31]
+                }
+            ]
+        }
+
+        initChart('test_score', testScoreOption)
 
     })
 </script>

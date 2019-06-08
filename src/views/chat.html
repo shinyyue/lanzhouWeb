@@ -1,7 +1,327 @@
 <div id="chat">
-    1111
+    <div class="chat-inner">
+        <div class="chat-history-list">
+            <div class="history-search">
+                <input type="text" placeholder="搜索课程成员" class="layui-input">
+                <i class="layui-icon layui-icon-search search-icon"></i>
+            </div>
+            <div class="history-list">
+                <div class="member-item active">
+                    <img src="src/images/user_logo.png" class="member-avator">
+                    <span>铁路信息知识</span>
+                </div>
+                <div class="member-item">
+                    <img src="src/images/user_logo.png" class="member-avator">
+                    <span>计算机网络</span>
+                </div>
+                <div class="member-item">
+                    <img src="src/images/user_logo.png" class="member-avator">
+                    <span>计算机联锁</span>
+                </div>
+            </div>
+        </div>
+        <div class="chating-list">
+            <div class="chating-title">
+                <span>答疑库</span>
+                <span class="chating-title-center">铁路信号知识(60)</span>
+                <ul class="chating-add-btn">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="chating-content">
+                <span class="chat-time">10:01</span>
+                <div class="chat-dialog chat-myself">
+                    <img src="src/images/user_logo.png" class="member-avator">
+                    <div class="member-info">
+                        <div>同学甲</div>
+                        <div class="chat-info">
+                            老师我有一个问题
+                        </div>
+                        <div class="triangle"> </div>
+                    </div>
+                </div>
+                <div class="chat-dialog chat-others">
+                    <img src="src/images/user_logo.png" class="member-avator">
+                    <div class="member-info">
+                        <div>同学甲</div>
+                        <div class="chat-info">
+                            老师我有一个问题
+                        </div>
+                        <div class="triangle"> </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chating-replay">
+                <textarea name="" id="" cols="30" rows="10" class="layui-textarea" placeholder="请输入你的问题"></textarea>
+                <div class="chating-btn">
+                    <button class="layui-btn layui-btn-primary replay-btn left">搜索</button>
+                    <button class="layui-btn layui-btn-primary replay-btn right">发送</button>
+                </div>
+            </div>
+        </div>
+        <div class="chat-member-list">
+            <div class="history-search">
+                <input type="text" placeholder="搜索课程成员" class="layui-input">
+                <i class="layui-icon layui-icon-search search-icon"></i>
+            </div>
+            <div class="member-list">
+                <div class="member-item">
+                    <img src="src/images/user_logo.png" class="member-avator">
+                    <span>铁路信息知识</span>
+                </div>
+                <div class="member-item">
+                    <img src="src/images/user_logo.png" class="member-avator">
+                    <span>计算机网络</span>
+                </div>
+                <div class="member-item">
+                    <img src="src/images/user_logo.png" class="member-avator">
+                    <span>计算机联锁</span>
+                </div>
+            </div>
+            <div class="get-more">点击查看更多成员</div>
+        </div>
+    </div>
 </div>
 
 <style>
-    #chat {}
+    #chat {
+        height: 600px;
+        box-sizing: border-box;
+    }
+
+    #chat .chat-inner {
+        width: 1350px;
+        height: 100%;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    #chat .chat-history-list {
+        width: 246px;
+        height: 100%;
+        background: #ebe9e8;
+        float: left;
+        overflow-y: auto;
+        overflow-x: hidden;
+        border: 1px solid rgba(204, 204, 204, 1);
+    }
+
+    #chat .chating-list {
+        width: 850px;
+        height: 100%;
+        float: left;
+        overflow-y: auto;
+        overflow-x: hidden;
+        background: gba(242, 242, 242, 1);
+        border-bottom: 1px solid rgba(204, 204, 204, 1);
+        position: relative;
+    }
+
+    #chat .chat-member-list {
+        width: 250px;
+        height: 100%;
+        background: #eee;
+        float: left;
+        overflow-y: auto;
+        overflow-x: hidden;
+        border: 1px solid rgba(204, 204, 204, 1);
+        position: relative;
+    }
+
+    .history-search {
+        padding: 20px 10px;
+        position: relative;
+    }
+
+    .history-search .search-icon {
+        position: absolute;
+        right: 20px;
+        top: 26px;
+        padding: 4px;
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+    }
+
+    .member-item {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    .member-item .member-avator {
+        width: 48px;
+        height: 48px;
+        margin-right: 10px;
+    }
+
+    .member-item:hover,
+    .member-item:active,
+    .member-item:visited,
+    .member-item.active {
+        background: #c5c4c4;
+    }
+
+    .get-more {
+        color: #999;
+        text-align: center;
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .chating-title {
+        padding: 0 10px;
+        font-size: 18px;
+        height: 78px;
+        line-height: 78px;
+        border-bottom: 1px solid #999;
+        position: relative;
+    }
+
+    .chating-title-center {
+        position: absolute;
+        left: 40%;
+    }
+
+    .chating-add-btn {
+        position: absolute;
+        right: 10px;
+        top: 20px;
+        padding: 20px;
+        cursor: pointer;
+    }
+
+    .chating-add-btn li {
+        float: left;
+        width: 6px;
+        height: 6px;
+        margin-right: 4px;
+        background: #000;
+
+    }
+
+    .chating-replay {
+        width: 100%;
+        height: 150px;
+        background: #fff;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+
+    .chating-replay textarea {
+        padding: 15px;
+        height: 150px;
+    }
+
+    .replay-btn {
+        position: absolute;
+        bottom: 10px;
+        background-color: #ebe8e9 !important;
+    }
+
+    .replay-btn.left {
+        left: 10px;
+        right: none;
+    }
+
+    .replay-btn.right {
+        left: none;
+        right: 10px;
+    }
+
+    .chating-content {
+        padding: 20px;
+    }
+
+    .chating-content .chat-time {
+        display: block;
+        max-width: 70px;
+        text-align: center;
+        border-radius: 4px;
+        padding: 6px 10px;
+        background: #dadada;
+        color: #fff;
+        margin: 10px auto;
+    }
+
+    .chating-content .chat-dialog {
+        width: 400px;
+        clear: both;
+        overflow: hidden;
+        margin: 15px 0;
+    }
+
+    .chating-content .chat-dialog .member-avator {
+        float: left;
+    }
+
+
+
+    .chating-content .chat-dialog.chat-myself,
+    .chating-content .chat-dialog.chat-myself .member-avator,
+    .chating-content .chat-dialog.chat-myself .member-info {
+        float: right;
+        text-align: right;
+    }
+
+    .member-info {
+        position: relative;
+    }
+
+    .chat-myself .member-info .triangle {
+        position: absolute;
+        top: 40%;
+        right: -6px;
+        width: 0;
+        height: 0;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-left: 8px solid #99ccff;
+    }
+
+    .chat-others .member-info .triangle {
+        position: absolute;
+        top: 40%;
+        left: -6px;
+        width: 0;
+        height: 0;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-right: 8px solid #fff;
+    }
+
+    .chat-myself .member-info {
+        float: right;
+    }
+
+    .chat-others .member-info {
+        float: left;
+    }
+
+    .chating-content .member-avator {
+        width: 48px;
+        height: 48px;
+        margin-right: 10px;
+    }
+
+    .chat-myself .member-avator {
+        margin-left: 10px;
+    }
+
+
+    .chat-myself .chat-info {
+        background: #99ccff;
+        width: 300px;
+        padding: 20px 10px;
+    }
+
+    .chat-others .chat-info {
+        background: #fff;
+        width: 300px;
+        padding: 20px 10px;
+    }
 </style>
