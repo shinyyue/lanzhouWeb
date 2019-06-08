@@ -2,7 +2,7 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>系统管理 > 学生类型</span>
+            <span>学期配置 > 学期设置</span>
         </div>
         <div class="course-title-search">
             <input type="text" value="请输入关键字" />
@@ -12,75 +12,35 @@
         </div>
     </div>
     <div class="course-add">
-        <button class="primary-btn" id="add_student-type">添加</button>
+        <button class="primary-btn" id="add_term">添加</button>
     </div>
-    <table
-        id="student-type-mylist-table"
-        lay-filter="student-type-mylist-table"
-    ></table>
+    <table id="term-mylist-table" lay-filter="term-mylist-table"></table>
     <script type="text/html" id="sourcelist-opt">
-        <button class="course-set-btn" id="student-type-mylist-edit">编辑</button>
-        <button class="course-set-btn" id="student-type-mylist-delete">删除</button>
-        <button class="course-set-btn" id="student-type-mylist-check">查看</button>
+        <button class="course-set-btn" id="term-mylist-edit">编辑</button>
+        <button class="course-set-btn" id="term-mylist-delete">删除</button>
+        <button class="course-set-btn" id="term-mylist-check">查看</button>
     </script>
-    <div class="app-table-page" id="student-type-mylist-page"></div>
-    <!--  -->
-    <div id="college_details_modal">
-        <form action="" class="layui-form">
-            <div class="layui-row">
-                <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">权限名称：</label>
-                    <input
-                        type="text"
-                        name="userName"
-                        class="common-form-input"
-                        value="用户管理"
-                    />
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">权限:</label>
-                    <input
-                        type="text"
-                        name="userName"
-                        class="common-form-input"
-                        value="user.admin"
-                    />
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">权限路径:</label>
-                    <input
-                        type="text"
-                        name="userName"
-                        class="common-form-input"
-                        value="1/11"
-                    />
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">权限描述:</label>
-                    <textarea
-                        name="desc"
-                        class="layui-textarea student-type-remark"
-                    ></textarea>
-                </div>
-            </div>
-        </form>
-    </div>
+    <div class="app-table-page" id="term-mylist-page"></div>
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'tree'], function(table, $) {
+    layui.use(['table', 'jquery', 'form', 'tree', 'laydate'], function(
+        table,
+        $
+    ) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
-            tableFilter = 'student-type-mylist-table',
+            tableFilter = 'term-mylist-table',
             table = layui.table,
-            tree = layui.tree
+            laydate = layui.laydate
+
+        //执行一个laydate实例
+        //日期范围
+        laydate.render({
+            elem: '#test1',
+            range: true
+        })
 
         table.render({
             page: false,
@@ -107,12 +67,22 @@
                         align: 'center'
                     },
                     {
-                        title: '类型名称',
+                        title: '学年',
                         field: 'courceName',
                         align: 'center'
                     },
                     {
-                        title: '类型描述',
+                        title: '学期',
+                        field: 'responsor',
+                        align: 'center'
+                    },
+                    {
+                        title: '开始日期',
+                        field: 'courceName',
+                        align: 'center'
+                    },
+                    {
+                        title: '结束日期',
                         field: 'responsor',
                         align: 'center'
                     },
@@ -127,13 +97,13 @@
 
         //执行一个laypage实例
         laypage.render({
-            elem: 'student-type-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
+            elem: 'term-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
             count: 50, //数据总数，从服务端得到
             limit: 10,
             first: '首页',
             last: '尾页',
             hash: 'page',
-            curr: location.hash.replace('#/student-type/mylist&page=', ''),
+            curr: location.hash.replace('#/term/mylist&page=', ''),
             layout: [
                 'first',
                 'prev',
@@ -152,28 +122,61 @@
             '        <form action="" class="layui-form">\n' +
             '            <div class="layui-row">\n' +
             '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">类型名称：</label>\n' +
+            '                    <label class="layui-form-label">学期：</label>\n' +
+            '                    <div class="layui-input-block">\n' +
+            '                        <input\n' +
+            '                            type="radio"\n' +
+            '                            name="sex"\n' +
+            '                            value="第1学期"\n' +
+            '                            title="第1学期"\n' +
+            '                        />\n' +
+            '                        <input\n' +
+            '                            type="radio"\n' +
+            '                            name="sex"\n' +
+            '                            value="第2学期"\n' +
+            '                            title="第2学期"\n' +
+            '                            checked\n' +
+            '                        />\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '            </div>\n' +
+            '            <div class="layui-row">\n' +
+            '                <div class="layui-col-md12 layui-form-item">\n' +
+            '                    <label class="layui-form-label">开始日期:</label>\n' +
             '                    <input\n' +
             '                        type="text"\n' +
             '                        name="userName"\n' +
             '                        class="common-form-input"\n' +
-            '                        value="本科生"\n' +
+            '                        value="2018-09"\n' +
             '                    />\n' +
             '                </div>\n' +
             '            </div>\n' +
             '            <div class="layui-row">\n' +
             '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">类型描述:</label>\n' +
-            '                    <textarea\n' +
-            '                        name="desc"\n' +
-            '                        class="layui-textarea student-type-remark"\n' +
-            '                    ></textarea>\n' +
+            '                    <label class="layui-form-label">结束日期:</label>\n' +
+            '                    <input\n' +
+            '                        type="text"\n' +
+            '                        name="userName"\n' +
+            '                        class="common-form-input"\n' +
+            '                        value="2019-06"\n' +
+            '                    />\n' +
+            '                </div>\n' +
+            '            </div>\n' +
+            '            <div class="layui-row">\n' +
+            '                <div class="layui-col-md12 layui-form-item">\n' +
+            '                    <label class="layui-form-label">学年:</label>\n' +
+            '                    <input\n' +
+            '                        type="text"\n' +
+            '                        name="userName"\n' +
+            '                        class="common-form-input"\n' +
+            '                        value="2018-2019"\n' +
+            '                    />\n' +
             '                </div>\n' +
             '            </div>\n' +
             '        </form>\n' +
             '    </div>'
 
-        $('#add_student-type').on('click', function() {
+        $('#add_term').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -195,7 +198,7 @@
             form.render()
         })
 
-        $('#student-type-mylist-delete').on('click', function() {
+        $('#term-mylist-delete').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -216,7 +219,7 @@
             })
         })
 
-        $('#student-type-mylist-edit').on('click', function() {
+        $('#term-mylist-edit').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -224,7 +227,7 @@
                 content: addModalTemp,
                 area: ['700px', '70%'],
                 shade: 0.4,
-                skin: 'student-type-edit-modal',
+                skin: 'term-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
                 yes: function(index, layero) {
@@ -238,7 +241,7 @@
             form.render()
         })
 
-        $('#student-type-mylist-check').on('click', function() {
+        $('#term-mylist-check').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -246,7 +249,7 @@
                 content: addModalTemp,
                 area: ['700px', '70%'],
                 shade: 0.4,
-                skin: 'student-type-edit-modal',
+                skin: 'term-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
                 yes: function(index, layero) {
@@ -259,23 +262,16 @@
             })
             form.render()
         })
-
-        //开启复选框
-        // tree.render({
-        //     elem: '#test7',
-        //     data: data2,
-        //     showCheckbox: true
-        // })
     })
 </script>
 
 <style>
     #source-manage-mylist {
     }
-    .student-type-edit-modal .layui-layer-content {
+    .term-edit-modal .layui-layer-content {
         padding: 20px;
     }
-    .student-type-remark {
+    .term-remark {
         width: 63%;
     }
 </style>

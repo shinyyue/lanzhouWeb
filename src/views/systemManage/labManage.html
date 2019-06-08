@@ -2,7 +2,7 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>系统管理 > 学生类型</span>
+            <span>系统管理 > 实验室管理</span>
         </div>
         <div class="course-title-search">
             <input type="text" value="请输入关键字" />
@@ -12,65 +12,16 @@
         </div>
     </div>
     <div class="course-add">
-        <button class="primary-btn" id="add_student-type">添加</button>
+        <button class="primary-btn" id="add_lab">添加</button>
     </div>
-    <table
-        id="student-type-mylist-table"
-        lay-filter="student-type-mylist-table"
-    ></table>
+    <table id="lab-mylist-table" lay-filter="lab-mylist-table"></table>
     <script type="text/html" id="sourcelist-opt">
-        <button class="course-set-btn" id="student-type-mylist-edit">编辑</button>
-        <button class="course-set-btn" id="student-type-mylist-delete">删除</button>
-        <button class="course-set-btn" id="student-type-mylist-check">查看</button>
+        <button class="course-set-btn" id="lab-mylist-edit">编辑</button>
+        <button class="course-set-btn" id="lab-mylist-delete">删除</button>
+        <button class="course-set-btn" id="lab-mylist-check">查看</button>
     </script>
-    <div class="app-table-page" id="student-type-mylist-page"></div>
+    <div class="app-table-page" id="lab-mylist-page"></div>
     <!--  -->
-    <div id="college_details_modal">
-        <form action="" class="layui-form">
-            <div class="layui-row">
-                <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">权限名称：</label>
-                    <input
-                        type="text"
-                        name="userName"
-                        class="common-form-input"
-                        value="用户管理"
-                    />
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">权限:</label>
-                    <input
-                        type="text"
-                        name="userName"
-                        class="common-form-input"
-                        value="user.admin"
-                    />
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">权限路径:</label>
-                    <input
-                        type="text"
-                        name="userName"
-                        class="common-form-input"
-                        value="1/11"
-                    />
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">权限描述:</label>
-                    <textarea
-                        name="desc"
-                        class="layui-textarea student-type-remark"
-                    ></textarea>
-                </div>
-            </div>
-        </form>
-    </div>
 </div>
 
 <script>
@@ -78,9 +29,8 @@
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
-            tableFilter = 'student-type-mylist-table',
-            table = layui.table,
-            tree = layui.tree
+            tableFilter = 'lab-mylist-table',
+            table = layui.table
 
         table.render({
             page: false,
@@ -107,12 +57,12 @@
                         align: 'center'
                     },
                     {
-                        title: '类型名称',
+                        title: '实验室名称',
                         field: 'courceName',
                         align: 'center'
                     },
                     {
-                        title: '类型描述',
+                        title: '实验室描述',
                         field: 'responsor',
                         align: 'center'
                     },
@@ -127,13 +77,13 @@
 
         //执行一个laypage实例
         laypage.render({
-            elem: 'student-type-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
+            elem: 'lab-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
             count: 50, //数据总数，从服务端得到
             limit: 10,
             first: '首页',
             last: '尾页',
             hash: 'page',
-            curr: location.hash.replace('#/student-type/mylist&page=', ''),
+            curr: location.hash.replace('#/lab/mylist&page=', ''),
             layout: [
                 'first',
                 'prev',
@@ -152,28 +102,28 @@
             '        <form action="" class="layui-form">\n' +
             '            <div class="layui-row">\n' +
             '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">类型名称：</label>\n' +
+            '                    <label class="layui-form-label">实验室名称：</label>\n' +
             '                    <input\n' +
             '                        type="text"\n' +
             '                        name="userName"\n' +
             '                        class="common-form-input"\n' +
-            '                        value="本科生"\n' +
+            '                        value="第一实验室"\n' +
             '                    />\n' +
             '                </div>\n' +
             '            </div>\n' +
             '            <div class="layui-row">\n' +
             '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">类型描述:</label>\n' +
+            '                    <label class="layui-form-label">实验室描述:</label>\n' +
             '                    <textarea\n' +
             '                        name="desc"\n' +
-            '                        class="layui-textarea student-type-remark"\n' +
+            '                        class="layui-textarea lab-remark"\n' +
             '                    ></textarea>\n' +
             '                </div>\n' +
             '            </div>\n' +
             '        </form>\n' +
             '    </div>'
 
-        $('#add_student-type').on('click', function() {
+        $('#add_lab').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -195,7 +145,7 @@
             form.render()
         })
 
-        $('#student-type-mylist-delete').on('click', function() {
+        $('#lab-mylist-delete').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -216,7 +166,7 @@
             })
         })
 
-        $('#student-type-mylist-edit').on('click', function() {
+        $('#lab-mylist-edit').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -224,7 +174,7 @@
                 content: addModalTemp,
                 area: ['700px', '70%'],
                 shade: 0.4,
-                skin: 'student-type-edit-modal',
+                skin: 'lab-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
                 yes: function(index, layero) {
@@ -238,7 +188,7 @@
             form.render()
         })
 
-        $('#student-type-mylist-check').on('click', function() {
+        $('#lab-mylist-check').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -246,7 +196,7 @@
                 content: addModalTemp,
                 area: ['700px', '70%'],
                 shade: 0.4,
-                skin: 'student-type-edit-modal',
+                skin: 'lab-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
                 yes: function(index, layero) {
@@ -261,21 +211,21 @@
         })
 
         //开启复选框
-        // tree.render({
-        //     elem: '#test7',
-        //     data: data2,
-        //     showCheckbox: true
-        // })
+        tree.render({
+            elem: '#test7',
+            data: data2,
+            showCheckbox: true
+        })
     })
 </script>
 
 <style>
     #source-manage-mylist {
     }
-    .student-type-edit-modal .layui-layer-content {
+    .lab-edit-modal .layui-layer-content {
         padding: 20px;
     }
-    .student-type-remark {
+    .lab-remark {
         width: 63%;
     }
 </style>

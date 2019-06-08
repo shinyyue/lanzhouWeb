@@ -1,10 +1,10 @@
 <div class="common-layout">
     <div class="layout-sider">
         <div class="layui-logo">
-            <img src="src/images/logo_1.png" class="layui-logo-img">
+            <img src="src/images/logo_1.png" class="layui-logo-img" />
         </div>
         <div class="sidebar-user">
-            <img src="src/images/user_logo.png" class="user-logo">
+            <img src="src/images/user_logo.png" class="user-logo" />
             <div class="user-info">
                 <div class="user-info-name">王小虎</div>
                 <div>老师</div>
@@ -14,7 +14,9 @@
         <div id="home_welcome" class="home-welcome">
             <span>Welcome!</span>
             <p>欢迎您使用虚拟仿真实验教学平台！</p>
-            <p>教师在任课期间点击主菜单栏的“答疑室”可接受学生的咨询、整理常见问题、维护答疑库。当您不在答疑室期间，学生针对您所任课程的问题将直接发往您本人登记的电子邮件，请您及时回答学生的问题。</p>
+            <p>
+                教师在任课期间点击主菜单栏的“答疑室”可接受学生的咨询、整理常见问题、维护答疑库。当您不在答疑室期间，学生针对您所任课程的问题将直接发往您本人登记的电子邮件，请您及时回答学生的问题。
+            </p>
         </div>
 
         <ul id="side_nav" class="layui-nav" layui-filter="side_nav"></ul>
@@ -22,7 +24,11 @@
     <div class="layout-right">
         <div class="layout-header">
             <div class="layout-header-left">虚拟仿真实验教学管理平台</div>
-            <ul class="layui-nav layout-header-right" id="header_nav" lay-filter="header_nav">
+            <ul
+                class="layui-nav layout-header-right"
+                id="header_nav"
+                lay-filter="header_nav"
+            >
                 <li class="layui-nav-item" id="logout">退出系统</li>
             </ul>
         </div>
@@ -229,13 +235,74 @@
                             name: '所有用户',
                             path: '/user/all'
                         }]
-                    }]
+                    },{
+                        name: '机构管理',
+                        path: '/orgmanage/college',
+                        child: [{
+                            name: '学院管理',
+                            path: '/orgmanage/college'
+                        }, {
+                            name: '系管理',
+                            path: '/orgmanage/school'
+                        }, {
+                            name: '专业管理',
+                            path: '/orgmanage/profess'
+                        }, {
+                            name: '班管理',
+                            path: '/orgmanage/classes'
+                        }]
+                    }],
                 }, {
                     "name": '系统管理',
-                    "path": '/'
+                    "path": '/systemmanage/rolemanage',
+                    child: [{
+                        name: '系统管理',
+                        path: '/systemmanage/rolemanage',
+                        child: [{
+                            name: '角色管理',
+                            path: '/systemmanage/rolemanage'
+                        }, {
+                            name: '权限管理',
+                            path: '/systemmanage/rulemanage'
+                        }, {
+                            name: '学生类型',
+                            path: '/systemmanage/studenttype'
+                        }, {
+                            name: '教室管理',
+                            path: '/systemmanage/classroommanage'
+                        }, {
+                            name: '实验室管理',
+                            path: '/systemmanage/labmanage'
+                        }, {
+                            name: '实验类型管理',
+                            path: '/systemmanage/testtype'
+                        }, {
+                            name: '规则管理',
+                            path: '/systemmanage/rulemanage'
+                        }, {
+                            name: '周次管理',
+                            path: '/systemmanage/weektimemanage'
+                        }, {
+                            name: '数据备份',
+                            path: '/systemmanage/databackup'
+                        }]
+                    }],    
                 }, {
                     "name": '学期配置',
-                    "path": '/'
+                    "path": '/termdeploy/termset',
+                    child: [{
+                        name: '学期设置',
+                        path: '/termdeploy/termset'
+                    }, {
+                        name: '选课日期',
+                        path: '/termdeploy/courseSelecteDate'
+                    }, {
+                        name: '上课时间',
+                        path: '/termdeploy/classtime'
+                    }, {
+                        name: '年期管理',
+                        path: '/termdeploy/grademanage'
+                    }]
                 }, {
                     "name": '统计管理',
                     "path": '/statistics/tech',
