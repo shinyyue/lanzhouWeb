@@ -215,7 +215,21 @@
                 "role": 'admin',
                 "menu": [{
                     "name": '用户管理',
-                    "path": '/'
+                    "path": '/user/all',
+                    child: [{
+                        name: '用户管理',
+                        path: '/user/all',
+                        child: [{
+                            name: '学生列表',
+                            path: '/user/student'
+                        }, {
+                            name: '教工列表',
+                            path: '/user/teacher'
+                        }, {
+                            name: '所有用户',
+                            path: '/user/all'
+                        }]
+                    }]
                 }, {
                     "name": '系统管理',
                     "path": '/'
@@ -307,8 +321,8 @@
                 if (curSideList[m].child && curSideList[m].child.length > 0) {
                     for (var v = 0; v < curSideList[m].child.length; v++) {
                         var child = curSideList[m].child[v];
-                        childTem += '<dd ' + (child.path === path ?
-                                'active' : '') + '><a target="' + ('' || '') + '" lay-href="' +
+                        childTem += '<dd class="' + (child.path === path ?
+                                'active' : '') + '"><a target="' + ('' || '') + '" lay-href="' +
                             (child.path ||
                                 '') + '">' + child.name + '</a>' +
                             '</dd>'
@@ -334,11 +348,17 @@
                     $(this).addClass('layui-this');
                 }
             })
+
+            $('#side_nav .layui-nav-child dd').on('click', function () {
+                $(this).addClass('active');
+                $(this).siblings().removeClass('active');
+            })
         })
 
         $('#logout').on('click', function () {
             admin.logout()
         })
+
 
         // $(window).on('hashchange', function (e) {
         //     // //移动端跳转链接先把导航关闭
@@ -509,12 +529,22 @@
         color: #fff;
     }
 
-    #side_nav .layui-nav-child a {
-        color: #fff;
-        text-align: center;
+    #side_nav .layui-nav-child dd.active {
+        background: #fff;
+        color: rgba(26, 52, 113, 1);
     }
 
-    #side_nav .layui-nav-child a:hover {
+    #side_nav .layui-nav-child dd.active a {
+        color: rgba(26, 52, 113, 1);
+    }
+
+    #side_nav .layui-nav-child a {
+        color: #fff;
+        padding-left: 50px;
+    }
+
+    #side_nav .layui-nav-child dd a:hover {
+        color: #fff;
         background: rgba(0, 176, 202, 1);
     }
 </style>

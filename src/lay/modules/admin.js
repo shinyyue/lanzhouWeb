@@ -339,7 +339,6 @@ layui
             if ($(window).width() < mobileWidth) {
                 self.flexible(false)
             }
-            console.log('hash------', self.route)
             self.route = layui.router()
             layer.closeAll()
             self.initView(self.route)
