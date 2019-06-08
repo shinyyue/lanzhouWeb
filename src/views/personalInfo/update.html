@@ -16,56 +16,31 @@
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label require">账号</label>
-                    <input
-                        type="text"
-                        require
-                        name="techManageCode"
-                        class="common-form-input"
-                    />
+                    <input type="text" require name="techManageCode" class="common-form-input" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label require">教师(学生)号</label>
-                    <input
-                        type="text"
-                        require
-                        name="techManageCode"
-                        class="common-form-input"
-                    />
+                    <input type="text" require name="techManageCode" class="common-form-input" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">联系电话(手机)</label>
-                    <input
-                        type="text"
-                        require
-                        name="techManageCode"
-                        class="common-form-input"
-                    />
+                    <input type="text" require name="techManageCode" class="common-form-input" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">电子邮箱</label>
-                    <input
-                        type="text"
-                        require
-                        name="techManageCode"
-                        class="common-form-input"
-                    />
+                    <input type="text" require name="techManageCode" class="common-form-input" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">姓名</label>
-                    <input
-                        type="text"
-                        require
-                        name="techManageCode"
-                        class="common-form-input"
-                    />
+                    <input type="text" require name="techManageCode" class="common-form-input" />
                 </div>
             </div>
             <div class="layui-row">
@@ -78,35 +53,19 @@
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">旧密码</label>
-                    <input
-                        type="password"
-                        require
-                        name="techManageCode"
-                        class="common-form-input"
-                        value="123456"
-                    />
+                    <input type="password" require name="techManageCode" class="common-form-input" value="123456" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">密码</label>
-                    <input
-                        type="password"
-                        require
-                        name="techManageCode"
-                        class="common-form-input"
-                    />
+                    <input type="password" require name="techManageCode" class="common-form-input" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">密码确认</label>
-                    <input
-                        type="password"
-                        require
-                        name="techManageCode"
-                        class="common-form-input"
-                    />
+                    <input type="password" require name="techManageCode" class="common-form-input" />
                 </div>
             </div>
 
@@ -114,17 +73,10 @@
                 <div class="layui-form-item layui-col-md12">
                     <label class="layui-form-label"></label>
                     <div>
-                        <button
-                            class="layui-btn primary-btn"
-                            lay-submit
-                            lay-filter="submit"
-                        >
+                        <button class="layui-btn primary-btn" lay-submit lay-filter="submit">
                             提交
                         </button>
-                        <button
-                            class="layui-btn layui-btn-primary cancel-btn"
-                            id="source-add-cancle"
-                        >
+                        <button class="layui-btn layui-btn-primary cancel-btn" id="source-add-cancle">
                             取消
                         </button>
                     </div>
@@ -135,7 +87,7 @@
 </div>
 
 <script>
-    layui.use(['form', 'layedit'], function() {
+    layui.use(['form', 'layedit'], function () {
         var form = layui.form,
             layedit = layui.layedit,
             $ = layui.jquery
@@ -159,13 +111,13 @@
         })
 
         //监听提交
-        form.on('submit(submit)', function(data) {
+        form.on('submit(submit)', function (data) {
             layer.msg(JSON.stringify(data.field))
             return false
         })
 
-        $('#source-add-cancle').on('click', function() {
-            window.history.back(-2)
+        $('#source-add-cancle').on('click', function () {
+            location.href = 'index.html#/personalInfo/personalInfo'
         })
 
         // form.on('submit(back)', function () {
@@ -175,14 +127,13 @@
 </script>
 
 <style>
-    #techManage-add {
-    }
+    #techManage-add {}
 
     #techManage-add .techManage-add-content {
         padding: 15px 0;
     }
 
-    #techManage-add .techManage-good-at > li {
+    #techManage-add .techManage-good-at>li {
         float: left;
         margin-right: 20px;
     }
@@ -221,9 +172,11 @@
     .short .layui-form-select {
         width: 100px;
     }
+
     .short {
         display: inline-block;
     }
+
     .short .layui-input,
     .layui-textarea {
         width: 100px;

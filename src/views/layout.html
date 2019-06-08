@@ -24,11 +24,7 @@
     <div class="layout-right">
         <div class="layout-header">
             <div class="layout-header-left">虚拟仿真实验教学管理平台</div>
-            <ul
-                class="layui-nav layout-header-right"
-                id="header_nav"
-                lay-filter="header_nav"
-            >
+            <ul class="layui-nav layout-header-right" id="header_nav" lay-filter="header_nav">
                 <li class="layui-nav-item" id="logout">退出系统</li>
             </ul>
         </div>
@@ -194,7 +190,7 @@
                     "path": '/chat',
                 }, {
                     "name": '个人信息',
-                    "path": '/',
+                    "path": '/personalinfo/personalinfo',
                 }]
             }, {
                 "role": 'student',
@@ -203,19 +199,67 @@
                     "path": '/student'
                 }, {
                     "name": '选课',
-                    "path": '/checkcourse/preintro'
+                    "path": '/checkcourse/preintro',
+                    child: [{
+                        "name": '选课',
+                        "path": '/checkcourse/preintro'
+                    }, {
+                        "name": '查看已选课单',
+                        "path": '/checkcourse/checkedlist',
+                    }]
+                }, {
+                    "name": '课程内容',
+                    "path": '/checkcourse/preintro',
+                    child: [{
+                        "name": '课程导读',
+                        "path": '/checkcourse/preintro'
+                    }, {
+                        "name": '理论测试',
+                        "path": '/checkcourse/testlist',
+                    }, {
+                        "name": '虚拟实验',
+                        "path": '/checkcourse/virtualtest',
+                    }, {
+                        "name": '实物实验',
+                        "path": '/checkcourse/entityTest',
+                    }, {
+                        "name": '课程评价',
+                        "path": '/checkcourse/courseEvaluate',
+                    }]
                 }, {
                     "name": '资源库',
-                    "path": '/'
+                    "path": '/sourcemanage/mylist',
+                    child: [{
+                        name: '资源库',
+                        "path": '/sourcemanage/mylist',
+                        child: [{
+                            name: '我的收藏',
+                            "path": '/sourcemanage/mylist',
+                        }, {
+                            name: '资源列表',
+                            "path": '/sourcemanage/techlist',
+                        }]
+                    }]
                 }, {
                     "name": '课程表',
-                    "path": '/'
+                    "path": '/schedule/alllist',
+                    child: [{
+                        "name": '课程表',
+                        "path": '/schedule/alllist',
+                        child: [{
+                            name: '学生个人课程表',
+                            "path": '/schedule/teacherlist',
+                        }, {
+                            name: '总课程表',
+                            "path": '/schedule/alllist',
+                        }]
+                    }]
                 }, {
                     "name": '答疑室',
-                    "path": '/'
+                    "path": '/chat'
                 }, {
                     "name": '个人信息',
-                    "path": '/'
+                    "path": '/personalinfo/personalinfo'
                 }]
             }, {
                 "role": 'admin',
@@ -235,7 +279,7 @@
                             name: '所有用户',
                             path: '/user/all'
                         }]
-                    },{
+                    }, {
                         name: '机构管理',
                         path: '/orgmanage/college',
                         child: [{
@@ -286,7 +330,7 @@
                             name: '数据备份',
                             path: '/systemmanage/databackup'
                         }]
-                    }],    
+                    }],
                 }, {
                     "name": '学期配置',
                     "path": '/termdeploy/termset',
@@ -321,7 +365,7 @@
                     }]
                 }, {
                     "name": '个人信息',
-                    "path": '/'
+                    "path": '/personalinfo/personalinfo'
                 }]
             }],
             role = layui.data('user').user.role,
@@ -430,8 +474,26 @@
             })
 
             $('#side_nav .layui-nav-child dd').on('click', function () {
-                $(this).addClass('active');
-                $(this).siblings().removeClass('active');
+                $(this).css('background', '#fff')
+                $(this).find('a').css('color', '#1a3471')
+                $(this).siblings().css('background', '#1a3471')
+                $(this).siblings().find('a').css('color', '#fff')
+                // $(this).addClass('active');
+                // $(this).siblings().removeClass('active');
+            })
+
+            $('#side_nav .layui-nav-item').on('click', function () {
+                $(this).addClass('layui-this')
+                $(this).siblings().removeClass('layui-this')
+                var dl = $(this).find('dl');
+                if (dl) {
+                    // dl.addClass('active');
+                    // dl.siblings().removeClass('active');
+                    $(this).find('dl').css('display', 'block')
+                    if ($(this).siblings().find('dl')) {
+                        $(this).siblings().find('dl').css('display', 'none')
+                    }
+                }
             })
         })
 

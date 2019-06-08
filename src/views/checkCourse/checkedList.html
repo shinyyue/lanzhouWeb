@@ -1,0 +1,100 @@
+<div id="checked-course-list">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>选课 > 个人选课单</span>
+        </div>
+    </div>
+
+    <div class="checked-course-content">
+        <table id="checked_course_table" lay-filter="checked_course_table"></table>
+    </div>
+
+    <script type="text/html" id="checked_course_opt">
+        <button class="layui-btn layui-btn-primary" id="checked_course_check">课程内容</button>
+    </script>
+</div>
+
+<script>
+    layui.use(['table'], function (table) {
+        var table = layui.table,
+            $ = layui.jquery,
+            tableFilter = 'checked_course_table'
+
+        table.render({
+            page: true,
+            data: [{
+                id: 1,
+                courceName: '发电机哈哈',
+                times: 2,
+                time: '星期一',
+                address: '三角',
+                count: 10,
+                score: 80
+            }],
+            elem: '[lay-filter="' + tableFilter + '"]',
+            height: 'full-300',
+            cols: [
+                [{
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center'
+                    },
+                    {
+                        title: '课程名称',
+                        field: 'courceName',
+                        width: 120,
+                        align: 'center'
+
+                    },
+                    {
+                        title: '上课周次',
+                        field: 'times',
+                        minWidth: 120,
+                        align: 'center'
+                    },
+                    {
+                        title: '上课时间',
+                        minWidth: 120,
+                        field: 'time',
+                        align: 'center',
+                    },
+                    {
+                        title: '上课地点',
+                        align: 'center',
+                        field: 'address',
+                        minWidth: 120
+                    },
+                    {
+                        title: '选课人数',
+                        align: 'center',
+                        field: 'count',
+                        minWidth: 120
+                    },
+                    {
+                        field: 'score',
+                        title: '学分',
+                        align: 'center',
+                        width: 80
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        templet: '#checked_course_opt'
+                    }
+                ]
+            ]
+        })
+
+        $('#checked_course_check').on('click', function () {
+            location.href = 'index.html#/checkcourse/preintro'
+        })
+    })
+</script>
+
+<style>
+    #checked-course-list .checked-course-content {
+        padding: 20px;
+    }
+</style>

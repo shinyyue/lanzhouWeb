@@ -11,19 +11,15 @@
             </button>
         </div>
     </div>
-    <table
-        id="class-time-mylist-table"
-        lay-filter="class-time-mylist-table"
-    ></table>
+    <table id="class-time-mylist-table" lay-filter="class-time-mylist-table"></table>
     <div class="course-add">
         <button class="primary-btn" id="update_class_time">修改</button>
     </div>
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'tree', 'laydate'], function(
-        table,
-        $
+    layui.use(['table', 'form', 'tree', 'laydate'], function (
+        table
     ) {
         var $ = layui.jquery,
             form = layui.form,
@@ -42,8 +38,7 @@
         table.render({
             page: false,
             skin: 'row,line',
-            data: [
-                {
+            data: [{
                     id: '第一节',
                     courceName: '第1节',
                     courseCode: '08:00:00',
@@ -59,8 +54,7 @@
             elem: '[lay-filter="' + tableFilter + '"]',
             height: 'full-300',
             cols: [
-                [
-                    {
+                [{
                         title: '大节次',
                         field: 'id',
                         width: 80,
@@ -83,53 +77,53 @@
                     }
                 ]
             ],
-            done: function(res, curr, count) {
+            done: function (res, curr, count) {
                 merge(res, curr, count)
             }
         })
-    })
 
-    function merge(res) {
-        var data = res.data
-        var mergeIndex = 0 //定位需要添加合并属性的行数
-        var mark = 1 //这里涉及到简单的运算，mark是计算每次需要合并的格子数
-        var columsName = ['id', 'name'] //需要合并的列名称
-        var columsIndex = [0, 1] //需要合并的列索引值
+        function merge(res) {
+            var data = res.data
+            var mergeIndex = 0 //定位需要添加合并属性的行数
+            var mark = 1 //这里涉及到简单的运算，mark是计算每次需要合并的格子数
+            var columsName = ['id'] //需要合并的列名称
+            var columsIndex = [0] //需要合并的列索引值
 
-        for (var k = 0; k < columsName.length; k++) {
-            //这里循环所有要合并的列
-            var trArr = $('.layui-table-body>.layui-table').find('tr') //所有行
-            for (var i = 1; i < res.data.length; i++) {
-                //这里循环表格当前的数据
-                var tdCurArr = trArr
-                    .eq(i)
-                    .find('td')
-                    .eq(columsIndex[k]) //获取当前行的当前列
-                var tdPreArr = trArr
-                    .eq(mergeIndex)
-                    .find('td')
-                    .eq(columsIndex[k]) //获取相同列的第一列
+            for (var k = 0; k < columsName.length; k++) {
+                //这里循环所有要合并的列
+                var trArr = $('.layui-table-body>.layui-table').find('tr') //所有行
+                for (var i = 1; i < res.data.length; i++) {
+                    //这里循环表格当前的数据
+                    var tdCurArr = trArr
+                        .eq(i)
+                        .find('td')
+                        .eq(columsIndex[k]) //获取当前行的当前列
+                    var tdPreArr = trArr
+                        .eq(mergeIndex)
+                        .find('td')
+                        .eq(columsIndex[k]) //获取相同列的第一列
 
-                if (data[i][columsName[k]] === data[i - 1][columsName[k]]) {
-                    //后一行的值与前一行的值做比较，相同就需要合并
-                    mark += 1
-                    tdPreArr.each(function() {
-                        //相同列的第一列增加rowspan属性
-                        $(this).attr('rowspan', mark)
-                    })
-                    tdCurArr.each(function() {
-                        //当前行隐藏
-                        $(this).css('display', 'none')
-                    })
-                } else {
-                    mergeIndex = i
-                    mark = 1 //一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
+                    if (data[i][columsName[k]] === data[i - 1][columsName[k]]) {
+                        //后一行的值与前一行的值做比较，相同就需要合并
+                        mark += 1
+                        tdPreArr.each(function () {
+                            //相同列的第一列增加rowspan属性
+                            $(this).attr('rowspan', mark)
+                        })
+                        tdCurArr.each(function () {
+                            //当前行隐藏
+                            $(this).css('display', 'none')
+                        })
+                    } else {
+                        mergeIndex = i
+                        mark = 1 //一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
+                    }
                 }
+                mergeIndex = 0
+                mark = 1
             }
-            mergeIndex = 0
-            mark = 1
         }
-    }
+    })
 </script>
 
 <style></style>
