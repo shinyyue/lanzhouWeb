@@ -1,0 +1,103 @@
+<div id="source-manage-mylist" class="layui-fluid" lay-title="我的资源库">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>系统管理 > 数据备份</span>
+        </div>
+    </div>
+    <div class="course-add">
+        <button class="primary-btn" id="add_data-backup">手动备份</button>
+    </div>
+    <table
+        id="data-backup-mylist-table"
+        lay-filter="data-backup-mylist-table"
+    ></table>
+    <div class="app-table-page" id="data-backup-mylist-page"></div>
+    <!--  -->
+</div>
+
+<script>
+    layui.use(['table', 'jquery', 'form', 'tree'], function(table, $) {
+        var $ = layui.jquery,
+            form = layui.form,
+            laypage = layui.laypage,
+            tableFilter = 'data-backup-mylist-table',
+            table = layui.table
+
+        table.render({
+            page: false,
+            data: [
+                {
+                    id: 1,
+                    courceName: '发电机哈哈',
+                    courseCode: 20190101,
+                    responsor: '王小虎',
+                    time: '第一学期',
+                    class: '所有年级',
+                    isCommon: false,
+                    score: 1
+                }
+            ],
+            elem: '[lay-filter="' + tableFilter + '"]',
+            height: 'full-300',
+            cols: [
+                [
+                    {
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center'
+                    },
+                    {
+                        title: '数据备份日期',
+                        field: 'courceName',
+                        align: 'center'
+                    },
+                    {
+                        title: '版本',
+                        field: 'responsor',
+                        align: 'center'
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        templet: '#sourcelist-opt'
+                    }
+                ]
+            ]
+        })
+
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'data-backup-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
+            count: 50, //数据总数，从服务端得到
+            limit: 10,
+            first: '首页',
+            last: '尾页',
+            hash: 'page',
+            curr: location.hash.replace('#/data-backup/mylist&page=', ''),
+            layout: [
+                'first',
+                'prev',
+                'page',
+                'next',
+                'last',
+                'count',
+                'currLimit',
+                'curr',
+                'pageCount'
+            ]
+        })
+    })
+</script>
+
+<style>
+    #source-manage-mylist {
+    }
+    .data-backup-edit-modal .layui-layer-content {
+        padding: 20px;
+    }
+    .data-backup-remark {
+        width: 63%;
+    }
+</style>
