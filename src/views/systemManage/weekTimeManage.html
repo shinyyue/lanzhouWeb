@@ -2,28 +2,105 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>机构管理 > 机构管理 > 班管理</span>
+            <span>系统管理 > 周次管理</span>
+        </div>
+        <div class="course-title-search">
+            <input type="text" value="请输入关键字" />
+            <button class="search-confirm">
+                <img src="src/images/search.png" />
+            </button>
         </div>
     </div>
     <div class="course-add">
-        <button class="primary-btn" id="add_classes">添加</button>
+        <button class="primary-btn" id="add_week-time">添加</button>
     </div>
-    <table id="classes-mylist-table" lay-filter="classes-mylist-table"></table>
+    <table
+        id="week-time-mylist-table"
+        lay-filter="week-time-mylist-table"
+    ></table>
     <script type="text/html" id="sourcelist-opt">
-        <button class="course-set-btn" id="classes-mylist-edit">编辑</button>
-        <button class="course-set-btn" id="classes-mylist-delete">删除</button>
-        <button class="course-set-btn" id="classes-mylist-check">查看</button>
+        <button class="course-set-btn" id="week-time-mylist-edit">编辑</button>
+        <button class="course-set-btn" id="week-time-mylist-delete">删除</button>
+        <button class="course-set-btn" id="week-time-mylist-check">查看</button>
     </script>
-    <div class="app-table-page" id="classes-mylist-page"></div>
+    <div class="app-table-page" id="week-time-mylist-page"></div>
+    <!--  -->
+    <!-- <div id="college_details_modal">
+        <form action="" class="layui-form">
+            <div class="layui-row">
+                <div class="layui-col-md12 layui-form-item">
+                    <label class="layui-form-label">学期：</label>
+                    <div class="layui-input-block">
+                        <input
+                            type="radio"
+                            name="sex"
+                            value="第1学期"
+                            title="第1学期"
+                        />
+                        <input
+                            type="radio"
+                            name="sex"
+                            value="第1学期"
+                            title="第1学期"
+                            checked
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md12 layui-form-item">
+                    <label class="layui-form-label">学年:</label>
+                    <input
+                        type="text"
+                        name="userName"
+                        class="common-form-input"
+                        value="2018-2019"
+                    />
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md12 layui-form-item">
+                    <label class="layui-form-label">周次名称:</label>
+                    <input
+                        type="text"
+                        name="userName"
+                        class="common-form-input"
+                        value="第1周"
+                    />
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md12 layui-form-item">
+                    <label class="layui-form-label">周次日期:</label>
+                    <div class="layui-inline">
+                        <input type="text" class="layui-input" id="test1" />
+                        <span>--</span>
+                        <input type="text" class="layui-input" id="test2" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div> -->
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form'], function(table, $) {
+    layui.use(['table', 'jquery', 'form', 'tree', 'laydate'], function(
+        table,
+        $
+    ) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
-            tableFilter = 'classes-mylist-table',
-            table = layui.table
+            tableFilter = 'week-time-mylist-table',
+            table = layui.table,
+            laydate = layui.laydate
+
+        //执行一个laydate实例
+        //日期范围
+        laydate.render({
+            elem: '#test1',
+            range: true
+        })
 
         table.render({
             page: false,
@@ -50,22 +127,22 @@
                         align: 'center'
                     },
                     {
-                        title: '班名称',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '班编码',
+                        title: '学年',
                         field: 'courceName',
                         align: 'center'
                     },
                     {
-                        title: '机构类型',
-                        field: 'courseCode',
+                        title: '学期',
+                        field: 'responsor',
                         align: 'center'
                     },
                     {
-                        title: '备注',
+                        title: '周次名称',
+                        field: 'courceName',
+                        align: 'center'
+                    },
+                    {
+                        title: '周次日期',
                         field: 'responsor',
                         align: 'center'
                     },
@@ -80,13 +157,13 @@
 
         //执行一个laypage实例
         laypage.render({
-            elem: 'classes-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
+            elem: 'week-time-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
             count: 50, //数据总数，从服务端得到
             limit: 10,
             first: '首页',
             last: '尾页',
             hash: 'page',
-            curr: location.hash.replace('#/classes/mylist&page=', ''),
+            curr: location.hash.replace('#/week-time/mylist&page=', ''),
             layout: [
                 'first',
                 'prev',
@@ -101,59 +178,62 @@
         })
 
         addModalTemp =
-            '<div id="classes_details_modal">\n' +
+            '<div id="college_details_modal">\n' +
             '        <form action="" class="layui-form">\n' +
             '            <div class="layui-row">\n' +
             '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">上级机构：</label>\n' +
-            '                    <span>兰州交通大学</span>\n' +
+            '                    <label class="layui-form-label">学期：</label>\n' +
+            '                    <div class="layui-input-block">\n' +
+            '                        <input\n' +
+            '                            type="radio"\n' +
+            '                            name="sex"\n' +
+            '                            value="第1学期"\n' +
+            '                            title="第1学期"\n' +
+            '                        />\n' +
+            '                        <input\n' +
+            '                            type="radio"\n' +
+            '                            name="sex"\n' +
+            '                            value="第2学期"\n' +
+            '                            title="第2学期"\n' +
+            '                            checked\n' +
+            '                        />\n' +
+            '                    </div>\n' +
             '                </div>\n' +
             '            </div>\n' +
             '            <div class="layui-row">\n' +
             '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">学院名称:</label>\n' +
+            '                    <label class="layui-form-label">学年:</label>\n' +
             '                    <input\n' +
             '                        type="text"\n' +
             '                        name="userName"\n' +
             '                        class="common-form-input"\n' +
-            '                        value="土木工程学院"\n' +
+            '                        value="2018-2019"\n' +
             '                    />\n' +
             '                </div>\n' +
             '            </div>\n' +
             '            <div class="layui-row">\n' +
             '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">学院编码:</label>\n' +
+            '                    <label class="layui-form-label">周次名称:</label>\n' +
             '                    <input\n' +
             '                        type="text"\n' +
             '                        name="userName"\n' +
             '                        class="common-form-input"\n' +
-            '                        value="001"\n' +
+            '                        value="第1周"\n' +
             '                    />\n' +
             '                </div>\n' +
             '            </div>\n' +
             '            <div class="layui-row">\n' +
             '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">类型:</label>\n' +
-            '                    <select>\n' +
-            '                        <option value=""></option>\n' +
-            '                        <option value="学院">学院</option>\n' +
-            '                        <option value="土木工程学2">系</option>\n' +
-            '                    </select>\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">备注:</label>\n' +
-            '                    <textarea\n' +
-            '                        name="desc"\n' +
-            '                        class="layui-textarea classes-remark"\n' +
-            '                    ></textarea>\n' +
+            '                    <label class="layui-form-label">周次日期:</label>\n' +
+            '                    <div class="layui-inline">\n' +
+            '                        <input type="text" class="layui-input" id="test1" />\n' +
+            '                    </div>\n' +
             '                </div>\n' +
             '            </div>\n' +
             '        </form>\n' +
             '    </div>'
 
-        $('#add_classes').on('click', function() {
+        $('#add_week-time').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -175,7 +255,7 @@
             form.render()
         })
 
-        $('#classes-mylist-delete').on('click', function() {
+        $('#week-time-mylist-delete').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -196,7 +276,7 @@
             })
         })
 
-        $('#classes-mylist-edit').on('click', function() {
+        $('#week-time-mylist-edit').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -204,7 +284,7 @@
                 content: addModalTemp,
                 area: ['700px', '70%'],
                 shade: 0.4,
-                skin: 'classes-edit-modal',
+                skin: 'week-time-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
                 yes: function(index, layero) {
@@ -218,7 +298,7 @@
             form.render()
         })
 
-        $('#classes-mylist-check').on('click', function() {
+        $('#week-time-mylist-check').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -226,7 +306,7 @@
                 content: addModalTemp,
                 area: ['700px', '70%'],
                 shade: 0.4,
-                skin: 'classes-edit-modal',
+                skin: 'week-time-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
                 yes: function(index, layero) {
@@ -245,10 +325,10 @@
 <style>
     #source-manage-mylist {
     }
-    .classes-edit-modal .layui-layer-content {
+    .week-time-edit-modal .layui-layer-content {
         padding: 20px;
     }
-    .classes-remark {
+    .week-time-remark {
         width: 63%;
     }
 </style>

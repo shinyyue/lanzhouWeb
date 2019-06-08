@@ -2,29 +2,115 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>机构管理 > 机构管理 > 班管理</span>
+            <span>系统管理 > 角色列表</span>
+        </div>
+        <div class="course-title-search">
+            <input type="text" value="请输入关键字" />
+            <button class="search-confirm">
+                <img src="src/images/search.png" />
+            </button>
         </div>
     </div>
     <div class="course-add">
-        <button class="primary-btn" id="add_classes">添加</button>
+        <button class="primary-btn" id="add_role">添加</button>
     </div>
-    <table id="classes-mylist-table" lay-filter="classes-mylist-table"></table>
+    <table id="role-mylist-table" lay-filter="role-mylist-table"></table>
     <script type="text/html" id="sourcelist-opt">
-        <button class="course-set-btn" id="classes-mylist-edit">编辑</button>
-        <button class="course-set-btn" id="classes-mylist-delete">删除</button>
-        <button class="course-set-btn" id="classes-mylist-check">查看</button>
+        <button class="course-set-btn" id="role-mylist-edit">编辑</button>
+        <button class="course-set-btn" id="role-mylist-delete">删除</button>
+        <button class="course-set-btn" id="role-mylist-check">查看</button>
     </script>
-    <div class="app-table-page" id="classes-mylist-page"></div>
+    <div class="app-table-page" id="role-mylist-page"></div>
+    <!--  -->
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form'], function(table, $) {
+    layui.use(['table', 'jquery', 'form', 'tree'], function(table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
-            tableFilter = 'classes-mylist-table',
-            table = layui.table
-
+            tableFilter = 'role-mylist-table',
+            table = layui.table,
+            tree = layui.tree
+        //模拟数据2
+        data2 = [
+            {
+                title: '早餐',
+                id: 1,
+                children: [
+                    {
+                        title: '油条',
+                        id: 5
+                    },
+                    {
+                        title: '包子',
+                        id: 6
+                    },
+                    {
+                        title: '豆浆',
+                        id: 7
+                    }
+                ]
+            },
+            {
+                title: '午餐',
+                id: 2,
+                checked: true,
+                children: [
+                    {
+                        title: '藜蒿炒腊肉',
+                        id: 8
+                    },
+                    {
+                        title: '西湖醋鱼',
+                        id: 9
+                    },
+                    {
+                        title: '小白菜',
+                        id: 10
+                    },
+                    {
+                        title: '海带排骨汤',
+                        id: 11
+                    }
+                ]
+            },
+            {
+                title: '晚餐',
+                id: 3,
+                children: [
+                    {
+                        title: '红烧肉',
+                        id: 12,
+                        fixed: true
+                    },
+                    {
+                        title: '番茄炒蛋',
+                        id: 13
+                    }
+                ]
+            },
+            {
+                title: '夜宵',
+                id: 4,
+                children: [
+                    {
+                        title: '小龙虾',
+                        id: 14,
+                        checked: true
+                    },
+                    {
+                        title: '香辣蟹',
+                        id: 15,
+                        disabled: true
+                    },
+                    {
+                        title: '烤鱿鱼',
+                        id: 16
+                    }
+                ]
+            }
+        ]
         table.render({
             page: false,
             data: [
@@ -50,22 +136,32 @@
                         align: 'center'
                     },
                     {
-                        title: '班名称',
+                        title: '角色名称',
                         field: 'courseCode',
                         align: 'center'
                     },
                     {
-                        title: '班编码',
+                        title: '英文名称',
                         field: 'courceName',
                         align: 'center'
                     },
                     {
-                        title: '机构类型',
+                        title: '显示顺序',
                         field: 'courseCode',
                         align: 'center'
                     },
                     {
-                        title: '备注',
+                        title: '创建用户',
+                        field: 'responsor',
+                        align: 'center'
+                    },
+                    {
+                        title: '创建时间',
+                        field: 'responsor',
+                        align: 'center'
+                    },
+                    {
+                        title: '角色描述',
                         field: 'responsor',
                         align: 'center'
                     },
@@ -80,13 +176,13 @@
 
         //执行一个laypage实例
         laypage.render({
-            elem: 'classes-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
+            elem: 'role-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
             count: 50, //数据总数，从服务端得到
             limit: 10,
             first: '首页',
             last: '尾页',
             hash: 'page',
-            curr: location.hash.replace('#/classes/mylist&page=', ''),
+            curr: location.hash.replace('#/role/mylist&page=', ''),
             layout: [
                 'first',
                 'prev',
@@ -101,59 +197,60 @@
         })
 
         addModalTemp =
-            '<div id="classes_details_modal">\n' +
+            '<div id="college_details_modal">\n' +
             '        <form action="" class="layui-form">\n' +
             '            <div class="layui-row">\n' +
             '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">上级机构：</label>\n' +
-            '                    <span>兰州交通大学</span>\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">学院名称:</label>\n' +
+            '                    <label class="layui-form-label">角色名称：</label>\n' +
             '                    <input\n' +
             '                        type="text"\n' +
             '                        name="userName"\n' +
             '                        class="common-form-input"\n' +
-            '                        value="土木工程学院"\n' +
+            '                        value="管理员"\n' +
             '                    />\n' +
             '                </div>\n' +
             '            </div>\n' +
             '            <div class="layui-row">\n' +
             '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">学院编码:</label>\n' +
+            '                    <label class="layui-form-label">英文名称:</label>\n' +
             '                    <input\n' +
             '                        type="text"\n' +
             '                        name="userName"\n' +
             '                        class="common-form-input"\n' +
-            '                        value="001"\n' +
+            '                        value="admin"\n' +
             '                    />\n' +
             '                </div>\n' +
             '            </div>\n' +
             '            <div class="layui-row">\n' +
             '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">类型:</label>\n' +
-            '                    <select>\n' +
-            '                        <option value=""></option>\n' +
-            '                        <option value="学院">学院</option>\n' +
-            '                        <option value="土木工程学2">系</option>\n' +
-            '                    </select>\n' +
+            '                    <label class="layui-form-label">显示顺序:</label>\n' +
+            '                    <input\n' +
+            '                        type="text"\n' +
+            '                        name="userName"\n' +
+            '                        class="common-form-input"\n' +
+            '                        value="1"\n' +
+            '                    />\n' +
             '                </div>\n' +
             '            </div>\n' +
             '            <div class="layui-row">\n' +
             '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">备注:</label>\n' +
+            '                    <label class="layui-form-label">分配权限:</label>\n' +
+            '                    <div id="test7" class="demo-tree"></div>\n' +
+            '                </div>\n' +
+            '            </div>\n' +
+            '            <div class="layui-row">\n' +
+            '                <div class="layui-col-md12 layui-form-item">\n' +
+            '                    <label class="layui-form-label">角色描述:</label>\n' +
             '                    <textarea\n' +
             '                        name="desc"\n' +
-            '                        class="layui-textarea classes-remark"\n' +
+            '                        class="layui-textarea role-remark"\n' +
             '                    ></textarea>\n' +
             '                </div>\n' +
             '            </div>\n' +
             '        </form>\n' +
             '    </div>'
 
-        $('#add_classes').on('click', function() {
+        $('#add_role').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -175,7 +272,7 @@
             form.render()
         })
 
-        $('#classes-mylist-delete').on('click', function() {
+        $('#role-mylist-delete').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -196,7 +293,7 @@
             })
         })
 
-        $('#classes-mylist-edit').on('click', function() {
+        $('#role-mylist-edit').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -204,7 +301,7 @@
                 content: addModalTemp,
                 area: ['700px', '70%'],
                 shade: 0.4,
-                skin: 'classes-edit-modal',
+                skin: 'role-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
                 yes: function(index, layero) {
@@ -218,7 +315,7 @@
             form.render()
         })
 
-        $('#classes-mylist-check').on('click', function() {
+        $('#role-mylist-check').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -226,7 +323,7 @@
                 content: addModalTemp,
                 area: ['700px', '70%'],
                 shade: 0.4,
-                skin: 'classes-edit-modal',
+                skin: 'role-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
                 yes: function(index, layero) {
@@ -238,6 +335,13 @@
                 }
             })
             form.render()
+        })
+
+        //开启复选框
+        tree.render({
+            elem: '#test7',
+            data: data2,
+            showCheckbox: true
         })
     })
 </script>
@@ -245,10 +349,10 @@
 <style>
     #source-manage-mylist {
     }
-    .classes-edit-modal .layui-layer-content {
+    .role-edit-modal .layui-layer-content {
         padding: 20px;
     }
-    .classes-remark {
+    .role-remark {
         width: 63%;
     }
 </style>
