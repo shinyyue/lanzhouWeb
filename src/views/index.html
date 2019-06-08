@@ -5,7 +5,7 @@
     </div>
     <table id="list-table" lay-filter="list-table"></table>
     <script type="text/html" id="course-opt">
-        <button class="course-set-btn ">课程设置</button>
+        <button class="course-set-btn " id="course-set">课程设置</button>
     </script>
     <div class="app-table-page" id="home-table-page">
     </div>
@@ -36,9 +36,11 @@
 
 
 <script>
-    layui.use(['table', 'jquery'], function (table, $) {
+    layui.use(['table', 'jquery', 'admin'], function (table, $) {
         var tableFilter = 'list-table';
         var laypage = layui.laypage;
+        var admin = layui.admin,
+            route = layui.router();
 
         table.render({
             page: false,
@@ -118,6 +120,14 @@
             curr: location.hash.replace('#!page=', ''),
             layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount']
         });
+
+        $('#course-set').on('click', function () {
+            console.log(11, admin.initPage)
+            window.location.href = 'index.html#/techset/techpre'
+            admin.initView(route)
+        })
+
+
 
     })
 </script>

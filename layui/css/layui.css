@@ -3841,16 +3841,16 @@ body .layui-table-tips .layui-layer-content {
 }
 
 .layui-nav-child {
-    display: none;
-    position: absolute;
+    /* display: none; */
+    /* position: absolute; */
     left: 0;
-    top: 65px;
+    /* top: 65px; */
     min-width: 100%;
     line-height: 36px;
-    padding: 5px 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
-    border: 1px solid #d2d2d2;
-    background-color: #fff;
+    /* padding: 5px 0; */
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, .12); */
+    /* border: 1px solid #d2d2d2; */
+    /* background-color: #fff; */
     z-index: 100;
     border-radius: 2px;
     white-space: nowrap

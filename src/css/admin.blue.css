@@ -219,6 +219,10 @@ a {
 */
 #app-body {
     width: 1110px;
+    height: calc(100% - 50px);
+    max-height: 80%;
+    overflow: auto;
+    box-sizing: border-box;
 }
 
 #app-body>.layui-fluid {}

@@ -41,7 +41,7 @@
             navbar = layui.navbar(),
             admin = layui.admin,
             route = layui.router(),
-            currentPath = typeof route === 'string' ? route.split('#')[1] : '/';
+            currentPath = typeof route === 'string' ? (route.split('#')[1] || '/') : '/';
 
         var menuList = [{
                 "role": 'teacher',
@@ -57,6 +57,56 @@
                         path: '/course/index',
                         child: []
                     }]
+                }, {
+                    "name": '课程设置',
+                    "path": '/techset/techpre',
+                    child: [{
+                            name: '课程导读',
+                            path: '/techset/techpre',
+                            child: []
+                        },
+                        {
+                            name: '试卷管理',
+                            path: '/techset/papermanage',
+                            child: []
+                        },
+                        {
+                            name: '实验准备',
+                            path: '/techset/readynew',
+                            child: [{
+                                name: '布置新实验',
+                                path: '/techset/readynew',
+                            }, {
+                                name: '已安排实验',
+                                path: '/techset/readylist',
+                            }]
+                        },
+                        {
+                            name: '实验过程',
+                            path: '/techset/processtest',
+                            child: []
+                        },
+                        {
+                            name: '实验结果',
+                            path: '/techset/resulttest',
+                            child: [{
+                                name: '实验结果',
+                                path: '/techset/resulttest',
+                                child: [{
+                                    name: '实验批改',
+                                    path: '/techset/resulttest',
+                                }, {
+                                    name: '成绩导出',
+                                    path: '/techset/scoreout',
+                                }]
+                            }],
+                        },
+                        {
+                            name: '实验评价',
+                            path: '/techset/evaluate',
+                            child: []
+                        },
+                    ]
                 }, {
                     "name": '开课管理',
                     "path": '/techmanage/index',
@@ -78,7 +128,7 @@
                     "path": '/experiment/mylist',
                     child: [{
                         name: '实验管理',
-                        path: '/experiment/refer',
+                        path: '/experiment/mylist',
                         child: [{
                             name: '参考实验库',
                             path: '/experiment/refer',
@@ -104,12 +154,38 @@
                 }, {
                     "name": '题库管理',
                     "path": '/examine/knowledge',
+                    child: [{
+                        name: '题库管理',
+                        path: '/examine/knowledge',
+                        child: [{
+                            name: '知识点',
+                            path: '/examine/knowledge'
+                        }, {
+                            name: '习题库',
+                            path: '/examine/examlist'
+                        }, {
+                            name: '试卷策略',
+                            path: '/examine/ploy'
+                        }]
+                    }]
+
                 }, {
                     "name": '课程表',
-                    "path": '/',
+                    "path": '/schedule/teacherlist',
+                    child: [{
+                        "name": '课程表',
+                        "path": '/schedule/teacherlist',
+                        child: [{
+                            "name": '教师个人课程表',
+                            "path": '/schedule/teacherlist',
+                        }, {
+                            "name": '总课程表',
+                            "path": '/schedule/alllist',
+                        }]
+                    }]
                 }, {
                     "name": '答疑室',
-                    "path": '/',
+                    "path": '/chat',
                 }, {
                     "name": '个人信息',
                     "path": '/',
@@ -167,15 +243,15 @@
         for (var j = 0; j < currentFirstMenuList.length; j++) {
             var curPath = currentFirstMenuList[j].path;
             headerNavTemp +=
-                '<li class="layui-nav-item ' + (currentPath === curPath ? 'active' : '') + '" data-path=" ' +
-                curPath + ' ">' +
+                '<li class="layui-nav-item ' + (currentPath === curPath ? 'active' : '') + '" data-path="' +
+                curPath + '">' +
                 currentFirstMenuList[j].name + '</li>'
         }
 
         $('#header_nav').html(headerNavTemp + $('#header_nav').html())
 
         $(document).on('click', '#header_nav li', function () {
-            var path = $(this).data('path') && $(this).data('path').trim(),
+            var path = $(this).data('path'),
                 index = $(this).index(),
                 curSideList = currentFirstMenuList[index] && currentFirstMenuList[index].child
 
@@ -183,28 +259,19 @@
             $(this).addClass('active');
             $(this).siblings().removeClass('active');
             // todo: 根据角色决定默认的路由是 / 还是/student 或者其他。
-            window.location.href = 'index.html#' + path || '/'
-
-            // 找到此一级菜单对应的侧边二级菜单
-            if (!curSideList || curSideList.length === 0) return;
-            for (var k = 0; k < curSideList.length; k++) {
-                curSideList[k].title = curSideList[k].name;
-                curSideList[k].href = curSideList[k].path;
-                curSideList[k].spread = curSideList[k].path === path;
-
-                if (curSideList[k].child && curSideList[k].child.length > 0) {
-
-                }
-            }
-
+            window.location.href = ('index.html#' + path) || '/'
 
             if (path === '/student') {
+                $('#home_welcome').css('display', 'block')
+                $('#side_nav').css('display', 'none')
                 $('#home_welcome').html(
                     '<span>Welcome!</span>' +
                     '<p>欢迎您使用虚拟仿真实验教学平台！</p>' +
                     '<p>如有困难请点击主菜单栏的“答疑室”搜索常见问题或者向网上值班的老师提问。如果教师不在线你的问题将自动发送到教师的邮箱中。</p>'
                 )
             } else if (path === '/') {
+                $('#home_welcome').css('display', 'block')
+                $('#side_nav').css('display', 'none')
                 $('#home_welcome').html(
                     '<span>Welcome!</span>' +
                     '<p>欢迎您使用虚拟仿真实验教学平台！</p>' +
@@ -212,6 +279,16 @@
                 )
             } else {
                 $('#home_welcome').css('display', 'none')
+                $('#side_nav').css('display', 'block')
+            }
+
+
+            // 找到此一级菜单对应的侧边二级菜单
+            if (!curSideList || curSideList.length === 0) return;
+            for (var k = 0; k < curSideList.length; k++) {
+                curSideList[k].title = curSideList[k].name;
+                curSideList[k].href = curSideList[k].path;
+                curSideList[k].spread = curSideList[k].path === path;
             }
 
             navbar.set({
@@ -222,25 +299,39 @@
 
             navbar.render();
 
+            var temp = '';
+            for (var m = 0; m < curSideList.length; m++) {
+
+                var childTem = ''
+
+                if (curSideList[m].child && curSideList[m].child.length > 0) {
+                    for (var v = 0; v < curSideList[m].child.length; v++) {
+                        var child = curSideList[m].child[v];
+                        childTem += '<dd ' + (child.path === path ?
+                                'active' : '') + '><a target="' + ('' || '') + '" lay-href="' +
+                            (child.path ||
+                                '') + '">' + child.name + '</a>' +
+                            '</dd>'
+                    }
+                    childTem = '<dl class="layui-nav-child">' + childTem + '</dd>'
+                }
+
+                temp += '<li class="layui-nav-item"><a href="/index.html#' + curSideList[m].path +
+                    '" data-url="' + curSideList[m].path + '"><cite>' + curSideList[m].name +
+                    '</cite></a>' +
+                    childTem +
+                    '</li>'
+
+            }
+            $('#side_nav').html(temp)
+
+
 
             $('#side_nav .layui-nav-item').each(function () {
                 var index = $(this).index()
+
                 if ($(this).find('a').data('url') === path) {
                     $(this).addClass('layui-this');
-                    if (curSideList[index].child && curSideList[index].child.length > 0) {
-                        for (var v = 0; v < curSideList[index].child.length; v++) {
-                            var temp = '',
-                                child = curSideList[index].child[v];
-                            temp += '<dl class="layui-nav-child" ' + (child.path === path ?
-                                    'active' : '') + '>' +
-                                '<dd><a target="' + ('' || '') + '" lay-href="' + (child.path ||
-                                    '') + '">' + child.name + '</a>' +
-                                '</dd>' +
-                                '</dl>'
-                            $(this).html($(this).html() + temp)
-                        }
-
-                    }
                 }
             })
         })
@@ -249,21 +340,16 @@
             admin.logout()
         })
 
-
-
-
-
-
-
-        // 
-
-        //监听点击事件
-        // navbar.on('click(side_nav)', function (data) {
-        //     console.log(111, data)
-
-        //     var childHtml = data.field.href; //获取当前点击项的路径
-        //     // $(".layui-body iframe").attr("src", childHtml); //将路径赋值给右侧iframe
-        // });
+        // $(window).on('hashchange', function (e) {
+        //     // //移动端跳转链接先把导航关闭
+        //     // if ($(window).width() < mobileWidth) {
+        //     //     self.flexible(false)
+        //     // }
+        //     console.log('hash------', e)
+        //     // troute = layui.router()
+        //     layer.closeAll()
+        //     admin.initView(route)
+        // })
 
 
 
@@ -296,6 +382,14 @@
 </script>
 
 <style>
+    #app-body {
+        width: 1130px;
+        height: calc(100% - 50px);
+        max-height: 80%;
+        overflow: auto;
+        box-sizing: border-box;
+    }
+
     .common-layout {
         width: 1350px;
         height: 100%;
@@ -307,6 +401,7 @@
         height: 100%;
         background: rgba(26, 52, 113, 1);
         float: left;
+        overflow: auto;
     }
 
     .layui-logo {
@@ -377,7 +472,7 @@
 
     .layui-nav .layui-nav-item {
         float: left;
-        height: 50px;
+        /* height: 50px; */
         line-height: 50px;
         cursor: pointer;
         padding: 0 12px;
@@ -405,8 +500,18 @@
         line-height: 50px;
     }
 
-    #side_nav .layui-nav .layui-nav-item {
+    #side_nav.layui-nav .layui-nav-item {
         padding: 0;
+    }
+
+    #side_nav .layui-nav-child {
+        background: rgba(26, 52, 113, 1);
+        color: #fff;
+    }
+
+    #side_nav .layui-nav-child a {
+        color: #fff;
+        text-align: center;
     }
 
     #side_nav .layui-nav-child a:hover {

@@ -83,6 +83,7 @@ layui
             layui.each(layui.conf.style, function (index, url) {
                 layui.link(url + '?v=' + conf.v)
             })
+
             self.initView(self.route)
         }
         self.post = function (params) {
@@ -140,7 +141,7 @@ layui
                     //加载layout文件
                     view.renderLayout(function () {
                         //重新渲染导航
-                        element.render('nav', 'nepadmin-sidebar')
+                        element.render('nav', 'side_nav')
                         //加载视图文件
                         loadRenderPage()
                     })
@@ -338,6 +339,7 @@ layui
             if ($(window).width() < mobileWidth) {
                 self.flexible(false)
             }
+            console.log('hash------', self.route)
             self.route = layui.router()
             layer.closeAll()
             self.initView(self.route)

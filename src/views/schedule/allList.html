@@ -1,0 +1,107 @@
+<div id="schedule-all-list" lay-title="总课程表">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>课程表 > 总课程表</span>
+        </div>
+    </div>
+    <div class="layui-tab" lay-filter="weekTab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">周一</li>
+            <li>周二</li>
+            <li>周三</li>
+            <li>周四</li>
+            <li>周五</li>
+            <li>周六</li>
+            <li>周日</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item  layui-show">
+                <table id="schedule-all-table" lay-filter="schedule-all-table"></table>
+            </div>
+            <!-- <table id="schedule-all-table" lay-filter="schedule-all-table"></table> -->
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['element', 'table'], function (table) {
+        var element = layui.element,
+            table = layui.table,
+            tableFilter = 'schedule-all-table'
+
+        table.render({
+            page: true,
+            data: [{
+                id: '1',
+                courceName: '发电机哈哈',
+                courseCode: 20190101,
+                responsor: '计算机网路',
+                time: '第一学期',
+                class: '所有年级',
+                isCommon: false,
+                score: 1
+            }],
+            elem: '[lay-filter="' + tableFilter + '"]',
+            height: 'full-300',
+            cols: [
+                [{
+                        title: '课程名称',
+                        field: 'courceName',
+                        align: 'center'
+                    },
+                    {
+                        title: '上课周次',
+                        field: 'courseCode',
+                        align: 'center'
+                    },
+                    {
+                        title: '上课时间',
+                        field: 'courceName',
+                        align: 'center'
+
+                    },
+                    {
+                        title: '上课地点',
+                        field: 'courseCode',
+                        align: 'center'
+                    },
+                    {
+                        title: '授课老师',
+                        field: 'responsor',
+                        align: 'center',
+                    }
+                ]
+            ]
+        })
+
+        element.on('tab(weekTab)', function () {});
+
+    });
+</script>
+
+
+
+<style>
+    #schedule-all-list {}
+
+    .layui-badge-rim,
+    .layui-colla-content,
+    .layui-colla-item,
+    .layui-collapse,
+    .layui-elem-field,
+    .layui-form-pane .layui-form-item[pane],
+    .layui-form-pane .layui-form-label,
+    .layui-input,
+    .layui-layedit,
+    .layui-layedit-tool,
+    .layui-quote-nm,
+    .layui-select,
+    .layui-tab-bar,
+    .layui-tab-card,
+    .layui-tab-title,
+    .layui-tab-title .layui-this:after,
+    .layui-textarea {
+        border-color: #999;
+    }
+</style>
