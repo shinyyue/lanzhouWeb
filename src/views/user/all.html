@@ -39,93 +39,6 @@
         <button class="course-set-btn" id="user_all_check">查看</button>
         <button class="course-set-btn" id="user_all_reset">重置密码</button>
     </script>
-
-    <div id="user_details_modal">
-        <form action="" class="layui-form">
-            <div class="layui-row">
-                <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">学(工)号:</label>
-                    <input type="text" name="userId" class="common-form-input">
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">姓名:</label>
-                    <input type="text" name="userName" class="common-form-input">
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">性别:</label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="sex" value="男" title="男">
-                        <input type="radio" name="sex" value="女" title="女">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">行政班级:</label>
-                    <div class="user-class">
-                        <select name="class1">
-                            <option value=""></option>
-                            <option value="土木工程学1">土木工程学1</option>
-                            <option value="土木工程学2">土木工程学2</option>
-                        </select>
-                        <select name="class2">
-                            <option value=""></option>
-                            <option value="工程管理1">工程管理1</option>
-                            <option value="工程管理2">工程管理2</option>
-                        </select>
-                        <select name="class3">
-                            <option value=""></option>
-                            <option value="工程管理1">工程管理1</option>
-                            <option value="工程管理2">工程管理1</option>
-                        </select>
-                        <select name="class4">
-                            <option value=""></option>
-                            <option value="一班">一班</option>
-                            <option value="一班">一班</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">手机:</label>
-                    <input type="text" name="userName" class="common-form-input">
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">邮箱:</label>
-                    <input type="text" name="userName" class="common-form-input">
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">初始密码:</label>
-                    <span>123456</span>
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">状态:</label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="status" value="启用" title="启用">
-                        <input type="radio" name="status" value="停用" title="停用">
-                    </div>
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">备注:</label>
-                    <textarea name="desc" class="layui-textarea user-remark"></textarea>
-                </div>
-            </div>
-        </form>
-    </div>
-
 </div>
 
 <script>
@@ -133,11 +46,13 @@
         var $ = layui.jquery,
             form = layui.form,
             modalTemplate = '',
+            importModalTemplate = '',
             table = layui.table,
             tableFilter = 'user_all_table'
 
-        form.render();
-        modalTemplate = '<div class="system-tip-modal">' +
+
+        modalTemplate =
+            '<div class="system-tip-modal">' +
             '<div class="system-tips">根据虚拟仿真实验教学管理平台的要求，您需要进一步完善个人的手机和邮箱信息，才能保证正常使用本平台课程的学习和实验操作功能。</div>' +
             '<form action="" class="layui-form">' +
             '<div class="system-tip-form">' +
@@ -151,7 +66,8 @@
             '</form>' +
             '</div>'
 
-        addModalTemp = '<div id="user_details_modal">' +
+        addModalTemp =
+            '<div id="user_details_modal">' +
             '<form action="" class="layui-form">' +
             '<div class="layui-row">' +
             '<div class="layui-col-md12 layui-form-item">' +
@@ -237,21 +153,53 @@
             '</form>' +
             '</div>'
 
-        // layer.open({
-        //     type: 1,
-        //     offset: 'auto',
-        //     title: '系统提示',
-        //     content: modalTemplate,
-        //     area: ['500px', '400px'],
-        //     skin: 'import-modal',
-        //     shade: 0.4,
-        //     shadeClose: true,
-        //     btn: ['提交'],
-        //     yes: function (index, layero) {
-        //         // 提交
-        //         layer.close(index);
-        //     }
-        // })
+        importModalTemplate =
+            `<form action="" class="layui-form my-add-form">
+                <div class="layui-row">
+                    <div class="layui-col-md12 layui-form-item">
+                        <label class="layui-form-label">所属部门</label>
+                        <select class="layui-unselect layui-form-select">
+                            <option value="">选择</option>
+                            <option value="021">部门1</option>
+                            <option value="022">部门2</option>
+                            <option value="023">部门3</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-md12 layui-form-item">
+                        <label class="layui-form-label">上传</label>
+                        <button type="button" class="layui-btn layui-btn-primary">上传表格</button>
+                        <button type="button" class="layui-btn " style="background: rgba(0,193,222,1)">下载模版</button>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-md12 layui-form-item">
+                        <input type="file"><span style="color: red">删除</span>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-md12 layui-form-item">
+                        温馨提示：清先下载模版，然后根据模版填入员工信息。
+                    </div>
+                </div>
+            </form>`;
+
+        layer.open({
+            type: 1,
+            offset: 'auto',
+            title: '系统提示',
+            content: modalTemplate,
+            area: ['500px', '400px'],
+            skin: 'import-modal',
+            shade: 0.4,
+            shadeClose: true,
+            btn: ['提交'],
+            yes: function (index, layero) {
+                // 提交
+                layer.close(index);
+            }
+        })
 
         table.render({
             elem: '#user_all_table',
@@ -330,6 +278,7 @@
                         title: '操作',
                         align: 'center',
                         templet: '#user_all_opt',
+                        width: 300,
                     }
                 ]
             ]
@@ -343,6 +292,73 @@
                 content: addModalTemp,
                 area: ['700px', '70%'],
                 shade: 0.4,
+                skin: 'user-edit-modal',
+                shadeClose: true,
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    // 提交
+                    layer.close(index);
+                },
+                cancel: function (index) {
+                    layer.close(index);
+                }
+            })
+            form.render();
+        })
+
+        $('#user_all_edit').on('click', function () {
+            layer.open({
+                type: 1,
+                offset: 'auto',
+                title: '编辑',
+                content: addModalTemp,
+                area: ['700px', '70%'],
+                shade: 0.4,
+                skin: 'user-edit-modal',
+                shadeClose: true,
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    // 提交
+                    layer.close(index);
+                },
+                cancel: function (index) {
+                    layer.close(index);
+                }
+            })
+            form.render();
+        })
+
+        $('#user_all_check').on('click', function () {
+            layer.open({
+                type: 1,
+                offset: 'auto',
+                title: '查看',
+                content: addModalTemp,
+                area: ['700px', '70%'],
+                shade: 0.4,
+                shadeClose: true,
+                skin: 'user-edit-modal',
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    // 提交
+                    layer.close(index);
+                },
+                cancel: function (index) {
+                    layer.close(index);
+                }
+            })
+            form.render();
+        })
+
+        $('#user_all_delete').on('click', function () {
+            layer.open({
+                type: 1,
+                offset: 'auto',
+                title: '系统提示',
+                content: '该信息为重要信息，是否删除？',
+                area: ['300px', '200px'],
+                shade: 0.4,
+                skin: 'system-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
                 yes: function (index, layero) {
@@ -355,11 +371,35 @@
             })
         })
 
+
+        $('#import-cource').on('click', function () {
+            layer.open({
+                type: 1,
+                offset: 'auto',
+                title: '批量导入',
+                content: importModalTemplate,
+                area: ['500px', '400px'],
+                skin: 'import-modal',
+                shade: 0.4,
+                shadeClose: true,
+                btn: ['提交', '取消'],
+                yes: function (index, layero) {
+                    // 提交
+                    layer.close(index);
+                }
+            })
+            form.render();
+        })
+
     })
 </script>
 
 <style>
     #user_all {}
+
+    .my-add-form {
+        padding: 25px;
+    }
 
     .system-tip-modal {
         padding: 50px;
@@ -394,5 +434,14 @@
 
     .user-remark {
         width: 63%;
+    }
+
+    .system-modal .layui-layer-content {
+        text-align: center;
+        line-height: 100px;
+    }
+
+    .user-edit-modal .layui-layer-content {
+        padding: 20px;
     }
 </style>
