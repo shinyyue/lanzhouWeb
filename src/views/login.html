@@ -72,7 +72,7 @@
 }
 .login-container {
     height: 480px;
-    background: url('/src/images/login-bg.jpeg') no-repeat 100% 100%;
+    background: url('/lanzhouWeb/src/images/login-bg.jpeg') no-repeat 100% 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -137,11 +137,11 @@
 <div id="VIEW-login" lay-title="登录">
     <div class="login-wrap">
         <div class="login-header">
-            <img src="/src/images/logo.png" class="login-logo">
+            <img src="/lanzhouWeb/src/images/logo.png" class="login-logo">
             <span class="login-name">虚拟仿真实验教学管理平台</span>
         </div>
         <div class="login-container">
-            <img src="/src/images/login-left.png" class="login-left">
+            <img src="/lanzhouWeb/src/images/login-left.png" class="login-left">
             <div class="layui-form login-right" lay-filter="login-form">
                 <ul class="login-type-tab">
                     <li login-type="password" class="active">用户登录</li>
@@ -149,8 +149,8 @@
                 <div class="normal-login-form">
                     <div class="layui-form-item">
                         <label class="layui-icon label-icon layui-icon-username"></label>
-                        <input type="text" name="username" value="13300000000" lay-verify="username" lay-verType="tips"
-                            placeholder="学（工）号" maxlength="11" autocomplete="off" class="layui-input">
+                        <input type="text" name="username" lay-verify="username" lay-verType="tips" placeholder="学（工）号"
+                            maxlength="11" autocomplete="off" class="layui-input">
                     </div>
                     <div class="layui-form-item password-block">
                         <label class="layui-icon label-icon layui-icon-password"></label>

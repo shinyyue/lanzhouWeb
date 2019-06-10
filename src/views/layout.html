@@ -61,68 +61,68 @@
                     }]
                 }, {
                     "name": '课程设置',
-                    "path": '/techset/techpre',
+                    "path": '/techSet/techpre',
                     child: [{
                             name: '课程导读',
-                            path: '/techset/techpre',
+                            path: '/techSet/techpre',
                             child: []
                         },
                         {
                             name: '试卷管理',
-                            path: '/techset/papermanage',
+                            path: '/techSet/paperManage',
                             child: []
                         },
                         {
                             name: '实验准备',
-                            path: '/techset/readynew',
+                            path: '/techSet/readyNew',
                             child: [{
                                 name: '布置新实验',
-                                path: '/techset/readynew',
+                                path: '/techSet/readyNew',
                             }, {
                                 name: '已安排实验',
-                                path: '/techset/readylist',
+                                path: '/techSet/readyList',
                             }]
                         },
                         {
                             name: '实验过程',
-                            path: '/techset/processtest',
+                            path: '/techSet/processTest',
                             child: []
                         },
                         {
                             name: '实验结果',
-                            path: '/techset/resulttest',
+                            path: '/techSet/processTest',
                             child: [{
                                 name: '实验结果',
-                                path: '/techset/resulttest',
+                                path: '/techSet/resultTest',
                                 child: [{
                                     name: '实验批改',
-                                    path: '/techset/resulttest',
+                                    path: '/techSet/resultTest',
                                 }, {
                                     name: '成绩导出',
-                                    path: '/techset/scoreout',
+                                    path: '/techSet/scoreOut',
                                 }]
                             }],
                         },
                         {
                             name: '实验评价',
-                            path: '/techset/evaluate',
+                            path: '/techSet/evaluate',
                             child: []
                         },
                     ]
                 }, {
                     "name": '开课管理',
-                    "path": '/techmanage/index',
+                    "path": '/techManage/index',
                     child: [{
                         name: '开课计划',
-                        path: '/techmanage/plan',
+                        path: '/techManage/plan',
                         child: []
                     }, {
                         name: '开课列表',
-                        path: '/techmanage/index',
+                        path: '/techManage/index',
                         child: []
                     }, {
                         name: '开课统计',
-                        path: '/techmanage/display',
+                        path: '/techManage/display',
                         child: []
                     }]
                 }, {
@@ -141,16 +141,16 @@
                     }]
                 }, {
                     "name": '资源管理',
-                    "path": '/sourcemanage/mylist',
+                    "path": '/sourceManage/myList',
                     child: [{
                         name: '资源管理',
-                        path: '/sourcemanage/mylist',
+                        path: '/sourceManage/myList',
                         child: [{
                             name: '我的资源库',
-                            path: '/sourcemanage/mylist',
+                            path: '/sourceManage/myList',
                         }, {
                             name: '教学资源库',
-                            path: '/sourcemanage/techlist',
+                            path: '/sourceManage/techList',
                         }]
                     }]
                 }, {
@@ -173,16 +173,16 @@
 
                 }, {
                     "name": '课程表',
-                    "path": '/schedule/teacherlist',
+                    "path": '/schedule/teacherList',
                     child: [{
                         "name": '课程表',
-                        "path": '/schedule/teacherlist',
+                        "path": '/schedule/teacherList',
                         child: [{
                             "name": '教师个人课程表',
-                            "path": '/schedule/teacherlist',
+                            "path": '/schedule/teacherList',
                         }, {
                             "name": '总课程表',
-                            "path": '/schedule/alllist',
+                            "path": '/schedule/allList',
                         }]
                     }]
                 }, {
@@ -190,7 +190,11 @@
                     "path": '/chat',
                 }, {
                     "name": '个人信息',
-                    "path": '/personalinfo/personalinfo',
+                    "path": '/personalInfo/personalInfo',
+                    child: [{
+                        "name": '个人信息',
+                        "path": '/personalInfo/personalInfo',
+                    }]
                 }]
             }, {
                 "role": 'student',
@@ -199,59 +203,59 @@
                     "path": '/student'
                 }, {
                     "name": '选课',
-                    "path": '/checkcourse/preintro',
+                    "path": '/checkCourse/preintro',
                     child: [{
                         "name": '选课',
-                        "path": '/checkcourse/preintro'
+                        "path": '/checkCourse/preintro'
                     }, {
                         "name": '查看已选课单',
-                        "path": '/checkcourse/checkedlist',
+                        "path": '/checkCourse/checkedList',
                     }]
                 }, {
                     "name": '课程内容',
-                    "path": '/checkcourse/preintro',
+                    "path": '/checkCourse/preintro',
                     child: [{
                         "name": '课程导读',
-                        "path": '/checkcourse/preintro'
+                        "path": '/checkCourse/preintro'
                     }, {
                         "name": '理论测试',
-                        "path": '/checkcourse/testlist',
+                        "path": '/checkCourse/testList',
                     }, {
                         "name": '虚拟实验',
-                        "path": '/checkcourse/virtualtest',
+                        "path": '/checkCourse/virtualTest',
                     }, {
                         "name": '实物实验',
-                        "path": '/checkcourse/entityTest',
+                        "path": '/checkCourse/entityTest',
                     }, {
                         "name": '课程评价',
-                        "path": '/checkcourse/courseEvaluate',
+                        "path": '/checkCourse/courseEvaluate',
                     }]
                 }, {
                     "name": '资源库',
-                    "path": '/sourcemanage/mylist',
+                    "path": '/sourceManage/myList',
                     child: [{
                         name: '资源库',
-                        "path": '/sourcemanage/mylist',
+                        "path": '/sourceManage/myList',
                         child: [{
                             name: '我的收藏',
-                            "path": '/sourcemanage/mylist',
+                            "path": '/sourceManage/myList',
                         }, {
                             name: '资源列表',
-                            "path": '/sourcemanage/techlist',
+                            "path": '/sourceManage/techList',
                         }]
                     }]
                 }, {
                     "name": '课程表',
-                    "path": '/schedule/alllist',
+                    "path": '/schedule/allList',
                     child: [{
                         "name": '课程表',
-                        "path": '/schedule/alllist',
+                        "path": '/schedule/allList',
                         child: [{
                             name: '学生个人课程表',
-                            "path": '/schedule/teacherlist',
+                            "path": '/schedule/teacherList',
                         }, {
                             name: '总课程表',
-                            "path": '/schedule/alllist',
+                            "path": '/schedule/allList',
                         }]
                     }]
                 }, {
@@ -259,7 +263,11 @@
                     "path": '/chat'
                 }, {
                     "name": '个人信息',
-                    "path": '/personalinfo/personalinfo'
+                    "path": '/personalInfo/personalInfo',
+                    child: [{
+                        "name": '个人信息',
+                        "path": '/personalInfo/personalInfo',
+                    }]
                 }]
             }, {
                 "role": 'admin',
@@ -281,71 +289,71 @@
                         }]
                     }, {
                         name: '机构管理',
-                        path: '/orgmanage/college',
+                        path: '/orgManage/college',
                         child: [{
                             name: '学院管理',
-                            path: '/orgmanage/college'
+                            path: '/orgManage/college'
                         }, {
                             name: '系管理',
-                            path: '/orgmanage/school'
+                            path: '/orgManage/school'
                         }, {
                             name: '专业管理',
-                            path: '/orgmanage/profess'
+                            path: '/orgManage/profess'
                         }, {
                             name: '班管理',
-                            path: '/orgmanage/classes'
+                            path: '/orgManage/classes'
                         }]
                     }],
                 }, {
                     "name": '系统管理',
-                    "path": '/systemmanage/rolemanage',
+                    "path": '/systemManage/roleManage',
                     child: [{
                         name: '系统管理',
-                        path: '/systemmanage/rolemanage',
+                        path: '/systemManage/roleManage',
                         child: [{
                             name: '角色管理',
-                            path: '/systemmanage/rolemanage'
+                            path: '/systemManage/roleManage'
                         }, {
                             name: '权限管理',
-                            path: '/systemmanage/rulemanage'
+                            path: '/systemManage/ruleManage'
                         }, {
                             name: '学生类型',
-                            path: '/systemmanage/studenttype'
+                            path: '/systemManage/studentType'
                         }, {
                             name: '教室管理',
-                            path: '/systemmanage/classroommanage'
+                            path: '/systemManage/classroomManage'
                         }, {
                             name: '实验室管理',
-                            path: '/systemmanage/labmanage'
+                            path: '/systemManage/labManage'
                         }, {
                             name: '实验类型管理',
-                            path: '/systemmanage/testtype'
+                            path: '/systemManage/testType'
                         }, {
                             name: '规则管理',
-                            path: '/systemmanage/rulemanage'
+                            path: '/systemManage/ruleManage'
                         }, {
                             name: '周次管理',
-                            path: '/systemmanage/weektimemanage'
+                            path: '/systemManage/weekTimeManage'
                         }, {
                             name: '数据备份',
-                            path: '/systemmanage/databackup'
+                            path: '/systemManage/dataBackup'
                         }]
                     }],
                 }, {
                     "name": '学期配置',
-                    "path": '/termdeploy/termset',
+                    "path": '/termDeploy/termSet',
                     child: [{
                         name: '学期设置',
-                        path: '/termdeploy/termset'
+                        path: '/termDeploy/termSet'
                     }, {
                         name: '选课日期',
-                        path: '/termdeploy/courseSelecteDate'
+                        path: '/termDeploy/courseSelecteDate'
                     }, {
                         name: '上课时间',
-                        path: '/termdeploy/classtime'
+                        path: '/termDeploy/classTime'
                     }, {
                         name: '年期管理',
-                        path: '/termdeploy/grademanage'
+                        path: '/termDeploy/gradeManage'
                     }]
                 }, {
                     "name": '统计管理',
@@ -365,7 +373,11 @@
                     }]
                 }, {
                     "name": '个人信息',
-                    "path": '/personalinfo/personalinfo'
+                    "path": '/personalInfo/personalInfo',
+                    child: [{
+                        "name": '个人信息',
+                        "path": '/personalInfo/personalInfo',
+                    }]
                 }]
             }],
             role = layui.data('user').user.role,

@@ -6,7 +6,7 @@ layui.define(function (exports) {
         containerBody: 'app-body',
         //版本号
         v: layui.cache.version,
-        //记录nepadmin文件夹所在路径
+        //记录src文件夹所在路径
         base: layui.cache.base,
         css: layui.cache.base + 'css/',
         //视图所在目录
