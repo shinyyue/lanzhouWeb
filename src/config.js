@@ -77,7 +77,7 @@ layui.define(function (exports) {
             //用于对分页请求的参数：page、limit重新设定名称
             request: {
                 pageName: 'page', //页码的参数名称，默认：page
-                limitName: 'size' //每页数据量的参数名，默认：limit
+                limitName: 'row' //每页数据量的参数名，默认：limit
             }
         },
         //第三方扩展

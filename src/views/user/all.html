@@ -42,13 +42,14 @@
 </div>
 
 <script>
-    layui.use(['form', 'table'], function (table) {
+    layui.use(['form', 'table', 'admin'], function (table) {
         var $ = layui.jquery,
             form = layui.form,
             modalTemplate = '',
             importModalTemplate = '',
             table = layui.table,
-            tableFilter = 'user_all_table'
+            tableFilter = 'user_all_table',
+            admin = layui.admin
 
 
         modalTemplate =
@@ -184,6 +185,16 @@
                     </div>
                 </div>
             </form>`;
+
+        admin.get({
+            url: '/user/getUserList?page=1&rows=20',
+            success: function (res) {
+                console.log(1111, res)
+            },
+            error: function (err) {
+                console.log(222, err)
+            }
+        })
 
         layer.open({
             type: 1,
