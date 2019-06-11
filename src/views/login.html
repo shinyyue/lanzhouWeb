@@ -13,6 +13,11 @@
 }
 #VIEW-login .layui-form-item{
     position: relative;
+    width: 260px;
+}
+
+#VIEW-login .layui-form-item .layui-input{
+    width: 260px;
 }
 #VIEW-login .verify-block{
     display: none;
@@ -149,12 +154,12 @@
                 <div class="normal-login-form">
                     <div class="layui-form-item">
                         <label class="layui-icon label-icon layui-icon-username"></label>
-                        <input type="text" name="username" lay-verify="username" lay-verType="tips" placeholder="学（工）号"
+                        <input type="text" name="snoOrJno" lay-verify="snoOrJno" lay-verType="tips" placeholder="学（工）号"
                             maxlength="11" autocomplete="off" class="layui-input">
                     </div>
                     <div class="layui-form-item password-block">
                         <label class="layui-icon label-icon layui-icon-password"></label>
-                        <input type="password" name="pass" value="123456" lay-verify="password" lay-verType="tips"
+                        <input type="password" name="password" value="" lay-verify="password" lay-verType="tips"
                             placeholder="密码" autocomplete="off" class="layui-input">
                     </div>
                     <div class="forget-pwd">
@@ -165,11 +170,11 @@
                             <i style="display: none" class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>
                             登录
                         </button>
-                        <ul class="login-user" id="login-user" lay-submit lay-filter="login-user-submit">
+                        <!-- <ul class="login-user" id="login-user" lay-submit lay-filter="login-user-submit">
                             <li data-value="admin">管理员</li>
                             <li data-value="teacher">老师</li>
                             <li data-value="student">学生</li>
-                        </ul>
+                        </ul> -->
                     </div>
                 </div>
             </div>
@@ -188,6 +193,9 @@
         form.render();
 
         form.verify({
+            snoOrJno: function (value, el) {
+                if (value.length < 5) return '请输入正确的学（工）号';
+            },
             password: function (value, el) {
                 if (value.length < 6) return '登录密码不能少于 6 位';
             }
@@ -196,15 +204,33 @@
         $('#login-user li').click(function () {
             userInfo.role = $(this).data('value')
 
+
+        })
+
+        //提交登录表单
+        form.on('submit(login-submit)', function (data) {
+            userInfo = data.field
+            console.log(111, userInfo)
             var loading = $(this).find('.layui-icon');
             if (loading.is(":visible")) return;
 
             loading.show();
-            admin.get({
-                api: 'login',
-                data: userInfo,
+
+            // $.ajax({
+            //     type: 'post',
+            //     url: '/login/login',
+            //     data: JSON.stringify(userInfo),
+            //     dataType: 'json',
+            //     contentType: 'application/json;charset=UTF-8',
+            //     success: function (res) {
+            //         console.log(111, res)
+            //     }
+            // })
+            admin.post({
+                url: '/login/login',
+                data: JSON.stringify(userInfo),
                 success: function (res) {
-                    res.data.user.role = userInfo.role
+                    console.log(111, res)
                     // 为了安全起见，不记住用户的登录状态。即将token存入seesionstorage
                     admin.login(res.data.token, {
                         user: res.data.user
@@ -222,18 +248,11 @@
                             break;
                     }
                 },
-                complete: function () {
+                complete: function (err) {
                     loading.hide();
                 }
             });
-            return false;
+            // return false;
         })
-
-        //提交登录表单
-        form.on('submit(login-submit)', function (data) {
-            userInfo = data.field
-            $('#login-user').addClass('show')
-        })
-
     })
 </script>
