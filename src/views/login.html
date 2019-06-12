@@ -203,21 +203,7 @@
 
         $('#login-user li').click(function () {
             userInfo.role = $(this).data('value')
-            switch (userInfo.role) {
-                case 'teacher':
-                    admin.navigate('/');
-                    break;
-                case 'student':
-                    admin.navigate('/student');
-                    break;
-                case 'admin':
-                    admin.navigate('/');
-                    break;
-            }
-            layui.data('user', {
-                key: 'role',
-                value: userInfo.role
-            });
+
         })
 
         //提交登录表单
@@ -229,16 +215,7 @@
 
             loading.show();
 
-            // $.ajax({
-            //     type: 'post',
-            //     url: '/login/login',
-            //     data: JSON.stringify(userInfo),
-            //     dataType: 'json',
-            //     contentType: 'application/json;charset=UTF-8',
-            //     success: function (res) {
-            //         console.log(111, res)
-            //     }
-            // })
+
             admin.post({
                 url: '/login/login',
                 data: JSON.stringify(userInfo),
@@ -247,12 +224,29 @@
                     // admin.login(res.data.token, {
                     //     user: res.data.user
                     // }, true);
+                    switch (res.data.role.id) {
+                        // 老师
+                        case 2:
+                            admin.navigate('/');
+                            break;
+                            // 学生
+                        case 1:
+                            admin.navigate('/student');
+                            break;
+                            // 管理员
+                        case 3:
+                            admin.navigate('/');
+                            break;
+                    }
+                    layui.data('user', {
+                        key: 'role',
+                        value: res.data.role.id
+                    });
                 },
                 complete: function (err) {
                     loading.hide();
                 }
             });
-            // return false;
         })
     })
 </script>

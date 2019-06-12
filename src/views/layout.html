@@ -46,7 +46,7 @@
             currentPath = typeof route === 'string' ? (route.split('#')[1] || '/') : '/';
 
         var menuList = [{
-                "role": 'teacher',
+                "role": 2,
                 "menu": [{
                     "name": '首页',
                     "path": '/',
@@ -197,7 +197,7 @@
                     }]
                 }]
             }, {
-                "role": 'student',
+                "role": 1,
                 "menu": [{
                     "name": '首页',
                     "path": '/student'
@@ -270,7 +270,7 @@
                     }]
                 }]
             }, {
-                "role": 'admin',
+                "role": 3,
                 "menu": [{
                     "name": '用户管理',
                     "path": '/user/all',
@@ -511,47 +511,9 @@
 
         $('#logout').on('click', function () {
             admin.logout()
+            layui.data('user', null)
         })
 
-
-        // $(window).on('hashchange', function (e) {
-        //     // //移动端跳转链接先把导航关闭
-        //     // if ($(window).width() < mobileWidth) {
-        //     //     self.flexible(false)
-        //     // }
-        //     console.log('hash------', e)
-        //     // troute = layui.router()
-        //     layer.closeAll()
-        //     admin.initView(route)
-        // })
-
-
-
-        // $.ajax({
-        //     type: 'get',
-        //     url: "${pageContext.request.contextPath }/mainIndexData",
-        //     success: function (data) {
-        //         var navData = data.functionList;
-        //         $("#admin_userName").text(data.fullname); //用户名称
-
-        //         //设置navbar
-        //         navbar.set({
-        //             spreadOne: true,
-        //             elem: "#navbar_side",
-        //             cached: false,
-        //             data: navData
-        //         });
-
-        //         //渲染navbar
-        //         navbar.render();
-
-        //         //监听点击事件
-        //         navbar.on('click(side)', function (data) {
-        //             var childHtml = data.field.href; //获取当前点击项的路径
-        //             $(".layui-body iframe").attr("src", childHtml); //将路径赋值给右侧iframe
-        //         });
-        //     }
-        // });
     })
 </script>
 

@@ -46,6 +46,10 @@ layui
         }
         self.logout = function () {
             self.data({
+                key: 'user',
+                remove: true
+            })
+            self.data({
                 key: conf.tokenName,
                 remove: true
             })
@@ -127,6 +131,18 @@ layui
                 //         return
                 //     }
                 // }
+
+                if (self.getLoginToken()) {
+                    if (route.fileurl == conf.loginPage) {
+                        self.navigate('/')
+                        return
+                    }
+                } else {
+                    if (route.fileurl != conf.loginPage) {
+                        self.logout()
+                        return
+                    }
+                }
             }
 
             if ($.inArray(route.fileurl, conf.indPage) === -1) {
