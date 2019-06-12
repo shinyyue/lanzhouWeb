@@ -41,21 +41,47 @@
             elem: '#test1',
             range: true
         })
-
+		var data = JSON.stringify({"page":laypage.curr,"rows":laypage.limit,"desc":false});
+		$.ajax({
+			type:"post",
+			url:requestPath + "/schoolYear/getList",
+			data: data,
+			dataType:"JSON",
+			headers: {
+				"Content-Type":"application/json; charset=utf-8"
+			},
+			async:true,
+			success:function(result) {
+				
+				if (result.code == 200) {
+					if (result.data != null) {
+						data = result.data.items;
+						laypage.count = result.data.total;
+					}
+				} else {
+					layui.msg(result.msg);
+				}
+			},
+			error:function(result) {
+				
+			}
+		});
+		
         table.render({
             page: false,
-            data: [
-                {
-                    id: 1,
-                    courceName: '发电机哈哈',
-                    courseCode: 20190101,
-                    responsor: '王小虎',
-                    time: '第一学期',
-                    class: '所有年级',
-                    isCommon: false,
-                    score: 1
-                }
-            ],
+//          data: [
+//              {
+//                  id: 1,
+//                  courceName: '发电机哈哈',
+//                  courseCode: 20190101,
+//                  responsor: '王小虎',
+//                  time: '第一学期',
+//                  class: '所有年级',
+//                  isCommon: false,
+//                  score: 1
+//              }
+//          ],
+            data: (data == null || undefined == data ? "暂无数据": data),
             elem: '[lay-filter="' + tableFilter + '"]',
             height: 'full-300',
             cols: [
