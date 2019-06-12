@@ -115,17 +115,18 @@ layui
             route.fileurl = '/' + route.path.join('/')
             //判断登录页面
             if (conf.loginCheck == true) {
-                if (self.getLoginToken()) {
-                    if (route.fileurl == conf.loginPage) {
-                        self.navigate('/')
-                        return
-                    }
-                } else {
-                    if (route.fileurl != conf.loginPage) {
-                        self.logout()
-                        return
-                    }
-                }
+                // todo: 
+                // if (self.getLoginToken()) {
+                //     if (route.fileurl == conf.loginPage) {
+                //         self.navigate('/')
+                //         return
+                //     }
+                // } else {
+                //     if (route.fileurl != conf.loginPage) {
+                //         self.logout()
+                //         return
+                //     }
+                // }
             }
 
             if ($.inArray(route.fileurl, conf.indPage) === -1) {

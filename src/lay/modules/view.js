@@ -63,11 +63,14 @@ layui
                             url: url,
                             api: api,
                             type: type,
-                            data: data,
+                            data: JSON.stringify(data),
                             success: function (res) {
                                 templateData = data
-                                renderTemplate(tem, res[conf.response.dataName])
+                                // renderTemplate(tem, res[conf.response.dataName])
                                 if (done) new Function(done)()
+                            },
+                            err: function (err) {
+                                console.log(111, err)
                             }
                         })
                     } else {
@@ -473,6 +476,7 @@ layui
                     timeout: 5000,
                     type: 'get',
                     dataType: 'json',
+                    contentType: 'application/json;charset=utf-8',
                     headers: conf.requestHeaders || {},
                     success: function (res) {
                         var status = res[conf.response.statusName]

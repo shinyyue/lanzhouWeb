@@ -32,10 +32,11 @@ layui.define(function (exports) {
         tableName: 'user',
         //全局设置 headers 信息
         requestHeaders: {
+            'content-type': 'application/json;charset=UTF-8'
             // 'Test-User-Agent': 'os=pc;ver=0.0.1;imei=asdasdas'
         },
         //request 基础URL
-        requestUrl: './',
+        requestUrl: 'http://39.104.97.6:8080',
         //独立页面路由，可随意添加（无需写参数）
         indPage: [
             '/login', //登入页
@@ -55,7 +56,7 @@ layui.define(function (exports) {
             statusName: 'code',
             statusCode: {
                 //数据状态一切正常的状态码
-                ok: 0,
+                ok: 200,
                 //通过接口返回的登录过期状态码
                 logout: 401
             },
@@ -76,7 +77,7 @@ layui.define(function (exports) {
             //用于对分页请求的参数：page、limit重新设定名称
             request: {
                 pageName: 'page', //页码的参数名称，默认：page
-                limitName: 'size' //每页数据量的参数名，默认：limit
+                limitName: 'row' //每页数据量的参数名，默认：limit
             }
         },
         //第三方扩展

@@ -18,87 +18,102 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form'], function(table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
             tableFilter = 'college-mylist-table',
-            table = layui.table
-
-        table.render({
-            page: false,
-            data: [
-                {
-                    id: 1,
-                    courceName: '发电机哈哈',
-                    courseCode: 20190101,
-                    responsor: '王小虎',
-                    time: '第一学期',
-                    class: '所有年级',
-                    isCommon: false,
-                    score: 1
-                }
-            ],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
-            cols: [
-                [
-                    {
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center'
-                    },
-                    {
-                        title: '学院名称',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '学院编码',
-                        field: 'courceName',
-                        align: 'center'
-                    },
-                    {
-                        title: '类型',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '备注',
-                        field: 'responsor',
-                        align: 'center'
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        templet: '#sourcelist-opt'
+            table = layui.table,
+            admin = layui.admin,
+            layPageOption = {
+                elem: 'college-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 2,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr, obj.limit)
                     }
-                ]
-            ]
-        })
+                }
 
-        //执行一个laypage实例
-        laypage.render({
-            elem: 'college-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
-            count: 50, //数据总数，从服务端得到
-            limit: 10,
-            first: '首页',
-            last: '尾页',
-            hash: 'page',
-            curr: location.hash.replace('#/college/mylist&page=', ''),
-            layout: [
-                'first',
-                'prev',
-                'page',
-                'next',
-                'last',
-                'count',
-                'currLimit',
-                'curr',
-                'pageCount'
-            ]
-        })
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [{
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center'
+                        },
+                        {
+                            title: '学院名称',
+                            field: 'collegeName',
+                            align: 'center'
+                        },
+                        {
+                            title: '学院编码',
+                            field: 'courceName',
+                            align: 'center'
+                        },
+                        {
+                            title: '类型',
+                            field: 'courseCode',
+                            align: 'center'
+                        },
+                        {
+                            title: '备注',
+                            field: 'responsor',
+                            align: 'center'
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#sourcelist-opt'
+                        }
+                    ]
+                ]
+
+            }
+
+
+        getList(1, 2)
+
+        function getList(page, rows) {
+            var data = {
+                page: page,
+                rows: rows
+            }
+            admin.post({
+                url: '/college/queryCollegeList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    tableOption.data = res.data.items;
+                    layPageOption.count = res.data.total;
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+
+        }
+
+
 
         addModalTemp =
             '<div id="college_details_modal">\n' +
@@ -153,7 +168,7 @@
             '        </form>\n' +
             '    </div>'
 
-        $('#add_college').on('click', function() {
+        $('#add_college').on('click', function () {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -164,18 +179,18 @@
                 skin: 'user-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     // 提交
                     layer.close(index)
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             })
             form.render()
         })
 
-        $('#college-mylist-delete').on('click', function() {
+        $('#college-mylist-delete').on('click', function () {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -186,17 +201,17 @@
                 skin: 'system-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     // 提交
                     layer.close(index)
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             })
         })
 
-        $('#college-mylist-edit').on('click', function() {
+        $('#college-mylist-edit').on('click', function () {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -207,18 +222,18 @@
                 skin: 'college-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     // 提交
                     layer.close(index)
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             })
             form.render()
         })
 
-        $('#college-mylist-check').on('click', function() {
+        $('#college-mylist-check').on('click', function () {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -229,11 +244,11 @@
                 skin: 'college-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     // 提交
                     layer.close(index)
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             })
@@ -243,11 +258,12 @@
 </script>
 
 <style>
-    #source-manage-mylist {
-    }
+    #source-manage-mylist {}
+
     .college-edit-modal .layui-layer-content {
         padding: 20px;
     }
+
     .college-remark {
         width: 63%;
     }

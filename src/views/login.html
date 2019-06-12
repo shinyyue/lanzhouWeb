@@ -13,6 +13,11 @@
 }
 #VIEW-login .layui-form-item{
     position: relative;
+    width: 260px;
+}
+
+#VIEW-login .layui-form-item .layui-input{
+    width: 260px;
 }
 #VIEW-login .verify-block{
     display: none;
@@ -111,7 +116,7 @@
     border: 1px solid #aaa;
     border-radius: 4px;
     padding: 5px 5px 0;
-    display: none;
+    /* display: none; */
 }
 
 .login-user li {
@@ -149,12 +154,12 @@
                 <div class="normal-login-form">
                     <div class="layui-form-item">
                         <label class="layui-icon label-icon layui-icon-username"></label>
-                        <input type="text" name="username" lay-verify="username" lay-verType="tips" placeholder="学（工）号"
+                        <input type="text" name="snoOrJno" lay-verify="snoOrJno" lay-verType="tips" placeholder="学（工）号"
                             maxlength="11" autocomplete="off" class="layui-input">
                     </div>
                     <div class="layui-form-item password-block">
                         <label class="layui-icon label-icon layui-icon-password"></label>
-                        <input type="password" name="pass" value="123456" lay-verify="password" lay-verType="tips"
+                        <input type="password" name="password" value="" lay-verify="password" lay-verType="tips"
                             placeholder="密码" autocomplete="off" class="layui-input">
                     </div>
                     <div class="forget-pwd">
@@ -188,6 +193,9 @@
         form.render();
 
         form.verify({
+            snoOrJno: function (value, el) {
+                if (value.length < 5) return '请输入正确的学（工）号';
+            },
             password: function (value, el) {
                 if (value.length < 6) return '登录密码不能少于 6 位';
             }
@@ -195,45 +203,56 @@
 
         $('#login-user li').click(function () {
             userInfo.role = $(this).data('value')
-
-            var loading = $(this).find('.layui-icon');
-            if (loading.is(":visible")) return;
-
-            loading.show();
-            admin.get({
-                api: 'login',
-                data: userInfo,
-                success: function (res) {
-                    res.data.user.role = userInfo.role
-                    // 为了安全起见，不记住用户的登录状态。即将token存入seesionstorage
-                    admin.login(res.data.token, {
-                        user: res.data.user
-                    }, true);
-
-                    switch (userInfo.role) {
-                        case 'teacher':
-                            admin.navigate('/');
-                            break;
-                        case 'student':
-                            admin.navigate('/student');
-                            break;
-                        case 'admin':
-                            admin.navigate('/');
-                            break;
-                    }
-                },
-                complete: function () {
-                    loading.hide();
-                }
+            switch (userInfo.role) {
+                case 'teacher':
+                    admin.navigate('/');
+                    break;
+                case 'student':
+                    admin.navigate('/student');
+                    break;
+                case 'admin':
+                    admin.navigate('/');
+                    break;
+            }
+            layui.data('user', {
+                key: 'role',
+                value: userInfo.role
             });
-            return false;
         })
 
         //提交登录表单
         form.on('submit(login-submit)', function (data) {
             userInfo = data.field
-            $('#login-user').addClass('show')
-        })
+            console.log(111, userInfo)
+            var loading = $(this).find('.layui-icon');
+            if (loading.is(":visible")) return;
 
+            loading.show();
+
+            // $.ajax({
+            //     type: 'post',
+            //     url: '/login/login',
+            //     data: JSON.stringify(userInfo),
+            //     dataType: 'json',
+            //     contentType: 'application/json;charset=UTF-8',
+            //     success: function (res) {
+            //         console.log(111, res)
+            //     }
+            // })
+            admin.post({
+                url: '/login/login',
+                data: JSON.stringify(userInfo),
+                success: function (res) {
+                    // 为了安全起见，不记住用户的登录状态。即将token存入seesionstorage
+                    // admin.login(res.data.token, {
+                    //     user: res.data.user
+                    // }, true);
+                },
+                complete: function (err) {
+                    loading.hide();
+                }
+            });
+            // return false;
+        })
     })
 </script>
