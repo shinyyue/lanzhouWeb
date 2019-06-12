@@ -118,7 +118,10 @@
             last: '尾页',
             hash: 'page',
             curr: location.hash.replace('#!page=', ''),
-            layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount']
+            layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
+            jump:function() {
+            	
+            }
         });
 
         $('#course-set').on('click', function () {
