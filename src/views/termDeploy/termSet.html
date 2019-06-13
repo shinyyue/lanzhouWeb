@@ -24,7 +24,7 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'tree', 'laydate'], function(
+    layui.use(['table', 'jquery', 'form', 'tree', 'laydate','common'], function(
         table,
         $
     ) {
@@ -33,7 +33,8 @@
             laypage = layui.laypage,
             tableFilter = 'term-mylist-table',
             table = layui.table,
-            laydate = layui.laydate
+            laydate = layui.laydate,
+            common = layui.common
 
         //执行一个laydate实例
         //日期范围
@@ -41,19 +42,34 @@
             elem: '#test1',
             range: true
         })
+        // queryList
 		var data = JSON.stringify({"page":laypage.curr,"rows":laypage.limit,"desc":false});
-		$.ajax({
-			type:"post",
-			url:requestPath + "/schoolYear/getList",
-			data: data,
-			dataType:"JSON",
-			headers: {
-				"Content-Type":"application/json; charset=utf-8"
-			},
-			async:true,
-			success:function(result) {
-				
-				if (result.code == 200) {
+//		$.ajax({
+//			type:"post",
+//			url:requestPath + "/schoolYear/getList",
+//			data: data,
+//			dataType:"JSON",
+//			headers: {
+//				"Content-Type":"application/json; charset=utf-8"
+//			},
+//			async:true,
+//			success:function(result) {
+//				
+//				if (result.code == 200) {
+//					if (result.data != null) {
+//						data = result.data.items;
+//						laypage.count = result.data.total;
+//					}
+//				} else {
+//					layui.msg(result.msg);
+//				}
+//			},
+//			error:function(result) {
+//				
+//			}
+//		});
+		common.ajax(requestPath + "/schoolYear/getList","post","JSON",data,function() {
+			if (result.code == 200) {
 					if (result.data != null) {
 						data = result.data.items;
 						laypage.count = result.data.total;
@@ -61,11 +77,8 @@
 				} else {
 					layui.msg(result.msg);
 				}
-			},
-			error:function(result) {
-				
-			}
 		});
+		data = JSON.stringify({"id":1});
 		
         table.render({
             page: false,
