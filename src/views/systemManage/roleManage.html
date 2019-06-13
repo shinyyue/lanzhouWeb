@@ -79,17 +79,22 @@
                         {
                             title: '显示顺序',
                             field: 'courseCode',
-                            align: 'center'
+                            align: 'center',
+                            width: 80
                         },
                         {
                             title: '创建用户',
                             field: 'responsor',
-                            align: 'center'
+                            align: 'center',
+                            width: 80
+
                         },
                         {
                             title: '创建时间',
                             field: 'responsor',
-                            align: 'center'
+                            align: 'center',
+                            width: 80
+
                         },
                         {
                             title: '角色描述',
@@ -190,14 +195,14 @@
         function addRole() {
             const data = {
                 roleName: $('#roleName').val(),
-                menuPermissions: [1, 2, 3, 4, 5, 6]
+                menuPermissions: '1, 2, 3, 4, 5, 6'
             }
             admin.post({
                 url: '/role/addRole',
                 data: JSON.stringify(data),
                 success: function (res) {
-                    console.log(11, res);
                     getList(1, 20);
+                    layui.msg('添加成功！')
                 }
             })
         }
