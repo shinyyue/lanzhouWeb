@@ -21,7 +21,6 @@
         <button class="course-set-btn" id="role-mylist-check">查看</button>
     </script>
     <div class="app-table-page" id="role-mylist-page"></div>
-    <!--  -->
 </div>
 
 <script>
@@ -100,7 +99,8 @@
                         {
                             title: '操作',
                             align: 'center',
-                            templet: '#role-manage-opt'
+                            templet: '#role-manage-opt',
+                            width: 160
                         }
                     ]
                 ]
@@ -196,7 +196,35 @@
                 url: '/role/addRole',
                 data: JSON.stringify(data),
                 success: function (res) {
-                    console.log(res);
+                    console.log(11, res);
+                    getList(1, 20);
+                }
+            })
+        }
+
+        function updateRole() {
+            const data = {
+                roleName: $('#roleName').val(),
+                menuPermissions: [1, 2, 3, 4, 5, 6]
+            }
+            admin.post({
+                url: '/role/upDateRole',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    console.log(22, res);
+                    getList(1, 20);
+                }
+            })
+        }
+
+        function deleteRole() {
+            const data = {
+                // id: table.checkStatus('ID')
+            }
+            admin.delete({
+                url: '/role/deleteRole',
+                data: JSON.stringify(data),
+                success: function (res) {
                     getList(1, 20);
                 }
             })

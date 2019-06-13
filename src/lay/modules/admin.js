@@ -95,6 +95,12 @@ layui
             }, params))
         }
 
+        self.delete = function (params) {
+            view.request($.extend({
+                type: 'delete'
+            }, params))
+        }
+
         /**
         self.router = function(url) {
           var route
@@ -235,12 +241,13 @@ layui
             params = params || {}
             params.titleIcoColor = params.titleIcoColor || '#5a8bff'
             params.titleIco = params.titleIco || 'exclaimination'
+            const newLocal = ';display:inline-block;position:relative;top:-2px;height:24px;line-height:24px;text-align:center;width:24px;color:#fff;border-radius:50%;margin-right:10px;"></i>';
             params.title = [
                 '<i class="layui-icon layui-icon-' +
                 params.titleIco +
                 '" style="font-size:12px;background:' +
                 params.titleIcoColor +
-                ';display:inline-block;position:relative;top:-2px;height:24px;line-height:24px;text-align:center;width:24px;color:#fff;border-radius:50%;margin-right:10px;"></i>' +
+                newLocal +
                 (params.title || '提醒'),
                 'background:#fff;border:none;font-weight:bold;font-size:18px;color:#08132b;padding-top:20px;height:46px;line-height:46px;padding-bottom:0;'
             ]
