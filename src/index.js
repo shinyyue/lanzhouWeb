@@ -8,9 +8,3 @@ layui.extend({admin:'lay/modules/admin'}).define(['admin','conf'],function(expor
     layui.admin.initPage();
     exports('index',{});
 });
-
-layui.config({
-    base: './layui/'      //自定义layui组件的目录
-}).extend({ //设定组件别名
-    common:   'common',
-});

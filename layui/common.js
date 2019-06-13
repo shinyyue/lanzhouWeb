@@ -11,7 +11,7 @@ layui.define(['jquery'], function(exports) {
 				type: type,
 				dataType: dataType,
 				headers: {
-					"Content-Type":"application/json; charset=utf-8"
+					"Content-Type": "application/json; charset=utf-8"
 				},
 				data: data,
 				success: callback,
@@ -20,4 +20,10 @@ layui.define(['jquery'], function(exports) {
 	};
 	//输出接口
 	exports('common', obj);
+});
+
+layui.config({
+	base: './layui/' //自定义layui组件的目录
+}).extend({ //设定组件别名
+	common: 'common',
 });
