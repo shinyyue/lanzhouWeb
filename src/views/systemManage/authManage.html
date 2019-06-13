@@ -25,7 +25,7 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'tree'], function(table, $) {
+    layui.use(['table', 'jquery', 'form', 'tree'], function (table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -34,23 +34,20 @@
 
         table.render({
             page: false,
-            data: [
-                {
-                    id: 1,
-                    courceName: '发电机哈哈',
-                    courseCode: 20190101,
-                    responsor: '王小虎',
-                    time: '第一学期',
-                    class: '所有年级',
-                    isCommon: false,
-                    score: 1
-                }
-            ],
+            data: [{
+                id: 1,
+                courceName: '发电机哈哈',
+                courseCode: 20190101,
+                responsor: '王小虎',
+                time: '第一学期',
+                class: '所有年级',
+                isCommon: false,
+                score: 1
+            }],
             elem: '[lay-filter="' + tableFilter + '"]',
             height: 'full-300',
             cols: [
-                [
-                    {
+                [{
                         title: '序号',
                         field: 'id',
                         width: 80,
@@ -155,7 +152,7 @@
             '        </form>\n' +
             '    </div>'
 
-        $('#add_auth').on('click', function() {
+        $('#add_auth').on('click', function () {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -166,18 +163,18 @@
                 skin: 'user-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     // 提交
                     layer.close(index)
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             })
             form.render()
         })
 
-        $('#auth-mylist-delete').on('click', function() {
+        $('#auth-mylist-delete').on('click', function () {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -188,17 +185,17 @@
                 skin: 'system-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     // 提交
                     layer.close(index)
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             })
         })
 
-        $('#auth-mylist-edit').on('click', function() {
+        $('#auth-mylist-edit').on('click', function () {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -209,18 +206,18 @@
                 skin: 'auth-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     // 提交
                     layer.close(index)
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             })
             form.render()
         })
 
-        $('#auth-mylist-check').on('click', function() {
+        $('#auth-mylist-check').on('click', function () {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -231,11 +228,11 @@
                 skin: 'auth-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     // 提交
                     layer.close(index)
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             })
@@ -252,11 +249,12 @@
 </script>
 
 <style>
-    #source-manage-mylist {
-    }
+    #source-manage-mylist {}
+
     .auth-edit-modal .layui-layer-content {
         padding: 20px;
     }
+
     .auth-remark {
         width: 63%;
     }

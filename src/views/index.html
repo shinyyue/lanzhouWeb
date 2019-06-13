@@ -119,13 +119,12 @@
             hash: 'page',
             curr: location.hash.replace('#!page=', ''),
             layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
-            jump:function() {
-            	
+            jump: function () {
+
             }
         });
 
         $('#course-set').on('click', function () {
-            console.log(11, admin.initPage)
             window.location.href = 'index.html#/techset/techpre'
             admin.initView(route)
         })

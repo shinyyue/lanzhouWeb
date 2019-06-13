@@ -69,9 +69,7 @@ layui
                                 // renderTemplate(tem, res[conf.response.dataName])
                                 if (done) new Function(done)()
                             },
-                            err: function (err) {
-                                console.log(111, err)
-                            }
+                            err: function (err) {}
                         })
                     } else {
                         renderTemplate(

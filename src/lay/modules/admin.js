@@ -120,13 +120,11 @@ layui
             if (conf.loginCheck == true) {
                 // 没有token验证，暂时用role来记录用户的登录状态
                 if (layui.data('user').role) {
-                    console.log(111, route.fileurl)
                     if (route.fileurl == conf.loginPage) {
                         self.navigate('/')
                         return
                     }
                 } else {
-                    console.log(222, route.fileurl)
                     if (route.fileurl != conf.loginPage) {
                         self.logout()
                         return
@@ -218,7 +216,6 @@ layui
             window.history.go(n)
         }
         self.navigate = function (url) {
-            // console.log('navigate', url, conf.entry)
             if (url == conf.entry) url = '/'
             window.location.hash = url
         }
@@ -360,7 +357,6 @@ layui
             }
             self.route = layui.router()
             layer.closeAll()
-            console.log('hashchange----', self.route)
             self.initView(self.route)
         })
 
