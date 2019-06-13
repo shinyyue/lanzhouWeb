@@ -45,20 +45,19 @@ layui
             return self.loginToken
         }
         self.logout = function () {
-            self.data({
-                key: 'user',
+            layui.data('user', {
+                key: 'role',
                 remove: true
-            })
-            self.data({
-                key: conf.tokenName,
-                remove: true
-            })
-            self.data({
-                key: conf.tokenName,
-                remove: true
-            }, sessionStorage)
-            self.loginToken = null
-
+            });
+            // self.data({
+            //     key: conf.tokenName,
+            //     remove: true
+            // })
+            // self.data({
+            //     key: conf.tokenName,
+            //     remove: true
+            // }, sessionStorage)
+            // self.loginToken = null
             self.navigate(conf.loginPage)
         }
         self.login = function (token, data, isSession) {
@@ -81,7 +80,7 @@ layui
                 self.data(disableData)
             }
         }
-        //初始化整个页面
+        //初始化整个页面(页面跳转不会触发，页面刷新时触发)
         self.initPage = function (initCallback) {
             //加载样式文件
             layui.each(layui.conf.style, function (index, url) {
@@ -110,7 +109,7 @@ layui
           return route
         }
          */
-        //初始化视图区域
+        //初始化视图区域,刷新时触发
         self.initView = function (route) {
             if (!self.route.href || self.route.href == '/') {
                 self.route = layui.router('#' + conf.entry)
@@ -119,7 +118,20 @@ layui
             route.fileurl = '/' + route.path.join('/')
             //判断登录页面
             if (conf.loginCheck == true) {
-                // todo: 
+                // 没有token验证，暂时用role来记录用户的登录状态
+                if (layui.data('user').role) {
+                    console.log(111, route.fileurl)
+                    if (route.fileurl == conf.loginPage) {
+                        self.navigate('/')
+                        return
+                    }
+                } else {
+                    console.log(222, route.fileurl)
+                    if (route.fileurl != conf.loginPage) {
+                        self.logout()
+                        return
+                    }
+                }
                 // if (self.getLoginToken()) {
                 //     if (route.fileurl == conf.loginPage) {
                 //         self.navigate('/')
@@ -206,6 +218,7 @@ layui
             window.history.go(n)
         }
         self.navigate = function (url) {
+            // console.log('navigate', url, conf.entry)
             if (url == conf.entry) url = '/'
             window.location.hash = url
         }
@@ -339,6 +352,7 @@ layui
             }
         })
 
+        // 页面切换时触发
         $(window).on('hashchange', function (e) {
             //移动端跳转链接先把导航关闭
             if ($(window).width() < mobileWidth) {
@@ -346,6 +360,7 @@ layui
             }
             self.route = layui.router()
             layer.closeAll()
+            console.log('hashchange----', self.route)
             self.initView(self.route)
         })
 

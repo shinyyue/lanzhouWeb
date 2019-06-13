@@ -203,18 +203,29 @@
 
         $('#login-user li').click(function () {
             userInfo.role = $(this).data('value')
-
+            switch (res.data.role.id) {
+                // 老师
+                case 2:
+                    admin.navigate('/');
+                    break;
+                    // 学生
+                case 1:
+                    admin.navigate('/student');
+                    break;
+                    // 管理员
+                case 3:
+                    admin.navigate('/');
+                    break;
+            }
         })
 
         //提交登录表单
         form.on('submit(login-submit)', function (data) {
             userInfo = data.field
-            console.log(111, userInfo)
             var loading = $(this).find('.layui-icon');
             if (loading.is(":visible")) return;
 
             loading.show();
-
 
             admin.post({
                 url: '/login/login',

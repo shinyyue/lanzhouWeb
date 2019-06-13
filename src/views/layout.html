@@ -490,8 +490,6 @@
                 $(this).find('a').css('color', '#1a3471')
                 $(this).siblings().css('background', '#1a3471')
                 $(this).siblings().find('a').css('color', '#fff')
-                // $(this).addClass('active');
-                // $(this).siblings().removeClass('active');
             })
 
             $('#side_nav .layui-nav-item').on('click', function () {
@@ -499,8 +497,6 @@
                 $(this).siblings().removeClass('layui-this')
                 var dl = $(this).find('dl');
                 if (dl) {
-                    // dl.addClass('active');
-                    // dl.siblings().removeClass('active');
                     $(this).find('dl').css('display', 'block')
                     if ($(this).siblings().find('dl')) {
                         $(this).siblings().find('dl').css('display', 'none')
@@ -511,7 +507,7 @@
 
         $('#logout').on('click', function () {
             admin.logout()
-            layui.data('user', null)
+            // layui.data('user', null)
         })
 
     })
