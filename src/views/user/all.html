@@ -186,8 +186,9 @@
                 </div>
             </form>`;
 
-        admin.get({
-            url: '/user/getUserList?page=1&rows=20',
+        admin.post({
+            url: '/user/getUserList',
+            data:JSON.stringify({"page":1,"rows":20,"key":"|||"}),
             success: function (res) {},
             error: function (err) {}
         })
