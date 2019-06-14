@@ -10,11 +10,7 @@
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">课程导读名称</label>
                 <span>铁路</span>
-                <button
-                    class="layui-btn layui-btn-primary"
-                    style="margin-left: 60px;"
-                    id="tech-pre-check"
-                >
+                <button class="layui-btn layui-btn-primary" style="margin-left: 60px;" id="tech-pre-check">
                     查看其他导师导读
                 </button>
             </div>
@@ -62,8 +58,7 @@
 </div>
 
 <style>
-    #techset-techpre {
-    }
+    #techset-techpre {}
 
     #techset-techpre .my-form {
         padding: 25px 0;
@@ -134,37 +129,37 @@
     var checkDetails = {},
         preDetailsTemp = ''
 
-    layui.use([], function() {
+    layui.use([], function () {
         var $ = layui.jquery,
             modalTemplate =
-                '<table class="layui-table">' +
-                '<thead>' +
-                '<tr>' +
-                '<th>序号</th>' +
-                '<th>资源名称</th>' +
-                '<th>原创者</th>' +
-                '<th>责任人</th>' +
-                '<th>引用时间</th>' +
-                '<th>建议分数</th>' +
-                '<th>操作</th>' +
-                '</tr>' +
-                '</thead>' +
-                '<tbody>' +
-                '<tr>' +
-                '<td>1</td>' +
-                '<td>计算机网络课程导读</td>' +
-                '<td>教师</td>' +
-                '<td>杨威</td>' +
-                '<td>2019-01-01</td>' +
-                '<td>150分</td>' +
-                '<td>' +
-                '<button class="layui-btn layui-btn-primary" class="pre-check-detail" onclick="check()">查看</button>' +
-                '</td>' +
-                '</tr>' +
-                '</tbody>' +
-                '</table>'
+            '<table class="layui-table">' +
+            '<thead>' +
+            '<tr>' +
+            '<th>序号</th>' +
+            '<th>资源名称</th>' +
+            '<th>原创者</th>' +
+            '<th>责任人</th>' +
+            '<th>引用时间</th>' +
+            '<th>建议分数</th>' +
+            '<th>操作</th>' +
+            '</tr>' +
+            '</thead>' +
+            '<tbody>' +
+            '<tr>' +
+            '<td>1</td>' +
+            '<td>计算机网络课程导读</td>' +
+            '<td>教师</td>' +
+            '<td>杨威</td>' +
+            '<td>2019-01-01</td>' +
+            '<td>150分</td>' +
+            '<td>' +
+            '<button class="layui-btn layui-btn-primary" class="pre-check-detail" onclick="check()">查看</button>' +
+            '</td>' +
+            '</tr>' +
+            '</tbody>' +
+            '</table>'
 
-        $('#tech-pre-check').on('click', function() {
+        $('#tech-pre-check').on('click', function () {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -176,11 +171,11 @@
             })
         })
 
-        $('#tech-pre-back').on('click', function() {
+        $('#tech-pre-back').on('click', function () {
             location.href = ''
         })
 
-        setTimeout(function() {
+        setTimeout(function () {
             checkDetails = {
                 id: 1,
                 preName: '计算机网络课程导读',
@@ -249,7 +244,6 @@
             '</div>' +
             '</div>'
 
-        console.log(3333, preDetailsTemp)
         layer.open({
             type: 1,
             offset: 'auto',
