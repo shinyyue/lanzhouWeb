@@ -101,6 +101,12 @@ layui
             }, params))
         }
 
+        self.put = function (params) {
+            view.request($.extend({
+                type: 'put'
+            }, params))
+        }
+
         /**
         self.router = function(url) {
           var route

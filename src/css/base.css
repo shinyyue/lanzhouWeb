@@ -60,11 +60,6 @@
     border: none;
 }
 
-/* .layui-layer-btn a {
-    height
-} */
-
-
 .primary-btn {
     padding: 0px 30px;
     line-height: 38px;
@@ -78,6 +73,12 @@
     line-height: 38px;
     background: #fff;
     color: #666;
+    text-align: center;
+}
+
+/* 删除弹框 */
+.system-modal .layui-layer-content {
+    line-height: 100px;
     text-align: center;
 }
 

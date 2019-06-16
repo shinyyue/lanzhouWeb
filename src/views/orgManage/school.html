@@ -18,7 +18,7 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form'], function(table, $) {
+    layui.use(['table', 'jquery', 'form'], function (table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -27,7 +27,16 @@
 
         table.render({
             page: false,
-            data: [
+            data: [{
+                    id: 1,
+                    courceName: '发电机哈哈',
+                    courseCode: 20190101,
+                    responsor: '王小虎',
+                    time: '第一学期',
+                    class: '所有年级',
+                    isCommon: false,
+                    score: 1
+                },
                 {
                     id: 1,
                     courceName: '发电机哈哈',
@@ -42,8 +51,7 @@
             elem: '[lay-filter="' + tableFilter + '"]',
             height: 'full-300',
             cols: [
-                [
-                    {
+                [{
                         title: '序号',
                         field: 'id',
                         width: 80,
@@ -153,7 +161,7 @@
             '        </form>\n' +
             '    </div>'
 
-        $('#add_school').on('click', function() {
+        $('#add_school').on('click', function () {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -164,18 +172,18 @@
                 skin: 'user-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     // 提交
                     layer.close(index)
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             })
             form.render()
         })
 
-        $('#school-mylist-delete').on('click', function() {
+        $('#school-mylist-delete').on('click', function () {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -186,17 +194,17 @@
                 skin: 'system-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     // 提交
                     layer.close(index)
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             })
         })
 
-        $('#school-mylist-edit').on('click', function() {
+        $('#school-mylist-edit').on('click', function () {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -207,18 +215,18 @@
                 skin: 'school-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     // 提交
                     layer.close(index)
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             })
             form.render()
         })
 
-        $('#school-mylist-check').on('click', function() {
+        $('#school-mylist-check').on('click', function () {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -229,11 +237,11 @@
                 skin: 'school-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     // 提交
                     layer.close(index)
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             })
@@ -243,11 +251,12 @@
 </script>
 
 <style>
-    #source-manage-mylist {
-    }
+    #source-manage-mylist {}
+
     .school-edit-modal .layui-layer-content {
         padding: 20px;
     }
+
     .school-remark {
         width: 63%;
     }
