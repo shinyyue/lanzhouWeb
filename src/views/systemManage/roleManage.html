@@ -32,6 +32,12 @@
             table = layui.table,
             admin = layui.admin,
             tree = layui.tree,
+            formData = {
+                roleName: '',
+                name: '',
+                id: '',
+                desc: ''
+            },
             layPageOption = {
                 elem: 'role-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
                 limit: 20,
@@ -102,7 +108,9 @@
                         {
                             title: '操作',
                             align: 'center',
-                            templet: '#role-manage-opt'
+                            templet: '#role-manage-opt',
+                            fixed: 'right',
+                            width: 200
                         }
                     ]
                 ]
@@ -148,7 +156,7 @@
             var layerOption = {
                 type: 1,
                 offset: 'auto',
-                title: '编辑',
+                title: type === 'edit' ? '编辑' : '查看',
                 content: getTemplate(formData, type),
                 area: ['700px', '70%'],
                 shade: 0.4,
@@ -156,7 +164,7 @@
                 btn: (type === 'check') ? [] : ['确定', '取消'],
                 yes: function (index, layero) {
                     layer.close(index)
-                    setFormData()
+                    getFormData()
                     if (type === 'check') {
                         getData(data.id)
                     } else if (type === 'edit') {
@@ -173,7 +181,7 @@
             form.render();
         })
 
-        function getTemplate() {
+        function getTemplate(formData, type) {
             return '<div id="college_details_modal">\n' +
                 '        <form action="" class="layui-form">\n' +
                 '            <div class="layui-row">\n' +
@@ -184,7 +192,8 @@
                 '                        name="userName"\n' +
                 '                        class="common-form-input"\n' +
                 '                        id="roleName"\n' +
-                '                        value="管理员"\n' +
+                '                        value="' + (formData.roleName || '') + '"\n' +
+                (type === 'check' ? 'disabled' : '') +
                 '                    />\n' +
                 '                </div>\n' +
                 '            </div>\n' +
@@ -196,7 +205,8 @@
                 '                        name="usName"\n' +
                 '                        class="common-form-input"\n' +
                 '                        id="usName"\n' +
-                '                        value="admin"\n' +
+                '                        value="' + (formData.name || '') + '"\n' +
+                (type === 'check' ? 'disabled' : '') +
                 '                    />\n' +
                 '                </div>\n' +
                 '            </div>\n' +
@@ -208,7 +218,8 @@
                 '                        name="userName"\n' +
                 '                        class="common-form-input"\n' +
                 '                        id="showId"\n' +
-                '                        value="1"\n' +
+                '                        value="' + formData.id + '"\n' +
+                (type === 'check' ? 'disabled' : '') +
                 '                    />\n' +
                 '                </div>\n' +
                 '            </div>\n' +
@@ -225,11 +236,22 @@
                 '                        name="desc"\n' +
                 '                        class="layui-textarea role-remark"\n' +
                 '                        id="role-remark"\n' +
+                '                        value="' + (formData.desc || '') + '"\n' +
+                (type === 'check' ? 'disabled' : '') +
                 '                    ></textarea>\n' +
                 '                </div>\n' +
                 '            </div>\n' +
                 '        </form>\n' +
                 '    </div>';
+        }
+
+        function getFormData() {
+            formData = {
+                roleName: $('#roleName').val(),
+                name: $('#usName').val(),
+                id: $('#showId').val(),
+                desc: $('#role-remark').val()
+            }
         }
 
         function getList(page, rows) {
@@ -252,7 +274,7 @@
             })
         }
 
-        function addRole() {
+        function addData() {
             const data = {
                 roleName: $('#roleName').val(),
                 menuPermissions: '1, 2, 3, 4, 5, 6'
@@ -262,19 +284,15 @@
                 data: JSON.stringify(data),
                 success: function (res) {
                     getList(1, 20);
-                    layui.msg('添加成功！')
+                    layer.msg('添加成功！')
                 }
             })
         }
 
-        function updateRole() {
-            const data = {
-                roleName: $('#roleName').val(),
-                menuPermissions: [1, 2, 3, 4, 5, 6]
-            }
-            admin.post({
+        function updateData(formData) {
+            admin.put({
                 url: '/role/upDateRole',
-                data: JSON.stringify(data),
+                data: JSON.stringify(formData),
                 success: function (res) {
                     console.log(22, res);
                     getList(1, 20);
@@ -282,9 +300,9 @@
             })
         }
 
-        function deleteData() {
+        function deleteData(id) {
             const data = {
-                // id: table.checkStatus('ID')
+                id
             }
             admin.delete({
                 url: '/role/deleteRole',
@@ -310,7 +328,7 @@
                     // 提交
                     // $('#showId').val()
                     // $('#role-remark').val()
-                    addRole()
+                    addData()
                     layer.close(index)
                 },
                 cancel: function (index) {

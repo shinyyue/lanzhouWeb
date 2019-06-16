@@ -84,7 +84,9 @@
                         {
                             title: '操作',
                             align: 'center',
-                            templet: '#sourcelist-opt'
+                            templet: '#sourcelist-opt',
+                            fixed: 'right',
+                            width: 200
                         }
                     ]
                 ]
@@ -146,7 +148,7 @@
                 btn: (type === 'check') ? [] : ['确定', '取消'],
                 yes: function (index, layero) {
                     layer.close(index)
-                    setFormData()
+                    getFormData()
                     if (type === 'check') {
                         getData(data.id)
                     } else if (type === 'edit') {
@@ -267,7 +269,7 @@
             })
         }
 
-        function setFormData() {
+        function getFormData() {
             formData = {
                 lastOrg: $('#last-org').val(),
                 collegeName: $('#college-name').val(),
