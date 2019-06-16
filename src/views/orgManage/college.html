@@ -10,9 +10,9 @@
     </div>
     <table id="college-mylist-table" lay-filter="college-mylist-table"></table>
     <script type="text/html" id="sourcelist-opt">
-        <button class="course-set-btn" id="college-mylist-edit" lay-event="edit">编辑</button>
-        <button class="course-set-btn" id="college-mylist-delete" lay-event="delete">删除</button>
-        <button class="course-set-btn" id="college-mylist-check" lay-event="check">查看</button>
+        <button class="course-set-btn" lay-event="edit">编辑</button>
+        <button class="course-set-btn" lay-event="delete">删除</button>
+        <button class="course-set-btn" lay-event="check">查看</button>
     </script>
     <div class="app-table-page" id="college-mylist-page"></div>
 </div>
@@ -58,7 +58,8 @@
                             title: '序号',
                             field: 'id',
                             width: 80,
-                            align: 'center'
+                            align: 'center',
+                            type: 'numbers'
                         },
                         {
                             title: '学院名称',
@@ -118,7 +119,7 @@
                     yes: function (index, layero) {
                         // 提交
                         layer.close(index)
-                        deleteDta(data.id)
+                        deleteData(data.id)
                     },
                     cancel: function (index) {
                         layer.close(index)
@@ -207,7 +208,7 @@
             })
         };
 
-        function deleteDta(id) {
+        function deleteData(id) {
             var data = {
                 id
             }
