@@ -1,4 +1,4 @@
-<div id="source-manage-mylist" class="layui-fluid" lay-title="我的资源库">
+<div id="source-manage-mylist" class="layui-fluid" lay-title="角色管理">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -16,9 +16,9 @@
     </div>
     <table id="role-mylist-table" lay-filter="role-mylist-table"></table>
     <script type="text/html" id="role-manage-opt">
-        <button class="course-set-btn" id="role-mylist-edit">编辑</button>
-        <button class="course-set-btn" id="role-mylist-delete">删除</button>
-        <button class="course-set-btn" id="role-mylist-check">查看</button>
+        <button class="course-set-btn" lay-event="edit">编辑</button>
+        <button class="course-set-btn" lay-event="delete">删除</button>
+        <button class="course-set-btn" lay-event="check">查看</button>
     </script>
     <div class="app-table-page" id="role-mylist-page"></div>
 </div>
@@ -64,7 +64,8 @@
                             title: '序号',
                             field: 'id',
                             width: 80,
-                            align: 'center'
+                            align: 'center',
+                            type: 'numbers'
                         },
                         {
                             title: '角色名称',
@@ -78,22 +79,19 @@
                         },
                         {
                             title: '显示顺序',
-                            field: 'courseCode',
+                            field: 'id',
                             align: 'center',
-                            width: 80
                         },
                         {
                             title: '创建用户',
                             field: 'responsor',
                             align: 'center',
-                            width: 80
 
                         },
                         {
                             title: '创建时间',
                             field: 'responsor',
                             align: 'center',
-                            width: 80
 
                         },
                         {
@@ -104,8 +102,7 @@
                         {
                             title: '操作',
                             align: 'center',
-                            templet: '#role-manage-opt',
-                            width: 160
+                            templet: '#role-manage-opt'
                         }
                     ]
                 ]
@@ -113,64 +110,127 @@
 
         getList(1, 20);
 
-        addModalTemp =
-            '<div id="college_details_modal">\n' +
-            '        <form action="" class="layui-form">\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">角色名称：</label>\n' +
-            '                    <input\n' +
-            '                        type="text"\n' +
-            '                        name="userName"\n' +
-            '                        class="common-form-input"\n' +
-            '                        id="roleName"\n' +
-            '                        value="管理员"\n' +
-            '                    />\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">英文名称:</label>\n' +
-            '                    <input\n' +
-            '                        type="text"\n' +
-            '                        name="usName"\n' +
-            '                        class="common-form-input"\n' +
-            '                        id="usName"\n' +
-            '                        value="admin"\n' +
-            '                    />\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">显示顺序:</label>\n' +
-            '                    <input\n' +
-            '                        type="text"\n' +
-            '                        name="userName"\n' +
-            '                        class="common-form-input"\n' +
-            '                        id="showId"\n' +
-            '                        value="1"\n' +
-            '                    />\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">分配权限:</label>\n' +
-            '                    <div id="test7" class="demo-tree"></div>\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">角色描述:</label>\n' +
-            '                    <textarea\n' +
-            '                        name="desc"\n' +
-            '                        class="layui-textarea role-remark"\n' +
-            '                        id="role-remark"\n' +
-            '                    ></textarea>\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '        </form>\n' +
-            '    </div>';
+        table.on('tool(role-mylist-table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event,
+                type = '';
 
+            if (layEvent === 'delete') {
+                layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '系统提示',
+                    content: '该信息为重要信息，是否删除？',
+                    area: ['300px', '200px'],
+                    shade: 0.4,
+                    skin: 'system-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        // 提交
+                        layer.close(index)
+                        deleteData(data.id)
+                    },
+                    cancel: function (index) {
+                        layer.close(index)
+                    }
+                })
+                return;
+            }
+            if (layEvent === 'edit') { //编辑
+                formData = data;
+                type = 'edit';
+            } else if (layEvent === 'check') {
+                formData = data;
+                type = 'check';
+            }
+
+            var layerOption = {
+                type: 1,
+                offset: 'auto',
+                title: '编辑',
+                content: getTemplate(formData, type),
+                area: ['700px', '70%'],
+                shade: 0.4,
+                shadeClose: true,
+                btn: (type === 'check') ? [] : ['确定', '取消'],
+                yes: function (index, layero) {
+                    layer.close(index)
+                    setFormData()
+                    if (type === 'check') {
+                        getData(data.id)
+                    } else if (type === 'edit') {
+                        formData.id = data.id
+                        updateData(formData)
+                    }
+                },
+                cancel: function (index) {
+                    layer.close(index)
+                }
+            }
+
+            layer.open(layerOption);
+            form.render();
+        })
+
+        function getTemplate() {
+            return '<div id="college_details_modal">\n' +
+                '        <form action="" class="layui-form">\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">角色名称：</label>\n' +
+                '                    <input\n' +
+                '                        type="text"\n' +
+                '                        name="userName"\n' +
+                '                        class="common-form-input"\n' +
+                '                        id="roleName"\n' +
+                '                        value="管理员"\n' +
+                '                    />\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">英文名称:</label>\n' +
+                '                    <input\n' +
+                '                        type="text"\n' +
+                '                        name="usName"\n' +
+                '                        class="common-form-input"\n' +
+                '                        id="usName"\n' +
+                '                        value="admin"\n' +
+                '                    />\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">显示顺序:</label>\n' +
+                '                    <input\n' +
+                '                        type="text"\n' +
+                '                        name="userName"\n' +
+                '                        class="common-form-input"\n' +
+                '                        id="showId"\n' +
+                '                        value="1"\n' +
+                '                    />\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">分配权限:</label>\n' +
+                '                    <div id="test7" class="demo-tree"></div>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">角色描述:</label>\n' +
+                '                    <textarea\n' +
+                '                        name="desc"\n' +
+                '                        class="layui-textarea role-remark"\n' +
+                '                        id="role-remark"\n' +
+                '                    ></textarea>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '        </form>\n' +
+                '    </div>';
+        }
 
         function getList(page, rows) {
             const data = {
@@ -222,7 +282,7 @@
             })
         }
 
-        function deleteRole() {
+        function deleteData() {
             const data = {
                 // id: table.checkStatus('ID')
             }
@@ -240,7 +300,7 @@
                 type: 1,
                 offset: 'auto',
                 title: '添加',
-                content: addModalTemp,
+                content: getTemplate({}),
                 area: ['700px', '70%'],
                 shade: 0.4,
                 skin: 'user-edit-modal',
