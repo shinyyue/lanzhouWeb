@@ -63,6 +63,7 @@ layui
                             url: url,
                             api: api,
                             type: type,
+                            xhrFields: {withCredentials: true},
                             data: JSON.stringify(data),
                             success: function (res) {
                                 templateData = data
@@ -127,6 +128,7 @@ layui
                         '?v=' +
                         layui.cache.version,
                     type: 'get',
+                    xhrFields: {withCredentials: true},
                     dataType: 'html',
                     success: function (html) {
                         callback({
@@ -474,6 +476,7 @@ layui
                     timeout: 5000,
                     type: 'get',
                     dataType: 'json',
+                    xhrFields: {withCredentials: true},
                     contentType: 'application/json;charset=utf-8',
                     headers: conf.requestHeaders || {},
                     success: function (res) {
