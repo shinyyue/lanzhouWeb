@@ -48,7 +48,6 @@
                         getList(obj.curr)
                     }
                 }
-
             },
             tableOption = {
                 page: false,
@@ -199,8 +198,8 @@
                 url: '/college/queryCollegeList',
                 data: JSON.stringify(data),
                 success: function (res) {
-                    tableOption.data = res.data.items;
-                    layPageOption.count = res.data.total;
+                    tableOption.data = (res.data && res.data.items) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
