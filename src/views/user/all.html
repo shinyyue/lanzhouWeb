@@ -42,14 +42,15 @@
 </div>
 
 <script>
-    layui.use(['form', 'table', 'admin'], function (table) {
+    layui.use(['form', 'table', 'admin','jquery'], function (table) {
         var $ = layui.jquery,
             form = layui.form,
             modalTemplate = '',
             importModalTemplate = '',
             table = layui.table,
             tableFilter = 'user_all_table',
-            admin = layui.admin
+            admin = layui.admin,
+            conf = layui.conf,
 
 
         modalTemplate =
@@ -171,7 +172,7 @@
                     <div class="layui-col-md12 layui-form-item">
                         <label class="layui-form-label">上传</label>
                         <button type="button" class="layui-btn layui-btn-primary">上传表格</button>
-                        <button type="button" class="layui-btn " style="background: rgba(0,193,222,1)">下载模版</button>
+                        <button type="button" class="layui-btn " style="background: rgba(0,193,222,1)" id="upload_model">下载模版</button>
                     </div>
                 </div>
                 <div class="layui-row">
@@ -386,6 +387,7 @@
                 offset: 'auto',
                 title: '批量导入',
                 content: importModalTemplate,
+                url: "http://39.104.97.6:8080/user/importExp",
                 area: ['500px', '400px'],
                 skin: 'import-modal',
                 shade: 0.4,
@@ -397,9 +399,24 @@
                 }
             })
             form.render();
+            // $('#upload_model').on('click', function() {
+            //     window.location.href = "http://39.104.97.6:8080/excel/用户模板.xls";
+            // });
         })
 
+        $("#export-cource").click(function(){
+            $.ajax({
+                type: "get",
+                url: "http://39.104.97.6:8080/user/exportExcel",
+                async: false,
+                success(){
+                    // layout("111");
+                }
+            })
+        });
     })
+
+
 </script>
 
 <style>
