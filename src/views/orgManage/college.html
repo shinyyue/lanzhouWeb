@@ -65,16 +65,16 @@
                             field: 'collegeName',
                             align: 'center'
                         },
-                        {
-                            title: '学院编码',
-                            field: 'courceName',
-                            align: 'center'
-                        },
-                        {
-                            title: '类型',
-                            field: 'courseCode',
-                            align: 'center'
-                        },
+                        // {
+                        //     title: '学院编码',
+                        //     field: 'courceName',
+                        //     align: 'center'
+                        // },
+                        // {
+                        //     title: '类型',
+                        //     field: 'courseCode',
+                        //     align: 'center'
+                        // },
                         {
                             title: '备注',
                             field: 'responsor',
@@ -178,8 +178,6 @@
                 btn: ['确定', '取消'],
                 yes: function (index, layero) {
                     layer.close(index)
-
-                    console.log(111, formData)
                     addData(formData)
                 },
                 cancel: function (index) {

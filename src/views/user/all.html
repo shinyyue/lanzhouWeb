@@ -31,355 +31,758 @@
         <button class="add-btn" id="import-cource">导入</button>
         <button class="add-btn" id="export-cource">导出</button>
     </div>
-    <table id="user_all_table" lay-filter="user_all_table"></table>
+    <!-- <table id="user_all_table" lay-filter="user_all_table"></table>
     <script type="text/html" id="user_all_opt">
         <button class="course-set-btn" id="user_all_disable">停用</button>
         <button class="course-set-btn" id="user_all_edit">编辑</button>
         <button class="course-set-btn" id="user_all_delete" lay-event="delete">删除</button>
         <button class="course-set-btn" id="user_all_check">查看</button>
         <button class="course-set-btn" id="user_all_reset">重置密码</button>
+    </script> -->
+    <table id="user_all_table" lay-filter="user_all_table"></table>
+    <div class="app-table-page" id="all-mylist-page"></div>
+    <script type="text/html" id="user_all_opt">
+        {{#if(d.state === 1){ }}
+            <button class="course-set-btn" lay-event="disabledUser">{{d.state === 1 ? '停用' : '启用'}}</button>
+        {{# } }}
+        <button class="course-set-btn" lay-event="edit">编辑</button>
+        <button class="course-set-btn" lay-event="delete">删除</button>
+        <button class="course-set-btn" lay-event="check">查看</button>
+        <button class="course-set-btn" lay-event="resetPwd">重置密码</button>
     </script>
 </div>
 
 <script>
-    layui.use(['form', 'table', 'admin','jquery'], function (table) {
+    layui.use(['form', 'table', 'admin', 'upload'], function (table) {
         var $ = layui.jquery,
             form = layui.form,
-            modalTemplate = '',
+            admin = layui.admin,
             importModalTemplate = '',
             table = layui.table,
             tableFilter = 'user_all_table',
-            admin = layui.admin,
-            conf = layui.conf,
+            tableOption = {
+                elem: '[lay-filter="' + tableFilter + '"]',
+                page: false,
+                cols: [
+                    [{
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center',
+                            type: 'numbers'
+                        },
+                        {
+                            title: '姓名',
+                            field: 'userName',
+                            align: 'center'
+                        },
+                        {
+                            title: '学（工）号',
+                            field: 'snoOrJno',
+                            align: 'center'
 
-
-        modalTemplate =
-            '<div class="system-tip-modal">' +
-            '<div class="system-tips">根据虚拟仿真实验教学管理平台的要求，您需要进一步完善个人的手机和邮箱信息，才能保证正常使用本平台课程的学习和实验操作功能。</div>' +
-            '<form action="" class="layui-form">' +
-            '<div class="system-tip-form">' +
-            '<label for="">手机：</label>' +
-            '<input type="text" name="phone">' +
-            '</div>' +
-            '<div class="system-tip-form">' +
-            '<label for="">邮箱：</label>' +
-            '<input type="text" name="email">' +
-            '</div>' +
-            '</form>' +
-            '</div>'
-
-        addModalTemp =
-            '<div id="user_details_modal">' +
-            '<form action="" class="layui-form">' +
-            '<div class="layui-row">' +
-            '<div class="layui-col-md12 layui-form-item">' +
-            '<label class="layui-form-label">学(工)号:</label>' +
-            '<input type="text" name="userId" class="common-form-input">' +
-            ' </div>' +
-            '</div>' +
-            '<div class="layui-row">' +
-            '<div class="layui-col-md12 layui-form-item">' +
-            '<label class="layui-form-label">姓名:</label>' +
-            '<input type="text" name="userName" class="common-form-input">' +
-            '</div>' +
-            '</div>' +
-            '<div class="layui-row">' +
-            '<div class="layui-col-md12 layui-form-item">' +
-            '<label class="layui-form-label">性别:</label>' +
-            '<div class="layui-input-block">' +
-            '<input type="radio" name="sex" value="男" title="男">' +
-            '<input type="radio" name="sex" value="女" title="女">' +
-            '</div>' +
-            ' </div>' +
-            '</div>' +
-            '<div class="layui-row">' +
-            '<div class="layui-col-md12 layui-form-item">' +
-            '<label class="layui-form-label">行政班级:</label>' +
-            '<div class="user-class">' +
-            '<select name="class1">' +
-            '<option value=""></option>' +
-            '<option value="土木工程学1">土木工程学1</option>' +
-            '<option value="土木工程学2">土木工程学2</option>' +
-            '</select>' +
-            '<select name="class2">' +
-            '<option value=""></option>' +
-            '<option value="工程管理1">工程管理1</option>' +
-            '<option value="工程管理2">工程管理2</option>' +
-            '</select>' +
-            '<select name="class3">' +
-            ' <option value=""></option>' +
-            '<option value="工程管理1">工程管理1</option>' +
-            '<option value="工程管理2">工程管理1</option>' +
-            '</select>' +
-            '<select name="class4">' +
-            '<option value=""></option>' +
-            '<option value="一班">一班</option>' +
-            '<option value="一班">一班</option>' +
-            '</select>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '<div class="layui-row">' +
-            '<div class="layui-col-md12 layui-form-item">' +
-            '<label class="layui-form-label">手机:</label>' +
-            '<input type="text" name="userName" class="common-form-input">' +
-            '</div>' +
-            '</div>' +
-            '<div class="layui-row">' +
-            '<div class="layui-col-md12 layui-form-item">' +
-            '<label class="layui-form-label">邮箱:</label>' +
-            '<input type="text" name="userName" class="common-form-input">' +
-            '</div>' +
-            '</div>' +
-            '<div class="layui-row">' +
-            '<div class="layui-col-md12 layui-form-item">' +
-            '<label class="layui-form-label">初始密码:</label>' +
-            '<span>123456</span>' +
-            '</div>' +
-            '</div>' +
-            '<div class="layui-row">' +
-            '<div class="layui-col-md12 layui-form-item">' +
-            '<label class="layui-form-label">状态:</label>' +
-            '<div class="layui-input-block">' +
-            '<input type="radio" name="status" value="启用" title="启用">' +
-            '<input type="radio" name="status" value="停用" title="停用">' +
-            '</div>' +
-            ' </div>' +
-            '</div>' +
-            '<div class="layui-row">' +
-            '<div class="layui-col-md12 layui-form-item">' +
-            '<label class="layui-form-label">备注:</label>' +
-            '<textarea name="desc" class="layui-textarea user-remark"></textarea>' +
-            '</div>' +
-            '</div>' +
-            '</form>' +
-            '</div>'
-
-        importModalTemplate =
-            `<form action="" class="layui-form my-add-form">
-                <div class="layui-row">
-                    <div class="layui-col-md12 layui-form-item">
-                        <label class="layui-form-label">所属部门</label>
-                        <select class="layui-unselect layui-form-select">
-                            <option value="">选择</option>
-                            <option value="021">部门1</option>
-                            <option value="022">部门2</option>
-                            <option value="023">部门3</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-row">
-                    <div class="layui-col-md12 layui-form-item">
-                        <label class="layui-form-label">上传</label>
-                        <button type="button" class="layui-btn layui-btn-primary">上传表格</button>
-                        <button type="button" class="layui-btn " style="background: rgba(0,193,222,1)" id="upload_model">下载模版</button>
-                    </div>
-                </div>
-                <div class="layui-row">
-                    <div class="layui-col-md12 layui-form-item">
-                        <input type="file"><span style="color: red">删除</span>
-                    </div>
-                </div>
-                <div class="layui-row">
-                    <div class="layui-col-md12 layui-form-item">
-                        温馨提示：清先下载模版，然后根据模版填入员工信息。
-                    </div>
-                </div>
-            </form>`;
-
-        admin.post({
-            url: '/user/getUserList',
-            data:JSON.stringify({"page":1,"rows":20,"key":"|||"}),
-            success: function (res) {},
-            error: function (err) {}
-        })
-
-        layer.open({
-            type: 1,
-            offset: 'auto',
-            title: '系统提示',
-            content: modalTemplate,
-            area: ['500px', '400px'],
-            skin: 'import-modal',
-            shade: 0.4,
-            shadeClose: true,
-            btn: ['提交'],
-            yes: function (index, layero) {
-                // 提交
-                layer.close(index);
-            }
-        })
-
-        table.render({
-            elem: '#user_all_table',
-            page: true,
-            data: [{
-                id: 1,
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '未发布',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1
-            }],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
-            cols: [
-                [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center'
-                    },
-                    {
-                        title: '姓名',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '学（工）号',
-                        field: 'courceName',
-                        align: 'center'
-
-                    },
-                    {
-                        title: '性别',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '账号',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '年级',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '学院',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '系',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '专业',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '班级',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '状态',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        templet: '#user_all_opt',
-                        width: 300,
-                    }
+                        },
+                        {
+                            title: '性别',
+                            field: 'sex',
+                            align: 'center',
+                            templet: function (data) {
+                                return (data.sex === 1) ? '男' : '女'
+                            }
+                        },
+                        {
+                            title: '账号',
+                            field: 'snoOrJno',
+                            align: 'center',
+                        },
+                        {
+                            title: '年级',
+                            field: 'className',
+                            align: 'center',
+                        },
+                        {
+                            title: '学院',
+                            field: 'collegeName',
+                            align: 'center',
+                        },
+                        {
+                            title: '系',
+                            field: 'facultyName',
+                            align: 'center',
+                        },
+                        {
+                            title: '专业',
+                            field: 'professionName',
+                            align: 'center',
+                        },
+                        {
+                            title: '班级',
+                            field: 'className',
+                            align: 'center',
+                        },
+                        {
+                            title: '状态',
+                            field: 'stateName',
+                            align: 'center',
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#user_all_opt',
+                            width: 300,
+                            fix: 'right'
+                        }
+                    ]
                 ]
-            ]
+            },
+            layPageOption = {
+                elem: 'all-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr, obj.limit)
+                    }
+                }
+            },
+            laypage = layui.laypage,
+            upload = layui.upload,
+            collegeList = [],
+            seriesList = [],
+            classesList = [],
+            professList = [],
+            addModalTemp = '',
+            importModalTemplate =
+            `<form action="" class="layui-form my-add-form">
+                            <div class="layui-row">
+                                <div class="layui-col-md12 layui-form-item">
+                                    <label class="layui-form-label">所属部门</label>
+                                    <select class="layui-unselect layui-form-select">
+                                        <option value="">选择</option>
+                                        <option value="021">部门1</option>
+                                        <option value="022">部门2</option>
+                                        <option value="023">部门3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-md12 layui-form-item">
+                                    <label class="layui-form-label">上传</label>
+                                    <button type="button" class="layui-btn layui-btn-primary">上传表格</button>
+                                    <button type="button" class="layui-btn " style="background: rgba(0,193,222,1)">下载模版</button>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-md12 layui-form-item">
+                                    <input type="file" id="upload"><span style="color: red">删除</span>
+                                </div>
+                            </div>
+                            <div class="layui-row">
+                                <div class="layui-col-md12 layui-form-item">
+                                    温馨提示：清先下载模版，然后根据模版填入员工信息。
+                                </div>
+                            </div>
+                        </form>`;
+
+        getCollegeList(function (res) {
+            var options = '';
+            res.data.items.forEach(item => {
+                options += '<option value="' + item.id + '">' + item.collegeName +
+                    '</option>'
+            })
+            $('#college').val('');
+            $('#college').append(options);
+            setSelectOptions();
+        });
+
+        getList(1, 20);
+
+        $('#college').change(function (e) {
+            getSeriesList(function (res) {
+                var options = '';
+                res.data.items.forEach(item => {
+                    options += '<option value="' + item.id + '">' + item.facultyName +
+                        '</option>'
+                })
+                $('#series').append(options);
+            }, Number(e.currentTarget.value));
         })
+
+        $('#series').change(function (e) {
+            getProfessList(function (res) {
+                var options = '';
+                res.data.items.forEach(item => {
+                    options += '<option value="' + item.id + '">' + item.professionName +
+                        '</option>'
+                })
+                $('#profession').append(options);
+            }, Number(e.currentTarget.value));
+        })
+
+        $('#profession').change(function (e) {
+            getClassList(function (res) {
+                var options = '';
+                res.data.items.forEach(item => {
+                    options += '<option value="' + item.id + '">' + item.className +
+                        '</option>'
+                })
+                $('#classes').append(options);
+            }, Number(e.currentTarget.value));
+        })
+
+        // 学生列表
+        function getList(page, rows) {
+            var stuName = $('#studentName').val(),
+                account = $('#studentCount').val(),
+                college = $('#college').val(),
+                userType = $('#userType').val(),
+                data = {
+                    page: page,
+                    rows: rows,
+                    // Key: stuName + '|' + account + '|' + college + '|' + userType
+                };
+
+            admin.post({
+                url: '/user/getUserList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    tableOption.data = (res.data && res.data.items) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        // 学院列表
+        function getCollegeList(callback) {
+            var data = {
+                page: 1,
+                rows: 100
+            }
+            admin.post({
+                url: '/college/queryCollegeList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    if (res.data.items && res.data.items.length > 0) {
+                        collegeList = res.data.items;
+                        callback(res)
+                    }
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        // 系列表
+        function getSeriesList(callback, collegeId) {
+            var data = {
+                page: 1,
+                rows: 20
+            }
+            if (collegeId) {
+                data.key = collegeId
+            }
+            admin.post({
+                url: '/vsMpFaculty/getList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    $('#series').val('');
+                    if (res.data && res.data.items && res.data.items.length > 0) {
+                        callback(res)
+                        seriesList = res.data.items;
+                    }
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        // 专业列表
+        function getProfessList(callback, seriesId) {
+            var data = {
+                page: 1,
+                rows: 20
+            }
+            if (seriesId) {
+                data.key = seriesId
+            }
+            admin.post({
+                url: '/vsMpProfession/getList',
+                data: JSON.stringify(data),
+
+                success: function (res) {
+                    $('#profession').val('');
+                    if (res.data.items && res.data.items.length > 0) {
+                        professList = res.data.items;
+                        callback(res)
+                    }
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        // 班级列表
+        function getClassList(callback, professionId) {
+            var data = {
+                page: 1,
+                rows: 20
+            }
+            if (professionId) {
+                data.key = professionId
+            }
+            admin.post({
+                url: '/vsMpClass/getList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    $('#classes').val('');
+                    if (res.data.items && res.data.items.length > 0) {
+                        classesList = res.data.items;
+                        callback(res)
+                    }
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function getTemplate(formData, type) {
+            return '<div id="user_details_modal">' +
+                '<form action="" class="layui-form">' +
+                '<div class="layui-row">' +
+                '<div class="layui-col-md12 layui-form-item">' +
+                '<label class="layui-form-label">学(工)号:</label>' +
+                '<input type="text" name="userId" id="snoOrJno" value="' + (formData.snoOrJno || '') + '"' +
+                (type === 'check' ? 'disabled' : '') +
+                ' class="common-form-input">' +
+                ' </div>' +
+                '</div>' +
+                '<div class="layui-row">' +
+                '<div class="layui-col-md12 layui-form-item">' +
+                '<label class="layui-form-label">姓名:</label>' +
+                '<input type="text" id="userName" value="' + (formData.userName || '') + '"' +
+                (type === 'check' ? 'disabled' : '') +
+                ' class="common-form-input">' +
+                '</div>' +
+                '</div>' +
+                '<div class="layui-row">' +
+                '<div class="layui-col-md12 layui-form-item">' +
+                '<label class="layui-form-label">性别:</label>' +
+                '<div class="layui-input-block">' +
+                '<input type="radio" name="sex" value="1" title="男"' +
+                (type === 'check' ? 'disabled ' : '') +
+                (formData.sex === 1 ? 'checked' : '') + '>' +
+                '<input type="radio" name="sex" value="0" title="女"' +
+                (type === 'check' ? 'disabled' : '') +
+                (formData.sex === 0 ? 'checked' : '') + '>' +
+                '</div>' +
+                ' </div>' +
+                '</div>' +
+                '<div class="layui-row">' +
+                '<div class="layui-col-md12 layui-form-item">' +
+                '<label class="layui-form-label">行政班级:</label>' +
+                '<div class="user-class">' +
+                '<select name="class1" id="college_model" lay-filter="college" value="' + formData.collegeId +
+                '"' +
+                (type === 'check' ? 'disabled' : '') +
+                '>' +
+                '<option value="">请选择学院</option>' +
+                '</select>' +
+                '<select name="class2" id="series_model" lay-filter="series"' +
+                (type === 'check' ? 'disabled' : '') +
+                '>' +
+                '<option value="">请选择系</option>' +
+                '</select>' +
+                '<select name="class3" id="profess_model" lay-filter="profess"' +
+                (type === 'check' ? 'disabled' : '') +
+                '>' +
+                ' <option value="">请选择专业</option>' +
+                '</select>' +
+                '<select name="class4" id="classes_model" lay-filter="classes"' +
+                (type === 'check' ? 'disabled' : '') +
+                '>' +
+                '<option value="">请选择班级</option>' +
+                '</select>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="layui-row">' +
+                '<div class="layui-col-md12 layui-form-item">' +
+                '<label class="layui-form-label">手机:</label>' +
+                '<input type="text"  id="phone" class="common-form-input" value="' + (formData.phonenumber ||
+                    '') + '"' +
+                (type === 'check' ? 'disabled' : '') +
+                '>' +
+                '</div>' +
+                '</div>' +
+                '<div class="layui-row">' +
+                '<div class="layui-col-md12 layui-form-item">' +
+                '<label class="layui-form-label">邮箱:</label>' +
+                '<input type="text"  id="email" class="common-form-input" value="' + (formData.email || '') +
+                '"' +
+                (type === 'check' ? 'disabled' : '') +
+                '>' +
+                '</div>' +
+                '</div>' +
+                '<div class="layui-row">' +
+                '<div class="layui-col-md12 layui-form-item">' +
+                '<label class="layui-form-label">初始密码:</label>' +
+                '<span>123456</span>' +
+                '</div>' +
+                '</div>' +
+                '<div class="layui-row">' +
+                '<div class="layui-col-md12 layui-form-item">' +
+                '<label class="layui-form-label">状态:</label>' +
+                '<div class="layui-input-block">' +
+                '<input type="radio" name="status" value="1" title="启用"' + (formData.state === 1 ? ' checked' :
+                    '') +
+                (type === 'check' ? ' disabled' : '') +
+                '>' +
+                '<input type="radio" name="status" value="0" title="停用"' +
+                (formData.state === 0 ? ' checked' : '') +
+                (type === 'check' ? ' disabled' : '') +
+                '>' +
+                '</div>' +
+                ' </div>' +
+                '</div>' +
+                '<div class="layui-row">' +
+                '<div class="layui-col-md12 layui-form-item">' +
+                '<label class="layui-form-label">备注:</label>' +
+                '<textarea name="desc" id="remark" class="layui-textarea user-remark" value="' + (formData.remark ||
+                    '') + ' " ' +
+                (type === 'check' ? 'disabled' : '') +
+                '></textarea>' +
+                '</div>' +
+                '</div>' +
+                '</form>' +
+                '</div>';
+        }
+
+        function getFormData() {
+            formData = {
+                roleId: 1,
+                sex: Number($('input[name=sex]').val()),
+                phonenumber: $('#phone').val(),
+                userName: $('#userName').val(),
+                facultyId: Number($('#series_model').val()),
+                classId: Number($('#classes_model').val()),
+                collegeId: Number($('#college_model').val()),
+                snoOrJno: $('#snoOrJno').val(),
+                email: $('#email').val(),
+                professionId: Number($('#profess_model').val()),
+                state: Number($('input[name=status]').val()),
+                studentTypeId: 1
+            }
+        }
+
+        function resetFormData() {
+            formData = {
+                roleId: 1,
+                sex: '',
+                phonenumber: '',
+                userName: '',
+                facultyId: '',
+                classId: '',
+                collegeId: '',
+                snoOrJno: '',
+                email: '',
+                professionId: '',
+                state: ''
+            }
+        }
+
+        function setSelectOptions() {
+            $('#college_model').html('');
+            $('#series_model').html('');
+            $('#profess_model').html('');
+            $('#classes_model').html('');
+            var col = '',
+                series = '',
+                classes = '',
+                profe = '';
+
+            collegeList.forEach(item => {
+                col += '<option value="' + item.id + '">' + item.collegeName +
+                    '</option>'
+            })
+            $('#college_model').html(col);
+
+            form.render('select');
+
+            form.on('select(college)', function (data) {
+                getSeriesList(function (res) {
+                    res.data.items.forEach(item => {
+                        series += '<option value="' + item.id + '">' + item.facultyName +
+                            '</option>'
+                    })
+                    $('#series_model').html(series);
+                    form.render('select');
+
+                }, data.value)
+            })
+
+            form.on('select(series)', function (data) {
+                getProfessList(function (res) {
+                    res.data.items.forEach(item => {
+                        profe += '<option value="' + item.id + '">' + item.professionName +
+                            '</option>'
+                    })
+                    $('#profess_model').html(profe);
+                    form.render('select');
+                }, data.value)
+            })
+
+            form.on('select(profess)', function (data) {
+                getClassList(function (res) {
+                    res.data.items.forEach(item => {
+                        classes += '<option value="' + item.id + '">' + item.className +
+                            '</option>'
+                    })
+                    $('#classes_model').html(classes);
+                    form.render('select');
+                }, data.value)
+            })
+
+        }
+
+        // setSelectOptions();
 
         $('#add_cource').on('click', function () {
+            resetFormData();
+            // 加载学院/系/班级/专业列表
+            var temp = getTemplate(formData);
             layer.open({
                 type: 1,
                 offset: 'auto',
                 title: '添加',
-                content: addModalTemp,
+                content: temp,
                 area: ['700px', '70%'],
                 shade: 0.4,
                 skin: 'user-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
                 yes: function (index, layero) {
-                    // 提交
-                    layer.close(index);
+                    var data = getFormData()
+                    addData(function () {
+                        layer.close(index);
+                    })
                 },
                 cancel: function (index) {
                     layer.close(index);
                 }
             })
             form.render();
+            // setSelectOptions();
         })
 
-        $('#user_all_edit').on('click', function () {
-            layer.open({
+        $('#export-cource').on('click', function () {
+            admin.get({
+                url: '/user/exportExcel?collegeId=' + $('#college').val() + '&facultyId=' + $(
+                    '#series').val(),
+                success: function (res) {}
+            })
+        })
+
+        function addData(callback) {
+            admin.post({
+                url: '/user/addUser',
+                data: JSON.stringify(formData),
+                success: function (res) {
+                    callback()
+                    layer.msg('添加成功！')
+                    getList(1, 20)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        // 停用
+        function stopData(id, callback) {
+            admin.get({
+                url: '/user/stopUse?id=' + id,
+                success: function (res) {
+                    layer.msg('停用成功！')
+                    getList(1, 20)
+                    callback()
+                }
+            })
+        }
+
+        // 启用
+        function startData(id, callback) {
+            admin.get({
+                url: '/user/startUse?id=' + id,
+                success: function (res) {
+                    layer.msg('启用成功！')
+                    getList(1, 20)
+                    callback()
+                }
+            })
+        }
+
+        // 删除
+        function deleteData(id) {
+            admin.delete({
+                url: '/user/deleteUser?id=' + id,
+                success: function (res) {
+                    layer.msg('删除成功！')
+                    getList(1, 20)
+                }
+            })
+        }
+
+        // 重置密码
+        function resetPwd(id, callback) {
+            var data = {
+                id
+            }
+            admin.put({
+                url: '/user/resetPassWord?id=' + id,
+                data: JSON.stringify(data),
+                success: function (res) {
+                    layer.msg('重置密码成功！')
+                    getList(1, 20)
+                    callback()
+                }
+            })
+        }
+
+        table.on('tool(user_all_table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event,
+                type = '';
+
+            if (layEvent === 'delete') {
+                layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '系统提示',
+                    content: '该信息为重要信息，是否删除？',
+                    area: ['300px', '200px'],
+                    shade: 0.4,
+                    skin: 'system-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        // 提交
+                        layer.close(index)
+                        deleteData(data.id, -1)
+                    },
+                    cancel: function (index) {
+                        layer.close(index)
+                    }
+                })
+                return;
+            }
+            if (layEvent === 'disabledUser') {
+                layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '系统提示',
+                    content: '该信息为重要信息，是否' + (data.state === 1 ? '停用？' : '启用？'),
+                    area: ['300px', '200px'],
+                    shade: 0.4,
+                    skin: 'system-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        // 提交
+                        if (data.state === 1) {
+                            stopData(data.id, function () {
+                                layer.close(index)
+                            })
+                        } else {
+                            startData(data.id, function () {
+                                layer.close(index)
+                            })
+                        }
+                    },
+                    cancel: function (index) {
+                        layer.close(index)
+                    }
+                })
+                return;
+            }
+            if (layEvent === 'resetPwd') {
+                layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '系统提示',
+                    content: '确定重置密码？',
+                    area: ['300px', '200px'],
+                    shade: 0.4,
+                    skin: 'system-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        resetPwd(data.id, function () {
+                            layer.close(index)
+                        })
+                    },
+                    cancel: function (index) {
+                        layer.close(index)
+                    }
+                })
+                return;
+            }
+            if (layEvent === 'edit') { //编辑
+                formData = data;
+                type = 'edit';
+            } else if (layEvent === 'check') {
+                formData = data;
+                type = 'check';
+            }
+
+            var layerOption = {
                 type: 1,
                 offset: 'auto',
                 title: '编辑',
-                content: addModalTemp,
-                area: ['700px', '70%'],
-                shade: 0.4,
-                skin: 'user-edit-modal',
-                shadeClose: true,
-                btn: ['确定', '取消'],
-                yes: function (index, layero) {
-                    // 提交
-                    layer.close(index);
-                },
-                cancel: function (index) {
-                    layer.close(index);
-                }
-            })
-            form.render();
-        })
-
-        $('#user_all_check').on('click', function () {
-            layer.open({
-                type: 1,
-                offset: 'auto',
-                title: '查看',
-                content: addModalTemp,
+                content: getTemplate(formData, type),
                 area: ['700px', '70%'],
                 shade: 0.4,
                 shadeClose: true,
-                skin: 'user-edit-modal',
-                btn: ['确定', '取消'],
+                btn: (type === 'check') ? [] : ['确定', '取消'],
                 yes: function (index, layero) {
-                    // 提交
-                    layer.close(index);
+                    layer.close(index)
+                    getFormData()
+                    if (type === 'check') {
+                        getData(data.id)
+                    } else if (type === 'edit') {
+                        formData.id = data.id
+                        updateData(formData)
+                    }
                 },
                 cancel: function (index) {
-                    layer.close(index);
+                    layer.close(index)
                 }
-            })
+            }
+
+            layer.open(layerOption);
             form.render();
         })
-
-        $('#user_all_delete').on('click', function () {
-            layer.open({
-                type: 1,
-                offset: 'auto',
-                title: '系统提示',
-                content: '该信息为重要信息，是否删除？',
-                area: ['300px', '200px'],
-                shade: 0.4,
-                skin: 'system-modal',
-                shadeClose: true,
-                btn: ['确定', '取消'],
-                yes: function (index, layero) {
-                    // 提交
-                    layer.close(index);
-                },
-                cancel: function (index) {
-                    layer.close(index);
-                }
-            })
-        })
-
 
         $('#import-cource').on('click', function () {
             layer.open({
@@ -387,36 +790,39 @@
                 offset: 'auto',
                 title: '批量导入',
                 content: importModalTemplate,
-                url: "http://39.104.97.6:8080/user/importExp",
                 area: ['500px', '400px'],
                 skin: 'import-modal',
                 shade: 0.4,
                 shadeClose: true,
                 btn: ['提交', '取消'],
                 yes: function (index, layero) {
-                    // 提交
                     layer.close(index);
                 }
             })
             form.render();
-            // $('#upload_model').on('click', function() {
-            //     window.location.href = "http://39.104.97.6:8080/excel/用户模板.xls";
-            // });
+
+            $('#upload').change(function (e) {
+                var formData = new FormData();
+                formData.append("file", e.target.files[0]);
+
+                upload.render({
+                    elem: '#upload',
+                    url: '/user/importExp',
+                    data: {
+                        file: formData
+                    },
+                    done: function (res, index, upload) { //上传后的回调
+                        console.log(344, res)
+                        layer.msg(res.msg);
+                    },
+                    accept: 'file'
+                })
+            })
         })
 
-        $("#export-cource").click(function(){
-            $.ajax({
-                type: "get",
-                url: "http://39.104.97.6:8080/user/exportExcel",
-                async: false,
-                success(){
-                    // layout("111");
-                }
-            })
-        });
+
+
     })
-
-
 </script>
 
 <style>

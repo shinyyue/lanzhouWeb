@@ -63,14 +63,19 @@ layui
                             url: url,
                             api: api,
                             type: type,
-                            xhrFields: {withCredentials: true},
+                            xhrFields: {
+                                withCredentials: true
+                            },
                             data: JSON.stringify(data),
-                            success: function (res) {
+                            success: function (res, status, xhr) {
+                                console.log(333, xhr)
                                 templateData = data
                                 // renderTemplate(tem, res[conf.response.dataName])
                                 if (done) new Function(done)()
                             },
-                            err: function (err) {}
+                            err: function (err, status, xhr) {
+                                console.log(2222, xhr)
+                            }
                         })
                     } else {
                         renderTemplate(
@@ -128,7 +133,7 @@ layui
                         '?v=' +
                         layui.cache.version,
                     type: 'get',
-                    xhrFields: {withCredentials: true},
+                    // xhrFields: {withCredentials: true},
                     dataType: 'html',
                     success: function (html) {
                         callback({
@@ -476,7 +481,10 @@ layui
                     timeout: 5000,
                     type: 'get',
                     dataType: 'json',
-                    xhrFields: {withCredentials: true},
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    crossDomain: true,
                     contentType: 'application/json;charset=utf-8',
                     headers: conf.requestHeaders || {},
                     success: function (res) {
