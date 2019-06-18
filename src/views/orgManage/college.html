@@ -208,12 +208,8 @@
         };
 
         function deleteData(id) {
-            var data = {
-                id
-            }
             admin.delete({
-                url: '/college/deleteCollege',
-                data: JSON.stringify(data),
+                url: '/college/deleteCollege?id=' + id,
                 success: function (res) {
                     getList(1)
                 },
@@ -280,18 +276,18 @@
         function getTemplate(formData, type) {
             return '<div id="college_details_modal">\n' +
                 '        <form action="" class="layui-form">\n' +
-                '            <div class="layui-row">\n' +
-                '                <div class="layui-col-md12 layui-form-item">\n' +
-                '                    <label class="layui-form-label">上级机构：</label>\n' +
-                '                   <input\n' +
-                '                        type="text"\n' +
-                '                        class="common-form-input"\n' +
-                '                        id="last-org"' +
-                '                        value="' + (formData.lastOrg || '') + '"\n' +
-                (type === 'check' ? 'disabled' : '') +
-                '                    />\n' +
-                '                </div>\n' +
-                '            </div>\n' +
+                // '            <div class="layui-row">\n' +
+                // '                <div class="layui-col-md12 layui-form-item">\n' +
+                // '                    <label class="layui-form-label">上级机构：</label>\n' +
+                // '                   <input\n' +
+                // '                        type="text"\n' +
+                // '                        class="common-form-input"\n' +
+                // '                        id="last-org"' +
+                // '                        value="' + (formData.lastOrg || '') + '"\n' +
+                // (type === 'check' ? 'disabled' : '') +
+                // '                    />\n' +
+                // '                </div>\n' +
+                // '            </div>\n' +
                 '            <div class="layui-row">\n' +
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">学院名称:</label>\n' +
@@ -305,34 +301,34 @@
                 '                    />\n' +
                 '                </div>\n' +
                 '            </div>\n' +
-                '            <div class="layui-row">\n' +
-                '                <div class="layui-col-md12 layui-form-item">\n' +
-                '                    <label class="layui-form-label">学院编码:</label>\n' +
-                '                    <input\n' +
-                '                        type="text"\n' +
-                '                        id="college-number"' +
-                '                        name="userName"\n' +
-                '                        class="common-form-input"\n' +
-                '                        value="' + (formData.collegeNumber || '') + '"\n' +
-                (type === 'check' ? 'disabled' : '') +
-                '                    />\n' +
-                '                </div>\n' +
-                '            </div>\n' +
-                '            <div class="layui-row">\n' +
-                '                <div class="layui-col-md12 layui-form-item">\n' +
-                '                    <label class="layui-form-label">类型:</label>\n' +
-                '                    <select ' + (formData.type || '') +
-                '                        id="college-type"' +
-                (type === 'check' ? 'disabled' : '') +
-                '>\n' +
-                '                        <option value=""></option>\n' +
-                '                        <option value="学院">学院</option>\n' +
-                '                        <option value="系">系</option>\n' +
-                '                        <option value="专业">专业</option>\n' +
-                '                        <option value="班">班</option>\n' +
-                '                    </select>\n' +
-                '                </div>\n' +
-                '            </div>\n' +
+                // '            <div class="layui-row">\n' +
+                // '                <div class="layui-col-md12 layui-form-item">\n' +
+                // '                    <label class="layui-form-label">学院编码:</label>\n' +
+                // '                    <input\n' +
+                // '                        type="text"\n' +
+                // '                        id="college-number"' +
+                // '                        name="userName"\n' +
+                // '                        class="common-form-input"\n' +
+                // '                        value="' + (formData.collegeNumber || '') + '"\n' +
+                // (type === 'check' ? 'disabled' : '') +
+                // '                    />\n' +
+                // '                </div>\n' +
+                // '            </div>\n' +
+                // '            <div class="layui-row">\n' +
+                // '                <div class="layui-col-md12 layui-form-item">\n' +
+                // '                    <label class="layui-form-label">类型:</label>\n' +
+                // '                    <select ' + (formData.type || '') +
+                // '                        id="college-type"' +
+                // (type === 'check' ? 'disabled' : '') +
+                // '>\n' +
+                // '                        <option value=""></option>\n' +
+                // '                        <option value="学院">学院</option>\n' +
+                // '                        <option value="系">系</option>\n' +
+                // '                        <option value="专业">专业</option>\n' +
+                // '                        <option value="班">班</option>\n' +
+                // '                    </select>\n' +
+                // '                </div>\n' +
+                // '            </div>\n' +
                 '            <div class="layui-row">\n' +
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">备注:</label>\n' +

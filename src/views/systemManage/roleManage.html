@@ -78,22 +78,21 @@
                             field: 'roleName',
                             align: 'center'
                         },
-                        {
-                            title: '英文名称',
-                            field: 'courceName',
-                            align: 'center'
-                        },
-                        {
-                            title: '显示顺序',
-                            field: 'id',
-                            align: 'center',
-                        },
-                        {
-                            title: '创建用户',
-                            field: 'responsor',
-                            align: 'center',
-
-                        },
+                        // {
+                        //     title: '英文名称',
+                        //     field: 'courceName',
+                        //     align: 'center'
+                        // },
+                        // {
+                        //     title: '显示顺序',
+                        //     field: 'id',
+                        //     align: 'center',
+                        // },
+                        // {
+                        //     title: '创建用户',
+                        //     field: 'responsor',
+                        //     align: 'center',
+                        // },
                         {
                             title: '创建时间',
                             field: 'responsor',
@@ -197,32 +196,32 @@
                 '                    />\n' +
                 '                </div>\n' +
                 '            </div>\n' +
-                '            <div class="layui-row">\n' +
-                '                <div class="layui-col-md12 layui-form-item">\n' +
-                '                    <label class="layui-form-label">英文名称:</label>\n' +
-                '                    <input\n' +
-                '                        type="text"\n' +
-                '                        name="usName"\n' +
-                '                        class="common-form-input"\n' +
-                '                        id="usName"\n' +
-                '                        value="' + (formData.name || '') + '"\n' +
-                (type === 'check' ? 'disabled' : '') +
-                '                    />\n' +
-                '                </div>\n' +
-                '            </div>\n' +
-                '            <div class="layui-row">\n' +
-                '                <div class="layui-col-md12 layui-form-item">\n' +
-                '                    <label class="layui-form-label">显示顺序:</label>\n' +
-                '                    <input\n' +
-                '                        type="text"\n' +
-                '                        name="userName"\n' +
-                '                        class="common-form-input"\n' +
-                '                        id="showId"\n' +
-                '                        value="' + formData.id + '"\n' +
-                (type === 'check' ? 'disabled' : '') +
-                '                    />\n' +
-                '                </div>\n' +
-                '            </div>\n' +
+                // '            <div class="layui-row">\n' +
+                // '                <div class="layui-col-md12 layui-form-item">\n' +
+                // '                    <label class="layui-form-label">英文名称:</label>\n' +
+                // '                    <input\n' +
+                // '                        type="text"\n' +
+                // '                        name="usName"\n' +
+                // '                        class="common-form-input"\n' +
+                // '                        id="usName"\n' +
+                // '                        value="' + (formData.name || '') + '"\n' +
+                // (type === 'check' ? 'disabled' : '') +
+                // '                    />\n' +
+                // '                </div>\n' +
+                // '            </div>\n' +
+                // '            <div class="layui-row">\n' +
+                // '                <div class="layui-col-md12 layui-form-item">\n' +
+                // '                    <label class="layui-form-label">显示顺序:</label>\n' +
+                // '                    <input\n' +
+                // '                        type="text"\n' +
+                // '                        name="userName"\n' +
+                // '                        class="common-form-input"\n' +
+                // '                        id="showId"\n' +
+                // '                        value="' + formData.id + '"\n' +
+                // (type === 'check' ? 'disabled' : '') +
+                // '                    />\n' +
+                // '                </div>\n' +
+                // '            </div>\n' +
                 '            <div class="layui-row">\n' +
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">分配权限:</label>\n' +
@@ -301,12 +300,8 @@
         }
 
         function deleteData(id) {
-            const data = {
-                id
-            }
             admin.delete({
-                url: '/role/deleteRole',
-                data: JSON.stringify(data),
+                url: '/role/deleteRole?id=' + id,
                 success: function (res) {
                     getList(1, 20);
                 },
