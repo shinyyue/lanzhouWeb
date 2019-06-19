@@ -387,6 +387,7 @@
                 offset: 'auto',
                 title: '批量导入',
                 content: importModalTemplate,
+//              url: "http://127.0.0.1:8080/user/importExp",
                 url: "http://39.104.97.6:8080/user/importExp",
                 area: ['500px', '400px'],
                 skin: 'import-modal',
@@ -407,6 +408,7 @@
         $("#export-cource").click(function(){
             $.ajax({
                 type: "get",
+//              url: "http://127.0.0.1:8080/user/exportExcel",
                 url: "http://39.104.97.6:8080/user/exportExcel",
                 async: false,
                 success(){

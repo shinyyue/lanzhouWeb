@@ -156,12 +156,18 @@
 			'            </div>\n' +
 			'        </form>\n' +
 			'    </div>';
-
+		admin.post({
+            url: '/schoolYear/getList',
+            data:JSON.stringify({"page":1,"rows":20,"key":"|||"}),
+            success: function (res) {},
+            error: function (err) {}
+        })
 		function getList(page, rows) {
 			const data = {
 				page: page,
 				rows: rows
 			}
+			debugger;
 			admin.post({
 				url: '/schoolYear/getList',
 				data: JSON.stringify(data),
