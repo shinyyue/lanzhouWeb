@@ -16,89 +16,259 @@
     </div>
     <table id="lab-mylist-table" lay-filter="lab-mylist-table"></table>
     <script type="text/html" id="sourcelist-opt">
-        <button class="course-set-btn" id="lab-mylist-edit">编辑</button>
-        <button class="course-set-btn" id="lab-mylist-delete">删除</button>
-        <button class="course-set-btn" id="lab-mylist-check">查看</button>
+        <button class="course-set-btn" lay-event="edit">编辑</button>
+        <button class="course-set-btn" lay-event="delete">删除</button>
+        <button class="course-set-btn" lay-event="check">查看</button>
     </script>
     <div class="app-table-page" id="lab-mylist-page"></div>
-    <!--  -->
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'tree'], function(table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
             tableFilter = 'lab-mylist-table',
-            table = layui.table
-
-        table.render({
-            page: false,
-            data: [
-                {
-                    id: 1,
-                    courceName: '发电机哈哈',
-                    courseCode: 20190101,
-                    responsor: '王小虎',
-                    time: '第一学期',
-                    class: '所有年级',
-                    isCommon: false,
-                    score: 1
-                }
-            ],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
-            cols: [
-                [
-                    {
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center'
-                    },
-                    {
-                        title: '实验室名称',
-                        field: 'courceName',
-                        align: 'center'
-                    },
-                    {
-                        title: '实验室描述',
-                        field: 'responsor',
-                        align: 'center'
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        templet: '#sourcelist-opt'
+            table = layui.table,
+            admin = layui.admin,
+            pageLimit = 20,
+            layPageOption = {
+                elem: 'lab-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr)
                     }
-                ]
-            ]
+                }
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+	                [
+	                    {
+	                        title: '序号',
+	                        field: 'id',
+	                        width: 80,
+	                        align: 'center'
+	                    },
+	                    {
+	                        title: '实验室名称',
+	                        field: 'labName',
+	                        align: 'center'
+	                    },
+	                    {
+	                        title: '实验室地址',
+	                        field: 'labAddress',
+	                        align: 'center'
+	                    },
+	                    {
+	                        title: '操作',
+	                        align: 'center',
+	                        templet: '#sourcelist-opt'
+	                    }
+	                ]
+	            ]
+            },
+            formData = {
+                id: '',
+                labName: '',
+		labAddress: ''
+            };
+
+
+        getList(1)
+
+        table.on('tool(lab-mylist-table)', function (obj) {
+        	debugger;
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event,
+                type = '';
+
+            if (layEvent === 'delete') {
+                layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '系统提示',
+                    content: '该信息为重要信息，是否删除？',
+                    area: ['300px', '200px'],
+                    shade: 0.4,
+                    skin: 'system-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        // 提交
+                        layer.close(index)
+                        deleteData(data.id)
+                    },
+                    cancel: function (index) {
+                        layer.close(index)
+                    }
+                })
+                return;
+            }
+            if (layEvent === 'edit') { //编辑
+                formData = data;
+                type = 'edit';
+            } else if (layEvent === 'check') {
+                formData = data;
+                type = 'check';
+            }
+
+            var layerOption = {
+                type: 1,
+                offset: 'auto',
+                title: '编辑',
+                content: getTemplate(formData, type),
+                area: ['700px', '70%'],
+                shade: 0.4,
+                shadeClose: true,
+                btn: (type === 'check') ? [] : ['确定', '取消'],
+                yes: function (index, layero) {
+                    layer.close(index)
+                    getFormData()
+                    if (type === 'check') {
+                        getData(data.id)
+                    } else if (type === 'edit') {
+                        formData.id = data.id
+                        updateData(formData)
+                    }
+                },
+                cancel: function(index) {
+                    layer.close(index)
+                }
+            }
+
+            layer.open(layerOption);
+            form.render();
         })
 
-        //执行一个laypage实例
-        laypage.render({
-            elem: 'lab-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
-            count: 50, //数据总数，从服务端得到
-            limit: 10,
-            first: '首页',
-            last: '尾页',
-            hash: 'page',
-            curr: location.hash.replace('#/lab/mylist&page=', ''),
-            layout: [
-                'first',
-                'prev',
-                'page',
-                'next',
-                'last',
-                'count',
-                'currLimit',
-                'curr',
-                'pageCount'
-            ]
-        })
+        $('#add_lab').on('click', function () {
+            formData = {};
+            layer.open({
+                type: 1,
+                offset: 'auto',
+                title: '添加',
+                content: getTemplate(formData),
+                area: ['700px', '70%'],
+                shade: 0.4,
+                skin: 'lab-edit-modal',
+                shadeClose: true,
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                	getFormData()
+                    layer.close(index)
+                    addData(formData)
+                },
+                cancel: function(index) {
+                    layer.close(index)
+                }
+            })
+            form.render()
+        });
 
-        addModalTemp =
-            '<div id="college_details_modal">\n' +
+        function getList(page) {
+            var data = {
+                page: page,
+                rows: pageLimit
+            }
+            admin.post({
+                url: '/mpLab/vsMpLabList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    tableOption.data = (res.data && res.data.items) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
+
+        function deleteData(id) {
+            admin.delete({
+                url: '/mpLab/del?id=' + id,
+                success: function (res) {
+                    getList(1)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function updateData(data) {
+            var data = {
+                id: data.id,
+                labName: data.labName,
+		labAddress: data.labAddress
+            }
+            admin.put({
+                url: '/mpLab/update',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    getList(1)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function getData(id) {
+            admin.get({
+                url: '/mpLab/queryById?id=' + id,
+                success: function (res) {},
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function addData(data) {
+            var data = {
+                labName: data.labName,
+		labAddress: data.labAddress
+            }
+            admin.post({
+                url: '/mpLab/add',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    getList(1)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function getFormData() {
+            formData = {
+                id: $('#id').val(),
+		labName: $('#labName').val(),
+		labAddress: $('#labAddress').val()
+            }
+        }
+
+
+        function getTemplate(formData, type) {
+            return '<div id="lab_details_modal">\n' +
             '        <form action="" class="layui-form">\n' +
             '            <div class="layui-row">\n' +
             '                <div class="layui-col-md12 layui-form-item">\n' +
@@ -106,6 +276,7 @@
             '                    <input\n' +
             '                        type="text"\n' +
             '                        name="userName"\n' +
+	    '                        id="labName"\n' +
             '                        class="common-form-input"\n' +
             '                        value="第一实验室"\n' +
             '                    />\n' +
@@ -113,113 +284,23 @@
             '            </div>\n' +
             '            <div class="layui-row">\n' +
             '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">实验室描述:</label>\n' +
+            '                    <label class="layui-form-label">实验室地址:</label>\n' +
             '                    <textarea\n' +
             '                        name="desc"\n' +
+	    '                        id="labAddress"\n' +
             '                        class="layui-textarea lab-remark"\n' +
             '                    ></textarea>\n' +
             '                </div>\n' +
             '            </div>\n' +
             '        </form>\n' +
-            '    </div>'
-
-        $('#add_lab').on('click', function() {
-            layer.open({
-                type: 1,
-                offset: 'auto',
-                title: '添加',
-                content: addModalTemp,
-                area: ['700px', '70%'],
-                shade: 0.4,
-                skin: 'user-edit-modal',
-                shadeClose: true,
-                btn: ['确定', '取消'],
-                yes: function(index, layero) {
-                    // 提交
-                    layer.close(index)
-                },
-                cancel: function(index) {
-                    layer.close(index)
-                }
-            })
-            form.render()
-        })
-
-        $('#lab-mylist-delete').on('click', function() {
-            layer.open({
-                type: 1,
-                offset: 'auto',
-                title: '系统提示',
-                content: '该信息为重要信息，是否删除？',
-                area: ['300px', '200px'],
-                shade: 0.4,
-                skin: 'system-modal',
-                shadeClose: true,
-                btn: ['确定', '取消'],
-                yes: function(index, layero) {
-                    // 提交
-                    layer.close(index)
-                },
-                cancel: function(index) {
-                    layer.close(index)
-                }
-            })
-        })
-
-        $('#lab-mylist-edit').on('click', function() {
-            layer.open({
-                type: 1,
-                offset: 'auto',
-                title: '编辑',
-                content: addModalTemp,
-                area: ['700px', '70%'],
-                shade: 0.4,
-                skin: 'lab-edit-modal',
-                shadeClose: true,
-                btn: ['确定', '取消'],
-                yes: function(index, layero) {
-                    // 提交
-                    layer.close(index)
-                },
-                cancel: function(index) {
-                    layer.close(index)
-                }
-            })
-            form.render()
-        })
-
-        $('#lab-mylist-check').on('click', function() {
-            layer.open({
-                type: 1,
-                offset: 'auto',
-                title: '编辑',
-                content: addModalTemp,
-                area: ['700px', '70%'],
-                shade: 0.4,
-                skin: 'lab-edit-modal',
-                shadeClose: true,
-                btn: ['确定', '取消'],
-                yes: function(index, layero) {
-                    // 提交
-                    layer.close(index)
-                },
-                cancel: function(index) {
-                    layer.close(index)
-                }
-            })
-            form.render()
-        })
-
-        //开启复选框
-        // tree.render({
-        //     elem: '#test7',
-        //     data: data2,
-        //     showCheckbox: true
-        // })
+            '    </div>';
+        }
     })
 </script>
 
 <style>
+    #source-manage-mylist {
+    }
     .lab-edit-modal .layui-layer-content {
         padding: 20px;
     }
