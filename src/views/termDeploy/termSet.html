@@ -16,22 +16,22 @@
 	</div>
 	<table id="term-mylist-table" lay-filter="term-mylist-table"></table>
 	<script type="text/html" id="sourcelist-opt">
-		<button class="course-set-btn" id="term-mylist-edit" onclick="">编辑</button>
-		<button class="course-set-btn" id="term-mylist-delete">删除</button>
-		<button class="course-set-btn" id="term-mylist-check">查看</button>
+		<button class="course-set-btn" lay-event="edit>编辑</button>
+		<button class="course-set-btn " lay-event="delete ">删除</button>
+		<button class="course-set-btn " lay-event="check ">查看</button>
 	</script>
-	<div class="app-table-page" id="term-mylist-page"></div>
+	<div class="app-table-page " id="term-mylist-page "></div>
 </div>
 
 <script>
-	layui.use(['table', 'jquery', 'form', 'tree', 'admin','laydate'], function(table, $) {
+	layui.use(['table', 'jquery', 'form', 'admin','tree', 'laydate'], function(table, $) {
 		var $ = layui.jquery,
 			form = layui.form,
 			laypage = layui.laypage,
 			tableFilter = 'term-mylist-table',
 			table = layui.table,
 			admin = layui.admin,
-			tree = layui.tree,
+            		pageLimit = 20,
 			layPageOption = {
 				elem: 'term-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
 				limit: 20,
@@ -51,20 +51,21 @@
 				jump: function(obj, first) {
 					//首次不执行
 					if(!first) {
-						getList(obj.curr, obj.limit)
+						getList(obj.curr)
 					}
 				}
 
 			},
 			tableOption = {
 				page: false,
-				elem: '[lay-filter="' + tableFilter + '"]',
+				elem: '[lay-filter=" ' + tableFilter + ' "]',
 				cols: [
 					[{
 							title: '序号',
 							field: 'id',
 							width: 80,
-							align: 'center'
+                            align: 'center',
+                            type: 'numbers'
 						},
 						{
 							title: '学年',
@@ -89,309 +90,267 @@
 						{
 							title: '操作',
 							align: 'center',
-							templet: '#sourcelist-opt'
+							templet: '#sourcelist-opt',
+				            fixed: 'right',
+				            width: 200
 						}
 					]
 				]
-			}
+			  },
+			formData = {
+		                id: '',
+		                schoolYear: '',
+		                semester: '',
+		                startTime: '',
+		                endTime: ''
+		         };
 
-		getList(1, 20);
 
-		addModalTemp =
-			'<div id="college_details_modal">\n' +
-			'        <form action="" class="layui-form">\n' +
-			'            <div class="layui-row">\n' +
-			'                <div class="layui-col-md12 layui-form-item">\n' +
-			'                    <label class="layui-form-label">学期：</label>\n' +
-			'                    <div class="layui-input-block">\n' +
+
+        getList(1)
+
+        table.on('tool(term-mylist-table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event,
+                type = '';
+
+            if (layEvent === 'delete') {
+                layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '系统提示',
+                    content: '该信息为重要信息，是否删除？',
+                    area: ['300px', '200px'],
+                    shade: 0.4,
+                    skin: 'system-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        // 提交
+                        layer.close(index)
+                        deleteData(data.id)
+                    },
+                    cancel: function (index) {
+                        layer.close(index)
+                    }
+                })
+                return;
+            }
+            if (layEvent === 'edit') { //编辑
+                formData = data;
+                type = 'edit';
+            } else if (layEvent === 'check') {
+                formData = data;
+                type = 'check';
+            }
+
+            var layerOption = {
+                type: 1,
+                offset: 'auto',
+                title: '编辑',
+                content: getTemplate(formData, type),
+                area: ['700px', '70%'],
+                shade: 0.4,
+                shadeClose: true,
+                btn: (type === 'check') ? [] : ['确定', '取消'],
+                yes: function (index, layero) {
+                    layer.close(index)
+                    getFormData()
+                    if (type === 'check') {
+                        getData(data.id)
+                    } else if (type === 'edit') {
+                        formData.id = data.id
+                        updateData(formData)
+                    }
+                },
+                cancel: function (index) {
+                    layer.close(index)
+                }
+            }
+
+            layer.open(layerOption);
+            form.render();
+        })
+
+        $('#add_term').on('click', function () {
+            formData = {};
+            layer.open({
+                type: 1,
+                offset: 'auto',
+                title: '添加',
+                content: getTemplate(formData),
+                area: ['700px', '70%'],
+                shade: 0.4,
+                skin: 'user-edit-modal',
+                shadeClose: true,
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    layer.close(index)
+                    addData(formData)
+                },
+                cancel: function (index) {
+                    layer.close(index)
+                }
+            })
+            form.render()
+        });
+
+        function getList(page) {
+            var data = {
+                page: page,
+                rows: pageLimit
+            }
+            admin.post({
+                url: '/schoolYear/getList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                	debugger;
+                    tableOption.data = (res.data && res.data.items) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
+
+        function deleteData(id) {
+            admin.delete({
+                url: '/schoolYear/delete?id=' + id,
+                success: function (res) {
+                    getList(1)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function updateData(data) {
+            var data = {
+                id: data.id,
+                schoolYear: data.schoolYear,
+				semester: data.semester,
+				startTime: data.startTime,
+				endTime: data.endTime
+            }
+            admin.put({
+                url: '/schoolYear/update',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    getList(1)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function getData(id) {
+            admin.get({
+                url: '/schoolYear/get?id=' + id,
+                success: function (res) {},
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function addData(data) {
+            var data = {
+				schoolYear: data.schoolYear,
+				semester: data.semester,
+				startTime: data.startTime,
+				endTime: data.endTime
+            }
+            admin.post({
+                url: '/schoolYear/add',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    getList(1)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function getFormData() {
+            formData = {
+	        	id: $('#id').val(),
+                semester: $('#semester').val(),
+				schoolYear: $('#schoolYear').val(),
+                startTime: $('#startTime').val(),
+                endTime: $('#endTime').val()
+            }
+        }
+
+
+        function getTemplate(formData, type) {
+            return '<div id="term_details_modal ">\n' +
+			'        <form action=" " class="layui-form ">\n' +
+			'            <div class="layui-row ">\n' +
+			'                <div class="layui-col-md12 layui-form-item ">\n' +
+			'                    <label class="layui-form-label ">学期：</label>\n' +
+			'                    <div class="layui-input-block ">\n' +
 			'                        <input\n' +
-			'                            type="radio"\n' +
-			'                            name="sex"\n' +
-			'                            value="第1学期"\n' +
-			'                            title="第1学期"\n' +
+			'                            type="radio "\n' +
+			'                            name="sex "\n' +
+			'                            value="第1学期 "\n' +
+			'                            title="第1学期 "\n' +
 			'                        />\n' +
 			'                        <input\n' +
-			'                            type="radio"\n' +
-			'                            name="sex"\n' +
-			'                            value="第2学期"\n' +
-			'                            title="第2学期"\n' +
+			'                            type="radio "\n' +
+			'                            name="sex "\n' +
+			'                            value="第2学期 "\n' +
+			'                            title="第2学期 "\n' +
 			'                            checked\n' +
 			'                        />\n' +
 			'                    </div>\n' +
 			'                </div>\n' +
 			'            </div>\n' +
-			'            <div class="layui-row">\n' +
-			'                <div class="layui-col-md12 layui-form-item">\n' +
-			'                    <label class="layui-form-label">开始日期:</label>\n' +
+			'            <div class="layui-row ">\n' +
+			'                <div class="layui-col-md12 layui-form-item ">\n' +
+			'                    <label class="layui-form-label ">开始日期:</label>\n' +
 			'                    <input\n' +
-			'                        type="text"\n' +
-			'                        name="userName"\n' +
-			'                        id="startTime"\n' +
-			'                        class="common-form-input"\n' +
-			'                        value="2018-09"\n' +
+			'                        type="text "\n' +
+			'                        name="userName "\n' +
+			'                        id="startTime "\n' +
+			'                        class="common-form-input "\n' +
+			'                        value="2018-09 "\n' +
 			'                    />\n' +
 			'                </div>\n' +
 			'            </div>\n' +
-			'            <div class="layui-row">\n' +
-			'                <div class="layui-col-md12 layui-form-item">\n' +
-			'                    <label class="layui-form-label">结束日期:</label>\n' +
+			'            <div class="layui-row ">\n' +
+			'                <div class="layui-col-md12 layui-form-item ">\n' +
+			'                    <label class="layui-form-label ">结束日期:</label>\n' +
 			'                    <input\n' +
-			'                        type="text"\n' +
-			'                        name="userName"\n' +
-			'                        class="common-form-input"\n' +
-			'                        value="2019-06"\n' +
+			'                        type="text "\n' +
+			'                        name="userName "\n' +
+			'                        id="endName "\n' +
+			'                        class="common-form-input "\n' +
+			'                        value="2019-06 "\n' +
 			'                    />\n' +
 			'                </div>\n' +
 			'            </div>\n' +
-			'            <div class="layui-row">\n' +
-			'                <div class="layui-col-md12 layui-form-item">\n' +
-			'                    <label class="layui-form-label">学年:</label>\n' +
+			'            <div class="layui-row ">\n' +
+			'                <div class="layui-col-md12 layui-form-item ">\n' +
+			'                    <label class="layui-form-label ">学年:</label>\n' +
 			'                    <input\n' +
-			'                        type="text"\n' +
-			'                        name="userName"\n' +
-			'                        class="common-form-input"\n' +
-			'                        value="2018-2019"\n' +
+			'                        type="text "\n' +
+			'                        name="userName "\n' +
+			'                        id="schoolYear "\n' +
+			'                        class="common-form-input "\n' +
+			'                        value="2018-2019 "\n' +
 			'                    />\n' +
 			'                </div>\n' +
 			'            </div>\n' +
 			'        </form>\n' +
 			'    </div>';
-		admin.post({
-            url: '/schoolYear/getList',
-            data:JSON.stringify({"page":1,"rows":20,"key":"|||"}),
-            success: function (res) {},
-            error: function (err) {}
-        })
-		function getList(page, rows) {
-			const data = {
-				page: page,
-				rows: rows
-			}
-			debugger;
-			admin.post({
-				url: '/schoolYear/getList',
-				data: JSON.stringify(data),
-				success: function(res) {
-					tableOption.data = res.data.items;
-					layPageOption.count = res.data.total;
-					table.render(tableOption)
-					laypage.render(layPageOption)
-				},
-				error: function(err) {
-					console.log(err)
-				}
-			})
-		}
-
-		function addTerm() {
-			//			const data = {
-			//				termName: $('#termName').val(),
-			//				menuPermissions: '1, 2, 3, 4, 5, 6'
-			//			}
-			const data = {
-				"schoolYear": "202005-202009",
-				"semester": 1,
-				"startTime": 1557616760868,
-				"endTime": 1557616760868
-			}
-			admin.post({
-				url: '/schoolYear/add',
-				data: JSON.stringify(data),
-				success: function(res) {
-					getList(1, 20);
-					layer.msg('添加成功！')
-				}
-			})
-		}
-
-		function updateTerm() {
-			//			const data = {
-			//				termName: $('#termName').val(),
-			//				menuPermissions: [1, 2, 3, 4, 5, 6]
-			//			}
-			const data = {
-				"id":3,
-				"schoolYear": "202005-202009",
-				"semester": 1,
-				"startTime": 1557616760868,
-				"endTime": 1557616760868
-			}
-			admin.post({
-				url: '/schoolYear/update',
-				data: JSON.stringify(data),
-				success: function(res) {
-					console.log(22, res);
-					getList(1, 20);
-				}
-			})
-		}
-
-		function deleteTerm() {
-			const data = {
-				// id: table.checkStatus('ID')
-			}
-			admin.delete({
-				url: '/term/deleteTerm',
-				data: JSON.stringify(data),
-				success: function(res) {
-					getList(1, 20);
-				}
-			})
-		}
-
-		function initLayerOpen() {
-			layer.open({
-				type: 1,
-				offset: 'auto',
-				title: '添加',
-				content: addModalTemp,
-				area: ['700px', '70%'],
-				shade: 0.4,
-				skin: 'user-edit-modal',
-				shadeClose: true,
-				btn: ['确定', '取消'],
-				yes: function(index, layero) {
-					// 提交
-					// $('#showId').val()
-					// $('#term-remark').val()
-					addTerm()
-					layer.close(index)
-				},
-				cancel: function(index) {
-					layer.close(index)
-				}
-			})
-			form.render()
-		}
-
-		function getMenuList(callback) {
-			const data = {
-				page: 1,
-				rows: 100
-			}
-			admin.post({
-				url: '/menu/getList',
-				data: JSON.stringify(data),
-				success: function(res) {
-					callback(res.data.items)
-				}
-			})
-		}
-
-		$('#add_term').on('click', function() {
-			initLayerOpen()
-			//清空form表单
-			$('#termName').val('')
-			$('#usName').val('')
-			$('#showId').val('')
-			$('#term-remark').val('')
-			// 渲染权限列表
-			getMenuList(function(list) {
-				// tree.render({
-				//     elem: '#test7',
-				//     data: [{
-				//         title: 'test'
-				//     }, {
-				//         title: 'use'
-				//     }],
-				//     showCheckbox: true
-				// })
-			})
-		})
-
-		$('#term-mylist-delete').on('click', function() {
-			layer.open({
-				type: 1,
-				offset: 'auto',
-				title: '系统提示',
-				content: '该信息为重要信息，是否删除？',
-				area: ['300px', '200px'],
-				shade: 0.4,
-				skin: 'system-modal',
-				shadeClose: true,
-				btn: ['确定', '取消'],
-				yes: function(index, layero) {
-					// 提交
-					layer.close(index)
-				},
-				cancel: function(index) {
-					layer.close(index)
-				}
-			})
-		})
-		var edit_id;
-		var term-mylist-edit =  function(id) {
-			console.log(111111)
-			edit_id = id;
-			initLayerOpen()
-			// layer.open({
-			//     type: 1,
-			//     offset: 'auto',
-			//     title: '编辑',
-			//     content: addModalTemp,
-			//     area: ['700px', '70%'],
-			//     shade: 0.4,
-			//     skin: 'term-edit-modal',
-			//     shadeClose: true,
-			//     btn: ['确定', '取消'],
-			//     yes: function (index, layero) {
-			//         // 提交
-			//         layer.close(index)
-			//     },
-			//     cancel: function (index) {
-			//         layer.close(index)
-			//     }
-			// })
-			// form.render()
-		};
-
-		$('#term-mylist-edit').on('click', function() {
-			console.log(111111)
-			initLayerOpen()
-			// layer.open({
-			//     type: 1,
-			//     offset: 'auto',
-			//     title: '编辑',
-			//     content: addModalTemp,
-			//     area: ['700px', '70%'],
-			//     shade: 0.4,
-			//     skin: 'term-edit-modal',
-			//     shadeClose: true,
-			//     btn: ['确定', '取消'],
-			//     yes: function (index, layero) {
-			//         // 提交
-			//         layer.close(index)
-			//     },
-			//     cancel: function (index) {
-			//         layer.close(index)
-			//     }
-			// })
-			// form.render()
-		})
-
-		$('#term-mylist-check').on('click', function() {
-			layer.open({
-				type: 1,
-				offset: 'auto',
-				title: '编辑',
-				content: addModalTemp,
-				area: ['700px', '70%'],
-				shade: 0.4,
-				skin: 'term-edit-modal',
-				shadeClose: true,
-				btn: ['确定', '取消'],
-				yes: function(index, layero) {
-					// 提交
-					layer.close(index)
-				},
-				cancel: function(index) {
-					layer.close(index)
-				}
-			})
-			form.render()
-		})
-
-	})
+        }
+    })
 </script>
 
 <style>
