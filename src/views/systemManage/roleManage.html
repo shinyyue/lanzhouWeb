@@ -78,22 +78,21 @@
                             field: 'roleName',
                             align: 'center'
                         },
-                        {
-                            title: '英文名称',
-                            field: 'courceName',
-                            align: 'center'
-                        },
-                        {
-                            title: '显示顺序',
-                            field: 'id',
-                            align: 'center',
-                        },
-                        {
-                            title: '创建用户',
-                            field: 'responsor',
-                            align: 'center',
-
-                        },
+                        // {
+                        //     title: '英文名称',
+                        //     field: 'courceName',
+                        //     align: 'center'
+                        // },
+                        // {
+                        //     title: '显示顺序',
+                        //     field: 'id',
+                        //     align: 'center',
+                        // },
+                        // {
+                        //     title: '创建用户',
+                        //     field: 'responsor',
+                        //     align: 'center',
+                        // },
                         {
                             title: '创建时间',
                             field: 'responsor',
@@ -197,32 +196,32 @@
                 '                    />\n' +
                 '                </div>\n' +
                 '            </div>\n' +
-                '            <div class="layui-row">\n' +
-                '                <div class="layui-col-md12 layui-form-item">\n' +
-                '                    <label class="layui-form-label">英文名称:</label>\n' +
-                '                    <input\n' +
-                '                        type="text"\n' +
-                '                        name="usName"\n' +
-                '                        class="common-form-input"\n' +
-                '                        id="usName"\n' +
-                '                        value="' + (formData.name || '') + '"\n' +
-                (type === 'check' ? 'disabled' : '') +
-                '                    />\n' +
-                '                </div>\n' +
-                '            </div>\n' +
-                '            <div class="layui-row">\n' +
-                '                <div class="layui-col-md12 layui-form-item">\n' +
-                '                    <label class="layui-form-label">显示顺序:</label>\n' +
-                '                    <input\n' +
-                '                        type="text"\n' +
-                '                        name="userName"\n' +
-                '                        class="common-form-input"\n' +
-                '                        id="showId"\n' +
-                '                        value="' + formData.id + '"\n' +
-                (type === 'check' ? 'disabled' : '') +
-                '                    />\n' +
-                '                </div>\n' +
-                '            </div>\n' +
+                // '            <div class="layui-row">\n' +
+                // '                <div class="layui-col-md12 layui-form-item">\n' +
+                // '                    <label class="layui-form-label">英文名称:</label>\n' +
+                // '                    <input\n' +
+                // '                        type="text"\n' +
+                // '                        name="usName"\n' +
+                // '                        class="common-form-input"\n' +
+                // '                        id="usName"\n' +
+                // '                        value="' + (formData.name || '') + '"\n' +
+                // (type === 'check' ? 'disabled' : '') +
+                // '                    />\n' +
+                // '                </div>\n' +
+                // '            </div>\n' +
+                // '            <div class="layui-row">\n' +
+                // '                <div class="layui-col-md12 layui-form-item">\n' +
+                // '                    <label class="layui-form-label">显示顺序:</label>\n' +
+                // '                    <input\n' +
+                // '                        type="text"\n' +
+                // '                        name="userName"\n' +
+                // '                        class="common-form-input"\n' +
+                // '                        id="showId"\n' +
+                // '                        value="' + formData.id + '"\n' +
+                // (type === 'check' ? 'disabled' : '') +
+                // '                    />\n' +
+                // '                </div>\n' +
+                // '            </div>\n' +
                 '            <div class="layui-row">\n' +
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">分配权限:</label>\n' +
@@ -263,13 +262,13 @@
                 url: '/role/queryRoleList',
                 data: JSON.stringify(data),
                 success: function (res) {
-                    tableOption.data = res.data.items;
-                    layPageOption.count = res.data.total;
+                    tableOption.data = (res.data && res.data.items) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
                 error: function (err) {
-                    console.log(err)
+                    layer.msg(err && err.msg || '数据请求失败');
                 }
             })
         }
@@ -301,14 +300,13 @@
         }
 
         function deleteData(id) {
-            const data = {
-                id
-            }
             admin.delete({
-                url: '/role/deleteRole',
-                data: JSON.stringify(data),
+                url: '/role/deleteRole?id=' + id,
                 success: function (res) {
                     getList(1, 20);
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
                 }
             })
         }
@@ -348,6 +346,9 @@
                 data: JSON.stringify(data),
                 success: function (res) {
                     callback(res.data.items)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
                 }
             })
         }
@@ -373,74 +374,6 @@
                 // })
             })
         })
-
-        $('#role-mylist-delete').on('click', function () {
-            layer.open({
-                type: 1,
-                offset: 'auto',
-                title: '系统提示',
-                content: '该信息为重要信息，是否删除？',
-                area: ['300px', '200px'],
-                shade: 0.4,
-                skin: 'system-modal',
-                shadeClose: true,
-                btn: ['确定', '取消'],
-                yes: function (index, layero) {
-                    // 提交
-                    layer.close(index)
-                },
-                cancel: function (index) {
-                    layer.close(index)
-                }
-            })
-        })
-
-        $('#role-mylist-edit').on('click', function () {
-            console.log(111111)
-            initLayerOpen()
-            // layer.open({
-            //     type: 1,
-            //     offset: 'auto',
-            //     title: '编辑',
-            //     content: addModalTemp,
-            //     area: ['700px', '70%'],
-            //     shade: 0.4,
-            //     skin: 'role-edit-modal',
-            //     shadeClose: true,
-            //     btn: ['确定', '取消'],
-            //     yes: function (index, layero) {
-            //         // 提交
-            //         layer.close(index)
-            //     },
-            //     cancel: function (index) {
-            //         layer.close(index)
-            //     }
-            // })
-            // form.render()
-        })
-
-        $('#role-mylist-check').on('click', function () {
-            layer.open({
-                type: 1,
-                offset: 'auto',
-                title: '编辑',
-                content: addModalTemp,
-                area: ['700px', '70%'],
-                shade: 0.4,
-                skin: 'role-edit-modal',
-                shadeClose: true,
-                btn: ['确定', '取消'],
-                yes: function (index, layero) {
-                    // 提交
-                    layer.close(index)
-                },
-                cancel: function (index) {
-                    layer.close(index)
-                }
-            })
-            form.render()
-        })
-
 
     })
 </script>
