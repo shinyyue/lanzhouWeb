@@ -17,10 +17,10 @@
 	<table id="term-mylist-table" lay-filter="term-mylist-table"></table>
 	<script type="text/html" id="sourcelist-opt">
 		<button class="course-set-btn" lay-event="edit>编辑</button>
-		<button class="course-set-btn " lay-event="delete ">删除</button>
-		<button class="course-set-btn " lay-event="check ">查看</button>
+		<button class="course-set-btn" lay-event="delete">删除</button>
+		<button class="course-set-btn" lay-event="check">查看</button>
 	</script>
-	<div class="app-table-page " id="term-mylist-page "></div>
+	<div class="app-table-page" id="term-mylist-page"></div>
 </div>
 
 <script>
@@ -58,7 +58,7 @@
 			},
 			tableOption = {
 				page: false,
-				elem: '[lay-filter=" ' + tableFilter + ' "]',
+				elem: '[lay-filter="' + tableFilter + '"]',
 				cols: [
 					[{
 							title: '序号',
@@ -167,7 +167,6 @@
                     layer.close(index)
                 }
             }
-
             layer.open(layerOption);
             form.render();
         })
@@ -181,10 +180,12 @@
                 content: getTemplate(formData),
                 area: ['700px', '70%'],
                 shade: 0.4,
-                skin: 'user-edit-modal',
+                skin: 'term-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
                 yes: function (index, layero) {
+                	debugger;
+                	getFormData();
                     layer.close(index)
                     addData(formData)
                 },
@@ -289,61 +290,61 @@
 
 
         function getTemplate(formData, type) {
-            return '<div id="term_details_modal ">\n' +
-			'        <form action=" " class="layui-form ">\n' +
-			'            <div class="layui-row ">\n' +
-			'                <div class="layui-col-md12 layui-form-item ">\n' +
-			'                    <label class="layui-form-label ">学期：</label>\n' +
-			'                    <div class="layui-input-block ">\n' +
+            return '<div id="term_details_modal">\n' +
+			'        <form action=" " class="layui-form">\n' +
+			'            <div class="layui-row">\n' +
+			'                <div class="layui-col-md12 layui-form-item">\n' +
+			'                    <label class="layui-form-label">学期：</label>\n' +
+			'                    <div class="layui-input-block">\n' +
 			'                        <input\n' +
-			'                            type="radio "\n' +
-			'                            name="sex "\n' +
-			'                            value="第1学期 "\n' +
-			'                            title="第1学期 "\n' +
+			'                            type="radio"\n' +
+			'                            name="sex"\n' +
+			'                            value="第1学期"\n' +
+			'                            title="第1学期"\n' +
 			'                        />\n' +
 			'                        <input\n' +
-			'                            type="radio "\n' +
-			'                            name="sex "\n' +
-			'                            value="第2学期 "\n' +
-			'                            title="第2学期 "\n' +
+			'                            type="radio"\n' +
+			'                            name="sex"\n' +
+			'                            value="第2学期"\n' +
+			'                            title="第2学期"\n' +
 			'                            checked\n' +
 			'                        />\n' +
 			'                    </div>\n' +
 			'                </div>\n' +
 			'            </div>\n' +
-			'            <div class="layui-row ">\n' +
-			'                <div class="layui-col-md12 layui-form-item ">\n' +
-			'                    <label class="layui-form-label ">开始日期:</label>\n' +
+			'            <div class="layui-row">\n' +
+			'                <div class="layui-col-md12 layui-form-item">\n' +
+			'                    <label class="layui-form-label">开始日期:</label>\n' +
 			'                    <input\n' +
-			'                        type="text "\n' +
-			'                        name="userName "\n' +
-			'                        id="startTime "\n' +
-			'                        class="common-form-input "\n' +
-			'                        value="2018-09 "\n' +
+			'                        type="text"\n' +
+			'                        name="userName"\n' +
+			'                        id="startTime"\n' +
+			'                        class="common-form-input"\n' +
+			'                        value="2018-09"\n' +
 			'                    />\n' +
 			'                </div>\n' +
 			'            </div>\n' +
-			'            <div class="layui-row ">\n' +
-			'                <div class="layui-col-md12 layui-form-item ">\n' +
-			'                    <label class="layui-form-label ">结束日期:</label>\n' +
+			'            <div class="layui-row">\n' +
+			'                <div class="layui-col-md12 layui-form-item">\n' +
+			'                    <label class="layui-form-label">结束日期:</label>\n' +
 			'                    <input\n' +
-			'                        type="text "\n' +
-			'                        name="userName "\n' +
-			'                        id="endName "\n' +
-			'                        class="common-form-input "\n' +
-			'                        value="2019-06 "\n' +
+			'                        type="text"\n' +
+			'                        name="userName"\n' +
+			'                        id="endTime"\n' +
+			'                        class="common-form-input"\n' +
+			'                        value="2019-06"\n' +
 			'                    />\n' +
 			'                </div>\n' +
 			'            </div>\n' +
-			'            <div class="layui-row ">\n' +
-			'                <div class="layui-col-md12 layui-form-item ">\n' +
-			'                    <label class="layui-form-label ">学年:</label>\n' +
+			'            <div class="layui-row">\n' +
+			'                <div class="layui-col-md12 layui-form-item">\n' +
+			'                    <label class="layui-form-label">学年:</label>\n' +
 			'                    <input\n' +
-			'                        type="text "\n' +
-			'                        name="userName "\n' +
-			'                        id="schoolYear "\n' +
-			'                        class="common-form-input "\n' +
-			'                        value="2018-2019 "\n' +
+			'                        type="text"\n' +
+			'                        name="userName"\n' +
+			'                        id="schoolYear"\n' +
+			'                        class="common-form-input"\n' +
+			'                        value="2018-2019"\n' +
 			'                    />\n' +
 			'                </div>\n' +
 			'            </div>\n' +
