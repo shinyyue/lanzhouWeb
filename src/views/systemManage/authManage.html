@@ -222,6 +222,14 @@
             }
         }
 
+        function resetFormData() {
+            formData = {
+                menuName: '',
+                menuUrl: ''
+            }
+        }
+
+
         function getList(page, rows) {
             const data = {
                 page: page,
@@ -242,13 +250,14 @@
             })
         }
 
-        function addData() {
+        function addData(callback) {
             admin.post({
                 url: '/menu/add',
                 data: JSON.stringify(formData),
                 success: function (res) {
                     getList(1, 20);
                     layer.msg('添加成功！')
+                    callback()
                 }
             })
         }
@@ -276,6 +285,7 @@
         }
 
         $('#add_auth').on('click', function () {
+            resetFormData()
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -287,7 +297,11 @@
                 shadeClose: true,
                 btn: ['确定', '取消'],
                 yes: function (index, layero) {
-                    layer.close(index)
+                    getFormData()
+                    addData(function () {
+                        layer.close(index)
+                    })
+
                 },
                 cancel: function (index) {
                     layer.close(index)
