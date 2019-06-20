@@ -1,0 +1,139 @@
+.course-title {
+    overflow: hidden;
+    clear: both;
+    padding-bottom: 20px;
+    line-height: 30px;
+    border-bottom: 1px solid rgba(231, 235, 244, 1);
+}
+
+.layui-input,
+.layui-textarea {
+    width: 230px;
+}
+
+.layui-form-select {
+    width: 230px;
+    float: left;
+}
+
+.layui-form-item {
+    clear: none;
+}
+
+.layui-form-item span {
+    display: inline-block;
+    padding: 9px 0px;
+    font-size: 16px;
+}
+
+.layui-form-label {
+    font-size: 16px;
+    font-weight: bold;
+    width: 120px;
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.layui-textarea {
+    width: 100%;
+}
+
+.common-form-input {
+    width: 230px;
+    height: 30px;
+    line-height: 30px;
+    padding: 2px 4px;
+}
+
+.layui-form-label.require::before {
+    content: '*';
+    color: red;
+}
+
+.layui-layer-btn .layui-layer-btn0 {
+    padding: 0px 20px;
+    line-height: 30px;
+    height: 30px;
+    background: #ff6600;
+    color: #fff;
+    text-align: center;
+    border: none;
+}
+
+.primary-btn {
+    padding: 0px 30px;
+    line-height: 38px;
+    background: #ff6600;
+    color: #fff;
+    text-align: center;
+}
+
+.cancel-btn {
+    padding: 0px 30px;
+    line-height: 38px;
+    background: #fff;
+    color: #666;
+    text-align: center;
+}
+
+/* 删除弹框 */
+.system-modal .layui-layer-content {
+    line-height: 100px;
+    text-align: center;
+}
+
+
+/* 业务通用样式 */
+.layui-table {
+    width: 100%;
+}
+
+.course-title .course-title-location {
+    float: left;
+}
+
+.course-title .course-title-search {
+    float: right;
+    text-align: right;
+}
+
+.course-title .course-title-search select,
+.course-title .course-title-search input {
+    width: 118px;
+    height: 30px;
+    padding: 0 4px;
+    border-radius: 0;
+}
+
+.course-title .course-title-search .search-project {
+    line-height: 30px;
+}
+
+.search-confirm {
+    width: 51px;
+    height: 30px;
+    line-height: 30px;
+    background: #ff6600;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.course-add {
+    text-align: right;
+    padding: 20px 0 10px;
+}
+
+.course-add .add-btn {
+    width: 70px;
+    height: 30px;
+    background: #ff6600;
+    color: #fff;
+    font-size: 16px;
+}
+
+.course-set-btn {
+    padding: 4px 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
