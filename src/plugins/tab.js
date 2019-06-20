@@ -173,7 +173,6 @@ layui.define(['element', 'common'], function (exports) {
             element.tabChange(ELEM.tabFilter, that.getTabId(data.title));
 
             ELEM.contentBox.find('iframe[data-id=' + globalTabIdIndex + ']').on('load', function () {
-                //debugger;
                 if (_config.openWait) {
                     layer.close(waitLoadIndex);
                 }

@@ -59,48 +59,46 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-	                [
-	                    {
-	                        title: '序号',
-	                        field: 'id',
-	                        width: 80,
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '班名称',
-	                        field: 'className',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '班编码',
-	                        field: 'classCode',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '所属专业',
-	                        field: 'professionId',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '操作',
-	                        align: 'center',
-	                        templet: '#sourcelist-opt'
-	                    }
-	                ]
-	            ]
+                    [{
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center'
+                        },
+                        {
+                            title: '班名称',
+                            field: 'className',
+                            align: 'center'
+                        },
+                        {
+                            title: '班编码',
+                            field: 'classCode',
+                            align: 'center'
+                        },
+                        {
+                            title: '所属专业',
+                            field: 'professionId',
+                            align: 'center'
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#sourcelist-opt'
+                        }
+                    ]
+                ]
             },
             formData = {
                 id: '',
                 className: '',
-		professionId: '',
-		classCode: ''
+                professionId: '',
+                classCode: ''
             };
 
 
         getList(1)
 
         table.on('tool(classes-mylist-table)', function (obj) {
-        	debugger;
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event,
                 type = '';
@@ -154,7 +152,7 @@
                         updateData(formData)
                     }
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             }
@@ -176,11 +174,11 @@
                 shadeClose: true,
                 btn: ['确定', '取消'],
                 yes: function (index, layero) {
-                	getFormData()
+                    getFormData()
                     layer.close(index)
                     addData(formData)
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             })
@@ -223,8 +221,8 @@
             var data = {
                 id: data.id,
                 className: data.className,
-		professionId: data.professionId,
-		classCode: data.classCode
+                professionId: data.professionId,
+                classCode: data.classCode
             }
             admin.put({
                 url: '/vsMpClass/update',
@@ -251,8 +249,8 @@
         function addData(data) {
             var data = {
                 className: data.className,
-		professionId: data.professionId,
-		classCode: data.classCode
+                professionId: data.professionId,
+                classCode: data.classCode
             }
             admin.post({
                 url: '/vsMpClass/add',
@@ -269,63 +267,64 @@
         function getFormData() {
             formData = {
                 id: $('#id').val(),
-		className: $('#className').val(),
-		professionId: $('#professionId').val(),
-		classCode: $('#classCode').val()
+                className: $('#className').val(),
+                professionId: $('#professionId').val(),
+                classCode: $('#classCode').val()
             }
         }
 
 
         function getTemplate(formData, type) {
             return '<div id="classes_details_modal">\n' +
-            '        <form action="" class="layui-form">\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">所属专业:</label>\n' +
-            '                    <select id="professionId">\n' +
-            '                        <option value="">选择所属专业</option>\n' +
-            '                        <option value="1">自动化通讯工程专业</option>\n' +
-            '                        <option value="2">建筑工程专业</option>\n' +
-            '                    </select>\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">班级名称:</label>\n' +
-            '                    <input\n' +
-            '                        type="text"\n' +
-            '                        name="userName"\n' +
-	    '                        id="className"\n' +
-            '                        class="common-form-input"\n' +
-            '                        value="土木工程专业"\n' +
-            '                    />\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">班级编码:</label>\n' +
-            '                    <input\n' +
-            '                        type="text"\n' +
-            '                        name="userName"\n' +
-	    '                        id="classCode"\n' +
-            '                        class="common-form-input"\n' +
-            '                        value="001"\n' +
-            '                    />\n' +
-            '                </div>\n' +
-            '            </div>\n' +
+                '        <form action="" class="layui-form">\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">所属专业:</label>\n' +
+                '                    <select id="professionId">\n' +
+                '                        <option value="">选择所属专业</option>\n' +
+                '                        <option value="1">自动化通讯工程专业</option>\n' +
+                '                        <option value="2">建筑工程专业</option>\n' +
+                '                    </select>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">班级名称:</label>\n' +
+                '                    <input\n' +
+                '                        type="text"\n' +
+                '                        name="userName"\n' +
+                '                        id="className"\n' +
+                '                        class="common-form-input"\n' +
+                '                        value="土木工程专业"\n' +
+                '                    />\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">班级编码:</label>\n' +
+                '                    <input\n' +
+                '                        type="text"\n' +
+                '                        name="userName"\n' +
+                '                        id="classCode"\n' +
+                '                        class="common-form-input"\n' +
+                '                        value="001"\n' +
+                '                    />\n' +
+                '                </div>\n' +
+                '            </div>\n' +
 
-            '        </form>\n' +
-            '    </div>';
+                '        </form>\n' +
+                '    </div>';
         }
     })
 </script>
 
 <style>
-    #source-manage-mylist {
-    }
+    #source-manage-mylist {}
+
     .classes-edit-modal .layui-layer-content {
         padding: 20px;
     }
+
     .classes-remark {
         width: 63%;
     }

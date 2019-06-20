@@ -184,7 +184,7 @@
                 shadeClose: true,
                 btn: ['确定', '取消'],
                 yes: function (index, layero) {
-                	debugger;
+                	
                 	getFormData();
                     layer.close(index)
                     addData(formData)
@@ -205,7 +205,7 @@
                 url: '/schoolYear/getList',
                 data: JSON.stringify(data),
                 success: function (res) {
-                	debugger;
+                	
                     tableOption.data = (res.data && res.data.items) || [];
                     layPageOption.count = (res.data && res.data.total) || 0;
                     table.render(tableOption)

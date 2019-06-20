@@ -191,7 +191,6 @@ layui.define(['common', 'element'], function (exports) {
      * @param {Object} data
      */
     function getHtml(data) {
-        //debugger;
         var ulHtml = '<ul class="layui-nav layui-nav-tree beg-navbar">';
         for (var i = 0; i < data.length; i++) {
             if (data[i].spread) {
