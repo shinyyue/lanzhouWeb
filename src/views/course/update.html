@@ -164,6 +164,24 @@
             window.history.back(-2);
         })
 
+        function addData(data) {
+            var data = {
+                collegeName: data.collegeName
+            }
+            admin.post({
+                url: '/vsMpCurriculum/add',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    getList(1)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+
+
         // form.on('submit(back)', function () {
         //     window.history.back(-1);
         // })

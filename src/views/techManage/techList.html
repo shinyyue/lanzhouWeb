@@ -24,111 +24,182 @@
             </button>
         </div>
     </div>
-    <table
-        id="techManage-list-table"
-        lay-filter="techManage-list-table"
-    ></table>
+    <table id="techManage-list-table" lay-filter="techManage-list-table"></table>
     <script type="text/html" id="techManage-opt">
         <button class="course-set-btn" id="techManage-edit">课程设置</button>
     </script>
-    <div class="app-table-page" id="techManage-table-page"></div>
+    <div class="app-table-page" id="techManage-list-page"></div>
 </div>
 
 <script>
-    layui.use(['table', 'jquery'], function(table, $) {
+    layui.use(['table', 'jquery'], function (table, $) {
         var tableFilter = 'techManage-list-table',
             laypage = layui.laypage,
-            $ = layui.jquery
-
-        table.render({
-            page: false,
-            data: [
-                {
-                    id: 1,
-                    courceName: '发电机哈哈',
-                    techManageCode: 20190101,
-                    responsor: '王小虎',
-                    time: '第一学期',
-                    class: '所有年级',
-                    isCommon: false,
-                    score: 1
-                }
-            ],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
-            cols: [
-                [
-                    {
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center'
-                    },
-                    {
-                        title: '课程名称',
-                        field: 'courceName',
-                        align: 'center'
-                    },
-                    {
-                        title: '上课周次',
-                        field: 'techManageCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '上课时间',
-                        field: 'responsor',
-                        align: 'center'
-                    },
-                    {
-                        title: '上课地点',
-                        align: 'center',
-                        field: 'times',
-                        width: 80
-                    },
-                    {
-                        title: '选课人数',
-                        align: 'center',
-                        field: 'score',
-                        width: 80
-                    },
-                    {
-                        field: 'score',
-                        title: '学分',
-                        align: 'center'
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        templet: '#techManage-opt',
-                        width: 80
+            $ = layui.jquery,
+            admin = layui.admin,
+            pageLimit = 20,
+            layPageOption = {
+                elem: 'techManage-list-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr)
                     }
+                }
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [{
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center'
+                        },
+                        {
+                            title: '开课名称',
+                            field: 'courseName',
+                            align: 'center'
+                        },
+                        {
+                            title: '任课老师',
+                            field: 'techManageCode',
+                            align: 'center'
+                        },
+                        {
+                            title: '上课时间',
+                            field: 'responsor',
+                            align: 'center'
+                        },
+                        {
+                            title: '上课地点',
+                            align: 'center',
+                            field: 'times',
+                        },
+                        {
+                            title: '状态',
+                            align: 'center',
+                            field: 'publish',
+                            width: 80,
+                            templet: function (data) {
+                                return data.publish === 1 ? '未发布' : '已发布';
+                            },
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#techManage-opt',
+                            width: 210
+                        }
+                    ]
                 ]
-            ]
+            };
+
+        getList(1)
+
+
+        table.on('tool(techManage-list-table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event,
+                type = '';
+
+            if (layEvent === 'delete') {
+                layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '系统提示',
+                    content: '该信息为重要信息，是否删除？',
+                    area: ['300px', '200px'],
+                    shade: 0.4,
+                    skin: 'system-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        layer.close(index)
+                        deleteData(data.id)
+                    },
+                    cancel: function (index) {
+                        layer.close(index)
+                    }
+                })
+                return;
+            }
+            if (layEvent === 'edit') { //编辑
+                location.href = 'index.html#/techManage/update'
+            } else if (layEvent === 'check') {
+                location.href = 'index.html#/techManage/details'
+            } else if (layEvent === 'publish') {
+                layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '系统提示',
+                    content: '是否发布？',
+                    area: ['300px', '200px'],
+                    shade: 0.4,
+                    skin: 'system-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        layer.close(index)
+                        publish(data.id)
+                    }
+                })
+            }
         })
 
-        //执行一个laypage实例
-        laypage.render({
-            elem: 'techManage-table-page', //注意，这里的 test1 是 ID，不用加 # 号
-            count: 50, //数据总数，从服务端得到
-            limit: 10,
-            first: '首页',
-            last: '尾页',
-            hash: 'page',
-            curr: location.hash.replace('#!page=', ''),
-            layout: [
-                'first',
-                'prev',
-                'page',
-                'next',
-                'last',
-                'count',
-                'currLimit',
-                'curr',
-                'pageCount'
-            ]
-        })
+        function getList(page) {
+            var data = {
+                page: page,
+                rows: pageLimit
+            }
+            admin.post({
+                url: '/coursePlan/list',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    tableOption.data = (res.data && res.data.items) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
 
-        $('#techManage-edit').on('click', function() {
+        function deleteData(id) {
+            admin.delete({
+                url: '/coursePlan/del?id=' + id,
+                success: function (res) {
+                    getList(1)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function publish(id) {
+            // admin.
+        }
+
+
+        $('#techManage-edit').on('click', function () {
             location.href = 'index.html#/techSet/techPre'
         })
     })

@@ -29,6 +29,26 @@
     function jumpToDetails() {
         window.location.href = 'index.html#/checkcourse/preintro';
     }
+
+    layui.use(['admin'], function () {
+        var admin = layui.admin;
+
+        function getList() {
+            var userId = layui.data('userInfo').userInfo.id
+
+            admin.post({
+                url: '/selectedCourse/getList',
+                data: JSON.stringify({
+                    userId
+                }),
+                success: function (res) {
+                    console.log(111, res)
+                }
+            })
+        }
+
+        getList()
+    })
 </script>
 
 <style>

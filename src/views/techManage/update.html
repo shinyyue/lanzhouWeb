@@ -214,6 +214,22 @@
             window.history.back(-2)
         })
 
+        function getAllCourse() {
+            admin.post({
+                url: '/vsMpCurriculum/getList',
+                data: JSON.stringify({
+                    page: 1,
+                    rows: 20
+                }),
+                success: function (res) {
+                    cosnole.log(555, res)
+                }
+            })
+        }
+
+        getAllCourse()
+
+
         // form.on('submit(back)', function () {
         //     window.history.back(-1);
         // })
