@@ -1,45 +1,56 @@
-<div class="layui-fluid" id="course" lay-title="课程管理">
+<div class="layui-fluid" id="techManage" lay-title="开课管理">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>课程管理 > 课程库</span>
+            <span>开课管理 > 开课计划</span>
         </div>
         <div class="course-title-search">
-            <span class="search-project">课程名称</span>
-            <input type="text">
+            <span class="search-project">开课名称</span>
+            <input type="text" />
             <select name="" id="">
-                <option value="">所有年级</option>
+                <option value="">请选择学年</option>
             </select>
             <select name="" id="">
                 <option value="">请选择学期</option>
             </select>
+            <select name="" id="">
+                <option value="">选择任课老师</option>
+            </select>
+            <select name="" id="">
+                <option value="">是否开课</option>
+            </select>
             <button class="search-confirm">
-                <img src="src/images/search.png">
+                <img src="src/images/search.png" />
             </button>
         </div>
     </div>
     <div class="course-add">
         <button class="add-btn" id="add-cource">添加</button>
     </div>
-    <table id="course-list-table" lay-filter="course-list-table"></table>
-    <script type="text/html" id="course-opt">
-        <button class="course-set-btn" lay-event="edit">修改</button>
+    <table id="techManage-plan-table" lay-filter="techManage-plan-table"></table>
+    <script type="text/html" id="techManage-plan-opt">
+        {{#if(d.publish === 1) { }}
+        <button class="course-set-btn" lay-event="edit">编辑</button>
         <button class="course-set-btn" lay-event="delete">删除</button>
         <button class="course-set-btn" lay-event="check">查看</button>
+        <button class="course-set-btn" lay-event="publish">发布</button>
+        {{#  } else {  }}
+            <button class="course-set-btn" lay-event="check">查看</button>
+        {{#  }  }}
     </script>
-    <div class="app-table-page" id="course-table-page"></div>
+    <div class="app-table-page" id="techManage-table-page"></div>
 </div>
 
 <script>
     layui.use(['table', 'jquery'], function (table, $) {
-        var tableFilter = 'course-list-table',
+        var tableFilter = 'techManage-plan-table',
             laypage = layui.laypage,
             $ = layui.jquery,
             table = layui.table,
             admin = layui.admin,
             pageLimit = 20,
             layPageOption = {
-                elem: 'course-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+                elem: 'techManage-table-page', //注意，这里的 test1 是 ID，不用加 # 号
                 limit: 20,
                 first: '首页',
                 last: '尾页',
@@ -72,57 +83,39 @@
                             align: 'center'
                         },
                         {
-                            title: '课程名称',
-                            field: 'courceName',
-                            align: 'center'
-
-                        },
-                        {
-                            title: '课程代码',
-                            field: 'courseCode',
+                            title: '开课名称',
+                            field: 'courseName',
                             align: 'center'
                         },
                         {
-                            title: '负责人',
+                            title: '任课老师',
+                            field: 'techManageCode',
+                            align: 'center'
+                        },
+                        {
+                            title: '上课时间',
                             field: 'responsor',
-                            align: 'center',
+                            align: 'center'
                         },
                         {
-                            title: '学时',
+                            title: '上课地点',
                             align: 'center',
                             field: 'times',
-                            width: 80
                         },
                         {
-                            title: '学分',
+                            title: '状态',
                             align: 'center',
-                            field: 'score',
-                            width: 80
-                        },
-                        {
-                            field: 'score',
-                            title: '年级',
-                            align: 'center',
-                        },
-                        {
-                            field: 'time',
-                            title: '学期',
-                            align: 'center',
-                        },
-                        {
-                            field: 'isCommon',
-                            title: '适合所有专业',
-                            align: 'center',
-                            width: 140,
-                            templet: function (d) {
-                                return d ? '是' : '否'
-                            }
+                            field: 'publish',
+                            width: 80,
+                            templet: function (data) {
+                                return data.publish === 1 ? '未发布' : '已发布';
+                            },
                         },
                         {
                             title: '操作',
                             align: 'center',
-                            templet: '#course-opt',
-                            width: 180
+                            templet: '#techManage-plan-opt',
+                            width: 210
                         }
                     ]
                 ]
@@ -130,10 +123,9 @@
 
         getList(1)
 
-        table.on('tool(college-mylist-table)', function (obj) {
+        table.on('tool(techManage-plan-table)', function (obj) {
             var data = obj.data; //获得当前行数据
-            var layEvent = obj.event,
-                type = '';
+            var layEvent = obj.event;
 
             if (layEvent === 'delete') {
                 layer.open({
@@ -156,13 +148,32 @@
                 })
                 return;
             }
-            if (layEvent === 'edit') {
-                location.href = 'index.html#/course/update'
+            if (layEvent === 'edit') { //编辑
+                location.href = 'index.html#/techManage/update'
             } else if (layEvent === 'check') {
-                location.href = 'index.html#/course/details'
+                location.href = 'index.html#/techManage/details'
+            } else if (layEvent === 'publish') {
+                layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '系统提示',
+                    content: '是否发布？',
+                    area: ['300px', '200px'],
+                    shade: 0.4,
+                    skin: 'system-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        layer.close(index)
+                        publish(data.id)
+                    },
+                    cancel: function (index) {
+                        layer.close(index)
+                    }
+                })
             }
-        })
 
+        })
 
         function getList(page) {
             var data = {
@@ -170,7 +181,7 @@
                 rows: pageLimit
             }
             admin.post({
-                url: '/vsMpCurriculum/getList',
+                url: '/coursePlan/list',
                 data: JSON.stringify(data),
                 success: function (res) {
                     tableOption.data = (res.data && res.data.items) || [];
@@ -184,11 +195,33 @@
             })
         };
 
+        function deleteData(id) {
+            admin.delete({
+                url: '/coursePlan/del?id=' + id,
+                success: function (res) {
+                    getList(1)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function publish(id) {
+            admin.delete({
+                url: '/coursePlan/publishAll?id=' + id,
+                // data: JSON.stringify({
+                //     id
+                // }),
+                success: function (res) {
+                    console.log(555, res)
+                }
+            })
+        }
 
         $('#add-cource').on('click', function () {
-            location.href = 'index.html#/course/update'
+            location.href = 'index.html#/techManage/update'
         })
-
     })
 </script>
 
@@ -197,28 +230,28 @@
         width: 100%;
     }
 
-    .course-title .course-title-location {
+    .techManage-title .techManage-title-location {
         float: left;
     }
 
-    .course-title .course-title-search {
+    .techManage-title .techManage-title-search {
         float: right;
         text-align: right;
     }
 
-    .course-title .course-title-search select,
-    .course-title .course-title-search input {
+    .techManage-title .techManage-title-search select,
+    .techManage-title .techManage-title-search input {
         width: 118px;
         height: 30px;
         padding: 0 4px;
         border-radius: 0;
     }
 
-    .course-title .course-title-search .search-project {
+    .techManage-title .techManage-title-search .search-project {
         line-height: 30px;
     }
 
-    .course-title .course-title-search .search-confirm {
+    .techManage-title .techManage-title-search .search-confirm {
         width: 51px;
         height: 30px;
         background: #ff6600;
@@ -227,12 +260,12 @@
         cursor: pointer;
     }
 
-    .course-add {
+    .techManage-add {
         text-align: right;
         padding: 20px 0 10px;
     }
 
-    .course-add .add-btn {
+    .techManage-add .add-btn {
         width: 70px;
         height: 30px;
         background: #ff6600;
@@ -240,11 +273,11 @@
         font-size: 16px;
     }
 
-    #course-opt {
+    #techManage-opt {
         width: 200px;
     }
 
-    .course-set-btn {
+    .techManage-set-btn {
         padding: 4px 10px;
         border: 1px solid #ccc;
         cursor: pointer;
