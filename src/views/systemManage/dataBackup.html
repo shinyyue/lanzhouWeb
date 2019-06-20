@@ -8,90 +8,144 @@
     <div class="course-add">
         <button class="primary-btn" id="add_data-backup">手动备份</button>
     </div>
-    <table
-        id="data-backup-mylist-table"
-        lay-filter="data-backup-mylist-table"
-    ></table>
+    <table id="data-backup-mylist-table" lay-filter="data-backup-mylist-table"></table>
+    <script type="text/html" id="sourcelist-opt">
+    </script>
     <div class="app-table-page" id="data-backup-mylist-page"></div>
-    <!--  -->
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'tree'], function(table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
             tableFilter = 'data-backup-mylist-table',
-            table = layui.table
-
-        table.render({
-            page: false,
-            data: [
-                {
-                    id: 1,
-                    courceName: '发电机哈哈',
-                    courseCode: 20190101,
-                    responsor: '王小虎',
-                    time: '第一学期',
-                    class: '所有年级',
-                    isCommon: false,
-                    score: 1
-                }
-            ],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
-            cols: [
-                [
-                    {
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center'
-                    },
-                    {
-                        title: '数据备份日期',
-                        field: 'courceName',
-                        align: 'center'
-                    },
-                    {
-                        title: '版本',
-                        field: 'responsor',
-                        align: 'center'
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        templet: '#sourcelist-opt'
+            table = layui.table,
+            admin = layui.admin,
+            pageLimit = 20,
+            layPageOption = {
+                elem: 'data-backup-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr)
                     }
-                ]
-            ]
-        })
+                }
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+	                [
+	                    {
+	                        title: '序号',
+	                        field: 'id',
+	                        width: 80,
+	                        align: 'center'
+	                    },
+	                    {
+	                        title: '数据备份日期',
+	                        field: 'backupDate',
+	                        align: 'center'
+	                    },
+	                    {
+	                        title: '版本',
+	                        field: 'versions',
+	                        align: 'center'
+	                    },
+	                    {
+	                        title: '操作',
+	                        align: 'center',
+	                        templet: '#sourcelist-opt'
+	                    }
+	                ]
+	            ]
+            },
+            formData = {
+                id: '',
+                backupDate: '',
+		versions: ''
+            };
 
-        //执行一个laypage实例
-        laypage.render({
-            elem: 'data-backup-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
-            count: 50, //数据总数，从服务端得到
-            limit: 10,
-            first: '首页',
-            last: '尾页',
-            hash: 'page',
-            curr: location.hash.replace('#/data-backup/mylist&page=', ''),
-            layout: [
-                'first',
-                'prev',
-                'page',
-                'next',
-                'last',
-                'count',
-                'currLimit',
-                'curr',
-                'pageCount'
-            ]
-        })
+
+        getList(1)
+
+        
+
+	$('#add_data-backup').on('click', function () {
+	    layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '系统提示',
+                    content: '是否要手动备份？',
+                    area: ['300px', '200px'],
+                    shade: 0.4,
+                    skin: 'system-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        // 提交
+                        layer.close(index)
+                        backupData();
+                    },
+                    cancel: function (index) {
+                        layer.close(index)
+                    }
+                });
+        });
+	
+        function getList(page) {
+            var data = {
+                page: page,
+                rows: pageLimit
+            }
+            admin.post({
+                url: '/dataBackup/list',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    tableOption.data = (res.data && res.data.items) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
+
+        function backupData(id) {
+            admin.post({
+                url: '/dataBackup/backupData',
+                success: function (res) {
+                    getList(1)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
     })
 </script>
 
 <style>
+    #source-manage-mylist {
+    }
     .data-backup-edit-modal .layui-layer-content {
         padding: 20px;
     }
