@@ -49,15 +49,10 @@ layui
                 key: 'role',
                 remove: true
             });
-            // self.data({
-            //     key: conf.tokenName,
-            //     remove: true
-            // })
-            // self.data({
-            //     key: conf.tokenName,
-            //     remove: true
-            // }, sessionStorage)
-            // self.loginToken = null
+            layui.data('userInfo', {
+                key: 'userInfo ',
+                remove: true
+            });
             self.navigate(conf.loginPage)
         }
         self.login = function (token, data, isSession) {

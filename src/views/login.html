@@ -231,10 +231,6 @@
                 url: '/login/login',
                 data: JSON.stringify(userInfo),
                 success: function (res) {
-                    // 为了安全起见，不记住用户的登录状态。即将token存入seesionstorage
-                    // admin.login(res.data.token, {
-                    //     user: res.data.user
-                    // }, true);
                     var cookieLast = getCookie("token");
                     setCookie("token", cookieLast);
 
@@ -255,6 +251,11 @@
                     layui.data('user', {
                         key: 'role',
                         value: res.data.role.id
+                    });
+
+                    layui.data('userInfo', {
+                        key: 'userInfo',
+                        value: res.data.vsMpUser
                     });
                 },
                 complete: function (err) {
