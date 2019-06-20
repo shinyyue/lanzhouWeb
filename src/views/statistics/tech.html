@@ -24,40 +24,17 @@
 </div>
 
 <script>
-    layui.use(['echarts', 'table'], function (table) {
+    layui.use(['echarts', 'table', 'admin'], function (table) {
 
         var $ = layui.jquery,
             table = layui.table,
-            tableFilter = 'tech_status_table'
+            tableFilter = 'tech_status_table',
+            admin = layui.admin;
 
         function initChart(id, option) {
             echarts.init(document.getElementById(id), layui.echartsTheme).setOption(option);
         }
 
-        var option = {
-            tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br> {b}{c} ({d}%)"
-            },
-            legend: {
-                type: 'scroll',
-                orient: 'horizontal',
-                bottom: 20,
-                data: ['土木工程学院', '自动化与电气工程学院'],
-            },
-            series: [{
-                name: '百分比',
-                type: 'pie',
-                radius: '55%',
-                data: [{
-                    name: '土木工程学院',
-                    value: 120
-                }, {
-                    name: '自动化与电气工程学院',
-                    value: 300
-                }]
-            }]
-        }
 
         var statusOption = {
             tooltip: {
@@ -102,7 +79,6 @@
             ]
         }
 
-        initChart('statistics_tech_count', option)
         initChart('statistics_tech_status', statusOption)
 
         table.render({
@@ -187,6 +163,41 @@
         $('#statistics_tech_check').on('click', function () {
             location.href = 'index.html#/statistics/techdetails';
         })
+
+        getFacultyCourse()
+
+        function getFacultyCourse() {
+            admin.get({
+                url: '/report/queryFacultyCourse',
+                success: function (res) {
+                    var option = {
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "科目：{b} <br> 数量： {c} <br> {a}:{d}%"
+                        },
+                        legend: {
+                            type: 'scroll',
+                            orient: 'horizontal',
+                            bottom: 20,
+                            data: res.data.map(item => item.faculty_name),
+                        },
+                        series: [{
+                            name: '百分比',
+                            type: 'pie',
+                            radius: '55%',
+                            data: res.data.map(item => {
+                                return {
+                                    name: item.faculty_name,
+                                    value: item.count
+                                }
+                            })
+                        }]
+                    }
+
+                    initChart('statistics_tech_count', option)
+                }
+            })
+        }
     })
 </script>
 
