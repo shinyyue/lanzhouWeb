@@ -36,7 +36,9 @@ layui.define(function (exports) {
             // 'Test-User-Agent': 'os=pc;ver=0.0.1;imei=asdasdas'
         },
         //request 基础URL
-        requestUrl: 'http://39.108.69.34:8080',
+//      requestUrl: 'http://127.0.0.1:8080',
+        requestUrl: 'http://39.104.97.6:8080',
+//      requestUrl: 'http://39.108.69.34:8080',
         //独立页面路由，可随意添加（无需写参数）
         indPage: [
             '/login', //登入页
