@@ -40,89 +40,111 @@
         var tableFilter = 'list-table';
         var laypage = layui.laypage;
         var admin = layui.admin,
-            route = layui.router();
-
-        table.render({
-            page: false,
-            data: [{
-                id: 1,
-                courceName: '发电机哈哈',
-                times: 2,
-                time: '星期一',
-                address: '三角',
-                count: 10,
-                score: 80
-            }],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
-            cols: [
-                [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center'
-                    },
-                    {
-                        title: '课程名称',
-                        field: 'courceName',
-                        width: 120,
-                        align: 'center'
-
-                    },
-                    {
-                        title: '上课周次',
-                        field: 'times',
-                        minWidth: 120,
-                        align: 'center'
-                    },
-                    {
-                        title: '上课时间',
-                        minWidth: 120,
-                        field: 'time',
-                        align: 'center',
-                    },
-                    {
-                        title: '上课地点',
-                        align: 'center',
-                        field: 'address',
-                        minWidth: 120
-                    },
-                    {
-                        title: '选课人数',
-                        align: 'center',
-                        field: 'count',
-                        minWidth: 120
-                    },
-                    {
-                        field: 'score',
-                        title: '学分',
-                        align: 'center',
-                        width: 80
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        templet: '#course-opt'
+            route = layui.router(),
+            table = layui.table,
+            admin = layui.admin,
+            pageLimit = 20,
+            layPageOption = {
+                elem: 'home-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr)
                     }
+                }
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [{
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center'
+                        },
+                        {
+                            title: '课程名称',
+                            field: 'courceName',
+                            width: 120,
+                            align: 'center'
+
+                        },
+                        {
+                            title: '上课周次',
+                            field: 'times',
+                            minWidth: 120,
+                            align: 'center'
+                        },
+                        {
+                            title: '上课时间',
+                            minWidth: 120,
+                            field: 'time',
+                            align: 'center',
+                        },
+                        {
+                            title: '上课地点',
+                            align: 'center',
+                            field: 'address',
+                            minWidth: 120
+                        },
+                        {
+                            title: '选课人数',
+                            align: 'center',
+                            field: 'count',
+                            minWidth: 120
+                        },
+                        {
+                            field: 'score',
+                            title: '学分',
+                            align: 'center',
+                            width: 80
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#course-opt'
+                        }
+                    ]
                 ]
-            ]
-        })
+            };
 
+        getList(1)
 
-        //执行一个laypage实例
-        laypage.render({
-            elem: 'home-table-page', //注意，这里的 test1 是 ID，不用加 # 号
-            count: 50, //数据总数，从服务端得到
-            limit: 10,
-            first: '首页',
-            last: '尾页',
-            hash: 'page',
-            curr: location.hash.replace('#!page=', ''),
-            layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
-            jump: function () {
-
+        function getList(page) {
+            var data = {
+                // page: page,
+                // rows: pageLimit
+                userId: layui.data('userInfo').userInfo.id
             }
-        });
+            admin.post({
+                url: '/selectedCourse/getList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    tableOption.data = (res.data && res.data.items) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
 
         $('#course-set').on('click', function () {
             window.location.href = 'index.html#/techset/techpre'
