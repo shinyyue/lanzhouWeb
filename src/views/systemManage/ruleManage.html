@@ -16,94 +16,277 @@
     </div>
     <table id="rule-mylist-table" lay-filter="rule-mylist-table"></table>
     <script type="text/html" id="sourcelist-opt">
-        <button class="course-set-btn" id="rule-mylist-edit">编辑</button>
-        <button class="course-set-btn" id="rule-mylist-delete">删除</button>
-        <button class="course-set-btn" id="rule-mylist-check">查看</button>
+        <button class="course-set-btn" lay-event="edit">编辑</button>
+        <button class="course-set-btn" lay-event="delete">删除</button>
+        <button class="course-set-btn" lay-event="check">查看</button>
     </script>
     <div class="app-table-page" id="rule-mylist-page"></div>
-    <!--  -->
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'tree'], function(table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
             tableFilter = 'rule-mylist-table',
-            table = layui.table
-
-        table.render({
-            page: false,
-            data: [
-                {
-                    id: 1,
-                    courceName: '发电机哈哈',
-                    courseCode: 20190101,
-                    responsor: '王小虎',
-                    time: '第一学期',
-                    class: '所有年级',
-                    isCommon: false,
-                    score: 1
-                }
-            ],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
-            cols: [
-                [
-                    {
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center'
-                    },
-                    {
-                        title: '规则名称',
-                        field: 'courceName',
-                        align: 'center'
-                    },
-                    {
-                        title: '数值',
-                        field: 'courceName',
-                        align: 'center'
-                    },
-                    {
-                        title: '描述',
-                        field: 'responsor',
-                        align: 'center'
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        templet: '#sourcelist-opt'
+            table = layui.table,
+            admin = layui.admin,
+            pageLimit = 20,
+            layPageOption = {
+                elem: 'rule-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr)
                     }
-                ]
-            ]
+                }
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+	                [
+	                    {
+	                        title: '序号',
+	                        field: 'id',
+	                        width: 80,
+	                        align: 'center'
+	                    },
+	                    {
+	                        title: '规则名称',
+	                        field: 'name',
+	                        align: 'center'
+	                    },
+	                    {
+	                        title: '数值',
+	                        field: 'num',
+	                        align: 'center'
+	                    },
+			    {
+	                        title: '规则类型',
+	                        field: 'type',
+	                        align: 'center'
+	                    },
+	                    {
+	                        title: '描述',
+	                        field: 'describe',
+	                        align: 'center'
+	                    },
+	                    {
+	                        title: '操作',
+	                        align: 'center',
+	                        templet: '#sourcelist-opt'
+	                    }
+	                ]
+	            ]
+            },
+            formData = {
+                id: '',
+                name: '',
+		num: '',
+		type: '',
+		describe: ''
+            };
+
+
+        getList(1)
+
+        table.on('tool(rule-mylist-table)', function (obj) {
+        	debugger;
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event,
+                type = '';
+
+            if (layEvent === 'delete') {
+                layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '系统提示',
+                    content: '该信息为重要信息，是否删除？',
+                    area: ['300px', '200px'],
+                    shade: 0.4,
+                    skin: 'system-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        // 提交
+                        layer.close(index)
+                        deleteData(data.id)
+                    },
+                    cancel: function (index) {
+                        layer.close(index)
+                    }
+                })
+                return;
+            }
+            if (layEvent === 'edit') { //编辑
+                formData = data;
+                type = 'edit';
+            } else if (layEvent === 'check') {
+                formData = data;
+                type = 'check';
+            }
+
+            var layerOption = {
+                type: 1,
+                offset: 'auto',
+                title: '编辑',
+                content: getTemplate(formData, type),
+                area: ['700px', '70%'],
+                shade: 0.4,
+                shadeClose: true,
+                btn: (type === 'check') ? [] : ['确定', '取消'],
+                yes: function (index, layero) {
+                    layer.close(index)
+                    getFormData()
+                    if (type === 'check') {
+                        getData(data.id)
+                    } else if (type === 'edit') {
+                        formData.id = data.id
+                        updateData(formData)
+                    }
+                },
+                cancel: function(index) {
+                    layer.close(index)
+                }
+            }
+
+            layer.open(layerOption);
+            form.render();
         })
 
-        //执行一个laypage实例
-        laypage.render({
-            elem: 'rule-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
-            count: 50, //数据总数，从服务端得到
-            limit: 10,
-            first: '首页',
-            last: '尾页',
-            hash: 'page',
-            curr: location.hash.replace('#/rule/mylist&page=', ''),
-            layout: [
-                'first',
-                'prev',
-                'page',
-                'next',
-                'last',
-                'count',
-                'currLimit',
-                'curr',
-                'pageCount'
-            ]
-        })
+        $('#add_rule').on('click', function () {
+            formData = {};
+            layer.open({
+                type: 1,
+                offset: 'auto',
+                title: '添加',
+                content: getTemplate(formData),
+                area: ['700px', '70%'],
+                shade: 0.4,
+                skin: 'rule-edit-modal',
+                shadeClose: true,
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                	getFormData()
+                    layer.close(index)
+                    addData(formData)
+                },
+                cancel: function(index) {
+                    layer.close(index)
+                }
+            })
+            form.render()
+        });
 
-        addModalTemp =
-            '<div id="college_details_modal">\n' +
+        function getList(page) {
+            var data = {
+                page: page,
+                rows: pageLimit
+            }
+            admin.post({
+                url: '/vsMpRule/list',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    tableOption.data = (res.data && res.data.items) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
+
+        function deleteData(id) {
+            admin.delete({
+                url: '/vsMpRule/del?id=' + id,
+                success: function (res) {
+                    getList(1)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function updateData(data) {
+            var data = {
+                id: data.id,
+                name: data.name,
+		num: data.num,
+		type: data.type,
+		describe: data.describe
+            }
+            admin.put({
+                url: '/vsMpRule/update',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    getList(1)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function getData(id) {
+            admin.get({
+                url: '/vsMpRule/queryById?id=' + id,
+                success: function (res) {},
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function addData(data) {
+            var data = {
+                name: data.name,
+		num: data.num,
+		type: data.type,
+		describe: data.describe
+            }
+            admin.post({
+                url: '/vsMpRule/add',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    getList(1)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function getFormData() {
+            formData = {
+                id: $('#id').val(),
+		name: $('#name').val(),
+		num: $('#num').val(),
+		type: $('#type').val(),
+		describe: $('#describe').val()
+            }
+        }
+
+
+        function getTemplate(formData, type) {
+            return '<div id="rule_details_modal">\n' +
             '        <form action="" class="layui-form">\n' +
             '            <div class="layui-row">\n' +
             '                <div class="layui-col-md12 layui-form-item">\n' +
@@ -111,6 +294,7 @@
             '                    <input\n' +
             '                        type="text"\n' +
             '                        name="userName"\n' +
+	    '                        id="name"\n' +
             '                        class="common-form-input"\n' +
             '                        value="虚拟实验"\n' +
             '                    />\n' +
@@ -122,9 +306,24 @@
             '                    <input\n' +
             '                        type="text"\n' +
             '                        name="userName"\n' +
+	    '                        id="num"\n' +
             '                        class="common-form-input"\n' +
             '                        value="11"\n' +
             '                    />\n' +
+            '                </div>\n' +
+            '            </div>\n' +
+	    '            <div class="layui-row">\n' +
+            '                <div class="layui-col-md12 layui-form-item">\n' +
+            '                    <label class="layui-form-label">规则类型：</label>\n' +
+            '                    <div class="layui-input-block">\n' +
+            '                        <select name="" id="type">\n' +
+            '                            <option value="">选择规则类型</option>\n' +
+            '                            <option value="1">实验累计合格次数</option>\n' +
+	    '                            <option value="2">实验累计合格时长(单位：秒)</option>\n' +
+	    '                            <option value="3">实验成绩合格分数</option>\n' +
+	    '                            <option value="4">考试成绩合格分数</option>\n' +
+            '                        </select>\n' +
+            '                    </div>\n' +
             '                </div>\n' +
             '            </div>\n' +
             '            <div class="layui-row">\n' +
@@ -132,110 +331,20 @@
             '                    <label class="layui-form-label">描述:</label>\n' +
             '                    <textarea\n' +
             '                        name="desc"\n' +
+	    '                        id="describe"\n' +
             '                        class="layui-textarea rule-remark"\n' +
             '                    ></textarea>\n' +
             '                </div>\n' +
             '            </div>\n' +
             '        </form>\n' +
-            '    </div>'
-
-        $('#add_rule').on('click', function() {
-            layer.open({
-                type: 1,
-                offset: 'auto',
-                title: '添加',
-                content: addModalTemp,
-                area: ['700px', '70%'],
-                shade: 0.4,
-                skin: 'user-edit-modal',
-                shadeClose: true,
-                btn: ['确定', '取消'],
-                yes: function(index, layero) {
-                    // 提交
-                    layer.close(index)
-                },
-                cancel: function(index) {
-                    layer.close(index)
-                }
-            })
-            form.render()
-        })
-
-        $('#rule-mylist-delete').on('click', function() {
-            layer.open({
-                type: 1,
-                offset: 'auto',
-                title: '系统提示',
-                content: '该信息为重要信息，是否删除？',
-                area: ['300px', '200px'],
-                shade: 0.4,
-                skin: 'system-modal',
-                shadeClose: true,
-                btn: ['确定', '取消'],
-                yes: function(index, layero) {
-                    // 提交
-                    layer.close(index)
-                },
-                cancel: function(index) {
-                    layer.close(index)
-                }
-            })
-        })
-
-        $('#rule-mylist-edit').on('click', function() {
-            layer.open({
-                type: 1,
-                offset: 'auto',
-                title: '编辑',
-                content: addModalTemp,
-                area: ['700px', '70%'],
-                shade: 0.4,
-                skin: 'rule-edit-modal',
-                shadeClose: true,
-                btn: ['确定', '取消'],
-                yes: function(index, layero) {
-                    // 提交
-                    layer.close(index)
-                },
-                cancel: function(index) {
-                    layer.close(index)
-                }
-            })
-            form.render()
-        })
-
-        $('#rule-mylist-check').on('click', function() {
-            layer.open({
-                type: 1,
-                offset: 'auto',
-                title: '编辑',
-                content: addModalTemp,
-                area: ['700px', '70%'],
-                shade: 0.4,
-                skin: 'rule-edit-modal',
-                shadeClose: true,
-                btn: ['确定', '取消'],
-                yes: function(index, layero) {
-                    // 提交
-                    layer.close(index)
-                },
-                cancel: function(index) {
-                    layer.close(index)
-                }
-            })
-            form.render()
-        })
-
-        //开启复选框
-        // tree.render({
-        //     elem: '#test7',
-        //     data: data2,
-        //     showCheckbox: true
-        // })
+            '    </div>';
+        }
     })
 </script>
 
 <style>
+    #source-manage-mylist {
+    }
     .rule-edit-modal .layui-layer-content {
         padding: 20px;
     }
