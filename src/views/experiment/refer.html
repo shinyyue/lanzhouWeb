@@ -37,71 +37,120 @@
     layui.use(['table', 'jquery'], function (table, $) {
         var tableFilter = 'course-list-table',
             laypage = layui.laypage,
-            $ = layui.jquery;
-
-        table.render({
-            page: false,
-            data: [{
-                id: 1,
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '王小虎',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1
-            }],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
-            cols: [
-                [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center'
-                    },
-                    {
-                        title: '实验名称',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '课程名称',
-                        field: 'courceName',
-                        align: 'center'
-
-                    },
-                    {
-                        title: '实验类型',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '创建者',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        templet: '#refer-opt',
-                        width: 180
+            $ = layui.jquery,
+            admin = layui.admin,
+            pageLimit = 20,
+            layPageOption = {
+                elem: 'course-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr)
                     }
-                ]
-            ]
-        })
+                }
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [{
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center'
+                        },
+                        {
+                            title: '实验名称',
+                            field: 'courseCode',
+                            align: 'center'
+                        },
+                        {
+                            title: '课程名称',
+                            field: 'courceName',
+                            align: 'center'
 
-        //执行一个laypage实例
-        laypage.render({
-            elem: 'course-table-page', //注意，这里的 test1 是 ID，不用加 # 号
-            count: 50, //数据总数，从服务端得到
-            limit: 10,
-            first: '首页',
-            last: '尾页',
-            hash: 'page',
-            curr: location.hash.replace('#!page=', ''),
-            layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount']
+                        },
+                        {
+                            title: '实验类型',
+                            field: 'courseCode',
+                            align: 'center'
+                        },
+                        {
+                            title: '创建者',
+                            field: 'responsor',
+                            align: 'center',
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#refer-opt',
+                            width: 180
+                        }
+                    ]
+                ]
+            };
+
+
+
+        getList(1)
+
+        $('#add_college').on('click', function () {
+            formData = {};
+            layer.open({
+                type: 1,
+                offset: 'auto',
+                title: '添加',
+                content: getTemplate(formData),
+                area: ['700px', '70%'],
+                shade: 0.4,
+                skin: 'user-edit-modal',
+                shadeClose: true,
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    layer.close(index)
+                    addData(formData)
+                },
+                cancel: function (index) {
+                    layer.close(index)
+                }
+            })
+            form.render()
         });
+
+        function getList(page) {
+            var data = {
+                page: page,
+                rows: pageLimit,
+                key: '||||'
+            }
+            admin.post({
+                url: '/experiments/list',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    tableOption.data = (res.data && res.data.items) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
 
 
         $('#experiment-refer-check').on('click', function () {
