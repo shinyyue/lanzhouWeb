@@ -10,63 +10,47 @@
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label require">课程名称</label>
-                    <input class="common-form-input" type="text" name="courseName" placeholder="请输入课程名称">
+                    <input class="common-form-input" type="text" name="curriculumName" placeholder="请输入课程名称">
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label require">课程代码</label>
-                    <input type="text" require name="courseCode" class="common-form-input">
+                    <input type="text" require name="curriculumCode" class="common-form-input">
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">学时</label>
-                    <input class="common-form-input" type="text" name="courseTime" placeholder="请输入课程名称">
+                    <input class="common-form-input" type="text" name="period" placeholder="请输入课程名称">
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">学分</label>
-                    <input type="text" name="score" class="common-form-input">
+                    <input type="text" name="creditHour" class="common-form-input">
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">满分</label>
-                    <input class="common-form-input" type="text" name="totalScore" placeholder="请输入课程名称">
+                    <input class="common-form-input" type="text" name="fullMark" placeholder="请输入课程名称">
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label require">课程负责人</label>
-                    <input type="text" name="courseSponsor" class="common-form-input">
+                    <input type="text" name="userName" class="common-form-input" id="userName" disabled>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">适合专业</label>
                     <div class="layui-input-block">
-                        <input type="checkbox" name="goodAt[all]" lay-skin="primary" title="所有专业">
+                        <input type="checkbox" name="profession" lay-skin="primary" lay-filter="checkedAll" title="所有专业">
                     </div>
-                    <ul class="course-good-at">
-                        <li>
-                            <input id="good-at-tech" type="checkbox" lay-skin="primary" name="goodAt[tech]" title="教育学">
-                        </li>
-                        <li>
-                            <input type="checkbox" id="good-at-compu" lay-skin="primary" name="goodAt[compu]" title="计算机专业">
-                        </li>
-                        <li>
-                            <input type="checkbox" id="good-at-tumu" lay-skin="primary" name="goodAt[tumu]" title="土木工程">
-                        </li>
-                        <li>
-                            <input type="checkbox" id="good-at-jiaotong" lay-skin="primary" name="goodAt[jiaotong]"
-                                title="交通运输">
-                        </li>
-                        <li>
-                            <input type="checkbox" id="good-at-dianzi" name="goodAt[dianzi]" lay-skin="primary" title="电子与信息工程">
-                        </li>
+                    <ul class="course-good-at" id="course_gooda_at">
                     </ul>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">实验室名称</label>
-                    <select name="testRoomName" lay-verify="">
+                    <select name="libName" id="testRoomName" lay-verify="">
                         <option value="">请选择一个城市</option>
                         <option value="021">上海</option>
                         <option value="0571">杭州</option>
@@ -75,15 +59,14 @@
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">先修课程</label>
+                    <label class="layui-form-label">选修课程</label>
                     <div class="pre-course layui-col-md10">
-                        <div>
+                        <!-- <div>
                             <span>搜索</span>
                             <input class="common-form-input" type="text" name="preSourceSearch" placeholder="请输入名称">
-                        </div>
+                        </div> -->
                         <div class="pre-course-checkbox">
-                            <input type="checkbox" lay-skin="primary" name="preSource[0]" title="教育学">
-                            <input type="checkbox" lay-skin="primary" name="preSource[1]" title="教育学">
+                            <input type="checkbox" lay-skin="primary" name="prerequisiteCourse" title="教育学">
                         </div>
                     </div>
                 </div>
@@ -92,11 +75,11 @@
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">适合开课年级</label>
                     <div class="layui-col-md10">
-                        <input type="radio" name="class" value="" title="所有年级">
-                        <input type="radio" name="class" title="一年级">
-                        <input type="radio" name="class" value="" title="二年级">
-                        <input type="radio" name="class" value="" title="三年级">
-                        <input type="radio" name="class" value="" title="四年级">
+                        <input type="radio" name="gradeId" value="" title="所有年级">
+                        <input type="radio" name="gradeId" value="1" title="一年级">
+                        <input type="radio" name="gradeId" value="2" title="二年级">
+                        <input type="radio" name="gradeId" value="3" title="三年级">
+                        <input type="radio" name="gradeId" value="4" title="四年级">
                     </div>
                 </div>
             </div>
@@ -104,15 +87,15 @@
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">适合开课学期</label>
                     <div class="layui-col-md10">
-                        <input type="radio" name="semester" value="" title="第一学期">
-                        <input type="radio" name="semester" title="第二学期">
+                        <input type="radio" name="semester" value="1" title="第一学期">
+                        <input type="radio" name="semester" value="2" title="第二学期">
                     </div>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">课程介绍</label>
-                    <div class="layui-col-md10" id="course-intro-edit"></div>
+                    <div class="layui-col-md10" id="course-intro-edit" name="presentation"></div>
                 </div>
             </div>
             <div class="layui-row">
@@ -132,19 +115,20 @@
     layui.use(['form', 'layedit'], function () {
         var form = layui.form,
             layedit = layui.layedit,
-            $ = layui.jquery;
+            $ = layui.jquery,
+            admin = layui.admin;
 
 
         form.render();
-        layedit.build('course-intro-edit', {
+        $('#userName').val(layui.data('userInfo').userInfo.userName);
+
+        var inndex = layedit.build('course-intro-edit', {
             tool: [
                 'strong' //加粗
                 , 'italic' //斜体
                 , 'underline' //下划线
                 , 'del' //删除线
-
                 , '|' //分割线
-
                 , 'left' //左对齐
                 , 'center' //居中对齐
                 , 'right' //右对齐
@@ -156,6 +140,8 @@
         //监听提交
         form.on('submit(submit)', function (data) {
             layer.msg(JSON.stringify(data.field));
+            console.log(333, data)
+            addData(data.field)
             return false;
         });
 
@@ -164,10 +150,32 @@
             window.history.back(-2);
         })
 
-        function addData(data) {
-            var data = {
-                collegeName: data.collegeName
+        getAllProfess();
+
+        getExperimentRoomList();
+
+        getAllCourses();
+
+        form.on('checkbox(checkedAll)', function (data) {
+            var a = data.elem.checked;
+            if (a == true) {
+                $(".checked-forcess").prop("checked", true);
+                form.render('checkbox');
+            } else {
+                $(".checked-forcess").prop("checked", false);
+                form.render('checkbox');
             }
+
+        });
+
+        function addData(data) {
+            data.creditHour = Number(data.creditHour)
+            data.fullMark = Number(data.fullMark)
+            data.userId = layui.data('userInfo').userInfo.id
+            data.period = Number(data.period)
+            data.presentation = layedit.getContent(inndex)
+            data.semester = Number(data.semester)
+
             admin.post({
                 url: '/vsMpCurriculum/add',
                 data: JSON.stringify(data),
@@ -180,11 +188,55 @@
             })
         }
 
+        function getAllProfess() {
+            admin.post({
+                url: '/vsMpProfession/getList',
+                data: JSON.stringify({
+                    page: 1,
+                    rows: 100
+                }),
+                success: function (res) {
+                    $("#course_gooda_at").html('')
+                    res.data.items.forEach(item => {
+                        $("#course_gooda_at").append(
+                            '<li><input type="checkbox" class="checked-forcess" lay-skin="primary" name="profession" title="' +
+                            item.professionName +
+                            '"></li>'
+                        );
+                        form.render()
+                    })
 
+                }
+            })
+        }
 
-        // form.on('submit(back)', function () {
-        //     window.history.back(-1);
-        // })
+        function getExperimentRoomList() {
+            admin.post({
+                url: '/mpLab/vsMpLabListInfo',
+                data: JSON.stringify({
+                    page: 1,
+                    rows: 100
+                }),
+                success: function (res) {
+                    console.log(9999, res)
+                    // res.
+                    // $('#testRoomName').
+                }
+            })
+        }
+
+        function getAllCourses() {
+            admin.post({
+                url: '/vsMpCurriculum/getList',
+                data: JSON.stringify({
+                    page: 1,
+                    rows: 100
+                }),
+                success: function (res) {
+                    console.log(4444, res);
+                }
+            })
+        }
     })
 </script>
 

@@ -71,18 +71,8 @@
                 <div class="layui-form-item layui-col-md12">
                     <label class="layui-form-label"></label>
                     <div>
-                        <button
-                            class="layui-btn primary-btn"
-                            lay-submit
-                            lay-filter="submit"
-                        >
-                            提交
-                        </button>
-                        <button
-                            class="layui-btn layui-btn-primary cancel-btn "
-                            id="source-add-cancle"
-                        >
-                            取消
+                        <button class="layui-btn layui-btn-primary cancel-btn " id="source-add-cancle">
+                            返回
                         </button>
                     </div>
                 </div>
@@ -92,21 +82,35 @@
 </div>
 
 <script>
-    layui.use(['form', 'layedit'], function() {
+    layui.use(['form', 'layedit'], function () {
         var form = layui.form,
             layedit = layui.layedit,
-            $ = layui.jquery
+            $ = layui.jquery,
+            admin = layui.admin,
+            router = layui.router(),
+            id = router.search.id;
+
+        getDetails()
+
+        function getDetails() {
+            admin.get({
+                url: '/vsMpCurriculum/get?id=' + id,
+                success: function (res) {
+                    console.log(2222, res)
+                }
+            })
+        }
 
         form.render()
+
+
         layedit.build('course-intro-edit', {
             tool: [
                 'strong', //加粗
                 'italic', //斜体
                 'underline', //下划线
                 'del', //删除线
-
                 '|', //分割线
-
                 'left', //左对齐
                 'center', //居中对齐
                 'right', //右对齐
@@ -115,25 +119,14 @@
             ]
         })
 
-        //监听提交
-        form.on('submit(submit)', function(data) {
-            layer.msg(JSON.stringify(data.field))
-            return false
-        })
-
-        $('#source-add-cancle').on('click', function() {
+        $('#source-add-cancle').on('click', function () {
             window.history.back(-1)
         })
-
-        // form.on('submit(back)', function () {
-        //     window.history.back(-1);
-        // })
     })
 </script>
 
 <style>
-    #course-add {
-    }
+    #course-add {}
 
     #course-details .course-add-content {
         padding: 15px 0;

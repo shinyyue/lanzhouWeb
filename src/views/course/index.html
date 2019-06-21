@@ -73,44 +73,44 @@
                         },
                         {
                             title: '课程名称',
-                            field: 'courceName',
+                            field: 'curriculumName',
                             align: 'center'
 
                         },
                         {
                             title: '课程代码',
-                            field: 'courseCode',
+                            field: 'curriculumCode',
                             align: 'center'
                         },
                         {
                             title: '负责人',
-                            field: 'responsor',
+                            field: 'userId',
                             align: 'center',
                         },
                         {
                             title: '学时',
                             align: 'center',
-                            field: 'times',
+                            field: 'period',
                             width: 80
                         },
                         {
                             title: '学分',
                             align: 'center',
-                            field: 'score',
+                            field: 'creditHour',
                             width: 80
                         },
                         {
-                            field: 'score',
+                            field: 'gradeId',
                             title: '年级',
                             align: 'center',
                         },
                         {
-                            field: 'time',
+                            field: 'semester',
                             title: '学期',
                             align: 'center',
                         },
                         {
-                            field: 'isCommon',
+                            field: 'profession',
                             title: '适合所有专业',
                             align: 'center',
                             width: 140,
@@ -130,10 +130,9 @@
 
         getList(1)
 
-        table.on('tool(college-mylist-table)', function (obj) {
+        table.on('tool(course-list-table)', function (obj) {
             var data = obj.data; //获得当前行数据
-            var layEvent = obj.event,
-                type = '';
+            var layEvent = obj.event;
 
             if (layEvent === 'delete') {
                 layer.open({
@@ -157,9 +156,9 @@
                 return;
             }
             if (layEvent === 'edit') {
-                location.href = 'index.html#/course/update'
+                location.href = 'index.html#/course/update/id=' + data.id
             } else if (layEvent === 'check') {
-                location.href = 'index.html#/course/details'
+                location.href = 'index.html#/course/details/id=' + data.id
             }
         })
 
@@ -167,7 +166,8 @@
         function getList(page) {
             var data = {
                 page: page,
-                rows: pageLimit
+                rows: pageLimit,
+                key: '||'
             }
             admin.post({
                 url: '/vsMpCurriculum/getList',
@@ -184,6 +184,16 @@
             })
         };
 
+
+        function deleteData(id) {
+            admin.delete({
+                url: '/vsMpCurriculum/delete?id=' + id,
+                success: function (res) {
+                    layer.msg('删除成功！')
+                    getList(1)
+                }
+            })
+        }
 
         $('#add-cource').on('click', function () {
             location.href = 'index.html#/course/update'
