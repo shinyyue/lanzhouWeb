@@ -1,6 +1,6 @@
 <div class="layui-fluid" lay-title="首页" id="VIEW-index">
     <div class="home-title">
-        <span>您本学期在虚拟实验中心承担<i id="course-count">1</i>门课程</span>
+        <span>您本学期在虚拟实验中心承担<i id="course-count"></i>门课程</span>
         <span class="home-title-time">2018-2019-2</span>
     </div>
     <table id="list-table" lay-filter="list-table"></table>
@@ -127,24 +127,47 @@
 
         function getList(page) {
             var data = {
-                // page: page,
-                // rows: pageLimit
-                userId: layui.data('userInfo').userInfo.id
+                page: page,
+                rows: pageLimit,
+                key: '|||' + layui.data('userInfo').userInfo.id + '|'
             }
             admin.post({
-                url: '/selectedCourse/getList',
+                url: '/coursePlan/list',
                 data: JSON.stringify(data),
                 success: function (res) {
                     tableOption.data = (res.data && res.data.items) || [];
                     layPageOption.count = (res.data && res.data.total) || 0;
                     table.render(tableOption)
                     laypage.render(layPageOption)
+                    $('#course-count').html(layPageOption.count)
                 },
                 error: function (err) {
                     layer.msg(err && err.msg || '数据请求失败');
                 }
             })
         };
+
+
+        // function getList(page) {
+        //     var data = {
+        //         // page: page,
+        //         // rows: pageLimit
+        //         userId: layui.data('userInfo').userInfo.id
+        //     }
+        //     admin.post({
+        //         url: '/selectedCourse/getList',
+        //         data: JSON.stringify(data),
+        //         success: function (res) {
+        //             tableOption.data = (res.data && res.data.items) || [];
+        //             layPageOption.count = (res.data && res.data.total) || 0;
+        //             table.render(tableOption)
+        //             laypage.render(layPageOption)
+        //         },
+        //         error: function (err) {
+        //             layer.msg(err && err.msg || '数据请求失败');
+        //         }
+        //     })
+        // };
 
         $('#course-set').on('click', function () {
             window.location.href = 'index.html#/techset/techpre'
