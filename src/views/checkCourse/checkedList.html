@@ -7,89 +7,150 @@
     </div>
 
     <div class="checked-course-content">
-        <table id="checked_course_table" lay-filter="checked_course_table"></table>
+        <table id="checked-list-table" lay-filter="checked-list-table"></table>
     </div>
 
     <script type="text/html" id="checked_course_opt">
-        <button class="layui-btn layui-btn-primary" id="checked_course_check">课程内容</button>
+        <button class="layui-btn layui-btn-primary" lay-event="getDetail">课程内容</button>
     </script>
 </div>
 
 <script>
-    layui.use(['table'], function (table) {
-        var table = layui.table,
-            $ = layui.jquery,
-            tableFilter = 'checked_course_table'
+    layui.use(['table', 'jquery', 'form', 'admin'], function (table) {
+        var $ = layui.jquery,
+            form = layui.form,
+            laypage = layui.laypage,
+            tableFilter = 'checked-list-table',
+            table = layui.table,
+            admin = layui.admin,
+            pageLimit = 20,
 
-        table.render({
-            page: true,
-            data: [{
-                id: 1,
-                courceName: '发电机哈哈',
-                times: 2,
-                time: '星期一',
-                address: '三角',
-                count: 10,
-                score: 80
-            }],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
-            cols: [
-                [{
+            layPageOption = {
+                elem: 'checked-list-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr)
+                    }
+                }
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [{
                         title: '序号',
                         field: 'id',
                         width: 80,
-                        align: 'center'
-                    },
-                    {
-                        title: '课程名称',
-                        field: 'courceName',
-                        width: 120,
-                        align: 'center'
-
-                    },
-                    {
-                        title: '上课周次',
-                        field: 'times',
-                        minWidth: 120,
-                        align: 'center'
-                    },
-                    {
-                        title: '上课时间',
-                        minWidth: 120,
-                        field: 'time',
                         align: 'center',
+                        type: 'numbers'
                     },
-                    {
-                        title: '上课地点',
-                        align: 'center',
-                        field: 'address',
-                        minWidth: 120
-                    },
-                    {
-                        title: '选课人数',
-                        align: 'center',
-                        field: 'count',
-                        minWidth: 120
-                    },
-                    {
-                        field: 'score',
-                        title: '学分',
-                        align: 'center',
-                        width: 80
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        templet: '#checked_course_opt'
-                    }
+                        {
+                            title: '开课名称',
+                            field: 'courseName',
+                            align: 'center'
+                        },
+                         {
+                             title: '开课编码',
+                             field: 'courseNumber',
+                             align: 'center'
+                         },
+                         {
+                             title: '学分',
+                             field: 'creditHour',
+                             align: 'center'
+                         },
+                        {
+                            title: '课程类型',
+                            field: 'school',
+                            align: 'center'
+                        },{
+                             title: '上课时间',
+                             field: 'time',
+                             align: 'center'
+                         },
+                         {
+                             title: '上课地点',
+                             field: 'classroomName',
+                             align: 'center'
+                         },
+                        {
+                            title: '状态',
+                            field: 'publish',
+                            align: 'center'
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#checked_course_opt',
+                            fixed: 'right',
+                            width: 200
+                        }
+                    ]
                 ]
-            ]
+            }
+
+        getList(1)
+
+        table.on('tool(checked-list-table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event,
+                type = '';
+            if (layEvent === 'getDetail') {
+                //应该是跳转页面
+                formData = data;
+                console.log(formData)
+                getDetail(formData.id)
+            }
+
+            layer.open(layerOption);
+            form.render();
         })
 
-        $('#checked_course_check').on('click', function () {
-            location.href = 'index.html#/checkcourse/preintro'
-        })
+        function getList(page) {
+            var data = {
+                page: page,
+                rows: pageLimit,
+                userId: layui.data('userInfo').userInfo.id
+            }
+            admin.post({
+                url: '/selectedCourse/getList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    tableOption.data = (res.data && res.data.items) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
+
+        function getDetail(id) {
+            admin.get({
+                url: '/introduction/queryById?id=' + id,
+                success: function (res) {},
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
     })
 </script>
 
