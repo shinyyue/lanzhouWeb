@@ -6,8 +6,8 @@
 		<div class="sidebar-user">
 			<img src="src/images/user_logo.png" class="user-logo" />
 			<div class="user-info">
-				<div class="user-info-name">王小虎</div>
-				<div>老师</div>
+				<div class="user-info-name" id="nav_user_name">王小虎</div>
+				<div id="nav_user_role">老师</div>
 			</div>
 		</div>
 		<!-- 配置部分 -->
@@ -43,7 +43,7 @@
 			navbar = layui.navbar(),
 			admin = layui.admin,
 			route = layui.router(),
-			currentPath = typeof route === 'string' ? (route.split('#')[1] || '/') : '/';
+            currentPath = route.path[0]
 
 		var menuList = [{
 				"role": 2,
@@ -399,9 +399,10 @@
 		}
 
 		for(var j = 0; j < currentFirstMenuList.length; j++) {
-			var curPath = currentFirstMenuList[j].path;
+            var curPath = currentFirstMenuList[j].path;
+            var reg = new RegExp(currentPath);
 			headerNavTemp +=
-				'<li class="layui-nav-item ' + (currentPath === curPath ? 'active' : '') + '" data-path="' +
+				'<li class="layui-nav-item ' + (reg.test(curPath) ? 'active' : '') + '" data-path="' +
 				curPath + '">' +
 				currentFirstMenuList[j].name + '</li>'
 		}
@@ -512,7 +513,10 @@
 
 		$('#logout').on('click', function() {
 			admin.logout()
-		})
+        })
+
+        $('#nav_user_name').html(layui.data('userInfo').userInfo.userName)
+        $('#nav_user_role').html(layui.data('userInfo').userInfo.roleName || '')
 
 	})
 </script>
