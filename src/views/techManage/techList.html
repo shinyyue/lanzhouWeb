@@ -26,7 +26,7 @@
     </div>
     <table id="techManage-list-table" lay-filter="techManage-list-table"></table>
     <script type="text/html" id="techManage-opt">
-        <button class="course-set-btn" id="techManage-edit">课程设置</button>
+        <button class="course-set-btn" lay-event="techSet">课程设置</button>
     </script>
     <div class="app-table-page" id="techManage-list-page"></div>
 </div>
@@ -78,18 +78,18 @@
                         },
                         {
                             title: '任课老师',
-                            field: 'techManageCode',
+                            field: 'userName',
                             align: 'center'
                         },
                         {
                             title: '上课时间',
-                            field: 'responsor',
+                            field: 'startEndTIME',
                             align: 'center'
                         },
                         {
                             title: '上课地点',
                             align: 'center',
-                            field: 'times',
+                            field: 'classroomName',
                         },
                         {
                             title: '状态',
@@ -97,7 +97,7 @@
                             field: 'publish',
                             width: 80,
                             templet: function (data) {
-                                return data.publish === 1 ? '未发布' : '已发布';
+                                return data.publish === 1 ? '已发布' : '未发布';
                             },
                         },
                         {
@@ -115,50 +115,10 @@
 
         table.on('tool(techManage-list-table)', function (obj) {
             var data = obj.data; //获得当前行数据
-            var layEvent = obj.event,
-                type = '';
+            var layEvent = obj.event;
 
-            if (layEvent === 'delete') {
-                layer.open({
-                    type: 1,
-                    offset: 'auto',
-                    title: '系统提示',
-                    content: '该信息为重要信息，是否删除？',
-                    area: ['300px', '200px'],
-                    shade: 0.4,
-                    skin: 'system-modal',
-                    shadeClose: true,
-                    btn: ['确定', '取消'],
-                    yes: function (index, layero) {
-                        layer.close(index)
-                        deleteData(data.id)
-                    },
-                    cancel: function (index) {
-                        layer.close(index)
-                    }
-                })
-                return;
-            }
-            if (layEvent === 'edit') { //编辑
-                location.href = 'index.html#/techManage/update'
-            } else if (layEvent === 'check') {
-                location.href = 'index.html#/techManage/details'
-            } else if (layEvent === 'publish') {
-                layer.open({
-                    type: 1,
-                    offset: 'auto',
-                    title: '系统提示',
-                    content: '是否发布？',
-                    area: ['300px', '200px'],
-                    shade: 0.4,
-                    skin: 'system-modal',
-                    shadeClose: true,
-                    btn: ['确定', '取消'],
-                    yes: function (index, layero) {
-                        layer.close(index)
-                        publish(data.id)
-                    }
-                })
+            if (layEvent === 'techSet') {
+                location.href = 'index.html#/techSet/techPre/id=' + data.id
             }
         })
 
@@ -181,27 +141,6 @@
                 }
             })
         };
-
-        function deleteData(id) {
-            admin.delete({
-                url: '/coursePlan/del?id=' + id,
-                success: function (res) {
-                    getList(1)
-                },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
-                }
-            })
-        }
-
-        function publish(id) {
-            // admin.
-        }
-
-
-        $('#techManage-edit').on('click', function () {
-            location.href = 'index.html#/techSet/techPre'
-        })
     })
 </script>
 

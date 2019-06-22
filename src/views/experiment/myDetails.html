@@ -9,45 +9,45 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">实验名称</label>
-                <span>zk4电控转辙机</span>
+                <span id="name"></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属课程</label>
-                <span>铁路信号知识</span>
+                <span id="curriculum">铁路信号知识</span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">实验类型</label>
-                <span>虚拟实验</span>
+                <span id="experimentalType">虚拟实验</span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">可被引用</label>
-                <span>是</span>
+                <span id="cite">是</span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">负责教师</label>
-                <span>王小虎</span>
+                <span id="">王小虎</span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">实验要求</label>
-                <span>1111111111111111</span>
+                <span id="require">1111111111111111</span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">实验报告</label>
-                <span>333333333333</span>
+                <span id="labReport">333333333333</span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">课件资源</label>
-                <span></span>
+                <span id="experimentalData"></span>
             </div>
         </div>
         <div class="layui-row">
@@ -79,7 +79,25 @@
 <script>
     layui.use(['table'], function (table) {
 
-        var $ = layui.$;
+        var $ = layui.$,
+            admin = layui.admin,
+            router = layui.router(),
+            id = router.search.id;
+
+
+        getDetails()
+
+        function getDetails() {
+            admin.get({
+                url: '/experiments/queryById?id=' + id,
+                success: function (res) {
+                    $('#name').val(res.data.name)
+                    $('#curriculum').val(res.data.curriculum)
+                    $('#experimentalType').val(res.data.experimentalType)
+                    $('#cite').val(res.data.cite == 0 ? '否' : '是')
+                }
+            })
+        }
 
 
         $('#my-details-update').on('click', function () {

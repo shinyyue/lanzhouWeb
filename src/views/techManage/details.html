@@ -1,4 +1,4 @@
-<div id="course-details" lay-title="课程管理详情">
+<div id="tech_manege_details" lay-title="课程管理详情">
     <div class="course-title">
         <div class="course-title-location">
             <span>查看开课计划</span>
@@ -9,99 +9,90 @@
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">开课编号</label>
-                    <span>2020010005</span>
+                    <span class="info-details">2020010005</span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">选择单双周</label>
-                    <span>全部</span>
+                    <span class="info-details">全部</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">所开课程</label>
-                    <span>铁路信号知识</span>
+                    <span class="info-details">铁路信号知识</span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">开课单位</label>
-                    <span>土木工程学院</span>
+                    <span class="info-details">土木工程学院</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">适合学生类别</label>
-                    <span>本科生</span>
+                    <span class="info-details">本科生</span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">满分</label>
-                    <span>100</span>
+                    <span class="info-details">100</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">学时</label>
-                    <span>30</span>
+                    <span class="info-details">30</span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">学分</label>
-                    <span>1</span>
+                    <span class="info-details">1</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">任课老师</label>
-                    <span>王老师</span>
+                    <span class="info-details">王老师</span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">上课地点</label>
-                    <span>科教1-102</span>
+                    <span class="info-details">科教1-102</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">校区</label>
-                    <span>--</span>
+                    <span class="info-details">--</span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">面向全校开课</label>
-                    <span>否</span>
+                    <span class="info-details">否</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">上课周次</label>
-                    <span>第1周 至 第23周</span>
+                    <span class="info-details">第1周 至 第23周</span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">上课时间</label>
-                    <span>星期二1至2节</span>
+                    <span class="info-details">星期二1至2节</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">实际选课人数</label>
-                    <span>0</span>
+                    <span class="info-details">0</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-form-item layui-col-md12">
                     <label class="layui-form-label"></label>
                     <div>
-                        <button
-                            class="layui-btn primary-btn"
-                            id="add-tech-manage"
-                        >
+                        <button class="layui-btn primary-btn" id="add-tech-manage">
                             添加开课计划
                         </button>
-                        <button
-                            class="layui-btn primary-btn"
-                            id="update-tech-manage"
-                        >
+                        <button class="layui-btn primary-btn" id="update-tech-manage">
                             修改开课计划
                         </button>
-                        <button
-                            class="layui-btn layui-btn-primary cancel-btn "
-                            id="source-add-cancle"
-                        >
+                        <button class="layui-btn layui-btn-primary cancel-btn " id="source-add-cancle">
                             返回
                         </button>
                     </div>
@@ -112,10 +103,13 @@
 </div>
 
 <script>
-    layui.use(['form', 'layedit'], function() {
+    layui.use(['form', 'layedit'], function () {
         var form = layui.form,
             layedit = layui.layedit,
-            $ = layui.jquery
+            $ = layui.jquery,
+            admin = layui.admin
+        route = layui.router()
+        id = route.search.id;
 
         form.render()
         layedit.build('techManage-intro-edit', {
@@ -124,9 +118,7 @@
                 'italic', //斜体
                 'underline', //下划线
                 'del', //删除线
-
                 '|', //分割线
-
                 'left', //左对齐
                 'center', //居中对齐
                 'right', //右对齐
@@ -136,69 +128,46 @@
         })
 
         //监听提交
-        form.on('submit(submit)', function(data) {
+        form.on('submit(submit)', function (data) {
             layer.msg(JSON.stringify(data.field))
             return false
         })
 
-        $('#source-add-cancle').on('click', function() {
+        $('#source-add-cancle').on('click', function () {
             window.history.back(-1)
         })
 
-        // form.on('submit(back)', function () {
-        //     window.history.back(-1);
-        // })
-        $('#add-tech-manage').on('click', function() {
+        $('#add-tech-manage').on('click', function () {
             location.href = 'index.html#/techManage/update'
         })
-        $('#update-tech-manage').on('click', function() {
+        $('#update-tech-manage').on('click', function () {
             location.href = 'index.html#/techManage/update'
         })
-        $('#add-tech-manage').on('click', function() {
+        $('#add-tech-manage').on('click', function () {
             location.href = 'index.html#/techManage/update'
         })
+
+        getDetails();
+
+        function getDetails() {
+            admin.get({
+                url: '/coursePlan/queryById?id=' + id,
+                success: function (res) {
+                    // todo: 结果赋值
+                    // console.log(222, res)
+                }
+            })
+        }
     })
 </script>
 
 <style>
-    #techManage-add {
+    #tech_manege_details .course-add-content {
+        padding: 20px 0;
     }
 
-    #techManage-details .techManage-add-content {
-        padding: 15px 0;
-    }
-
-    #techManage-details .techManage-add-content .layui-form-label {
-        font-size: 16px;
-        font-weight: bold;
-        width: 120px;
+    #tech_manege_details .info-details {
         display: inline-block;
-    }
-
-    #techManage-details .layui-form-item {
-        clear: none;
-    }
-
-    #techManage-details .layui-form-item span {
-        display: inline-block;
-        padding: 9px 15px;
-        font-size: 16px;
-    }
-
-    #techManage-details .pre-techManage {
-        float: left;
-        width: calc(100 - 230px);
-    }
-
-    #techManage-details .pre-techManage .pre-techManage-checkbox {
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        margin-top: 10px;
-        padding: 10px;
-    }
-
-    #techManage-details .layui-layedit {
-        width: 83%;
-        float: left;
-        background: #fff;
+        line-height: 38px;
     }
 </style>

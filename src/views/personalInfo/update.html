@@ -1,82 +1,92 @@
-<div id="techManage-add" lay-title="添加课程管理">
+<div id="personalInfo_edit" lay-title="添加课程管理">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
             <span>个人信息 > 修改个人信息</span>
         </div>
     </div>
-    <div class="course-add-content">
+    <div class="personalInfo-edit-content">
         <form action="" class="layui-form">
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">个人头像</label>
-                    <img src="" width="120" height="120" />
+                    <button type="button" class="layui-btn" id="uploadAvator">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+                    <!-- <img src="" width="120" height="120" id="avator" /> -->
+                    <span class="upload-avator">
+                        图片尺寸为120*120px或等比例图片
+                        支持格式为JPG、JPEG、PNG，
+                        上传图片大小不能超过200KB；
+                    </span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label require">账号</label>
-                    <input type="text" require name="techManageCode" class="common-form-input" />
+                    <input type="text" require name="account" class="common-form-input" id="account" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label require">教师(学生)号</label>
-                    <input type="text" require name="techManageCode" class="common-form-input" />
+                    <input type="text" require name="snoOrJno" class="common-form-input" id="snoOrJno" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">联系电话(手机)</label>
-                    <input type="text" require name="techManageCode" class="common-form-input" />
+                    <input type="text" require name="phonenumber" class="common-form-input" id="phonenumber" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">电子邮箱</label>
-                    <input type="text" require name="techManageCode" class="common-form-input" />
+                    <input type="text" require name="email" class="common-form-input" id="email" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
-                    <label class="layui-form-label">姓名</label>
-                    <input type="text" require name="techManageCode" class="common-form-input" />
+                    <label class="layui-form-label require">姓名</label>
+                    <input type="text" require name="userName" class="common-form-input" id="userName" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">性别</label>
-                    <input type="radio" name="sex" value="nan" title="男" />
-                    <input type="radio" name="sex" value="nv" title="女" />
+                    <input type="radio" name="sex" value="1" title="男" />
+                    <input type="radio" name="sex" value="0" title="女" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">旧密码</label>
-                    <input type="password" require name="techManageCode" class="common-form-input" value="123456" />
+                    <input type="password" require name="oldPwd" class="common-form-input" id="oldPwd" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">密码</label>
-                    <input type="password" require name="techManageCode" class="common-form-input" />
+                    <input type="password" require name="newPwd" class="common-form-input" id="newPwd" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">密码确认</label>
-                    <input type="password" require name="techManageCode" class="common-form-input" />
+                    <input type="password" require name="pwdConfirm" class="common-form-input" id="pwdConfirm" />
                 </div>
             </div>
-
+            <!-- <span id="user_update">
+                提交
+            </span> -->
             <div class="layui-row">
                 <div class="layui-form-item layui-col-md12">
                     <label class="layui-form-label"></label>
                     <div>
-                        <button class="layui-btn primary-btn" lay-submit lay-filter="submit">
+                        <div class="layui-btn primary-btn" id="user_update">
                             提交
-                        </button>
-                        <button class="layui-btn layui-btn-primary cancel-btn" id="source-add-cancle">
+                        </div>
+                        <button class="layui-btn layui-btn-primary cancel-btn" id="user_update_cancle">
                             取消
                         </button>
                     </div>
@@ -87,94 +97,135 @@
 </div>
 
 <script>
-    layui.use(['form', 'layedit'], function () {
+    layui.use(['form', 'layedit', 'upload'], function () {
         var form = layui.form,
-            layedit = layui.layedit,
-            $ = layui.jquery
+            $ = layui.jquery,
+            admin = layui.admin,
+            upload = layui.upload,
+            userInfo = {};
 
-        form.render()
-        layedit.build('techManage-intro-edit', {
-            tool: [
-                'strong', //加粗
-                'italic', //斜体
-                'underline', //下划线
-                'del', //删除线
+        // form.render()
 
-                '|', //分割线
+        upload.render({
+            elem: '#uploadAvator' //绑定元素
+                ,
+            url: '' //上传接口
+                ,
+            done: function (res) {
+                //上传完毕回调
+            },
+            error: function () {
+                //请求异常回调
+            }
+        });
 
-                'left', //左对齐
-                'center', //居中对齐
-                'right', //右对齐
-                'link', //超链接
-                'image' //插入图片
-            ]
+        getUserInfo();
+
+        function getUserInfo() {
+            admin.get({
+                url: '/user/getUserByID?id=' + layui.data('userInfo').userInfo.id,
+                success: function (res) {
+                    const data = res.data;
+                    userInfo = data;
+                    $('#avator').attr('src', data.avator)
+                    $('#account').val(data.snoOrJno);
+                    $('#snoOrJno').val(data.snoOrJno)
+                    $('#phonenumber').val(data.phonenumber)
+                    $('#email').val(data.email)
+                    $('#userName').val(data.userName)
+                    $('input[name=sex][value=' + data.sex + ']').attr('checked', 'checked');
+                    $('#role').val(data.roleName)
+                    $('#college').val(data.collegeName)
+                    form.render()
+                }
+            })
+        }
+
+
+        function updateUser() {
+            var data = userInfo;
+
+            data.account = $('#account').val()
+            data.snoOrJno = $('#snoOrJno').val()
+            data.phonenumber = $('#phonenumber').val()
+            data.email = $('#email').val()
+            data.userName = $('#userName').val()
+            data.sex = Number($('input[name=sex]').val())
+            data.newPassWord = $('#oldPwd').val()
+            data.oldPassWord = $('#newPwd').val()
+
+            admin.put({
+                url: '/user/updateUser',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    console.log(333, res)
+                    layer.msg('修改成功')
+                    getUserInfo()
+                }
+            })
+        }
+
+
+        $('#user_update_cancle').on('click', function () {
+            window.history.back(-1)
+            // location.href = 'index.html#/personalInfo/personalInfo'
         })
 
-        //监听提交
-        form.on('submit(submit)', function (data) {
-            layer.msg(JSON.stringify(data.field))
-            return false
+        $('#user_update').on('click', function () {
+            var formData = {
+                account: $('#account').val(),
+                snoOrJno: $('#snoOrJno').val(),
+                phonenumber: $('#phonenumber').val(),
+                email: $('#email').val(),
+                userName: $('#userName').val(),
+                sex: Number($('input[name=sex]').val()),
+                newPassWord: $('#oldPwd').val(),
+                oldPassWord: $('#newPwd').val()
+            }
+
+            // || !$('#oldPwd').val() ||
+            // !$('#newPwd').val() || !$('#pwdConfirm').val()
+            if (!formData.account || !formData.snoOrJno || !formData.userName) {
+                layer.msg('请检查必填项是否填写完整')
+                return;
+            }
+
+            if ($('#pwdConfirm').val().trim() !== $('#newPwd').val().trim()) {
+                layer.msg('确认密码与密码不一致')
+                return;
+            }
+
+            for (key in formData) {
+                formData[key] = (formData[key] && String(formData[key]).trim()) || ''
+            }
+
+            updateUser(formData)
         })
 
-        $('#source-add-cancle').on('click', function () {
-            location.href = 'index.html#/personalInfo/personalInfo'
-        })
 
-        // form.on('submit(back)', function () {
-        //     window.history.back(-1);
-        // })
     })
 </script>
 
 <style>
-    #techManage-add {}
+    #personalInfo_edit {}
 
-    #techManage-add .techManage-add-content {
-        padding: 15px 0;
+    #personalInfo_edit .personalInfo-edit-content {
+        padding: 20px 0;
     }
 
-    #techManage-add .techManage-good-at>li {
-        float: left;
-        margin-right: 20px;
-    }
-
-    #techManage-add .pre-techManage {
-        float: left;
-        width: calc(100 - 230px);
-    }
-
-    #techManage-add .pre-techManage .pre-techManage-checkbox {
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        margin-top: 10px;
-        padding: 10px;
-    }
-
-    #techManage-add .layui-layedit {
-        width: 83%;
-        float: left;
-        background: #fff;
-    }
-
-    .ploy-title {
-        width: 90%;
-        padding: 15px;
-        color: #126093;
-        background: rgba(244, 245, 250, 1);
-        text-align: center;
-        font-size: 16px;
-        font-weight: bold;
-    }
-
-    .common-form-input.short {
-        width: 100px;
-    }
-
-    .short .layui-form-select {
-        width: 100px;
-    }
-
-    .short {
+    #personalInfo_edit .upload-avator {
         display: inline-block;
+        width: 300px;
+        word-break: break-all;
+        margin-left: 30px;
+        color: #999;
+    }
+
+    #personalInfo_edit #uploadAvator {
+        width: 120px;
+        height: 120px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 50%;
     }
 
     .short .layui-input,

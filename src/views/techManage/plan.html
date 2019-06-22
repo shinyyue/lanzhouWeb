@@ -29,7 +29,7 @@
     </div>
     <table id="techManage-plan-table" lay-filter="techManage-plan-table"></table>
     <script type="text/html" id="techManage-plan-opt">
-        {{#if(d.publish === 1) { }}
+        {{#if(d.publish == 0) { }}
         <button class="course-set-btn" lay-event="edit">编辑</button>
         <button class="course-set-btn" lay-event="delete">删除</button>
         <button class="course-set-btn" lay-event="check">查看</button>
@@ -89,18 +89,18 @@
                         },
                         {
                             title: '任课老师',
-                            field: 'techManageCode',
+                            field: 'userName',
                             align: 'center'
                         },
                         {
                             title: '上课时间',
-                            field: 'responsor',
+                            field: 'startEndTIME',
                             align: 'center'
                         },
                         {
                             title: '上课地点',
                             align: 'center',
-                            field: 'times',
+                            field: 'classroomName',
                         },
                         {
                             title: '状态',
@@ -108,7 +108,7 @@
                             field: 'publish',
                             width: 80,
                             templet: function (data) {
-                                return data.publish === 1 ? '未发布' : '已发布';
+                                return data.publish == 1 ? '已发布' : '未发布';
                             },
                         },
                         {
@@ -149,9 +149,9 @@
                 return;
             }
             if (layEvent === 'edit') { //编辑
-                location.href = 'index.html#/techManage/update'
+                location.href = 'index.html#/techManage/update/id=' + data.id
             } else if (layEvent === 'check') {
-                location.href = 'index.html#/techManage/details'
+                location.href = 'index.html#/techManage/details/id=' + data.id
             } else if (layEvent === 'publish') {
                 layer.open({
                     type: 1,
@@ -208,13 +208,13 @@
         }
 
         function publish(id) {
-            admin.delete({
-                url: '/coursePlan/publishAll?id=' + id,
-                // data: JSON.stringify({
-                //     id
-                // }),
+            admin.put({
+                url: '/coursePlan/publishAll?ids=' + id,
                 success: function (res) {
-                    console.log(555, res)
+                    layer.msg('发布成功！')
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '发布失败');
                 }
             })
         }
