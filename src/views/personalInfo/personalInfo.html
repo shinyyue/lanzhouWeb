@@ -1,64 +1,64 @@
-<div id="course-details" lay-title="课程管理详情">
+<div id="personal_info" lay-title="个人信息">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
             <span>个人信息</span>
         </div>
     </div>
-    <div class="course-add-content">
+    <div class="personal-info-content">
         <form action="" class="layui-form">
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">个人头像</label>
-                    <img src="" width="120" height="120" />
+                    <img src="" width="120" height="120" id="avator" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">账号</label>
-                    <span>wangxiaohu</span>
+                    <span class="info-details" id="account">wangxiaohu</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">教师(学生)号</label>
-                    <span>JS001</span>
+                    <span class="info-details" id="snoOrJno">JS001</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">联系电话(手机)</label>
-                    <span>13000000000</span>
+                    <span class="info-details" id="phonenumber">13000000000</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">电子邮箱</label>
-                    <span>wangxiaohu@163.com</span>
+                    <span class="info-details" id="email">wangxiaohu@163.com</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">姓名</label>
-                    <span>王小虎</span>
+                    <span class="info-details" id="userName">王小虎</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">性别</label>
-                    <span>男</span>
+                    <span class="info-details" id="sex">男</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">角色</label>
-                    <span>教师</span>
+                    <span class="info-details" id="row">教师</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">组织机构</label>
-                    <span>土木工程学院</span>
+                    <span class="info-details" id="college"></span>
                 </div>
             </div>
             <div class="layui-row">
@@ -68,9 +68,9 @@
                         <button class="layui-btn primary-btn" id="update-personal-info">
                             修改
                         </button>
-                        <button class="layui-btn layui-btn-primary cancel-btn " id="source-add-cancle">
+                        <!-- <button class="layui-btn layui-btn-primary cancel-btn " id="source-add-cancle">
                             返回
-                        </button>
+                        </button> -->
                     </div>
                 </div>
             </div>
@@ -81,40 +81,31 @@
 <script>
     layui.use(['form', 'layedit'], function () {
         var form = layui.form,
-            layedit = layui.layedit,
-            $ = layui.jquery
+            $ = layui.jquery,
+            admin = layui.admin;
+
+        getUserInfo();
+
+        function getUserInfo() {
+            admin.get({
+                url: '/user/getUserByID?id=' + layui.data('userInfo').userInfo.id,
+                success: function (res) {
+                    const data = res.data;
+                    $('#avator').attr('src', data.avator)
+                    $('#account').html(data.snoOrJno);
+                    $('#snoOrJno').html(data.snoOrJno)
+                    $('#phonenumber').html(data.phonenumber)
+                    $('#email').html(data.email)
+                    $('#userName').html(data.userName)
+                    $('#sex').html(data.sex === 1 ? '男' : (data.sex === 0 ? '女' : '-'))
+                    $('#role').html(data.roleName)
+                    $('#college').html(data.collegeName)
+                }
+            })
+        }
 
         form.render()
-        layedit.build('techManage-intro-edit', {
-            tool: [
-                'strong', //加粗
-                'italic', //斜体
-                'underline', //下划线
-                'del', //删除线
 
-                '|', //分割线
-
-                'left', //左对齐
-                'center', //居中对齐
-                'right', //右对齐
-                'link', //超链接
-                'image' //插入图片
-            ]
-        })
-
-        //监听提交
-        form.on('submit(submit)', function (data) {
-            layer.msg(JSON.stringify(data.field))
-            return false
-        })
-
-        $('#source-add-cancle').on('click', function () {
-            window.history.back(-1)
-        })
-
-        // form.on('submit(back)', function () {
-        //     window.history.back(-1);
-        // })
         $('#update-personal-info').on('click', function () {
             location.href = 'index.html#/personalInfo/update'
         })
@@ -122,43 +113,13 @@
 </script>
 
 <style>
-    #techManage-add {}
-
-    #techManage-details .techManage-add-content {
-        padding: 15px 0;
-    }
-
-    #techManage-details .techManage-add-content .layui-form-label {
-        font-size: 16px;
-        font-weight: bold;
-        width: 120px;
+    #personal_info .info-details {
         display: inline-block;
-    }
-
-    #techManage-details .layui-form-item {
-        clear: none;
-    }
-
-    #techManage-details .layui-form-item span {
-        display: inline-block;
-        padding: 9px 15px;
         font-size: 16px;
+        line-height: 38px;
     }
 
-    #techManage-details .pre-techManage {
-        float: left;
-        width: calc(100 - 230px);
-    }
-
-    #techManage-details .pre-techManage .pre-techManage-checkbox {
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        margin-top: 10px;
-        padding: 10px;
-    }
-
-    #techManage-details .layui-layedit {
-        width: 83%;
-        float: left;
-        background: #fff;
+    #personal_info .personal-info-content {
+        padding: 20px 0;
     }
 </style>
