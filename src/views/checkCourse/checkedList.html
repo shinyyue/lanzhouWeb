@@ -112,9 +112,10 @@
                 type = '';
             if (layEvent === 'getDetail') {
                 //应该是跳转页面
-                formData = data;
-                console.log(formData)
-                getDetail(formData.id)
+//                formData = data;
+//                console.log(data)
+
+                getDetail(data.coursePlanId)
             }
 
             layer.open(layerOption);
