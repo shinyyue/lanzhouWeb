@@ -31,9 +31,9 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery'], function (table, $) {
-
+    layui.use(['table', 'jquery', 'form', 'admin'], function (table) {
         var $ = layui.jquery,
+            form = layui.form,
             laypage = layui.laypage,
             tableFilter = 'sourcemanage-techlist-table',
             table = layui.table,
@@ -70,7 +70,8 @@
                             title: '序号',
                             field: 'id',
                             width: 80,
-                            align: 'center'
+                            align: 'center',
+                            type: 'numbers'
                         },
                         {
                             title: '资源名称',
@@ -81,7 +82,6 @@
                             title: '类型',
                             field: 'resourceType',
                             align: 'center'
-
                         },
                         {
                             title: '所属课程',

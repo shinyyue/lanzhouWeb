@@ -80,7 +80,7 @@
                         },
                         {
                             title: '开课名称',
-                            field: 'collegeName',
+                            field: 'courseName',
                             align: 'center'
 
                         },
@@ -93,14 +93,17 @@
                             title: '课程类型',
                             field: 'courseType',
                             align: 'center',
+                            templet: function (d) {
+                                return d ? '必修' : '选修'
+                            }
                         },
                         {
                             title: '上课时间',
-                            field: 'time',
+                            field: 'startEndTIME',
                             align: 'center',
                         },{
                             title: '上课地点',
-                            field: 'address',
+                            field: 'classroomName',
                             align: 'center',
                         },{
                             title: '开课单位',

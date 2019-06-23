@@ -18,25 +18,24 @@
             </button>
         </div>
     </div>
-    <div class="course-add">
-        <button class="primary-btn" id="sourcemanage-mylist">添加资源</button>
-    </div>
     <table id="sourcemanage-mylist-table" lay-filter="sourcemanage-mylist-table"></table>
     <script type="text/html" id="sourcelist-opt">
         <button class="course-set-btn" id="sourcemanage-mylist-check" lay-event="check">查看</button>
+        <button class="course-set-btn" id="sourcemanage-mylist-cancel">取消收藏</button>
     </script>
     <div class="app-table-page" id="sourcemanage-mylist-page"></div>
 </div>
 
 <script>
-    layui.use(['table', 'jquery'], function (table, $) {
-
+    layui.use(['table', 'jquery', 'form', 'admin'], function (table) {
         var $ = layui.jquery,
+            form = layui.form,
             laypage = layui.laypage,
             tableFilter = 'sourcemanage-mylist-table',
             table = layui.table,
             admin = layui.admin,
             pageLimit = 20,
+
             layPageOption = {
                 elem: 'sourcemanage-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
                 limit: 20,
@@ -68,62 +67,57 @@
                             title: '序号',
                             field: 'id',
                             width: 80,
-                            align: 'center'
+                            align: 'center',
+                            type: 'numbers'
                         },
                         {
                             title: '资源名称',
-                            field: 'courseCode',
+                            field: 'resourceName',
                             align: 'center'
                         },
                         {
                             title: '类型',
-                            field: 'courceName',
+                            field: 'resourceType',
                             align: 'center'
-
                         },
                         {
                             title: '所属课程',
-                            field: 'courseCode',
+                            field: 'courseName',
                             align: 'center'
                         },
                         {
                             title: '上传日期',
-                            field: 'responsor',
-                            align: 'center',
-                        },
-                        {
-                            title: '上传人',
-                            field: 'responsor',
-                            align: 'center',
-                        },
-                        {
-                            title: '使用权限',
-                            field: 'responsor',
-                            align: 'center',
+                            field: 'school',
+                            align: 'center'
+                        }, {
+                            title: '上传老师',
+                            field: 'teacherName',
+                            align: 'center'
                         },
                         {
                             title: '点击',
-                            field: 'responsor',
-                            align: 'center',
+                            field: 'clickNum',
+                            align: 'center'
                         },
                         {
                             title: '下载',
-                            field: 'responsor',
-                            align: 'center',
-                        },
-                        {
+                            field: 'downloadNum',
+                            align: 'center'
+                        }, {
                             title: '评分',
-                            field: 'responsor',
-                            align: 'center',
+                            field: 'publish',
+                            align: 'center'
                         },
                         {
                             title: '操作',
                             align: 'center',
                             templet: '#sourcelist-opt',
+                            fixed: 'right',
+                            width: 200
                         }
                     ]
                 ]
-            };
+            }
 
         getList(1)
 
@@ -139,11 +133,10 @@
         function getList(page) {
             var data = {
                 page: page,
-                rows: pageLimit,
-                id: layui.data('userInfo').userInfo.id
+                rows: pageLimit
             }
             admin.post({
-                url: '/dataBank/queryList',
+                url: '/resCollect/queryList',
                 data: JSON.stringify(data),
                 success: function (res) {
                     tableOption.data = (res.data && res.data.items) || [];
