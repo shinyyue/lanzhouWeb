@@ -25,7 +25,7 @@
     </div>
     <table id="sourcemanage-techlist-table" lay-filter="sourcemanage-techlist-table"></table>
     <script type="text/html" id="sourcelist-opt">
-        <button class="course-set-btn" id="sourcemanage-techlist-check">查看</button>
+        <button class="course-set-btn" lay-event="check">查看</button>
     </script>
     <div class="app-table-page" id="sourcemanage-techlist-page"></div>
 </div>
@@ -36,100 +36,129 @@
         var $ = layui.jquery,
             laypage = layui.laypage,
             tableFilter = 'sourcemanage-techlist-table',
-            table = layui.table;
-
-        table.render({
-            page: false,
-            data: [{
-                id: 1,
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '王小虎',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1
-            }],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
-            cols: [
-                [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center'
-                    },
-                    {
-                        title: '资源名称',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '类型',
-                        field: 'courceName',
-                        align: 'center'
-
-                    },
-                    {
-                        title: '所属课程',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '上传日期',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '上传人',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '使用权限',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '点击',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '下载',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '评分',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        templet: '#sourcelist-opt',
+            table = layui.table,
+            admin = layui.admin,
+            pageLimit = 20,
+            layPageOption = {
+                elem: 'sourcemanage-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr)
                     }
+                }
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [{
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center'
+                        },
+                        {
+                            title: '资源名称',
+                            field: 'resourceName',
+                            align: 'center'
+                        },
+                        {
+                            title: '类型',
+                            field: 'resourceType',
+                            align: 'center'
+
+                        },
+                        {
+                            title: '所属课程',
+                            field: 'courseName',
+                            align: 'center'
+                        },
+                        {
+                            title: '上传日期',
+                            field: 'createTime',
+                            align: 'center',
+                            templet: function (d) {
+                                return admin.dateFormat(new Date(d.createTime).getTime() / 1000)
+                            }
+                        },
+                        {
+                            title: '上传人',
+                            field: 'teacherName',
+                            align: 'center',
+                        },
+                        {
+                            title: '使用权限',
+                            field: 'accessAuthority',
+                            align: 'center',
+                        },
+                        {
+                            title: '点击',
+                            field: 'clickNum',
+                            align: 'center',
+                        },
+                        {
+                            title: '下载',
+                            field: 'downloadNum',
+                            align: 'center',
+                        },
+                        {
+                            title: '评分',
+                            field: 'responsor',
+                            align: 'center',
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#sourcelist-opt',
+                        }
+                    ]
                 ]
-            ]
+            };
+
+        getList(1)
+
+        table.on('tool(sourcemanage-techlist-table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event;
+
+            if (layEvent === 'check') {
+                location.href = 'index.html#/sourcemanage/details/id=' + data.id
+            }
         })
 
-        //执行一个laypage实例
-        laypage.render({
-            elem: 'sourcemanage-techlist-page', //注意，这里的 test1 是 ID，不用加 # 号
-            count: 50, //数据总数，从服务端得到
-            limit: 10,
-            first: '首页',
-            last: '尾页',
-            hash: 'page',
-            curr: location.hash.replace('#/sourcemanage/mylist&page=', ''),
-            layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount']
-        });
-
-
-        $('#sourcemanage-techlist-check').on('click', function () {
-            location.href = 'index.html#/sourcemanage/details'
-        })
-
+        function getList(page) {
+            var data = {
+                page: page,
+                rows: pageLimit
+            }
+            admin.post({
+                url: '/dataBank/queryAllList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    tableOption.data = (res.data && res.data.items) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
     })
 </script>
