@@ -9,39 +9,33 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label require">实验名称</label>
-                <input class="common-form-input" type="text" name="courseName" placeholder="请输入实验名称">
+                <input class="common-form-input" type="text" name="name" id="name" placeholder="请输入实验名称">
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label require">所属课程</label>
-                <select name="testRoomName" lay-verify="">
+                <select name="curriculumId" id="curriculumId">
                     <option value="">选择课程</option>
-                    <option value="021">课程1</option>
-                    <option value="022">课程2</option>
-                    <option value="023">课程3</option>
                 </select>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">实验类型</label>
-                <select name="testRoomName" lay-verify="">
+                <select name="experimentalType" id="experimentalType">
                     <option value="">选择实验类型</option>
-                    <option value="021">类型1</option>
-                    <option value="022">类型2</option>
-                    <option value="023">类型3</option>
                 </select>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">负责老师</label>
-                <input class="common-form-input" type="text" name="techerName" placeholder="请输入负责教师">
+                <input class="common-form-input" type="text" name="teacherName" id="teacherName" placeholder="请输入负责教师">
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">可被引用</label>
                 <div class="layui-input-block">
-                    <input type="radio" name="isUsed" value="是" title="是">
-                    <input type="radio" name="isUsed" value="否" title="否" checked>
+                    <input type="radio" name="cite" value="1" title="是">
+                    <input type="radio" name="cite" value="0" title="否">
                 </div>
             </div>
         </div>
@@ -51,11 +45,11 @@
                 <div class="layui-input-block score-rate-inner">
                     <span class="score-percent">
                         <span>实验成绩比例：</span>
-                        <input class="common-form-input" type="text" name="expScoreRate">%
+                        <input class="common-form-input" type="text" name="experimentRatio" id="experimentRatio">%
                     </span>
                     <span class="score-percent">
                         <span>报告成绩比例：</span>
-                        <input class="common-form-input" type="text" name="repScoreRate">%
+                        <input class="common-form-input" type="text" name="reportRatio" id="reportRatio">%
                     </span>
                 </div>
             </div>
@@ -75,13 +69,14 @@
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">选择资源</label>
-                <select name="sourceType" lay-verify="">
+                <select name="sourceType" id="sourceType" lay-filter="change">
                     <option value="">选择资源类型</option>
-                    <option value="0">文档</option>
-                    <option value="1">图片</option>
-                    <option value="2">视频</option>
-                    <option value="3">exe</option>
-                    <option value="4">U3D</option>
+                    <option value="1">文档</option>
+                    <option value="2">图片</option>
+                    <option value="3">视频</option>
+                    <option value="4">flash</option>
+                    <option value="5">EXE</option>
+                    <option value="6">U3D</option>
                     <option value="5">scorm课件</option>
                 </select>
             </div>
@@ -89,10 +84,7 @@
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label"></label>
-                <div>
-                    <input type="checkbox" name="goodAt[all]" lay-skin="primary" title="zk4电控转辙机">
-                    <input type="checkbox" name="goodAt[all]" lay-skin="primary" title="zk4电控转辙机">
-                    <input type="checkbox" name="goodAt[all]" lay-skin="primary" title="zk4电控转辙机">
+                <div id="resourceIds">
                 </div>
             </div>
         </div>
@@ -102,12 +94,14 @@
                 <div style="color: red">注： 图片可多选，其他类型单选</div>
             </div>
         </div>
+
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label"></label>
                 <div>
                     <button class="layui-btn primary-btn" lay-submit lay-filter="stage">暂存</button>
-                    <button class="layui-btn primary-btn" lay-submit lay-filter="submit">提交</button>
+                    <!-- lay-submit lay-filter="addExperiment" -->
+                    <button class="layui-btn primary-btn" lay-filter="addExperiment" id="addExperiment">提交</button>
                     <button class="layui-btn layui-btn-primary cancel-btn" id="experiment-add-cancle">返回</button>
                 </div>
             </div>
@@ -120,12 +114,20 @@
     layui.use(['form', 'layedit'], function () {
         var form = layui.form,
             layedit = layui.layedit,
-            $ = layui.jquery;
+            $ = layui.jquery,
+            admin = layui.admin,
+            requireIndex,
+            reportIndex;
 
         form.render();
 
+        $('#addExperiment').on('click', function () {
+            addData()
+            return false;
+        })
+
         function buildLayEdit(id) {
-            layedit.build(id, {
+            return layedit.build(id, {
                 tool: [
                     'strong' //加粗
                     , 'italic' //斜体
@@ -143,18 +145,122 @@
             })
         }
 
-        buildLayEdit('experiment-rules-edit')
-        buildLayEdit('experiment-report-edit')
+        function addData(data) {
+            var ids = ''
+            $('input[name=resourceIds]:checked').each(function (index) {
+                ids += $(this).val()
+            })
+            var formData = {
+                name: $('#name').val() || '',
+                curriculumId: Number($('#curriculumId').val()) || '',
+                experimentalType: Number($('#experimentalType').val()) || '',
+                cite: Number($('input[name="cite"]:checked').val()) || '',
+                teacherName: $('#teacherName').val() || '',
+                experimentRatio: $('#experimentRatio').val() || '',
+                reportRatio: $('#reportRatio').val() || '',
+                resourceIds: ids,
+                require: layedit.getContent(requireIndex) || '',
+                labReport: layedit.getContent(reportIndex) || ''
+            }
+            admin.post({
+                url: '/experiments/add',
+                data: JSON.stringify(formData),
+                success: function (res) {
+                    layer.msg('上传成功')
+                    window.history.back(-1);
+                }
+            })
+        }
+
+        function getCourseList(page) {
+            var data = {
+                page: 1,
+                rows: 10000,
+                key: '||'
+            }
+            admin.post({
+                url: '/vsMpCurriculum/getList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    res.data && res.data.items && res.data.items.forEach(item => {
+                        $('#curriculumId').append('<option value="' + item.id + '">' +
+                            item.curriculumName + ' </option>')
+                    })
+                    form.render()
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
+
+        function getExperimentList() {
+            var data = {
+                page: 1,
+                rows: 100000
+            }
+            admin.post({
+                url: '/experimentType/experimentTypeList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    res.data && res.data.items && res.data.items.forEach(item => {
+                        $('#experimentalType').append('<option value="' + item.id + '">' +
+                            item.typeName + ' </option>')
+                    })
+                    form.render()
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
+
+        function getSourceList(type) {
+            var data = {
+                page: 1,
+                rows: 100000,
+                type: type
+            }
+            admin.post({
+                url: '/dataBank/queryAllList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    $('#resourceIds').html('')
+                    res.data && res.data.items && res.data.items.forEach(item => {
+                        $('#resourceIds').append(
+                            '<input type="checkbox" name="resourceIds" lay-skin="primary" value="' +
+                            item.id + '" title="' + item.resourceName + '">'
+                        )
+                    })
+                    form.render()
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+
+        requireIndex = buildLayEdit('experiment-rules-edit')
+        reportIndex = buildLayEdit('experiment-report-edit')
+        getCourseList()
+        getExperimentList()
+
+        form.on('select(change)', function (data) {
+            getSourceList(Number(data.value))
+        });
 
         $('#experiment-add-cancle').on('click', function () {
             window.history.back(-1);
         })
 
         //监听提交
-        form.on('submit(submit)', function (data) {
-            layer.msg(JSON.stringify(data.field));
-            return false;
-        });
+        // form.on('submit(addExperiment)', function (data) {
+        //     // layer.msg(JSON.stringify(data.field));
+        //     console.log(777, data)
+        //     addData(data.field)
+        //     return false;
+        // });
     })
 </script>
 

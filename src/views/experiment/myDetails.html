@@ -13,13 +13,13 @@
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属课程</label>
-                <span id="curriculum">铁路信号知识</span>
+                <span id="curriculumName"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">实验类型</label>
-                <span id="experimentalType">虚拟实验</span>
+                <span id="experimentalType"></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">可被引用</label>
@@ -29,13 +29,13 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">负责教师</label>
-                <span id="">王小虎</span>
+                <span id="userName">王小虎</span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
-                <label class="layui-form-label ">实验要求</label>
-                <span id="require">1111111111111111</span>
+                <label class="layui-form-label">实验要求</label>
+                <span id="require"></span>
             </div>
         </div>
         <div class="layui-row">
@@ -62,6 +62,42 @@
     </div>
 </div>
 
+<script>
+    layui.use(['table'], function (table) {
+
+        var $ = layui.$,
+            admin = layui.admin,
+            router = layui.router(),
+            id = router.search.id;
+
+        getDetails()
+
+        function getDetails() {
+            admin.get({
+                url: '/experiments/queryById?id=' + id,
+                success: function (res) {
+                    $('#name').html(res.data.name)
+                    $('#curriculumName').html(res.data.curriculumName)
+                    $('#experimentalType').html(res.data.experimentalType)
+                    $('#cite').html(res.data.cite == 0 ? '否' : '是')
+                    $('#userName').html(res.data.userName)
+                    $('#require').html(res.data.require)
+                    $('#resourceUrl').html(res.data.resourceUrl)
+                }
+            })
+        }
+
+        $('#my-details-update').on('click', function () {
+            location.href = 'index.html#/experiment/myadd'
+        })
+
+        $('#my-details-back').on('click', function () {
+            window.history.back(-1);
+        })
+    })
+</script>
+
+
 <style>
     #experiment-my-details {}
 
@@ -75,37 +111,3 @@
         font-size: 16px;
     }
 </style>
-
-<script>
-    layui.use(['table'], function (table) {
-
-        var $ = layui.$,
-            admin = layui.admin,
-            router = layui.router(),
-            id = router.search.id;
-
-
-        getDetails()
-
-        function getDetails() {
-            admin.get({
-                url: '/experiments/queryById?id=' + id,
-                success: function (res) {
-                    $('#name').val(res.data.name)
-                    $('#curriculum').val(res.data.curriculum)
-                    $('#experimentalType').val(res.data.experimentalType)
-                    $('#cite').val(res.data.cite == 0 ? '否' : '是')
-                }
-            })
-        }
-
-
-        $('#my-details-update').on('click', function () {
-            location.href = 'index.html#/experiment/myadd'
-        })
-
-        $('#my-details-back').on('click', function () {
-            window.history.back(-1);
-        })
-    })
-</script>
