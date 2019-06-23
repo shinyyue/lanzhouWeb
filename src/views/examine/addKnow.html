@@ -9,31 +9,28 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">所属课程名称</label>
-                <select name="testRoomName" lay-verify="">
+                <select name="testRoomName" id="curriculumId" lay-verify="">
                     <option value="">选择课程</option>
-                    <option value="021">课程1</option>
-                    <option value="022">课程2</option>
-                    <option value="023">课程3</option>
                 </select>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">父知识点</label>
-                <span style="color: blue;">根知识点</span>
+                <span style="color: blue; line-height:38px;">根知识点</span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">知识点名称</label>
-                <input class="common-form-input" type="text" name="courseName" placeholder="请输入知识点名称">
+                <input class="common-form-input" type="text" name="name" placeholder="请输入知识点名称">
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">知识点描述</label>
                 <div class="layui-col-md9">
-                    <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    <textarea name="describe" placeholder="请输入内容" class="layui-textarea"></textarea>
                 </div>
             </div>
         </div>
@@ -53,18 +50,60 @@
     layui.use(['form'], function () {
 
         var form = layui.form,
-            $ = layui.jquery;
+            $ = layui.jquery,
+            admin = layui.admin;
 
         form.render();
 
         form.on('submit(submit)', function (data) {
             userInfo = data.field
+            userInfo.parentId = 0
+            userInfo.curriculumId = Number($('#curriculumId').val())
+            addData(userInfo)
+            console.log(3444, userInfo)
+
             $('#login-user').addClass('show')
+            return false;
         })
 
         $('#examine-addknow-back').on('click', function () {
-            window.history.back(-1);
+            location.href = 'index.html#/examine/knowledge'
         })
+
+        getCourseList()
+
+        function addData(data) {
+            admin.post({
+                url: '/knowledgePoint/add',
+                data: JSON.stringify(data),
+                success: function () {
+                    layer.msg('添加成功！')
+                    window.history.back(-1);
+                }
+            })
+        }
+
+        function getCourseList() {
+            var data = {
+                page: 1,
+                rows: 1000000
+            }
+            admin.post({
+                url: '/vsMpCurriculum/getList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    res.data && res.data.items && res.data.items.forEach(item => {
+                        $('#curriculumId').append('<option value="' + item.id + '">' + item
+                            .curriculumName +
+                            '</option>')
+                    })
+                    form.render()
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
     })
 </script>
 

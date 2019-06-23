@@ -5,41 +5,37 @@
             <span>题库管理 > 知识点 > 查看知识点</span>
         </div>
     </div>
-    <div class="layui-row">
-        <div class="layui-col-md6 layui-form-item">
-            <label class="layui-form-label">所属课程名称</label>
-            <span>铁路信息</span>
+    <div class="examine-knowdetails-content">
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label">所属课程名称</label>
+                <span class="info-details" id="curriculumId"></span>
+            </div>
         </div>
-    </div>
-    <div class="layui-row">
-        <div class="layui-col-md6 layui-form-item">
-            <label class="layui-form-label">父知识点</label>
-            <span style="color: blue;">根知识点</span>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label">父知识点</label>
+                <span style="color: blue;" class="info-details" id="parentId"></span>
+            </div>
         </div>
-    </div>
-    <div class="layui-row">
-        <div class="layui-col-md6 layui-form-item">
-            <label class="layui-form-label">知识点名称</label>
-            <span>zk4电控转辙机</span>
+        <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label">知识点名称</label>
+                <span class="info-details" id="name">zk4电控转辙机</span>
+            </div>
         </div>
-    </div>
-    <div class="layui-row">
-        <div class="layui-col-md12 layui-form-item">
-            <label class="layui-form-label">知识点描述</label>
-            <span>1111</span>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label">知识点描述</label>
+                <span class="info-details" id="describe"></span>
+            </div>
         </div>
-    </div>
-    <div class="layui-row">
-        <div class="layui-col-md12 layui-form-item">
-            <label class="layui-form-label">知识点描述</label>
-            <span>1111</span>
-        </div>
-    </div>
 
-    <div class="layui-row">
-        <div class="layui-col-md12 layui-form-item">
-            <label class="layui-form-label"></label>
-            <button class="layui-btn layui-btn-primary cancel-btn" id="examine-knowdetails-back">返回</button>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label"></label>
+                <button class="layui-btn layui-btn-primary cancel-btn" id="examine-knowdetails-back">返回</button>
+            </div>
         </div>
     </div>
 
@@ -47,14 +43,41 @@
 
 <script>
     layui.use([], function () {
-        var $ = layui.jquery;
+        var $ = layui.jquery,
+            admin = layui.admin,
+            route = layui.router(),
+            id = route.search.id;
+
+
+        getDetails()
 
         $('#examine-knowdetails-back').on('click', function () {
             window.history.back(-1);
         })
+
+        function getDetails() {
+            admin.get({
+                url: '/knowledgePoint/queryById?id=' + id,
+                success: function (res) {
+                    console.log(111, res);
+                    $('#name').html(res.data.name)
+                    $('#parentId').html(res.data.parentId)
+                    $('#curriculumId').html(res.data.curriculumId)
+                    $('#describe').html(res.data.describe)
+                }
+            })
+        }
     })
 </script>
 
 <style>
     #examine-knowdetails {}
+
+    #examine-knowdetails .examine-knowdetails-content {
+        padding: 20px 0;
+    }
+
+    #examine-knowdetails .info-details {
+        line-height: 38px;
+    }
 </style>
