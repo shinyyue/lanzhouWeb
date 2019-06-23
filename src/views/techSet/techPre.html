@@ -9,7 +9,7 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">课程导读名称</label>
-                <span>铁路</span>
+                <span id="name" class="info-details"></span>
                 <button class="layui-btn layui-btn-primary" style="margin-left: 60px;" id="tech-pre-check">
                     查看其他导师导读
                 </button>
@@ -18,28 +18,28 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">原创者</label>
-                <span>铁路</span>
+                <span id="" class="info-details"></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">是否可被引用</label>
-                <span>铁路</span>
+                <span id="cited" class="info-details"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">建议分数</label>
-                <span>150</span>
+                <span id="recommendedScores" class="info-details"></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">创建时间</label>
-                <span>2019-01-01 10:10:10</span>
+                <span id="createTime" class="info-details"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">课程导读内容</label>
                 <div class="layui-col-md9">
-                    <textarea name="desc" class="layui-textarea"></textarea>
+                    <textarea name="content" id="content" class="layui-textarea"></textarea>
                 </div>
             </div>
         </div>
@@ -57,11 +57,190 @@
     </form>
 </div>
 
+<script>
+    var checkDetails = {},
+        preDetailsTemp = ''
+
+    layui.use([], function () {
+        var $ = layui.jquery,
+            admin = layui.admin,
+            route = layui.router(),
+            id = route.search.id;
+
+        $('#tech-pre-back').on('click', function () {
+            location.href = '/ndex.html#/'
+        })
+
+        getDetails()
+        getOtherList()
+        getTemplate()
+
+        function getDetails() {
+            admin.get({
+                url: '/introduction/queryById?id=' + id,
+                success: function (res) {
+                    $('#name').html(res.data.name)
+                    $('#cited').html(res.data.cited === 0 ? '引用' : '未引用')
+                    $('#recommendedScores').html(res.data.recommendedScores)
+                    $('#content').val(res.data.content)
+                    $('#createTime').html(res.data.createTime)
+                }
+            })
+        }
+
+        function getOtherList() {
+            var data = {
+                page: 1,
+                rows: 1000
+            }
+            admin.post({
+                url: '/introduction/list',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    var list = ''
+                    res.data && res.data.items && res.data.items.forEach((item, index) => {
+                        list += '<tr>' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + item.name + '</td>' +
+                            '<td>' + item.userId + '</td>' +
+                            '<td>' + item.userId + '</td>' +
+                            '<td>' + admin.dateFormat(new Date(item.updateTime).getTime() /
+                                1000) +
+                            '</td>' +
+                            '<td>' + item.recommendedScores + '</td>' +
+                            '<td>' +
+                            '<button class="layui-btn layui-btn-primary" class="pre-check-detail" onclick="check(' +
+                            item + ')">查看</button>' +
+                            '</td>' +
+                            '</tr>'
+                    })
+                    $('#tech-pre-check').on('click', function () {
+                        layer.open({
+                            type: 1,
+                            offset: 'auto',
+                            title: '教师课程导读列表',
+                            content: getTemplate(list),
+                            area: ['700px'],
+                            shade: 0.4,
+                            shadeClose: true
+                        })
+                    })
+                }
+            })
+        }
+
+        function getTemplate(list) {
+            return '<table class="layui-table">' +
+                '<thead>' +
+                '<tr>' +
+                '<th>序号</th>' +
+                '<th>资源名称</th>' +
+                '<th>原创者</th>' +
+                '<th>责任人</th>' +
+                '<th>引用时间</th>' +
+                '<th>建议分数</th>' +
+                '<th>操作</th>' +
+                '</tr>' +
+                '</thead>' +
+                '<tbody>' + list +
+                '</tbody>' +
+                '</table>'
+        }
+
+        function check(data) {
+            // checkDetails = {
+            //     id: 1,
+            //     preName: '计算机网络课程导读',
+            //     creater: '教师',
+            //     teacher: '杨威',
+            //     time: '2019-01-01',
+            //     score: '150分',
+            //     isImport: '是',
+            //     content: '互联网与互联网有什么不同？'
+            // }
+            preDetailsTemp =
+                '<div class="pre-details">' +
+                '<div class="details-item">' +
+                '<span class="details-item-label">课程导读名称</span>' +
+                '<span class="details-item-text">' +
+                data.name +
+                '</span>' +
+                '</div>' +
+                '<div class="details-item">' +
+                '<div class="details-item-inner">' +
+                '<span class="details-item-label">原创者</span>' +
+                '<span class="details-item-text">' +
+                data.userId +
+                '</span>' +
+                '</div>' +
+                '<div class="details-item-inner">' +
+                '<span class="details-item-label">是否可被引用</span>' +
+                '<span class="details-item-text">' +
+                (data.cited === 0 ? '引用' : '未引用') +
+                '</span>' +
+                '</div>' +
+                '</div>' +
+                '<div class="details-item">' +
+                '<div class="details-item-inner">' +
+                '<span class="details-item-label">建议分数</span>' +
+                '<span class="details-item-text">' +
+                data.recommendedScores +
+                '</span>' +
+                '</div>' +
+                '<div class="details-item-inner">' +
+                '<span class="details-item-label">创建时间</span>' +
+                '<span class="details-item-text">' +
+                data.createTime +
+                '</span>' +
+                '</div>' +
+                '</div>' +
+                '<div class="details-item details-item-content">' +
+                '<span class="details-item-label">课程导读内容</span>' +
+                '<div class="details-item-text">' +
+                data.content +
+                '</div>' +
+                '</div>' +
+                '</div>'
+
+            layer.open({
+                type: 1,
+                offset: 'auto',
+                title: '教师课程导读查看',
+                content: preDetailsTemp,
+                area: ['700px'],
+                btn: ['返回列表'],
+                shade: 0.4,
+                shadeClose: true
+            })
+        }
+
+
+        setTimeout(function () {
+            checkDetails = {
+                id: 1,
+                preName: '计算机网络课程导读',
+                creater: '教师',
+                teacher: '杨威',
+                time: '2019-01-01',
+                score: '150分',
+                isImport: '是',
+                content: '互联网与互联网有什么不同？'
+            }
+        }, 500)
+
+    })
+</script>
+
 <style>
     #techset-techpre {}
 
     #techset-techpre .my-form {
         padding: 25px 0;
+    }
+
+    #techset-techpre .info-details {
+        display: inline-block;
+        line-height: 38px;
     }
 
     .pre-details,
@@ -124,135 +303,3 @@
         height: 100%;
     }
 </style>
-
-<script>
-    var checkDetails = {},
-        preDetailsTemp = ''
-
-    layui.use([], function () {
-        var $ = layui.jquery,
-            modalTemplate =
-            '<table class="layui-table">' +
-            '<thead>' +
-            '<tr>' +
-            '<th>序号</th>' +
-            '<th>资源名称</th>' +
-            '<th>原创者</th>' +
-            '<th>责任人</th>' +
-            '<th>引用时间</th>' +
-            '<th>建议分数</th>' +
-            '<th>操作</th>' +
-            '</tr>' +
-            '</thead>' +
-            '<tbody>' +
-            '<tr>' +
-            '<td>1</td>' +
-            '<td>计算机网络课程导读</td>' +
-            '<td>教师</td>' +
-            '<td>杨威</td>' +
-            '<td>2019-01-01</td>' +
-            '<td>150分</td>' +
-            '<td>' +
-            '<button class="layui-btn layui-btn-primary" class="pre-check-detail" onclick="check()">查看</button>' +
-            '</td>' +
-            '</tr>' +
-            '</tbody>' +
-            '</table>'
-
-        $('#tech-pre-check').on('click', function () {
-            layer.open({
-                type: 1,
-                offset: 'auto',
-                title: '教师课程导读列表',
-                content: modalTemplate,
-                area: ['700px'],
-                shade: 0.4,
-                shadeClose: true
-            })
-        })
-
-        $('#tech-pre-back').on('click', function () {
-            location.href = ''
-        })
-
-        setTimeout(function () {
-            checkDetails = {
-                id: 1,
-                preName: '计算机网络课程导读',
-                creater: '教师',
-                teacher: '杨威',
-                time: '2019-01-01',
-                score: '150分',
-                isImport: '是',
-                content: '互联网与互联网有什么不同？'
-            }
-        }, 500)
-    })
-
-    function check() {
-        checkDetails = {
-            id: 1,
-            preName: '计算机网络课程导读',
-            creater: '教师',
-            teacher: '杨威',
-            time: '2019-01-01',
-            score: '150分',
-            isImport: '是',
-            content: '互联网与互联网有什么不同？'
-        }
-        preDetailsTemp =
-            '<div class="pre-details">' +
-            '<div class="details-item">' +
-            '<span class="details-item-label">课程导读名称</span>' +
-            '<span class="details-item-text">' +
-            checkDetails.preName +
-            '</span>' +
-            '</div>' +
-            '<div class="details-item">' +
-            '<div class="details-item-inner">' +
-            '<span class="details-item-label">原创者</span>' +
-            '<span class="details-item-text">' +
-            checkDetails.creater +
-            '</span>' +
-            '</div>' +
-            '<div class="details-item-inner">' +
-            '<span class="details-item-label">是否可被引用</span>' +
-            '<span class="details-item-text">' +
-            checkDetails.isImport +
-            '</span>' +
-            '</div>' +
-            '</div>' +
-            '<div class="details-item">' +
-            '<div class="details-item-inner">' +
-            '<span class="details-item-label">建议分数</span>' +
-            '<span class="details-item-text">' +
-            checkDetails.score +
-            '</span>' +
-            '</div>' +
-            '<div class="details-item-inner">' +
-            '<span class="details-item-label">创建时间</span>' +
-            '<span class="details-item-text">' +
-            checkDetails.time +
-            '</span>' +
-            '</div>' +
-            '</div>' +
-            '<div class="details-item details-item-content">' +
-            '<span class="details-item-label">课程导读内容</span>' +
-            '<div class="details-item-text">' +
-            checkDetails.content +
-            '</div>' +
-            '</div>' +
-            '</div>'
-
-        layer.open({
-            type: 1,
-            offset: 'auto',
-            title: '教师课程导读查看',
-            content: preDetailsTemp,
-            area: ['700px'],
-            btn: ['返回列表'],
-            shade: 0.4,
-            shadeClose: true
-        })
-    }
-</script>

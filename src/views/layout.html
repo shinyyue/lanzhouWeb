@@ -401,6 +401,8 @@
 		for(var j = 0; j < currentFirstMenuList.length; j++) {
             var curPath = currentFirstMenuList[j].path;
             var reg = new RegExp(currentPath);
+
+            console.log(111,currentPath, curPath, reg.test(curPath))
 			headerNavTemp +=
 				'<li class="layui-nav-item ' + (reg.test(curPath) ? 'active' : '') + '" data-path="' +
 				curPath + '">' +
