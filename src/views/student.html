@@ -34,12 +34,13 @@
         var admin = layui.admin;
 
         function getList() {
-            var userId = layui.data('userInfo').userInfo.id
+//            var userId = layui.data('userInfo').userInfo.id
 
             admin.post({
                 url: '/selectedCourse/getList',
                 data: JSON.stringify({
-                    userId
+                    "page": 1,
+                    "rows": 10
                 }),
                 success: function (res) {
                     console.log(111, res)
