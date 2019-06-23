@@ -22,126 +22,268 @@
         </div>
     </div>
     <table
-        id="virtualTest-list-table"
+        id="virtualTest_list_page"
         lay-filter="virtualTest-list-table"
     ></table>
     <script type="text/html" id="virtualTest-opt">
-        <button class="course-set-btn" id="virtualTest-edit">开始实验</button>
+        <button class="course-set-btn" id="virtualTest-start">开始实验</button>
         <button class="course-set-btn" id="virtualTest-edit">复习实验</button>
-        <button class="course-set-btn" id="virtualTest-edit">查看成绩</button>
+        <button class="course-set-btn" id="virtualTest-check">查看成绩</button>
     </script>
     <div class="app-table-page" id="virtualTest-table-page"></div>
 </div>
 
 <script>
-    layui.use(['table', 'jquery'], function(table, $) {
-        var tableFilter = 'virtualTest-list-table',
+    layui.use(['table', 'jquery', 'form', 'admin'], function (table) {
+        var $ = layui.jquery,
+            form = layui.form,
             laypage = layui.laypage,
-            $ = layui.jquery
+            tableFilter = 'virtualTest-list-table',
+            table = layui.table,
+            admin = layui.admin,
+            pageLimit = 20,
 
-        table.render({
-            page: false,
-            data: [
-                {
-                    id: 1,
-                    courceName: '发电机哈哈',
-                    virtualTestCode: 20190101,
-                    responsor: '王小虎',
-                    time: '第一学期',
-                    class: '所有年级',
-                    isCommon: false,
-                    score: 1
+            layPageOption = {
+                elem: 'virtualTest_list_page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr)
+                    }
                 }
-            ],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
-            cols: [
-                [
-                    {
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [{
                         title: '序号',
                         field: 'id',
                         width: 80,
-                        align: 'center'
-                    },
-                    {
-                        title: '实验名称',
-                        field: 'courceName',
-                        align: 'center'
-                    },
-                    {
-                        title: '开课名称',
-                        field: 'virtualTestCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '任课老师',
-                        field: 'responsor',
-                        align: 'center'
-                    },
-                    {
-                        title: '实验类型',
                         align: 'center',
-                        field: 'times',
-                        width: 80
+                        type: 'numbers'
                     },
-                    {
+                        {
+                            title: '实验名称',
+                            field: 'labName',
+                            align: 'center'
+                        },
+                        {
+                            title: '开课名称',
+                            field: 'courseNumber',
+                            align: 'center'
+                        },
+                        {
+                            title: '任课老师',
+                            field: 'creditHour',
+                            align: 'center'
+                        },
+                        {
+                            title: '实验类型',
+                            field: 'school',
+                            align: 'center'
+                        },{
                         title: '开始/结束时间',
-                        align: 'center',
-                        field: 'score',
-                        width: 80
-                    },
-                    {
-                        field: '必做/选做',
-                        title: '学分',
+                        field: 'time',
                         align: 'center'
                     },
-                    {
-                        title: '成绩',
-                        align: 'center',
-                        field: 'score',
-                        width: 80
-                    },
-                    {
-                        field: '实验状态',
-                        title: '学分',
-                        align: 'center'
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        templet: '#virtualTest-opt',
-                        width: 280
-                    }
+                        {
+                            title: '必做/选做',
+                            field: 'classroomName',
+                            align: 'center'
+                        },
+                        {
+                            title: '成绩',
+                            field: 'publish',
+                            align: 'center'
+                        },{
+                            title: '实验状态',
+                            field: 'publish',
+                            align: 'center'
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#checked_course_opt',
+                            fixed: 'right',
+                            width: 200
+                        }
+                    ]
                 ]
-            ]
+            }
+
+        getList(1)
+
+        table.on('tool(virtualTest_list_page)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event,
+                type = '';
+            if (layEvent === 'getDetail') {
+                //应该是跳转页面
+                formData = data;
+                console.log(formData)
+                getDetail(formData.id)
+            }
+
+            layer.open(layerOption);
+            form.render();
         })
 
-        //执行一个laypage实例
-        laypage.render({
-            elem: 'virtualTest-table-page', //注意，这里的 test1 是 ID，不用加 # 号
-            count: 50, //数据总数，从服务端得到
-            limit: 10,
-            first: '首页',
-            last: '尾页',
-            hash: 'page',
-            curr: location.hash.replace('#!page=', ''),
-            layout: [
-                'first',
-                'prev',
-                'page',
-                'next',
-                'last',
-                'count',
-                'currLimit',
-                'curr',
-                'pageCount'
-            ]
-        })
+        function getList(page) {
+            var data = {
+                page: page,
+                rows: pageLimit,
+                key: "",
+                sortBy: "id",
+                desc: true
+            }
+            admin.post({
+                url: '/mpLab/vsMpLabList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    tableOption.data = (res.data) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
 
-        $('#virtualTest-edit').on('click', function() {
-            location.href = 'index.html#/techSet/techPre'
-        })
+        function getDetail(id) {
+            admin.get({
+                url: '/introduction/queryById?id=' + id,
+                success: function (res) {},
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
     })
+//    layui.use(['table', 'jquery'], function(table, $) {
+//        var tableFilter = 'virtualTest-list-table',
+//            laypage = layui.laypage,
+//            $ = layui.jquery
+//
+//        table.render({
+//            page: false,
+//            data: [
+//                {
+//                    id: 1,
+//                    courceName: '发电机哈哈',
+//                    virtualTestCode: 20190101,
+//                    responsor: '王小虎',
+//                    time: '第一学期',
+//                    class: '所有年级',
+//                    isCommon: false,
+//                    score: 1
+//                }
+//            ],
+//            elem: '[lay-filter="' + tableFilter + '"]',
+//            height: 'full-300',
+//            cols: [
+//                [
+//                    {
+//                        title: '序号',
+//                        field: 'id',
+//                        width: 80,
+//                        align: 'center'
+//                    },
+//                    {
+//                        title: '实验名称',
+//                        field: 'courceName',
+//                        align: 'center'
+//                    },
+//                    {
+//                        title: '开课名称',
+//                        field: 'virtualTestCode',
+//                        align: 'center'
+//                    },
+//                    {
+//                        title: '任课老师',
+//                        field: 'responsor',
+//                        align: 'center'
+//                    },
+//                    {
+//                        title: '实验类型',
+//                        align: 'center',
+//                        field: 'times',
+//                        width: 80
+//                    },
+//                    {
+//                        title: '开始/结束时间',
+//                        align: 'center',
+//                        field: 'score',
+//                        width: 80
+//                    },
+//                    {
+//                        field: '必做/选做',
+//                        title: '学分',
+//                        align: 'center'
+//                    },
+//                    {
+//                        title: '成绩',
+//                        align: 'center',
+//                        field: 'score',
+//                        width: 80
+//                    },
+//                    {
+//                        field: '实验状态',
+//                        title: '学分',
+//                        align: 'center'
+//                    },
+//                    {
+//                        title: '操作',
+//                        align: 'center',
+//                        templet: '#virtualTest-opt',
+//                        width: 280
+//                    }
+//                ]
+//            ]
+//        })
+//
+//        //执行一个laypage实例
+//        laypage.render({
+//            elem: 'virtualTest-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+//            count: 50, //数据总数，从服务端得到
+//            limit: 10,
+//            first: '首页',
+//            last: '尾页',
+//            hash: 'page',
+//            curr: location.hash.replace('#!page=', ''),
+//            layout: [
+//                'first',
+//                'prev',
+//                'page',
+//                'next',
+//                'last',
+//                'count',
+//                'currLimit',
+//                'curr',
+//                'pageCount'
+//            ]
+//        })
+//
+//        $('#virtualTest-edit').on('click', function() {
+//            location.href = 'index.html#/techSet/techPre'
+//        })
+//    })
 </script>
 
 <style>

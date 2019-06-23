@@ -8,77 +8,198 @@
     <table id="checkcourse-testlist-table" lay-filter="checkcourse-testlist-table"></table>
     <script type="text/html" id="checkcourse-testlist-opt">
         <button class="course-set-btn" id="checkcourse-testlist-test">测试</button>
+        <button class="course-set-btn" id="checkcourse-testlist-check">查看</button>
     </script>
 </div>
 
 <script>
-    layui.use(['table'], function (table) {
-
+    layui.use(['table', 'jquery', 'form', 'admin'], function (table) {
         var $ = layui.jquery,
+            form = layui.form,
+            laypage = layui.laypage,
+            tableFilter = 'college-mylist-table',
             table = layui.table,
-            tableFilter = 'checkcourse-testlist-table';
+            admin = layui.admin,
+            pageLimit = 20,
 
-        table.render({
-            elem: '#checkcourse-testlist-table',
-            page: true,
-            data: [{
-                id: 1,
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '未发布',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1
-            }],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
-            cols: [
-                [{
+            layPageOption = {
+                elem: 'test-list-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr)
+                    }
+                }
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [{
                         title: '序号',
                         field: 'id',
                         width: 80,
-                        align: 'center'
-                    },
-                    {
-                        title: '试卷名称',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '开课名称',
-                        field: 'courceName',
-                        align: 'center'
-
-                    },
-                    {
-                        title: '开始时间',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '截止时间',
-                        field: 'responsor',
                         align: 'center',
+                        type: 'numbers'
                     },
-                    {
-                        title: '制定人',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        templet: '#checkcourse-testlist-opt',
-                    }
+                        {
+                            title: '试卷名称',
+                            field: 'name',
+                            align: 'center'
+                        },
+                         {
+                             title: '开课名称',
+                             field: 'courceName',
+                             align: 'center'
+                         },
+                         {
+                             title: '开始时间',
+                             field: 'startTime',
+                             align: 'center'
+                         },
+                        {
+                            title: '截止时间',
+                            field: 'endTime',
+                            align: 'center'
+                        },{
+                            title: '指定人',
+                            field: 'responsor',
+                            align: 'center'
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#checkcourse-testlist-test',
+                            fixed: 'right',
+                            width: 200
+                        }
+                    ]
                 ]
-            ]
+            }
+        getList(1)
+
+        table.on('tool(checked-list-page)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event,
+                type = '';
+
+
+            layer.open(layerOption);
+            form.render();
         })
 
-        $('#checkcourse-testlist-test').on('click', function () {
-            window.location.href = 'index.html#/checkcourse/testdetails';
-        })
+        function getList(page) {
+            var data = {
+//                page: page,
+//                rows: pageLimit,
+                userId: layui.data('userInfo').userInfo.id
+            }
+            admin.post({
+                url: '/selectedCourse/getList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    tableOption.data = (res.data && res.data.items) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
+
+        function getDetail(id) {
+            admin.get({
+                url: '/college/queryCollege?id=' + id,
+                success: function (res) {},
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
     })
+//    layui.use(['table'], function (table) {
+//
+//        var $ = layui.jquery,
+//            table = layui.table,
+//            tableFilter = 'checkcourse-testlist-table';
+//
+//        table.render({
+//            elem: '#checkcourse-testlist-table',
+//            page: true,
+//            data: [{
+//                id: 1,
+//                courceName: '发电机哈哈',
+//                courseCode: 20190101,
+//                responsor: '未发布',
+//                time: '第一学期',
+//                class: '所有年级',
+//                isCommon: false,
+//                score: 1
+//            }],
+//            elem: '[lay-filter="' + tableFilter + '"]',
+//            height: 'full-300',
+//            cols: [
+//                [{
+//                        title: '序号',
+//                        field: 'id',
+//                        width: 80,
+//                        align: 'center'
+//                    },
+//                    {
+//                        title: '试卷名称',
+//                        field: 'courseCode',
+//                        align: 'center'
+//                    },
+//                    {
+//                        title: '开课名称',
+//                        field: 'courceName',
+//                        align: 'center'
+//
+//                    },
+//                    {
+//                        title: '开始时间',
+//                        field: 'courseCode',
+//                        align: 'center'
+//                    },
+//                    {
+//                        title: '截止时间',
+//                        field: 'responsor',
+//                        align: 'center',
+//                    },
+//                    {
+//                        title: '制定人',
+//                        field: 'responsor',
+//                        align: 'center',
+//                    },
+//                    {
+//                        title: '操作',
+//                        align: 'center',
+//                        templet: '#checkcourse-testlist-opt',
+//                    }
+//                ]
+//            ]
+//        })
+//
+//        $('#checkcourse-testlist-test').on('click', function () {
+//            window.location.href = 'index.html#/checkcourse/testdetails';
+//        })
+//    })
 </script>
 
 <style>
