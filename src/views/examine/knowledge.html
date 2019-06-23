@@ -22,7 +22,7 @@
     </div>
     <table id="examine-knowledge-table" lay-filter="examine-knowledge-table"></table>
     <script type="text/html" id="examine-knowledge-opt">
-        <button class="course-set-btn" id="examine-knowledge-check">查看</button>
+        <button class="course-set-btn" lay-event="check">查看</button>
     </script>
     <div class="app-table-page" id="examine-knowledge-page"></div>
 </div>
@@ -34,69 +34,96 @@
             laypage = layui.laypage,
             tableFilter = 'examine-knowledge-table',
             table = layui.table,
-            router = layui.router();
-
-        table.render({
-            page: false,
-            data: [{
-                id: 1,
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '王小虎',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1
-            }],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
-            cols: [
-                [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center'
-                    },
-                    {
-                        title: '父知识点',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '知识点名称',
-                        field: 'courceName',
-                        align: 'center'
-
-                    },
-                    {
-                        title: '所属课程',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        templet: '#examine-knowledge-opt',
+            router = layui.router(),
+            admin = layui.admin,
+            pageLimit = 20,
+            layPageOption = {
+                elem: 'examine-knowledge-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr)
                     }
+                }
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [{
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center'
+                        },
+                        {
+                            title: '父知识点',
+                            field: 'parentId',
+                            align: 'center'
+                        },
+                        {
+                            title: '知识点名称',
+                            field: 'name',
+                            align: 'center'
+
+                        },
+                        {
+                            title: '所属课程',
+                            field: 'curriculumId',
+                            align: 'center'
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#examine-knowledge-opt',
+                        }
+                    ]
                 ]
-            ]
-        })
+            };
 
-        //执行一个laypage实例
-        laypage.render({
-            elem: 'examine-knowledge-page', //注意，这里的 test1 是 ID，不用加 # 号
-            count: 50, //数据总数，从服务端得到
-            limit: 10,
-            first: '首页',
-            last: '尾页',
-            hash: 'page',
-            curr: location.hash.replace('index.html#/examine/examdetails&page=', ''),
-            layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount']
-        });
+        getList(1)
 
+        function getList(page) {
+            var data = {
+                page: page,
+                rows: pageLimit,
+            }
+            admin.post({
+                url: '/knowledgePoint/list',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    tableOption.data = (res.data && res.data.items) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
 
-        $('#examine-knowledge-check').on('click', function () {
-            location.href = 'index.html#/examine/knowdetails'
+        table.on('tool(examine-knowledge-table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event;
+
+            if (layEvent === 'check') {
+                location.href = 'index.html#/examine/knowdetails/id=' + data.id
+            }
         })
 
         $('#examine-knowledge-add').on('click', function () {

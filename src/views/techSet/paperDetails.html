@@ -57,10 +57,7 @@
                 <div class="layui-form-item layui-col-md12">
                     <label class="layui-form-label"></label>
                     <div>
-                        <button
-                            class="layui-btn layui-btn-primary cancel-btn "
-                            id="source-add-cancle"
-                        >
+                        <button class="layui-btn layui-btn-primary cancel-btn " id="source-add-cancle">
                             返回
                         </button>
                     </div>
@@ -71,7 +68,7 @@
 </div>
 
 <script>
-    layui.use(['form', 'layedit'], function() {
+    layui.use(['form', 'layedit'], function () {
         var form = layui.form,
             layedit = layui.layedit,
             $ = layui.jquery
@@ -95,12 +92,12 @@
         })
 
         //监听提交
-        form.on('submit(submit)', function(data) {
+        form.on('submit(submit)', function (data) {
             layer.msg(JSON.stringify(data.field))
             return false
         })
 
-        $('#source-add-cancle').on('click', function() {
+        $('#source-add-cancle').on('click', function () {
             location.href = 'index.html#/techSet/paperManage'
         })
 
@@ -111,8 +108,7 @@
 </script>
 
 <style>
-    #techManage-add {
-    }
+    #techManage-add {}
 
     #techManage-details .techManage-add-content {
         padding: 15px 0;

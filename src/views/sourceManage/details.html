@@ -56,14 +56,85 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label "></label>
                 <div>
-                    <button class="layui-btn primary-btn" lay-submit lay-filter="collect">收藏</button>
-                    <button class="layui-btn primary-btn" lay-submit lay-filter="download">下载</button>
+                    <button class="layui-btn primary-btn" lay-submit id="collect">收藏</button>
+                    <button class="layui-btn primary-btn" lay-submit id="canclecollect">取消收藏</button>
+                    <button class="layui-btn primary-btn" lay-submit id="download">下载</button>
                     <button class="layui-btn layui-btn-primary cancel-btn" id="sourmanage-add-cancle">返回</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+<script>
+    layui.use(['form', 'admin'], function () {
+        var $ = layui.jquery,
+            admin = layui.admin,
+            route = layui.router(),
+            id = route.search.id;
+
+        getDetails()
+
+        $('#collect').on('click', function () {
+            collect()
+        })
+
+        $('#canclecollect').on('click', function () {
+            cancleCollect()
+        })
+
+        $('#download').on('click', function () {
+            download()
+        })
+
+        function getDetails() {
+            admin.get({
+                url: '/dataBank/queryOne?id=' + id,
+                success: function (res) {
+                    // todo: 报错---
+                    console.log(11, res)
+                }
+            })
+        }
+
+        function collect() {
+            var data = {
+                id
+            }
+            admin.post({
+                url: '/resCollect/add',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    layer.msg('收藏成功')
+                    getDetails()
+                }
+            })
+        }
+
+        function cancleCollect() {
+            admin.delete({
+                url: '/resCollect/del?id=' + id,
+                success: function (res) {
+                    layer.msg('取消收藏成功')
+                    getDetails()
+                }
+            })
+        }
+
+        function download() {
+            // todo: filePath---
+            admin.get({
+                url: '/dataBank/downloadFile?filePath=',
+                success: function (res) {},
+                error: function (err) {
+                    layer.msg((err && err.msg) || '下载失败')
+                }
+            })
+        }
+
+    })
+</script>
 
 
 <style>
@@ -89,7 +160,3 @@
         width: 100%;
     }
 </style>
-
-<script>
-    layui.use('', function () {})
-</script>
