@@ -10,6 +10,7 @@
         <button class="course-set-btn" id="checkcourse-testlist-test">测试</button>
         <button class="course-set-btn" id="checkcourse-testlist-check">查看</button>
     </script>
+    <div class="app-table-page" id="checkcourse-testlist-page"></div>
 </div>
 
 <script>
@@ -17,13 +18,13 @@
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
-            tableFilter = 'college-mylist-table',
+            tableFilter = 'checkcourse-testlist-table',
             table = layui.table,
             admin = layui.admin,
             pageLimit = 20,
 
             layPageOption = {
-                elem: 'test-list-page', //注意，这里的 test1 是 ID，不用加 # 号
+                elem: 'checkcourse-testlist-page', //注意，这里的 test1 是 ID，不用加 # 号
                 limit: 20,
                 first: '首页',
                 last: '尾页',
@@ -58,26 +59,32 @@
                     },
                         {
                             title: '试卷名称',
-                            field: 'name',
+                            field: 'examinationPaperName',
                             align: 'center'
                         },
                          {
                              title: '开课名称',
-                             field: 'courceName',
+                             field: 'courseName',
                              align: 'center'
                          },
                          {
                              title: '开始时间',
                              field: 'startTime',
-                             align: 'center'
+                             align: 'center',
+                             templet: function (d) {
+                                 return admin.dateFormat(new Date(d.startTime).getTime() / 1000)
+                             }
                          },
                         {
                             title: '截止时间',
                             field: 'endTime',
-                            align: 'center'
+                            align: 'center',
+                            templet: function (d) {
+                                return admin.dateFormat(new Date(d.endTime).getTime() / 1000)
+                            }
                         },{
                             title: '指定人',
-                            field: 'responsor',
+                            field: 'userName',
                             align: 'center'
                         },
                         {
@@ -92,7 +99,7 @@
             }
         getList(1)
 
-        table.on('tool(checked-list-page)', function (obj) {
+        table.on('tool(checkcourse-testlist-table)', function (obj) {
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event,
                 type = '';
@@ -104,12 +111,13 @@
 
         function getList(page) {
             var data = {
-//                page: page,
-//                rows: pageLimit,
-                userId: layui.data('userInfo').userInfo.id
+                page: page,
+                rows: pageLimit,
+                key: 1
+//                userId: layui.data('userInfo').userInfo.id
             }
             admin.post({
-                url: '/selectedCourse/getList',
+                url: '/examinationPaper/stuList',
                 data: JSON.stringify(data),
                 success: function (res) {
                     tableOption.data = (res.data && res.data.items) || [];

@@ -146,13 +146,15 @@
         function getList(page) {
             var data = {
                 page: page,
-                rows: pageLimit,
-                key: "",
-                sortBy: "id",
-                desc: true
+                rows: 10,
+                id: 1,
+                name: "",
+                gradeId: null,
+                semester: null,
+                experimentype: null
             }
             admin.post({
-                url: '/mpLab/vsMpLabList',
+                url: '/curriculumExperiment/queryStudentList',
                 data: JSON.stringify(data),
                 success: function (res) {
                     tableOption.data = (res.data) || [];
