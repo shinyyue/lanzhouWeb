@@ -31,10 +31,10 @@
                         <button class="layui-btn layui-btn-primary" id="add_ploy">添加策略条目</button>
                         <span style="color: red;">说明：易1分，一般2分，中等3分，难4分，非常难5分</span>
                     </div>
-                    <table class="layui-table">
+                    <table class="layui-table" id="ploy_add_table">
                         <thead>
                             <tr>
-                                <th>知识点</th>
+                                <th lay-data="{field:'sign', width:'50%', event: 'knowlegePoint', style:'cursor: pointer;'}">知识点</th>
                                 <th>习题类型</th>
                                 <th>习题难度</th>
                                 <th>参考题数</th>
@@ -70,20 +70,61 @@
             $ = layui.jquery,
             form = layui.form,
             admin = layui.admin,
-            strategyEntries = [];
+            strategyEntries = [],
+            option = {
+                'exercisesDifficulty': '',
+                'exercisesSize': 0,
+                'exercisesType': '',
+                'knowledgePoint': '',
+                totalExercisNums: '',
+                totalScore: ''
+            },
+            knowlegeList = [];
 
         getAllCourses()
         getKnowlegeList()
+        getExamInfo(function (data) {
+
+        }, 1, 0, 4)
 
         $('#ploy-add-back').on('click', function () {
             window.history.back(-1);
         })
+        table.render({
+            elem: 'ploy_add_table'
+        })
 
-        $('#poly-add-strategy').append(getTemplate());
+        $(document).on({
+            types: 'change',
+            selector: 'input[name=knowledgePoint]'
+        })
+
+        table.on('tool(ploy_add_table)', function (obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+            console.log(1, obj.value); //得到修改后的值
+            console.log(2, obj.field); //当前编辑的字段名
+            console.log(3, obj.data); //所在行的所有相关数据  
+            var event = obj.event;
+
+            console.log(444, event)
+        });
+
+        $('#poly-add-strategy').append(getTemplate(option));
 
         $('#add_ploy').on('click', function () {
-            strategyEntries.push({})
-            $('#poly-add-strategy').append(getTemplate());
+            $('select[name=knowledgePoint]').html('')
+            setTimeout(function () {
+                knowlegeList.forEach(item => {
+                    $('select[name=knowledgePoint]').append('<option value="' + item.id +
+                        '">' + item
+                        .curriculumName +
+                        '</option>')
+                    form.render()
+                })
+            }, 0)
+            strategyEntries.push(option)
+            $('#poly-add-strategy').append(getTemplate(option));
+
+            return false;
         })
 
         form.render()
@@ -100,6 +141,7 @@
                 '                                        <option value=""></option>\n' +
                 '                                        <option value="1">单选</option>\n' +
                 '                                        <option value="2">多选</option>\n' +
+                '                                        <option value="3">判断</option>\n' +
                 '                                    </select>\n' +
                 '                                </td>\n' +
                 '                                <td>\n' +
@@ -111,16 +153,19 @@
                 '                                        <option value="1">易</option>\n' +
                 '                                    </select>\n' +
                 '                                </td>\n' +
-                '                                <td>\n' +
+                '                                <td style="width: 80px;">\n' +
                 '                                     <span>' + data.totalExercisNums + '</span>' +
                 '                                </td>\n' +
                 '                                <td>\n' +
                 '                                    <input type="text" class="common-form-input" name="exercisesSize" value="' +
                 data.exercisesSize + '">\n' +
                 '                                </td>\n' +
-                '                                <td>\n' +
+                '                                <td style="width: 80px;">\n' +
                 '                                     <span>' + data.totalScore + '</span>' +
-                '                                </td>\n'
+                '                                </td>\n' +
+                ' <td>\n' +
+                '     <i style="width: 20px;height:20px;cursor:pointer" class="layui-icon layui-icon-delete"></i>\n' +
+                ' </td>'
         }
 
         function getAllCourses() {
@@ -142,6 +187,21 @@
             })
         }
 
+        function getExamInfo(callback, kp, type, diff) {
+            var data = {
+                page: 1,
+                rows: 10000,
+                key: (kp || '') + '|' + (type) + '|' + (diff || '')
+            }
+            admin.post({
+                url: '/exercises/getListBy',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    callback && typeof callback === 'function' && callback(res.data)
+                }
+            })
+        }
+
         function getKnowlegeList() {
             var data = {
                 page: 1,
@@ -151,8 +211,10 @@
                 url: '/knowledgePoint/list',
                 data: JSON.stringify(data),
                 success: function (res) {
+                    knowlegeList = (res.data && res.data.items) || []
+                    $('select[name=knowledgePoint]').html('')
                     res.data && res.data.items && res.data.items.forEach(item => {
-                        $('#curriculumId').append('<option value="' + item.id +
+                        $('select[name=knowledgePoint]').append('<option value="' + item.id +
                             '">' + item
                             .curriculumName +
                             '</option>')
