@@ -66,7 +66,7 @@
                     },
                         {
                             title: '试卷名称',
-                            field: 'examinationPaperName',
+                            field: 'name',
                             align: 'center'
                         },
                          {
@@ -83,11 +83,11 @@
                                  return admin.dateFormat(new Date(d.endTime).getTime() / 1000)
                              }
                          },
-//                        {
-//                            title: '考试时长',
-//                            field: 'responsor',
-//                            align: 'center'
-//                        },
+                        {
+                            title: '考试时长',
+                            field: 'testTime',
+                            align: 'center'
+                        },
                         {
                             title: '安排教师',
                             field: 'userName',
@@ -207,7 +207,7 @@
                 key: 1
             }
             admin.post({
-                url: '/examinationPaper/stuList',
+                url: '/examinationPaper/list',
                 data: JSON.stringify(data),
                 success: function (res) {
                     tableOption.data = (res.data && res.data.items) || [];
