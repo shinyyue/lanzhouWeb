@@ -50,42 +50,44 @@
             tableOption = {
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
-                cols: [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center',
-                        type: 'numbers'
-                    },
-                    {
-                        title: '策略名称',
-                        field: 'strategyName',
-                        align: 'center'
-                    },
-                    {
-                        title: '所属课程',
-                        field: 'curriculumId',
-                        align: 'center'
+                cols: [
+                    [{
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center',
+                            // type: 'number'
+                        },
+                        {
+                            title: '策略名称',
+                            field: 'strategyName',
+                            align: 'center'
+                        },
+                        {
+                            title: '所属课程',
+                            field: 'curriculumName',
+                            align: 'center'
 
-                    },
-                    {
-                        title: '创建时间',
-                        field: 'createTime',
-                        align: 'center',
-                        templet: function (d) {
-                            return admin.dateFormat(new Date(d.createTime).getTime() / 1000)
+                        },
+                        {
+                            title: '创建时间',
+                            field: 'createTime',
+                            align: 'center',
+                            templet: function (d) {
+                                return admin.dateFormat(new Date(d.createTime).getTime() / 1000)
+                            }
+                        },
+                        {
+                            title: '制定人',
+                            field: 'userName',
+                            align: 'center',
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#examine-ploy-opt',
                         }
-                    },
-                    {
-                        title: '制定人',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        templet: '#examine-ploy-opt',
-                    }
+                    ]
                 ]
             };
 
@@ -116,7 +118,7 @@
             var layEvent = obj.event;
 
             if (layEvent === 'check') {
-                location.href = 'index.html#/examine/ploydetail/id=' + data.cId
+                location.href = 'index.html#/examine/ploydetail/id=' + data.id
             } else if (layEvent === 'delete') {
                 layer.confirm('您确定要删除么?', {
                     icon: 3,
