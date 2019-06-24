@@ -36,9 +36,9 @@ layui.define(function (exports) {
             // 'Test-User-Agent': 'os=pc;ver=0.0.1;imei=asdasdas'
         },
         //request 基础URL
-//      requestUrl: 'http://127.0.0.1:8080',
+        //      requestUrl: 'http://127.0.0.1:8080',
         requestUrl: 'http://39.104.97.6:8080',
-     // requestUrl: 'http://39.108.69.34:8080',
+        // requestUrl: 'http://39.108.69.34:8080',
         //独立页面路由，可随意添加（无需写参数）
         indPage: [
             '/login', //登入页
@@ -79,7 +79,7 @@ layui.define(function (exports) {
             //用于对分页请求的参数：page、limit重新设定名称
             request: {
                 pageName: 'page', //页码的参数名称，默认：page
-                limitName: 'row' //每页数据量的参数名，默认：limit
+                limitName: 'rows' //每页数据量的参数名，默认：limit
             }
         },
         //第三方扩展

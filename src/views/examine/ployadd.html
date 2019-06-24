@@ -9,13 +9,15 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属课程</label>
-                <input type="text" class="common-form-input">
+                <select name="curriculumId" id="curriculumId">
+                    <option value="">请选择课程</option>
+                </select>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label require">策略名称</label>
-                <input type="text" class="common-form-input">
+                <input type="text" name="strategyName" class="common-form-input">
             </div>
         </div>
     </form>
@@ -26,7 +28,7 @@
                 <label class="layui-form-label require">策略条目</label>
                 <div class="ploy-content">
                     <div class="ploy-content-title">
-                        <button class="layui-btn layui-btn-primary">添加策略条目</button>
+                        <button class="layui-btn layui-btn-primary" id="add_ploy">添加策略条目</button>
                         <span style="color: red;">说明：易1分，一般2分，中等3分，难4分，非常难5分</span>
                     </div>
                     <table class="layui-table">
@@ -41,40 +43,7 @@
                                 <th>操作</th>
                                 </th>
                             </tr>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <select name="" id="">
-                                        <option value="">根知识点</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select name="" id="">
-                                        <option value="">单选</option>
-                                        <option value="">多选</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select name="" id="">
-                                        <option value="">非常难</option>
-                                        <option value="">难</option>
-                                        <option value="">中等</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <input type="text" class="common-form-input">
-                                </td>
-                                <td>
-                                    <input type="text" class="common-form-input">
-                                </td>
-                                <td>
-                                    <input type="text" class="common-form-input">
-                                </td>
-                                <td>
-                                    <i style="width: 20px;height:20px;cursor:pointer" class="layui-icon layui-icon-delete"></i>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <tbody id="poly-add-strategy"></tbody>
                     </table>
                 </div>
             </div>
@@ -98,11 +67,103 @@
 <script>
     layui.use(['table'], function (table) {
         var table = layui.table,
-            $ = layui.jquery
+            $ = layui.jquery,
+            form = layui.form,
+            admin = layui.admin,
+            strategyEntries = [];
+
+        getAllCourses()
+        getKnowlegeList()
 
         $('#ploy-add-back').on('click', function () {
             window.history.back(-1);
         })
+
+        $('#poly-add-strategy').append(getTemplate());
+
+        $('#add_ploy').on('click', function () {
+            strategyEntries.push({})
+            $('#poly-add-strategy').append(getTemplate());
+        })
+
+        form.render()
+
+        function getTemplate(data) {
+            return '<tr>\n' +
+                '                                <td>\n' +
+                '                                    <select name="knowledgePoint">\n' +
+                '                                        <option value="">请选择知识点</option>\n' +
+                '                                    </select>\n' +
+                '                                </td>\n' +
+                '                                <td>\n' +
+                '                                    <select name="exercisesType">\n' +
+                '                                        <option value=""></option>\n' +
+                '                                        <option value="1">单选</option>\n' +
+                '                                        <option value="2">多选</option>\n' +
+                '                                    </select>\n' +
+                '                                </td>\n' +
+                '                                <td>\n' +
+                '                                    <select name="exercisesDifficulty">\n' +
+                '                                        <option value="">选择</option>\n' +
+                '                                        <option value="4">非常难</option>\n' +
+                '                                        <option value="3">难</option>\n' +
+                '                                        <option value="2">中等</option>\n' +
+                '                                        <option value="1">易</option>\n' +
+                '                                    </select>\n' +
+                '                                </td>\n' +
+                '                                <td>\n' +
+                '                                     <span>' + data.totalExercisNums + '</span>' +
+                '                                </td>\n' +
+                '                                <td>\n' +
+                '                                    <input type="text" class="common-form-input" name="exercisesSize" value="' +
+                data.exercisesSize + '">\n' +
+                '                                </td>\n' +
+                '                                <td>\n' +
+                '                                     <span>' + data.totalScore + '</span>' +
+                '                                </td>\n'
+        }
+
+        function getAllCourses() {
+            admin.post({
+                url: '/vsMpCurriculum/getList',
+                data: JSON.stringify({
+                    page: 1,
+                    rows: 100000,
+                }),
+                success: function (res) {
+                    res.data && res.data.items && res.data.items.forEach(item => {
+                        $('#curriculumId').append('<option value="' + item.id +
+                            '">' + item
+                            .curriculumName +
+                            '</option>')
+                        form.render()
+                    })
+                }
+            })
+        }
+
+        function getKnowlegeList() {
+            var data = {
+                page: 1,
+                rows: 100000,
+            }
+            admin.post({
+                url: '/knowledgePoint/list',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    res.data && res.data.items && res.data.items.forEach(item => {
+                        $('#curriculumId').append('<option value="' + item.id +
+                            '">' + item
+                            .curriculumName +
+                            '</option>')
+                        form.render()
+                    })
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
     })
 </script>
 

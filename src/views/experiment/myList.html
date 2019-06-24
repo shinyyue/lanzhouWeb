@@ -194,8 +194,9 @@
                 page: page,
                 rows: pageLimit
             }
-            admin.get({
+            admin.post({
                 url: '/experiments/listInfo',
+                data: JSON.stringify(data),
                 success: function (res) {
                     tableOption.data = (res.data && res.data.items) || [];
                     layPageOption.count = (res.data && res.data.total) || 0;

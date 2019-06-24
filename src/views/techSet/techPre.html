@@ -2,7 +2,7 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>开课管理 > 铁路信号知识 > 课程导读</span>
+            <span>开课管理 > <span id="preCourseName"></span> > 课程导读</span>
         </div>
     </div>
     <form action="" class="layui-form my-form">
@@ -49,7 +49,7 @@
                 <button class="layui-btn primary-btn" id="tech-pre-save">
                     修改
                 </button>
-                <button class="layui-btn cancel-btn" id="tech-pre-back">
+                <button class="layui-btn " id="tech-pre-back">
                     返回首页
                 </button>
             </div>
@@ -68,7 +68,7 @@
             id = route.search.id;
 
         $('#tech-pre-back').on('click', function () {
-            location.href = '/ndex.html#/'
+            location.href = '/index.html#/'
         })
 
         getDetails()
@@ -79,6 +79,7 @@
             admin.get({
                 url: '/introduction/queryById?id=' + id,
                 success: function (res) {
+                    $('#preCourseName').html(res.data.name)
                     $('#name').html(res.data.name)
                     $('#cited').html(res.data.cited === 0 ? '引用' : '未引用')
                     $('#recommendedScores').html(res.data.recommendedScores)
@@ -146,16 +147,6 @@
         }
 
         function check(data) {
-            // checkDetails = {
-            //     id: 1,
-            //     preName: '计算机网络课程导读',
-            //     creater: '教师',
-            //     teacher: '杨威',
-            //     time: '2019-01-01',
-            //     score: '150分',
-            //     isImport: '是',
-            //     content: '互联网与互联网有什么不同？'
-            // }
             preDetailsTemp =
                 '<div class="pre-details">' +
                 '<div class="details-item">' +

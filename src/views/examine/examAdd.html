@@ -19,11 +19,10 @@
                 <label class="layui-form-label require">习题难度</label>
                 <select name="difficulty" id="difficulty" lay-verify="">
                     <option value="">选择</option>
-                    <option value="021">非常难</option>
-                    <option value="021">难</option>
-                    <option value="022">中等</option>
-                    <option value="023">一般</option>
-                    <option value="023">易</option>
+                    <option value="4">非常难</option>
+                    <option value="3">难</option>
+                    <option value="2">中等</option>
+                    <option value="1">易</option>
                 </select>
                 <span style="color: red">说明：易1分，一般2分，中等3分，难4分，非常难5分</span>
             </div>
@@ -31,7 +30,7 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属课程</label>
-                <select name="" id="courseList" lay-verify="">
+                <select id="courseName">
                     <option value="">请选择</option>
                 </select>
             </div>
@@ -155,7 +154,7 @@
             return false;
         })
 
-        form.render();
+        // form.render();
         layEditIndex = layedit.build('exam-add-edit', {
             tool: [
                 'strong' //加粗
@@ -184,9 +183,9 @@
                     rows: 100000,
                 }),
                 success: function (res) {
-                    $('#courseList').html('')
+                    $('#courseName').html('')
                     res.data && res.data.items && res.data.items.forEach(item => {
-                        $('#courseList').append(
+                        $('#courseName').append(
                             '<input type="checkbox" lay-skin="primary" name="courseName" value="' +
                             item.id + '" title="' +
                             item.curriculumName +
@@ -210,10 +209,10 @@
                     res.data && res.data.items && res.data.items.forEach(item => {
                         $('#knowledgePoint').append(
                             '<input type="checkbox" lay-skin="primary" name="courseName" value="' +
-                            item.id + '" title="' +
-                            item.name +
+                            item.cId + '" title="' +
+                            item.cName +
                             '">')
-                        form.render()
+                        // form.render()
                     })
                 },
                 error: function (err) {
@@ -226,18 +225,19 @@
             var optionObj = {}
             optionList.forEach((item, index) => {
                 $('input[name=optContent]').each(function (k) {
-                    console.log(5555, index, k)
                     if (index === k) {
                         item.content = $(this).val()
                         optionObj[item.opt] = item.content
                     }
                 })
             })
+            console.log(2222, $('input[name=courseName]'))
+            console.log(3333, $('#courseName').text())
 
             var data = {
                 type: $('#type').val(),
                 difficulty: $('#difficulty').val(),
-                curriculumId: $('#courseList').val(),
+                curriculumId: $('input[name=courseName]:checked').val(),
                 knowledgePointId: $('#knowledgePoint').val(),
                 cognitiveType: $('#cognitiveType').val(),
                 content: layedit.getContent(layEditIndex),

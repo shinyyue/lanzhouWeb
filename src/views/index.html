@@ -5,7 +5,7 @@
     </div>
     <table id="list-table" lay-filter="list-table"></table>
     <script type="text/html" id="course-opt">
-        <button class="course-set-btn " id="course-set">课程设置</button>
+        <button class="course-set-btn " id="course-set" lay-event="courseSet">课程设置</button>
     </script>
     <div class="app-table-page" id="home-table-page">
     </div>
@@ -79,21 +79,21 @@
                         },
                         {
                             title: '课程名称',
-                            field: 'courceName',
+                            field: 'courseName',
                             width: 120,
                             align: 'center'
 
                         },
                         {
                             title: '上课周次',
-                            field: 'times',
+                            field: 'startEndTIME',
                             minWidth: 120,
                             align: 'center'
                         },
                         {
                             title: '上课时间',
                             minWidth: 120,
-                            field: 'time',
+                            field: 'startEndTIME',
                             align: 'center',
                         },
                         {
@@ -147,31 +147,13 @@
             })
         };
 
-
-        // function getList(page) {
-        //     var data = {
-        //         // page: page,
-        //         // rows: pageLimit
-        //         userId: layui.data('userInfo').userInfo.id
-        //     }
-        //     admin.post({
-        //         url: '/selectedCourse/getList',
-        //         data: JSON.stringify(data),
-        //         success: function (res) {
-        //             tableOption.data = (res.data && res.data.items) || [];
-        //             layPageOption.count = (res.data && res.data.total) || 0;
-        //             table.render(tableOption)
-        //             laypage.render(layPageOption)
-        //         },
-        //         error: function (err) {
-        //             layer.msg(err && err.msg || '数据请求失败');
-        //         }
-        //     })
-        // };
-
-        $('#course-set').on('click', function () {
-            window.location.href = 'index.html#/techset/techpre'
-            admin.initView(route)
+        table.on('tool(list-table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event;
+            if (layEvent === 'courseSet') { //编辑
+                window.location.href = 'index.html#/techset/techpre/id=' + data.id
+                // admin.initView(route)
+            }
         })
 
 
