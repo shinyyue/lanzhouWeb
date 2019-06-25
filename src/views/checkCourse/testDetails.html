@@ -7,12 +7,12 @@
             <span>试卷满分为<i>100</i>分</span>
             <span>考试时间为<i>60</i>分钟</span>
             <span>本次测试的考试时间：</span>
-            <span>从<i>2019-01-01 10:30</i>至<i>2019-0101 11:30</i></span>
+            <span>从<i id="startTime"></i>至<i id="endTime"></i></span>
         </div>
         <div class="test-info-item">
-            <span>考生：<i>李梓萌</i></span>
-            <span>本次试卷成绩：<i>0</i>分</span>
-            <span>测试用时：<i>0</i>分钟</span>
+            <span>考生：<i id="userName"></i></span>
+            <span id="showScore">本次试卷成绩：<i id="score"></i>分</span>
+            <span id="testUseTime">测试用时：<i id="testTime"></i>分钟</span>
         </div>
     </div>
     <div class="test-details">
@@ -73,7 +73,30 @@
 
 <script>
     layui.use([], function () {
-        var $ = layui.jquery;
+        var $ = layui.jquery,
+            admin = layui.admin,
+            route = layui.router(),
+            id = route.search.id,
+            endTime = route.search.endTime,
+            startTime = route.search.startTime,
+            now = new Date().getTime();
+
+        getDeatils();
+
+        function getDeatils() {
+            admin.get({
+                url: '/testQuestions/info?id=' + 8,
+                success: function (res) {
+
+                }
+            })
+        }
+
+        $('#startTime').html(endTime > now ? admin.dateFormat(new Date().getTime() / 1000) : admin.dateFormat(
+            startTime / 1000))
+
+        $('#endTime').html(endTime > now ? admin.dateFormat((new Date().getTime() + 3600000) / 1000) : admin.dateFormat(
+            endTime / 1000))
 
         $('#checkcourse-test-back').on('click', function () {
             window.location.href = 'index.html#/checkcourse/testlist'
