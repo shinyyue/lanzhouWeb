@@ -25,80 +25,80 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery'], function (table, $) {
-
-        var $ = layui.jquery,
-            laypage = layui.laypage,
-            tableFilter = 'ready-new-table',
-            table = layui.table;
-
-        table.render({
-            page: true,
-            data: [{
-                id: 1,
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '王小虎',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1
-            }],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
-            cols: [
-                [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center'
-                    },
-                    {
-                        title: '开课代码',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '开课名称',
-                        field: 'courceName',
-                        align: 'center'
-
-                    },
-                    {
-                        title: '学时',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '学分',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '上课地点',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '任课老师',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        templet: '#ready-new-opt',
-                    }
-                ]
-            ]
-        })
-
-
-        $('#sourcemanage-mylist-check').on('click', function () {
-            location.href = 'index.html#/techset/readyCheck'
-        })
-
-    })
+    // layui.use(['table', 'jquery'], function (table, $) {
+    //
+    //     var $ = layui.jquery,
+    //         laypage = layui.laypage,
+    //         tableFilter = 'ready-new-table',
+    //         table = layui.table;
+    //
+    //     table.render({
+    //         page: true,
+    //         data: [{
+    //             id: 1,
+    //             courceName: '发电机哈哈',
+    //             courseCode: 20190101,
+    //             responsor: '王小虎',
+    //             time: '第一学期',
+    //             class: '所有年级',
+    //             isCommon: false,
+    //             score: 1
+    //         }],
+    //         elem: '[lay-filter="' + tableFilter + '"]',
+    //         height: 'full-300',
+    //         cols: [
+    //             [{
+    //                     title: '序号',
+    //                     field: 'id',
+    //                     width: 80,
+    //                     align: 'center'
+    //                 },
+    //                 {
+    //                     title: '开课代码',
+    //                     field: 'courseCode',
+    //                     align: 'center'
+    //                 },
+    //                 {
+    //                     title: '开课名称',
+    //                     field: 'courceName',
+    //                     align: 'center'
+    //
+    //                 },
+    //                 {
+    //                     title: '学时',
+    //                     field: 'courseCode',
+    //                     align: 'center'
+    //                 },
+    //                 {
+    //                     title: '学分',
+    //                     field: 'responsor',
+    //                     align: 'center',
+    //                 },
+    //                 {
+    //                     title: '上课地点',
+    //                     field: 'responsor',
+    //                     align: 'center',
+    //                 },
+    //                 {
+    //                     title: '任课老师',
+    //                     field: 'responsor',
+    //                     align: 'center',
+    //                 },
+    //                 {
+    //                     title: '操作',
+    //                     align: 'center',
+    //                     templet: '#ready-new-opt',
+    //                 }
+    //             ]
+    //         ]
+    //     })
+    //
+    //
+    //     $('#sourcemanage-mylist-check').on('click', function () {
+    //         location.href = 'index.html#/techset/readyCheck'
+    //     })
+    //
+    // })
 </script>
 
 <style>
