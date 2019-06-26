@@ -203,7 +203,7 @@
 
         function deleteData(id) {
             admin.delete({
-                url: '/experimentType/delete?id=' + id,
+                url: '/experimentType/del?id=' + id,
                 success: function (res) {
                     getList(1)
                 },

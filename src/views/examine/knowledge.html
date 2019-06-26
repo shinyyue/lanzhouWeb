@@ -68,22 +68,23 @@
                             title: '序号',
                             field: 'id',
                             width: 80,
-                            align: 'center'
+                            align: 'center',
+                            type: 'numbers'
                         },
                         {
                             title: '父知识点',
-                            field: 'parentId',
+                            field: 'pName',
                             align: 'center'
                         },
                         {
                             title: '知识点名称',
-                            field: 'name',
+                            field: 'cName',
                             align: 'center'
 
                         },
                         {
                             title: '所属课程',
-                            field: 'curriculumId',
+                            field: 'curriculumName',
                             align: 'center'
                         },
                         {
@@ -122,7 +123,7 @@
             var layEvent = obj.event;
 
             if (layEvent === 'check') {
-                location.href = 'index.html#/examine/knowdetails/id=' + data.id
+                location.href = 'index.html#/examine/knowdetails/id=' + data.cId
             }
         })
 

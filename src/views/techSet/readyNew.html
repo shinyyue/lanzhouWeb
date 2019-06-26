@@ -21,84 +21,263 @@
     <script type="text/html" id="ready-new-opt">
         <button class="course-set-btn" id="sourcemanage-mylist-check">选择</button>
     </script>
-
+    <div class="app-table-page" id="ready-new-page"></div>
 </div>
 
 <script>
-    // layui.use(['table', 'jquery'], function (table, $) {
-    //
-    //     var $ = layui.jquery,
-    //         laypage = layui.laypage,
-    //         tableFilter = 'ready-new-table',
-    //         table = layui.table;
-    //
-    //     table.render({
-    //         page: true,
-    //         data: [{
-    //             id: 1,
-    //             courceName: '发电机哈哈',
-    //             courseCode: 20190101,
-    //             responsor: '王小虎',
-    //             time: '第一学期',
-    //             class: '所有年级',
-    //             isCommon: false,
-    //             score: 1
-    //         }],
-    //         elem: '[lay-filter="' + tableFilter + '"]',
-    //         height: 'full-300',
-    //         cols: [
-    //             [{
-    //                     title: '序号',
-    //                     field: 'id',
-    //                     width: 80,
-    //                     align: 'center'
-    //                 },
-    //                 {
-    //                     title: '开课代码',
-    //                     field: 'courseCode',
-    //                     align: 'center'
-    //                 },
-    //                 {
-    //                     title: '开课名称',
-    //                     field: 'courceName',
-    //                     align: 'center'
-    //
-    //                 },
-    //                 {
-    //                     title: '学时',
-    //                     field: 'courseCode',
-    //                     align: 'center'
-    //                 },
-    //                 {
-    //                     title: '学分',
-    //                     field: 'responsor',
-    //                     align: 'center',
-    //                 },
-    //                 {
-    //                     title: '上课地点',
-    //                     field: 'responsor',
-    //                     align: 'center',
-    //                 },
-    //                 {
-    //                     title: '任课老师',
-    //                     field: 'responsor',
-    //                     align: 'center',
-    //                 },
-    //                 {
-    //                     title: '操作',
-    //                     align: 'center',
-    //                     templet: '#ready-new-opt',
-    //                 }
-    //             ]
-    //         ]
-    //     })
-    //
-    //
-    //     $('#sourcemanage-mylist-check').on('click', function () {
-    //         location.href = 'index.html#/techset/readyCheck'
-    //     })
-    //
-    // })
+    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
+        var $ = layui.jquery,
+            form = layui.form,
+            laypage = layui.laypage,
+            tableFilter = 'ready-new-table',
+            table = layui.table,
+            admin = layui.admin,
+            pageLimit = 20,
+            layPageOption = {
+                elem: 'ready-new-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr)
+                    }
+                }
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [{
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center',
+                        type: 'numbers'
+                    },
+                        {
+                            title: '学院名称',
+                            field: 'collegeName',
+                            align: 'center'
+                        },
+                        // {
+                        //     title: '学院编码',
+                        //     field: 'courceName',
+                        //     align: 'center'
+                        // },
+                        // {
+                        //     title: '类型',
+                        //     field: 'courseCode',
+                        //     align: 'center'
+                        // },
+                        {
+                            title: '备注',
+                            field: 'responsor',
+                            align: 'center'
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#sourcelist-opt',
+                            fixed: 'right',
+                            width: 200
+                        }
+                    ]
+                ]
+            },
+            formData = {
+                lastOrg: '',
+                collegeName: '',
+                collegeNumber: '',
+                type: '',
+                remark: ''
+            };
+
+        table.on('tool(ready-new-table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event,
+                type = '';
+
+            if (layEvent === 'delete') {
+                layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '系统提示',
+                    content: '该信息为重要信息，是否删除？',
+                    area: ['300px', '200px'],
+                    shade: 0.4,
+                    skin: 'system-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        // 提交
+                        layer.close(index)
+                        deleteData(data.id)
+                    },
+                    cancel: function (index) {
+                        layer.close(index)
+                    }
+                })
+                return;
+            }
+            if (layEvent === 'edit') { //编辑
+                formData = data;
+                type = 'edit';
+            } else if (layEvent === 'check') {
+                formData = data;
+                type = 'check';
+            }
+
+            var layerOption = {
+                type: 1,
+                offset: 'auto',
+                title: '编辑',
+                content: getTemplate(formData, type),
+                area: ['700px', '70%'],
+                shade: 0.4,
+                shadeClose: true,
+                btn: (type === 'check') ? [] : ['确定', '取消'],
+                yes: function (index, layero) {
+                    layer.close(index)
+                    getFormData()
+                    if (type === 'check') {
+                        getData(data.id)
+                    } else if (type === 'edit') {
+                        formData.id = data.id
+                        updateData(formData)
+                    }
+                },
+                cancel: function (index) {
+                    layer.close(index)
+                }
+            }
+
+            layer.open(layerOption);
+            form.render();
+        })
+
+        $('#add_college').on('click', function () {
+            formData = {};
+            layer.open({
+                type: 1,
+                offset: 'auto',
+                title: '添加',
+                content: getTemplate(formData),
+                area: ['700px', '70%'],
+                shade: 0.4,
+                skin: 'user-edit-modal',
+                shadeClose: true,
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    layer.close(index)
+                    addData(formData)
+                },
+                cancel: function (index) {
+                    layer.close(index)
+                }
+            })
+            form.render()
+        });
+
+        getList(1)
+
+        function getList(page) {
+            var data = {
+                page: page,
+                rows: pageLimit
+            }
+            admin.post({
+                url: '/college/queryCollegeList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    tableOption.data = (res.data && res.data.items) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
+
+        function deleteData(id) {
+            admin.delete({
+                url: '/college/deleteCollege?id=' + id,
+                success: function (res) {
+                    getList(1)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function updateData(data) {
+            var data = {
+                id: data.id,
+                collegeName: data.collegeName
+            }
+            admin.put({
+                url: '/college/updateCollege',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    getList(1)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function getData(id) {
+            admin.get({
+                url: '/college/queryCollege?id=' + id,
+                success: function (res) {},
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function addData(data) {
+            var data = {
+                collegeName: data.collegeName
+            }
+            admin.post({
+                url: '/college/addCollege',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    getList(1)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+
+        function getFormData() {
+            formData = {
+                lastOrg: $('#last-org').val(),
+                collegeName: $('#college-name').val(),
+                collegeNumber: $('#college-number').val(),
+                type: $('#college-type').val(),
+                remark: $('#college-remark').val()
+            }
+        }
+    })
 </script>
 
 <style>

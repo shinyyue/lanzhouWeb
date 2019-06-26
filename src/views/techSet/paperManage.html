@@ -6,7 +6,7 @@
         </div>
     </div>
     <div class="course-add">
-        <button class="add-btn" id="add-paper">添加试卷</button>
+        <button class="add-btn" id="add_paper">添加试卷</button>
     </div>
     <table
         id="paperManage-list-table"
@@ -83,11 +83,11 @@
                                  return admin.dateFormat(new Date(d.endTime).getTime() / 1000)
                              }
                          },
-//                        {
-//                            title: '考试时长',
-//                            field: 'responsor',
-//                            align: 'center'
-//                        },
+                        {
+                            title: '考试时长',
+                            field: 'testTime',
+                            align: 'center'
+                        },
                         {
                             title: '安排教师',
                             field: 'userName',
@@ -177,27 +177,8 @@
             form.render();
         })
 
-        $('#add_college').on('click', function () {
-            formData = {};
-            layer.open({
-                type: 1,
-                offset: 'auto',
-                title: '添加',
-                content: getTemplate(formData),
-                area: ['700px', '70%'],
-                shade: 0.4,
-                skin: 'user-edit-modal',
-                shadeClose: true,
-                btn: ['确定', '取消'],
-                yes: function (index, layero) {
-                    layer.close(index)
-                    addData(formData)
-                },
-                cancel: function (index) {
-                    layer.close(index)
-                }
-            })
-            form.render()
+        $('#add_paper').on('click', function () {
+            window.location.href = 'index.html#/techSet/paperUpdate'
         });
 
         function getList(page) {
@@ -285,6 +266,7 @@
                 remark: $('#college-remark').val()
             }
         }
+
 //
 //    layui.use(['table', 'jquery'], function(table, $) {
 //        var tableFilter = 'paperManage-list-table',

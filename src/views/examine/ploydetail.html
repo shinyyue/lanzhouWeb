@@ -9,21 +9,21 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属课程</label>
-                <span>转辙机</span>
+                <span id="curriculumName"></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">策略名称</label>
-                <span>铁路信息</span>
+                <span id="strategyName"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">原创者</label>
-                <span>王小虎</span>
+                <span id="userName"></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">创建时间</label>
-                <span>2019-4-30 10:01:10</span>
+                <span id="createTime"></span>
             </div>
         </div>
     </form>
@@ -34,8 +34,7 @@
                 <label class="layui-form-label ">策略条目</label>
                 <div class="ploy-content">
                     <div class="ploy-content-title">
-                        <button class="layui-btn layui-btn-primary">添加策略条目</button>
-                        <span style="color: red;">说明：易1分，一般2分，中等3分，难4分，非常难5分</span>
+                        <span style="color: red;">说明：易1分，中等2分，难3分，非常难4分</span>
                     </div>
                     <table class="layui-table">
                         <thead>
@@ -47,27 +46,9 @@
                                 <th>抽题数量</th>
                                 <th>总分</th>
                             </tr>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    根知识点
-                                </td>
-                                <td>
-                                    单选
-                                </td>
-                                <td>
-                                    难
-                                </td>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    2
-                                </td>
-                                <td>
-                                    19
-                                </td>
-                            </tr>
+                        </thead>
+                        <tbody id="ploy_details_table">
+
                         </tbody>
                     </table>
                 </div>
@@ -85,11 +66,55 @@
 <script>
     layui.use(['table'], function (table) {
         var table = layui.table,
-            $ = layui.jquery
+            $ = layui.jquery,
+            admin = layui.admin,
+            route = layui.router(),
+            id = route.search.id,
+            strategyEntries = []
 
         $('#ploy-detail-back').on('click', function () {
             window.history.back(-1);
         })
+
+        getDetails()
+
+        function getDetails() {
+            admin.get({
+                url: '/strategy/queryById?id=' + id,
+                success: function (res) {
+                    $('#curriculumName').html(res.data.curriculumName)
+                    $('#strategyName').html(res.data.strategyName)
+                    $('#userName').html(res.data.userName)
+                    $('#createTime').html(admin.dateFormat(new Date(res.data.createTime).getTime() /
+                        1000))
+                    strategyEntries = JSON.parse(res.data.strategyEntries)
+                    strategyEntries.forEach(item => {
+                        $('#ploy_details_table').append(
+                            '<tr>\n' +
+                            '   <td>\n' +
+                            '      ' + item.knowledgePoint + '\n' +
+                            '   </td>\n' +
+                            '   <td>\n' +
+                            '      ' + item.exercisesType + '\n' +
+                            '   </td>\n' +
+                            '   <td>\n' +
+                            '      ' + item.exercisesDifficulty + '\n' +
+                            '   </td>\n' +
+                            '   <td>\n' +
+                            '      ' + item.allExercisesNum + '\n' +
+                            '   </td>\n' +
+                            '   <td>\n' +
+                            '      ' + item.exercisesSize + '\n' +
+                            '   </td>\n' +
+                            '   <td>\n' +
+                            '      ' + item.allScore + '\n' +
+                            '   </td>\n' +
+                            '</tr>'
+                        )
+                    })
+                }
+            })
+        }
     })
 </script>
 
