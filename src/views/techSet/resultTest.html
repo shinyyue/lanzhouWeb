@@ -16,113 +16,235 @@
         lay-filter="resultTest-list-table"
     ></table>
     <script type="text/html" id="resultTest-opt">
-        <button class="course-set-btn" id="resultTest-add-edit">批改</button>
-        <button class="course-set-btn" id="resultTest-add-check">查看</button>
+        <button class="course-set-btn" lay-event="resultTest-add-edit">批改</button>
+        <button class="course-set-btn" lay-event="resultTest-add-check">查看</button>
     </script>
     <div class="app-table-page" id="resultTest-table-page"></div>
 </div>
 
 <script>
-    layui.use(['table', 'jquery'], function(table, $) {
-        var tableFilter = 'resultTest-list-table',
+    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
+        var $ = layui.jquery,
+            form = layui.form,
             laypage = layui.laypage,
-            $ = layui.jquery
-
-        table.render({
-            page: false,
-            data: [
-                {
-                    id: 1,
-                    courceName: '发电机哈哈',
-                    resultTestCode: 20190101,
-                    responsor: '王小虎',
-                    time: '第一学期',
-                    class: '所有年级',
-                    isCommon: false,
-                    score: 1
+            tableFilter = 'resultTest-list-table',
+            table = layui.table,
+            admin = layui.admin,
+            pageLimit = 20,
+            layPageOption = {
+                elem: 'app-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr)
+                    }
                 }
-            ],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
-            cols: [
-                [
-                    {
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [{
                         title: '序号',
                         field: 'id',
                         width: 80,
-                        align: 'center'
-                    },
-                    {
-                        title: '开课名称',
-                        field: 'resultTestCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '实验名称',
-                        field: 'courceName',
-                        align: 'center'
-                    },
-                    {
-                        title: '开始时间/结束时间',
                         align: 'center',
-                        field: 'times',
-                        width: 180
+                        type: 'numbers'
                     },
-                    {
-                        title: '状态',
-                        field: 'responsor',
-                        align: 'center'
-                    },
-                    {
-                        title: '已提交',
-                        field: 'responsor',
-                        align: 'center'
-                    },
-                    {
-                        title: '未批改',
-                        field: 'responsor',
-                        align: 'center'
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        templet: '#resultTest-opt',
-                        width: 80
-                    }
+                        {
+                            title: '开课名称',
+                            field: 'courseName',
+                            align: 'center'
+                        },
+                        {
+                            title: '实验名称',
+                            field: 'curriculumExperimentName',
+                            align: 'center'
+                        },
+                        {
+                            title: '开始/结束时间',
+                            field: 'startTime',
+                            align: 'center',
+                            templet: function (d) {
+                                console.log(d)
+                                return admin.dateFormat(new Date(d.startTime).getTime() / 1000)+"至"+admin.dateFormat(new Date(d.endTime).getTime() / 1000);
+                            }
+                        },
+                        {
+                            title: '状态',
+                            field: 'typeName',
+                            align: 'center'
+                        },{
+                            title: '已提交',
+                            field: 'countSubmit',
+                            align: 'center'
+                        },{
+                            title: '未批改',
+                            field: 'countCorrection',
+                            align: 'center'
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#resultTest-opt',
+                            fixed: 'right',
+                            width: 200
+                        }
+                    ]
                 ]
-            ]
+            }
+
+
+        table.on('tool(resultTest-list-table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event,
+                type = '';
+
+            if (layEvent === 'evaluate-add-edit') {
+                formData = data;
+                type = 'check';
+                window.location.href = 'index.html#/techSet/readyPlan'
+            }
         })
 
-        //执行一个laypage实例
-        laypage.render({
-            elem: 'resultTest-table-page', //注意，这里的 test1 是 ID，不用加 # 号
-            count: 50, //数据总数，从服务端得到
-            limit: 10,
-            first: '首页',
-            last: '尾页',
-            hash: 'page',
-            curr: location.hash.replace('#!page=', ''),
-            layout: [
-                'first',
-                'prev',
-                'page',
-                'next',
-                'last',
-                'count',
-                'currLimit',
-                'curr',
-                'pageCount'
-            ]
-        })
+        getList(1)
 
-        $('#resultTest-add-check').on('click', function() {
-            location.href = 'index.html#/techSet/resultUpdate'
-        })
-
-        $('#resultTest-add-edit').on('click', function() {
-            location.href = 'index.html#/techSet/resultUpdate'
-        })
+        function getList(page) {
+            var data = {
+                page: page,
+                rows: pageLimit,
+                curriculumId:1
+            }
+            admin.post({
+                url: '/vsMpTestRecord/queryCorrectionExperiment',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    tableOption.data = (res.data && res.data.items) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
     })
+//
+//    layui.use(['table', 'jquery'], function(table, $) {
+//        var tableFilter = 'resultTest-list-table',
+//            laypage = layui.laypage,
+//            $ = layui.jquery
+//
+//        table.render({
+//            page: false,
+//            data: [
+//                {
+//                    id: 1,
+//                    courceName: '发电机哈哈',
+//                    resultTestCode: 20190101,
+//                    responsor: '王小虎',
+//                    time: '第一学期',
+//                    class: '所有年级',
+//                    isCommon: false,
+//                    score: 1
+//                }
+//            ],
+//            elem: '[lay-filter="' + tableFilter + '"]',
+//            height: 'full-300',
+//            cols: [
+//                [
+//                    {
+//                        title: '序号',
+//                        field: 'id',
+//                        width: 80,
+//                        align: 'center'
+//                    },
+//                    {
+//                        title: '开课名称',
+//                        field: 'resultTestCode',
+//                        align: 'center'
+//                    },
+//                    {
+//                        title: '实验名称',
+//                        field: 'courceName',
+//                        align: 'center'
+//                    },
+//                    {
+//                        title: '开始时间/结束时间',
+//                        align: 'center',
+//                        field: 'times',
+//                        width: 180
+//                    },
+//                    {
+//                        title: '状态',
+//                        field: 'responsor',
+//                        align: 'center'
+//                    },
+//                    {
+//                        title: '已提交',
+//                        field: 'responsor',
+//                        align: 'center'
+//                    },
+//                    {
+//                        title: '未批改',
+//                        field: 'responsor',
+//                        align: 'center'
+//                    },
+//                    {
+//                        title: '操作',
+//                        align: 'center',
+//                        templet: '#resultTest-opt',
+//                        width: 80
+//                    }
+//                ]
+//            ]
+//        })
+//
+//        //执行一个laypage实例
+//        laypage.render({
+//            elem: 'resultTest-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+//            count: 50, //数据总数，从服务端得到
+//            limit: 10,
+//            first: '首页',
+//            last: '尾页',
+//            hash: 'page',
+//            curr: location.hash.replace('#!page=', ''),
+//            layout: [
+//                'first',
+//                'prev',
+//                'page',
+//                'next',
+//                'last',
+//                'count',
+//                'currLimit',
+//                'curr',
+//                'pageCount'
+//            ]
+//        })
+//
+//        $('#resultTest-add-check').on('click', function() {
+//            location.href = 'index.html#/techSet/resultUpdate'
+//        })
+//
+//        $('#resultTest-add-edit').on('click', function() {
+//            location.href = 'index.html#/techSet/resultUpdate'
+//        })
+//    })
 </script>
 
 <style>
