@@ -38,83 +38,209 @@
 
     <table id="ready-check-table" lay-filter="ready-check-table"></table>
     <script type="text/html" id="ready-check-opt">
-        <button class="course-set-btn" id="ready-check-detail">查看</button>
-        <button class="course-set-btn" id="ready-check-check">选择</button>
+        <button class="course-set-btn" lay-event="ready-check-detail">查看</button>
+        <button class="course-set-btn" lay-event="ready-check-check">选择</button>
     </script>
+    <div class="app-table-page" id="ready-check-page"></div>
 </div>
 
 <script>
-    layui.use(['form', 'table'], function (table) {
-        var form = layui.form,
+    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
+        var $ = layui.jquery,
+            form = layui.form,
+            laypage = layui.laypage,
             tableFilter = 'ready-check-table',
             table = layui.table,
-            $ = layui.jquery
-
-
-        form.render();
-        table.render({
-            page: true,
-            data: [{
-                id: 1,
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '王小虎',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1
-            }],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
-            cols: [
-                [{
+            admin = layui.admin,
+            pageLimit = 20,
+            layPageOption = {
+                elem: 'ready-check-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr)
+                    }
+                }
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [{
                         title: '序号',
                         field: 'id',
                         width: 80,
-                        align: 'center'
-                    },
-                    {
-                        title: '实验名称',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '所属课程',
-                        field: 'courceName',
-                        align: 'center'
-
-                    },
-                    {
-                        title: '实验类型',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '试验时长',
-                        field: 'responsor',
                         align: 'center',
+                        type: 'numbers'
                     },
-                    {
-                        title: '创建者',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '操作',
-                        align: 'center',
-                        templet: '#ready-check-opt',
-                    }
+                        {
+                            title: '实验名称',
+                            field: 'experimentName',
+                            align: 'center'
+                        },
+                         {
+                             title: '所属课程',
+                             field: 'courseName',
+                             align: 'center'
+                         },
+                         {
+                             title: '实验类型',
+                             field: 'typeName',
+                             align: 'center'
+                         },
+                        {
+                            title: '时长',
+                            field: 'countTime',
+                            align: 'center'
+                        },{
+                            title: '创建者',
+                            field: 'userName',
+                            align: 'center'
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#ready-check-opt',
+                            fixed: 'right',
+                            width: 200
+                        }
+                    ]
                 ]
-            ]
+            }
+
+
+        table.on('tool(ready-check-table)', function (obj) {
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event,
+                type = '';
+
+            if (layEvent === 'ready-check-check') {
+                formData = data;
+                type = 'check';
+                window.location.href = 'index.html#/techSet/readyPlan'
+            }
         })
 
-        $('#ready-check-detail').on('click', function () {
-            window.location.href = 'index.html#/experiment/mydetails'
-        })
+        getList(1)
 
-        $('#ready-check-check').on('click', function () {
-            window.location.href = 'index.html#/techset/readyplan'
-        })
+        function getList(page) {
+            var data = {
+                page: page,
+                rows: pageLimit,
+                curriculumId: 1,
+                experimentId: 1
+            }
+            admin.post({
+                url: '/curriculumExperiment/queryExpListByCurriculumId',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    tableOption.data = (res.data && res.data.items) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
+
+
+        function getData(id) {
+            admin.get({
+                url: '/college/queryCollege?id=' + id,
+                success: function (res) {},
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        }
+//
+//    layui.use(['form', 'table'], function (table) {
+//        var form = layui.form,
+//            tableFilter = 'ready-check-table',
+//            table = layui.table,
+//            $ = layui.jquery
+//
+//
+//        form.render();
+//        table.render({
+//            page: true,
+//            data: [{
+//                id: 1,
+//                courceName: '发电机哈哈',
+//                courseCode: 20190101,
+//                responsor: '王小虎',
+//                time: '第一学期',
+//                class: '所有年级',
+//                isCommon: false,
+//                score: 1
+//            }],
+//            elem: '[lay-filter="' + tableFilter + '"]',
+//            height: 'full-300',
+//            cols: [
+//                [{
+//                        title: '序号',
+//                        field: 'id',
+//                        width: 80,
+//                        align: 'center'
+//                    },
+//                    {
+//                        title: '实验名称',
+//                        field: 'courseCode',
+//                        align: 'center'
+//                    },
+//                    {
+//                        title: '所属课程',
+//                        field: 'courceName',
+//                        align: 'center'
+//
+//                    },
+//                    {
+//                        title: '实验类型',
+//                        field: 'courseCode',
+//                        align: 'center'
+//                    },
+//                    {
+//                        title: '试验时长',
+//                        field: 'responsor',
+//                        align: 'center',
+//                    },
+//                    {
+//                        title: '创建者',
+//                        field: 'responsor',
+//                        align: 'center',
+//                    },
+//                    {
+//                        title: '操作',
+//                        align: 'center',
+//                        templet: '#ready-check-opt',
+//                    }
+//                ]
+//            ]
+//        })
+//
+//        $('#ready-check-detail').on('click', function () {
+//            window.location.href = 'index.html#/experiment/mydetails'
+//        })
+//
+//        $('#ready-check-check').on('click', function () {
+//            window.location.href = 'index.html#/techset/readyplan'
+//        })
 
     })
 </script>
