@@ -1,4 +1,4 @@
-<div id="techManage-add" lay-title="添加课程管理">
+<div id="techset_paperdetails" lay-title="添加课程管理">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -13,13 +13,13 @@
                     <input
                         type="text"
                         require
-                        name="techManageCode"
+                        name="name"
                         class="common-form-input"
                     />
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label require">所属策略</label>
-                    <select name="" id="">
+                    <select name="strategyId" id="strategyId">
                         <option value="">请选择策略</option>
                     </select>
                 </div>
@@ -27,24 +27,40 @@
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">所属开课</label>
-                    <span>
-                        铁路信号知识
-                    </span>
+                    <select name="curriculumId" id="curriculumId">
+                        <option value="">请选择课程</option>
+                    </select>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">考试时长</label>
-                    <input type="text" name="score" class="common-form-input" />
+                    <input
+                        type="text"
+                        name="testTime"
+                        class="common-form-input"
+                    />
                     <span>分钟</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label require">考试开始时间</label>
-                    <input type="text" name="score" class="common-form-input" />
+                    <input
+                        type="text"
+                        name="startTime"
+                        id="startTime"
+                        class="layui-input common-form-input"
+                    />
                 </div>
                 <div class="layui-col-md6 layui-form-item">
-                    <label class="layui-form-label require">考试结束时间</label>
-                    <input type="text" name="score" class="common-form-input" />
+                    <label class="layui-input layui-form-label require"
+                        >考试结束时间</label
+                    >
+                    <input
+                        type="text"
+                        name="endTime"
+                        id="endTime"
+                        class="layui-input common-form-input"
+                    />
                 </div>
             </div>
 
@@ -52,48 +68,32 @@
             <button class="layui-btn" id="source-add-cancle">取消</button>
 
             <!--<div class="layui-row">-->
-                <!--<div class="layui-form-item">-->
-                    <!--<label class="layui-form-label">是否发布试卷</label>-->
-                    <!--<div class="layui-input-block">-->
-                        <!--<input-->
-                            <!--type="radio"-->
-                            <!--name="sex"-->
-                            <!--value="是"-->
-                            <!--title="是"-->
-                            <!--checked-->
-                        <!--/>-->
-                        <!--<input type="radio" name="sex" value="否" title="否" />-->
-                    <!--</div>-->
-                <!--</div>-->
+            <!--<div class="layui-form-item">-->
+            <!--<label class="layui-form-label">是否发布试卷</label>-->
+            <!--<div class="layui-input-block">-->
+            <!--<input-->
+            <!--type="radio"-->
+            <!--name="sex"-->
+            <!--value="是"-->
+            <!--title="是"-->
+            <!--checked-->
+            <!--/>-->
+            <!--<input type="radio" name="sex" value="否" title="否" />-->
+            <!--</div>-->
+            <!--</div>-->
             <!--</div>-->
         </form>
     </div>
 </div>
 
 <script>
-    layui.use(['form', 'layedit'], function() {
+    layui.use(['form', 'laydate'], function() {
         var form = layui.form,
-            layedit = layui.layedit,
-            $ = layui.jquery
+            $ = layui.jquery,
+            admin = layui.admin,
+            laydate = layui.laydate
 
         form.render()
-        layedit.build('techManage-intro-edit', {
-            tool: [
-                'strong', //加粗
-                'italic', //斜体
-                'underline', //下划线
-                'del', //删除线
-
-                '|', //分割线
-
-                'left', //左对齐
-                'center', //居中对齐
-                'right', //右对齐
-                'link', //超链接
-                'image' //插入图片
-            ]
-        })
-
         //监听提交
         form.on('submit(submit)', function(data) {
             layer.msg(JSON.stringify(data.field))
@@ -104,64 +104,89 @@
             window.history.back(-2)
         })
 
-        // form.on('submit(back)', function () {
-        //     window.history.back(-1);
-        // })
+        laydate.render({
+            elem: '#startTime', //指定元素
+            type: 'datetime'
+        })
+
+        laydate.render({
+            elem: '#endTime', //指定元素
+            type: 'datetime'
+        })
+
+        getPloyList()
+        getCourseList()
+
+        function addData() {
+            var data = {}
+            admin.post({
+                url: '/examinationPaper/add',
+                data: JSON.stringify(data),
+                success: function(res) {}
+            })
+        }
+
+        function getPloyList() {
+            var data = {
+                page: 1,
+                rows: 100000
+            }
+            admin.post({
+                url: '/strategy/list',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    $('#strategyId').html('')
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            $('#strategyId').append(
+                                '<option value="' +
+                                    item.id +
+                                    '">' +
+                                    item.strategyName +
+                                    '</option>'
+                            )
+                        })
+                    form.render()
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        function getCourseList() {
+            var data = {
+                page: 1,
+                rows: 1000000
+            }
+            admin.post({
+                url: '/vsMpCurriculum/getList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            $('#curriculumId').append(
+                                '<option value="' +
+                                    item.id +
+                                    '">' +
+                                    item.curriculumName +
+                                    '</option>'
+                            )
+                        })
+                    form.render()
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
     })
 </script>
 
 <style>
-    #techManage-add {
-    }
-
-    #techManage-add .techManage-add-content {
-        padding: 15px 0;
-    }
-
-    #techManage-add .techManage-good-at > li {
-        float: left;
-        margin-right: 20px;
-    }
-
-    #techManage-add .pre-techManage {
-        float: left;
-        width: calc(100 - 230px);
-    }
-
-    #techManage-add .pre-techManage .pre-techManage-checkbox {
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        margin-top: 10px;
-        padding: 10px;
-    }
-
-    #techManage-add .layui-layedit {
-        width: 83%;
-        float: left;
-        background: #fff;
-    }
-
-    .ploy-title {
-        width: 90%;
-        padding: 15px;
-        color: #126093;
-        background: rgba(244, 245, 250, 1);
-        text-align: center;
-        font-size: 16px;
-        font-weight: bold;
-    }
-
-    .common-form-input.short {
-        width: 100px;
-    }
-
-    .short .layui-form-select {
-        width: 100px;
-    }
-    .short {
-        display: inline-block;
-    }
-    .short .layui-input,
-    .layui-textarea {
-        width: 100px;
+    #techset_paperdetails .course-add-content {
+        padding: 20px 0;
     }
 </style>

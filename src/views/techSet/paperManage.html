@@ -13,16 +13,15 @@
         lay-filter="paperManage-list-table"
     ></table>
     <script type="text/html" id="paperManage-opt">
-        <button class="course-set-btn" id="paperManage-add-edit">编辑</button>
-        <button class="course-set-btn" id="paperManage-add-delete">删除</button>
-        <button class="course-set-btn" id="paperManage-add-check">查看</button>
+        <button class="course-set-btn" lay-event="edit">编辑</button>
+        <button class="course-set-btn" lay-event="delete">删除</button>
+        <button class="course-set-btn" lay-event="check">查看</button>
     </script>
     <div class="app-table-page" id="paperManage-table-page"></div>
 </div>
 
 <script>
-
-    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function(table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -46,8 +45,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function (obj, first) {
-                    //首次不执行
+                jump: function(obj, first) {
                     if (!first) {
                         getList(obj.curr)
                     }
@@ -57,32 +55,34 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center',
-                        type: 'numbers'
-                    },
+                    [
+                        {
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center',
+                            type: 'numbers'
+                        },
                         {
                             title: '试卷名称',
                             field: 'examinationPaperName',
                             align: 'center'
                         },
-                         {
-                             title: '所属课程',
-                             field: 'courseName',
-                             align: 'center'
-                         },
-                         {
-                             title: '编辑时间',
-                             field: 'endTime',
-                             align: 'center',
-                             templet: function (d) {
-                                 console.log(d.endTime)
-                                 return admin.dateFormat(new Date(d.endTime).getTime() / 1000)
-                             }
-                         },
+                        {
+                            title: '所属课程',
+                            field: 'courseName',
+                            align: 'center'
+                        },
+                        {
+                            title: '编辑时间',
+                            field: 'endTime',
+                            align: 'center',
+                            templet: function(d) {
+                                return admin.dateFormat(
+                                    new Date(d.endTime).getTime() / 1000
+                                )
+                            }
+                        },
                         {
                             title: '考试时长',
                             field: 'testTime',
@@ -109,15 +109,13 @@
                 collegeNumber: '',
                 type: '',
                 remark: ''
-            };
-
+            }
 
         getList(1)
 
-        table.on('tool(paperManage-list-table)', function (obj) {
-            var data = obj.data; //获得当前行数据
-            var layEvent = obj.event,
-                type = '';
+        table.on('tool(paperManage-list-table)', function(obj) {
+            var data = obj.data //获得当前行数据
+            var layEvent = obj.event
 
             if (layEvent === 'delete') {
                 layer.open({
@@ -130,56 +128,29 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function (index, layero) {
+                    yes: function(index, layero) {
                         // 提交
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function (index) {
+                    cancel: function(index) {
                         layer.close(index)
                     }
                 })
-                return;
+                return
             }
-            if (layEvent === 'edit') { //编辑
-                formData = data;
-                type = 'edit';
+            if (layEvent === 'edit') {
+                window.location.href =
+                    'index.html#/techSet/paperUpdate/id=' + data.id
             } else if (layEvent === 'check') {
-                formData = data;
-                type = 'check';
+                window.location.href =
+                    'index.html#/techSet/paperDetails/id=' + data.id
             }
-
-            var layerOption = {
-                type: 1,
-                offset: 'auto',
-                title: '编辑',
-                content: getTemplate(formData, type),
-                area: ['700px', '70%'],
-                shade: 0.4,
-                shadeClose: true,
-                btn: (type === 'check') ? [] : ['确定', '取消'],
-                yes: function (index, layero) {
-                    layer.close(index)
-                    getFormData()
-                    if (type === 'check') {
-                        getData(data.id)
-                    } else if (type === 'edit') {
-                        formData.id = data.id
-                        updateData(formData)
-                    }
-                },
-                cancel: function (index) {
-                    layer.close(index)
-                }
-            }
-
-            layer.open(layerOption);
-            form.render();
         })
 
-        $('#add_paper').on('click', function () {
+        $('#add_paper').on('click', function() {
             window.location.href = 'index.html#/techSet/paperUpdate'
-        });
+        })
 
         function getList(page) {
             var data = {
@@ -190,26 +161,26 @@
             admin.post({
                 url: '/examinationPaper/stuList',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
+        }
 
         function deleteData(id) {
             admin.delete({
                 url: '/examinationPaper/deleteCollege?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -222,11 +193,11 @@
             admin.put({
                 url: '/college/updateCollege',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -234,9 +205,9 @@
         function getData(id) {
             admin.get({
                 url: '/college/queryCollege?id=' + id,
-                success: function (res) {},
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                success: function(res) {},
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -248,11 +219,11 @@
             admin.post({
                 url: '/college/addCollege',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -266,128 +237,6 @@
                 remark: $('#college-remark').val()
             }
         }
-
-//
-//    layui.use(['table', 'jquery'], function(table, $) {
-//        var tableFilter = 'paperManage-list-table',
-//            laypage = layui.laypage,
-//            $ = layui.jquery
-//
-//        table.render({
-//            page: false,
-//            data: [
-//                {
-//                    id: 1,
-//                    courceName: '发电机哈哈',
-//                    paperManageCode: 20190101,
-//                    responsor: '王小虎',
-//                    time: '第一学期',
-//                    class: '所有年级',
-//                    isCommon: false,
-//                    score: 1
-//                }
-//            ],
-//            elem: '[lay-filter="' + tableFilter + '"]',
-//            height: 'full-300',
-//            cols: [
-//                [
-//                    {
-//                        title: '序号',
-//                        field: 'id',
-//                        width: 80,
-//                        align: 'center'
-//                    },
-//                    {
-//                        title: '试卷名称',
-//                        field: 'courceName',
-//                        align: 'center'
-//                    },
-//                    {
-//                        title: '所谓课程',
-//                        field: 'paperManageCode',
-//                        align: 'center'
-//                    },
-//                    {
-//                        title: '编辑时间',
-//                        field: 'responsor',
-//                        align: 'center'
-//                    },
-//                    {
-//                        title: '考试时长',
-//                        align: 'center',
-//                        field: 'times',
-//                        width: 80
-//                    },
-//                    {
-//                        title: '安排教师',
-//                        align: 'center',
-//                        field: 'score',
-//                        width: 80
-//                    },
-//                    {
-//                        title: '操作',
-//                        align: 'center',
-//                        templet: '#paperManage-opt',
-//                        width: 180
-//                    }
-//                ]
-//            ]
-//        })
-//
-//        //执行一个laypage实例
-//        laypage.render({
-//            elem: 'paperManage-table-page', //注意，这里的 test1 是 ID，不用加 # 号
-//            count: 50, //数据总数，从服务端得到
-//            limit: 10,
-//            first: '首页',
-//            last: '尾页',
-//            hash: 'page',
-//            curr: location.hash.replace('#!page=', ''),
-//            layout: [
-//                'first',
-//                'prev',
-//                'page',
-//                'next',
-//                'last',
-//                'count',
-//                'currLimit',
-//                'curr',
-//                'pageCount'
-//            ]
-//        })
-//
-//        $('#add-paper').on('click', function() {
-//            location.href = 'index.html#/techSet/paperUpdate'
-//        })
-//
-//        $('#paperManage-add-check').on('click', function() {
-//            location.href = 'index.html#/techSet/paperDetails'
-//        })
-//
-//        $('#paperManage-add-edit').on('click', function() {
-//            location.href = 'index.html#/techSet/paperUpdate'
-//        })
-//
-//        $('#paperManage-add-delete').on('click', function() {
-//            layer.confirm(
-//                '您确定要删除么?',
-//                {
-//                    icon: 3,
-//                    title: '提示',
-//                    shade: 0.5,
-//                    maxWidth: 500,
-//                    maxHeight: 500
-//                },
-//                function(confirm) {
-//                    // 用户点击确定
-//                    layer.close(confirm)
-//                },
-//                function(cancel) {
-//                    // 用户点击取消
-//                    layer.close(cancel)
-//                }
-//            )
-//        })
     })
 </script>
 

@@ -2,13 +2,16 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>选课 > 铁路信号知识 > 理论测试列表</span>
+            <span>选课 > <span id="courseName"></span> > 理论测试列表</span>
         </div>
     </div>
     <table id="checkcourse-testlist-table" lay-filter="checkcourse-testlist-table"></table>
     <script type="text/html" id="checkcourse-testlist-opt">
-        <button class="course-set-btn" id="checkcourse-testlist-test">测试</button>
-        <button class="course-set-btn" id="checkcourse-testlist-check">查看</button>
+        {{# if (new Date(d.endTime).getTime() > new Date().getTime()) { }}
+        <button class="course-set-btn" id="checkcourse-testlist-test" lay-event="test">测试</button>
+        {{# } else { }}
+        <button class="course-set-btn" id="checkcourse-testlist-check" lay-event="check">查看</button>
+        {{# } }}
     </script>
     <div class="app-table-page" id="checkcourse-testlist-page"></div>
 </div>
@@ -51,30 +54,30 @@
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
                     [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center',
-                        type: 'numbers'
-                    },
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center',
+                            type: 'numbers'
+                        },
                         {
                             title: '试卷名称',
                             field: 'examinationPaperName',
                             align: 'center'
                         },
-                         {
-                             title: '开课名称',
-                             field: 'courseName',
-                             align: 'center'
-                         },
-                         {
-                             title: '开始时间',
-                             field: 'startTime',
-                             align: 'center',
-                             templet: function (d) {
-                                 return admin.dateFormat(new Date(d.startTime).getTime() / 1000)
-                             }
-                         },
+                        {
+                            title: '开课名称',
+                            field: 'courseName',
+                            align: 'center'
+                        },
+                        {
+                            title: '开始时间',
+                            field: 'startTime',
+                            align: 'center',
+                            templet: function (d) {
+                                return admin.dateFormat(new Date(d.startTime).getTime() / 1000)
+                            }
+                        },
                         {
                             title: '截止时间',
                             field: 'endTime',
@@ -82,7 +85,7 @@
                             templet: function (d) {
                                 return admin.dateFormat(new Date(d.endTime).getTime() / 1000)
                             }
-                        },{
+                        }, {
                             title: '指定人',
                             field: 'userName',
                             align: 'center'
@@ -90,7 +93,7 @@
                         {
                             title: '操作',
                             align: 'center',
-                            templet: '#checkcourse-testlist-test',
+                            templet: '#checkcourse-testlist-opt',
                             fixed: 'right',
                             width: 200
                         }
@@ -104,9 +107,11 @@
             var layEvent = obj.event,
                 type = '';
 
-
-            layer.open(layerOption);
-            form.render();
+            if (layEvent === 'check') {
+                window.location.href = 'index.html#/checkcourse/testdetails/id=' + data.id +
+                    '/endTime=' + new Date(data.endTime).getTime() + '/startTime=' + new Date(data.startTime)
+                    .getTime();
+            }
         })
 
         function getList(page) {
@@ -114,7 +119,7 @@
                 page: page,
                 rows: pageLimit,
                 key: 1
-//                userId: layui.data('userInfo').userInfo.id
+                //                userId: layui.data('userInfo').userInfo.id
             }
             admin.post({
                 url: '/examinationPaper/stuList',
@@ -130,84 +135,74 @@
                 }
             })
         };
-
-        function getDetail(id) {
-            admin.get({
-                url: '/college/queryCollege?id=' + id,
-                success: function (res) {},
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
-                }
-            })
-        }
     })
-//    layui.use(['table'], function (table) {
-//
-//        var $ = layui.jquery,
-//            table = layui.table,
-//            tableFilter = 'checkcourse-testlist-table';
-//
-//        table.render({
-//            elem: '#checkcourse-testlist-table',
-//            page: true,
-//            data: [{
-//                id: 1,
-//                courceName: '发电机哈哈',
-//                courseCode: 20190101,
-//                responsor: '未发布',
-//                time: '第一学期',
-//                class: '所有年级',
-//                isCommon: false,
-//                score: 1
-//            }],
-//            elem: '[lay-filter="' + tableFilter + '"]',
-//            height: 'full-300',
-//            cols: [
-//                [{
-//                        title: '序号',
-//                        field: 'id',
-//                        width: 80,
-//                        align: 'center'
-//                    },
-//                    {
-//                        title: '试卷名称',
-//                        field: 'courseCode',
-//                        align: 'center'
-//                    },
-//                    {
-//                        title: '开课名称',
-//                        field: 'courceName',
-//                        align: 'center'
-//
-//                    },
-//                    {
-//                        title: '开始时间',
-//                        field: 'courseCode',
-//                        align: 'center'
-//                    },
-//                    {
-//                        title: '截止时间',
-//                        field: 'responsor',
-//                        align: 'center',
-//                    },
-//                    {
-//                        title: '制定人',
-//                        field: 'responsor',
-//                        align: 'center',
-//                    },
-//                    {
-//                        title: '操作',
-//                        align: 'center',
-//                        templet: '#checkcourse-testlist-opt',
-//                    }
-//                ]
-//            ]
-//        })
-//
-//        $('#checkcourse-testlist-test').on('click', function () {
-//            window.location.href = 'index.html#/checkcourse/testdetails';
-//        })
-//    })
+    //    layui.use(['table'], function (table) {
+    //
+    //        var $ = layui.jquery,
+    //            table = layui.table,
+    //            tableFilter = 'checkcourse-testlist-table';
+    //
+    //        table.render({
+    //            elem: '#checkcourse-testlist-table',
+    //            page: true,
+    //            data: [{
+    //                id: 1,
+    //                courceName: '发电机哈哈',
+    //                courseCode: 20190101,
+    //                responsor: '未发布',
+    //                time: '第一学期',
+    //                class: '所有年级',
+    //                isCommon: false,
+    //                score: 1
+    //            }],
+    //            elem: '[lay-filter="' + tableFilter + '"]',
+    //            height: 'full-300',
+    //            cols: [
+    //                [{
+    //                        title: '序号',
+    //                        field: 'id',
+    //                        width: 80,
+    //                        align: 'center'
+    //                    },
+    //                    {
+    //                        title: '试卷名称',
+    //                        field: 'courseCode',
+    //                        align: 'center'
+    //                    },
+    //                    {
+    //                        title: '开课名称',
+    //                        field: 'courceName',
+    //                        align: 'center'
+    //
+    //                    },
+    //                    {
+    //                        title: '开始时间',
+    //                        field: 'courseCode',
+    //                        align: 'center'
+    //                    },
+    //                    {
+    //                        title: '截止时间',
+    //                        field: 'responsor',
+    //                        align: 'center',
+    //                    },
+    //                    {
+    //                        title: '制定人',
+    //                        field: 'responsor',
+    //                        align: 'center',
+    //                    },
+    //                    {
+    //                        title: '操作',
+    //                        align: 'center',
+    //                        templet: '#checkcourse-testlist-opt',
+    //                    }
+    //                ]
+    //            ]
+    //        })
+    //
+    //        $('#checkcourse-testlist-test').on('click', function () {
+    //            window.location.href = 'index.html#/checkcourse/testdetails';
+    //        })
+    //    })
 </script>
 
 <style>
