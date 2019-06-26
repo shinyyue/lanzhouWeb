@@ -9,7 +9,7 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">所属课程名称</label>
-                <select name="testRoomName" id="curriculumId" lay-verify="">
+                <select name="curriculumId" id="curriculumId" lay-verify="">
                     <option value="">选择课程</option>
                 </select>
             </div>
@@ -17,20 +17,32 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">父知识点</label>
-                <span style="color: blue; line-height:38px;">根知识点</span>
+                <select name="pName" id="pName" lay-verify="">
+                    <option value="0">根知识点</option>
+                </select>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">知识点名称</label>
-                <input class="common-form-input" type="text" name="name" placeholder="请输入知识点名称">
+                <input
+                    class="common-form-input"
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="请输入知识点名称"
+                />
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">知识点描述</label>
                 <div class="layui-col-md9">
-                    <textarea name="describe" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    <textarea
+                        name="describe"
+                        placeholder="请输入内容"
+                        class="layui-textarea"
+                    ></textarea>
                 </div>
             </div>
         </div>
@@ -38,8 +50,19 @@
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label"></label>
                 <div>
-                    <button class="layui-btn primary-btn" lay-submit lay-filter="submit">保存</button>
-                    <button class="layui-btn layui-btn-primary cancel-btn" id="examine-addknow-back">返回</button>
+                    <button
+                        class="layui-btn primary-btn"
+                        lay-submit
+                        lay-filter="submit"
+                    >
+                        保存
+                    </button>
+                    <button
+                        class="layui-btn layui-btn-primary cancel-btn"
+                        id="examine-addknow-back"
+                    >
+                        返回
+                    </button>
                 </div>
             </div>
         </div>
@@ -47,43 +70,70 @@
 </div>
 
 <script>
-    layui.use(['form'], function () {
-
+    layui.use(['form'], function() {
         var form = layui.form,
             $ = layui.jquery,
-            admin = layui.admin;
+            admin = layui.admin,
+            route = layui.router(),
+            id = route.search.id
 
-        form.render();
+        form.render()
 
-        form.on('submit(submit)', function (data) {
+        form.on('submit(submit)', function(data) {
             userInfo = data.field
-            userInfo.parentId = 0
             userInfo.curriculumId = Number($('#curriculumId').val())
             addData(userInfo)
-            console.log(3444, userInfo)
 
             $('#login-user').addClass('show')
-            return false;
+            return false
         })
 
-        $('#examine-addknow-back').on('click', function () {
+        $('#examine-addknow-back').on('click', function() {
             location.href = 'index.html#/examine/knowledge'
         })
 
-        getCourseList()
+        getCourseList(function() {
+            if (id) {
+                getDetails()
+            }
+        })
+        getKnowList(function() {
+            if (id) {
+                getDetails()
+            }
+        })
 
-        function addData(data) {
-            admin.post({
-                url: '/knowledgePoint/add',
-                data: JSON.stringify(data),
-                success: function () {
-                    layer.msg('添加成功！')
-                    window.history.back(-1);
+        function getDetails() {
+            admin.get({
+                url: '/knowledgePoint/queryById?id=' + id,
+                success: function(res) {
+                    $('#name').val(res.data.pName)
+                    $('#pName').val(res.data.pId)
+                    $('#curriculumId').val(res.data.curriculumId)
+                    $('#describe').val(res.data.describe)
                 }
             })
         }
 
-        function getCourseList() {
+        function addData(data) {
+            var formData = {
+                parentId: $('#pName').val(),
+                name: data.name,
+                curriculumId: data.curriculumId,
+                describe: data.describe
+            }
+
+            admin.post({
+                url: '/knowledgePoint/add',
+                data: JSON.stringify(formData),
+                success: function() {
+                    layer.msg('添加成功！')
+                    window.history.back(-1)
+                }
+            })
+        }
+
+        function getCourseList(callback) {
             var data = {
                 page: 1,
                 rows: 1000000
@@ -91,24 +141,61 @@
             admin.post({
                 url: '/vsMpCurriculum/getList',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    res.data && res.data.items && res.data.items.forEach(item => {
-                        $('#curriculumId').append('<option value="' + item.id + '">' + item
-                            .curriculumName +
-                            '</option>')
-                    })
+                success: function(res) {
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            $('#curriculumId').append(
+                                '<option value="' +
+                                    item.id +
+                                    '">' +
+                                    item.curriculumName +
+                                    '</option>'
+                            )
+                        })
                     form.render()
+                    callback && typeof callback === 'function' && callback()
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
+        }
+
+        function getKnowList(callback) {
+            var data = {
+                page: 1,
+                rows: 100000
+            }
+            admin.post({
+                url: '/knowledgePoint/queryChildrenByPid?pId=0',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            $('#pName').append(
+                                '<option value="' +
+                                    item.id +
+                                    '">' +
+                                    item.curriculumName +
+                                    '</option>'
+                            )
+                        })
+                    form.render()
+                    callback && typeof callback === 'function' && callback()
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
     })
 </script>
 
 <style>
-    #examine-addknow {}
+    #examine-addknow {
+    }
 
     .my-add-form {
         padding: 25px 0;
