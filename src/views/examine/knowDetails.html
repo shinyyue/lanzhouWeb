@@ -15,7 +15,11 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">父知识点</label>
-                <span style="color: blue;" class="info-details" id="parentId"></span>
+                <span
+                    style="color: blue;"
+                    class="info-details"
+                    id="parentId"
+                ></span>
             </div>
         </div>
         <div class="layui-row">
@@ -34,35 +38,37 @@
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label"></label>
-                <button class="layui-btn layui-btn-primary cancel-btn" id="examine-knowdetails-back">返回</button>
+                <button
+                    class="layui-btn layui-btn-primary cancel-btn"
+                    id="examine-knowdetails-back"
+                >
+                    返回
+                </button>
             </div>
         </div>
     </div>
-
 </div>
 
 <script>
-    layui.use([], function () {
+    layui.use([], function() {
         var $ = layui.jquery,
             admin = layui.admin,
             route = layui.router(),
-            id = route.search.id;
-
+            id = route.search.id
 
         getDetails()
 
-        $('#examine-knowdetails-back').on('click', function () {
-            window.history.back(-1);
+        $('#examine-knowdetails-back').on('click', function() {
+            window.history.back(-1)
         })
 
         function getDetails() {
             admin.get({
                 url: '/knowledgePoint/queryById?id=' + id,
-                success: function (res) {
-                    console.log(111, res);
+                success: function(res) {
                     $('#name').html(res.data.name)
-                    $('#parentId').html(res.data.parentId)
-                    $('#curriculumId').html(res.data.curriculumId)
+                    $('#parentId').html(res.data.pName)
+                    $('#curriculumId').html(res.data.curriculumName)
                     $('#describe').html(res.data.describe)
                 }
             })
@@ -71,7 +77,8 @@
 </script>
 
 <style>
-    #examine-knowdetails {}
+    #examine-knowdetails {
+    }
 
     #examine-knowdetails .examine-knowdetails-content {
         padding: 20px 0;

@@ -24,20 +24,26 @@
                     <option value="2">中等</option>
                     <option value="1">易</option>
                 </select>
-                <span style="color: red">说明：易1分，一般2分，中等3分，难4分，非常难5分</span>
+                <span style="color: red"
+                    >说明：易1分，一般2分，中等3分，难4分，非常难5分</span
+                >
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属课程</label>
-                <select id="courseName">
+                <select id="courseName" name="curriculumId">
                     <option value="">请选择</option>
                 </select>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label require">所属知识点</label>
-                <select name="curriculumId" id="knowledgePoint" lay-verify="">
-                    <option value="">选择</option>
+                <select
+                    name="knowledgePointId"
+                    id="knowledgePoint"
+                    lay-verify=""
+                >
+                    <option value="">选择知识点</option>
                 </select>
             </div>
         </div>
@@ -62,7 +68,12 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">注释/帮助</label>
                 <div class="layui-col-md9">
-                    <textarea id="annotation" name="annotation" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    <textarea
+                        id="annotation"
+                        name="annotation"
+                        placeholder="请输入内容"
+                        class="layui-textarea"
+                    ></textarea>
                 </div>
             </div>
         </div>
@@ -70,8 +81,12 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label"></label>
                 <div class="layui-col-md9">
-                    <button class="layui-btn layui-btn-primary" id="addOpt">添加选项</button>
-                    <button class="layui-btn layui-btn-primary" id="deleteOpt">减少选项</button>
+                    <button class="layui-btn layui-btn-primary" id="addOpt">
+                        添加选项
+                    </button>
+                    <button class="layui-btn layui-btn-primary" id="deleteOpt">
+                        减少选项
+                    </button>
                 </div>
             </div>
         </div>
@@ -81,8 +96,15 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label"></label>
                 <div class="layui-col-md9">
-                    <button class="layui-btn primary-btn" id="addData">提交</button>
-                    <button class="layui-btn layui-btn-primary cancel-btn" id="examine-addknow-back">返回</button>
+                    <button class="layui-btn primary-btn" id="addData">
+                        提交
+                    </button>
+                    <button
+                        class="layui-btn layui-btn-primary cancel-btn"
+                        id="examine-addknow-back"
+                    >
+                        返回
+                    </button>
                 </div>
             </div>
         </div>
@@ -90,44 +112,72 @@
 </div>
 
 <script>
-    layui.use(['layedit'], function () {
+    layui.use(['layedit'], function() {
         var form = layui.form,
             layedit = layui.layedit,
             $ = layui.jquery,
             admin = layui.admin,
             layEditIndex,
-            optionList = [{
-                opt: 'A',
-                content: ''
-            }, {
-                opt: 'B',
-                content: ''
-            }, {
-                opt: 'C',
-                content: ''
-            }, {
-                opt: 'D',
-                content: ''
-            }];
+            route = layui.router(),
+            id = route.search.id,
+            optionList = [
+                {
+                    opt: 'A',
+                    content: ''
+                },
+                {
+                    opt: 'B',
+                    content: ''
+                },
+                {
+                    opt: 'C',
+                    content: ''
+                },
+                {
+                    opt: 'D',
+                    content: ''
+                }
+            ]
 
         renderOption()
+
+        if (id) {
+            getDetails()
+        }
 
         function renderOption() {
             $('#optionWrapper').html('')
             optionList.forEach(item => {
-                $('#optionWrapper').append('<div class="layui-row">\n' +
-                    '            <div class="layui-col-md12 layui-form-item">\n' +
-                    '                <label class="layui-form-label">选项' + item.opt + '</label>\n' +
-                    '                <div class="layui-col-md9">\n' +
-                    '                    <input type="radio" name="option" value="" title="">\n' +
-                    '                    <input type="text" class="common-form-input" style="width: 90%;" name="optContent">\n' +
-                    '                </div>\n' +
-                    '            </div>\n' +
-                    '        </div>')
+                $('#optionWrapper').append(
+                    '<div class="layui-row">\n' +
+                        '            <div class="layui-col-md12 layui-form-item">\n' +
+                        '                <label class="layui-form-label">选项' +
+                        item.opt +
+                        '</label>\n' +
+                        '                <div class="layui-col-md9">\n' +
+                        '                    <input type="radio" name="option" value="" title="">\n' +
+                        '                    <input type="text" class="common-form-input" style="width: 90%;" name="optContent">\n' +
+                        '                </div>\n' +
+                        '            </div>\n' +
+                        '        </div>'
+                )
+            })
+            form.render()
+        }
+
+        function getDetails() {
+            admin.get({
+                url: '/exercises/get?id=' + id,
+                success: function(res) {
+                    $('#snapshot').html(res.data.snapshot)
+                    $('#parentId').html(res.data.pName)
+                    $('#curriculumId').html(res.data.curriculumName)
+                    $('#describe').html(res.data.describe)
+                }
             })
         }
 
-        $('#addOpt').on('click', function () {
+        $('#addOpt').on('click', function() {
             var count1 = 0
             var arr1 = []
 
@@ -138,37 +188,37 @@
             optionList.push({
                 opt: arr1[optionList.length],
                 content: ''
-            });
+            })
             renderOption()
-            return false;
+            return false
         })
 
-        $('#deleteOpt').on('click', function () {
-            optionList.splice(optionList.length - 1, 1);
+        $('#deleteOpt').on('click', function() {
+            optionList.splice(optionList.length - 1, 1)
             renderOption()
-            return false;
+            return false
         })
 
-        $('#addData').on('click', function () {
+        $('#addData').on('click', function() {
             addData()
-            return false;
+            return false
         })
 
         // form.render();
         layEditIndex = layedit.build('exam-add-edit', {
             tool: [
-                'strong' //加粗
-                , 'italic' //斜体
-                , 'underline' //下划线
-                , 'del' //删除线
+                'strong', //加粗
+                'italic', //斜体
+                'underline', //下划线
+                'del', //删除线
 
-                , '|' //分割线
+                '|', //分割线
 
-                , 'left' //左对齐
-                , 'center' //居中对齐
-                , 'right' //右对齐
-                , 'link' //超链接
-                , 'image' //插入图片
+                'left', //左对齐
+                'center', //居中对齐
+                'right', //右对齐
+                'link', //超链接
+                'image' //插入图片
             ]
         })
 
@@ -180,18 +230,22 @@
                 url: '/vsMpCurriculum/getList',
                 data: JSON.stringify({
                     page: 1,
-                    rows: 100000,
+                    rows: 100000
                 }),
-                success: function (res) {
+                success: function(res) {
                     $('#courseName').html('')
-                    res.data && res.data.items && res.data.items.forEach(item => {
-                        $('#courseName').append(
-                            '<input type="checkbox" lay-skin="primary" name="courseName" value="' +
-                            item.id + '" title="' +
-                            item.curriculumName +
-                            '">')
-                        form.render()
-                    })
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            $('#courseName').append(
+                                '<input type="checkbox" lay-skin="primary" name="courseName" value="' +
+                                    item.id +
+                                    '" title="' +
+                                    item.curriculumName +
+                                    '">'
+                            )
+                            form.render()
+                        })
                 }
             })
         }
@@ -199,32 +253,36 @@
         function getKnowledgeList() {
             var data = {
                 page: 1,
-                rows: 100000,
+                rows: 100000
             }
             admin.post({
                 url: '/knowledgePoint/list',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     $('#knowledgePoint').html('')
-                    res.data && res.data.items && res.data.items.forEach(item => {
-                        $('#knowledgePoint').append(
-                            '<input type="checkbox" lay-skin="primary" name="courseName" value="' +
-                            item.cId + '" title="' +
-                            item.cName +
-                            '">')
-                        // form.render()
-                    })
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            $('#knowledgePoint').append(
+                                '<input type="checkbox" lay-skin="primary" name="courseName" value="' +
+                                    item.cId +
+                                    '" title="' +
+                                    item.cName +
+                                    '">'
+                            )
+                        })
+                    form.render()
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
+        }
 
         function addData() {
             var optionObj = {}
             optionList.forEach((item, index) => {
-                $('input[name=optContent]').each(function (k) {
+                $('input[name=optContent]').each(function(k) {
                     if (index === k) {
                         item.content = $(this).val()
                         optionObj[item.opt] = item.content
@@ -248,12 +306,12 @@
             admin.post({
                 url: '/exercises/add',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     layui.mag('添加成功')
-                    window.history.back(-1);
+                    window.history.back(-1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -261,7 +319,8 @@
 </script>
 
 <style>
-    #examine-examadd {}
+    #examine-examadd {
+    }
 
     #examine-examadd .my-add-form {
         padding: 25px 0;

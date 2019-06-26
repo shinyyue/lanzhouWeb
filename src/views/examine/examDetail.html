@@ -9,11 +9,11 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属课程</label>
-                <span>铁路信息</span>
+                <span id="curriculumId"></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属知识点</label>
-                <span>铁路信息</span>
+                <span id="">铁路信息</span>
             </div>
         </div>
         <div class="layui-row">
@@ -49,7 +49,7 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">习题快照</label>
-                <span>转辙机坏了</span>
+                <span id="snapshot"></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属实验</label>
@@ -102,8 +102,20 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label"></label>
                 <div class="layui-col-md9">
-                    <button class="layui-btn primary-btn" lay-submit lay-filter="submit" id="examine-examdetail-add">继续添加</button>
-                    <button class="layui-btn layui-btn-primary cancel-btn" id="examine-examdetail-back">返回习题列表</button>
+                    <button
+                        class="layui-btn primary-btn"
+                        lay-submit
+                        lay-filter="submit"
+                        id="examine-examdetail-add"
+                    >
+                        继续添加
+                    </button>
+                    <button
+                        class="layui-btn layui-btn-primary cancel-btn"
+                        id="examine-examdetail-back"
+                    >
+                        返回习题列表
+                    </button>
                 </div>
             </div>
         </div>
@@ -111,42 +123,61 @@
 </div>
 
 <script>
-    layui.use(['form', 'layedit'], function () {
+    layui.use(['form', 'layedit'], function() {
         var form = layui.form,
             layedit = layui.layedit,
-            $ = layui.jquery;
+            $ = layui.jquery,
+            admin = layui.admin,
+            route = layui.router(),
+            id = route.search.id,
+            layeditIndex
 
-        form.render();
-        layedit.build('exam-add-edit', {
+        form.render()
+
+        layeditIndex = layedit.build('exam-add-edit', {
             tool: [
-                'strong' //加粗
-                , 'italic' //斜体
-                , 'underline' //下划线
-                , 'del' //删除线
+                'strong', //加粗
+                'italic', //斜体
+                'underline', //下划线
+                'del', //删除线
 
-                , '|' //分割线
+                '|', //分割线
 
-                , 'left' //左对齐
-                , 'center' //居中对齐
-                , 'right' //右对齐
-                , 'link' //超链接
-                , 'image' //插入图片
+                'left', //左对齐
+                'center', //居中对齐
+                'right', //右对齐
+                'link', //超链接
+                'image' //插入图片
             ]
         })
 
-        $('#examine-examdetail-back').on('click', function () {
-            window.history.back(-1);
+        getDetails()
+
+        $('#examine-examdetail-back').on('click', function() {
+            window.history.back(-1)
         })
 
-        $('#examine-examdetail-add').on('click ', function () {
-            window.history.back(-1);
+        $('#examine-examdetail-add').on('click ', function() {
+            window.history.back(-1)
         })
 
+        function getDetails() {
+            admin.get({
+                url: '/exercises/get?id=' + id,
+                success: function(res) {
+                    $('#snapshot').html(res.data.snapshot)
+                    $('#parentId').html(res.data.pName)
+                    $('#curriculumId').html(res.data.curriculumName)
+                    $('#describe').html(res.data.describe)
+                }
+            })
+        }
     })
 </script>
 
 <style>
-    #examine-examadd {}
+    #examine-examadd {
+    }
 
     #examine-examadd .my-add-form {
         padding: 25px 0;
@@ -158,7 +189,7 @@
         background: #fff;
     }
 
-    #examine-examadd .layui-form-item span{
+    #examine-examadd .layui-form-item span {
         line-height: 38px;
     }
 </style>
