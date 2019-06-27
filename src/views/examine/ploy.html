@@ -14,10 +14,11 @@
         <button class="course-set-btn" lay-event="check">查看</button>
         <button class="course-set-btn" lay-event="delete">删除</button>
     </script>
+    <div class="app-table-page" id="examine-ploy-page"></div>
 </div>
 
 <script>
-    layui.use(['table'], function (table) {
+    layui.use(['table'], function(table) {
         var table = layui.table,
             $ = layui.jquery,
             laypage = layui.laypage,
@@ -26,7 +27,7 @@
             admin = layui.admin,
             pageLimit = 20,
             layPageOption = {
-                elem: 'examine-knowledge-page', //注意，这里的 test1 是 ID，不用加 # 号
+                elem: 'examine-ploy-page', //注意，这里的 test1 是 ID，不用加 # 号
                 limit: 20,
                 first: '首页',
                 last: '尾页',
@@ -41,7 +42,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function (obj, first) {
+                jump: function(obj, first) {
                     if (!first) {
                         getList(obj.curr)
                     }
@@ -51,11 +52,12 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [{
+                    [
+                        {
                             title: '序号',
                             field: 'id',
                             width: 80,
-                            align: 'center',
+                            align: 'center'
                             // type: 'number'
                         },
                         {
@@ -67,29 +69,30 @@
                             title: '所属课程',
                             field: 'curriculumName',
                             align: 'center'
-
                         },
                         {
                             title: '创建时间',
                             field: 'createTime',
                             align: 'center',
-                            templet: function (d) {
-                                return admin.dateFormat(new Date(d.createTime).getTime() / 1000)
+                            templet: function(d) {
+                                return admin.dateFormat(
+                                    new Date(d.createTime).getTime() / 1000
+                                )
                             }
                         },
                         {
                             title: '制定人',
                             field: 'userName',
-                            align: 'center',
+                            align: 'center'
                         },
                         {
                             title: '操作',
                             align: 'center',
-                            templet: '#examine-ploy-opt',
+                            templet: '#examine-ploy-opt'
                         }
                     ]
                 ]
-            };
+            }
 
         getList(1)
 
@@ -101,40 +104,56 @@
             admin.post({
                 url: '/strategy/list',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
+        }
 
-        table.on('tool(examine-ploy-table)', function (obj) {
-            var data = obj.data; //获得当前行数据
-            var layEvent = obj.event;
+        function deleteData(id) {
+            admin.delete({
+                url: '/strategy/del?id=' + id,
+                success: function() {
+                    layer.msg('删除成功！')
+                    getList(1)
+                }
+            })
+        }
+
+        table.on('tool(examine-ploy-table)', function(obj) {
+            var data = obj.data //获得当前行数据
+            var layEvent = obj.event
 
             if (layEvent === 'check') {
                 location.href = 'index.html#/examine/ploydetail/id=' + data.id
             } else if (layEvent === 'delete') {
-                layer.confirm('您确定要删除么?', {
-                    icon: 3,
-                    title: '提示',
-                    shade: 0.5,
-                }, function (confirm) {
-                    layer.close(confirm);
-                }, function (cancel) {
-                    layer.close(cancel);
-                });
+                layer.confirm(
+                    '您确定要删除么?',
+                    {
+                        icon: 3,
+                        title: '提示',
+                        shade: 0.5
+                    },
+                    function(confirm) {
+                        layer.close(confirm)
+                        deleteData(data.id)
+                    },
+                    function(cancel) {
+                        layer.close(cancel)
+                    }
+                )
             } else if (layEvent === 'edit') {
                 location.href = 'index.html#/examine/ployadd/id=' + data.id
             }
         })
 
-        $('#examine-ploy-add').on('click', function () {
+        $('#examine-ploy-add').on('click', function() {
             location.href = 'index.html#/examine/ployadd'
         })
     })

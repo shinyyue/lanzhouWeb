@@ -9,90 +9,88 @@
         <button class="primary-btn" id="sourcemanage-mylist">打印</button>
     </div>
 
-    <table id="schedule-teacher-table" lay-filter="schedule-teacher-table"></table>
+    <table
+        id="schedule-teacher-table"
+        lay-filter="schedule-teacher-table"
+    ></table>
 </div>
 
 <script>
-    layui.use(['table'], function (table) {
+    layui.use(['table'], function(table) {
         var table = layui.table,
-            tableFilter = 'schedule-teacher-table'
-
-        table.render({
-            page: true,
-            data: [{
-                id: '1<br> 08:00 - 08:50',
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '计算机网路<br>第1～23周<br>第1～2节',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1
-            }, {
-                id: '1<br> 08:00 - 08:50',
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '计算机网路<br>第1～23周<br>第1～2节',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1
-            }],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            // height: 'full-300',
-            cols: [
-                [{
-                        title: '星期时间节数',
-                        field: 'id',
-                        align: 'center'
-                    },
-                    {
-                        title: '星期一',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '星期二',
-                        field: 'courceName',
-                        align: 'center'
-
-                    },
-                    {
-                        title: '星期三',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '星期四',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '星期五',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '星期六',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '星期日',
-                        field: 'responsor',
-                        align: 'center',
-                    }
+            tableFilter = 'schedule-teacher-table',
+            admin = layui.admin,
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [
+                        {
+                            title: '星期时间节数',
+                            field: 'id',
+                            align: 'center'
+                        },
+                        {
+                            title: '星期一',
+                            field: 'courseCode',
+                            align: 'center'
+                        },
+                        {
+                            title: '星期二',
+                            field: 'courceName',
+                            align: 'center'
+                        },
+                        {
+                            title: '星期三',
+                            field: 'courseCode',
+                            align: 'center'
+                        },
+                        {
+                            title: '星期四',
+                            field: 'responsor',
+                            align: 'center'
+                        },
+                        {
+                            title: '星期五',
+                            field: 'responsor',
+                            align: 'center'
+                        },
+                        {
+                            title: '星期六',
+                            field: 'responsor',
+                            align: 'center'
+                        },
+                        {
+                            title: '星期日',
+                            field: 'responsor',
+                            align: 'center'
+                        }
+                    ]
                 ]
-            ]
-        })
+            }
 
+        getList()
+        function getList() {
+            admin.get({
+                url: '/vsMpSchelule/getTeachList',
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    table.render(tableOption)
+                }
+            })
+        }
     })
 </script>
 
 <style>
-    #schedule-teacher-list {}
+    #schedule-teacher-list {
+    }
 
-    #schedule-teacher-list .layui-table-view .layui-table[lay-size=lg] tbody .layui-table-cell {
+    #schedule-teacher-list
+        .layui-table-view
+        .layui-table[lay-size='lg']
+        tbody
+        .layui-table-cell {
         height: 110px;
         line-height: 1.2;
     }

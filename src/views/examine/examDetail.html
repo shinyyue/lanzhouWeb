@@ -9,42 +9,46 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属课程</label>
-                <span id="curriculumId"></span>
+                <span id="curriculumName"></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属知识点</label>
-                <span id="">铁路信息</span>
+                <span id="knowledgeName"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">习题类型</label>
-                <span>单选</span>
+                <span></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">认知类型</label>
-                <span>单选</span>
+                <span id="cognitiveTypeName"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">难度系数</label>
-                <span>单选</span>
+                <span id="difficultyName"></span>
             </div>
-            <div class="layui-col-md6 layui-form-item">
+            <!-- <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">分数</label>
-                <span>单选</span>
+                <span id="score"></span>
+            </div> -->
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">创建时间</label>
+                <span id="createTime"></span>
             </div>
         </div>
         <div class="layui-row">
-            <div class="layui-col-md6 layui-form-item">
+            <!-- <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">创建人</label>
-                <span>单选</span>
-            </div>
-            <div class="layui-col-md6 layui-form-item">
+                <span id=""></span>
+            </div> -->
+            <!-- <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">创建时间</label>
                 <span>单选</span>
-            </div>
+            </div> -->
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
@@ -53,22 +57,18 @@
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属实验</label>
-                <span>转辙机</span>
+                <span id="experimentName"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">习题内容</label>
-                <span>转辙机</span>>
+                <span id="content"></span>>
             </div>
         </div>
-        <div class="layui-row">
-            <div class="layui-col-md12 layui-form-item">
-                <label class="layui-form-label ">选项 A</label>
-                <span>生锈</span>>
-            </div>
-        </div>
-        <div class="layui-row">
+
+        <div id="option_list"></div>
+        <!-- <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">选项 B</label>
                 <span>松动</span>>
@@ -85,17 +85,17 @@
                 <label class="layui-form-label ">选项 D</label>
                 <span>太紧</span>>
             </div>
-        </div>
+        </div> -->
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">答案</label>
-                <span>B</span>>
+                <span id="answer"></span>>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">习题帮助</label>
-                <span>B</span>>
+                <span id="annotation"></span>>
             </div>
         </div>
         <div class="layui-row">
@@ -166,9 +166,20 @@
                 url: '/exercises/get?id=' + id,
                 success: function(res) {
                     $('#snapshot').html(res.data.snapshot)
-                    $('#parentId').html(res.data.pName)
-                    $('#curriculumId').html(res.data.curriculumName)
+                    $('#knowledgeName').html(res.data.knowledgeName)
+                    $('#curriculumName').html(res.data.curriculumName)
                     $('#describe').html(res.data.describe)
+                    $('#difficultyName').html(res.data.difficultyName)
+                    $('#typeName').html(res.data.typeName)
+                    $('#cognitiveTypeName').html(res.data.cognitiveTypeName)
+                    $('#experimentName').html(res.data.experimentName)
+                    $('#snapshot').html(res.data.snapshot)
+                    $('#annotation').html(res.data.annotation)
+                    $('#answer').html(res.data.answer)
+                    var optionList = JSON.parse(res.data.option)
+                    for (key in optionList) {
+                        $('#option_list').append('')
+                    }
                 }
             })
         }

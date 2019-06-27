@@ -5,7 +5,7 @@
             <span>课程表 > 总课程表</span>
         </div>
     </div>
-    <div class="layui-tab" lay-filter="weekTab">
+    <div class="layui-tab layui-tab-card" lay-filter="weekTab">
         <ul class="layui-tab-title">
             <li class="layui-this">周一</li>
             <li>周二</li>
@@ -17,73 +17,105 @@
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item  layui-show">
-                <table id="schedule-all-table" lay-filter="schedule-all-table"></table>
+                <table
+                    id="schedule-all-table"
+                    lay-filter="schedule-all-table"
+                ></table>
             </div>
-            <!-- <table id="schedule-all-table" lay-filter="schedule-all-table"></table> -->
         </div>
     </div>
 </div>
 
 <script>
-    layui.use(['element', 'table'], function (table) {
+    layui.use(['element', 'table'], function(table) {
         var element = layui.element,
             table = layui.table,
-            tableFilter = 'schedule-all-table'
-
-        table.render({
-            page: true,
-            data: [{
-                id: '1',
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '计算机网路',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1
-            }],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
-            cols: [
-                [{
-                        title: '课程名称',
-                        field: 'courceName',
-                        align: 'center'
-                    },
-                    {
-                        title: '上课周次',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '上课时间',
-                        field: 'courceName',
-                        align: 'center'
-
-                    },
-                    {
-                        title: '上课地点',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '授课老师',
-                        field: 'responsor',
-                        align: 'center',
-                    }
+            admin = layui.admin,
+            tableFilter = 'schedule-all-table',
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [
+                        {
+                            title: '课程名称',
+                            field: 'curriculumName',
+                            align: 'center'
+                        },
+                        {
+                            title: '上课周次',
+                            field: 'weekBeginEnd',
+                            align: 'center'
+                        },
+                        {
+                            title: '上课时间',
+                            field: 'classStartEnd',
+                            align: 'center'
+                        },
+                        {
+                            title: '上课地点',
+                            field: 'classroomName',
+                            align: 'center'
+                        },
+                        {
+                            title: '授课老师',
+                            field: 'teacherName',
+                            align: 'center'
+                        }
+                    ]
                 ]
-            ]
+            }
+
+        getList('星期一')
+
+        function getList(week) {
+            admin.get({
+                url: '/vsMpSchelule/getAllList',
+                success: function(res) {
+                    tableOption.data = (res.data && res.data[week]) || []
+                    table.render(tableOption)
+                }
+            })
+        }
+
+        function formatWeek(index) {
+            var week = ''
+            switch (index) {
+                case 1:
+                    week = '星期一'
+                    break
+                case 2:
+                    week = '星期二'
+                    break
+                case 3:
+                    week = '星期三'
+                    break
+                case 4:
+                    week = '星期四'
+                    break
+                case 5:
+                    week = '星期五'
+                    break
+                case 6:
+                    week = '星期六'
+                    break
+                case 7:
+                    week = '星期日'
+                    break
+            }
+            return week
+        }
+
+        element.on('tab(weekTab)', function(obj) {
+            var week = formatWeek(obj.index + 1)
+            getList(week)
         })
-
-        element.on('tab(weekTab)', function () {});
-
-    });
+    })
 </script>
 
-
-
 <style>
-    #schedule-all-list {}
+    #schedule-all-list {
+    }
 
     .layui-badge-rim,
     .layui-colla-content,

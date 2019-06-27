@@ -32,9 +32,7 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属课程</label>
-                <select id="curriculumId" name="curriculumId">
-                    <option value="">请选择</option>
-                </select>
+                <select id="curriculumId" name="curriculumId"> </select>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label require">所属知识点</label>
@@ -149,13 +147,17 @@
             $('#optionWrapper').html('')
             optionList.forEach(item => {
                 $('#optionWrapper').append(
-                    '<div class="layui-row">\n' +
+                    '<div class="layui-row option-item">\n' +
                         '            <div class="layui-col-md12 layui-form-item">\n' +
-                        '                <label class="layui-form-label">选项' +
+                        '                <label class="layui-form-label">选项<span class="option-my-title">' +
                         item.opt +
-                        '</label>\n' +
+                        '</span></label>\n' +
                         '                <div class="layui-col-md9">\n' +
-                        '                    <input type="radio" name="option" value="" title="">\n' +
+                        '                    <input type="radio" name="option" data-opt="' +
+                        item.opt +
+                        '" value="' +
+                        item.content +
+                        '" title="">\n' +
                         '                    <input type="text" class="common-form-input" value="' +
                         item.content +
                         '" style="width: 90%;" name="optContent">\n' +
@@ -178,7 +180,6 @@
                     $('#curriculumId').val(res.data.curriculumId)
                     $('#knowledgePoint').val(res.data.knowledgePointId)
                     $('#cognitiveType').val(res.data.cognitiveType)
-                    // $('#content').val(res.data.content)
                     layedit.setContent('TextareaHtmlIndex', res.data.content)
                     optionList = []
                     var option = JSON.parse(res.data.option)
@@ -220,7 +221,6 @@
             return false
         })
 
-        // form.render();
         layEditIndex = layedit.build('exam-add-edit', {
             tool: [
                 'strong', //加粗
@@ -249,7 +249,7 @@
                     rows: 100000
                 }),
                 success: function(res) {
-                    $('#curriculumId').html('')
+                    $('#curriculumId').html('<option value="">请选择</option>')
                     res.data &&
                         res.data.items &&
                         res.data.items.forEach(item => {
@@ -275,7 +275,9 @@
                 url: '/knowledgePoint/list',
                 data: JSON.stringify(data),
                 success: function(res) {
-                    $('#knowledgePoint').html('')
+                    $('#knowledgePoint').html(
+                        '<option value="">请选择</option>'
+                    )
                     res.data &&
                         res.data.items &&
                         res.data.items.forEach(item => {
@@ -297,6 +299,8 @@
 
         function addData() {
             var optionObj = {}
+            var answer = {}
+
             optionList.forEach((item, index) => {
                 $('input[name=optContent]').each(function(k) {
                     if (index === k) {
@@ -305,24 +309,29 @@
                     }
                 })
             })
-            console.log(2222, $('#knowledgePoint').val())
+
+            var key = $('input[name=option]:checked').attr('data-opt')
+            var value = $('input[name=option]:checked').val()
+
+            answer['' + key] = value
 
             var data = {
                 type: $('#type').val(),
                 difficulty: $('#difficulty').val(),
-                curriculumId: $('input[name=courseName]:checked').val(),
+                curriculumId: $('#curriculumId').val(),
                 knowledgePointId: $('#knowledgePoint').val(),
                 cognitiveType: $('#cognitiveType').val(),
                 content: layedit.getContent(layEditIndex),
                 annotation: $('#annotation').val(),
-                option: JSON.stringify(optionObj)
+                option: JSON.stringify(optionObj),
+                answer: JSON.stringify(answer)
             }
 
             admin.post({
                 url: '/exercises/add',
                 data: JSON.stringify(data),
                 success: function(res) {
-                    layui.mag('添加成功')
+                    layer.msg('添加成功')
                     window.history.back(-1)
                 },
                 error: function(err) {
