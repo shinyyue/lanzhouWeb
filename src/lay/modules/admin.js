@@ -10,6 +10,7 @@ layui
         var view = layui.view
         var element = layui.element
         var $ = layui.jquery
+        // var Edit = layui.layedit
 
         layui.extend(conf.extend)
         var self = {}
@@ -25,6 +26,23 @@ layui
         self.isInit = false
         self.routeLeaveFunc = null
         self.loginToken = null
+
+        /**
+         * 设置编辑器内容
+         * @param {[type]} index   编辑器索引
+         * @param {[type]} content 要设置的内容
+         * @param {[type]} flag    是否追加模式
+         */
+        // Edit.prototype.setContent = function (index, content, flag) {
+        //     var iframeWin = getWin(index);
+        //     if (!iframeWin[0]) return;
+        //     if (flag) {
+        //         $(iframeWin[0].document.body).append(content)
+        //     } else {
+        //         $(iframeWin[0].document.body).html(content)
+        //     };
+        //     layedit.sync(index)
+        // };
 
         Date.prototype.format = function (fmt) { //author: meizz  
             var o = {

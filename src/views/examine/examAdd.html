@@ -32,7 +32,7 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属课程</label>
-                <select id="courseName" name="curriculumId">
+                <select id="curriculumId" name="curriculumId">
                     <option value="">请选择</option>
                 </select>
             </div>
@@ -156,7 +156,9 @@
                         '</label>\n' +
                         '                <div class="layui-col-md9">\n' +
                         '                    <input type="radio" name="option" value="" title="">\n' +
-                        '                    <input type="text" class="common-form-input" style="width: 90%;" name="optContent">\n' +
+                        '                    <input type="text" class="common-form-input" value="' +
+                        item.content +
+                        '" style="width: 90%;" name="optContent">\n' +
                         '                </div>\n' +
                         '            </div>\n' +
                         '        </div>'
@@ -169,10 +171,24 @@
             admin.get({
                 url: '/exercises/get?id=' + id,
                 success: function(res) {
-                    $('#snapshot').html(res.data.snapshot)
-                    $('#parentId').html(res.data.pName)
-                    $('#curriculumId').html(res.data.curriculumName)
-                    $('#describe').html(res.data.describe)
+                    $('#type').val(res.data.type)
+                    $('#snapshot').val(res.data.snapshot)
+                    $('#annotation').val(res.data.annotation)
+                    $('#difficulty').val(res.data.difficulty)
+                    $('#curriculumId').val(res.data.curriculumId)
+                    $('#knowledgePoint').val(res.data.knowledgePointId)
+                    $('#cognitiveType').val(res.data.cognitiveType)
+                    // $('#content').val(res.data.content)
+                    layedit.setContent('TextareaHtmlIndex', res.data.content)
+                    optionList = []
+                    var option = JSON.parse(res.data.option)
+                    for (key in option) {
+                        optionList.push({
+                            opt: key,
+                            content: option[key]
+                        })
+                    }
+                    renderOption()
                 }
             })
         }
@@ -233,19 +249,19 @@
                     rows: 100000
                 }),
                 success: function(res) {
-                    $('#courseName').html('')
+                    $('#curriculumId').html('')
                     res.data &&
                         res.data.items &&
                         res.data.items.forEach(item => {
-                            $('#courseName').append(
-                                '<input type="checkbox" lay-skin="primary" name="courseName" value="' +
+                            $('#curriculumId').append(
+                                '<option value="' +
                                     item.id +
-                                    '" title="' +
+                                    '">' +
                                     item.curriculumName +
-                                    '">'
+                                    '</option>'
                             )
-                            form.render()
                         })
+                    form.render()
                 }
             })
         }
@@ -264,11 +280,11 @@
                         res.data.items &&
                         res.data.items.forEach(item => {
                             $('#knowledgePoint').append(
-                                '<input type="checkbox" lay-skin="primary" name="courseName" value="' +
+                                '<option value="' +
                                     item.cId +
-                                    '" title="' +
+                                    '">' +
                                     item.cName +
-                                    '">'
+                                    '</option>'
                             )
                         })
                     form.render()
@@ -289,8 +305,7 @@
                     }
                 })
             })
-            console.log(2222, $('input[name=courseName]'))
-            console.log(3333, $('#courseName').text())
+            console.log(2222, $('#knowledgePoint').val())
 
             var data = {
                 type: $('#type').val(),
