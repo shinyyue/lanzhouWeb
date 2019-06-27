@@ -34,7 +34,7 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function (table) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -42,7 +42,6 @@
             table = layui.table,
             admin = layui.admin,
             pageLimit = 20,
-
             layPageOption = {
                 elem: 'virtualTest-table-page', //注意，这里的 test1 是 ID，不用加 # 号
                 limit: 20,
@@ -86,39 +85,47 @@
                             title: '开课名称',
                             field: 'courseName',
                             align: 'center'
-                        },
-                        {
+                        },{
                             title: '任课老师',
                             field: 'userName',
                             align: 'center'
-                        },
-                        {
+                        },{
                             title: '实验类型',
                             field: 'typeName',
                             align: 'center'
                         },{
-                        title: '开始/结束时间',
-                        field: 'time',
-                        align: 'center'
-                        },
-                        {
+                            title: '开始/结束时间',
+                            field: 'startTime',
+                            align: 'center',
+                            templet: function (d) {
+                                return admin.dateFormat(new Date(d.startTime).getTime() / 1000)+"至"+admin.dateFormat(new Date(d.endtTime).getTime() / 1000);
+                            }
+                        }, {
                             title: '必做/选做',
                             field: 'experimentype',
                             align: 'center',
                             templet: function (d) {
-                                return d.experimentype == 1 ? '必做':'选做'
+                                return d.experimentype == 1 ? '必做':'选做';
                             }
                         },
+                        //若不是已发布成绩状态，需要根据根据根据实验结束时间判断
                         {
-                            title: '成绩',
-                            field: 'publish',
-                            align: 'center'
-                        },{
-                            title: '实验状态',
-                            field: 'publish',
-                            align: 'center'
-                        },
-                        {
+                        title: '实验状态',
+                        field: 'state',
+                        align: 'center',
+                            templet: function (d) {
+                                if(d.state == 2){
+                                    return '已发布成绩'
+                                } else if (d.state == 1){
+                                    if(new Date().getTime()/1000<d.endtTime){
+                                        return '实验中'
+                                    }else {
+                                        return '实验结束'
+                                    }
+                                }
+                                return d.state == 2 ? '已发布成绩':'选做';
+                            }
+                         },{
                             title: '操作',
                             align: 'center',
                             templet: '#virtualTest-opt',
@@ -127,24 +134,21 @@
                         }
                     ]
                 ]
-            }
+            };
 
-        getList(1)
-
-        table.on('tool(virtualTest_list_table)', function (obj) {
+        /*table.on('tool(virtualTest_list_table)', function (obj) {
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event,
                 type = '';
-            if (layEvent === 'getDetail') {
-                //应该是跳转页面
-                formData = data;
-                console.log(formData)
-                getDetail(formData.id)
-            }
 
-            layer.open(layerOption);
-            form.render();
-        })
+            if (layEvent === 'evaluate-add-edit') {
+                formData = data;
+                type = 'check';
+                window.location.href = 'index.html#/techSet/readyPlan'
+            }
+        })*/
+
+        getList(1)
 
         function getList(page) {
             var data = {
@@ -160,7 +164,7 @@
                 url: '/curriculumExperiment/queryStudentList',
                 data: JSON.stringify(data),
                 success: function (res) {
-                    tableOption.data = (res.data) || [];
+                    tableOption.data = (res.data && res.data.items) || [];
                     layPageOption.count = (res.data && res.data.total) || 0;
                     table.render(tableOption)
                     laypage.render(layPageOption)
@@ -169,18 +173,154 @@
                     layer.msg(err && err.msg || '数据请求失败');
                 }
             })
-        };
-
-        function getDetail(id) {
-            admin.get({
-                url: '/introduction/queryById?id=' + id,
-                success: function (res) {},
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
-                }
-            })
         }
     })
+//    layui.use(['table', 'jquery', 'form', 'admin'], function (table) {
+//        var $ = layui.jquery,
+//            form = layui.form,
+//            laypage = layui.laypage,
+//            tableFilter = 'virtualTest_list_table',
+//            table = layui.table,
+//            admin = layui.admin,
+//            pageLimit = 20,
+//
+//            layPageOption = {
+//                elem: 'virtualTest-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+//                limit: 20,
+//                first: '首页',
+//                last: '尾页',
+//                layout: [
+//                    'first',
+//                    'prev',
+//                    'page',
+//                    'next',
+//                    'last',
+//                    'count',
+//                    'currLimit',
+//                    'curr',
+//                    'pageCount'
+//                ],
+//                jump: function (obj, first) {
+//                    //首次不执行
+//                    if (!first) {
+//                        getList(obj.curr)
+//                    }
+//                }
+//            },
+//            tableOption = {
+//                page: false,
+//                elem: '[lay-filter="' + tableFilter + '"]',
+//                cols: [
+//                    [{
+//                        title: '序号',
+//                        field: 'id',
+//                        width: 80,
+//                        align: 'center',
+//                        type: 'numbers'
+//                    },
+//                        {
+//                            title: '实验名称',
+//                            field: 'experimentName',
+//                            align: 'center'
+//                        },
+//                        {
+//                            title: '开课名称',
+//                            field: 'courseName',
+//                            align: 'center'
+//                        },
+//                        {
+//                            title: '任课老师',
+//                            field: 'userName',
+//                            align: 'center'
+//                        },
+//                        {
+//                            title: '实验类型',
+//                            field: 'typeName',
+//                            align: 'center'
+//                        },{
+//                        title: '开始/结束时间',
+//                        field: 'time',
+//                        align: 'center'
+//                        },
+//                        {
+//                            title: '必做/选做',
+//                            field: 'experimentype',
+//                            align: 'center',
+//                            templet: function (d) {
+//                                return d.experimentype == 1 ? '必做':'选做'
+//                            }
+//                        },
+//                        {
+//                            title: '成绩',
+//                            field: 'publish',
+//                            align: 'center'
+//                        },{
+//                            title: '实验状态',
+//                            field: 'publish',
+//                            align: 'center'
+//                        },
+//                        {
+//                            title: '操作',
+//                            align: 'center',
+//                            templet: '#virtualTest-opt',
+//                            fixed: 'right',
+//                            width: 200
+//                        }
+//                    ]
+//                ]
+//            }
+//
+//        getList(1)
+//
+////        table.on('tool(virtualTest_list_table)', function (obj) {
+////            var data = obj.data; //获得当前行数据
+////            var layEvent = obj.event,
+////                type = '';
+////            if (layEvent === 'getDetail') {
+////                //应该是跳转页面
+////                formData = data;
+////                console.log(formData)
+////                getDetail(formData.id)
+////            }
+////
+////            layer.open(layerOption);
+////            form.render();
+////        })
+//
+//        function getList(page) {
+//            var data = {
+//                page: page,
+//                rows: 10,
+//                id: 1,
+//                name: "",
+//                gradeId: null,
+//                semester: null,
+//                experimentype: null
+//            }
+//            admin.post({
+//                url: '/curriculumExperiment/queryStudentList',
+//                data: JSON.stringify(data),
+//                success: function (res) {
+//                    tableOption.data = (res.data) || [];
+//                    layPageOption.count = (res.data && res.data.total) || 0;
+//                    table.render(tableOption)
+//                    laypage.render(layPageOption)
+//                },
+//                error: function (err) {
+//                    layer.msg(err && err.msg || '数据请求失败');
+//                }
+//            })
+//        };
+
+//        function getDetail(id) {
+//            admin.get({
+//                url: '/introduction/queryById?id=' + id,
+//                success: function (res) {},
+//                error: function (err) {
+//                    layer.msg(err && err.msg || '数据请求失败');
+//                }
+//            })
+//        }
 //    layui.use(['table', 'jquery'], function(table, $) {
 //        var tableFilter = 'virtualTest-list-table',
 //            laypage = layui.laypage,

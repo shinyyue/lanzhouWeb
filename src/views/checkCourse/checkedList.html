@@ -113,9 +113,8 @@
             if (layEvent === 'getDetail') {
                 //应该是跳转页面
 //                formData = data;
-//                console.log(data)
-
-                getDetail(data.coursePlanId)
+                console.log(data)
+                getDetail(data.id)
             }
 
             layer.open(layerOption);
@@ -144,13 +143,16 @@
         };
 
         function getDetail(id) {
-            admin.get({
-                url: '/introduction/queryById?id=' + id,
-                success: function (res) {},
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
-                }
-            })
+//            admin.get({
+//                url: '/introduction/queryById?id=' + id,
+//                success: function (res) {
+//
+//                },
+//                error: function (err) {
+//                    layer.msg(err && err.msg || '数据请求失败');
+//                }
+//            })
+            window.location.href = 'index.html#/checkCourse/preintro/id='+id
         }
     })
 </script>
