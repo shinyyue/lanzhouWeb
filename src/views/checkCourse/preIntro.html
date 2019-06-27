@@ -9,45 +9,73 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">课程导读名称</label>
-                <span>铁路</span>
+                <span id="preCourseName"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">原创者</label>
-                <span>铁路</span>
+                <span id="userName"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">是否可被引用</label>
-                <span>是</span>
+                <span id="cited"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">建议分数</label>
-                <span>150</span>
+                <span id="recommendedScores"></span>
             </div>
 
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">创建时间</label>
-                <span>2019-01-01 10:10:10</span>
+                <span id="createTime"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">课程导读内容</label>
                 <div class="layui-col-md9">
-                    <textarea name="desc" class="layui-textarea"></textarea>
+                    <textarea name="desc" class="layui-textarea" id="content"></textarea>
                 </div>
             </div>
         </div>
     </form>
 </div>
+<script>
+    layui.use([], function () {
+        var $ = layui.jquery,
+            admin = layui.admin,
+            route = layui.router(),
+            id = route.search.id;
 
+        $('#tech-pre-back').on('click', function () {
+            location.href = '/index.html#/'
+        })
+
+        console.log(route)
+        getDetails(id)
+
+        function getDetails(id) {
+            admin.get({
+                url: '/introduction/queryById?id=' + id,
+                success: function (res) {
+                    $('#preCourseName').html(res.data.name)
+                    $('#userName').html(res.data.userName)
+                    $('#cited').html(res.data.cited === 0 ? '引用' : '未引用')
+                    $('#recommendedScores').html(res.data.recommendedScores)
+                    $('#content').val(res.data.content)
+                    $('#createTime').html(admin.dateFormat(new Date(res.data.createTime).getTime()/1000))
+                }
+            })
+        }
+    })
+</script>
 <style>
     #checkcourse-preintro {}
 </style>
