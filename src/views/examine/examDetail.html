@@ -19,7 +19,7 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">习题类型</label>
-                <span></span>
+                <span id="typeName"></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">认知类型</label>
@@ -63,7 +63,7 @@
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">习题内容</label>
-                <span id="content"></span>>
+                <span id="content"></span>
             </div>
         </div>
 
@@ -89,13 +89,13 @@
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">答案</label>
-                <span id="answer"></span>>
+                <span id="answer"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">习题帮助</label>
-                <span id="annotation"></span>>
+                <span id="annotation"></span>
             </div>
         </div>
         <div class="layui-row">
@@ -176,9 +176,25 @@
                     $('#snapshot').html(res.data.snapshot)
                     $('#annotation').html(res.data.annotation)
                     $('#answer').html(res.data.answer)
+                    $('#content').html(res.data.content)
+                    $('#createTime').html(
+                        admin.dateFormat(new Date(res.data.createTime) / 1000)
+                    )
+
                     var optionList = JSON.parse(res.data.option)
                     for (key in optionList) {
-                        $('#option_list').append('')
+                        $('#option_list').append(
+                            '<div class="layui-row">\n' +
+                                '            <div class="layui-col-md12 layui-form-item">\n' +
+                                '                <label class="layui-form-label ">选项 ' +
+                                key +
+                                '</label>\n' +
+                                '                <span>' +
+                                optionList[key] +
+                                '</span>\n' +
+                                '            </div>\n' +
+                                '        </div>'
+                        )
                     }
                 }
             })
