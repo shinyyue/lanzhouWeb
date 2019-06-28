@@ -35,8 +35,10 @@
     <div class="app-table-page" id="all-mylist-page"></div>
     <script type="text/html" id="user_all_opt">
         {{#if(d.state === 1){ }}
-            <button class="course-set-btn" lay-event="disabledUser">{{d.state === 1 ? '停用' : '启用'}}</button>
-        {{# } }}
+            <button class="course-set-btn" lay-event="disabledUser">停用</button>
+        {{# } else if (d.state === 2) {}}
+            <button class="course-set-btn" lay-event="disabledUser">启用</button>
+        {{#}  }}
         <button class="course-set-btn" lay-event="edit">编辑</button>
         <button class="course-set-btn" lay-event="delete">删除</button>
         <button class="course-set-btn" lay-event="check">查看</button>
@@ -409,7 +411,7 @@
                 '>' +
                 '<input type="radio" name="sex" value="0" title="女"' +
                 (type === 'check' ? 'disabled' : '') +
-                (formData.sex == 0 && formData.sex != '' ? 'checked' : '') +
+                (formData.sex === 0 ? 'checked' : '') +
                 '>' +
                 '</div>' +
                 ' </div>' +
@@ -554,7 +556,7 @@
                 email: $('#email').val(),
                 professionId: Number($('#profess_model').val()),
                 state: Number($('input[name=status]').val()),
-                studentTypeId: Number($('#studentTypeId').val())
+                studentTypeId: Number($('#studentTypeId').val()) || 0
             }
         }
 
@@ -579,7 +581,7 @@
             $('#series_model').html('<option value="">请选择</option>')
             $('#profess_model').html('<option value="">请选择</option>')
             $('#classes_model').html('<option value="">请选择</option>')
-            var col = '',
+            var col = '<option value="">请选择</option>',
                 series = '',
                 classes = '',
                 profe = ''
@@ -766,7 +768,7 @@
             })
         }
 
-        function getRoleList() {
+        function getRoleList(callback) {
             var data = {
                 page: 1,
                 rows: 10000
@@ -788,11 +790,12 @@
                             )
                         })
                     form.render()
+                    callback && typeof callback === 'function' && callback()
                 }
             })
         }
 
-        function getStudentTypeList() {
+        function getStudentTypeList(callback) {
             var data = {
                 page: 1,
                 rows: 10000
@@ -816,6 +819,7 @@
                             )
                         })
                     form.render()
+                    callback && typeof callback === 'function' && callback()
                 }
             })
         }
@@ -926,9 +930,18 @@
                 type = 'check'
             }
 
-            getRoleList()
-            getStudentTypeList()
-            getCollegeList()
+            getRoleList(function() {
+                $('#roleId').val(formData.roleId)
+                form.render()
+            })
+            getStudentTypeList(function() {
+                $('#student_type_list').val(formData.studentTypeId)
+                form.render()
+            })
+            getCollegeList(function() {
+                $('#college_model').val(formData.collegeId)
+                form.render()
+            })
 
             var layerOption = {
                 type: 1,

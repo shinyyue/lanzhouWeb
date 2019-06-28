@@ -29,8 +29,10 @@
     <div class="app-table-page" id="user_teacher_disable"></div>
     <script type="text/html" id="user_teacher_opt">
         {{#if(d.state === 1){ }}
-            <button class="course-set-btn" lay-event="disabledUser">{{d.state === 1 ? '停用' : '启用'}}</button>
-        {{# } }}
+            <button class="course-set-btn" lay-event="disabledUser">停用</button>
+        {{# } else if (d.state === 2) {}}
+            <button class="course-set-btn" lay-event="disabledUser">启用</button>
+        {{#}  }}
         <button class="course-set-btn" lay-event="edit">编辑</button>
         <button class="course-set-btn" lay-event="delete">删除</button>
         <button class="course-set-btn" lay-event="check">查看</button>
@@ -404,7 +406,7 @@
                 '>' +
                 '<input type="radio" name="sex" value="0" title="女"' +
                 (type === 'check' ? 'disabled' : '') +
-                (formData.sex == 0 && formData.sex != '' ? 'checked' : '') +
+                (formData.sex === 0 ? 'checked' : '') +
                 '>' +
                 '</div>' +
                 ' </div>' +
@@ -807,7 +809,10 @@
                 type = 'check'
             }
 
-            getCollegeList()
+            getCollegeList(function() {
+                $('#teacher_college_list').val(formData.collegeId)
+                form.render()
+            })
 
             var layerOption = {
                 type: 1,

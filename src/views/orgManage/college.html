@@ -18,7 +18,7 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function(table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -42,7 +42,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function (obj, first) {
+                jump: function(obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -53,7 +53,8 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [{
+                    [
+                        {
                             title: '序号',
                             field: 'id',
                             width: 80,
@@ -96,12 +97,12 @@
                 collegeNumber: '',
                 type: '',
                 remark: ''
-            };
+            }
 
-        table.on('tool(college-mylist-table)', function (obj) {
-            var data = obj.data; //获得当前行数据
+        table.on('tool(college-mylist-table)', function(obj) {
+            var data = obj.data //获得当前行数据
             var layEvent = obj.event,
-                type = '';
+                type = ''
 
             if (layEvent === 'delete') {
                 layer.open({
@@ -114,23 +115,24 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function (index, layero) {
+                    yes: function(index, layero) {
                         // 提交
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function (index) {
+                    cancel: function(index) {
                         layer.close(index)
                     }
                 })
-                return;
+                return
             }
-            if (layEvent === 'edit') { //编辑
-                formData = data;
-                type = 'edit';
+            if (layEvent === 'edit') {
+                //编辑
+                formData = data
+                type = 'edit'
             } else if (layEvent === 'check') {
-                formData = data;
-                type = 'check';
+                formData = data
+                type = 'check'
             }
 
             var layerOption = {
@@ -141,8 +143,8 @@
                 area: ['700px', '70%'],
                 shade: 0.4,
                 shadeClose: true,
-                btn: (type === 'check') ? [] : ['确定', '取消'],
-                yes: function (index, layero) {
+                btn: type === 'check' ? [] : ['确定', '取消'],
+                yes: function(index, layero) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -152,17 +154,17 @@
                         updateData(formData)
                     }
                 },
-                cancel: function (index) {
+                cancel: function(index) {
                     layer.close(index)
                 }
             }
 
-            layer.open(layerOption);
-            form.render();
+            layer.open(layerOption)
+            form.render()
         })
 
-        $('#add_college').on('click', function () {
-            formData = {};
+        $('#add_college').on('click', function() {
+            formData = {}
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -173,16 +175,16 @@
                 skin: 'user-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function (index, layero) {
+                yes: function(index, layero) {
                     layer.close(index)
                     addData(formData)
                 },
-                cancel: function (index) {
+                cancel: function(index) {
                     layer.close(index)
                 }
             })
             form.render()
-        });
+        })
 
         getList(1)
 
@@ -194,26 +196,26 @@
             admin.post({
                 url: '/college/queryCollegeList',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
+        }
 
         function deleteData(id) {
             admin.delete({
                 url: '/college/deleteCollege?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -226,11 +228,11 @@
             admin.put({
                 url: '/college/updateCollege',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -238,25 +240,26 @@
         function getData(id) {
             admin.get({
                 url: '/college/queryCollege?id=' + id,
-                success: function (res) {},
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                success: function(res) {},
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
 
-        function addData(data) {
+        function addData() {
             var data = {
-                collegeName: data.collegeName
+                collegeName: $('#college-name').val()
             }
+
             admin.post({
                 url: '/college/addCollege',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -271,9 +274,9 @@
             }
         }
 
-
         function getTemplate(formData, type) {
-            return '<div id="college_details_modal">\n' +
+            return (
+                '<div id="college_details_modal">\n' +
                 '        <form action="" class="layui-form">\n' +
                 // '            <div class="layui-row">\n' +
                 // '                <div class="layui-col-md12 layui-form-item">\n' +
@@ -295,7 +298,9 @@
                 '                        name="userName"\n' +
                 '                        id="college-name"' +
                 '                        class="common-form-input"\n' +
-                '                        value="' + (formData.collegeName || '') + '"\n' +
+                '                        value="' +
+                (formData.collegeName || '') +
+                '"\n' +
                 (type === 'check' ? 'disabled' : '') +
                 '                    />\n' +
                 '                </div>\n' +
@@ -334,20 +339,24 @@
                 '                    <textarea\n' +
                 '                        id="college-remark"' +
                 '                        name="desc"\n' +
-                '                        value="' + (formData.remark || '') + '"' +
+                '                        value="' +
+                (formData.remark || '') +
+                '"' +
                 (type === 'check' ? 'disabled' : '') +
                 '                        class="layui-textarea college-remark"\n' +
                 '                    ></textarea>\n' +
                 '                </div>\n' +
                 '            </div>\n' +
                 '        </form>\n' +
-                '    </div>';
+                '    </div>'
+            )
         }
     })
 </script>
 
 <style>
-    #source-manage-mylist {}
+    #source-manage-mylist {
+    }
 
     .college-edit-modal .layui-layer-content {
         padding: 20px;

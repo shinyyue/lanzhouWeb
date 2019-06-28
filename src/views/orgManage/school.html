@@ -24,7 +24,7 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function(table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -48,7 +48,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function (obj, first) {
+                jump: function(obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -59,50 +59,50 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-	                [{
-	                        title: '序号',
-	                        field: 'id',
-	                        width: 80,
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '系名称',
-	                        field: 'facultyName',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '系编码',
-	                        field: 'facultyCode',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '所属学院',
-	                        field: 'collegeId',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '操作',
-	                        align: 'center',
-	                        templet: '#sourcelist-opt'
-	                    }
-	                ]
-	            ]
+                    [
+                        {
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center',
+                            type: 'numbers'
+                        },
+                        {
+                            title: '系名称',
+                            field: 'facultyName',
+                            align: 'center'
+                        },
+                        {
+                            title: '系编码',
+                            field: 'facultyCode',
+                            align: 'center'
+                        },
+                        {
+                            title: '所属学院',
+                            field: 'collegeId',
+                            align: 'center'
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#sourcelist-opt'
+                        }
+                    ]
+                ]
             },
             formData = {
                 id: '',
                 facultyName: '',
-		collegeId: '',
-		facultyCode: ''
-            };
-
+                collegeId: '',
+                facultyCode: ''
+            }
 
         getList(1)
 
-        table.on('tool(school-mylist-table)', function (obj) {
-        	
-            var data = obj.data; //获得当前行数据
+        table.on('tool(school-mylist-table)', function(obj) {
+            var data = obj.data //获得当前行数据
             var layEvent = obj.event,
-                type = '';
+                type = ''
 
             if (layEvent === 'delete') {
                 layer.open({
@@ -115,24 +115,32 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function (index, layero) {
+                    yes: function(index, layero) {
                         // 提交
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function (index) {
+                    cancel: function(index) {
                         layer.close(index)
                     }
                 })
-                return;
+                return
             }
-            if (layEvent === 'edit') { //编辑
-                formData = data;
-                type = 'edit';
+            if (layEvent === 'edit') {
+                //编辑
+                formData = data
+                type = 'edit'
             } else if (layEvent === 'check') {
-                formData = data;
-                type = 'check';
+                formData = data
+                type = 'check'
             }
+
+            getCollegeList(function() {
+                $('#collegeId').val(formData.collegeId)
+                $('#facultyName').val(formData.facultyName)
+                $('#facultyCode').val(formData.facultyCode)
+                form.render()
+            })
 
             var layerOption = {
                 type: 1,
@@ -142,8 +150,8 @@
                 area: ['700px', '70%'],
                 shade: 0.4,
                 shadeClose: true,
-                btn: (type === 'check') ? [] : ['确定', '取消'],
-                yes: function (index, layero) {
+                btn: type === 'check' ? [] : ['确定', '取消'],
+                yes: function(index, layero) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -158,12 +166,12 @@
                 }
             }
 
-            layer.open(layerOption);
-            form.render();
+            layer.open(layerOption)
+            form.render()
         })
 
-        $('#add_school').on('click', function () {
-            formData = {};
+        $('#add_school').on('click', function() {
+            formData = {}
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -174,8 +182,8 @@
                 skin: 'school-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function (index, layero) {
-                	getFormData()
+                yes: function(index, layero) {
+                    getFormData()
                     layer.close(index)
                     addData(formData)
                 },
@@ -183,8 +191,9 @@
                     layer.close(index)
                 }
             })
+            getCollegeList()
             form.render()
-        });
+        })
 
         function getList(page) {
             var data = {
@@ -194,26 +203,26 @@
             admin.post({
                 url: '/vsMpFaculty/getList',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
+        }
 
         function deleteData(id) {
             admin.delete({
                 url: '/vsMpFaculty/delete?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -222,17 +231,17 @@
             var data = {
                 id: data.id,
                 facultyName: data.facultyName,
-		collegeId: data.collegeId,
-		facultyCode: data.facultyCode
+                collegeId: data.collegeId,
+                facultyCode: data.facultyCode
             }
             admin.put({
                 url: '/vsMpFaculty/update',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -240,9 +249,9 @@
         function getData(id) {
             admin.get({
                 url: '/vsMpFaculty/get?id=' + id,
-                success: function (res) {},
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                success: function(res) {},
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -250,17 +259,17 @@
         function addData(data) {
             var data = {
                 facultyName: data.facultyName,
-		collegeId: data.collegeId,
-		facultyCode: data.facultyCode
+                collegeId: data.collegeId,
+                facultyCode: data.facultyCode
             }
             admin.post({
                 url: '/vsMpFaculty/add',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -268,53 +277,80 @@
         function getFormData() {
             formData = {
                 id: $('#id').val(),
-		facultyName: $('#facultyName').val(),
-		collegeId: $('#collegeId').val(),
-		facultyCode: $('#facultyCode').val()
+                facultyName: $('#facultyName').val(),
+                collegeId: $('#collegeId').val(),
+                facultyCode: $('#facultyCode').val()
             }
         }
 
+        function getCollegeList(callback) {
+            var data = {
+                page: 1,
+                rows: 10000
+            }
+            admin.post({
+                url: '/college/queryCollegeList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (res.code === 200) {
+                        $('#collegeId').html('<option>请选择学院</option>')
+                        res.data.items.forEach(item => {
+                            $('#collegeId').append(
+                                '<option value="' +
+                                    item.id +
+                                    '">' +
+                                    item.collegeName +
+                                    '</option>'
+                            )
+                        })
+                        form.render()
+                        callback && typeof callback === 'function' && callback()
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
 
         function getTemplate(formData, type) {
-            return '<div id="school_details_modal">\n' +
-            '        <form action="" class="layui-form">\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">所属学院:</label>\n' +
-            '                    <select id="collegeId">\n' +
-            '                        <option value="">选择所属学院</option>\n' +
-            '                        <option value="1">自动化学院</option>\n' +
-            '                        <option value="2">土木工程学院</option>\n' +
-            '                    </select>\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">系名称:</label>\n' +
-            '                    <input\n' +
-            '                        type="text"\n' +
-            '                        name="userName"\n' +
-	    '                        id="facultyName"\n' +
-            '                        class="common-form-input"\n' +
-            '                        value="土木工程学院"\n' +
-            '                    />\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">系编码:</label>\n' +
-            '                    <input\n' +
-            '                        type="text"\n' +
-            '                        name="userName"\n' +
-	    '                        id="facultyCode"\n' +
-            '                        class="common-form-input"\n' +
-            '                        value="001"\n' +
-            '                    />\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-
-            '        </form>\n' +
-            '    </div>';
+            return (
+                '<div id="school_details_modal">\n' +
+                '        <form action="" class="layui-form">\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">所属学院:</label>\n' +
+                '                    <select id="collegeId">\n' +
+                '                    </select>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">系名称:</label>\n' +
+                '                    <input\n' +
+                '                        type="text"\n' +
+                '                        name="userName"\n' +
+                '                        id="facultyName"\n' +
+                '                        class="common-form-input"\n' +
+                '                        value=""\n' +
+                '                    />\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">系编码:</label>\n' +
+                '                    <input\n' +
+                '                        type="text"\n' +
+                '                        name="facultyCode"\n' +
+                '                        id="facultyCode"\n' +
+                '                        class="common-form-input"\n' +
+                '                        value=""\n' +
+                '                    />\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '        </form>\n' +
+                '    </div>'
+            )
         }
     })
 </script>
