@@ -6,9 +6,9 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">姓名</span>
-            <input type="text" id="studentName">
+            <input type="text" id="studentName" />
             <span class="search-project">账号</span>
-            <input type="text" id="studentCount">
+            <input type="text" id="studentCount" />
             <select name="" id="college" lay-filter="collegeAll">
                 <option value="">请选择学院</option>
             </select>
@@ -27,13 +27,13 @@
                     <option value="">类型1</option>
                     <option value="">类型2</option>
                 </select> -->
-            <button class="search-confirm">
-                <img src="src/images/search.png">
+            <button class="search-confirm" id="student-search">
+                <img src="src/images/search.png" />
             </button>
         </div>
     </div>
     <div class="course-add">
-        <button class="add-btn" id="add_cource">添加</button>
+        <!-- <button class="add-btn" id="add_cource">添加</button> -->
         <button class="add-btn" id="import-cource">导入</button>
         <button class="add-btn" id="export-cource">导出</button>
     </div>
@@ -51,7 +51,7 @@
 </div>
 
 <script>
-    layui.use(['form', 'table', 'admin', 'upload'], function (table) {
+    layui.use(['form', 'table', 'admin', 'upload'], function(table) {
         var $ = layui.jquery,
             form = layui.form,
             admin = layui.admin,
@@ -62,7 +62,8 @@
                 elem: '[lay-filter="' + tableFilter + '"]',
                 page: false,
                 cols: [
-                    [{
+                    [
+                        {
                             title: '序号',
                             field: 'id',
                             width: 80,
@@ -78,50 +79,44 @@
                             title: '学（工）号',
                             field: 'snoOrJno',
                             align: 'center'
-
                         },
                         {
                             title: '性别',
                             field: 'sex',
                             align: 'center',
-                            templet: function (data) {
-                                return (data.sex === 1) ? '男' : '女'
+                            templet: function(data) {
+                                return data.sex === 1 ? '男' : '女'
                             }
                         },
                         {
                             title: '账号',
                             field: 'snoOrJno',
-                            align: 'center',
-                        },
-                        {
-                            title: '年级',
-                            field: 'className',
-                            align: 'center',
+                            align: 'center'
                         },
                         {
                             title: '学院',
                             field: 'collegeName',
-                            align: 'center',
+                            align: 'center'
                         },
                         {
                             title: '系',
                             field: 'facultyName',
-                            align: 'center',
+                            align: 'center'
                         },
                         {
                             title: '专业',
                             field: 'professionName',
-                            align: 'center',
+                            align: 'center'
                         },
                         {
                             title: '班级',
                             field: 'className',
-                            align: 'center',
+                            align: 'center'
                         },
                         {
                             title: '状态',
                             field: 'stateName',
-                            align: 'center',
+                            align: 'center'
                         },
                         {
                             title: '操作',
@@ -149,7 +144,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function (obj, first) {
+                jump: function(obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr, obj.limit)
@@ -163,8 +158,7 @@
             classesList = [],
             professList = [],
             addModalTemp = '',
-            importModalTemplate =
-            `<form action="" class="layui-form my-add-form">
+            importModalTemplate = `<form action="" class="layui-form my-add-form">
                         <div class="layui-row">
                             <div class="layui-col-md12 layui-form-item">
                                 <label class="layui-form-label">所属部门</label>
@@ -193,57 +187,73 @@
                                 温馨提示：清先下载模版，然后根据模版填入员工信息。
                             </div>
                         </div>
-                    </form>`;
+                    </form>`
         // <div class="layui-row">
         //         <div class="layui-col-md12 layui-form-item">
         //             <input type="file"><span style="color: red">删除</span>
         //         </div>
         //     </div>
 
-        getCollegeList(function (res) {
-            var options = '';
+        getCollegeList(function(res) {
+            var options = ''
             res.data.items.forEach(item => {
-                options += '<option value="' + item.id + '">' + item.collegeName +
+                options +=
+                    '<option value="' +
+                    item.id +
+                    '">' +
+                    item.collegeName +
                     '</option>'
             })
-            $('#college').val('');
-            $('#college').append(options);
-            setSelectOptions();
-        });
-
-        getList(1, 20);
-
-        $('#college').change(function (e) {
-            getSeriesList(function (res) {
-                var options = '';
-                res.data.items.forEach(item => {
-                    options += '<option value="' + item.id + '">' + item.facultyName +
-                        '</option>'
-                })
-                $('#series').append(options);
-            }, Number(e.currentTarget.value));
+            $('#college').val('')
+            $('#college').append(options)
+            setSelectOptions()
         })
 
-        $('#series').change(function (e) {
-            getProfessList(function (res) {
-                var options = '';
+        getList(1)
+
+        $('#college').change(function(e) {
+            getSeriesList(function(res) {
+                var options = ''
                 res.data.items.forEach(item => {
-                    options += '<option value="' + item.id + '">' + item.professionName +
+                    options +=
+                        '<option value="' +
+                        item.id +
+                        '">' +
+                        item.facultyName +
                         '</option>'
                 })
-                $('#profession').append(options);
-            }, Number(e.currentTarget.value));
+                $('#series').append(options)
+            }, Number(e.currentTarget.value))
         })
 
-        $('#profession').change(function (e) {
-            getClassList(function (res) {
-                var options = '';
+        $('#series').change(function(e) {
+            getProfessList(function(res) {
+                var options = ''
                 res.data.items.forEach(item => {
-                    options += '<option value="' + item.id + '">' + item.className +
+                    options +=
+                        '<option value="' +
+                        item.id +
+                        '">' +
+                        item.professionName +
                         '</option>'
                 })
-                $('#classes').append(options);
-            }, Number(e.currentTarget.value));
+                $('#profession').append(options)
+            }, Number(e.currentTarget.value))
+        })
+
+        $('#profession').change(function(e) {
+            getClassList(function(res) {
+                var options = ''
+                res.data.items.forEach(item => {
+                    options +=
+                        '<option value="' +
+                        item.id +
+                        '">' +
+                        item.className +
+                        '</option>'
+                })
+                $('#classes').append(options)
+            }, Number(e.currentTarget.value))
         })
 
         // 学生列表
@@ -254,21 +264,21 @@
                 userType = $('#userType').val(),
                 data = {
                     page: page,
-                    rows: rows,
+                    rows: 20
                     // Key: stuName + '|' + account + '|' + college + '|' + userType
-                };
+                }
 
             admin.post({
                 url: '/user/getUserList',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -282,14 +292,31 @@
             admin.post({
                 url: '/college/queryCollegeList',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     if (res.data.items && res.data.items.length > 0) {
-                        collegeList = res.data.items;
-                        callback(res)
+                        collegeList = res.data.items
+                        var options = ''
+                        res.data.items.forEach(item => {
+                            options +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.collegeName +
+                                '</option>'
+                        })
+                        $('#college').html(
+                            '<option value="">请选择学院</option>'
+                        )
+                        $('#college').append(options)
+                        $('#teacher_college_list').html(
+                            '<option value="">请选择学院</option>'
+                        )
+                        $('#teacher_college_list').append(options)
+                        setSelectOptions()
                     }
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -306,15 +333,19 @@
             admin.post({
                 url: '/vsMpFaculty/getList',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    $('#series').val('');
-                    if (res.data && res.data.items && res.data.items.length > 0) {
+                success: function(res) {
+                    $('#series').val('')
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
                         callback(res)
-                        seriesList = res.data.items;
+                        seriesList = res.data.items
                     }
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -332,15 +363,15 @@
                 url: '/vsMpProfession/getList',
                 data: JSON.stringify(data),
 
-                success: function (res) {
-                    $('#profession').val('');
+                success: function(res) {
+                    $('#profession').val('')
                     if (res.data.items && res.data.items.length > 0) {
-                        professList = res.data.items;
+                        professList = res.data.items
                         callback(res)
                     }
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -357,26 +388,29 @@
             admin.post({
                 url: '/vsMpClass/getList',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    $('#classes').val('');
+                success: function(res) {
+                    $('#classes').val('')
                     if (res.data.items && res.data.items.length > 0) {
-                        classesList = res.data.items;
+                        classesList = res.data.items
                         callback(res)
                     }
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
 
         function getTemplate(formData, type) {
-            return '<div id="user_details_modal">' +
+            return (
+                '<div id="user_details_modal">' +
                 '<form action="" class="layui-form">' +
                 '<div class="layui-row">' +
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">学(工)号:</label>' +
-                '<input type="text" name="userId" id="snoOrJno" value="' + (formData.snoOrJno || '') + '"' +
+                '<input type="text" name="userId" id="snoOrJno" value="' +
+                (formData.snoOrJno || '') +
+                '"' +
                 (type === 'check' ? 'disabled' : '') +
                 ' class="common-form-input">' +
                 ' </div>' +
@@ -384,7 +418,9 @@
                 '<div class="layui-row">' +
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">姓名:</label>' +
-                '<input type="text" id="userName" value="' + (formData.userName || '') + '"' +
+                '<input type="text" id="userName" value="' +
+                (formData.userName || '') +
+                '"' +
                 (type === 'check' ? 'disabled' : '') +
                 ' class="common-form-input">' +
                 '</div>' +
@@ -395,18 +431,35 @@
                 '<div class="layui-input-block">' +
                 '<input type="radio" name="sex" value="1" title="男"' +
                 (type === 'check' ? 'disabled ' : '') +
-                (formData.sex === 1 ? 'checked' : '') + '>' +
+                (formData.sex == 1 ? 'checked' : '') +
+                '>' +
                 '<input type="radio" name="sex" value="0" title="女"' +
                 (type === 'check' ? 'disabled' : '') +
-                (formData.sex === 0 ? 'checked' : '') + '>' +
+                (formData.sex == 0 && formData.sex != '' ? 'checked' : '') +
+                '>' +
                 '</div>' +
                 ' </div>' +
+                '</div>' +
+                '<div class="layui-row role-student">' +
+                '<div class="layui-col-md12 layui-form-item">' +
+                '<label class="layui-form-label">学生类型:</label>' +
+                '<div class="user-class">' +
+                '<select id="student_type_list" class="common-form-input" value="' +
+                formData.studentTypeId +
+                '"' +
+                (type === 'check' ? 'disabled' : '') +
+                '>' +
+                '<option value="">请选择学生类型</option>' +
+                '</select>' +
+                '</div>' +
+                '</div>' +
                 '</div>' +
                 '<div class="layui-row">' +
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">行政班级:</label>' +
                 '<div class="user-class">' +
-                '<select name="class1" id="college_model" lay-filter="college" value="' + formData.collegeId +
+                '<select name="class1" id="college_model" lay-filter="college" value="' +
+                formData.collegeId +
                 '"' +
                 (type === 'check' ? 'disabled' : '') +
                 '>' +
@@ -433,8 +486,9 @@
                 '<div class="layui-row">' +
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">手机:</label>' +
-                '<input type="text"  id="phone" class="common-form-input" value="' + (formData.phonenumber ||
-                    '') + '"' +
+                '<input type="text"  id="phone" class="common-form-input" value="' +
+                (formData.phonenumber || '') +
+                '"' +
                 (type === 'check' ? 'disabled' : '') +
                 '>' +
                 '</div>' +
@@ -442,7 +496,8 @@
                 '<div class="layui-row">' +
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">邮箱:</label>' +
-                '<input type="text"  id="email" class="common-form-input" value="' + (formData.email || '') +
+                '<input type="text"  id="email" class="common-form-input" value="' +
+                (formData.email || '') +
                 '"' +
                 (type === 'check' ? 'disabled' : '') +
                 '>' +
@@ -451,15 +506,15 @@
                 '<div class="layui-row">' +
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">初始密码:</label>' +
-                '<span>123456</span>' +
+                '<span style="line-height: 38px;">123456</span>' +
                 '</div>' +
                 '</div>' +
                 '<div class="layui-row">' +
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">状态:</label>' +
                 '<div class="layui-input-block">' +
-                '<input type="radio" name="status" value="1" title="启用"' + (formData.state === 1 ? ' checked' :
-                    '') +
+                '<input type="radio" name="status" value="1" title="启用"' +
+                (formData.state === 1 ? ' checked' : '') +
                 (type === 'check' ? ' disabled' : '') +
                 '>' +
                 '<input type="radio" name="status" value="0" title="停用"' +
@@ -469,23 +524,25 @@
                 '</div>' +
                 ' </div>' +
                 '</div>' +
-                '<div class="layui-row">' +
-                '<div class="layui-col-md12 layui-form-item">' +
-                '<label class="layui-form-label">备注:</label>' +
-                '<textarea name="desc" id="remark" class="layui-textarea user-remark" value="' + (formData.remark ||
-                    '') + ' " ' +
-                (type === 'check' ? 'disabled' : '') +
-                '></textarea>' +
-                '</div>' +
-                '</div>' +
+                // '<div class="layui-row">' +
+                // '<div class="layui-col-md12 layui-form-item">' +
+                // '<label class="layui-form-label">备注:</label>' +
+                // '<textarea name="desc" id="remark" class="layui-textarea user-remark" value="' +
+                // (formData.remark || '') +
+                // ' " ' +
+                // (type === 'check' ? 'disabled' : '') +
+                // '></textarea>' +
+                // '</div>' +
+                // '</div>' +
                 '</form>' +
-                '</div>';
+                '</div>'
+            )
         }
 
         function getFormData() {
             formData = {
                 roleId: 1,
-                sex: Number($('input[name=sex]').val()),
+                sex: Number($('input[name=sex]:checked').val()),
                 phonenumber: $('#phone').val(),
                 userName: $('#userName').val(),
                 facultyId: Number($('#series_model').val()),
@@ -495,7 +552,7 @@
                 email: $('#email').val(),
                 professionId: Number($('#profess_model').val()),
                 state: Number($('input[name=status]').val()),
-                studentTypeId: 1
+                studentTypeId: Number($('#studentTypeId').val())
             }
         }
 
@@ -516,65 +573,79 @@
         }
 
         function setSelectOptions() {
-            $('#college_model').html('');
-            $('#series_model').html('');
-            $('#profess_model').html('');
-            $('#classes_model').html('');
+            $('#college_model').html('')
+            $('#series_model').html('')
+            $('#profess_model').html('')
+            $('#classes_model').html('')
             var col = '',
                 series = '',
                 classes = '',
-                profe = '';
+                profe = ''
 
             collegeList.forEach(item => {
-                col += '<option value="' + item.id + '">' + item.collegeName +
+                col +=
+                    '<option value="' +
+                    item.id +
+                    '">' +
+                    item.collegeName +
                     '</option>'
             })
-            $('#college_model').html(col);
+            $('#college_model').html(col)
 
-            form.render('select');
+            form.render('select')
 
-            form.on('select(college)', function (data) {
-                getSeriesList(function (res) {
+            form.on('select(college)', function(data) {
+                getSeriesList(function(res) {
                     res.data.items.forEach(item => {
-                        series += '<option value="' + item.id + '">' + item.facultyName +
+                        series +=
+                            '<option value="' +
+                            item.id +
+                            '">' +
+                            item.facultyName +
                             '</option>'
                     })
-                    $('#series_model').html(series);
-                    form.render('select');
-
+                    $('#series_model').html(series)
+                    form.render('select')
                 }, data.value)
             })
 
-            form.on('select(series)', function (data) {
-                getProfessList(function (res) {
+            form.on('select(series)', function(data) {
+                getProfessList(function(res) {
                     res.data.items.forEach(item => {
-                        profe += '<option value="' + item.id + '">' + item.professionName +
+                        profe +=
+                            '<option value="' +
+                            item.id +
+                            '">' +
+                            item.professionName +
                             '</option>'
                     })
-                    $('#profess_model').html(profe);
-                    form.render('select');
+                    $('#profess_model').html(profe)
+                    form.render('select')
                 }, data.value)
             })
 
-            form.on('select(profess)', function (data) {
-                getClassList(function (res) {
+            form.on('select(profess)', function(data) {
+                getClassList(function(res) {
                     res.data.items.forEach(item => {
-                        classes += '<option value="' + item.id + '">' + item.className +
+                        classes +=
+                            '<option value="' +
+                            item.id +
+                            '">' +
+                            item.className +
                             '</option>'
                     })
-                    $('#classes_model').html(classes);
-                    form.render('select');
+                    $('#classes_model').html(classes)
+                    form.render('select')
                 }, data.value)
             })
-
         }
 
         // setSelectOptions();
 
-        $('#add_cource').on('click', function () {
-            resetFormData();
+        $('#add_cource').on('click', function() {
+            resetFormData()
             // 加载学院/系/班级/专业列表
-            var temp = getTemplate(formData);
+            var temp = getTemplate(formData)
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -585,50 +656,53 @@
                 skin: 'user-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function (index, layero) {
+                yes: function(index, layero) {
                     var data = getFormData()
-                    addData(function () {
-                        layer.close(index);
+                    addData(function() {
+                        layer.close(index)
                     })
                 },
-                cancel: function (index) {
-                    layer.close(index);
+                cancel: function(index) {
+                    layer.close(index)
                 }
             })
-            form.render();
+            form.render()
             // setSelectOptions();
         })
 
-        $('#export-cource').on('click', function () {
+        $('#export-cource').on('click', function() {
             admin.get({
-                url: '/user/exportExcel?collegeId=' + $('#college').val() + '&facultyId=' + $(
-                    '#series').val(),
-                success: function (res) {}
+                url:
+                    '/user/exportExcel?collegeId=' +
+                    $('#college').val() +
+                    '&facultyId=' +
+                    $('#series').val(),
+                success: function(res) {}
             })
         })
 
         function addData(callback) {
-            admin.post({
+            admin.delete({
                 url: '/user/addUser',
                 data: JSON.stringify(formData),
-                success: function (res) {
+                success: function(res) {
                     callback()
                     layer.msg('添加成功！')
-                    getList(1, 20)
+                    getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
 
         // 停用
         function stopData(id, callback) {
-            admin.get({
+            admin.delete({
                 url: '/user/stopUse?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     layer.msg('停用成功！')
-                    getList(1, 20)
+                    getList(1)
                     callback()
                 }
             })
@@ -636,11 +710,11 @@
 
         // 启用
         function startData(id, callback) {
-            admin.get({
+            admin.delete({
                 url: '/user/startUse?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     layer.msg('启用成功！')
-                    getList(1, 20)
+                    getList(1)
                     callback()
                 }
             })
@@ -650,9 +724,9 @@
         function deleteData(id) {
             admin.delete({
                 url: '/user/deleteUser?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     layer.msg('删除成功！')
-                    getList(1, 20)
+                    getList(1)
                 }
             })
         }
@@ -665,18 +739,87 @@
             admin.put({
                 url: '/user/resetPassWord?id=' + id,
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     layer.msg('重置密码成功！')
-                    getList(1, 20)
+                    getList(1)
                     callback()
                 }
             })
         }
 
-        table.on('tool(user_student_table)', function (obj) {
-            var data = obj.data; //获得当前行数据
+        function getRoleList() {
+            var data = {
+                page: 1,
+                rows: 10000
+            }
+            admin.post({
+                url: '/role/queryRoleList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    $('#roleId').html('<option value="">请选择角色</option>')
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            $('#roleId').append(
+                                '<option value="' +
+                                    item.id +
+                                    '">' +
+                                    item.roleName +
+                                    '</option>'
+                            )
+                        })
+                    form.render()
+                }
+            })
+        }
+
+        function getStudentTypeList() {
+            var data = {
+                page: 1,
+                rows: 10000
+            }
+            admin.post({
+                url: '/studentType/studentTypeList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    $('#student_type_list').html(
+                        '<option value="">请选择学生类型</option>'
+                    )
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            $('#student_type_list').append(
+                                '<option vlaue="' +
+                                    item.id +
+                                    '">' +
+                                    item.studentTypeName +
+                                    '</option>'
+                            )
+                        })
+                    form.render()
+                }
+            })
+        }
+
+        function updateData(formData) {
+            admin.put({
+                url: '/user/updateUser',
+                data: JSON.stringify(formData),
+                success: function(res) {
+                    if (res.code === 200) {
+                        layer.msg('修改成功')
+                        getList(1)
+                    } else {
+                        layer.msg(res.msg || '修改失败')
+                    }
+                }
+            })
+        }
+
+        table.on('tool(user_student_table)', function(obj) {
+            var data = obj.data //获得当前行数据
             var layEvent = obj.event,
-                type = '';
+                type = ''
 
             if (layEvent === 'delete') {
                 layer.open({
@@ -689,45 +832,47 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function (index, layero) {
+                    yes: function(index, layero) {
                         // 提交
                         layer.close(index)
                         deleteData(data.id, -1)
                     },
-                    cancel: function (index) {
+                    cancel: function(index) {
                         layer.close(index)
                     }
                 })
-                return;
+                return
             }
             if (layEvent === 'disabledUser') {
                 layer.open({
                     type: 1,
                     offset: 'auto',
                     title: '系统提示',
-                    content: '该信息为重要信息，是否' + (data.state === 1 ? '停用？' : '启用？'),
+                    content:
+                        '该信息为重要信息，是否' +
+                        (data.state === 1 ? '停用？' : '启用？'),
                     area: ['300px', '200px'],
                     shade: 0.4,
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function (index, layero) {
+                    yes: function(index, layero) {
                         // 提交
                         if (data.state === 1) {
-                            stopData(data.id, function () {
+                            stopData(data.id, function() {
                                 layer.close(index)
                             })
                         } else {
-                            startData(data.id, function () {
+                            startData(data.id, function() {
                                 layer.close(index)
                             })
                         }
                     },
-                    cancel: function (index) {
+                    cancel: function(index) {
                         layer.close(index)
                     }
                 })
-                return;
+                return
             }
             if (layEvent === 'resetPwd') {
                 layer.open({
@@ -740,24 +885,29 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function (index, layero) {
-                        resetPwd(data.id, function () {
+                    yes: function(index, layero) {
+                        resetPwd(data.id, function() {
                             layer.close(index)
                         })
                     },
-                    cancel: function (index) {
+                    cancel: function(index) {
                         layer.close(index)
                     }
                 })
-                return;
+                return
             }
-            if (layEvent === 'edit') { //编辑
-                formData = data;
-                type = 'edit';
+            if (layEvent === 'edit') {
+                //编辑
+                formData = data
+                type = 'edit'
             } else if (layEvent === 'check') {
-                formData = data;
-                type = 'check';
+                formData = data
+                type = 'check'
             }
+
+            getRoleList()
+            getStudentTypeList()
+            getCollegeList()
 
             var layerOption = {
                 type: 1,
@@ -767,8 +917,8 @@
                 area: ['700px', '70%'],
                 shade: 0.4,
                 shadeClose: true,
-                btn: (type === 'check') ? [] : ['确定', '取消'],
-                yes: function (index, layero) {
+                btn: type === 'check' ? [] : ['确定', '取消'],
+                yes: function(index, layero) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -778,16 +928,16 @@
                         updateData(formData)
                     }
                 },
-                cancel: function (index) {
+                cancel: function(index) {
                     layer.close(index)
                 }
             }
 
-            layer.open(layerOption);
-            form.render();
+            layer.open(layerOption)
+            form.render()
         })
 
-        $('#import-cource').on('click', function () {
+        $('#import-cource').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -798,15 +948,15 @@
                 shade: 0.4,
                 shadeClose: true,
                 btn: ['提交', '取消'],
-                yes: function (index, layero) {
-                    layer.close(index);
+                yes: function(index, layero) {
+                    layer.close(index)
                 }
             })
-            form.render();
+            form.render()
 
-            $('#upload').change(function (e) {
-                var formData = new FormData();
-                formData.append("file", e.target.files[0]);
+            $('#upload').change(function(e) {
+                var formData = new FormData()
+                formData.append('file', e.target.files[0])
 
                 upload.render({
                     elem: '#upload',
@@ -814,22 +964,21 @@
                     data: {
                         file: formData
                     },
-                    done: function (res, index, upload) { //上传后的回调
+                    done: function(res, index, upload) {
+                        //上传后的回调
                         console.log(344, res)
-                        layer.msg(res.msg);
+                        layer.msg(res.msg)
                     },
                     accept: 'file'
                 })
             })
         })
-
-
-
     })
 </script>
 
 <style>
-    #user_student {}
+    #user_student {
+    }
 
     .my-add-form {
         padding: 25px;
