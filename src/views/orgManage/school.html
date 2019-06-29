@@ -79,7 +79,7 @@
                         },
                         {
                             title: '所属学院',
-                            field: 'collegeId',
+                            field: 'collegeName',
                             align: 'center'
                         },
                         {
@@ -266,10 +266,15 @@
                 url: '/vsMpFaculty/add',
                 data: JSON.stringify(data),
                 success: function(res) {
-                    getList(1)
+                    if (res.code === 200) {
+                        layer.msg('添加成功')
+                        getList(1)
+                    } else {
+                        layer.msg((res && res.msg) || '添加失败')
+                    }
                 },
                 error: function(err) {
-                    layer.msg((err && err.msg) || '数据请求失败')
+                    layer.msg((err && err.msg) || '添加失败')
                 }
             })
         }
