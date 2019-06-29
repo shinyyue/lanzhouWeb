@@ -958,8 +958,6 @@
                 type = 'check'
             }
 
-            console.log(888, data, formData)
-
             getRoleList(function() {
                 $('#roleId').val(formData.roleId)
                 form.render()
@@ -1048,7 +1046,6 @@
                     },
                     done: function(res, index, upload) {
                         //上传后的回调
-                        console.log(344, res)
                         layer.msg(res.msg)
                     },
                     accept: 'file'
