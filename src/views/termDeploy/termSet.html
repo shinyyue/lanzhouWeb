@@ -1,118 +1,129 @@
 <div id="source-manage-mylist" class="layui-fluid" lay-title="我的资源库">
-	<div class="course-title">
-		<div class="course-title-location">
-			<span>您的位置：</span>
-			<span>学期配置 > 学期设置</span>
-		</div>
-		<div class="course-title-search">
-			<input type="text" value="请输入关键字" />
-			<button class="search-confirm">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>学期配置 > 学期设置</span>
+        </div>
+        <div class="course-title-search">
+            <input type="text" value="请输入关键字" />
+            <button class="search-confirm">
                 <img src="src/images/search.png" />
             </button>
-		</div>
-	</div>
-	<div class="course-add">
-		<button class="primary-btn" id="add_term">添加</button>
-	</div>
-	<table id="term-mylist-table" lay-filter="term-mylist-table"></table>
-	<script type="text/html" id="sourcelist-opt">
-		<button class="course-set-btn" lay-event="edit>编辑</button>
-		<button class="course-set-btn" lay-event="delete">删除</button>
-		<button class="course-set-btn" lay-event="check">查看</button>
-	</script>
-	<div class="app-table-page" id="term-mylist-page"></div>
+        </div>
+    </div>
+    <div class="course-add">
+        <button class="primary-btn" id="add_term">添加</button>
+    </div>
+    <table id="term-mylist-table" lay-filter="term-mylist-table"></table>
+    <script type="text/html" id="sourcelist-opt">
+        <button class="course-set-btn" lay-event="edit">编辑</button>
+        <button class="course-set-btn" lay-event="delete">删除</button>
+        <button class="course-set-btn" lay-event="check">查看</button>
+    </script>
+    <div class="app-table-page" id="term-mylist-page"></div>
 </div>
 
 <script>
-	layui.use(['table', 'jquery', 'form', 'admin','tree', 'laydate'], function(table, $) {
-		var $ = layui.jquery,
-			form = layui.form,
-			laypage = layui.laypage,
-			tableFilter = 'term-mylist-table',
-			table = layui.table,
-			admin = layui.admin,
-            		pageLimit = 20,
-			layPageOption = {
-				elem: 'term-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
-				limit: 20,
-				first: '首页',
-				last: '尾页',
-				layout: [
-					'first',
-					'prev',
-					'page',
-					'next',
-					'last',
-					'count',
-					'currLimit',
-					'curr',
-					'pageCount'
-				],
-				jump: function(obj, first) {
-					//首次不执行
-					if(!first) {
-						getList(obj.curr)
-					}
-				}
-
-			},
-			tableOption = {
-				page: false,
-				elem: '[lay-filter="' + tableFilter + '"]',
-				cols: [
-					[{
-							title: '序号',
-							field: 'id',
-							width: 80,
+    layui.use(['table', 'jquery', 'form', 'admin', 'tree', 'laydate'], function(
+        table,
+        $
+    ) {
+        var $ = layui.jquery,
+            form = layui.form,
+            laypage = layui.laypage,
+            tableFilter = 'term-mylist-table',
+            table = layui.table,
+            admin = layui.admin,
+            pageLimit = 20,
+            layPageOption = {
+                elem: 'term-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function(obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr)
+                    }
+                }
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [
+                        {
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
                             align: 'center',
                             type: 'numbers'
-						},
-						{
-							title: '学年',
-							field: 'schoolYear',
-							align: 'center'
-						},
-						{
-							title: '学期',
-							field: 'semester',
-							align: 'center'
-						},
-						{
-							title: '开始日期',
-							field: 'startTime',
-							align: 'center'
-						},
-						{
-							title: '结束日期',
-							field: 'endTime',
-							align: 'center'
-						},
-						{
-							title: '操作',
-							align: 'center',
-							templet: '#sourcelist-opt',
-				            fixed: 'right',
-				            width: 200
-						}
-					]
-				]
-			  },
-			formData = {
-		                id: '',
-		                schoolYear: '',
-		                semester: '',
-		                startTime: '',
-		                endTime: ''
-		         };
-
-
+                        },
+                        {
+                            title: '学年',
+                            field: 'schoolYear',
+                            align: 'center'
+                        },
+                        {
+                            title: '学期',
+                            field: 'semester',
+                            align: 'center'
+                        },
+                        {
+                            title: '开始日期',
+                            field: 'startTime',
+                            align: 'center',
+                            templet: function(d) {
+                                return admin.dateFormat(
+                                    new Date(d.startTime).getTime() / 1000
+                                )
+                            }
+                        },
+                        {
+                            title: '结束日期',
+                            field: 'endTime',
+                            align: 'center',
+                            templet: function(d) {
+                                return admin.dateFormat(
+                                    new Date(d.endTime).getTime() / 1000
+                                )
+                            }
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#sourcelist-opt',
+                            fixed: 'right',
+                            width: 200
+                        }
+                    ]
+                ]
+            },
+            formData = {
+                id: '',
+                schoolYear: '',
+                semester: '',
+                startTime: '',
+                endTime: ''
+            }
 
         getList(1)
 
-        table.on('tool(term-mylist-table)', function (obj) {
-            var data = obj.data; //获得当前行数据
+        table.on('tool(term-mylist-table)', function(obj) {
+            var data = obj.data //获得当前行数据
             var layEvent = obj.event,
-                type = '';
+                type = ''
 
             if (layEvent === 'delete') {
                 layer.open({
@@ -125,24 +136,33 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function (index, layero) {
+                    yes: function(index, layero) {
                         // 提交
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function (index) {
+                    cancel: function(index) {
                         layer.close(index)
                     }
                 })
-                return;
+                return
             }
-            if (layEvent === 'edit') { //编辑
-                formData = data;
-                type = 'edit';
+            if (layEvent === 'edit') {
+                //编辑
+                formData = data
+                type = 'edit'
             } else if (layEvent === 'check') {
-                formData = data;
-                type = 'check';
+                formData = data
+                type = 'check'
             }
+
+            formData.startTime = admin.dateFormat(
+                new Date(data.startTime).getTime() / 1000
+            )
+
+            formData.endTime = admin.dateFormat(
+                new Date(data.endTime).getTime() / 1000
+            )
 
             var layerOption = {
                 type: 1,
@@ -152,8 +172,8 @@
                 area: ['700px', '70%'],
                 shade: 0.4,
                 shadeClose: true,
-                btn: (type === 'check') ? [] : ['确定', '取消'],
-                yes: function (index, layero) {
+                btn: type === 'check' ? [] : ['确定', '取消'],
+                yes: function(index, layero) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -163,16 +183,15 @@
                         updateData(formData)
                     }
                 },
-                cancel: function (index) {
+                cancel: function(index) {
                     layer.close(index)
                 }
             }
-            layer.open(layerOption);
-            form.render();
+            layer.open(layerOption)
+            form.render()
         })
 
-        $('#add_term').on('click', function () {
-            formData = {};
+        $('#add_term').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -183,18 +202,17 @@
                 skin: 'term-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function (index, layero) {
-                	
-                	getFormData();
+                yes: function(index, layero) {
+                    getFormData()
                     layer.close(index)
                     addData(formData)
                 },
-                cancel: function (index) {
+                cancel: function(index) {
                     layer.close(index)
                 }
             })
             form.render()
-        });
+        })
 
         function getList(page) {
             var data = {
@@ -204,27 +222,26 @@
             admin.post({
                 url: '/schoolYear/getList',
                 data: JSON.stringify(data),
-                success: function (res) {
-                	
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
+        }
 
         function deleteData(id) {
             admin.delete({
                 url: '/schoolYear/delete?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -233,18 +250,18 @@
             var data = {
                 id: data.id,
                 schoolYear: data.schoolYear,
-				semester: data.semester,
-				startTime: data.startTime,
-				endTime: data.endTime
+                semester: data.semester,
+                startTime: data.startTime,
+                endTime: data.endTime
             }
             admin.put({
                 url: '/schoolYear/update',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -252,116 +269,126 @@
         function getData(id) {
             admin.get({
                 url: '/schoolYear/get?id=' + id,
-                success: function (res) {},
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                success: function(res) {},
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
 
         function addData(data) {
             var data = {
-				schoolYear: data.schoolYear,
-				semester: data.semester,
-				startTime: data.startTime,
-				endTime: data.endTime
+                schoolYear: data.schoolYear,
+                semester: data.semester,
+                startTime: data.startTime,
+                endTime: data.endTime
             }
             admin.post({
                 url: '/schoolYear/add',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
 
         function getFormData() {
             formData = {
-	        	id: $('#id').val(),
+                id: $('#id').val(),
                 semester: $('#semester').val(),
-				schoolYear: $('#schoolYear').val(),
+                schoolYear: $('#schoolYear').val(),
                 startTime: $('#startTime').val(),
                 endTime: $('#endTime').val()
             }
         }
 
-
         function getTemplate(formData, type) {
-            return '<div id="term_details_modal">\n' +
-			'        <form action=" " class="layui-form">\n' +
-			'            <div class="layui-row">\n' +
-			'                <div class="layui-col-md12 layui-form-item">\n' +
-			'                    <label class="layui-form-label">学期：</label>\n' +
-			'                    <div class="layui-input-block">\n' +
-			'                        <input\n' +
-			'                            type="radio"\n' +
-			'                            name="sex"\n' +
-			'                            value="第1学期"\n' +
-			'                            title="第1学期"\n' +
-			'                        />\n' +
-			'                        <input\n' +
-			'                            type="radio"\n' +
-			'                            name="sex"\n' +
-			'                            value="第2学期"\n' +
-			'                            title="第2学期"\n' +
-			'                            checked\n' +
-			'                        />\n' +
-			'                    </div>\n' +
-			'                </div>\n' +
-			'            </div>\n' +
-			'            <div class="layui-row">\n' +
-			'                <div class="layui-col-md12 layui-form-item">\n' +
-			'                    <label class="layui-form-label">开始日期:</label>\n' +
-			'                    <input\n' +
-			'                        type="text"\n' +
-			'                        name="userName"\n' +
-			'                        id="startTime"\n' +
-			'                        class="common-form-input"\n' +
-			'                        value="2018-09"\n' +
-			'                    />\n' +
-			'                </div>\n' +
-			'            </div>\n' +
-			'            <div class="layui-row">\n' +
-			'                <div class="layui-col-md12 layui-form-item">\n' +
-			'                    <label class="layui-form-label">结束日期:</label>\n' +
-			'                    <input\n' +
-			'                        type="text"\n' +
-			'                        name="userName"\n' +
-			'                        id="endTime"\n' +
-			'                        class="common-form-input"\n' +
-			'                        value="2019-06"\n' +
-			'                    />\n' +
-			'                </div>\n' +
-			'            </div>\n' +
-			'            <div class="layui-row">\n' +
-			'                <div class="layui-col-md12 layui-form-item">\n' +
-			'                    <label class="layui-form-label">学年:</label>\n' +
-			'                    <input\n' +
-			'                        type="text"\n' +
-			'                        name="userName"\n' +
-			'                        id="schoolYear"\n' +
-			'                        class="common-form-input"\n' +
-			'                        value="2018-2019"\n' +
-			'                    />\n' +
-			'                </div>\n' +
-			'            </div>\n' +
-			'        </form>\n' +
-			'    </div>';
+            return (
+                '<div id="term_details_modal">\n' +
+                '        <form action=" " class="layui-form">\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">学期：</label>\n' +
+                '                    <div class="layui-input-block">\n' +
+                '                        <input\n' +
+                '                            type="radio"\n' +
+                '                            name="semester"\n' +
+                '                            value="1"\n' +
+                (formData.semester == 1 ? 'checked' : '') +
+                '                            title="第1学期"\n' +
+                '                        />\n' +
+                '                        <input\n' +
+                '                            type="radio"\n' +
+                '                            name="semester"\n' +
+                '                            value="2"\n' +
+                '                            title="第2学期"\n' +
+                (formData.semester == 2 ? 'checked' : '') +
+                '                            checked\n' +
+                '                        />\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">开始日期:</label>\n' +
+                '                    <input\n' +
+                '                        type="text"\n' +
+                '                        name="startTime"\n' +
+                '                        id="startTime"\n' +
+                '                        class="common-form-input"\n' +
+                '                        value="' +
+                formData.startTime +
+                '"\n' +
+                '                    />\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">结束日期:</label>\n' +
+                '                    <input\n' +
+                '                        type="text"\n' +
+                '                        name="endTime"\n' +
+                '                        id="endTime"\n' +
+                '                        class="common-form-input"\n' +
+                '                        value="' +
+                formData.endTime +
+                '"\n' +
+                '                    />\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">学年:</label>\n' +
+                '                    <input\n' +
+                '                        type="text"\n' +
+                '                        name="schoolYear"\n' +
+                '                        id="schoolYear"\n' +
+                '                        class="common-form-input"\n' +
+                '                        value="' +
+                formData.schoolYear +
+                '"\n' +
+                '                    />\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '        </form>\n' +
+                '    </div>'
+            )
         }
     })
 </script>
 
 <style>
-	#source-manage-mylist {}
-	
-	.term-edit-modal .layui-layer-content {
-		padding: 20px;
-	}
-	
-	.term-remark {
-		width: 63%;
-	}
+    #source-manage-mylist {
+    }
+
+    .term-edit-modal .layui-layer-content {
+        padding: 20px;
+    }
+
+    .term-remark {
+        width: 63%;
+    }
 </style>
