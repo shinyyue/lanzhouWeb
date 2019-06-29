@@ -66,6 +66,7 @@
     background: #ff6600;
     color: #fff;
     text-align: center;
+    cursor: pointer;
 }
 
 .cancel-btn {
@@ -74,6 +75,7 @@
     background: #fff;
     color: #666;
     text-align: center;
+    cursor: pointer;
 }
 
 /* 删除弹框 */
