@@ -27,10 +27,14 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function(table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin', 'laydate'], function(
+        table,
+        $
+    ) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
+            laydate = layui.laydate,
             tableFilter = 'course-data-mylist-table',
             table = layui.table,
             admin = layui.admin,
@@ -148,6 +152,32 @@
                 type = 'check'
             }
 
+            getStudentTypeList(function() {
+                $('#studentTypeId').val(data.studentTypeId)
+                form.render()
+            })
+
+            setTimeout(function() {
+                laydate.render({
+                    elem: '#startTime',
+                    type: 'date'
+                })
+                laydate.render({
+                    elem: '#endTime',
+                    type: 'date'
+                })
+                $('#startTime').val(
+                    admin
+                        .dateFormat(new Date(data.startTime).getTime() / 1000)
+                        .substring(0, 11)
+                )
+                $('#endTime').val(
+                    admin
+                        .dateFormat(new Date(data.endTime).getTime() / 1000)
+                        .substring(0, 11)
+                )
+            }, 0)
+
             formData.startTime = admin.dateFormat(
                 new Date(data.startTime).getTime() / 1000
             )
@@ -185,6 +215,24 @@
         })
 
         $('#add_course-data').on('click', function() {
+            getStudentTypeList()
+            setTimeout(() => {
+                laydate.render({
+                    elem: '#startTime',
+                    type: 'date'
+                })
+                laydate.render({
+                    elem: '#endTime',
+                    type: 'date'
+                })
+            }, 0)
+
+            formData = {
+                startTime: '',
+                endTime: '',
+                schoolYear: ''
+            }
+
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -227,6 +275,35 @@
             })
         }
 
+        function getStudentTypeList(callback) {
+            var data = {
+                page: 1,
+                rows: 10000
+            }
+            admin.post({
+                url: '/studentType/studentTypeList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    $('#studentTypeId').html(
+                        '<option value="">请选择学生类型</option>'
+                    )
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            $('#studentTypeId').append(
+                                '<option value="' +
+                                    item.id +
+                                    '">' +
+                                    item.studentTypeName +
+                                    '</option>'
+                            )
+                        })
+                    form.render()
+                    callback && typeof callback === 'function' && callback()
+                }
+            })
+        }
+
         function deleteData(id) {
             admin.delete({
                 url: '/selectionTime/del?id=' + id,
@@ -243,8 +320,8 @@
             var data = {
                 id: data.id,
                 studentTypeId: data.studentTypeId,
-                startTime: data.startTime,
-                endTime: data.endTime
+                startTime: new Date(data.startTime),
+                endTime: new Date(data.endTime)
             }
             admin.put({
                 url: '/selectionTime/update',
