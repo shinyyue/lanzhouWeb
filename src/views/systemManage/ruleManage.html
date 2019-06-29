@@ -24,7 +24,7 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function(table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -48,7 +48,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function (obj, first) {
+                jump: function(obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -59,57 +59,56 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-	                [
-	                    {
-	                        title: '序号',
-	                        field: 'id',
-	                        width: 80,
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '规则名称',
-	                        field: 'name',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '数值',
-	                        field: 'num',
-	                        align: 'center'
-	                    },
-			    {
-	                        title: '规则类型',
-	                        field: 'type',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '描述',
-	                        field: 'describe',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '操作',
-	                        align: 'center',
-	                        templet: '#sourcelist-opt'
-	                    }
-	                ]
-	            ]
+                    [
+                        {
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center',
+                            type: 'numbers'
+                        },
+                        {
+                            title: '规则名称',
+                            field: 'name',
+                            align: 'center'
+                        },
+                        {
+                            title: '数值',
+                            field: 'num',
+                            align: 'center'
+                        },
+                        {
+                            title: '规则类型',
+                            field: 'type',
+                            align: 'center'
+                        },
+                        {
+                            title: '描述',
+                            field: 'describe',
+                            align: 'center'
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#sourcelist-opt'
+                        }
+                    ]
+                ]
             },
             formData = {
                 id: '',
                 name: '',
-		num: '',
-		type: '',
-		describe: ''
-            };
-
+                num: '',
+                type: '',
+                describe: ''
+            }
 
         getList(1)
 
-        table.on('tool(rule-mylist-table)', function (obj) {
-        	
-            var data = obj.data; //获得当前行数据
+        table.on('tool(rule-mylist-table)', function(obj) {
+            var data = obj.data //获得当前行数据
             var layEvent = obj.event,
-                type = '';
+                type = ''
 
             if (layEvent === 'delete') {
                 layer.open({
@@ -122,24 +121,28 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function (index, layero) {
+                    yes: function(index, layero) {
                         // 提交
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function (index) {
+                    cancel: function(index) {
                         layer.close(index)
                     }
                 })
-                return;
+                return
             }
-            if (layEvent === 'edit') { //编辑
-                formData = data;
-                type = 'edit';
+            if (layEvent === 'edit') {
+                //编辑
+                formData = data
+                type = 'edit'
             } else if (layEvent === 'check') {
-                formData = data;
-                type = 'check';
+                formData = data
+                type = 'check'
             }
+
+            $('#type').val(data.type)
+            form.render()
 
             var layerOption = {
                 type: 1,
@@ -149,8 +152,8 @@
                 area: ['700px', '70%'],
                 shade: 0.4,
                 shadeClose: true,
-                btn: (type === 'check') ? [] : ['确定', '取消'],
-                yes: function (index, layero) {
+                btn: type === 'check' ? [] : ['确定', '取消'],
+                yes: function(index, layero) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -165,12 +168,11 @@
                 }
             }
 
-            layer.open(layerOption);
-            form.render();
+            layer.open(layerOption)
+            form.render()
         })
 
-        $('#add_rule').on('click', function () {
-            formData = {};
+        $('#add_rule').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -181,8 +183,8 @@
                 skin: 'rule-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function (index, layero) {
-                	getFormData()
+                yes: function(index, layero) {
+                    getFormData()
                     layer.close(index)
                     addData(formData)
                 },
@@ -191,7 +193,7 @@
                 }
             })
             form.render()
-        });
+        })
 
         function getList(page) {
             var data = {
@@ -201,26 +203,26 @@
             admin.post({
                 url: '/vsMpRule/list',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
+        }
 
         function deleteData(id) {
             admin.delete({
                 url: '/vsMpRule/del?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -229,18 +231,18 @@
             var data = {
                 id: data.id,
                 name: data.name,
-		num: data.num,
-		type: data.type,
-		describe: data.describe
+                num: data.num,
+                type: data.type,
+                describe: data.describe
             }
             admin.put({
                 url: '/vsMpRule/update',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -248,9 +250,9 @@
         function getData(id) {
             admin.get({
                 url: '/vsMpRule/queryById?id=' + id,
-                success: function (res) {},
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                success: function(res) {},
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -258,18 +260,18 @@
         function addData(data) {
             var data = {
                 name: data.name,
-		num: data.num,
-		type: data.type,
-		describe: data.describe
+                num: data.num,
+                type: data.type,
+                describe: data.describe
             }
             admin.post({
                 url: '/vsMpRule/add',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -277,67 +279,78 @@
         function getFormData() {
             formData = {
                 id: $('#id').val(),
-		name: $('#name').val(),
-		num: $('#num').val(),
-		type: $('#type').val(),
-		describe: $('#describe').val()
+                name: $('#name').val(),
+                num: $('#num').val(),
+                type: $('#type').val(),
+                describe: $('#describe').val()
             }
         }
 
-
         function getTemplate(formData, type) {
-            return '<div id="rule_details_modal">\n' +
-            '        <form action="" class="layui-form">\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">规则名称：</label>\n' +
-            '                    <input\n' +
-            '                        type="text"\n' +
-            '                        name="userName"\n' +
-	    '                        id="name"\n' +
-            '                        class="common-form-input"\n' +
-            '                        value="虚拟实验"\n' +
-            '                    />\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '               <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">数值:</label>\n' +
-            '                    <input\n' +
-            '                        type="text"\n' +
-            '                        name="userName"\n' +
-	    '                        id="num"\n' +
-            '                        class="common-form-input"\n' +
-            '                        value="11"\n' +
-            '                    />\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-	    '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">规则类型：</label>\n' +
-            '                    <div class="layui-input-block">\n' +
-            '                        <select name="" id="type">\n' +
-            '                            <option value="">选择规则类型</option>\n' +
-            '                            <option value="1">实验累计合格次数</option>\n' +
-	    '                            <option value="2">实验累计合格时长(单位：秒)</option>\n' +
-	    '                            <option value="3">实验成绩合格分数</option>\n' +
-	    '                            <option value="4">考试成绩合格分数</option>\n' +
-            '                        </select>\n' +
-            '                    </div>\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">描述:</label>\n' +
-            '                    <textarea\n' +
-            '                        name="desc"\n' +
-	    '                        id="describe"\n' +
-            '                        class="layui-textarea rule-remark"\n' +
-            '                    ></textarea>\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '        </form>\n' +
-            '    </div>';
+            return (
+                '<div id="rule_details_modal">\n' +
+                '        <form action="" class="layui-form">\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">规则名称：</label>\n' +
+                '                    <input\n' +
+                '                        type="text"\n' +
+                '                        name="name"\n' +
+                '                        id="name"\n' +
+                '                        class="common-form-input"\n' +
+                '                        value="' +
+                formData.name +
+                '"\n' +
+                '                    />\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '               <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">数值:</label>\n' +
+                '                    <input\n' +
+                '                        type="text"\n' +
+                '                        name="num"\n' +
+                '                        id="num"\n' +
+                '                        class="common-form-input"\n' +
+                '                        value="' +
+                formData.num +
+                '"\n' +
+                '                    />\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">规则类型：</label>\n' +
+                '                    <div class="layui-input-block">\n' +
+                '                        <select name="type" id="type" value="' +
+                formData.type +
+                '">\n' +
+                '                            <option value="">选择规则类型</option>\n' +
+                '                            <option value="1" checked="' +
+                (formData.type === 1) +
+                '">实验累计合格次数</option>\n' +
+                '                            <option value="2">实验累计合格时长(单位：秒)</option>\n' +
+                '                            <option value="3">实验成绩合格分数</option>\n' +
+                '                            <option value="4">考试成绩合格分数</option>\n' +
+                '                        </select>\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">描述:</label>\n' +
+                '                    <textarea\n' +
+                '                        name="describe"\n' +
+                '                        id="describe"\n' +
+                '                        class="layui-textarea rule-remark"\n' +
+                '                    >' +
+                formData.describe +
+                '</textarea>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '        </form>\n' +
+                '    </div>'
+            )
         }
     })
 </script>

@@ -8,14 +8,16 @@
     <div class="course-add">
         <button class="primary-btn" id="add_data-backup">手动备份</button>
     </div>
-    <table id="data-backup-mylist-table" lay-filter="data-backup-mylist-table"></table>
-    <script type="text/html" id="sourcelist-opt">
-    </script>
+    <table
+        id="data-backup-mylist-table"
+        lay-filter="data-backup-mylist-table"
+    ></table>
+    <script type="text/html" id="sourcelist-opt"></script>
     <div class="app-table-page" id="data-backup-mylist-page"></div>
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function(table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -39,7 +41,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function (obj, first) {
+                jump: function(obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -50,64 +52,61 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-	                [
-	                    {
-	                        title: '序号',
-	                        field: 'id',
-	                        width: 80,
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '数据备份日期',
-	                        field: 'backupDate',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '版本',
-	                        field: 'versions',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '操作',
-	                        align: 'center',
-	                        templet: '#sourcelist-opt'
-	                    }
-	                ]
-	            ]
+                    [
+                        {
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center'
+                        },
+                        {
+                            title: '数据备份日期',
+                            field: 'backupDate',
+                            align: 'center'
+                        },
+                        {
+                            title: '版本',
+                            field: 'versions',
+                            align: 'center'
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#sourcelist-opt'
+                        }
+                    ]
+                ]
             },
             formData = {
                 id: '',
                 backupDate: '',
-		versions: ''
-            };
-
+                versions: ''
+            }
 
         getList(1)
 
-        
+        $('#add_data-backup').on('click', function() {
+            layer.open({
+                type: 1,
+                offset: 'auto',
+                title: '系统提示',
+                content: '是否要手动备份？',
+                area: ['300px', '200px'],
+                shade: 0.4,
+                skin: 'system-modal',
+                shadeClose: true,
+                btn: ['确定', '取消'],
+                yes: function(index, layero) {
+                    // 提交
+                    layer.close(index)
+                    backupData()
+                },
+                cancel: function(index) {
+                    layer.close(index)
+                }
+            })
+        })
 
-	$('#add_data-backup').on('click', function () {
-	    layer.open({
-                    type: 1,
-                    offset: 'auto',
-                    title: '系统提示',
-                    content: '是否要手动备份？',
-                    area: ['300px', '200px'],
-                    shade: 0.4,
-                    skin: 'system-modal',
-                    shadeClose: true,
-                    btn: ['确定', '取消'],
-                    yes: function (index, layero) {
-                        // 提交
-                        layer.close(index)
-                        backupData();
-                    },
-                    cancel: function (index) {
-                        layer.close(index)
-                    }
-                });
-        });
-	
         function getList(page) {
             var data = {
                 page: page,
@@ -116,30 +115,32 @@
             admin.post({
                 url: '/dataBackup/list',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
-                }
-            })
-        };
-
-        function backupData(id) {
-            admin.post({
-                url: '/dataBackup/backupData',
-                success: function (res) {
-                    getList(1)
-                },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
 
+        function backupData(id) {
+            admin.post({
+                url: '/dataBackup/backupData',
+                success: function(res) {
+                    if (res.code === 200) {
+                        layer.msg('备份成功！')
+                        getList(1)
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
     })
 </script>
 

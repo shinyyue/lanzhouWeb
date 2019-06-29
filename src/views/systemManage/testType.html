@@ -14,7 +14,10 @@
     <div class="course-add">
         <button class="primary-btn" id="add_test-type">添加</button>
     </div>
-    <table id="college-mylist-table" lay-filter="test-type-mylist-table"></table>
+    <table
+        id="college-mylist-table"
+        lay-filter="test-type-mylist-table"
+    ></table>
     <script type="text/html" id="sourcelist-opt">
         <button class="course-set-btn" lay-event="edit">编辑</button>
         <button class="course-set-btn" lay-event="delete">删除</button>
@@ -24,7 +27,7 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function(table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -48,7 +51,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function (obj, first) {
+                jump: function(obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -59,45 +62,44 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-	                [
-	                    {
-	                        title: '序号',
-	                        field: 'id',
-	                        width: 80,
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '实验类型名称',
-	                        field: 'typeName',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '实验类型描述',
-	                        field: 'des',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '操作',
-	                        align: 'center',
-	                        templet: '#sourcelist-opt'
-	                    }
-	                ]
-	            ]
+                    [
+                        {
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center',
+                            type: 'numbers'
+                        },
+                        {
+                            title: '实验类型名称',
+                            field: 'typeName',
+                            align: 'center'
+                        },
+                        {
+                            title: '实验类型描述',
+                            field: 'des',
+                            align: 'center'
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#sourcelist-opt'
+                        }
+                    ]
+                ]
             },
             formData = {
                 id: '',
                 typeName: '',
-		des: ''
-            };
-
+                des: ''
+            }
 
         getList(1)
 
-        table.on('tool(test-type-mylist-table)', function (obj) {
-        	
-            var data = obj.data; //获得当前行数据
+        table.on('tool(test-type-mylist-table)', function(obj) {
+            var data = obj.data //获得当前行数据
             var layEvent = obj.event,
-                type = '';
+                type = ''
 
             if (layEvent === 'delete') {
                 layer.open({
@@ -110,23 +112,24 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function (index, layero) {
+                    yes: function(index, layero) {
                         // 提交
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function (index) {
+                    cancel: function(index) {
                         layer.close(index)
                     }
                 })
-                return;
+                return
             }
-            if (layEvent === 'edit') { //编辑
-                formData = data;
-                type = 'edit';
+            if (layEvent === 'edit') {
+                //编辑
+                formData = data
+                type = 'edit'
             } else if (layEvent === 'check') {
-                formData = data;
-                type = 'check';
+                formData = data
+                type = 'check'
             }
 
             var layerOption = {
@@ -137,8 +140,8 @@
                 area: ['700px', '70%'],
                 shade: 0.4,
                 shadeClose: true,
-                btn: (type === 'check') ? [] : ['确定', '取消'],
-                yes: function (index, layero) {
+                btn: type === 'check' ? [] : ['确定', '取消'],
+                yes: function(index, layero) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -153,12 +156,12 @@
                 }
             }
 
-            layer.open(layerOption);
-            form.render();
+            layer.open(layerOption)
+            form.render()
         })
 
-        $('#add_test-type').on('click', function () {
-            formData = {};
+        $('#add_test-type').on('click', function() {
+            formData = {}
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -169,8 +172,8 @@
                 skin: 'test-type-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function (index, layero) {
-                	getFormData()
+                yes: function(index, layero) {
+                    getFormData()
                     layer.close(index)
                     addData(formData)
                 },
@@ -179,7 +182,7 @@
                 }
             })
             form.render()
-        });
+        })
 
         function getList(page) {
             var data = {
@@ -189,26 +192,26 @@
             admin.post({
                 url: '/experimentType/experimentTypeList',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
+        }
 
         function deleteData(id) {
             admin.delete({
                 url: '/experimentType/del?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -217,16 +220,16 @@
             var data = {
                 id: data.id,
                 typeName: data.typeName,
-		des: data.des
+                des: data.des
             }
             admin.put({
                 url: '/experimentType/update',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -234,9 +237,9 @@
         function getData(id) {
             admin.get({
                 url: '/experimentType/queryExperimentType?id=' + id,
-                success: function (res) {},
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                success: function(res) {},
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -244,16 +247,16 @@
         function addData(data) {
             var data = {
                 typeName: data.typeName,
-		des: data.des
+                des: data.des
             }
             admin.post({
                 url: '/experimentType/add',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -261,39 +264,44 @@
         function getFormData() {
             formData = {
                 id: $('#id').val(),
-		typeName: $('#typeName').val(),
-		des: $('#des').val()
+                typeName: $('#typeName').val(),
+                des: $('#des').val()
             }
         }
 
-
         function getTemplate(formData, type) {
-            return '<div id="test-type_details_modal">\n' +
-            '        <form action="" class="layui-form">\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">实验类型名称：</label>\n' +
-            '                    <input\n' +
-            '                        type="text"\n' +
-            '                        name="userName"\n' +
-	    '                        id="typeName"\n' +
-            '                        class="common-form-input"\n' +
-            '                        value="虚拟实验"\n' +
-            '                    />\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">实验类型描述:</label>\n' +
-            '                    <textarea\n' +
-            '                        name="desc"\n' +
-	    '                        id="des"\n' +
-            '                        class="layui-textarea test-type-remark"\n' +
-            '                    ></textarea>\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '        </form>\n' +
-            '    </div>';
+            return (
+                '<div id="test-type_details_modal">\n' +
+                '        <form action="" class="layui-form">\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">实验类型名称：</label>\n' +
+                '                    <input\n' +
+                '                        type="text"\n' +
+                '                        name="typeName"\n' +
+                '                        id="typeName"\n' +
+                '                        class="common-form-input"\n' +
+                '                        value="' +
+                formData.typeName +
+                '"\n' +
+                '                    />\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">实验类型描述:</label>\n' +
+                '                    <textarea\n' +
+                '                        name="des"\n' +
+                '                        id="des"\n' +
+                '                        class="layui-textarea test-type-remark"\n' +
+                '                    >' +
+                (formData.des || '') +
+                '</textarea>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '        </form>\n' +
+                '    </div>'
+            )
         }
     })
 </script>
