@@ -166,10 +166,10 @@
                 type = 'check'
             }
 
-            console.log(
-                1111,
-                admin.dateFormat(new Date(data.startTime).getTime() / 1000)
-            )
+            getSchoolYearList(function() {
+                $('#schoolYear').val(data.schoolYear)
+                form.render()
+            })
 
             setTimeout(function() {
                 $('#startTime').val(
@@ -213,6 +213,7 @@
         })
 
         $('#add_week-time').on('click', function() {
+            getSchoolYearList(function() {})
             setTimeout(() => {
                 laydate.render({
                     elem: '#startTime',
@@ -340,6 +341,37 @@
             }
         }
 
+        function getSchoolYearList(callback) {
+            var data = {
+                page: 1,
+                rows: 10000
+            }
+            admin.post({
+                url: '/schoolYear/getList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    $('#schoolYear').html('<option value="">请选择</option>')
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
+                        res.data.items.forEach(function(item) {
+                            $('#schoolYear').append(
+                                '<option value="' +
+                                    item.id +
+                                    '">' +
+                                    item.schoolYear +
+                                    '</option>'
+                            )
+                        })
+                    }
+                    form.render()
+                    callback && typeof callback === 'function' && callback(res)
+                }
+            })
+        }
+
         function getTemplate(formData, type) {
             return (
                 '<div id="week-time_details_modal">\n' +
@@ -369,24 +401,25 @@
                 '            <div class="layui-row">\n' +
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">学年:</label>\n' +
-                '                    <input\n' +
-                '                        type="text"\n' +
-                '                        name="userName"\n' +
-                '                        id="schoolYear"\n' +
-                '                        class="common-form-input"\n' +
-                '                        value="2018-2019"\n' +
-                '                    />\n' +
+                '                        <div class="layui-input-block">\n' +
+                '                           <select name="schoolYear" id="schoolYear" value="' +
+                formData.schoolYear +
+                '                           ">\n' +
+                '                           </select>\n' +
+                '                       </div>\n' +
                 '                </div>\n' +
                 '            </div>\n' +
                 '            <div class="layui-row">\n' +
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">周次名称:</label>\n' +
                 '                    <input\n' +
-                '                        type="text"\n' +
-                '                        name="userName"\n' +
+                '                        type="number"\n' +
+                '                        name="name"\n' +
                 '                        id="name"\n' +
                 '                        class="common-form-input"\n' +
-                '                        value="第1周"\n' +
+                '                        value="' +
+                formData.name +
+                '"\n' +
                 '                    />\n' +
                 '                </div>\n' +
                 '            </div>\n' +

@@ -14,7 +14,10 @@
     <div class="course-add">
         <button class="primary-btn" id="add_course-data">添加</button>
     </div>
-    <table id="college-mylist-table" lay-filter="course-data-mylist-table"></table>
+    <table
+        id="college-mylist-table"
+        lay-filter="course-data-mylist-table"
+    ></table>
     <script type="text/html" id="sourcelist-opt">
         <button class="course-set-btn" lay-event="edit">编辑</button>
         <button class="course-set-btn" lay-event="delete">删除</button>
@@ -24,7 +27,7 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function(table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -48,7 +51,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function (obj, first) {
+                jump: function(obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -59,51 +62,60 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-	                [
-	                    {
-	                        title: '序号',
-	                        field: 'id',
-	                        width: 80,
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '学生类别',
-	                        field: 'studentTypeId',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '开始日期',
-	                        field: 'startTime',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '结束日期',
-	                        field: 'endTime',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '操作',
-	                        align: 'center',
-	                        templet: '#sourcelist-opt'
-	                    }
-	                ]
-	            ]
+                    [
+                        {
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center',
+                            type: 'numbers'
+                        },
+                        {
+                            title: '学生类别',
+                            field: 'studentTypeName',
+                            align: 'center'
+                        },
+                        {
+                            title: '开始日期',
+                            field: 'startTime',
+                            align: 'center',
+                            templet: function(d) {
+                                return admin.dateFormat(
+                                    new Date(d.startTime).getTime() / 1000
+                                )
+                            }
+                        },
+                        {
+                            title: '结束日期',
+                            field: 'endTime',
+                            align: 'center',
+                            templet: function(d) {
+                                return admin.dateFormat(
+                                    new Date(d.endTime).getTime() / 1000
+                                )
+                            }
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#sourcelist-opt'
+                        }
+                    ]
+                ]
             },
             formData = {
                 id: '',
                 studentTypeId: '',
-		startTime: '',
-		endTime: ''
-            };
-
+                startTime: '',
+                endTime: ''
+            }
 
         getList(1)
 
-        table.on('tool(course-data-mylist-table)', function (obj) {
-        	
-            var data = obj.data; //获得当前行数据
+        table.on('tool(course-data-mylist-table)', function(obj) {
+            var data = obj.data //获得当前行数据
             var layEvent = obj.event,
-                type = '';
+                type = ''
 
             if (layEvent === 'delete') {
                 layer.open({
@@ -116,24 +128,33 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function (index, layero) {
+                    yes: function(index, layero) {
                         // 提交
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function (index) {
+                    cancel: function(index) {
                         layer.close(index)
                     }
                 })
-                return;
+                return
             }
-            if (layEvent === 'edit') { //编辑
-                formData = data;
-                type = 'edit';
+            if (layEvent === 'edit') {
+                //编辑
+                formData = data
+                type = 'edit'
             } else if (layEvent === 'check') {
-                formData = data;
-                type = 'check';
+                formData = data
+                type = 'check'
             }
+
+            formData.startTime = admin.dateFormat(
+                new Date(data.startTime).getTime() / 1000
+            )
+
+            formData.endTime = admin.dateFormat(
+                new Date(data.endTime).getTime() / 1000
+            )
 
             var layerOption = {
                 type: 1,
@@ -143,8 +164,8 @@
                 area: ['700px', '70%'],
                 shade: 0.4,
                 shadeClose: true,
-                btn: (type === 'check') ? [] : ['确定', '取消'],
-                yes: function (index, layero) {
+                btn: type === 'check' ? [] : ['确定', '取消'],
+                yes: function(index, layero) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -159,12 +180,11 @@
                 }
             }
 
-            layer.open(layerOption);
-            form.render();
+            layer.open(layerOption)
+            form.render()
         })
 
-        $('#add_course-data').on('click', function () {
-            formData = {};
+        $('#add_course-data').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -175,8 +195,8 @@
                 skin: 'course-data-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function (index, layero) {
-                	getFormData()
+                yes: function(index, layero) {
+                    getFormData()
                     layer.close(index)
                     addData(formData)
                 },
@@ -185,7 +205,7 @@
                 }
             })
             form.render()
-        });
+        })
 
         function getList(page) {
             var data = {
@@ -195,26 +215,26 @@
             admin.post({
                 url: '/selectionTime/list',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
+        }
 
         function deleteData(id) {
             admin.delete({
                 url: '/selectionTime/del?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -223,17 +243,17 @@
             var data = {
                 id: data.id,
                 studentTypeId: data.studentTypeId,
-				startTime: data.startTime,
-				endTime: data.endTime
+                startTime: data.startTime,
+                endTime: data.endTime
             }
             admin.put({
                 url: '/selectionTime/update',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -241,9 +261,9 @@
         function getData(id) {
             admin.get({
                 url: '/selectionTime/queryById?id=' + id,
-                success: function (res) {},
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                success: function(res) {},
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -251,17 +271,17 @@
         function addData(data) {
             var data = {
                 studentTypeId: data.studentTypeId,
-				startTime: data.startTime,
-				endTime: data.endTime
+                startTime: data.startTime,
+                endTime: data.endTime
             }
             admin.post({
                 url: '/selectionTime/add',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -269,45 +289,49 @@
         function getFormData() {
             formData = {
                 id: $('#id').val(),
-				studentTypeId: $('#studentTypeId').val(),
-				startTime: $('#startTime').val(),
-				endTime: $('#endTime').val()
+                studentTypeId: $('#studentTypeId').val(),
+                startTime: $('#startTime').val(),
+                endTime: $('#endTime').val()
             }
         }
-
-
         function getTemplate(formData, type) {
-            return '<div id="course-data_details_modal">\n' +
-            '        <form action="" class="layui-form">\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">学生类别：</label>\n' +
-            '                    <div class="layui-input-block">\n' +
-            '                        <select name="" id="studentTypeId">\n' +
-            '                            <option value="">选择学生类别</option>\n' +
-            '                            <option value="1">本科生</option>\n' +
-            '                        </select>\n' +
-            '                    </div>\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">开始日期:</label>\n' +
-            '                    <div class="layui-inline">\n' +
-            '                        <input type="text" class="layui-input" id="startTime" />\n' +
-            '                    </div>\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">结束日期:</label>\n' +
-            '                    <div class="layui-inline">\n' +
-            '                        <input type="text" class="layui-input" id="endTime" />\n' +
-            '                    </div>\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '        </form>\n' +
-            '    </div>';
+            return (
+                '<div id="course-data_details_modal">\n' +
+                '        <form action="" class="layui-form">\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">学生类别：</label>\n' +
+                '                    <div class="layui-input-block">\n' +
+                '                        <select name="studentTypeId" id="studentTypeId" value="' +
+                formData.studentTypeId +
+                '">\n' +
+                '                        </select>\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">开始日期:</label>\n' +
+                '                    <div class="layui-inline">\n' +
+                '                        <input type="text" name="startTime" class="layui-input" id="startTime" value="' +
+                formData.startTime +
+                '"/>\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">结束日期:</label>\n' +
+                '                    <div class="layui-inline">\n' +
+                '                        <input type="text" class="layui-input" name="endTime" id="endTime" value="' +
+                formData.endTime +
+                '"/>\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '        </form>\n' +
+                '    </div>'
+            )
         }
     })
 </script>
