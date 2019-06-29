@@ -296,7 +296,7 @@
                 }),
                 success: function (res) {
                     res.data && res.data.items && res.data.items.forEach(item => {
-                        $('#plan_course_list').append('<option vlaue="' + item.id + '">' +
+                        $('#plan_course_list').append('<option value="' + item.id + '">' +
                             item.curriculumName + '</option>')
                         form.render()
                     })

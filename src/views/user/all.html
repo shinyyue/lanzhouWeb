@@ -412,7 +412,7 @@
                 '<div class="layui-row">' +
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">学(工)号:</label>' +
-                '<input type="text" name="userId" id="snoOrJno" value="' +
+                '<input type="text" name="snoOrJno" id="snoOrJno" value="' +
                 (formData.snoOrJno || '') +
                 '"' +
                 (type === 'check' ? 'disabled' : '') +
@@ -422,7 +422,7 @@
                 '<div class="layui-row">' +
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">姓名:</label>' +
-                '<input type="text" id="userName" value="' +
+                '<input type="text" id="userName" name="userName" value="' +
                 (formData.userName || '') +
                 '"' +
                 (type === 'check' ? 'disabled' : '') +
@@ -530,7 +530,7 @@
                 '<div class="layui-row">' +
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">邮箱:</label>' +
-                '<input type="text"  id="email" class="common-form-input" value="' +
+                '<input type="text" name="email"  id="email" class="common-form-input" value="' +
                 (formData.email || '') +
                 '"' +
                 (type === 'check' ? 'disabled' : '') +
@@ -547,11 +547,11 @@
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">状态:</label>' +
                 '<div class="layui-input-block">' +
-                '<input type="radio" name="status" value="1" title="启用"' +
+                '<input type="radio" name="state" value="1" title="启用"' +
                 (formData.state === 1 ? ' checked' : '') +
                 (type === 'check' ? ' disabled' : '') +
                 '>' +
-                '<input type="radio" name="status" value="0" title="停用"' +
+                '<input type="radio" name="state" value="0" title="停用"' +
                 (formData.state === 0 ? ' checked' : '') +
                 (type === 'check' ? ' disabled' : '') +
                 '>' +
