@@ -14,7 +14,10 @@
     <div class="course-add">
         <button class="primary-btn" id="add_week-time">添加</button>
     </div>
-    <table id="week-time-mylist-table" lay-filter="week-time-mylist-table"></table>
+    <table
+        id="week-time-mylist-table"
+        lay-filter="week-time-mylist-table"
+    ></table>
     <script type="text/html" id="sourcelist-opt">
         <button class="course-set-btn" lay-event="edit">编辑</button>
         <button class="course-set-btn" lay-event="delete">删除</button>
@@ -24,10 +27,14 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin', 'laydate'], function(
+        table,
+        $
+    ) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
+            laydate = layui.laydate,
             tableFilter = 'week-time-mylist-table',
             table = layui.table,
             admin = layui.admin,
@@ -48,7 +55,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function (obj, first) {
+                jump: function(obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -59,63 +66,74 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-	                [
-	                    {
-	                        title: '序号',
-	                        field: 'id',
-	                        width: 80,
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '学年',
-	                        field: 'schoolYear',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '学期',
-	                        field: 'semester',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '周次名称',
-	                        field: 'name',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '周次开始日期',
-	                        field: 'startTime',
-	                        align: 'center'
-	                    },
-			    {
-	                        title: '周次结束日期',
-	                        field: 'endTime',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '操作',
-	                        align: 'center',
-	                        templet: '#sourcelist-opt'
-	                    }
-	                ]
-	            ]
+                    [
+                        {
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center',
+                            type: 'numbers'
+                        },
+                        {
+                            title: '学年',
+                            field: 'schoolYear',
+                            align: 'center'
+                        },
+                        {
+                            title: '学期',
+                            field: 'semester',
+                            align: 'center'
+                        },
+                        {
+                            title: '周次名称',
+                            field: 'name',
+                            align: 'center'
+                        },
+                        {
+                            title: '周次开始日期',
+                            field: 'startTime',
+                            align: 'center',
+                            templet: function(d) {
+                                var str = admin.dateFormat(
+                                    new Date(d.startTime).getTime() / 1000
+                                )
+                                return str.substring(0, 11)
+                            }
+                        },
+                        {
+                            title: '周次结束日期',
+                            field: 'endTime',
+                            align: 'center',
+                            templet: function(d) {
+                                var str = admin.dateFormat(
+                                    new Date(d.startTime).getTime() / 1000
+                                )
+                                return str.substring(0, 11)
+                            }
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#sourcelist-opt'
+                        }
+                    ]
+                ]
             },
             formData = {
                 id: '',
                 semester: '',
-		name: '',
-		schoolYear: '',
-		startTime: '',
-		endTime: ''
-            };
-
+                name: '',
+                schoolYear: '',
+                startTime: '',
+                endTime: ''
+            }
 
         getList(1)
 
-        table.on('tool(week-time-mylist-table)', function (obj) {
-        	
-            var data = obj.data; //获得当前行数据
+        table.on('tool(week-time-mylist-table)', function(obj) {
+            var data = obj.data //获得当前行数据
             var layEvent = obj.event,
-                type = '';
+                type = ''
 
             if (layEvent === 'delete') {
                 layer.open({
@@ -128,24 +146,43 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function (index, layero) {
+                    yes: function(index, layero) {
                         // 提交
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function (index) {
+                    cancel: function(index) {
                         layer.close(index)
                     }
                 })
-                return;
+                return
             }
-            if (layEvent === 'edit') { //编辑
-                formData = data;
-                type = 'edit';
+            if (layEvent === 'edit') {
+                //编辑
+                formData = data
+                type = 'edit'
             } else if (layEvent === 'check') {
-                formData = data;
-                type = 'check';
+                formData = data
+                type = 'check'
             }
+
+            console.log(
+                1111,
+                admin.dateFormat(new Date(data.startTime).getTime() / 1000)
+            )
+
+            setTimeout(function() {
+                $('#startTime').val(
+                    admin
+                        .dateFormat(new Date(data.startTime).getTime() / 1000)
+                        .substring(0, 11)
+                )
+                $('#endTime').val(
+                    admin
+                        .dateFormat(new Date(data.endTime).getTime() / 1000)
+                        .substring(0, 11)
+                )
+            }, 0)
 
             var layerOption = {
                 type: 1,
@@ -155,8 +192,8 @@
                 area: ['700px', '70%'],
                 shade: 0.4,
                 shadeClose: true,
-                btn: (type === 'check') ? [] : ['确定', '取消'],
-                yes: function (index, layero) {
+                btn: type === 'check' ? [] : ['确定', '取消'],
+                yes: function(index, layero) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -171,12 +208,22 @@
                 }
             }
 
-            layer.open(layerOption);
-            form.render();
+            layer.open(layerOption)
+            form.render()
         })
 
-        $('#add_week-time').on('click', function () {
-            formData = {};
+        $('#add_week-time').on('click', function() {
+            setTimeout(() => {
+                laydate.render({
+                    elem: '#startTime',
+                    type: 'date'
+                })
+                laydate.render({
+                    elem: '#endTime',
+                    type: 'date'
+                })
+            }, 0)
+
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -187,8 +234,8 @@
                 skin: 'week-time-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function (index, layero) {
-                	getFormData()
+                yes: function(index, layero) {
+                    getFormData()
                     layer.close(index)
                     addData(formData)
                 },
@@ -197,7 +244,7 @@
                 }
             })
             form.render()
-        });
+        })
 
         function getList(page) {
             var data = {
@@ -207,26 +254,26 @@
             admin.post({
                 url: '/cycle/list',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
+        }
 
         function deleteData(id) {
             admin.delete({
                 url: '/cycle/del?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -235,19 +282,19 @@
             var data = {
                 id: data.id,
                 semester: data.semester,
-		name: data.name,
-		schoolYear: data.schoolYear,
-		startTime: data.startTime,
-		endTime: data.endTime
+                name: data.name,
+                schoolYear: data.schoolYear,
+                startTime: data.startTime,
+                endTime: data.endTime
             }
             admin.put({
                 url: '/cycle/update',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -255,29 +302,29 @@
         function getData(id) {
             admin.get({
                 url: '/cycle/queryById?id=' + id,
-                success: function (res) {},
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                success: function(res) {},
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
 
         function addData(data) {
             var data = {
-                semester: data.semester,
-		name: data.name,
-		schoolYear: data.schoolYear,
-		startTime: data.startTime,
-		endTime: data.endTime
+                semester: $('input[name=semester]:checked').val(),
+                name: data.name,
+                schoolYear: data.schoolYear,
+                startTime: data.startTime,
+                endTime: data.endTime
             }
             admin.post({
                 url: '/cycle/add',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -285,73 +332,76 @@
         function getFormData() {
             formData = {
                 id: $('#id').val(),
-		semester: $('#semester').val(),
-		name: $('#name').val(),
-		schoolYear: $('#schoolYear').val(),
-		startTime: $('#startTime').val(),
-		endTime: $('#endTime').val()
+                semester: $('#semester').val(),
+                name: $('#name').val(),
+                schoolYear: $('#schoolYear').val(),
+                startTime: $('#startTime').val(),
+                endTime: $('#endTime').val()
             }
         }
 
-
         function getTemplate(formData, type) {
-            return '<div id="week-time_details_modal">\n' +
-            '        <form action="" class="layui-form">\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">学期：</label>\n' +
-            '                    <div class="layui-input-block">\n' +
-            '                        <input\n' +
-            '                            type="radio"\n' +
-            '                            name="sex"\n' +
-            '                            value="第1学期"\n' +
-            '                            title="第1学期"\n' +
-            '                        />\n' +
-            '                        <input\n' +
-            '                            type="radio"\n' +
-            '                            name="sex"\n' +
-            '                            value="第2学期"\n' +
-            '                            title="第2学期"\n' +
-            '                            checked\n' +
-            '                        />\n' +
-            '                    </div>\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">学年:</label>\n' +
-            '                    <input\n' +
-            '                        type="text"\n' +
-            '                        name="userName"\n' +
-	    '                        id="schoolYear"\n' +
-            '                        class="common-form-input"\n' +
-            '                        value="2018-2019"\n' +
-            '                    />\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">周次名称:</label>\n' +
-            '                    <input\n' +
-            '                        type="text"\n' +
-            '                        name="userName"\n' +
-	    '                        id="name"\n' +
-            '                        class="common-form-input"\n' +
-            '                        value="第1周"\n' +
-            '                    />\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">周次日期:</label>\n' +
-            '                    <div class="layui-inline">\n' +
-            '                        <input type="text" class="layui-input" id="startTime" />\n' +
-	    '                        <input type="text" class="layui-input" id="endTime" />\n' +
-            '                    </div>\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '        </form>\n' +
-            '    </div>';
+            return (
+                '<div id="week-time_details_modal">\n' +
+                '        <form action="" class="layui-form">\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">学期：</label>\n' +
+                '                    <div class="layui-input-block">\n' +
+                '                        <input\n' +
+                '                            type="radio"\n' +
+                '                            name="semester"\n' +
+                '                            value="1"\n' +
+                (formData.semester == 1 ? 'checked' : '') +
+                '                            title="第1学期"\n' +
+                '                        />\n' +
+                '                        <input\n' +
+                '                            type="radio"\n' +
+                '                            name="semester"\n' +
+                '                            value="2"\n' +
+                '                            title="第2学期"\n' +
+                (formData.semester == 2 ? 'checked' : '') +
+                '                            \n' +
+                '                        />\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">学年:</label>\n' +
+                '                    <input\n' +
+                '                        type="text"\n' +
+                '                        name="userName"\n' +
+                '                        id="schoolYear"\n' +
+                '                        class="common-form-input"\n' +
+                '                        value="2018-2019"\n' +
+                '                    />\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">周次名称:</label>\n' +
+                '                    <input\n' +
+                '                        type="text"\n' +
+                '                        name="userName"\n' +
+                '                        id="name"\n' +
+                '                        class="common-form-input"\n' +
+                '                        value="第1周"\n' +
+                '                    />\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">周次日期:</label>\n' +
+                '                    <div class="layui-inline">\n' +
+                '                        <input type="text" class="layui-input" id="startTime" style="display: inline;width: 40%;" />-\n' +
+                '                        <input type="text" class="layui-input" id="endTime"  style="display: inline;width: 40%;"/>\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '        </form>\n' +
+                '    </div>'
+            )
         }
     })
 </script>
