@@ -24,7 +24,7 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function(table, $) {
         var $ = layui.jquery,
             form = layui.form,
             admin = layui.admin,
@@ -49,7 +49,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function (obj, first) {
+                jump: function(obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -60,7 +60,8 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [{
+                    [
+                        {
                             title: '序号',
                             field: 'id',
                             width: 80,
@@ -100,16 +101,14 @@
                 menuLevel: '',
                 parentId: '',
                 menuName: ''
-            };
-
+            }
 
         getList(1)
 
-        table.on('tool(auth-mylist-table)', function (obj) {
-            
-            var data = obj.data; //获得当前行数据
+        table.on('tool(auth-mylist-table)', function(obj) {
+            var data = obj.data //获得当前行数据
             var layEvent = obj.event,
-                type = '';
+                type = ''
 
             if (layEvent === 'delete') {
                 layer.open({
@@ -122,23 +121,24 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function (index, layero) {
+                    yes: function(index, layero) {
                         // 提交
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function (index) {
+                    cancel: function(index) {
                         layer.close(index)
                     }
                 })
-                return;
+                return
             }
-            if (layEvent === 'edit') { //编辑
-                formData = data;
-                type = 'edit';
+            if (layEvent === 'edit') {
+                //编辑
+                formData = data
+                type = 'edit'
             } else if (layEvent === 'check') {
-                formData = data;
-                type = 'check';
+                formData = data
+                type = 'check'
             }
 
             var layerOption = {
@@ -149,8 +149,8 @@
                 area: ['700px', '70%'],
                 shade: 0.4,
                 shadeClose: true,
-                btn: (type === 'check') ? [] : ['确定', '取消'],
-                yes: function (index, layero) {
+                btn: type === 'check' ? [] : ['确定', '取消'],
+                yes: function(index, layero) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -160,17 +160,16 @@
                         updateData(formData)
                     }
                 },
-                cancel: function (index) {
+                cancel: function(index) {
                     layer.close(index)
                 }
             }
 
-            layer.open(layerOption);
-            form.render();
+            layer.open(layerOption)
+            form.render()
         })
 
-        $('#add_auth').on('click', function () {
-            formData = {};
+        $('#add_auth').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -181,17 +180,17 @@
                 skin: 'auth-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function (index, layero) {
+                yes: function(index, layero) {
                     getFormData()
                     layer.close(index)
                     addData(formData)
                 },
-                cancel: function (index) {
+                cancel: function(index) {
                     layer.close(index)
                 }
             })
             form.render()
-        });
+        })
 
         function getList(page) {
             var data = {
@@ -201,26 +200,26 @@
             admin.post({
                 url: '/menu/getList',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
+        }
 
         function deleteData(id) {
             admin.delete({
                 url: '/menu/delete?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -235,11 +234,16 @@
             admin.put({
                 url: '/menu/update',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    getList(1)
+                success: function(res) {
+                    if (res.code === 200) {
+                        layer.msg('修改成功！')
+                        getList(1)
+                    } else {
+                        layer.msg((res && res.msg) || '修改失败')
+                    }
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -247,9 +251,9 @@
         function getData(id) {
             admin.get({
                 url: '/menu/get?id=' + id,
-                success: function (res) {},
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                success: function(res) {},
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -264,11 +268,16 @@
             admin.post({
                 url: '/menu/add',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    getList(1)
+                success: function(res) {
+                    if (res.code === 200) {
+                        layer.msg('添加成功！')
+                        getList(1)
+                    } else {
+                        layer.msg((res && res.msg) || '添加失败')
+                    }
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '添加失败')
                 }
             })
         }
@@ -283,19 +292,21 @@
             }
         }
 
-
         function getTemplate(formData, type) {
-            return '<div id="auth_details_modal">\n' +
+            return (
+                '<div id="auth_details_modal">\n' +
                 '        <form action="" class="layui-form">\n' +
                 '            <div class="layui-row">\n' +
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">菜单名称：</label>\n' +
                 '                    <input\n' +
                 '                        type="text"\n' +
-                '                        name="userName"\n' +
+                '                        name="menuName"\n' +
                 '                        id="menuName"\n' +
                 '                        class="common-form-input"\n' +
-                '                        value="用户管理"\n' +
+                '                        value="' +
+                formData.menuName +
+                '"\n' +
                 '                    />\n' +
                 '                </div>\n' +
                 '            </div>\n' +
@@ -304,10 +315,12 @@
                 '                    <label class="layui-form-label">菜单等级:</label>\n' +
                 '                    <input\n' +
                 '                        type="text"\n' +
-                '                        name="userName"\n' +
+                '                        name="menuLevel"\n' +
                 '                        id="menuLevel"\n' +
                 '                        class="common-form-input"\n' +
-                '                        value="user.admin"\n' +
+                '                        value="' +
+                formData.menuLevel +
+                '"\n' +
                 '                    />\n' +
                 '                </div>\n' +
                 '            </div>\n' +
@@ -316,31 +329,39 @@
                 '                    <label class="layui-form-label">权限路径:</label>\n' +
                 '                    <input\n' +
                 '                        type="text"\n' +
-                '                        name="userName"\n' +
+                '                        name="menuUrl"\n' +
                 '                        id="menuUrl"\n' +
                 '                        class="common-form-input"\n' +
-                '                        value="1"\n' +
+                '                        value="' +
+                formData.menuUrl +
+                '"\n' +
                 '                    />\n' +
                 '                </div>\n' +
                 '            </div>\n' +
                 '            <div class="layui-row">\n' +
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">父菜单:</label>\n' +
-                '                    <textarea\n' +
-                '                        name="desc"\n' +
+                '                    <input \n' +
+                '                        type="text"\n' +
+                '                        name="parentId"\n' +
                 '                        id="parentId"\n' +
-                '                        class="layui-textarea auth-remark"\n' +
-                '                    ></textarea>\n' +
+                '                        class="common-form-input"\n' +
+                '                        value="' +
+                formData.parentId +
+                '"' +
+                '                    >\n' +
                 '                </div>\n' +
                 '            </div>\n' +
                 '        </form>\n' +
-                '    </div>';
+                '    </div>'
+            )
         }
     })
 </script>
 
 <style>
-    #source-manage-mylist {}
+    #source-manage-mylist {
+    }
 
     .auth-data-edit-modal .layui-layer-content {
         padding: 20px;
