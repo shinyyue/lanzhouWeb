@@ -14,7 +14,10 @@
     <div class="course-add">
         <button class="primary-btn" id="add_student-type">添加</button>
     </div>
-    <table id="college-mylist-table" lay-filter="student-type-mylist-table"></table>
+    <table
+        id="college-mylist-table"
+        lay-filter="student-type-mylist-table"
+    ></table>
     <script type="text/html" id="sourcelist-opt">
         <button class="course-set-btn" lay-event="edit">编辑</button>
         <button class="course-set-btn" lay-event="delete">删除</button>
@@ -24,7 +27,7 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function(table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -48,7 +51,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function (obj, first) {
+                jump: function(obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -59,11 +62,13 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [{
+                    [
+                        {
                             title: '序号',
                             field: 'id',
                             width: 80,
-                            align: 'center'
+                            align: 'center',
+                            type: 'numbers'
                         },
                         {
                             title: '类型名称',
@@ -87,16 +92,14 @@
                 id: '',
                 studentTypeName: '',
                 des: ''
-            };
-
+            }
 
         getList(1)
 
-        table.on('tool(student-type-mylist-table)', function (obj) {
-            
-            var data = obj.data; //获得当前行数据
+        table.on('tool(student-type-mylist-table)', function(obj) {
+            var data = obj.data //获得当前行数据
             var layEvent = obj.event,
-                type = '';
+                type = ''
 
             if (layEvent === 'delete') {
                 layer.open({
@@ -109,23 +112,24 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function (index, layero) {
+                    yes: function(index, layero) {
                         // 提交
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function (index) {
+                    cancel: function(index) {
                         layer.close(index)
                     }
                 })
-                return;
+                return
             }
-            if (layEvent === 'edit') { //编辑
-                formData = data;
-                type = 'edit';
+            if (layEvent === 'edit') {
+                //编辑
+                formData = data
+                type = 'edit'
             } else if (layEvent === 'check') {
-                formData = data;
-                type = 'check';
+                formData = data
+                type = 'check'
             }
 
             var layerOption = {
@@ -136,8 +140,8 @@
                 area: ['700px', '70%'],
                 shade: 0.4,
                 shadeClose: true,
-                btn: (type === 'check') ? [] : ['确定', '取消'],
-                yes: function (index, layero) {
+                btn: type === 'check' ? [] : ['确定', '取消'],
+                yes: function(index, layero) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -147,17 +151,16 @@
                         updateData(formData)
                     }
                 },
-                cancel: function (index) {
+                cancel: function(index) {
                     layer.close(index)
                 }
             }
 
-            layer.open(layerOption);
-            form.render();
+            layer.open(layerOption)
+            form.render()
         })
 
-        $('#add_student-type').on('click', function () {
-            formData = {};
+        $('#add_student-type').on('click', function() {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -168,17 +171,17 @@
                 skin: 'student-type-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function (index, layero) {
+                yes: function(index, layero) {
                     getFormData()
                     layer.close(index)
                     addData(formData)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
             form.render()
-        });
+        })
 
         function getList(page) {
             var data = {
@@ -188,26 +191,31 @@
             admin.post({
                 url: '/studentType/studentTypeList',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
+        }
 
         function deleteData(id) {
             admin.delete({
                 url: '/studentType/del?id=' + id,
-                success: function (res) {
-                    getList(1)
+                success: function(res) {
+                    if (res.code === 200) {
+                        getList(1)
+                        layer.msg('删除成功！')
+                    } else {
+                        layer.msg((res && res.msg) || '删除失败')
+                    }
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '删除失败')
                 }
             })
         }
@@ -221,11 +229,16 @@
             admin.put({
                 url: '/studentType/update',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    getList(1)
+                success: function(res) {
+                    if (res.code === 200) {
+                        getList(1)
+                        layer.msg('更新成功！')
+                    } else {
+                        layer.msg((res && res.msg) || '更新失败')
+                    }
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '更新失败')
                 }
             })
         }
@@ -233,9 +246,9 @@
         function getData(id) {
             admin.get({
                 url: '/studentType/queryById?id=' + id,
-                success: function (res) {},
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                success: function(res) {},
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -248,11 +261,16 @@
             admin.post({
                 url: '/studentType/add',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    getList(1)
+                success: function(res) {
+                    if (res.code === 200) {
+                        getList(1)
+                        layer.msg('添加成功！')
+                    } else {
+                        layer.msg((res && res.msg) || '添加失败')
+                    }
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '添加失败')
                 }
             })
         }
@@ -265,19 +283,21 @@
             }
         }
 
-
         function getTemplate(formData, type) {
-            return '<div id="college_details_modal">\n' +
+            return (
+                '<div id="college_details_modal">\n' +
                 '        <form action="" class="layui-form">\n' +
                 '            <div class="layui-row">\n' +
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">类型名称：</label>\n' +
                 '                    <input\n' +
                 '                        type="text"\n' +
-                '                        name="userName"\n' +
+                '                        name="studentTypeName"\n' +
                 '                        id="studentTypeName"\n' +
                 '                        class="common-form-input"\n' +
-                '                        value="本科生"\n' +
+                '                        value="' +
+                formData.studentTypeName +
+                '"\n' +
                 '                    />\n' +
                 '                </div>\n' +
                 '            </div>\n' +
@@ -285,20 +305,24 @@
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">类型描述:</label>\n' +
                 '                    <textarea\n' +
-                '                        name="desc"\n' +
+                '                        name="des"\n' +
                 '                        id="des"\n' +
                 '                        class="layui-textarea student-type-remark"\n' +
-                '                    ></textarea>\n' +
+                '                    >' +
+                formData.des +
+                '</textarea>\n' +
                 '                </div>\n' +
                 '            </div>\n' +
                 '        </form>\n' +
-                '    </div>';
+                '    </div>'
+            )
         }
     })
 </script>
 
 <style>
-    #source-manage-mylist {}
+    #source-manage-mylist {
+    }
 
     .student-type-edit-modal .layui-layer-content {
         padding: 20px;
