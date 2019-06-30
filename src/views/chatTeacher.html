@@ -2,20 +2,20 @@
     <div class="chat-inner">
         <div class="chat-history-list">
             <div class="history-search">
-                <input type="text" placeholder="搜索课程成员" class="layui-input">
+                <input type="text" placeholder="搜索课程" class="layui-input" />
                 <i class="layui-icon layui-icon-search search-icon"></i>
             </div>
             <div class="history-list">
                 <div class="member-item active">
-                    <img src="src/images/user_logo.png" class="member-avator">
+                    <img src="src/images/user_logo.png" class="member-avator" />
                     <span>铁路信息知识</span>
                 </div>
                 <div class="member-item">
-                    <img src="src/images/user_logo.png" class="member-avator">
+                    <img src="src/images/user_logo.png" class="member-avator" />
                     <span>计算机网络</span>
                 </div>
                 <div class="member-item">
-                    <img src="src/images/user_logo.png" class="member-avator">
+                    <img src="src/images/user_logo.png" class="member-avator" />
                     <span>计算机联锁</span>
                 </div>
             </div>
@@ -33,57 +33,105 @@
             <div class="chating-content">
                 <span class="chat-time">10:01</span>
                 <div class="chat-dialog chat-myself">
-                    <img src="src/images/user_logo.png" class="member-avator">
+                    <img src="src/images/user_logo.png" class="member-avator" />
                     <div class="member-info">
                         <div>同学甲</div>
                         <div class="chat-info">
                             老师我有一个问题
                         </div>
-                        <div class="triangle"> </div>
+                        <div class="triangle"></div>
                     </div>
                 </div>
                 <div class="chat-dialog chat-others">
-                    <img src="src/images/user_logo.png" class="member-avator">
+                    <img src="src/images/user_logo.png" class="member-avator" />
                     <div class="member-info">
                         <div>同学甲</div>
                         <div class="chat-info">
                             老师我有一个问题
                         </div>
-                        <div class="triangle"> </div>
+                        <div class="triangle"></div>
                     </div>
                 </div>
             </div>
             <div class="chating-replay">
-                <textarea name="" id="" cols="30" rows="10" class="layui-textarea" placeholder="请输入你的问题"></textarea>
+                <textarea
+                    name=""
+                    id=""
+                    cols="30"
+                    rows="10"
+                    class="layui-textarea"
+                    placeholder="请输入你的问题"
+                ></textarea>
                 <div class="chating-btn">
-                    <button class="layui-btn layui-btn-primary replay-btn left">搜索</button>
-                    <button class="layui-btn layui-btn-primary replay-btn right">发送</button>
+                    <button class="layui-btn layui-btn-primary replay-btn left">
+                        搜索
+                    </button>
+                    <button
+                        class="layui-btn layui-btn-primary replay-btn right"
+                    >
+                        发送
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="chat-member-list">
+        <div class="chat-member-list" style="display: none;">
             <div class="history-search">
-                <input type="text" placeholder="搜索课程成员" class="layui-input">
+                <input
+                    type="text"
+                    placeholder="搜索课程成员"
+                    class="layui-input"
+                />
                 <i class="layui-icon layui-icon-search search-icon"></i>
             </div>
             <div class="member-list">
                 <div class="member-item">
-                    <img src="src/images/user_logo.png" class="member-avator">
-                    <span>铁路信息知识</span>
+                    <img src="src/images/user_logo.png" class="member-avator" />
+                    <span>同学1</span>
                 </div>
                 <div class="member-item">
-                    <img src="src/images/user_logo.png" class="member-avator">
-                    <span>计算机网络</span>
+                    <img src="src/images/user_logo.png" class="member-avator" />
+                    <span>同学2</span>
                 </div>
                 <div class="member-item">
-                    <img src="src/images/user_logo.png" class="member-avator">
-                    <span>计算机联锁</span>
+                    <img src="src/images/user_logo.png" class="member-avator" />
+                    <span>同学3</span>
                 </div>
             </div>
             <div class="get-more">点击查看更多成员</div>
         </div>
     </div>
 </div>
+
+<script>
+    layui.use([], function() {
+        var $ = layui.jquery,
+            admin = layui.admin
+
+        getList()
+
+        $('.chating-add-btn').click(function() {
+            $('.chat-member-list').css({ display: 'block' })
+        })
+
+        function getList() {
+            var data = {
+                page: 1,
+                rows: 10000,
+                userId: layui.data('userInfo').userInfo.id
+            }
+            admin.post({
+                url: '/selectedCourse/getList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    console.log(res)
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+    })
+</script>
 
 <style>
     #chat {
@@ -115,6 +163,7 @@
         overflow-y: auto;
         overflow-x: hidden;
         background: gba(242, 242, 242, 1);
+        border-right: 1px solid rgba(204, 204, 204, 1);
         border-bottom: 1px solid rgba(204, 204, 204, 1);
         position: relative;
     }
@@ -126,7 +175,6 @@
         float: left;
         overflow-y: auto;
         overflow-x: hidden;
-        border: 1px solid rgba(204, 204, 204, 1);
         position: relative;
     }
 
@@ -200,7 +248,6 @@
         height: 6px;
         margin-right: 4px;
         background: #000;
-
     }
 
     .chating-replay {
@@ -259,8 +306,6 @@
         float: left;
     }
 
-
-
     .chating-content .chat-dialog.chat-myself,
     .chating-content .chat-dialog.chat-myself .member-avator,
     .chating-content .chat-dialog.chat-myself .member-info {
@@ -311,7 +356,6 @@
     .chat-myself .member-avator {
         margin-left: 10px;
     }
-
 
     .chat-myself .chat-info {
         background: #99ccff;

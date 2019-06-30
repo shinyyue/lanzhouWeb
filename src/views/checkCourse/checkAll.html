@@ -129,6 +129,7 @@
         getList(1)
 
         table.on('checkbox(experiment-mylist-table)', function() {
+            checkedList = []
             var list = layui.table.checkStatus('queryList').data
             list.forEach(function(item) {
                 checkedList.push({
