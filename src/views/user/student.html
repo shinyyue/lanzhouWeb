@@ -266,11 +266,14 @@
             var stuName = $('#studentName').val(),
                 account = $('#studentCount').val(),
                 college = $('#college').val(),
-                userType = $('#userType').val(),
+//                userType = $('#userType').val(),
+                series = $('#series').val(),
+                profession = $('#profession').val(),
+                classes = $('#classes').val(),
                 data = {
                     page: page,
-                    rows: 20
-                    // Key: stuName + '|' + account + '|' + college + '|' + userType
+                    rows: 20,
+                     key: stuName + '|' + account + '|' + college + '|' + '1' + '|' + series + '|' + profession + '|' + classes
                 }
 
             admin.post({
@@ -769,7 +772,7 @@
         // 重置密码
         function resetPwd(id, callback) {
             var data = {
-                id
+                id: id
             }
             admin.put({
                 url: '/user/resetPassWord?id=' + id,

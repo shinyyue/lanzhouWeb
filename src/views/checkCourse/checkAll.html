@@ -197,7 +197,7 @@
                 key: "||||1"
             }
             admin.post({
-                url: '/coursePlan/listCourse',
+                url: '/coursePlan/listCourseStu',
                  data: JSON.stringify(data),
                 success: function (res) {
                     tableOption.data = (res.data && res.data.items) || [];
