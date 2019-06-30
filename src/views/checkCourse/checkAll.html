@@ -221,14 +221,14 @@
 
         function getList(page) {
             var data = {
-                sortBy: 'id',
+                // sortBy: 'id',
                 page: page,
-                rows: pageLimit,
-                desc: true,
-                key: '||||1'
+                rows: pageLimit
+                // desc: true,
+                // key: '|'
             }
             admin.post({
-                url: '/coursePlan/listCourse',
+                url: '/coursePlan/listCourseStu',
                 data: JSON.stringify(data),
                 success: function(res) {
                     tableOption.data = (res.data && res.data.items) || []
