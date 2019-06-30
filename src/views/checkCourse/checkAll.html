@@ -6,14 +6,14 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">课程名称</span>
-            <input type="text">
+            <input type="text" />
             <select name="" id="">
                 <option value="">选择开课单位</option>
                 <option value="">信息与控制实验中心</option>
                 <option value="">电子电工实验中心</option>
             </select>
             <button class="search-confirm">
-                <img src="src/images/search.png">
+                <img src="src/images/search.png" />
             </button>
         </div>
     </div>
@@ -23,23 +23,30 @@
         <span class="search-project">至</span>
         2019-10-28
     </div>
-    <table id="experiment-mylist-table" lay-filter="experiment-mylist-table"></table>
-    <script type="text/html" id="experiment-mylist-opt">
+    <table
+        id="experiment-mylist-table"
+        lay-filter="experiment-mylist-table"
+    ></table>
+    <!-- <script type="text/html" id="experiment-mylist-opt">
         <button class="course-set-btn" lay-event="edit">编辑</button>
         <button class="course-set-btn" lay-event="delete">删除</button>
         <button class="course-set-btn" lay-event="check">查看</button>
-    </script>
+    </script> -->
     <div class="app-table-page" id="experiment-mylist-page"></div>
+    <div style="text-align: center">
+        <button class="primary-btn " id="submit_add">提交</button>
+    </div>
 </div>
 
 <script>
-    layui.use(['table', 'jquery'], function (table, $) {
+    layui.use(['table', 'jquery'], function(table, $) {
         var tableFilter = 'experiment-mylist-table',
             laypage = layui.laypage,
             $ = layui.jquery,
             table = layui.table,
             admin = layui.admin,
             pageLimit = 20,
+            checkedList = [],
             layPageOption = {
                 elem: 'experiment-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
                 limit: 20,
@@ -56,7 +63,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function (obj, first) {
+                jump: function(obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -66,12 +73,16 @@
             tableOption = {
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
+                id: 'queryList',
                 cols: [
-                    [{
+                    [
+                        { type: 'checkbox' },
+                        {
                             title: '序号',
                             field: 'id',
                             width: 80,
-                            align: 'center'
+                            align: 'center',
+                            type: 'numbers'
                         },
                         {
                             title: '课程代码',
@@ -82,7 +93,6 @@
                             title: '开课名称',
                             field: 'courseName',
                             align: 'center'
-
                         },
                         {
                             title: '学分',
@@ -93,33 +103,54 @@
                             title: '课程类型',
                             field: 'courseType',
                             align: 'center',
-                            templet: function (d) {
+                            templet: function(d) {
                                 return d ? '必修' : '选修'
                             }
                         },
                         {
                             title: '上课时间',
                             field: 'startEndTIME',
-                            align: 'center',
-                        },{
+                            align: 'center'
+                        },
+                        {
                             title: '上课地点',
                             field: 'classroomName',
-                            align: 'center',
-                        },{
+                            align: 'center'
+                        },
+                        {
                             title: '开课单位',
                             field: 'collegeName',
-                            align: 'center',
+                            align: 'center'
                         }
                     ]
                 ]
-            };
+            }
 
         getList(1)
 
-        table.on('tool(college-mylist-table)', function (obj) {
-            var data = obj.data;
+        table.on('checkbox(experiment-mylist-table)', function() {
+            checkedList = []
+            var list = layui.table.checkStatus('queryList').data
+            list.forEach(function(item) {
+                checkedList.push({
+                    courseNumber: item.courseCode,
+                    coursePlanId: item.id
+                })
+            })
+        })
+
+        $('#submit_add').click(function() {
+            if (checkedList.length === 0) {
+                layer.msg('请先选择')
+                return
+            }
+            addCourse()
+        })
+
+        table.on('tool(experiment-mylist-table)', function(obj) {
+            var data = obj.data
             var layEvent = obj.event,
-                type = '';
+                type = ''
 
             if (layEvent === 'delete') {
                 layer.open({
@@ -132,20 +163,21 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function (index, layero) {
+                    yes: function(index, layero) {
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function (index) {
+                    cancel: function(index) {
                         layer.close(index)
                     }
                 })
-                return;
+                return
             }
-            if (layEvent === 'edit') { //编辑
-                type = 'edit';
+            if (layEvent === 'edit') {
+                //编辑
+                type = 'edit'
             } else if (layEvent === 'check') {
-                type = 'check';
+                type = 'check'
             }
 
             var layerOption = {
@@ -156,8 +188,8 @@
                 area: ['700px', '70%'],
                 shade: 0.4,
                 shadeClose: true,
-                btn: (type === 'check') ? [] : ['确定', '取消'],
-                yes: function (index, layero) {
+                btn: type === 'check' ? [] : ['确定', '取消'],
+                yes: function(index, layero) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -166,83 +198,102 @@
                         location.href = 'index.html#/experiment/myadd'
                     }
                 },
-                cancel: function (index) {
+                cancel: function(index) {
                     layer.close(index)
                 }
             }
 
-            layer.open(layerOption);
-            form.render();
+            layer.open(layerOption)
+            form.render()
         })
-
 
         function deleteData(id) {
             admin.delete({
                 url: '/experiments/del?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
 
         function getList(page) {
             var data = {
-                sortBy:"id",
+                // sortBy: 'id',
                 page: page,
-                rows: pageLimit,
-                desc: true,
-                key: "||||1"
+                rows: pageLimit
+                // desc: true,
+                // key: '|'
             }
             admin.post({
                 url: '/coursePlan/listCourseStu',
-                 data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                data: JSON.stringify(data),
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
+        }
 
+        function addCourse() {
+            var data = {
+                nameAndNum: JSON.stringify(checkedList),
+                userId: layui.data('userInfo').userInfo.id
+            }
+            admin.post({
+                url: '/selectedCourse/add',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (res.code === 200) {
+                        table.reload()
+                        layer.msg('添加成功')
+                    } else {
+                        layer.msg(res.msg || '添加失败')
+                    }
+                }
+            })
+        }
 
-        $('#experiment-mylist-add').on('click', function () {
+        $('#experiment-mylist-add').on('click', function() {
             location.href = 'index.html#/experiment/myadd'
         })
 
-        $('#experiment-mylist-edit').on('click', function () {
+        $('#experiment-mylist-edit').on('click', function() {
             location.href = 'index.html#/experiment/myadd'
         })
 
-        $('#experiment-mylist-check').on('click', function () {
+        $('#experiment-mylist-check').on('click', function() {
             location.href = 'index.html#/experiment/mydetails'
         })
 
-        $('#experiment-mylist-delete').on('click', function () {
-            layer.confirm('您确定要删除么?', {
-                icon: 3,
-                title: '提示',
-                shade: 0.5,
-                maxWidth: 500,
-                maxHeight: 500
-            }, function (confirm) {
-                // 用户点击确定
-                layer.close(confirm);
-            }, function (cancel) {
-                // 用户点击取消
-                layer.close(cancel);
-            });
+        $('#experiment-mylist-delete').on('click', function() {
+            layer.confirm(
+                '您确定要删除么?',
+                {
+                    icon: 3,
+                    title: '提示',
+                    shade: 0.5,
+                    maxWidth: 500,
+                    maxHeight: 500
+                },
+                function(confirm) {
+                    // 用户点击确定
+                    layer.close(confirm)
+                },
+                function(cancel) {
+                    // 用户点击取消
+                    layer.close(cancel)
+                }
+            )
         })
-
     })
 </script>
 
-<style>
-
-</style>
+<style></style>

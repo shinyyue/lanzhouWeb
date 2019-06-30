@@ -42,7 +42,8 @@ layui.define(function (exports) {
         //独立页面路由，可随意添加（无需写参数）
         indPage: [
             '/login', //登入页
-            '/chat', // 聊天室
+            '/chatStudent', // 聊天室
+            '/chatTeacher', // 聊天室
         ],
         //登录页面，当未登录或登录失效时进入
         loginPage: '/login',

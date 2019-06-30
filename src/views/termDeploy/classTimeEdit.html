@@ -1,23 +1,30 @@
-<div id="source-manage-mylist" class="layui-fluid" lay-title="我的资源库">
+<div id="class_time_edit" class="layui-fluid">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
             <span>学期配置 > 上课时间</span>
         </div>
-        <div class="course-title-search">
+        <!-- <div class="course-title-search">
             <input type="text" value="请输入关键字" />
             <button class="search-confirm">
                 <img src="src/images/search.png" />
             </button>
-        </div>
+        </div> -->
     </div>
     <table
-        id="class-time-mylist-table"
-        lay-filter="class-time-mylist-table"
+        id="class-time-edit-table"
+        lay-filter="class-time-edit-table"
     ></table>
     <div class="course-add">
-        <button class="primary-btn" id="update_class_time">修改</button>
+        <button class="btn primary-btn" id="confirm">确定</button>
+        <button class="btn cancel-btn" id="cancel">取消</button>
     </div>
+    <script type="text/html" id="classStart">
+        <input class="class-time-{{d.id}}-1" style="padding: 6px 10px;" type="text" name="startTime" value="{{d.startTime}}" lay-filter="startTime">
+    </script>
+    <script type="text/html" id="classEnd">
+        <input class="class-time-{{d.id}}-2" style="padding: 6px 10px;" type="text" name="endTime" value="{{d.endTime}}" lay-filter="endTime" >
+    </script>
 </div>
 
 <script>
@@ -25,7 +32,7 @@
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
-            tableFilter = 'class-time-mylist-table',
+            tableFilter = 'class-time-edit-table',
             table = layui.table,
             laydate = layui.laydate,
             admin = layui.admin,
@@ -50,80 +57,44 @@
                         {
                             title: '上课时间',
                             field: 'startTime',
-                            align: 'center'
+                            align: 'center',
+                            templet: '#classStart'
                         },
                         {
                             title: '下课时间',
                             field: 'endTime',
-                            align: 'center'
+                            align: 'center',
+                            templet: '#classEnd'
                         }
                     ]
                 ],
                 done: function(res, curr, count) {
                     merge(res, curr, count)
                 }
-            }
-
-        //执行一个laydate实例
-        //日期范围
-        laydate.render({
-            elem: '#test1',
-            range: true
-        })
-
-        // table.render({
-        //     page: false,
-        //     skin: 'row,line',
-        //     data: [
-        //         {
-        //             id: '第一节',
-        //             courceName: '第1节',
-        //             courseCode: '08:00:00',
-        //             responsor: '08:50:00'
-        //         },
-        //         {
-        //             id: '第一节',
-        //             courceName: '第2节',
-        //             courseCode: '09:00:00',
-        //             responsor: '09:50:00'
-        //         }
-        //     ],
-        //     elem: '[lay-filter="' + tableFilter + '"]',
-        //     cols: [
-        //         [
-        //             {
-        //                 title: '大节次',
-        //                 field: 'id',
-        //                 width: 80,
-        //                 align: 'center'
-        //             },
-        //             {
-        //                 title: '小节次',
-        //                 field: 'courceName',
-        //                 align: 'center'
-        //             },
-        //             {
-        //                 title: '上课时间',
-        //                 field: 'courseCode',
-        //                 align: 'center'
-        //             },
-        //             {
-        //                 title: '下课时间',
-        //                 field: 'responsor',
-        //                 align: 'center'
-        //             }
-        //         ]
-        //     ],
-        //     done: function(res, curr, count) {
-        //         merge(res, curr, count)
-        //     }
-        // })
+            },
+            classTimeList = []
 
         getList()
 
-        $('#update_class_time').click(function() {
-            window.location.href = 'index.html#/termDeploy/classTimeEdit'
+        $('#confirm').click(function() {
+            console.log(111, classTimeList)
+            updateData(classTimeList)
         })
+
+        // todo:
+        function updateData(data) {
+            admin.put({
+                url: '/schoolTime/update',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (res.code === 200) {
+                        layer.msg('更新成功！')
+                    } else {
+                        layer.msg(res.msg || '更新失败')
+                    }
+                }
+            })
+        }
 
         function getList() {
             admin.get({
@@ -131,6 +102,24 @@
                 success: function(res) {
                     tableOption.data = res.data || []
                     table.render(tableOption)
+                    classTimeList = res.data
+
+                    res.data.forEach(item => {
+                        laydate.render({
+                            elem: '.class-time-' + item.id + '-1',
+                            type: 'time',
+                            change: function(value, date, endDate) {
+                                item.startTime = value
+                            }
+                        })
+                        laydate.render({
+                            elem: '.class-time-' + item.id + '-2',
+                            type: 'time',
+                            change: function(value, date, endDate) {
+                                item.endTime = value
+                            }
+                        })
+                    })
                 }
             })
         }
@@ -179,4 +168,8 @@
     })
 </script>
 
-<style></style>
+<style>
+    #class_time_edit .class-time {
+        padding: 6px 10px;
+    }
+</style>

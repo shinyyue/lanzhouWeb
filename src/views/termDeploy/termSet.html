@@ -31,6 +31,7 @@
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
+            laydate = layui.laydate,
             tableFilter = 'term-mylist-table',
             table = layui.table,
             admin = layui.admin,
@@ -156,6 +157,32 @@
                 type = 'check'
             }
 
+            getSchoolYearList(function() {
+                $('#schoolYear').val(data.schoolYear)
+                form.render()
+            })
+
+            setTimeout(function() {
+                laydate.render({
+                    elem: '#startTime',
+                    type: 'date'
+                })
+                laydate.render({
+                    elem: '#endTime',
+                    type: 'date'
+                })
+                $('#startTime').val(
+                    admin
+                        .dateFormat(new Date(data.startTime).getTime() / 1000)
+                        .substring(0, 11)
+                )
+                $('#endTime').val(
+                    admin
+                        .dateFormat(new Date(data.endTime).getTime() / 1000)
+                        .substring(0, 11)
+                )
+            }, 0)
+
             formData.startTime = admin.dateFormat(
                 new Date(data.startTime).getTime() / 1000
             )
@@ -192,6 +219,24 @@
         })
 
         $('#add_term').on('click', function() {
+            formData = {
+                semester: '',
+                schoolYear: '',
+                startTime: '',
+                endTime: ''
+            }
+            getSchoolYearList()
+            setTimeout(() => {
+                laydate.render({
+                    elem: '#startTime',
+                    type: 'date'
+                })
+                laydate.render({
+                    elem: '#endTime',
+                    type: 'date'
+                })
+            }, 0)
+
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -305,6 +350,37 @@
             }
         }
 
+        function getSchoolYearList(callback) {
+            var data = {
+                page: 1,
+                rows: 10000
+            }
+            admin.post({
+                url: '/schoolYear/getList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    $('#schoolYear').html('<option value="">请选择</option>')
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
+                        res.data.items.forEach(function(item) {
+                            $('#schoolYear').append(
+                                '<option value="' +
+                                    item.id +
+                                    '">' +
+                                    item.schoolYear +
+                                    '</option>'
+                            )
+                        })
+                    }
+                    form.render()
+                    callback && typeof callback === 'function' && callback(res)
+                }
+            })
+        }
+
         function getTemplate(formData, type) {
             return (
                 '<div id="term_details_modal">\n' +
@@ -362,15 +438,21 @@
                 '            <div class="layui-row">\n' +
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">学年:</label>\n' +
-                '                    <input\n' +
-                '                        type="text"\n' +
-                '                        name="schoolYear"\n' +
-                '                        id="schoolYear"\n' +
-                '                        class="common-form-input"\n' +
-                '                        value="' +
+                '                       <div class="layui-input-block">\n' +
+                '                           <select name="schoolYear" id="schoolYear" value="' +
                 formData.schoolYear +
-                '"\n' +
-                '                    />\n' +
+                '                           ">\n' +
+                '                           </select>\n' +
+                '                       </div>\n' +
+                // '                    <input\n' +
+                // '                        type="text"\n' +
+                // '                        name="schoolYear"\n' +
+                // '                        id="schoolYear"\n' +
+                // '                        class="common-form-input"\n' +
+                // '                        value="' +
+                // formData.schoolYear +
+                // '"\n' +
+                // '                    />\n' +
                 '                </div>\n' +
                 '            </div>\n' +
                 '        </form>\n' +

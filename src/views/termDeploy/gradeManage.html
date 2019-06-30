@@ -24,12 +24,16 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin', 'laydate'], function(
+        table,
+        $
+    ) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
             tableFilter = 'grade-mylist-table',
             table = layui.table,
+            laydate = layui.laydate,
             admin = layui.admin,
             pageLimit = 20,
             layPageOption = {
@@ -48,7 +52,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function (obj, first) {
+                jump: function(obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -59,51 +63,64 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-	                [
-	                    {
-	                        title: '序号',
-	                        field: 'id',
-	                        width: 80,
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '年级名称',
-	                        field: 'gradeName',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '开始日期',
-	                        field: 'startTime',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '结束日期',
-	                        field: 'endTime',
-	                        align: 'center'
-	                    },
-	                    {
-	                        title: '操作',
-	                        align: 'center',
-	                        templet: '#sourcelist-opt'
-	                    }
-	                ]
-	            ]
+                    [
+                        {
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center',
+                            type: 'numbers'
+                        },
+                        {
+                            title: '年级名称',
+                            field: 'gradeName',
+                            align: 'center'
+                        },
+                        {
+                            title: '开始日期',
+                            field: 'startTime',
+                            align: 'center',
+                            templet: function(d) {
+                                return admin
+                                    .dateFormat(
+                                        new Date(d.startTime).getTime() / 1000
+                                    )
+                                    .substring(0, 11)
+                            }
+                        },
+                        {
+                            title: '结束日期',
+                            field: 'endTime',
+                            align: 'center',
+                            templet: function(d) {
+                                return admin
+                                    .dateFormat(
+                                        new Date(d.endTime).getTime() / 1000
+                                    )
+                                    .substring(0, 11)
+                            }
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#sourcelist-opt'
+                        }
+                    ]
+                ]
             },
             formData = {
                 id: '',
-				gradeName: '',
-				startTime: '',
-				endTime: ''
-            };
-
+                gradeName: '',
+                startTime: '',
+                endTime: ''
+            }
 
         getList(1)
 
-        table.on('tool(grade-mylist-table)', function (obj) {
-        	
-            var data = obj.data; //获得当前行数据
+        table.on('tool(grade-mylist-table)', function(obj) {
+            var data = obj.data //获得当前行数据
             var layEvent = obj.event,
-                type = '';
+                type = ''
 
             if (layEvent === 'delete') {
                 layer.open({
@@ -116,24 +133,46 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function (index, layero) {
+                    yes: function(index, layero) {
                         // 提交
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function (index) {
+                    cancel: function(index) {
                         layer.close(index)
                     }
                 })
-                return;
+                return
             }
-            if (layEvent === 'edit') { //编辑
-                formData = data;
-                type = 'edit';
+            if (layEvent === 'edit') {
+                //编辑
+                formData = data
+                type = 'edit'
             } else if (layEvent === 'check') {
-                formData = data;
-                type = 'check';
+                formData = data
+                type = 'check'
             }
+
+            setTimeout(function() {
+                laydate.render({
+                    elem: '#startTime',
+                    type: 'date'
+                })
+                laydate.render({
+                    elem: '#endTime',
+                    type: 'date'
+                })
+                $('#startTime').val(
+                    admin
+                        .dateFormat(new Date(data.startTime).getTime() / 1000)
+                        .substring(0, 11)
+                )
+                $('#endTime').val(
+                    admin
+                        .dateFormat(new Date(data.endTime).getTime() / 1000)
+                        .substring(0, 11)
+                )
+            }, 0)
 
             var layerOption = {
                 type: 1,
@@ -143,8 +182,8 @@
                 area: ['700px', '70%'],
                 shade: 0.4,
                 shadeClose: true,
-                btn: (type === 'check') ? [] : ['确定', '取消'],
-                yes: function (index, layero) {
+                btn: type === 'check' ? [] : ['确定', '取消'],
+                yes: function(index, layero) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -159,12 +198,27 @@
                 }
             }
 
-            layer.open(layerOption);
-            form.render();
+            layer.open(layerOption)
+            form.render()
         })
 
-        $('#add_grade').on('click', function () {
-            formData = {};
+        $('#add_grade').on('click', function() {
+            formData = {
+                startTime: '',
+                endTime: '',
+                gradeName: ''
+            }
+            setTimeout(() => {
+                laydate.render({
+                    elem: '#startTime',
+                    type: 'date'
+                })
+                laydate.render({
+                    elem: '#endTime',
+                    type: 'date'
+                })
+            }, 0)
+
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -175,8 +229,8 @@
                 skin: 'grade-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function (index, layero) {
-                	getFormData()
+                yes: function(index, layero) {
+                    getFormData()
                     layer.close(index)
                     addData(formData)
                 },
@@ -185,7 +239,7 @@
                 }
             })
             form.render()
-        });
+        })
 
         function getList(page) {
             var data = {
@@ -195,26 +249,26 @@
             admin.post({
                 url: '/grade/queryGradeList',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
+        }
 
         function deleteData(id) {
             admin.delete({
                 url: '/grade/deleteGrade?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -223,17 +277,17 @@
             var data = {
                 id: data.id,
                 gradeName: data.gradeName,
-				startTime: data.startTime,
-				endTime: data.endTime
+                startTime: data.startTime,
+                endTime: data.endTime
             }
             admin.put({
                 url: '/grade/updateGrade',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -241,9 +295,9 @@
         function getData(id) {
             admin.get({
                 url: '/grade/queryOneGrade?id=' + id,
-                success: function (res) {},
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                success: function(res) {},
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -251,17 +305,17 @@
         function addData(data) {
             var data = {
                 gradeName: data.gradeName,
-		startTime: data.startTime,
-		endTime: data.endTime
+                startTime: data.startTime,
+                endTime: data.endTime
             }
             admin.post({
                 url: '/grade/addGrade',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     getList(1)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
@@ -269,42 +323,49 @@
         function getFormData() {
             formData = {
                 id: $('#id').val(),
-		gradeName: $('#gradeName').val(),
-		startTime: $('#startTime').val(),
-		endTime: $('#endTime').val()
+                gradeName: $('#gradeName').val(),
+                startTime: $('#startTime').val(),
+                endTime: $('#endTime').val()
             }
         }
 
-
         function getTemplate(formData, type) {
-            return '<div id="grade_details_modal">\n' +
-            '        <form action="" class="layui-form">\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">年级：</label>\n' +
-            '                    <div class="layui-inline">\n' +
-            '                        <input type="text" class="layui-input" id="gradeName" />\n' +
-            '                    </div>\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">开始日期:</label>\n' +
-            '                    <div class="layui-inline">\n' +
-            '                        <input type="text" class="layui-input" id="startTime" />\n' +
-            '                    </div>\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '            <div class="layui-row">\n' +
-            '                <div class="layui-col-md12 layui-form-item">\n' +
-            '                    <label class="layui-form-label">结束日期:</label>\n' +
-            '                    <div class="layui-inline">\n' +
-            '                        <input type="text" class="layui-input" id="endTime" />\n' +
-            '                    </div>\n' +
-            '                </div>\n' +
-            '            </div>\n' +
-            '        </form>\n' +
-            '    </div>';
+            return (
+                '<div id="grade_details_modal">\n' +
+                '        <form action="" class="layui-form">\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">年级：</label>\n' +
+                '                    <div class="layui-inline">\n' +
+                '                        <input type="text" class="layui-input" id="gradeName" value="' +
+                formData.gradeName +
+                '"/>\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">开始日期:</label>\n' +
+                '                    <div class="layui-inline">\n' +
+                '                        <input type="text" class="layui-input" id="startTime" value="' +
+                formData.startTime +
+                '"/>\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">结束日期:</label>\n' +
+                '                    <div class="layui-inline">\n' +
+                '                        <input type="text" class="layui-input" id="endTime" value="' +
+                formData.endTime +
+                '"/>\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '        </form>\n' +
+                '    </div>'
+            )
         }
     })
 </script>

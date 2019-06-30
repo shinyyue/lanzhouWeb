@@ -7,66 +7,74 @@
     </div>
     <div class="statistics-tech-content">
         <h4>自动化与电气工程学院开课明细</h4>
-        <table class="layui-table" id="tech_details_table" lay-filter="tech_details_table"></table>
+        <table
+            class="layui-table"
+            id="tech_details_table"
+            lay-filter="tech_details_table"
+        ></table>
+        <div id="tech_details_page"></div>
     </div>
 </div>
 
 <script>
-    layui.use(['table'], function (table) {
+    layui.use(['table'], function(table) {
         var table = layui.table,
-            tableFilter = 'tech_details_table'
+            tableFilter = 'tech_details_table',
+            admin = layui.admin,
+            route = layui.router(),
+            id = route.search.id
 
-        table.render({
-            page: true,
-            skin: 'row, line',
-            data: [{
-                id: 1,
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '王小虎',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1,
-                times: 100,
-                college: '自动化与电气工程学院'
-            }],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            cols: [
-                [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center',
-                    },
-                    {
-                        title: '开课名称',
-                        field: 'courceName',
-                        align: 'center',
-                    },
-                    {
-                        title: '开课类型',
-                        field: 'courseCode',
-                        align: 'center',
-                    },
-                    {
-                        title: '课时数作',
-                        align: 'center',
-                        field: 'times',
-                    },
-                    {
-                        title: '院系',
-                        align: 'center',
-                        field: 'college'
-                    }
-                ]
-            ]
-        })
+        getList()
+        function getList() {
+            admin.get({
+                url: '/report/queryFacultyInfoList?collegeId=' + id,
+                success: function(res) {
+                    table.render({
+                        page: false,
+                        skin: 'row, line',
+                        data: res.data,
+                        elem: '[lay-filter="' + tableFilter + '"]',
+                        cols: [
+                            [
+                                {
+                                    title: '序号',
+                                    field: 'id',
+                                    width: 80,
+                                    align: 'center',
+                                    type: 'numbers'
+                                },
+                                {
+                                    title: '开课名称',
+                                    field: 'courseName',
+                                    align: 'center'
+                                },
+                                {
+                                    title: '开课类型',
+                                    field: '',
+                                    align: 'center'
+                                },
+                                {
+                                    title: '课时数作',
+                                    align: 'center',
+                                    field: 'countTime'
+                                },
+                                {
+                                    title: '院系',
+                                    align: 'center',
+                                    field: 'collegeName'
+                                }
+                            ]
+                        ]
+                    })
+                }
+            })
+        }
     })
 </script>
 
 <style>
-    #statistics_tech_details {}
+    #statistics_tech_details {
+    }
 
     #statistics_tech_details h4 {
         background: #d5eaff;

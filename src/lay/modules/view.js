@@ -506,6 +506,8 @@ layui
                     error: function (res) {
                         if (res.status == conf.logoutHttpCode) {
                             layui.admin.logout()
+                        } else if (res.status == 402) {
+                            layer.msg('无操作权限')
                         } else {
                             layer.msg('请检查您的网络连接')
                             self.log('请检查您的网络连接，错误信息：' + JSON.stringify(res))
