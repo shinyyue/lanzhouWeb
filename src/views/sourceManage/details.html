@@ -142,9 +142,9 @@
             var data = {
                 id: Number(id)
             }
-            admin.post({
-                url: '/resCollect/add',
-                data: JSON.stringify(data),
+            admin.put({
+                url: '/resCollect/add?id=' + id,
+                // data: JSON.stringify(data),
                 success: function(res) {
                     layer.msg('收藏成功')
                     getDetails()
