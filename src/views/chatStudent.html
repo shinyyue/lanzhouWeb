@@ -103,22 +103,48 @@
 </div>
 
 <script>
-    layui.use(['layim'], function() {
+    layui.use([], function() {
         var $ = layui.jquery,
-            admin = layui.admin
+            admin = layui.admin,
+            userId = layui.data('userInfo').userInfo.id,
+            ws = new WebSocket('ws://39.104.97.6:8088/netty3?userId=' + userId)
 
         getList()
 
-        layim
-            .config({
-                brief: true //是否简约模式（如果true则不显示主面板）
-            })
-            .chat({
-                name: '客服姐姐',
-                type: 'friend',
-                avatar: 'http://tp1.sinaimg.cn/5619439268/180/40030060651/1',
-                id: -2
-            })
+        ws.onopen = function() {
+            ws.send('发送数据')
+            alert('数据发送中...')
+        }
+
+        ws.onmessage = function(evt) {
+            var received_msg = evt.data
+            console.log(1111, received_msg)
+            alert('数据已接收...')
+        }
+
+        ws.onclose = function() {
+            // 关闭 websocket
+            alert('连接已关闭...')
+        }
+
+        // function wsHandler(sendMessage) {
+        //     // CONNECTING === 0 连接还没开启。
+        //     // OPEN === 1 连接已开启并准备好进行通信。
+        //     // CLOSING === 2 连接正在关闭的过程中。
+        //     // CLOSED === 3 连接已经关闭，或者连接无法建立。
+        //     if (ws.readyState === ws.OPEN) {
+        //         this.wsOnSend(sendMessage)
+        //         clearTimeout(timer)
+        //     } else if (ws.readyState === ws.CONNECTING) {
+        //         timer = setTimeout(() => {
+        //             this.wsHandler(sendMessage)
+        //         }, 500)
+        //     } else if (ws.readyState === ws.CLOSED) {
+        //         clearTimeout(timer)
+        //     }
+        // }
+
+        function initWS() {}
 
         function getList() {
             var data = {
