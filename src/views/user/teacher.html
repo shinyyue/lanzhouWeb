@@ -169,7 +169,10 @@
                             </div>
                         </form>`
 
-        getList(1, 20)
+        getList(1)
+        $('#search-confirm').click(function () {
+            getList(1)
+        })
 
         $('#college').change(function(e) {
             getSeriesList(function(res) {
