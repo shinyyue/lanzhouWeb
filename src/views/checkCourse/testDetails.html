@@ -16,10 +16,15 @@
         </div>
     </div>
     <div class="test-details">
-        <div class="test-tip">单选题 (请选择正确答案，本题共计<i>2</i>个小题)</div>
+        <div class="test-tip">
+            单选题 (请选择正确答案，本题共计<i>2</i>个小题)
+        </div>
         <div id="test-details-inner">
             <div class="test-item">
-                <div class="test-question"><i>1</i>.ZK4电空转辙机的摩擦联结器下部夹板不得(分值：<i>5</i>分)</div>
+                <div class="test-question">
+                    <i>1</i
+                    >.ZK4电空转辙机的摩擦联结器下部夹板不得(分值：<i>5</i>分)
+                </div>
                 <ul>
                     <li>
                         <span>选项A</span>
@@ -38,11 +43,18 @@
                         <span>生锈</span>
                     </li>
                 </ul>
-                <div style="color: red; margin-bottom: 10px"> <span>正确答案</span><span>B</span></div>
-                <div style="color: #006699;"> <span>我的答案</span><span>B</span></div>
+                <div style="color: red; margin-bottom: 10px">
+                    <span>正确答案</span><span>B</span>
+                </div>
+                <div style="color: #006699;">
+                    <span>我的答案</span><span>B</span>
+                </div>
             </div>
             <div class="test-item">
-                <div class="test-question"><i>2</i>.ZK4电空转辙机的摩擦联结器下部夹板不得(分值：<i>5</i>分)</div>
+                <div class="test-question">
+                    <i>2</i
+                    >.ZK4电空转辙机的摩擦联结器下部夹板不得(分值：<i>5</i>分)
+                </div>
                 <ul>
                     <li>
                         <span>选项A</span>
@@ -61,44 +73,60 @@
                         <span>生锈</span>
                     </li>
                 </ul>
-                <div style="color: red; margin-bottom: 10px"> <span>正确答案</span><span>B</span></div>
-                <div style="color: #006699;"> <span>我的答案</span><span>B</span></div>
+                <div style="color: red; margin-bottom: 10px">
+                    <span>正确答案</span><span>B</span>
+                </div>
+                <div style="color: #006699;">
+                    <span>我的答案</span><span>B</span>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <div class="checkcourse-test-btn">
-    <button class="layui-btn layui-btn-primary back-btn" id="checkcourse-test-back">返回理论测试列表</button>
+    <button
+        class="layui-btn layui-btn-primary back-btn"
+        id="checkcourse-test-back"
+    >
+        返回理论测试列表
+    </button>
 </div>
 
 <script>
-    layui.use([], function () {
+    layui.use([], function() {
         var $ = layui.jquery,
             admin = layui.admin,
             route = layui.router(),
             id = route.search.id,
             endTime = route.search.endTime,
             startTime = route.search.startTime,
-            now = new Date().getTime();
+            now = new Date().getTime()
 
-        getDeatils();
+        getDeatils()
 
         function getDeatils() {
             admin.get({
                 url: '/testQuestions/info?id=' + 8,
-                success: function (res) {
-
+                success: function(res) {
+                    for (key in res.data) {
+                    }
                 }
             })
         }
 
-        $('#startTime').html(endTime > now ? admin.dateFormat(new Date().getTime() / 1000) : admin.dateFormat(
-            startTime / 1000))
+        $('#startTime').html(
+            endTime > now
+                ? admin.dateFormat(new Date().getTime() / 1000)
+                : admin.dateFormat(startTime / 1000)
+        )
 
-        $('#endTime').html(endTime > now ? admin.dateFormat((new Date().getTime() + 3600000) / 1000) : admin.dateFormat(
-            endTime / 1000))
+        $('#endTime').html(
+            endTime > now
+                ? admin.dateFormat((new Date().getTime() + 3600000) / 1000)
+                : admin.dateFormat(endTime / 1000)
+        )
 
-        $('#checkcourse-test-back').on('click', function () {
+        $('#checkcourse-test-back').on('click', function() {
             window.location.href = 'index.html#/checkcourse/testlist'
         })
     })

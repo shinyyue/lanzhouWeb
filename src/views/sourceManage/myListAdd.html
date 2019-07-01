@@ -9,38 +9,56 @@
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">资源类型</label>
-                <select name="sourceType" lay-verify="">
+                <select name="type" id="type">
                     <option value="">选择资源类型</option>
-                    <option value="0">文档</option>
-                    <option value="1">图片</option>
-                    <option value="2">视频</option>
-                    <option value="3">exe</option>
-                    <option value="4">U3D</option>
-                    <option value="5">scorm课件</option>
+                    <option value="1">文档</option>
+                    <option value="2">图片</option>
+                    <option value="3">视频</option>
+                    <option value="4">flash</option>
+                    <option value="5">exe</option>
+                    <option value="6">U3D</option>
+                    <option value="7">scorm课件</option>
                 </select>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">选择文件</label>
-                <button type="button" class="layui-btn" id="upload-file">
+                <button
+                    type="button"
+                    class="layui-btn"
+                    id="upload-file"
+                    name="file"
+                >
                     <i class="layui-icon">&#xe67c;</i>选择文件
                 </button>
-                <span style="margin-left: 50px; color: red;">注：U3D上传zip、rar文件包； exe上传压缩包</span>
+                <span style="margin-left: 50px; color: red;"
+                    >注：U3D上传zip、rar文件包； exe上传压缩包</span
+                >
+                <!-- <input
+                    type="text"
+                    id="upload_wrapper"
+                    class="layui-upload-file"
+                /> -->
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">资源名称</label>
-                <input class="common-form-input" type="text" name="sourceName" placeholder="请输入资源名称">
+                <input
+                    class="common-form-input"
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="请输入资源名称"
+                />
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">所属课程</label>
-                <select name="sourceType" lay-verify="">
-                    <option value="">选择所属课程</option>
-                    <option value="0">铁路信号知识</option>
+                <select name="curriculumId" id="curriculumId" lay-verify="">
+                    <option value="">请选择所属课程</option>
                 </select>
             </div>
         </div>
@@ -48,8 +66,19 @@
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">对外访问</label>
                 <div class="layui-input-block">
-                    <input type="radio" name="isOpen" value="公开" title="公开">
-                    <input type="radio" name="isOpen" value="私有" title="私有" checked>
+                    <input
+                        type="radio"
+                        name="accessAuthority"
+                        value="1"
+                        title="公开"
+                        checked
+                    />
+                    <input
+                        type="radio"
+                        name="accessAuthority"
+                        value="2"
+                        title="私有"
+                    />
                 </div>
             </div>
         </div>
@@ -57,16 +86,32 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">资源描述</label>
                 <div class="layui-col-md9">
-                    <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    <textarea
+                        id="description"
+                        name="description"
+                        placeholder="请输入内容"
+                        class="layui-textarea"
+                    ></textarea>
                 </div>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
-                <label class="layui-form-label">是否下载</label>
+                <label class="layui-form-label require">是否下载</label>
                 <div class="layui-input-block">
-                    <input type="radio" name="isDownload" value="true" title="是" checked>
-                    <input type="radio" name="isDownload" value="false" title="否">
+                    <input
+                        type="radio"
+                        name="canDownload"
+                        value="1"
+                        title="是"
+                        checked
+                    />
+                    <input
+                        type="radio"
+                        name="canDownload"
+                        value="0"
+                        title="否"
+                    />
                 </div>
             </div>
         </div>
@@ -74,49 +119,162 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label"></label>
                 <div>
-                    <button class="layui-btn primary-btn" lay-submit lay-filter="submit">提交</button>
-                    <button class="layui-btn layui-btn-primary cancel-btn" id="sourmanage-add-cancle">返回</button>
+                    <button
+                        class="layui-btn primary-btn"
+                        lay-submit
+                        lay-filter="submit"
+                    >
+                        提交
+                    </button>
+                    <button
+                        class="layui-btn layui-btn-primary cancel-btn"
+                        id="sourmanage-add-cancle"
+                    >
+                        返回
+                    </button>
                 </div>
             </div>
         </div>
     </form>
 </div>
 <script>
-    layui.use(['form', 'upload'], function () {
+    layui.use(['form', 'upload'], function() {
         var form = layui.form,
             upload = layui.upload,
-            $ = layui.jquery;
-
-        form.render();
-
-        upload.render({
-            elem: '#upload-file' //绑定元素
-                ,
-            url: '/upload/' //上传接口
-                ,
-            done: function (res) {
-                //上传完毕回调
-            },
-            error: function () {
-                //请求异常回调
+            $ = layui.jquery,
+            admin = layui.admin,
+            type = '',
+            uploadOption = {
+                elem: '#upload-file', //绑定元素
+                url: '/dataBank/oneFileUpload', //上传接口
+                method: 'post',
+                field: 'file',
+                // auto: false, //auto 参数必须设置为false
+                // bindAction: '#',
+                before: function(obj) {
+                    var _this = this
+                    layer.load() //上传loading
+                    this.data = {
+                        type: 2
+                    }
+                    extra_data({ type: 2 })
+                    // obj.preview(function(index, file, result) {
+                    //     console.log('before----', file) //file表示文件信息，result表示文件src地址
+                    //     if (/image/gi.test(file.type)) {
+                    //         type = 2
+                    //         _this.data = {
+                    //             type: type
+                    //         }
+                    //     }
+                    // })
+                },
+                done: function(res) {
+                    //上传完毕回调
+                    layer.closeAll('loading') //关闭loading
+                },
+                error: function(err) {
+                    console.log(444, err)
+                    //请求异常回调
+                    layer.closeAll('loading') //关闭loading
+                }
             }
-        });
+
+        form.render()
+
+        // upload.render(uploadOption)
+
+        uploadFile()
+
+        function uploadFile() {
+            upload.render({
+                elem: '#upload-file', //绑定元素
+                url: '/dataBank/oneFileUpload', //上传接口
+                method: 'post',
+                field: 'file',
+                // auto: false, //auto 参数必须设置为false
+                // bindAction: '#',
+                before: function(obj) {
+                    var _this = this
+                    layer.load() //上传loading
+                    // this.data = {
+                    //     type: 2
+                    // }
+                    extra_data({ type: 2 })
+                    // obj.preview(function(index, file, result) {
+                    //     console.log('before----', file) //file表示文件信息，result表示文件src地址
+                    //     if (/image/gi.test(file.type)) {
+                    //         type = 2
+                    //         _this.data = {
+                    //             type: type
+                    //         }
+                    //     }
+                    // })
+                },
+                done: function(res) {
+                    //上传完毕回调
+                    layer.closeAll('loading') //关闭loading
+                },
+                error: function(err) {
+                    console.log(444, err)
+                    //请求异常回调
+                    layer.closeAll('loading') //关闭loading
+                }
+            })
+        }
 
         //监听提交
-        form.on('submit(submit)', function (data) {
-            layer.msg(JSON.stringify(data.field));
-            return false;
-        });
-
-        $('#sourmanage-add-cancle').on('click', function () {
-            window.history.back(-1);
+        form.on('submit(submit)', function(data) {
+            layer.msg(JSON.stringify(data.field))
+            return false
         })
 
+        $('#sourmanage-add-cancle').on('click', function() {
+            window.history.back(-1)
+        })
+
+        getAllCourses()
+
+        function extra_data(data) {
+            var item = []
+            $.each(data, function(k, v) {
+                item.push(
+                    '<input type="hidden" name="' + k + '" value="' + v + '">'
+                )
+            })
+            $('.layui-upload-file').after(item.join(''))
+        }
+
+        function getAllCourses(callback) {
+            admin.post({
+                url: '/vsMpCurriculum/getList',
+                data: JSON.stringify({
+                    page: 1,
+                    rows: 10000
+                }),
+                success: function(res) {
+                    $('#curriculumId').html('<option value="">请选择</option>')
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            $('#curriculumId').append(
+                                '<input type="checkbox" lay-skin="primary" name="prerequisiteCourse" value="' +
+                                    item.id +
+                                    '" title="' +
+                                    item.curriculumName +
+                                    '">'
+                            )
+                            form.render()
+                        })
+                    callback && typeof callback === 'function' && callback(res)
+                }
+            })
+        }
     })
 </script>
 
 <style>
-    #source-manage-mylist-add {}
+    #source-manage-mylist-add {
+    }
 
     #source-manage-mylist-add .mylist-add-form {
         padding: 20px 0;

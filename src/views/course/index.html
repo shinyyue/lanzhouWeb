@@ -6,7 +6,7 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">课程名称</span>
-            <input type="text">
+            <input type="text" />
             <select name="" id="">
                 <option value="">所有年级</option>
             </select>
@@ -14,7 +14,7 @@
                 <option value="">请选择学期</option>
             </select>
             <button class="search-confirm">
-                <img src="src/images/search.png">
+                <img src="src/images/search.png" />
             </button>
         </div>
     </div>
@@ -26,12 +26,12 @@
         <button class="course-set-btn" lay-event="edit">修改</button>
             <button class="course-set-btn" lay-event="delete">删除</button>
             <button class="course-set-btn" lay-event="check">查看</button>
-        </script>
+    </script>
     <div class="app-table-page" id="course-table-page"></div>
 </div>
 
 <script>
-    layui.use(['table', 'jquery'], function (table, $) {
+    layui.use(['table', 'jquery'], function(table, $) {
         var tableFilter = 'course-list-table',
             laypage = layui.laypage,
             $ = layui.jquery,
@@ -54,7 +54,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function (obj, first) {
+                jump: function(obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -65,17 +65,18 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [{
+                    [
+                        {
                             title: '序号',
                             field: 'id',
                             width: 80,
-                            align: 'center'
+                            align: 'center',
+                            type: 'numbers'
                         },
                         {
                             title: '课程名称',
                             field: 'curriculumName',
                             align: 'center'
-
                         },
                         {
                             title: '课程代码',
@@ -84,6 +85,8 @@
                         },
                         {
                             title: '负责人',
+                            field: 'userName',
+                            align: 'center'
                             field: 'userName',
                             align: 'center',
                         },
@@ -102,19 +105,19 @@
                         {
                             field: 'gradeId',
                             title: '年级',
-                            align: 'center',
+                            align: 'center'
                         },
                         {
                             field: 'semester',
                             title: '学期',
-                            align: 'center',
+                            align: 'center'
                         },
                         {
                             field: 'profession',
                             title: '适合所有专业',
                             align: 'center',
                             width: 140,
-                            templet: function (d) {
+                            templet: function(d) {
                                 return d ? '是' : '否'
                             }
                         },
@@ -126,13 +129,13 @@
                         }
                     ]
                 ]
-            };
+            }
 
         getList(1)
 
-        table.on('tool(course-list-table)', function (obj) {
-            var data = obj.data; //获得当前行数据
-            var layEvent = obj.event;
+        table.on('tool(course-list-table)', function(obj) {
+            var data = obj.data //获得当前行数据
+            var layEvent = obj.event
 
             if (layEvent === 'delete') {
                 layer.open({
@@ -145,15 +148,15 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function (index, layero) {
+                    yes: function(index, layero) {
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function (index) {
+                    cancel: function(index) {
                         layer.close(index)
                     }
                 })
-                return;
+                return
             }
             if (layEvent === 'edit') {
                 location.href = 'index.html#/course/update/id=' + data.id
@@ -172,33 +175,31 @@
             admin.post({
                 url: '/vsMpCurriculum/getList',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
-
+        }
 
         function deleteData(id) {
             admin.delete({
                 url: '/vsMpCurriculum/delete?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     layer.msg('删除成功！')
                     getList(1)
                 }
             })
         }
 
-        $('#add-cource').on('click', function () {
+        $('#add-cource').on('click', function() {
             location.href = 'index.html#/course/update'
         })
-
     })
 </script>
 

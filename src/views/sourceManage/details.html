@@ -7,105 +7,145 @@
     </div>
 
     <div class="source-details-inner">
-        <div class="source-display"></div>
+        <div class="source-display" id="fileUrl"></div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">资源名称</label>
-                <span>铁路</span>
+                <span id="resourceName"></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属课程</label>
-                <span>铁路信号知识</span>
+                <span id="courseName"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">负责教师</label>
-                <span>铁路</span>
+                <span id="teacherName"></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">使用权限</label>
-                <span>公开</span>
+                <span id="accessAuthority"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">资源描述</label>
                 <div class="layui-col-md9">
-                    <textarea name="desc" class="layui-textarea"></textarea>
+                    <textarea
+                        name="desc"
+                        class="layui-textarea"
+                        id="resourceDes"
+                    ></textarea>
                 </div>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">点击量</label>
-                <span>100</span>
+                <span id="clickNum"></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">下载量</label>
-                <span>0</span>
+                <span id="downloadNum"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">资源评分</label>
-                <span>55</span>
+                <span>没有字段</span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label "></label>
                 <div>
-                    <button class="layui-btn primary-btn" lay-submit id="collect">收藏</button>
-                    <button class="layui-btn primary-btn" lay-submit id="canclecollect">取消收藏</button>
-                    <button class="layui-btn primary-btn" lay-submit id="download">下载</button>
-                    <button class="layui-btn layui-btn-primary cancel-btn" id="sourmanage-add-cancle">返回</button>
+                    <button
+                        class="layui-btn primary-btn"
+                        lay-submit
+                        id="collect"
+                    >
+                        收藏
+                    </button>
+                    <button
+                        class="layui-btn primary-btn"
+                        lay-submit
+                        id="canclecollect"
+                    >
+                        取消收藏
+                    </button>
+                    <button
+                        class="layui-btn primary-btn"
+                        lay-submit
+                        id="download"
+                    >
+                        下载
+                    </button>
+                    <button
+                        class="layui-btn layui-btn-primary cancel-btn"
+                        id="sourmanage_add_cancle"
+                    >
+                        返回
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
 <script>
-    layui.use(['form', 'admin'], function () {
+    layui.use(['form', 'admin'], function() {
         var $ = layui.jquery,
             admin = layui.admin,
             route = layui.router(),
-            id = route.search.id;
+            id = route.search.id,
+            details = {}
 
         getDetails()
 
-        $('#collect').on('click', function () {
+        $('#collect').on('click', function() {
             collect()
         })
 
-        $('#canclecollect').on('click', function () {
+        $('#canclecollect').on('click', function() {
             cancleCollect()
         })
 
-        $('#download').on('click', function () {
+        $('#download').on('click', function() {
             download()
+        })
+
+        $('#sourmanage_add_cancle').on('click', function() {
+            window.history.go(-1)
         })
 
         function getDetails() {
             admin.get({
                 url: '/dataBank/queryOne?id=' + id,
-                success: function (res) {
-                    // todo: 报错---
-                    console.log(11, res)
+                success: function(res) {
+                    var data = res.data
+                    details = data
+                    $('#resourceName').html(data.resourceName)
+                    $('#teacherName').html(data.teacherName)
+                    $('#accessAuthority').html(data.accessAuthority)
+                    $('#clickNum').html(data.clickNum)
+                    $('#downloadNum').html(data.downloadNum)
+                    $('#courseName').html(data.courseName)
+                    $('#fileUrl').html(data.fileUrl)
+                    $('#courseName').html(data.courseName)
+                    $('#resourceDes').val(data.resourceDes)
                 }
             })
         }
 
         function collect() {
             var data = {
-                id
+                id: Number(id)
             }
-            admin.post({
-                url: '/resCollect/add',
-                data: JSON.stringify(data),
-                success: function (res) {
+            admin.put({
+                url: '/resCollect/add?id=' + id,
+                // data: JSON.stringify(data),
+                success: function(res) {
                     layer.msg('收藏成功')
                     getDetails()
                 }
@@ -115,7 +155,7 @@
         function cancleCollect() {
             admin.delete({
                 url: '/resCollect/del?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     layer.msg('取消收藏成功')
                     getDetails()
                 }
@@ -123,22 +163,22 @@
         }
 
         function download() {
-            // todo: filePath---
             admin.get({
-                url: '/dataBank/downloadFile?filePath=',
-                success: function (res) {},
-                error: function (err) {
+                url: '/dataBank/downloadFile?filePath=' + details.fileUrl,
+                success: function(res) {
+                    layer.msg('下载成功')
+                },
+                error: function(err) {
                     layer.msg((err && err.msg) || '下载失败')
                 }
             })
         }
-
     })
 </script>
 
-
 <style>
-    #source-manage-details {}
+    #source-manage-details {
+    }
 
     .source-details-inner {
         padding: 20px 0;
