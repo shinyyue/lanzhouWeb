@@ -9,71 +9,71 @@
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">开课编号</label>
-                    <span class="info-details">2020010005</span>
+                    <span class="info-details" id="">--</span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">选择单双周</label>
-                    <span class="info-details">全部</span>
+                    <span class="info-details" id="singleDoubleWeek"></span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">所开课程</label>
-                    <span class="info-details">铁路信号知识</span>
+                    <span class="info-details" id="courseName"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">开课单位</label>
-                    <span class="info-details">土木工程学院</span>
+                    <span class="info-details" id="collegeId">--</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">适合学生类别</label>
-                    <span class="info-details">本科生</span>
+                    <span class="info-details" id="studentTypeId"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">满分</label>
-                    <span class="info-details">100</span>
+                    <span class="info-details" id="fullMark"></span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">学时</label>
-                    <span class="info-details">30</span>
+                    <span class="info-details" id="period"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">学分</label>
-                    <span class="info-details">1</span>
+                    <span class="info-details" id="creditHour"></span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">任课老师</label>
-                    <span class="info-details">王老师</span>
+                    <span class="info-details" id="teacherId">--</span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">上课地点</label>
-                    <span class="info-details">科教1-102</span>
+                    <span class="info-details" id="">--</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">校区</label>
-                    <span class="info-details">--</span>
+                    <span class="info-details" id="campusId">--</span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">面向全校开课</label>
-                    <span class="info-details">否</span>
+                    <span class="info-details" id="school"></span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">上课周次</label>
-                    <span class="info-details">第1周 至 第23周</span>
+                    <span class="info-details" id="week"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">上课时间</label>
-                    <span class="info-details">星期二1至2节</span>
+                    <span class="info-details" id="schooltime"></span>
                 </div>
             </div>
             <div class="layui-row">
@@ -86,13 +86,22 @@
                 <div class="layui-form-item layui-col-md12">
                     <label class="layui-form-label"></label>
                     <div>
-                        <button class="layui-btn primary-btn" id="add-tech-manage">
+                        <button
+                            class="layui-btn primary-btn"
+                            id="add-tech-manage"
+                        >
                             添加开课计划
                         </button>
-                        <button class="layui-btn primary-btn" id="update-tech-manage">
+                        <button
+                            class="layui-btn primary-btn"
+                            id="update-tech-manage"
+                        >
                             修改开课计划
                         </button>
-                        <button class="layui-btn layui-btn-primary cancel-btn " id="source-add-cancle">
+                        <button
+                            class="layui-btn layui-btn-primary cancel-btn "
+                            id="source-add-cancle"
+                        >
                             返回
                         </button>
                     </div>
@@ -103,13 +112,13 @@
 </div>
 
 <script>
-    layui.use(['form', 'layedit'], function () {
+    layui.use(['form', 'layedit'], function() {
         var form = layui.form,
             layedit = layui.layedit,
             $ = layui.jquery,
             admin = layui.admin
         route = layui.router()
-        id = route.search.id;
+        id = route.search.id
 
         form.render()
         layedit.build('techManage-intro-edit', {
@@ -128,33 +137,53 @@
         })
 
         //监听提交
-        form.on('submit(submit)', function (data) {
+        form.on('submit(submit)', function(data) {
             layer.msg(JSON.stringify(data.field))
             return false
         })
 
-        $('#source-add-cancle').on('click', function () {
+        $('#source-add-cancle').on('click', function() {
             window.history.back(-1)
         })
 
-        $('#add-tech-manage').on('click', function () {
+        $('#add-tech-manage').on('click', function() {
             location.href = 'index.html#/techManage/update'
         })
-        $('#update-tech-manage').on('click', function () {
+        $('#update-tech-manage').on('click', function() {
             location.href = 'index.html#/techManage/update'
         })
-        $('#add-tech-manage').on('click', function () {
+        $('#add-tech-manage').on('click', function() {
             location.href = 'index.html#/techManage/update'
         })
 
-        getDetails();
+        getDetails()
 
         function getDetails() {
             admin.get({
                 url: '/coursePlan/queryById?id=' + id,
-                success: function (res) {
-                    // todo: 结果赋值
-                    // console.log(222, res)
+                success: function(res) {
+                    $('#singleDoubleWeek').html(
+                        res.data.singleDoubleWeek == 1
+                            ? '全部'
+                            : res.data.singleDoubleWeek == 2
+                            ? '单周'
+                            : '双周'
+                    )
+                    $('#courseName').html(res.data.courseName)
+                    $('#collegeName').html(res.data.collegeName)
+                    $('#studentTypeName').html(res.data.studentTypeName)
+                    $('#fullMark').html(res.data.fullMark)
+                    $('#period').html(res.data.period)
+                    $('#creditHour').html(res.data.creditHour)
+                    $('#teacherName').html(res.data.teacherName)
+                    $('#campusName').html(res.data.campusName)
+                    $('#school').html(res.data.school == 1 ? '是' : '否')
+                    $('#week').html(
+                        '第' + res.data.weekStart + '周至第' + res.data.weekEnd + '周'
+                    )
+                    $('#schooltime').html(
+                        '第' + res.data.schooltimeStart + '节至第' + res.data.schooltimeEnd+ '节'
+                    )
                 }
             })
         }
