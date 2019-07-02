@@ -5,8 +5,8 @@
             <span>系统管理 > 实验室管理</span>
         </div>
         <div class="course-title-search">
-            <input type="text" value="请输入关键字" />
-            <button class="search-confirm">
+            <input type="text" placeholder="请输入关键字" id="labName" />
+            <button class="search-confirm" id="searchLabList">
                 <img src="src/images/search.png" />
             </button>
         </div>
@@ -92,6 +92,9 @@
 
 
         getList(1)
+        $("#searchLabList").click(function () {
+            getList(1)
+        })
 
         table.on('tool(lab-mylist-table)', function (obj) {
         	
@@ -182,9 +185,11 @@
         });
 
         function getList(page) {
-            var data = {
+            var labName = $("#labName").val(),
+                data = {
                 page: page,
-                rows: pageLimit
+                rows: pageLimit,
+                key: labName
             }
             admin.post({
                 url: '/mpLab/vsMpLabList',
