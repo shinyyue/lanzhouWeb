@@ -6,13 +6,10 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">课程名称</span>
-            <input type="text" />
-            <select name="" id="">
-                <option value="">选择开课单位</option>
-                <option value="">信息与控制实验中心</option>
-                <option value="">电子电工实验中心</option>
+            <input type="text" id="courseName"/>
+            <select name="" id="college">
             </select>
-            <button class="search-confirm">
+            <button class="search-confirm" id="searchCheckList">
                 <img src="src/images/search.png" />
             </button>
         </div>
@@ -127,6 +124,9 @@
             }
 
         getList(1)
+        $("#searchCheckList").click(function () {
+            getList(1)
+        })
 
         table.on('checkbox(experiment-mylist-table)', function() {
             checkedList = []
@@ -220,13 +220,15 @@
         }
 
         function getList(page) {
-            var data = {
-                // sortBy: 'id',
-                page: page,
-                rows: pageLimit
-                // desc: true,
-                // key: '|'
-            }
+            var courseName = $("#courseName").val(),
+                college = $("#college").val(),
+                data = {
+                    // sortBy: 'id',
+                    page: page,
+                    rows: pageLimit,
+                    // desc: true,
+                     key: courseName + '|' + college
+                }
             admin.post({
                 url: '/coursePlan/listCourseStu',
                 data: JSON.stringify(data),
@@ -293,6 +295,87 @@
                 }
             )
         })
+
+        getCollegeList(function(res) {
+            var options = ''
+            res.data.items.forEach(item => {
+                options +=
+                '<option value="' +
+                item.id +
+                '">' +
+                item.collegeName +
+                '</option>'
+        })
+            $('#college').val('')
+            $('#college').append(options)
+            setSelectOptions()
+        })
+
+        // 学院列表
+        function getCollegeList(callback) {
+            var data = {
+                page: 1,
+                rows: 100
+            }
+            admin.post({
+                url: '/college/queryCollegeList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (res.data.items && res.data.items.length > 0) {
+                        collegeList = res.data.items
+                        var options = ''
+                        res.data.items.forEach(item => {
+                            options +=
+                            '<option value="' +
+                            item.id +
+                            '">' +
+                            item.collegeName +
+                            '</option>'
+                    })
+                        $('#college').html(
+                            '<option value="">请选择开课单位</option>'
+                        )
+                        $('#college').append(options)
+                        /*$('#teacher_college_list').html(
+                            '<option value="">请选择学院</option>'
+                        )
+                        $('#teacher_college_list').append(options)*/
+//                        setSelectOptions()
+                        callback && typeof callback === 'function' && callback()
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        /*getCollegeList(function() {
+            $('#college_model').val(formData.collegeId)
+            form.render()
+        })*/
+
+//        getCollegeList(function() {
+//            $('#teacher_college_list').val(formData.collegeId)
+//            form.render()
+//        })
+
+        /*function setSelectOptions() {
+            $('#college_model').html('')
+            var col = ''
+
+            collegeList.forEach(item => {
+                col +=
+                '<option value="' +
+                item.id +
+                '">' +
+                item.collegeName +
+                '</option>'
+        })
+            $('#college_model').html(col)
+
+            form.render('select')
+        }*/
     })
 </script>
 
