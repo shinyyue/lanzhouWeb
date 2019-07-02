@@ -4,12 +4,12 @@
             <span>您的位置：</span>
             <span>学期配置 > 上课时间</span>
         </div>
-        <div class="course-title-search">
-            <input type="text" value="请输入关键字" />
-            <button class="search-confirm">
+        <!--<div class="course-title-search">
+            <input type="text" placeholder="请输入关键字" id="classTimeName" />
+            <button class="search-confirm" id="searchClassTimeList">
                 <img src="src/images/search.png" />
             </button>
-        </div>
+        </div>-->
     </div>
     <table
         id="class-time-mylist-table"
@@ -120,6 +120,9 @@
         // })
 
         getList()
+       /* $("#searchClassTimeList").click(function () {
+            getList()
+        })*/
 
         $('#update_class_time').click(function() {
             window.location.href = 'index.html#/termDeploy/classTimeEdit'

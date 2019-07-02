@@ -5,8 +5,8 @@
             <span>系统管理 > 规则管理</span>
         </div>
         <div class="course-title-search">
-            <input type="text" value="请输入关键字" />
-            <button class="search-confirm">
+            <input type="text" placeholder="请输入关键字" id="ruleName" />
+            <button class="search-confirm" id="searchRuleList">
                 <img src="src/images/search.png" />
             </button>
         </div>
@@ -104,6 +104,9 @@
             }
 
         getList(1)
+        $("#searchRuleList").click(function () {
+            getList(1)
+        })
 
         table.on('tool(rule-mylist-table)', function(obj) {
             var data = obj.data //获得当前行数据
@@ -196,9 +199,11 @@
         })
 
         function getList(page) {
-            var data = {
+            var ruleName = $("#ruleName").val(),
+                data = {
                 page: page,
-                rows: pageLimit
+                rows: pageLimit,
+                key: ruleName
             }
             admin.post({
                 url: '/vsMpRule/list',
