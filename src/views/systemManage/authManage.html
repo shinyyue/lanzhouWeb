@@ -5,8 +5,8 @@
             <span>系统管理 > 权限列表</span>
         </div>
         <div class="course-title-search">
-            <input type="text" value="请输入关键字" />
-            <button class="search-confirm">
+            <input type="text" placeholder="请输入关键字" id="authName" />
+            <button class="search-confirm" id="searchAuthList">
                 <img src="src/images/search.png" />
             </button>
         </div>
@@ -104,6 +104,9 @@
             }
 
         getList(1)
+        $("#searchAuthList").click(function () {
+            getList(1)
+        })
 
         table.on('tool(auth-mylist-table)', function(obj) {
             var data = obj.data //获得当前行数据
@@ -193,9 +196,11 @@
         })
 
         function getList(page) {
-            var data = {
+            var authName = $("#authName").val(),
+                data = {
                 page: page,
-                rows: pageLimit
+                rows: pageLimit,
+                key: authName
             }
             admin.post({
                 url: '/menu/getList',

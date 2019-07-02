@@ -4,6 +4,12 @@
             <span>您的位置：</span>
             <span>机构管理 > 机构管理 > 学院管理</span>
         </div>
+        <div class="course-title-search">
+            <input type="text" placeholder="请输入关键字" id="collegeName" />
+            <button class="search-confirm" id="searchCollegeList">
+                <img src="src/images/search.png" />
+            </button>
+        </div>
     </div>
     <div class="course-add">
         <button class="primary-btn" id="add_college">添加</button>
@@ -187,11 +193,16 @@
         })
 
         getList(1)
+        $("#searchCollegeList").click(function () {
+            getList(1)
+        })
 
         function getList(page) {
-            var data = {
+            var collegeName = $("#collegeName").val(),
+                data = {
                 page: page,
-                rows: pageLimit
+                rows: pageLimit,
+                key: collegeName
             }
             admin.post({
                 url: '/college/queryCollegeList',

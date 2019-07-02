@@ -6,22 +6,18 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">姓名</span>
-            <input type="text" />
+            <input type="text" id="userName" />
             <span class="search-project">账号</span>
-            <input type="text" />
+            <input type="text" id="userCount"/>
             <span class="search-project">学院</span>
-            <select name="" id="">
+            <select name="" id="college" lay-filter="collegeAll">
                 <option value="">请选择学院</option>
-                <option value="">学院1</option>
-                <option value="">学院2</option>
             </select>
             <span class="search-project">用户类型</span>
-            <select name="" id="">
+            <select name="" id="userType">
                 <option value="">请选择类型</option>
-                <option value="">类型1</option>
-                <option value="">类型2</option>
             </select>
-            <button class="search-confirm">
+            <button class="search-confirm" id="user-search">
                 <img src="src/images/search.png" />
             </button>
         </div>
@@ -185,7 +181,41 @@
                             </div>
                         </form>`
 
-        getList(1, 20)
+        getCollegeList(function(res) {
+            var options = ''
+            res.data.items.forEach(item => {
+                options +=
+                    '<option value="' +
+                    item.id +
+                    '">' +
+                    item.collegeName +
+                    '</option>'
+            })
+            $('#college').val('')
+            $('#college').append(options)
+            setSelectOptions()
+        })
+
+        getRoleList(function(res) {
+            var options = ''
+            res.data.items.forEach(item => {
+                options +=
+                    '<option value="' +
+                    item.id +
+                    '">' +
+                    item.roleName +
+                    '</option>'
+            })
+            $('#userType').val('')
+            $('#userType').append(options)
+            setSelectOptions()
+        })
+
+        getList(1)
+
+        $('#user-search').click(function () {
+            getList(1)
+        })
 
         $('#college').change(function(e) {
             getSeriesList(function(res) {
@@ -232,16 +262,16 @@
             }, Number(e.currentTarget.value))
         })
 
-        // 学生列表
+        // 用户列表
         function getList(page) {
-            var stuName = $('#studentName').val(),
-                account = $('#studentCount').val(),
+            var userName = $('#userName').val(),
+                userCount = $('#userCount').val(),
                 college = $('#college').val(),
                 userType = $('#userType').val(),
                 data = {
                     page: page,
-                    rows: 20
-                    // Key: stuName + '|' + account + '|' + college + '|' + userType
+                    rows: 20,
+                    key: userName + '|' + userCount + '|' + college + '|' + userType + '|' + '|' + '|'
                 }
 
             admin.post({
@@ -288,6 +318,45 @@
                             '<option value="">请选择学院</option>'
                         )
                         $('#teacher_college_list').append(options)
+                        setSelectOptions()
+                        callback && typeof callback === 'function' && callback()
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        // 用户类型列表
+        function getUserTypeList(callback) {
+            var data = {
+                page: 1,
+                rows: 100
+            }
+            admin.post({
+                url: '/role/queryRoleList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (res.data.items && res.data.items.length > 0) {
+                        collegeList = res.data.items
+                        var options = ''
+                        res.data.items.forEach(item => {
+                            options +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.roleName +
+                                '</option>'
+                        })
+                        $('#userType').html(
+                            '<option value="">请选择用户类型</option>'
+                        )
+                        $('#userType').append(options)
+                        $('#userType_list').html(
+                            '<option value="">请选择用户类型</option>'
+                        )
+                        $('#userType_list').append(options)
                         setSelectOptions()
                         callback && typeof callback === 'function' && callback()
                     }
@@ -796,6 +865,7 @@
             })
         }
 
+        //获取角色列表
         function getRoleList(callback) {
             var data = {
                 page: 1,

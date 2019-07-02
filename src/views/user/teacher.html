@@ -6,16 +6,14 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">姓名</span>
-            <input type="text" />
+            <input type="text" id="teacherName"/>
             <span class="search-project">账号</span>
-            <input type="text" />
-            <span class="search-project">学院</span>
-            <select name="" id="">
+            <input type="text" id="teacherCount" />
+            <span class="search-project" >学院</span>
+            <select name="" id="college" lay-filter="collegeAll">
                 <option value="">请选择学院</option>
-                <option value="">学院1</option>
-                <option value="">学院2</option>
             </select>
-            <button class="search-confirm">
+            <button class="search-confirm" id="teacher-search">
                 <img src="src/images/search.png" />
             </button>
         </div>
@@ -169,66 +167,36 @@
                             </div>
                         </form>`
 
+        getCollegeList(function(res) {
+            var options = ''
+            res.data.items.forEach(item => {
+                options +=
+                    '<option value="' +
+                    item.id +
+                    '">' +
+                    item.collegeName +
+                    '</option>'
+            })
+            $('#college').val('')
+            $('#college').append(options)
+            setSelectOptions()
+        })
+
         getList(1)
-        $('#search-confirm').click(function () {
+        $('#teacher-search').click(function () {
             getList(1)
         })
 
-        $('#college').change(function(e) {
-            getSeriesList(function(res) {
-                var options = ''
-                res.data.items.forEach(item => {
-                    options +=
-                        '<option value="' +
-                        item.id +
-                        '">' +
-                        item.facultyName +
-                        '</option>'
-                })
-                $('#series').append(options)
-            }, Number(e.currentTarget.value))
-        })
-
-        $('#series').change(function(e) {
-            getProfessList(function(res) {
-                var options = ''
-                res.data.items.forEach(item => {
-                    options +=
-                        '<option value="' +
-                        item.id +
-                        '">' +
-                        item.professionName +
-                        '</option>'
-                })
-                $('#profession').append(options)
-            }, Number(e.currentTarget.value))
-        })
-
-        $('#profession').change(function(e) {
-            getClassList(function(res) {
-                var options = ''
-                res.data.items.forEach(item => {
-                    options +=
-                        '<option value="' +
-                        item.id +
-                        '">' +
-                        item.className +
-                        '</option>'
-                })
-                $('#classes').append(options)
-            }, Number(e.currentTarget.value))
-        })
-
-        // 学生列表
+        // 教师列表
         function getList(page) {
-            var stuName = $('#studentName').val(),
-                account = $('#studentCount').val(),
+            var teacherName = $('#teacherName').val(),
+                teacherCount = $('#teacherCount').val(),
                 college = $('#college').val(),
-                userType = $('#userType').val(),
+                userType = 2
                 data = {
                     page: page,
-                    rows: 20
-                    // Key: stuName + '|' + account + '|' + college + '|' + userType
+                    rows: 20,
+                    key: teacherName + '|' + teacherCount + '|' + college + '|' + userType+'|'+'|'+'|'
                 }
 
             admin.post({
@@ -245,6 +213,7 @@
                 }
             })
         }
+
 
         function updateData(formData) {
             admin.put({
@@ -282,11 +251,16 @@
                                 item.collegeName +
                                 '</option>'
                         })
+                        $('#college').html(
+                            '<option value="">请选择学院</option>'
+                        )
+                        $('#college').append(options)
                         $('#teacher_college_list').html(
                             '<option value="">请选择学院</option>'
                         )
                         $('#teacher_college_list').append(options)
                         setSelectOptions()
+                        callback && typeof callback === 'function' && callback()
                     }
                 },
                 error: function(err) {
@@ -617,6 +591,22 @@
         }
 
         // setSelectOptions();
+        function setSelectOptions() {
+            $('#college_model').html('')
+            var col = ''
+
+            collegeList.forEach(item => {
+                col +=
+                    '<option value="' +
+                    item.id +
+                    '">' +
+                    item.collegeName +
+                    '</option>'
+            })
+            $('#college_model').html(col)
+
+            form.render('select')
+        }
 
         $('#add_cource').on('click', function() {
             resetFormData()
@@ -655,6 +645,11 @@
                     $('#series').val(),
                 success: function(res) {}
             })
+        })
+
+        getCollegeList(function() {
+            $('#college_model').val(formData.collegeId)
+            form.render()
         })
 
         function addData(callback) {
