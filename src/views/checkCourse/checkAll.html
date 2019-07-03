@@ -6,9 +6,8 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">课程名称</span>
-            <input type="text" id="courseName"/>
-            <select name="" id="college">
-            </select>
+            <input type="text" id="courseName" />
+            <select name="" id="college"> </select>
             <button class="search-confirm" id="searchCheckList">
                 <img src="src/images/search.png" />
             </button>
@@ -124,7 +123,7 @@
             }
 
         getList(1)
-        $("#searchCheckList").click(function () {
+        $('#searchCheckList').click(function() {
             getList(1)
         })
 
@@ -220,14 +219,14 @@
         }
 
         function getList(page) {
-            var courseName = $("#courseName").val(),
-                college = $("#college").val(),
+            var courseName = $('#courseName').val(),
+                college = $('#college').val(),
                 data = {
                     // sortBy: 'id',
                     page: page,
                     rows: pageLimit,
                     // desc: true,
-                     key: courseName + '|' + college
+                    key: (courseName || '') + '|' + (college || '')
                 }
             admin.post({
                 url: '/coursePlan/listCourseStu',
@@ -300,12 +299,12 @@
             var options = ''
             res.data.items.forEach(item => {
                 options +=
-                '<option value="' +
-                item.id +
-                '">' +
-                item.collegeName +
-                '</option>'
-        })
+                    '<option value="' +
+                    item.id +
+                    '">' +
+                    item.collegeName +
+                    '</option>'
+            })
             $('#college').val('')
             $('#college').append(options)
             setSelectOptions()
@@ -326,12 +325,12 @@
                         var options = ''
                         res.data.items.forEach(item => {
                             options +=
-                            '<option value="' +
-                            item.id +
-                            '">' +
-                            item.collegeName +
-                            '</option>'
-                    })
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.collegeName +
+                                '</option>'
+                        })
                         $('#college').html(
                             '<option value="">请选择开课单位</option>'
                         )
@@ -340,7 +339,7 @@
                             '<option value="">请选择学院</option>'
                         )
                         $('#teacher_college_list').append(options)*/
-//                        setSelectOptions()
+                        //                        setSelectOptions()
                         callback && typeof callback === 'function' && callback()
                     }
                 },
@@ -355,10 +354,10 @@
             form.render()
         })*/
 
-//        getCollegeList(function() {
-//            $('#teacher_college_list').val(formData.collegeId)
-//            form.render()
-//        })
+        //        getCollegeList(function() {
+        //            $('#teacher_college_list').val(formData.collegeId)
+        //            form.render()
+        //        })
 
         /*function setSelectOptions() {
             $('#college_model').html('')

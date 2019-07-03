@@ -149,24 +149,13 @@
                 url: '/dataBank/oneFileUpload', //上传接口
                 method: 'post',
                 field: 'file',
-                // auto: false, //auto 参数必须设置为false
-                // bindAction: '#',
+                data: {
+                    type: Number($('#type').val())
+                },
                 before: function(obj) {
                     var _this = this
+
                     layer.load() //上传loading
-                    this.data = {
-                        type: 2
-                    }
-                    extra_data({ type: 2 })
-                    // obj.preview(function(index, file, result) {
-                    //     console.log('before----', file) //file表示文件信息，result表示文件src地址
-                    //     if (/image/gi.test(file.type)) {
-                    //         type = 2
-                    //         _this.data = {
-                    //             type: type
-                    //         }
-                    //     }
-                    // })
                 },
                 done: function(res) {
                     //上传完毕回调
@@ -181,34 +170,26 @@
 
         form.render()
 
-        // upload.render(uploadOption)
-
-        uploadFile()
+        $('#upload-file').click(function() {
+            uploadFile()
+        })
 
         function uploadFile() {
+            if (Number($('#type').val()) === 0) {
+                layer.msg('请先选择上传文件类型')
+                return
+            }
             upload.render({
                 elem: '#upload-file', //绑定元素
                 url: '/dataBank/oneFileUpload', //上传接口
                 method: 'post',
                 field: 'file',
-                // auto: false, //auto 参数必须设置为false
-                // bindAction: '#',
+                data: {
+                    type: Number($('#type').val())
+                },
                 before: function(obj) {
                     var _this = this
-                    layer.load() //上传loading
-                    // this.data = {
-                    //     type: 2
-                    // }
-                    extra_data({ type: 2 })
-                    // obj.preview(function(index, file, result) {
-                    //     console.log('before----', file) //file表示文件信息，result表示文件src地址
-                    //     if (/image/gi.test(file.type)) {
-                    //         type = 2
-                    //         _this.data = {
-                    //             type: type
-                    //         }
-                    //     }
-                    // })
+                    layer.load()
                 },
                 done: function(res) {
                     //上传完毕回调

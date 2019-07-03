@@ -316,8 +316,10 @@
                 url: '/role/addRole',
                 data: JSON.stringify(data),
                 success: function(res) {
-                    getList(1, 20)
-                    layer.msg('添加成功！')
+                    if (res.code === 200) {
+                        layer.msg('添加成功！')
+                        getList(1, 20)
+                    }
                 }
             })
         }
@@ -334,7 +336,10 @@
                 url: '/role/upDateRole',
                 data: JSON.stringify(formData),
                 success: function(res) {
-                    getList(1, 20)
+                    if (res.code === 200) {
+                        layer.msg('更新成功！')
+                        getList(1, 20)
+                    }
                 }
             })
         }
@@ -343,7 +348,10 @@
             admin.delete({
                 url: '/role/deleteRole?id=' + id,
                 success: function(res) {
-                    getList(1, 20)
+                    if (res.code === 200) {
+                        layer.msg('删除成功！')
+                        getList(1, 20)
+                    }
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
