@@ -4,8 +4,8 @@
     </div>
     <div class="test-info">
         <div class="test-info-item">
-            <span>试卷满分为<i>100</i>分</span>
-            <span>考试时间为<i>60</i>分钟</span>
+            <span>试卷满分为<i id="full_mark"></i>分</span>
+            <span>考试时间为<i id="test_time"></i>分钟</span>
             <span>本次测试的考试时间：</span>
             <span>从<i id="startTime"></i>至<i id="endTime"></i></span>
         </div>
@@ -108,7 +108,60 @@
             admin.get({
                 url: '/testQuestions/info?id=' + 8,
                 success: function(res) {
-                    for (key in res.data) {
+                    $('#full_mark').html(res.data.score)
+                    $('#test_time').html(res.data.testTime)
+                    $('#startTime').html(res.data.startTime)
+                    $('#endTime').html(res.data.endTime)
+                    $('#full_mark').html(res.score)
+
+                    var str = ''
+                    for (key in res.data.map) {
+                        var title =
+                            '<div class="test-tip">\n' +
+                            '            ' +
+                            res.data.map[key] +
+                            '题 (请选择正确答案，本题共计<i>' +
+                            res.data.map[key].length +
+                            '</i>个小题)\n' +
+                            '        </div>\n'
+
+                        var content = ''
+
+                        res.data.map[key].forEach(function(item) {
+                            content +=
+                                '        <div id="test-details-inner">\n' +
+                                '            <div class="test-item">\n' +
+                                '                <div class="test-question">\n' +
+                                '                    <i>1</i\n' +
+                                '                    >.ZK4电空转辙机的摩擦联结器下部夹板不得(分值：<i>5</i>分)\n' +
+                                '                </div>\n' +
+                                '                <ul>\n' +
+                                '                    <li>\n' +
+                                '                        <span>选项A</span>\n' +
+                                '                        <span>生锈</span>\n' +
+                                '                    </li>\n' +
+                                '                    <li>\n' +
+                                '                        <span>选项B</span>\n' +
+                                '                        <span>生锈</span>\n' +
+                                '                    </li>\n' +
+                                '                    <li>\n' +
+                                '                        <span>选项C</span>\n' +
+                                '                        <span>生锈</span>\n' +
+                                '                    </li>\n' +
+                                '                    <li>\n' +
+                                '                        <span>选项D</span>\n' +
+                                '                        <span>生锈</span>\n' +
+                                '                    </li>\n' +
+                                '                </ul>\n' +
+                                '                <div style="color: red; margin-bottom: 10px">\n' +
+                                '                    <span>正确答案</span><span>B</span>\n' +
+                                '                </div>\n' +
+                                '                <div style="color: #006699;">\n' +
+                                '                    <span>我的答案</span><span>B</span>\n' +
+                                '                </div>\n' +
+                                '            </div>\n' +
+                                '        </div>'
+                        })
                     }
                 }
             })
