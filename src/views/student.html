@@ -32,8 +32,9 @@
 </div>
 
 <script>
-    function jumpToDetails() {
-        window.location.href = 'index.html#/checkCourse/preintro'
+    function jumpToDetails(id) {
+        window.location.href = 'index.html#/checkCourse/preintro/id=' + id
+        window.location.reload()
     }
 
     layui.use(['admin'], function() {
@@ -81,7 +82,9 @@
                                 '</span>个，理论测试<span>' +
                                 item.allPape +
                                 '</span>个\n' +
-                                '                    <button class="course-details" onclick="jumpToDetails()">\n' +
+                                '                    <button class="course-details" onclick="jumpToDetails(' +
+                                item.id +
+                                ')">\n' +
                                 '                        详情\n' +
                                 '                    </button>\n' +
                                 '                </div>\n' +
