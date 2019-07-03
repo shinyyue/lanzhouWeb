@@ -1,17 +1,21 @@
 <div class="common-layout">
     <div class="layout-sider">
         <div class="layui-logo">
-            <img src="src/images/logo_1.png" class="layui-logo-img" />
+            <img src="src/images/logo_1.png"
+                 class="layui-logo-img" />
         </div>
         <div class="sidebar-user">
-            <img src="src/images/user_logo.png" class="user-logo" />
+            <img src="src/images/user_logo.png"
+                 class="user-logo" />
             <div class="user-info">
-                <div class="user-info-name" id="nav_user_name">王小虎</div>
-                <div id="nav_user_role">老师</div>
+                <div class="user-info-name"
+                     id="nav_user_name"></div>
+                <div id="nav_user_role"></div>
             </div>
         </div>
         <!-- 配置部分 -->
-        <div id="home_welcome" class="home-welcome">
+        <div id="home_welcome"
+             class="home-welcome">
             <span>Welcome!</span>
             <p>欢迎您使用虚拟仿真实验教学平台！</p>
             <p>
@@ -19,20 +23,22 @@
             </p>
         </div>
 
-        <ul id="side_nav" class="layui-nav" layui-filter="side_nav"></ul>
+        <ul id="side_nav"
+            class="layui-nav"
+            layui-filter="side_nav"></ul>
     </div>
     <div class="layout-right">
         <div class="layout-header">
             <div class="layout-header-left">虚拟仿真实验教学管理平台</div>
-            <ul
-                class="layui-nav layout-header-right"
+            <ul class="layui-nav layout-header-right"
                 id="header_nav"
-                lay-filter="header_nav"
-            >
-                <li class="layui-nav-item" id="logout">退出系统</li>
+                lay-filter="header_nav">
+                <li class="layui-nav-item"
+                    id="logout">退出系统</li>
             </ul>
         </div>
-        <div class="layout-containner" id="app-body"></div>
+        <div class="layout-containner"
+             id="app-body"></div>
     </div>
 </div>
 
@@ -41,511 +47,161 @@
         .config({
             base: 'src/plugins/' //自定义layui组件的目录
         })
-        .use(['element', 'layer', 'navbar', 'admin'], function() {
+        .use(['element', 'layer', 'navbar', 'admin'], function () {
             var element = layui.element,
                 $ = layui.jquery,
                 layer = layui.layer,
                 navbar = layui.navbar(),
                 admin = layui.admin,
                 route = layui.router(),
-                currentPath = route.path[0]
+                path = route.href, // 路由后缀
+                firstPath = route.path[0], // 一级路由地址
+                menuList = layui.data('role').role.menuTrees
 
-            var menuList = [
-                    {
-                        role: 2,
-                        menu: [
-                            {
-                                name: '首页',
-                                path: '/',
-                                child: []
-                            },
-                            {
-                                name: '课程管理',
-                                path: '/course/index',
-                                child: [
-                                    {
-                                        name: '课程库',
-                                        path: '/course/index',
-                                        child: []
-                                    }
-                                ]
-                            },
-                            {
-                                name: '课程设置',
-                                path: '/techSet/techpre',
-                                child: [
-                                    {
-                                        name: '课程导读',
-                                        path: '/techSet/techpre',
-                                        child: []
-                                    },
-                                    {
-                                        name: '试卷管理',
-                                        path: '/techSet/paperManage',
-                                        child: []
-                                    },
-                                    {
-                                        name: '实验准备',
-                                        path: '/techSet/readyCheck',
-                                        child: [
-                                            {
-                                                name: '布置新实验',
-                                                path: '/techSet/readyCheck'
-                                            },
-                                            {
-                                                name: '已安排实验',
-                                                path: '/techSet/readyList'
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        name: '实验过程',
-                                        path: '/techSet/processTest',
-                                        child: []
-                                    },
-                                    {
-                                        name: '实验结果',
-                                        path: '/techSet/processTest',
-                                        child: [
-                                            {
-                                                name: '实验批改',
-                                                path: '/techSet/resultTest'
-                                            },
-                                            {
-                                                name: '成绩导出',
-                                                path: '/techSet/scoreOut'
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        name: '实验评价',
-                                        path: '/techSet/evaluate',
-                                        child: []
-                                    }
-                                ]
-                            },
-                            {
-                                name: '开课管理',
-                                path: '/techManage/techList',
-                                child: [
-                                    {
-                                        name: '开课计划',
-                                        path: '/techManage/plan',
-                                        child: []
-                                    },
-                                    {
-                                        name: '开课列表',
-                                        path: '/techManage/techList',
-                                        child: []
-                                    },
-                                    {
-                                        name: '开课统计',
-                                        path: '/techManage/display',
-                                        child: []
-                                    }
-                                ]
-                            },
-                            {
-                                name: '实验管理',
-                                path: '/experiment/mylist',
-                                child: [
-                                    {
-                                        name: '实验管理',
-                                        path: '/experiment/mylist',
-                                        child: [
-                                            {
-                                                name: '参考实验库',
-                                                path: '/experiment/refer'
-                                            },
-                                            {
-                                                name: '我的实验库',
-                                                path: '/experiment/mylist'
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                name: '资源管理',
-                                path: '/sourceManage/myList',
-                                child: [
-                                    {
-                                        name: '资源管理',
-                                        path: '/sourceManage/myList',
-                                        child: [
-                                            {
-                                                name: '我的资源库',
-                                                path: '/sourceManage/myList'
-                                            },
-                                            {
-                                                name: '教学资源库',
-                                                path: '/sourceManage/techList'
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                name: '题库管理',
-                                path: '/examine/knowledge',
-                                child: [
-                                    {
-                                        name: '题库管理',
-                                        path: '/examine/knowledge',
-                                        child: [
-                                            {
-                                                name: '知识点',
-                                                path: '/examine/knowledge'
-                                            },
-                                            {
-                                                name: '习题库',
-                                                path: '/examine/examlist'
-                                            },
-                                            {
-                                                name: '试卷策略',
-                                                path: '/examine/ploy'
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                name: '课程表',
-                                path: '/schedule/teacherList',
-                                child: [
-                                    {
-                                        name: '课程表',
-                                        path: '/schedule/teacherList',
-                                        child: [
-                                            {
-                                                name: '教师个人课程表',
-                                                path: '/schedule/teacherList'
-                                            },
-                                            {
-                                                name: '总课程表',
-                                                path: '/schedule/allList'
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                name: '答疑室',
-                                path: '/chatTeacher'
-                            },
-                            {
-                                name: '个人信息',
-                                path: '/personalInfo/personalInfo',
-                                child: [
-                                    {
-                                        name: '个人信息',
-                                        path: '/personalInfo/personalInfo'
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        role: 1,
-                        menu: [
-                            {
-                                name: '首页',
-                                path: '/student'
-                            },
-                            {
-                                name: '选课',
-                                path: '/checkCourse/checkAll',
-                                child: [
-                                    {
-                                        name: '选课',
-                                        path: '/checkCourse/checkAll'
-                                    },
-                                    {
-                                        name: '查看已选课单',
-                                        path: '/checkCourse/checkedList'
-                                    }
-                                ]
-                            },
-                            {
-                                name: '课程内容',
-                                path: '/checkCourse/preintro',
-                                child: [
-                                    {
-                                        name: '课程导读',
-                                        path: '/checkCourse/preintro'
-                                    },
-                                    {
-                                        name: '理论测试',
-                                        path: '/checkCourse/testList'
-                                    },
-                                    {
-                                        name: '虚拟实验',
-                                        path: '/checkCourse/virtualTest'
-                                    },
-                                    /*{
-                                        name: '实物实验',
-                                        path: '/checkCourse/entityTest'
-                                    },*/
-                                    {
-                                        name: '课程评价',
-                                        path: '/checkCourse/courseEvaluate'
-                                    }
-                                ]
-                            },
-                            {
-                                name: '资源库',
-                                path: '/sourceManage/myList',
-                                child: [
-                                    {
-                                        name: '资源库',
-                                        path: '/sourceManage/myList',
-                                        child: [
-                                            {
-                                                name: '我的收藏',
-                                                path: '/sourceManage/myList'
-                                            },
-                                            {
-                                                name: '资源列表',
-                                                path: '/sourceManage/techList'
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                name: '课程表',
-                                path: '/schedule/allList',
-                                child: [
-                                    {
-                                        name: '课程表',
-                                        path: '/schedule/allList',
-                                        child: [
-                                            {
-                                                name: '学生个人课程表',
-                                                path: '/schedule/teacherList'
-                                            },
-                                            {
-                                                name: '总课程表',
-                                                path: '/schedule/allList'
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                name: '答疑室',
-                                path: '/chatStudent'
-                            },
-                            {
-                                name: '个人信息',
-                                path: '/personalInfo/personalInfo',
-                                child: [
-                                    {
-                                        name: '个人信息',
-                                        path: '/personalInfo/personalInfo'
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        role: 3,
-                        menu: [
-                            {
-                                name: '用户管理',
-                                path: '/user/all',
-                                child: [
-                                    {
-                                        name: '用户管理',
-                                        path: '/user/all',
-                                        child: [
-                                            {
-                                                name: '学生列表',
-                                                path: '/user/student'
-                                            },
-                                            {
-                                                name: '教工列表',
-                                                path: '/user/teacher'
-                                            },
-                                            {
-                                                name: '所有用户',
-                                                path: '/user/all'
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        name: '机构管理',
-                                        path: '/orgManage/college',
-                                        child: [
-                                            {
-                                                name: '学院管理',
-                                                path: '/orgManage/college'
-                                            },
-                                            {
-                                                name: '系管理',
-                                                path: '/orgManage/school'
-                                            },
-                                            {
-                                                name: '专业管理',
-                                                path: '/orgManage/profess'
-                                            },
-                                            {
-                                                name: '班管理',
-                                                path: '/orgManage/classes'
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                name: '系统管理',
-                                path: '/systemManage/roleManage',
-                                child: [
-                                    {
-                                        name: '系统管理',
-                                        path: '/systemManage/roleManage',
-                                        child: [
-                                            {
-                                                name: '角色管理',
-                                                path: '/systemManage/roleManage'
-                                            },
-                                            {
-                                                name: '权限管理',
-                                                path: '/systemManage/authManage'
-                                            },
-                                            {
-                                                name: '学生类型',
-                                                path:
-                                                    '/systemManage/studentType'
-                                            },
-                                            {
-                                                name: '教室管理',
-                                                path:
-                                                    '/systemManage/classroomManage'
-                                            },
-                                            {
-                                                name: '实验室管理',
-                                                path: '/systemManage/labManage'
-                                            },
-                                            {
-                                                name: '实验类型管理',
-                                                path: '/systemManage/testType'
-                                            },
-                                            {
-                                                name: '规则管理',
-                                                path: '/systemManage/ruleManage'
-                                            },
-                                            {
-                                                name: '周次管理',
-                                                path:
-                                                    '/systemManage/weekTimeManage'
-                                            },
-                                            {
-                                                name: '数据备份',
-                                                path: '/systemManage/dataBackup'
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                name: '学期配置',
-                                path: '/termDeploy/termSet',
-                                child: [
-                                    {
-                                        name: '学期配置',
-                                        path: '/termDeploy/termSet',
-                                        child: [
-                                            {
-                                                name: '学期设置',
-                                                path: '/termDeploy/termSet'
-                                            },
-                                            {
-                                                name: '选课日期',
-                                                path:
-                                                    '/termDeploy/courseSelecteDate'
-                                            },
-                                            {
-                                                name: '上课时间',
-                                                path: '/termDeploy/classTime'
-                                            },
-                                            {
-                                                name: '年期管理',
-                                                path: '/termDeploy/gradeManage'
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                name: '统计管理',
-                                path: '/statistics/tech',
-                                child: [
-                                    {
-                                        name: '统计管理',
-                                        path: '/statistics/tech',
-                                        child: [
-                                            {
-                                                name: '系开课统计管理',
-                                                path: '/statistics/tech'
-                                            },
-                                            {
-                                                name: '虚拟实验统计',
-                                                path: '/statistics/test'
-                                            },
-                                            {
-                                                name: '成绩系统分析',
-                                                path: '/statistics/score'
-                                            },
-                                            {
-                                                name: '资源统计管理',
-                                                path: '/statistics/source'
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                name: '个人信息',
-                                path: '/personalInfo/personalInfo',
-                                child: [
-                                    {
-                                        name: '个人信息',
-                                        path: '/personalInfo/personalInfo'
-                                    }
-                                ]
-                            }
-                        ]
+            console.log(777, path, route)
+
+            // todo: 路由判断不严谨，需去掉hash参数
+
+            initHeaderNav()
+            setSideNav()
+
+            function initHeaderNav() {
+                var menuStr = ''
+                for (var i = 0; i < menuList.length; i++) {
+                    var status = '',
+                        menuUrlList = menuList[i].menuUrl.split('/');
+
+                    // 当前页面与此nav的一级路由相同时，设置header_nav的选中状态, 并设置侧边栏
+                    if (menuUrlList[1] === firstPath) {
+                        status = 'active'
                     }
-                ],
-                role = layui.data('user').role,
-                currentFirstMenuList = [],
-                headerNavTemp = ''
+                    menuStr +=
+                        '<li class="layui-nav-item ' + status + '"' +
+                        'data-path="' + menuList[i].menuUrl + '"> ' + menuList[i].menuName +
+                        '</li>'
+                }
+                $('#header_nav').prepend(menuStr)
+            }
 
-            for (var i = 0; i < menuList.length; i++) {
-                if (menuList[i].role === role) {
-                    currentFirstMenuList = menuList[i].menu
+            function setSideNav() {
+                // 根据一级路由找到对应的侧边列表，渲染
+                // 找到与当前页面路由一致的菜单，若该菜单无二级，则设置为选中状态；若该菜单有二级，则设置该一级菜单展开二级，并将与当前路由一致的二级菜单设为选中状态
+                for (var j = 0; j < menuList.length; j++) {
+                    var menuUrlList = menuList[j].menuUrl.split('/');
+                    if (menuUrlList[1] === firstPath) {
+                        var child = menuList[j].child;
+                        var childNav = ''
+
+                        if (child.length === 0) {
+                            setHomeSide()
+                            return;
+                        }
+                        for (var k = 0; k < child.length; k++) {
+                            var dlStr = '';
+                            var childFirstPath = child[k].menuUrl.split('/')[1];
+
+                            if (child[k].child.length > 0) {
+                                var list = child[k].child;
+                                var ddStr = '';
+                                var showDl = false;
+
+                                for (var f = 0; f < list.length; f++) {
+                                    ddStr +=
+                                        '<dd class="' + (list[f].menuUrl === path ? 'active' : '') + '">' +
+                                        '   <a target="' + ('' || '') + '" ' +
+                                        '      lay-href="' + (list[f].menuUrl || '') + ' ">' +
+                                        list[f].menuName +
+                                        '   </a>' +
+                                        '</dd>'
+                                }
+
+                                showDl = (firstPath === childFirstPath) ? 'show' : ''
+
+                                dlStr = '<dl class="layui-nav-child ' + showDl + '">' + ddStr + '</dd>'
+                            }
+
+                            childNav +=
+                                '<li class="layui-nav-item">' +
+                                '   <a href="/index.html#' + child[k].menuUrl +
+                                '"data-url="' + child[k].menuUrl + '">' +
+                                '       <cite>' + child[k].menuName + '</cite>' +
+                                '   </a>' +
+                                dlStr +
+                                '</li>'
+                        }
+
+                        $('#home_welcome').css({
+                            display: 'none'
+                        })
+                        $('#side_nav').html(childNav)
+
+                        $('#side_nav .layui-nav-item').each(function () {
+                            var index = $(this).index()
+                            if (
+                                $(this)
+                                .find('a')
+                                .data('url') === path
+                            ) {
+                                $(this).addClass('layui-this')
+                            }
+                        })
+                    }
                 }
             }
 
-            renderSide()
+            $('#side_nav .layui-nav-item').click(function () {
+                $(this).addClass('layui-this');
+                $(this).siblings().removeClass('layui-this')
 
-            function setHomeSide(path) {
+                var dl = $(this).find('dl')
+                if (dl) {
+                    $(this)
+                        .find('dl')
+                        .css('display', 'block')
+                    if (
+                        $(this)
+                        .siblings()
+                        .find('dl')
+                    ) {
+                        $(this)
+                            .siblings()
+                            .find('dl')
+                            .css('display', 'none')
+                    }
+                }
+            })
+
+            $('#side_nav .layui-nav-child dd').on('click', function () {
+                $(this).css('background', '#fff')
+                $(this)
+                    .find('a')
+                    .css('color', '#1a3471')
+                $(this)
+                    .siblings()
+                    .css('background', '#1a3471')
+                $(this)
+                    .siblings()
+                    .find('a')
+                    .css('color', '#fff')
+            })
+
+
+            function setHomeSide() {
                 if (path === '/student') {
                     $('#home_welcome').css('display', 'block')
                     $('#side_nav').css('display', 'none')
                     $('#home_welcome').html(
                         '<span>Welcome!</span>' +
-                            '<p>欢迎您使用虚拟仿真实验教学平台！</p>' +
-                            '<p>如有困难请点击主菜单栏的“答疑室”搜索常见问题或者向网上值班的老师提问。如果教师不在线你的问题将自动发送到教师的邮箱中。</p>'
+                        '<p>欢迎您使用虚拟仿真实验教学平台！</p>' +
+                        '<p>如有困难请点击主菜单栏的“答疑室”搜索常见问题或者向网上值班的老师提问。如果教师不在线你的问题将自动发送到教师的邮箱中。</p>'
                     )
                 } else if (path === '/') {
                     $('#home_welcome').css('display', 'block')
                     $('#side_nav').css('display', 'none')
                     $('#home_welcome').html(
                         '<span>Welcome!</span>' +
-                            '<p>欢迎您使用虚拟仿真实验教学平台！</p>' +
-                            '<p>教师在任课期间点击主菜单栏的“答疑室”可接受学生的咨询、整理常见问题、维护答疑库。当您不在答疑室期间，学生针对您所任课程的问题将直接发往您本人登记的电子邮件，请您及时回答学生的问题。</p>'
+                        '<p>欢迎您使用虚拟仿真实验教学平台！</p>' +
+                        '<p>教师在任课期间点击主菜单栏的“答疑室”可接受学生的咨询、整理常见问题、维护答疑库。当您不在答疑室期间，学生针对您所任课程的问题将直接发往您本人登记的电子邮件，请您及时回答学生的问题。</p>'
                     )
                 } else {
                     $('#home_welcome').css('display', 'none')
@@ -553,159 +209,23 @@
                 }
             }
 
-            function setSideDefault(curSideList, curPath) {
-                if (!curSideList || curSideList.length === 0) return
-                for (var k = 0; k < curSideList.length; k++) {
-                    curSideList[k].title = curSideList[k].name
-                    curSideList[k].href = curSideList[k].path
-                    curSideList[k].spread = curSideList[k].path === curPath
-                }
-
-                navbar.set({
-                    spreadOne: true,
-                    elem: '#side_nav',
-                    data: curSideList
-                })
-
-                navbar.render()
-
-                var temp = ''
-                for (var m = 0; m < curSideList.length; m++) {
-                    var childTem = ''
-
-                    if (
-                        curSideList[m].child &&
-                        curSideList[m].child.length > 0
-                    ) {
-                        for (var v = 0; v < curSideList[m].child.length; v++) {
-                            var child = curSideList[m].child[v]
-                            childTem +=
-                                '<dd class="' +
-                                (child.path === curPath ? 'active' : '') +
-                                '"><a target="' +
-                                ('' || '') +
-                                '" lay-href="' +
-                                (child.path || '') +
-                                '">' +
-                                child.name +
-                                '</a>' +
-                                '</dd>'
-                        }
-                        childTem =
-                            '<dl class="layui-nav-child">' + childTem + '</dd>'
-                    }
-
-                    temp +=
-                        '<li class="layui-nav-item"><a href="/index.html#' +
-                        curSideList[m].path +
-                        '" data-url="' +
-                        curSideList[m].path +
-                        '"><cite>' +
-                        curSideList[m].name +
-                        '</cite></a>' +
-                        childTem +
-                        '</li>'
-                }
-                $('#side_nav').html(temp)
-
-                $('#side_nav .layui-nav-item').each(function() {
-                    var index = $(this).index()
-
-                    if (
-                        $(this)
-                            .find('a')
-                            .data('url') === curPath
-                    ) {
-                        $(this).addClass('layui-this')
-                    }
-                })
-
-                $('#side_nav .layui-nav-child dd').on('click', function() {
-                    $(this).css('background', '#fff')
-                    $(this)
-                        .find('a')
-                        .css('color', '#1a3471')
-                    $(this)
-                        .siblings()
-                        .css('background', '#1a3471')
-                    $(this)
-                        .siblings()
-                        .find('a')
-                        .css('color', '#fff')
-                })
-
-                $('#side_nav .layui-nav-item').on('click', function() {
-                    $(this).addClass('layui-this')
-                    $(this)
-                        .siblings()
-                        .removeClass('layui-this')
-                    var dl = $(this).find('dl')
-                    if (dl) {
-                        $(this)
-                            .find('dl')
-                            .css('display', 'block')
-                        if (
-                            $(this)
-                                .siblings()
-                                .find('dl')
-                        ) {
-                            $(this)
-                                .siblings()
-                                .find('dl')
-                                .css('display', 'none')
-                        }
-                    }
-                })
-            }
-
-            function renderSide() {
-                for (var j = 0; j < currentFirstMenuList.length; j++) {
-                    var curPath = currentFirstMenuList[j].path
-                    var reg = new RegExp(currentPath),
-                        curSideList =
-                            currentFirstMenuList[j] &&
-                            currentFirstMenuList[j].child
-
-                    headerNavTemp +=
-                        '<li class="layui-nav-item ' +
-                        (reg.test(curPath) ? 'active' : '') +
-                        '" data-path="' +
-                        curPath +
-                        '">' +
-                        currentFirstMenuList[j].name +
-                        '</li>'
-
-                    if (reg.test(curPath)) {
-                        setHomeSide(curPath)
-                        setSideDefault(curSideList, curPath)
-                    }
-                }
-
-                $('#header_nav').html(headerNavTemp + $('#header_nav').html())
-            }
-
-            $(document).on('click', '#header_nav li', function() {
-                var path = $(this).data('path'),
-                    index = $(this).index(),
-                    curSideList =
-                        currentFirstMenuList[index] &&
-                        currentFirstMenuList[index].child
+            $(document).on('click', '#header_nav li', function () {
+                var curPath = $(this).data('path');
 
                 // 设置一级菜单的状态
                 $(this).addClass('active')
                 $(this)
                     .siblings()
                     .removeClass('active')
-                // todo: 根据角色决定默认的路由是 / 还是/student 或者其他。
-                window.location.href = 'index.html#' + path || '/'
 
-                setHomeSide(path)
+                window.location.href = 'index.html#' + curPath
+                path = curPath
+                firstPath = path.split('/')[1]
 
-                // 找到此一级菜单对应的侧边二级菜单
-                setSideDefault(curSideList, path)
+                setSideNav()
             })
 
-            $('#logout').on('click', function() {
+            $('#logout').on('click', function () {
                 admin.logout()
             })
 
@@ -714,6 +234,7 @@
                 layui.data('userInfo').userInfo.roleName || ''
             )
         })
+
 </script>
 
 <style>
@@ -726,7 +247,9 @@
     }
 
     .common-layout {
-        width: 1350px;
+        /* width: 1350px; */
+        width: 100%;
+        min-width: 1400px;
         height: 100%;
         margin: 0 auto;
     }
@@ -737,6 +260,8 @@
         background: rgba(26, 52, 113, 1);
         float: left;
         overflow: auto;
+        position: relative;
+        z-index: 1000;
     }
 
     .layui-logo {
@@ -777,10 +302,19 @@
     }
 
     .common-layout .layout-right {
-        width: 1130px;
+        /* width: 1130px; */
+        width: 100%;
+        /* position: */
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        padding-left: 220px;
         height: 100%;
         background: #fff;
         float: right;
+        box-sizing: border-box;
     }
 
     .common-layout .layout-right .layout-header {
@@ -842,7 +376,13 @@
     #side_nav .layui-nav-child {
         background: rgba(26, 52, 113, 1);
         color: #fff;
+        display: none;
     }
+
+    #side_nav .layui-nav-child.show {
+        display: block;
+    }
+
 
     #side_nav .layui-nav-child dd.active {
         background: #fff;
@@ -862,4 +402,5 @@
         color: #fff;
         background: rgba(0, 176, 202, 1);
     }
+
 </style>
