@@ -5,7 +5,7 @@
                 <input type="text" placeholder="搜索课程" class="layui-input" />
                 <i class="layui-icon layui-icon-search search-icon"></i>
             </div>
-            <div class="history-list">
+            <div class="history-list" id="published_course">
                 <div class="member-item active">
                     <img src="src/images/user_logo.png" class="member-avator" />
                     <span>铁路信息知识</span>
@@ -105,25 +105,97 @@
 <script>
     layui.use([], function() {
         var $ = layui.jquery,
-            admin = layui.admin
+            admin = layui.admin,
+            publishedCourseList = [],
+            userId = layui.data('userInfo').userInfo.id,
+            ws = new WebSocket('ws://39.104.97.6:8088/netty3?userId=' + userId),
+            checkedItem = null,
+            message = {
+                contentText: '',
+                toUserId: '',
+                type: 0,
+                fromUserId: 0,
+                isTeacher: 0,
+                userName: layui.data('userInfo').userInfo.userName
+            }
 
         getList()
 
-        $('.chating-add-btn').click(function() {
-            $('.chat-member-list').css({ display: 'block' })
-        })
+        // $('.chating-add-btn').click(function() {
+        //     $('.chat-member-list').css({ display: 'block' })
+        // })
+
+        // getList()
+
+        ws.onopen = function() {}
+
+        ws.onmessage = function(evt) {
+            var received_msg = evt.data
+            console.log(1111, received_msg)
+        }
+
+        ws.onclose = function() {
+            // 关闭 websocket
+            alert('连接已关闭...')
+        }
+
+        function wsHandler(sendMessage) {
+            var timer = null
+            // CONNECTING === 0 连接还没开启。
+            // OPEN === 1 连接已开启并准备好进行通信。
+            // CLOSING === 2 连接正在关闭的过程中。
+            // CLOSED === 3 连接已经关闭，或者连接无法建立。
+            if (ws.readyState === 1) {
+                ws.send(JSON.stringify(sendMessage))
+                clearTimeout(timer)
+            } else if (ws.readyState === 2) {
+                timer = setTimeout(() => {
+                    wsHandler(sendMessage)
+                }, 500)
+            } else if (ws.readyState === 3) {
+                clearTimeout(timer)
+            }
+        }
+
+        function initWS() {}
 
         function getList() {
             var data = {
                 page: 1,
-                rows: 10000,
-                userId: layui.data('userInfo').userInfo.id
+                rows: 10000
             }
             admin.post({
-                url: '/selectedCourse/getList',
+                url: '/coursePlan/listCourse',
                 data: JSON.stringify(data),
                 success: function(res) {
-                    console.log(res)
+                    var arr = []
+                    var courseItem = ''
+
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(function(item) {
+                            if (item.publist == 1) {
+                                arr.push(item)
+                                courseItem +=
+                                    '<div class="member-item">' +
+                                    '<img src="src/images/user_logo.png" class="member-avator" />' +
+                                    '<span>' +
+                                    item.courseName +
+                                    '</span>' +
+                                    '</div>'
+                            }
+                        })
+                    publishedCourseList = arr
+                    $('#published_course').html(courseItem)
+                    $('#published_course .member-item').click(function() {
+                        checkedItem = selectedCourseList[$(this).index()]
+                        message.toUserId = checkedItem.courseNumber
+                        wsHandler(message)
+                        $(this).addClass('active')
+                        $(this)
+                            .siblings()
+                            .removeClass('active')
+                    })
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')

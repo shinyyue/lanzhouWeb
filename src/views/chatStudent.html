@@ -5,20 +5,7 @@
                 <input type="text" placeholder="搜索课程" class="layui-input" />
                 <i class="layui-icon layui-icon-search search-icon"></i>
             </div>
-            <div class="history-list">
-                <div class="member-item active">
-                    <img src="src/images/user_logo.png" class="member-avator" />
-                    <span>铁路信息知识</span>
-                </div>
-                <div class="member-item">
-                    <img src="src/images/user_logo.png" class="member-avator" />
-                    <span>计算机网络</span>
-                </div>
-                <div class="member-item">
-                    <img src="src/images/user_logo.png" class="member-avator" />
-                    <span>计算机联锁</span>
-                </div>
-            </div>
+            <div class="history-list" id="checked_course_list"></div>
         </div>
         <div class="chating-list">
             <div class="chating-title">
@@ -107,19 +94,25 @@
         var $ = layui.jquery,
             admin = layui.admin,
             userId = layui.data('userInfo').userInfo.id,
-            ws = new WebSocket('ws://39.104.97.6:8088/netty3?userId=' + userId)
+            ws = new WebSocket('ws://39.104.97.6:8088/netty3?userId=' + userId),
+            selectedCourseList = [],
+            checkedItem = null,
+            message = {
+                contentText: '',
+                toUserId: '',
+                type: 0,
+                fromUserId: 0,
+                isTeacher: 0,
+                userName: layui.data('userInfo').userInfo.userName
+            }
 
         getList()
 
-        ws.onopen = function() {
-            // ws.send('发送数据')
-            alert('数据发送中...')
-        }
+        ws.onopen = function() {}
 
         ws.onmessage = function(evt) {
             var received_msg = evt.data
             console.log(1111, received_msg)
-            alert('数据已接收...')
         }
 
         ws.onclose = function() {
@@ -127,36 +120,108 @@
             alert('连接已关闭...')
         }
 
-        // function wsHandler(sendMessage) {
-        //     // CONNECTING === 0 连接还没开启。
-        //     // OPEN === 1 连接已开启并准备好进行通信。
-        //     // CLOSING === 2 连接正在关闭的过程中。
-        //     // CLOSED === 3 连接已经关闭，或者连接无法建立。
-        //     if (ws.readyState === ws.OPEN) {
-        //         this.wsOnSend(sendMessage)
-        //         clearTimeout(timer)
-        //     } else if (ws.readyState === ws.CONNECTING) {
-        //         timer = setTimeout(() => {
-        //             this.wsHandler(sendMessage)
-        //         }, 500)
-        //     } else if (ws.readyState === ws.CLOSED) {
-        //         clearTimeout(timer)
-        //     }
-        // }
+        function wsHandler(sendMessage) {
+            var timer = null
+            // CONNECTING === 0 连接还没开启。
+            // OPEN === 1 连接已开启并准备好进行通信。
+            // CLOSING === 2 连接正在关闭的过程中。
+            // CLOSED === 3 连接已经关闭，或者连接无法建立。
+            if (ws.readyState === 1) {
+                ws.send(JSON.stringify(sendMessage))
+                clearTimeout(timer)
+            } else if (ws.readyState === 2) {
+                timer = setTimeout(() => {
+                    wsHandler(sendMessage)
+                }, 500)
+            } else if (ws.readyState === 3) {
+                clearTimeout(timer)
+            }
+        }
 
         function initWS() {}
 
         function getList() {
             var data = {
                 page: 1,
-                rows: 10000,
-                userId: layui.data('userInfo').userInfo.id
+                rows: 10000
             }
             admin.post({
                 url: '/selectedCourse/getList',
                 data: JSON.stringify(data),
                 success: function(res) {
                     console.log(res)
+                    res = {
+                        msg: '成功',
+                        code: 200,
+                        data: {
+                            total: 4,
+                            items: [
+                                {
+                                    courseName: '体育3',
+                                    courseNumber: 1,
+                                    school: '选修',
+                                    classroomName: '体育学院',
+                                    publish: '已开课',
+                                    creditHour: 0,
+                                    time: '星期一2至2节'
+                                },
+                                {
+                                    courseName: '体育2',
+                                    courseNumber: 1,
+                                    school: '选修',
+                                    classroomName: '体育学院',
+                                    publish: '已开课',
+                                    creditHour: 0,
+                                    time: '星期一2至3节'
+                                },
+                                {
+                                    courseName: '体育4',
+                                    courseNumber: 2,
+                                    school: '选修',
+                                    classroomName: '体育学院',
+                                    publish: '已开课',
+                                    creditHour: 0,
+                                    time: '星期一1至1节'
+                                },
+                                {
+                                    courseName: '体育1',
+                                    courseNumber: 1,
+                                    school: '选修',
+                                    classroomName: '体育学院',
+                                    publish: '已开课',
+                                    creditHour: 0,
+                                    time: '星期四1至3节'
+                                }
+                            ]
+                        }
+                    }
+
+                    if (res.data && res.data.items) {
+                        var courseItem = ''
+                        selectedCourseList = res.data.items
+                        res.data.items.forEach(function(item) {
+                            courseItem +=
+                                '<div class="member-item">' +
+                                '<img src="src/images/user_logo.png" class="member-avator" />' +
+                                '<span>' +
+                                item.courseName +
+                                '</span>' +
+                                '</div>'
+                        })
+                        $('#checked_course_list').html(courseItem)
+                        $('#checked_course_list .member-item').click(
+                            function() {
+                                checkedItem =
+                                    selectedCourseList[$(this).index()]
+                                message.toUserId = checkedItem.courseNumber
+                                wsHandler(message)
+                                $(this).addClass('active')
+                                $(this)
+                                    .siblings()
+                                    .removeClass('active')
+                            }
+                        )
+                    }
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')

@@ -6,7 +6,7 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">实验名称</span>
-            <input type="text">
+            <input type="text" />
             <select name="" id="">
                 <option value="">选择课程</option>
                 <option value="">课程1</option>
@@ -19,11 +19,11 @@
                 <option value="">实验类型3</option>
             </select>
             <button class="search-confirm">
-                <img src="src/images/search.png">
+                <img src="src/images/search.png" />
             </button>
         </div>
     </div>
-    <table id="course-list-table" lay-filter="course-list-table"></table>
+    <table id="experiment_refer" lay-filter="experiment_refer"></table>
     <script type="text/html" id="refer-opt">
         <button class="course-set-btn" lay-event="check">查看</button>
     </script>
@@ -31,8 +31,8 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery'], function (table, $) {
-        var tableFilter = 'course-list-table',
+    layui.use(['table', 'jquery'], function(table, $) {
+        var tableFilter = 'experiment_refer',
             laypage = layui.laypage,
             $ = layui.jquery,
             admin = layui.admin,
@@ -53,7 +53,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function (obj, first) {
+                jump: function(obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -64,7 +64,8 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [{
+                    [
+                        {
                             title: '序号',
                             field: 'id',
                             width: 80,
@@ -79,7 +80,6 @@
                             title: '课程名称',
                             field: 'curriculumName',
                             align: 'center'
-
                         },
                         {
                             title: '实验类型',
@@ -89,7 +89,7 @@
                         {
                             title: '创建者',
                             field: 'userName',
-                            align: 'center',
+                            align: 'center'
                         },
                         {
                             title: '操作',
@@ -99,14 +99,12 @@
                         }
                     ]
                 ]
-            };
-
-
+            }
 
         getList(1)
 
-        $('#add_college').on('click', function () {
-            formData = {};
+        $('#add_college').on('click', function() {
+            formData = {}
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -117,16 +115,16 @@
                 skin: 'user-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function (index, layero) {
+                yes: function(index, layero) {
                     layer.close(index)
                     addData(formData)
                 },
-                cancel: function (index) {
+                cancel: function(index) {
                     layer.close(index)
                 }
             })
             form.render()
-        });
+        })
 
         function getList(page) {
             var data = {
@@ -137,21 +135,21 @@
             admin.post({
                 url: '/experiments/list',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
+        }
 
-        table.on('tool(course-list-table)', function (obj) {
-            var data = obj.data; //获得当前行数据
-            var layEvent = obj.event;
+        table.on('tool(experiment_refer)', function(obj) {
+            var data = obj.data //获得当前行数据
+            var layEvent = obj.event
             if (layEvent === 'check') {
                 location.href = 'index.html#/experiment/mydetails/id=' + data.id
             }
