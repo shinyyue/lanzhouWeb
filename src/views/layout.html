@@ -52,8 +52,6 @@
                 firstPath = route.path[0], // 一级路由地址
                 menuList = layui.data('role').role.menuTrees
 
-            console.log(777, path, route)
-
             // todo: 路由判断不严谨，需去掉hash参数
 
             initHeaderNav()
@@ -103,11 +101,12 @@
                                 var list = child[k].child
                                 var ddStr = ''
                                 var showDl = false
+                                var pathReg = new RegExp(path, 'ig')
 
                                 for (var f = 0; f < list.length; f++) {
                                     ddStr +=
                                         '<dd class="' +
-                                        (list[f].menuUrl === path
+                                        (pathReg.test(list[f].menuUrl)
                                             ? 'active'
                                             : '') +
                                         '">' +
@@ -115,6 +114,8 @@
                                         ('' || '') +
                                         '" ' +
                                         '      lay-href="' +
+                                        (list[f].menuUrl || '') +
+                                        '" data-url="' +
                                         (list[f].menuUrl || '') +
                                         '">' +
                                         list[f].menuName +
@@ -163,47 +164,62 @@
                                 $(this).addClass('layui-this')
                             }
                         })
+
+                        $('#side_nav .layui-nav-item').click(function() {
+                            $(this).addClass('layui-this')
+                            $(this)
+                                .siblings()
+                                .removeClass('layui-this')
+
+                            var dl = $(this).find('dl')
+                            if (dl) {
+                                $(this)
+                                    .find('dl')
+                                    .css('display', 'block')
+                                if (
+                                    $(this)
+                                        .siblings()
+                                        .find('dl')
+                                ) {
+                                    $(this)
+                                        .siblings()
+                                        .find('dl')
+                                        .css('display', 'none')
+                                }
+                            }
+                        })
+
+                        $('#side_nav')
+                            .find('.layui-nav-item  dd')
+                            .on('click', function() {
+                                $(this).css('background', '#fff')
+                                $(this)
+                                    .find('a')
+                                    .css('color', '#1a3471')
+                                $(this)
+                                    .siblings()
+                                    .css('background', '#1a3471')
+                                $(this)
+                                    .siblings()
+                                    .find('a')
+                                    .css('color', '#fff')
+                                $(this).addClass('active')
+                                $(this)
+                                    .siblings()
+                                    .removeClass('active')
+
+                                window.location.href =
+                                    'index.html#' +
+                                    $(this)
+                                        .find('a')
+                                        .data('url')
+                                path = $(this)
+                                    .find('a')
+                                    .data('url')
+                            })
                     }
                 }
             }
-
-            $('#side_nav .layui-nav-item').click(function() {
-                $(this).addClass('layui-this')
-                $(this)
-                    .siblings()
-                    .removeClass('layui-this')
-
-                var dl = $(this).find('dl')
-                if (dl) {
-                    $(this)
-                        .find('dl')
-                        .css('display', 'block')
-                    if (
-                        $(this)
-                            .siblings()
-                            .find('dl')
-                    ) {
-                        $(this)
-                            .siblings()
-                            .find('dl')
-                            .css('display', 'none')
-                    }
-                }
-            })
-
-            $('#side_nav .layui-nav-child dd').on('click', function() {
-                $(this).css('background', '#fff')
-                $(this)
-                    .find('a')
-                    .css('color', '#1a3471')
-                $(this)
-                    .siblings()
-                    .css('background', '#1a3471')
-                $(this)
-                    .siblings()
-                    .find('a')
-                    .css('color', '#fff')
-            })
 
             function setHomeSide() {
                 if (path === '/student') {
@@ -257,7 +273,8 @@
 
 <style>
     #app-body {
-        width: 1130px;
+        /* width: 1130px; */
+        width: 100%;
         height: calc(100% - 50px);
         max-height: 80%;
         overflow: auto;

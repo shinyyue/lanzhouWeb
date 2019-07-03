@@ -218,7 +218,8 @@ a {
     修改 app-body 的样式
 */
 #app-body {
-    width: 1110px;
+    /* width: 1110px; */
+    width: 100%;
     height: calc(100% - 50px);
     max-height: 80%;
     overflow: auto;

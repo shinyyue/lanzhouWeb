@@ -8,7 +8,7 @@
             <span class="search-project">姓名</span>
             <input type="text" id="userName" />
             <span class="search-project">账号</span>
-            <input type="text" id="userCount"/>
+            <input type="text" id="userCount" />
             <span class="search-project">学院</span>
             <select name="" id="college" lay-filter="collegeAll">
                 <option value="">请选择学院</option>
@@ -150,6 +150,7 @@
             classesList = [],
             professList = [],
             addModalTemp = '',
+            formData,
             importModalTemplate = `<form action="" class="layui-form my-add-form">
                             <div class="layui-row">
                                 <div class="layui-col-md12 layui-form-item">
@@ -183,14 +184,16 @@
 
         getCollegeList(function(res) {
             var options = ''
-            res.data.items.forEach(item => {
-                options +=
-                    '<option value="' +
-                    item.id +
-                    '">' +
-                    item.collegeName +
-                    '</option>'
-            })
+            res.data &&
+                res.data.items &&
+                res.data.items.forEach(item => {
+                    options +=
+                        '<option value="' +
+                        item.id +
+                        '">' +
+                        item.collegeName +
+                        '</option>'
+                })
             $('#college').val('')
             $('#college').append(options)
             setSelectOptions()
@@ -198,14 +201,16 @@
 
         getRoleList(function(res) {
             var options = ''
-            res.data.items.forEach(item => {
-                options +=
-                    '<option value="' +
-                    item.id +
-                    '">' +
-                    item.roleName +
-                    '</option>'
-            })
+            res.data &&
+                res.data.items &&
+                res.data.items.forEach(item => {
+                    options +=
+                        '<option value="' +
+                        item.id +
+                        '">' +
+                        item.roleName +
+                        '</option>'
+                })
             $('#userType').val('')
             $('#userType').append(options)
             setSelectOptions()
@@ -213,21 +218,23 @@
 
         getList(1)
 
-        $('#user-search').click(function () {
+        $('#user-search').click(function() {
             getList(1)
         })
 
         $('#college').change(function(e) {
             getSeriesList(function(res) {
                 var options = ''
-                res.data.items.forEach(item => {
-                    options +=
-                        '<option value="' +
-                        item.id +
-                        '">' +
-                        item.facultyName +
-                        '</option>'
-                })
+                res.data &&
+                    res.data.items &&
+                    res.data.items.forEach(item => {
+                        options +=
+                            '<option value="' +
+                            item.id +
+                            '">' +
+                            item.facultyName +
+                            '</option>'
+                    })
                 $('#series_model').append(options)
             }, Number(e.currentTarget.value))
         })
@@ -235,14 +242,16 @@
         $('#series_model').change(function(e) {
             getProfessList(function(res) {
                 var options = ''
-                res.data.items.forEach(item => {
-                    options +=
-                        '<option value="' +
-                        item.id +
-                        '">' +
-                        item.professionName +
-                        '</option>'
-                })
+                res.data &&
+                    res.data.items &&
+                    res.data.items.forEach(item => {
+                        options +=
+                            '<option value="' +
+                            item.id +
+                            '">' +
+                            item.professionName +
+                            '</option>'
+                    })
                 $('#profession').append(options)
             }, Number(e.currentTarget.value))
         })
@@ -250,14 +259,16 @@
         $('#profession').change(function(e) {
             getClassList(function(res) {
                 var options = ''
-                res.data.items.forEach(item => {
-                    options +=
-                        '<option value="' +
-                        item.id +
-                        '">' +
-                        item.className +
-                        '</option>'
-                })
+                res.data &&
+                    res.data.items &&
+                    res.data.items.forEach(item => {
+                        options +=
+                            '<option value="' +
+                            item.id +
+                            '">' +
+                            item.className +
+                            '</option>'
+                    })
                 $('#classes').append(options)
             }, Number(e.currentTarget.value))
         })
@@ -271,7 +282,17 @@
                 data = {
                     page: page,
                     rows: 20,
-                    key: userName + '|' + userCount + '|' + college + '|' + userType + '|' + '|' + '|'
+                    key:
+                        userName +
+                        '|' +
+                        userCount +
+                        '|' +
+                        college +
+                        '|' +
+                        userType +
+                        '|' +
+                        '|' +
+                        '|'
                 }
 
             admin.post({
@@ -299,17 +320,23 @@
                 url: '/college/queryCollegeList',
                 data: JSON.stringify(data),
                 success: function(res) {
-                    if (res.data.items && res.data.items.length > 0) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
                         collegeList = res.data.items
                         var options = ''
-                        res.data.items.forEach(item => {
-                            options +=
-                                '<option value="' +
-                                item.id +
-                                '">' +
-                                item.collegeName +
-                                '</option>'
-                        })
+
+                        res.data.items &&
+                            res.data.items.forEach(item => {
+                                options +=
+                                    '<option value="' +
+                                    item.id +
+                                    '">' +
+                                    item.collegeName +
+                                    '</option>'
+                            })
                         $('#college').html(
                             '<option value="">请选择学院</option>'
                         )
@@ -338,7 +365,11 @@
                 url: '/role/queryRoleList',
                 data: JSON.stringify(data),
                 success: function(res) {
-                    if (res.data.items && res.data.items.length > 0) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
                         collegeList = res.data.items
                         var options = ''
                         res.data.items.forEach(item => {
@@ -420,7 +451,11 @@
 
                 success: function(res) {
                     $('#profess_model').val('')
-                    if (res.data.items && res.data.items.length > 0) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
                         professList = res.data.items
                         res.data.items.forEach(function(item) {
                             $('#profess_model').append(
@@ -454,7 +489,11 @@
                 data: JSON.stringify(data),
                 success: function(res) {
                     $('#classes_model').val('')
-                    if (res.data.items && res.data.items.length > 0) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
                         classesList = res.data.items
                         res.data.items.forEach(function(item) {
                             $('#classes_model').append(
@@ -700,14 +739,16 @@
             form.on('select(college)', function(data) {
                 getSeriesList(function(res) {
                     $('#series_model').html('<option value="">请选择</option>')
-                    res.data.items.forEach(item => {
-                        series +=
-                            '<option value="' +
-                            item.id +
-                            '">' +
-                            item.facultyName +
-                            '</option>'
-                    })
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            series +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.facultyName +
+                                '</option>'
+                        })
                     $('#series_model').html(series)
                     form.render('select')
                 }, data.value)
@@ -716,14 +757,16 @@
             form.on('select(series)', function(data) {
                 getProfessList(function(res) {
                     $('#profess_model').html('<option value="">请选择</option>')
-                    res.data.items.forEach(item => {
-                        profe +=
-                            '<option value="' +
-                            item.id +
-                            '">' +
-                            item.professionName +
-                            '</option>'
-                    })
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            profe +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.professionName +
+                                '</option>'
+                        })
                     $('#profess_model').html(profe)
                     form.render('select')
                 }, data.value)
@@ -732,14 +775,16 @@
             form.on('select(profess)', function(data) {
                 getClassList(function(res) {
                     $('#classes_model').html('<option value="">请选择</option>')
-                    res.data.items.forEach(item => {
-                        classes +=
-                            '<option value="' +
-                            item.id +
-                            '">' +
-                            item.className +
-                            '</option>'
-                    })
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            classes +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.className +
+                                '</option>'
+                        })
                     $('#classes_model').html(classes)
                     form.render('select')
                 }, data.value)
@@ -762,7 +807,7 @@
                 shadeClose: true,
                 btn: ['确定', '取消'],
                 yes: function(index, layero) {
-                    var data = getFormData()
+                    // var data = getFormData()
                     addData(function() {
                         layer.close(index)
                     })

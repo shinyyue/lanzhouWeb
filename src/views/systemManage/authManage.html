@@ -104,7 +104,7 @@
             }
 
         getList(1)
-        $("#searchAuthList").click(function () {
+        $('#searchAuthList').click(function() {
             getList(1)
         })
 
@@ -196,12 +196,12 @@
         })
 
         function getList(page) {
-            var authName = $("#authName").val(),
+            var authName = $('#authName').val(),
                 data = {
-                page: page,
-                rows: pageLimit,
-                key: authName
-            }
+                    page: page,
+                    rows: pageLimit,
+                    key: authName
+                }
             admin.post({
                 url: '/menu/getList',
                 data: JSON.stringify(data),
@@ -232,9 +232,10 @@
         function updateData(data) {
             var data = {
                 id: data.id,
-                studentTypeId: data.studentTypeId,
-                startTime: data.startTime,
-                endTime: data.endTime
+                menuUrl: data.menuUrl,
+                menuLevel: data.menuLevel,
+                menuName: data.menuName,
+                parentId: Number(data.parentId)
             }
             admin.put({
                 url: '/menu/update',
