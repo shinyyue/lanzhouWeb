@@ -106,18 +106,10 @@ layui
             return self.loginToken
         }
         self.logout = function () {
-            layui.data('user', {
-                key: 'role',
-                remove: true
-            });
-            layui.data('userInfo', {
-                key: 'userInfo ',
-                remove: true
-            });
-            layui.data('role', {
-                key: 'role ',
-                remove: true
-            });
+            layui.data('user', null);
+            layui.data('userInfo', null);
+            layui.data('role', null);
+            layui.data('techSet', null);
             self.navigate(conf.loginPage)
         }
         self.login = function (token, data, isSession) {
