@@ -10,7 +10,11 @@
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">课程导读名称</label>
                 <span id="name" class="info-details"></span>
-                <button class="layui-btn layui-btn-primary" style="margin-left: 60px;" id="tech-pre-check">
+                <button
+                    class="layui-btn layui-btn-primary"
+                    style="margin-left: 60px;"
+                    id="tech-pre-check"
+                >
                     查看其他导师导读
                 </button>
             </div>
@@ -39,7 +43,11 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">课程导读内容</label>
                 <div class="layui-col-md9">
-                    <textarea name="content" id="content" class="layui-textarea"></textarea>
+                    <textarea
+                        name="content"
+                        id="content"
+                        class="layui-textarea"
+                    ></textarea>
                 </div>
             </div>
         </div>
@@ -61,13 +69,13 @@
     var checkDetails = {},
         preDetailsTemp = ''
 
-    layui.use([], function () {
+    layui.use([], function() {
         var $ = layui.jquery,
             admin = layui.admin,
             route = layui.router(),
-            id = route.search.id;
+            id = route.search.id || layui.data('techSet').techSetId
 
-        $('#tech-pre-back').on('click', function () {
+        $('#tech-pre-back').on('click', function() {
             location.href = '/index.html#/'
         })
 
@@ -78,13 +86,14 @@
         function getDetails() {
             admin.get({
                 url: '/introduction/queryById?id=' + id,
-                success: function (res) {
-                    $('#preCourseName').html(res.data.name)
-                    $('#name').html(res.data.name)
-                    $('#cited').html(res.data.cited === 0 ? '引用' : '未引用')
-                    $('#recommendedScores').html(res.data.recommendedScores)
-                    $('#content').val(res.data.content)
-                    $('#createTime').html(res.data.createTime)
+                success: function(res) {
+                    var data = res.data || {}
+                    $('#preCourseName').html(data.name)
+                    $('#name').html(data.name)
+                    $('#cited').html(data.cited === 0 ? '引用' : '未引用')
+                    $('#recommendedScores').html(data.recommendedScores)
+                    $('#content').val(data.content)
+                    $('#createTime').html(data.createTime)
                 }
             })
         }
@@ -97,24 +106,38 @@
             admin.post({
                 url: '/introduction/list',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     var list = ''
-                    res.data && res.data.items && res.data.items.forEach((item, index) => {
-                        list += '<tr>' +
-                            '<td>' + (index + 1) + '</td>' +
-                            '<td>' + item.name + '</td>' +
-                            '<td>' + item.userId + '</td>' +
-                            '<td>' + admin.dateFormat(new Date(item.updateTime).getTime() /
-                                1000) +
-                            '</td>' +
-                            '<td>' + item.recommendedScores + '</td>' +
-                            '<td>' +
-                            '<button class="layui-btn layui-btn-primary" class="pre-check-detail" onclick="check(' +
-                            item + ')">查看</button>' +
-                            '</td>' +
-                            '</tr>'
-                    })
-                    $('#tech-pre-check').on('click', function () {
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach((item, index) => {
+                            list +=
+                                '<tr>' +
+                                '<td>' +
+                                (index + 1) +
+                                '</td>' +
+                                '<td>' +
+                                item.name +
+                                '</td>' +
+                                '<td>' +
+                                item.userId +
+                                '</td>' +
+                                '<td>' +
+                                admin.dateFormat(
+                                    new Date(item.updateTime).getTime() / 1000
+                                ) +
+                                '</td>' +
+                                '<td>' +
+                                item.recommendedScores +
+                                '</td>' +
+                                '<td>' +
+                                '<button class="layui-btn layui-btn-primary" class="pre-check-detail" onclick="check(' +
+                                item +
+                                ')">查看</button>' +
+                                '</td>' +
+                                '</tr>'
+                        })
+                    $('#tech-pre-check').on('click', function() {
                         layer.open({
                             type: 1,
                             offset: 'auto',
@@ -130,7 +153,8 @@
         }
 
         function getTemplate(list) {
-            return '<table class="layui-table">' +
+            return (
+                '<table class="layui-table">' +
                 '<thead>' +
                 '<tr>' +
                 '<th>序号</th>' +
@@ -141,9 +165,11 @@
                 '<th>操作</th>' +
                 '</tr>' +
                 '</thead>' +
-                '<tbody>' + list +
+                '<tbody>' +
+                list +
                 '</tbody>' +
                 '</table>'
+            )
         }
 
         function check(data) {
@@ -203,8 +229,7 @@
             })
         }
 
-
-        setTimeout(function () {
+        setTimeout(function() {
             checkDetails = {
                 id: 1,
                 preName: '计算机网络课程导读',
@@ -216,12 +241,12 @@
                 content: '互联网与互联网有什么不同？'
             }
         }, 500)
-
     })
 </script>
 
 <style>
-    #techset-techpre {}
+    #techset-techpre {
+    }
 
     #techset-techpre .my-form {
         padding: 25px 0;

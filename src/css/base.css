@@ -6,6 +6,16 @@
     border-bottom: 1px solid rgba(231, 235, 244, 1);
 }
 
+.layui-nav {
+    padding: 0;
+}
+
+.layui-nav-child {
+    top: auto;
+    box-shadow: none;
+    border: none;
+}
+
 .layui-input,
 .layui-textarea {
     width: 230px;
