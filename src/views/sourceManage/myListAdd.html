@@ -171,14 +171,15 @@
         form.render()
 
         $('#upload-file').click(function() {
-            uploadFile()
-        })
-
-        function uploadFile() {
             if (Number($('#type').val()) === 0) {
                 layer.msg('请先选择上传文件类型')
                 return
             }
+        })
+
+        uploadFile()
+
+        function uploadFile() {
             upload.render({
                 elem: '#upload-file', //绑定元素
                 url: '/dataBank/oneFileUpload', //上传接口
@@ -206,6 +207,16 @@
         //监听提交
         form.on('submit(submit)', function(data) {
             layer.msg(JSON.stringify(data.field))
+            data.field.type = Number(data.field.type)
+            data.field.accessAuthority = Number(data.field.accessAuthority)
+            data.field.canDownload = Number(data.field.canDownload)
+            data.field.curriculumId = Number($('#curriculumId').val())
+
+            admin.post({
+                url: '/dataBank/add',
+                data: JSON.stringify(data.field),
+                success: function() {}
+            })
             return false
         })
 
@@ -238,11 +249,16 @@
                         res.data.items &&
                         res.data.items.forEach(item => {
                             $('#curriculumId').append(
-                                '<input type="checkbox" lay-skin="primary" name="prerequisiteCourse" value="' +
+                                // '<input type="checkbox" lay-skin="primary" name="prerequisiteCourse" value="' +
+                                //     item.id +
+                                //     '" title="' +
+                                //     item.curriculumName +
+                                //     '">'
+                                '<option value="' +
                                     item.id +
-                                    '" title="' +
+                                    '" name="curriculumId">' +
                                     item.curriculumName +
-                                    '">'
+                                    '</option>'
                             )
                             form.render()
                         })
