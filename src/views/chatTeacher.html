@@ -106,6 +106,10 @@
         })
         $('#send_message').click(function() {
             $('#send_message').css('display', 'block')
+            if (!$('#chat_content').val()) {
+                layer.msg('请输入')
+                return
+            }
             message.contentText = $('#chat_content')
                 .val()
                 .trim()

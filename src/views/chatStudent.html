@@ -1,60 +1,47 @@
-<div id="chat">
+<div id="chat_student">
     <div class="chat-inner">
         <div class="chat-history-list">
             <div class="history-search">
-                <input type="text" placeholder="搜索课程" class="layui-input" />
-                <i class="layui-icon layui-icon-search search-icon"></i>
+                <input
+                    id="search_course"
+                    type="text"
+                    placeholder="搜索课程"
+                    class="layui-input"
+                />
+                <i
+                    class="layui-icon layui-icon-search search-icon"
+                    id="get_search"
+                ></i>
             </div>
             <div class="history-list" id="checked_course_list"></div>
         </div>
         <div class="chating-list">
             <div class="chating-title">
                 <span>答疑库</span>
-                <span class="chating-title-center">铁路信号知识(60)</span>
-                <!-- <ul class="chating-add-btn">
+                <span class="chating-title-center" id="courseName"></span>
+                <ul class="chating-add-btn">
                     <li></li>
                     <li></li>
                     <li></li>
-                </ul> -->
+                </ul>
             </div>
-            <div class="chating-content">
-                <span class="chat-time">10:01</span>
-                <div class="chat-dialog chat-myself">
-                    <img src="src/images/user_logo.png" class="member-avator" />
-                    <div class="member-info">
-                        <div>同学甲</div>
-                        <div class="chat-info">
-                            老师我有一个问题
-                        </div>
-                        <div class="triangle"></div>
-                    </div>
-                </div>
-                <div class="chat-dialog chat-others">
-                    <img src="src/images/user_logo.png" class="member-avator" />
-                    <div class="member-info">
-                        <div>同学甲</div>
-                        <div class="chat-info">
-                            老师我有一个问题
-                        </div>
-                        <div class="triangle"></div>
-                    </div>
-                </div>
-            </div>
+            <div class="chating-content" id="chat_list"></div>
             <div class="chating-replay">
                 <textarea
                     name=""
-                    id=""
+                    id="chat_content"
                     cols="30"
                     rows="10"
                     class="layui-textarea"
-                    placeholder="请输入你的问题"
+                    placeholder="请输入你的回答"
                 ></textarea>
                 <div class="chating-btn">
-                    <button class="layui-btn layui-btn-primary replay-btn left">
-                        搜索
-                    </button>
+                    <!-- <button class="layui-btn layui-btn-primary replay-btn left">
+                                搜索
+                            </button> -->
                     <button
                         class="layui-btn layui-btn-primary replay-btn right"
+                        id="send_message"
                     >
                         发送
                     </button>
@@ -99,8 +86,8 @@
             checkedItem = null,
             message = {
                 contentText: '',
-                toUserId: '',
-                type: 0,
+                toUserId: userId,
+                type: 1,
                 fromUserId: 0,
                 isTeacher: 0,
                 userName: layui.data('userInfo').userInfo.userName
@@ -108,11 +95,33 @@
 
         getList()
 
+        if (!checkedItem) {
+            $('.chating-content').html('')
+            $('#send_message').css('display', 'none')
+        }
+
+        $('#get_search').click(function() {
+            search()
+        })
+        $('#send_message').click(function() {
+            $('#send_message').css('display', 'block')
+            if (!$('#chat_content').val()) {
+                layer.msg('请输入')
+                return
+            }
+            message.contentText = $('#chat_content')
+                .val()
+                .trim()
+            wsHandler(message)
+        })
+
         ws.onopen = function() {}
 
         ws.onmessage = function(evt) {
-            var received_msg = evt.data
-            console.log(1111, received_msg)
+            var msg = JSON.parse(evt.data)
+            if (msg.toUserId === checkedItem.toUserId) {
+                getChatHistory(checkedItem.toUserId)
+            }
         }
 
         ws.onclose = function() {
@@ -149,53 +158,6 @@
                 url: '/selectedCourse/getList',
                 data: JSON.stringify(data),
                 success: function(res) {
-                    console.log(res)
-                    res = {
-                        msg: '成功',
-                        code: 200,
-                        data: {
-                            total: 4,
-                            items: [
-                                {
-                                    courseName: '体育3',
-                                    courseNumber: 1,
-                                    school: '选修',
-                                    classroomName: '体育学院',
-                                    publish: '已开课',
-                                    creditHour: 0,
-                                    time: '星期一2至2节'
-                                },
-                                {
-                                    courseName: '体育2',
-                                    courseNumber: 1,
-                                    school: '选修',
-                                    classroomName: '体育学院',
-                                    publish: '已开课',
-                                    creditHour: 0,
-                                    time: '星期一2至3节'
-                                },
-                                {
-                                    courseName: '体育4',
-                                    courseNumber: 2,
-                                    school: '选修',
-                                    classroomName: '体育学院',
-                                    publish: '已开课',
-                                    creditHour: 0,
-                                    time: '星期一1至1节'
-                                },
-                                {
-                                    courseName: '体育1',
-                                    courseNumber: 1,
-                                    school: '选修',
-                                    classroomName: '体育学院',
-                                    publish: '已开课',
-                                    creditHour: 0,
-                                    time: '星期四1至3节'
-                                }
-                            ]
-                        }
-                    }
-
                     if (res.data && res.data.items) {
                         var courseItem = ''
                         selectedCourseList = res.data.items
@@ -213,7 +175,9 @@
                             function() {
                                 checkedItem =
                                     selectedCourseList[$(this).index()]
-                                message.toUserId = checkedItem.courseNumber
+                                $('#courseName').html(checkedItem.courseName)
+                                $('#send_message').css('display', 'block')
+                                getChatHistory(checkedItem.courseNumber)
                                 wsHandler(message)
                                 $(this).addClass('active')
                                 $(this)
@@ -228,23 +192,75 @@
                 }
             })
         }
+
+        function getChatHistory(targetId) {
+            var data = {
+                sendTargetType: 1,
+                sendTargetId: targetId,
+                page: 1,
+                rows: 10000
+            }
+            admin.post({
+                url: '/login/loginForIlab',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (res.data && res.data.items) {
+                        curChatList = res.data.items
+                    }
+                    chatTemplate(curChatList)
+                },
+                error: function() {}
+            })
+        }
+
+        function search() {
+            var keyWord = $('#search_course').val()
+            var len = publishedCourseList.length
+            var arr = []
+            var reg = new RegExp(keyWord)
+            if (keyWord === '') {
+                getList()
+                return
+            }
+            for (var i = 0; i < len; i++) {
+                //如果字符串中不包含目标字符会返回-1
+                if (publishedCourseList[i].courseName.match(reg)) {
+                    arr.push(publishedCourseList[i])
+                }
+            }
+
+            var courseItem = ''
+            arr.forEach(function(item) {
+                if (item.publish == 1) {
+                    arr.push(item)
+                    courseItem +=
+                        '<div class="member-item">' +
+                        '<img src="src/images/user_logo.png" class="member-avator" />' +
+                        '<span>' +
+                        item.courseName +
+                        '</span>' +
+                        '</div>'
+                }
+            })
+            $('#checked_course_list').html(courseItem)
+        }
     })
 </script>
 
 <style>
-    #chat {
+    #chat_student {
         height: 600px;
         box-sizing: border-box;
     }
 
-    #chat .chat-inner {
+    #chat_student .chat-inner {
         width: 1350px;
         height: 100%;
         margin: 0 auto;
         box-sizing: border-box;
     }
 
-    #chat .chat-history-list {
+    #chat_student .chat-history-list {
         width: 246px;
         height: 100%;
         background: #ebe9e8;
@@ -254,7 +270,7 @@
         border: 1px solid rgba(204, 204, 204, 1);
     }
 
-    #chat .chating-list {
+    #chat_student .chating-list {
         width: 850px;
         height: 100%;
         float: left;
@@ -266,7 +282,7 @@
         position: relative;
     }
 
-    #chat .chat-member-list {
+    #chat_student .chat-member-list {
         width: 250px;
         height: 100%;
         background: #eee;
@@ -380,11 +396,14 @@
 
     .chating-content {
         padding: 20px;
+        height: 372px;
+        overflow-y: auto;
+        box-sizing: border-box;
     }
 
     .chating-content .chat-time {
         display: block;
-        max-width: 70px;
+        max-width: 140px;
         text-align: center;
         border-radius: 4px;
         padding: 6px 10px;
