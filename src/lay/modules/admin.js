@@ -114,6 +114,10 @@ layui
                 key: 'userInfo ',
                 remove: true
             });
+            layui.data('role', {
+                key: 'role ',
+                remove: true
+            });
             self.navigate(conf.loginPage)
         }
         self.login = function (token, data, isSession) {
