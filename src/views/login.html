@@ -11,6 +11,7 @@
         border-radius: 0px;
         position: relative;
     }
+
     #VIEW-login .layui-form-item {
         position: relative;
         width: 260px;
@@ -19,17 +20,21 @@
     #VIEW-login .layui-form-item .layui-input {
         width: 260px;
     }
+
     #VIEW-login .verify-block {
         display: none;
     }
+
     #VIEW-login .layui-input {
         text-indent: 26px;
     }
+
     #VIEW-login .login-type-tab {
         margin-bottom: 20px;
         overflow: hidden;
         text-align: center;
     }
+
     #VIEW-login .login-type-tab li {
         display: inline-block;
         padding-right: 20px;
@@ -38,10 +43,12 @@
         transition: color 0.5s ease;
         font-size: 28px;
     }
+
     #VIEW-login .login-type-tab li.active {
         color: rgba(255, 102, 0, 0.8);
         font-weight: bold;
     }
+
     #VIEW-login .login-type-tab li .qrcode-icon {
         font-size: 24px;
     }
@@ -65,51 +72,60 @@
         justify-content: flex-start;
         align-items: center;
     }
+
     .login-logo {
         width: 220px;
         height: 60px;
     }
+
     .login-name {
         font-size: 36px;
         color: #1a3471;
         font-weight: 700;
         margin-left: 20px;
     }
+
     .login-container {
         height: 480px;
-        background: url('/lanzhouWeb/src/images/login-bg.jpeg') no-repeat 100%
-            100%;
+        background: url('/lanzhouWeb/src/images/login-bg.jpeg') no-repeat 100% 100%;
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
     }
+
     .login-left {
         width: 510px;
         height: 386px;
         margin-right: 120px;
     }
+
     .login-right {
         width: 300px;
         height: 280px;
         background: rgba(255, 255, 255, 0.8);
     }
+
     .forget-pwd {
         padding: 0 0 10px;
         color: #006699;
         text-align: right;
     }
+
     .layui-btn,
     .layui-btn-normal {
         background: rgba(255, 102, 0, 0.8);
         font-size: 18px;
     }
+
     .layui-btn-normal:hover {
         background: rgba(204, 51, 0, 1);
     }
+
     .layui-form-item {
         position: relative;
     }
+
     .login-user {
         position: absolute;
         top: 20px;
@@ -133,80 +149,71 @@
         padding: 0 10px;
         cursor: pointer;
     }
+
     .show {
         display: block;
     }
+
     .hide {
         display: none;
     }
+
 </style>
-<div id="VIEW-login" lay-title="登录">
+<div id="VIEW-login"
+     lay-title="登录">
     <div class="login-wrap">
         <div class="login-header">
-            <img src="/lanzhouWeb/src/images/logo.png" class="login-logo" />
+            <img src="/lanzhouWeb/src/images/logo.png"
+                 class="login-logo" />
             <span class="login-name">虚拟仿真实验教学管理平台</span>
         </div>
         <div class="login-container">
-            <img
-                src="/lanzhouWeb/src/images/login-left.png"
-                class="login-left"
-            />
-            <div class="layui-form login-right" lay-filter="login-form">
+            <img src="/lanzhouWeb/src/images/login-left.png"
+                 class="login-left" />
+            <div class="layui-form login-right"
+                 lay-filter="login-form">
                 <ul class="login-type-tab">
-                    <li login-type="password" class="active">用户登录</li>
+                    <li login-type="password"
+                        class="active">用户登录</li>
                 </ul>
                 <div class="normal-login-form">
                     <div class="layui-form-item">
-                        <label
-                            class="layui-icon label-icon layui-icon-username"
-                        ></label>
-                        <input
-                            type="text"
-                            name="snoOrJno"
-                            lay-verify="snoOrJno"
-                            lay-verType="tips"
-                            placeholder="学（工）号"
-                            maxlength="11"
-                            autocomplete="off"
-                            class="layui-input"
-                        />
+                        <label class="layui-icon label-icon layui-icon-username"></label>
+                        <input type="text"
+                               name="snoOrJno"
+                               lay-verify="snoOrJno"
+                               lay-verType="tips"
+                               placeholder="学（工）号"
+                               maxlength="11"
+                               autocomplete="off"
+                               class="layui-input" />
                     </div>
                     <div class="layui-form-item password-block">
-                        <label
-                            class="layui-icon label-icon layui-icon-password"
-                        ></label>
-                        <input
-                            type="password"
-                            name="password"
-                            value=""
-                            lay-verify="password"
-                            lay-verType="tips"
-                            placeholder="密码"
-                            autocomplete="off"
-                            class="layui-input"
-                        />
+                        <label class="layui-icon label-icon layui-icon-password"></label>
+                        <input type="password"
+                               name="password"
+                               value=""
+                               lay-verify="password"
+                               lay-verType="tips"
+                               placeholder="密码"
+                               autocomplete="off"
+                               class="layui-input" />
                     </div>
                     <div class="forget-pwd">
                         <a href="">忘记密码？</a>
                     </div>
                     <div class="layui-form-item">
-                        <button
-                            class="layui-btn layui-btn-normal layui-btn-fluid"
-                            lay-submit
-                            lay-filter="login-submit"
-                        >
-                            <i
-                                style="display: none"
-                                class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"
-                            ></i>
+                        <button class="layui-btn layui-btn-normal layui-btn-fluid"
+                                lay-submit
+                                lay-filter="login-submit">
+                            <i style="display: none"
+                               class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>
                             登录
                         </button>
-                        <ul
-                            class="login-user"
+                        <ul class="login-user"
                             id="login-user"
                             lay-submit
-                            lay-filter="login-user-submit"
-                        >
+                            lay-filter="login-user-submit">
                             <li data-value="admin">管理员</li>
                             <li data-value="teacher">老师</li>
                             <li data-value="student">学生</li>
@@ -219,7 +226,7 @@
 </div>
 
 <script>
-    layui.use(['admin', 'util', 'form'], function(admin, util, form) {
+    layui.use(['admin', 'util', 'form'], function (admin, util, form) {
         var $ = layui.jquery
         var view = $('#VIEW-login')
         var userInfo = {}
@@ -228,26 +235,26 @@
         form.render()
 
         form.verify({
-            snoOrJno: function(value, el) {
+            snoOrJno: function (value, el) {
                 // if (value.length < 5) return '请输入正确的学（工）号';
             },
-            password: function(value, el) {
+            password: function (value, el) {
                 if (value.length < 6) return '登录密码不能少于 6 位'
             }
         })
 
-        $('#login-user li').click(function() {
+        $('#login-user li').click(function () {
             userInfo.role = $(this).data('value')
             switch (res.data.role.id) {
                 // 老师
                 case 2:
                     admin.navigate('/')
                     break
-                // 学生
+                    // 学生
                 case 1:
                     admin.navigate('/student')
                     break
-                // 管理员
+                    // 管理员
                 case 3:
                     admin.navigate('/')
                     break
@@ -255,7 +262,7 @@
         })
 
         //提交登录表单
-        form.on('submit(login-submit)', function(data) {
+        form.on('submit(login-submit)', function (data) {
             userInfo = data.field
             var loading = $(this).find('.layui-icon')
             if (loading.is(':visible')) return
@@ -265,7 +272,7 @@
             admin.post({
                 url: '/login/login',
                 data: JSON.stringify(userInfo),
-                success: function(res) {
+                success: function (res) {
                     var cookieLast = getCookie('token')
                     setCookie('token', cookieLast)
 
@@ -274,11 +281,11 @@
                         case 2:
                             admin.navigate('/')
                             break
-                        // 学生
+                            // 学生
                         case 1:
                             admin.navigate('/student')
                             break
-                        // 管理员
+                            // 管理员
                         case 3:
                             admin.navigate('/')
                             break
@@ -292,8 +299,13 @@
                         key: 'userInfo',
                         value: res.data.vsMpUser
                     })
+
+                    layui.data('role', {
+                        key: 'role',
+                        value: res.data.role
+                    })
                 },
-                complete: function(err) {
+                complete: function (err) {
                     loading.hide()
                 }
             })
@@ -315,4 +327,5 @@
             else return null
         }
     })
+
 </script>
