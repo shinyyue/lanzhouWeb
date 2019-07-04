@@ -167,7 +167,7 @@
                                 <div class="layui-col-md12 layui-form-item">
                                     <label class="layui-form-label">上传</label>
                                     <button type="button" class="layui-btn layui-btn-primary">上传表格</button>
-                                    <button type="button" class="layui-btn " style="background: rgba(0,193,222,1)">下载模版</button>
+                                    <button id="uploadModel" type="button" class="layui-btn " style="background: rgba(0,193,222,1)">下载模版</button>
                                 </div>
                             </div>
                             <div class="layui-row">
@@ -181,6 +181,19 @@
                                 </div>
                             </div>
                         </form>`
+        /*$("#uploadModel").click(function () {
+            admin.get({
+                url:
+                    '/excel/用户模板.xls'
+                /!*+ '?collegeId=' +
+                $('#college').val() +
+                '&facultyId=' +
+                $('#series_model').val()*!/,
+                success: function(res) {
+
+                }
+            })
+        })*/
 
         getCollegeList(function(res) {
             var options = ''
@@ -530,7 +543,7 @@
                 '<div class="layui-row">' +
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">姓名:</label>' +
-                '<input type="text" id="userName" name="userName" value="' +
+                '<input type="text" id="userNameAdd" name="userName" value="' +
                 (formData.userName || '') +
                 '"' +
                 (type === 'check' ? 'disabled' : '') +
@@ -686,7 +699,7 @@
                 roleId: Number($('#roleId').val()),
                 sex: Number($('input[name=sex]:checked').val()),
                 phonenumber: $('#phone').val(),
-                userName: $('#userName').val(),
+                userName: $('#userNameAdd').val(),
                 facultyId: Number($('#series_model').val()),
                 classId: Number($('#classes_model').val()),
                 collegeId: $('#college_model').val(),
@@ -832,11 +845,14 @@
         $('#export-cource').on('click', function() {
             admin.get({
                 url:
-                    '/user/exportExcel?collegeId=' +
+                    '/user/exportExcel'
+                    /*+ '?collegeId=' +
                     $('#college').val() +
                     '&facultyId=' +
-                    $('#series_model').val(),
-                success: function(res) {}
+                    $('#series_model').val()*/,
+                success: function(res) {
+
+                }
             })
         })
 
