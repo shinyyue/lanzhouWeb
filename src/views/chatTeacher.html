@@ -225,10 +225,10 @@
                     $('#published_course').html(courseItem)
                     $('#published_course .member-item').click(function() {
                         checkedItem = publishedCourseList[$(this).index()]
-                        message.toUserId = checkedItem.courseNumber
+                        message.toUserId = checkedItem.id
                         $('#courseName').html(checkedItem.courseName)
                         $('#send_message').css('display', 'block')
-                        getChatHistory(checkedItem.courseNumber)
+                        getChatHistory(checkedItem.id)
                         wsHandler(message)
                         $(this).addClass('active')
                         $(this)
@@ -249,9 +249,11 @@
                 page: 1,
                 rows: 10000
             }
-            admin.post({
-                url: '/login/loginForIlab',
-                data: JSON.stringify(data),
+            admin.get({
+                url:
+                    '/chattingRecords/getList?sendTargetType=1&sendTargetId=' +
+                    targetId +
+                    '&page=1&rows=10000',
                 success: function(res) {
                     if (res.data && res.data.items) {
                         curChatList = res.data.items

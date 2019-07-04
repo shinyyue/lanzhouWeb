@@ -200,9 +200,12 @@
                 page: 1,
                 rows: 10000
             }
-            admin.post({
-                url: '/login/loginForIlab',
-                data: JSON.stringify(data),
+            admin.get({
+                url:
+                    '/chattingRecords/getList?sendTargetType=1&sendTargetId=' +
+                    targetId +
+                    '&page=1&rows=10000',
+                // data: JSON.stringify(data),
                 success: function(res) {
                     if (res.data && res.data.items) {
                         curChatList = res.data.items
