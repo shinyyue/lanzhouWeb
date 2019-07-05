@@ -392,7 +392,7 @@
                 rows: 100
             }
             admin.post({
-                url: '/menu/getList',
+                url: '/menu/getListTree',
                 data: JSON.stringify(data),
                 success: function(res) {
                     callback(res.data.items)

@@ -32,6 +32,7 @@
             tableOption = {
                 page: false,
                 skin: 'row,line',
+                limit: 1000,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
                     [
@@ -71,58 +72,7 @@
             range: true
         })
 
-        // table.render({
-        //     page: false,
-        //     skin: 'row,line',
-        //     data: [
-        //         {
-        //             id: '第一节',
-        //             courceName: '第1节',
-        //             courseCode: '08:00:00',
-        //             responsor: '08:50:00'
-        //         },
-        //         {
-        //             id: '第一节',
-        //             courceName: '第2节',
-        //             courseCode: '09:00:00',
-        //             responsor: '09:50:00'
-        //         }
-        //     ],
-        //     elem: '[lay-filter="' + tableFilter + '"]',
-        //     cols: [
-        //         [
-        //             {
-        //                 title: '大节次',
-        //                 field: 'id',
-        //                 width: 80,
-        //                 align: 'center'
-        //             },
-        //             {
-        //                 title: '小节次',
-        //                 field: 'courceName',
-        //                 align: 'center'
-        //             },
-        //             {
-        //                 title: '上课时间',
-        //                 field: 'courseCode',
-        //                 align: 'center'
-        //             },
-        //             {
-        //                 title: '下课时间',
-        //                 field: 'responsor',
-        //                 align: 'center'
-        //             }
-        //         ]
-        //     ],
-        //     done: function(res, curr, count) {
-        //         merge(res, curr, count)
-        //     }
-        // })
-
         getList()
-       /* $("#searchClassTimeList").click(function () {
-            getList()
-        })*/
 
         $('#update_class_time').click(function() {
             window.location.href = 'index.html#/termDeploy/classTimeEdit'
