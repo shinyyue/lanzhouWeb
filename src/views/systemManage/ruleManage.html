@@ -80,7 +80,13 @@
                         {
                             title: '规则类型',
                             field: 'type',
-                            align: 'center'
+                            align: 'center',
+                            templet: function (d) {
+                                if (d.type==1) return "实验累计合格次数"
+                                else if (d.type==2) return "实验累计合格时长(单位：秒)"
+                                else if (d.type==3) return "实验成绩合格分数"
+                                else if (d.type==4) return "考试成绩合格分数"
+                            }
                         },
                         {
                             title: '描述',
@@ -292,6 +298,7 @@
         }
 
         function getTemplate(formData, type) {
+            console
             return (
                 '<div id="rule_details_modal">\n' +
                 '        <form action="" class="layui-form">\n' +
@@ -328,15 +335,21 @@
                 '                    <label class="layui-form-label">规则类型：</label>\n' +
                 '                    <div class="layui-input-block">\n' +
                 '                        <select name="type" id="type" value="' +
-                formData.type +
+                                    formData.type +
                 '">\n' +
                 '                            <option value="">选择规则类型</option>\n' +
-                '                            <option value="1" checked="' +
-                (formData.type === 1) +
-                '">实验累计合格次数</option>\n' +
-                '                            <option value="2">实验累计合格时长(单位：秒)</option>\n' +
-                '                            <option value="3">实验成绩合格分数</option>\n' +
-                '                            <option value="4">考试成绩合格分数</option>\n' +
+                '                            <option value="1" ' +
+                    (formData.type == 1 ?"selected":"")   +
+                '>实验累计合格次数</option>\n' +
+                '                            <option value="2"' +
+                (formData.type == 2 ?"selected":"")   +
+                '>实验累计合格时长(单位：秒)</option>\n' +
+                '                            <option value="3"' +
+                (formData.type == 3 ?"selected":"")   +
+                '>实验成绩合格分数</option>\n' +
+                '                            <option value="4"' +
+                (formData.type == 4 ?"selected":"")   +
+                '>考试成绩合格分数</option>\n' +
                 '                        </select>\n' +
                 '                    </div>\n' +
                 '                </div>\n' +

@@ -281,9 +281,11 @@
             '                    <input\n' +
             '                        type="text"\n' +
             '                        name="userName"\n' +
-	    '                        id="labName"\n' +
+	        '                        id="labName"\n' +
             '                        class="common-form-input"\n' +
-            '                        value="第一实验室"\n' +
+            '                        value="' +
+                formData.labName +
+                                    '"\n' +
             '                    />\n' +
             '                </div>\n' +
             '            </div>\n' +
@@ -292,9 +294,11 @@
             '                    <label class="layui-form-label">实验室地址:</label>\n' +
             '                    <textarea\n' +
             '                        name="desc"\n' +
-	    '                        id="labAddress"\n' +
+	        '                        id="labAddress"\n' +
             '                        class="layui-textarea lab-remark"\n' +
-            '                    ></textarea>\n' +
+            '                    >' +
+                formData.labAddress +
+                '</textarea>\n' +
             '                </div>\n' +
             '            </div>\n' +
             '        </form>\n' +

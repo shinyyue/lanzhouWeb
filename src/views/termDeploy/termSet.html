@@ -387,6 +387,7 @@
         }
 
         function getTemplate(formData, type) {
+            // console.log(formData)
             return (
                 '<div id="term_details_modal">\n' +
                 '        <form action=" " class="layui-form">\n' +
@@ -407,7 +408,6 @@
                 '                            value="2"\n' +
                 '                            title="第2学期"\n' +
                 (formData.semester == 2 ? 'checked' : '') +
-                '                            checked\n' +
                 '                        />\n' +
                 '                    </div>\n' +
                 '                </div>\n' +
