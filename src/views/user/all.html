@@ -695,6 +695,7 @@
         }
 
         function getFormData() {
+            debugger
             formData = {
                 roleId: Number($('#roleId').val()),
                 sex: Number($('input[name=sex]:checked').val()),
@@ -857,6 +858,7 @@
         })
 
         function addData(callback) {
+            getFormData();
             admin.post({
                 url: '/user/addUser',
                 data: JSON.stringify(formData),
