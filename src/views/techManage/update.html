@@ -471,8 +471,7 @@
         function getSchoolYearList() {
             var data = {
                 page: 1,
-                rows: 100,
-                key: 'schoolYear'
+                rows: 100
             }
             admin.post({
                 url: '/schoolYear/getList',
@@ -486,7 +485,7 @@
                                 '<option value="' +
                                     item.id +
                                     '">' +
-                                    item.curriculumName +
+                                    item.schoolYear +
                                     '</option>'
                             )
                             form.render()
