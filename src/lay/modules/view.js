@@ -68,14 +68,11 @@ layui
                             },
                             data: JSON.stringify(data),
                             success: function (res, status, xhr) {
-                                console.log(333, xhr)
                                 templateData = data
                                 // renderTemplate(tem, res[conf.response.dataName])
                                 if (done) new Function(done)()
                             },
-                            err: function (err, status, xhr) {
-                                console.log(2222, xhr)
-                            }
+                            err: function (err, status, xhr) {}
                         })
                     } else {
                         renderTemplate(

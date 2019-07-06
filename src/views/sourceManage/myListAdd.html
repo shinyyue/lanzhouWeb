@@ -143,37 +143,14 @@
             upload = layui.upload,
             $ = layui.jquery,
             admin = layui.admin,
-            type = '',
-            uploadOption = {
-                elem: '#upload-file', //绑定元素
-                url: '/dataBank/oneFileUpload', //上传接口
-                method: 'post',
-                field: 'file',
-                data: {
-                    type: Number($('#type').val())
-                },
-                before: function(obj) {
-                    var _this = this
-
-                    layer.load() //上传loading
-                },
-                done: function(res) {
-                    //上传完毕回调
-                    layer.closeAll('loading') //关闭loading
-                },
-                error: function(err) {
-                    console.log(444, err)
-                    //请求异常回调
-                    layer.closeAll('loading') //关闭loading
-                }
-            }
+            type = ''
 
         form.render()
 
         $('#upload-file').click(function() {
             if (Number($('#type').val()) === 0) {
                 layer.msg('请先选择上传文件类型')
-                return
+                return false
             }
         })
 
@@ -182,23 +159,25 @@
         function uploadFile() {
             upload.render({
                 elem: '#upload-file', //绑定元素
-                url: '/dataBank/oneFileUpload', //上传接口
+                url: 'http://39.104.97.6:8080/dataBank/oneFileUpload', //上传接口
                 method: 'post',
                 field: 'file',
                 data: {
-                    type: Number($('#type').val())
+                    type: 2
                 },
                 before: function(obj) {
-                    var _this = this
-                    layer.load()
+                    // var _this = this
+                    // layer.load()
                 },
                 done: function(res) {
-                    //上传完毕回调
+                    if (res.code === 401) {
+                        admin.logout()
+                    } else if (res.code === 200) {
+                        layer.msg('上传成功')
+                    }
                     layer.closeAll('loading') //关闭loading
                 },
                 error: function(err) {
-                    console.log(444, err)
-                    //请求异常回调
                     layer.closeAll('loading') //关闭loading
                 }
             })
