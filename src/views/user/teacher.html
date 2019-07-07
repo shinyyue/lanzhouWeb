@@ -501,8 +501,8 @@
                 (formData.state == 1 ? ' checked' : '') +
                 (type === 'check' ? ' disabled' : '') +
                 '>' +
-                '<input type="radio" name="status" value="0" title="停用"' +
-                (formData.state == 0 && formData.state != ''
+                '<input type="radio" name="status" value="2" title="停用"' +
+                (formData.state == 2 && formData.state != ''
                     ? ' checked'
                     : '') +
                 (type === 'check' ? ' disabled' : '') +
@@ -528,7 +528,7 @@
         function getFormData() {
             formData = {
                 roleId: 2,
-                sex: Number($('input[name=sex]').val()),
+                sex: Number($('input[name=sex]:checked').val()),
                 phonenumber: $('#phone').val(),
                 userName: $('#userName').val(),
                 // facultyId: Number($('#series_model').val()),
@@ -537,7 +537,7 @@
                 snoOrJno: $('#snoOrJno').val(),
                 email: $('#email').val(),
                 // professionId: Number($('#profess_model').val()),
-                state: Number($('input[name=status]').val())
+                state: Number($('input[name=status]:checked').val())
                 // studentTypeId: 1
             }
         }
@@ -857,7 +857,7 @@
             var layerOption = {
                 type: 1,
                 offset: 'auto',
-                title: '编辑',
+                title: type==='edit'?'编辑':'查看',
                 content: getTemplate(formData, type),
                 area: ['700px', '70%'],
                 shade: 0.4,

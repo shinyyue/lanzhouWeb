@@ -148,7 +148,7 @@
             var layerOption = {
                 type: 1,
                 offset: 'auto',
-                title: '编辑',
+                title: type==='edit'?'编辑':'查看',
                 content: getTemplate(formData, type),
                 area: ['700px', '70%'],
                 shade: 0.4,

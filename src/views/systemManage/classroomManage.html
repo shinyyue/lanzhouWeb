@@ -138,7 +138,7 @@
             var layerOption = {
                 type: 1,
                 offset: 'auto',
-                title: '编辑',
+                title: type==='edit'?'编辑':'查看',
                 content: getTemplate(formData, type),
                 area: ['700px', '70%'],
                 shade: 0.4,
@@ -286,7 +286,7 @@
         function getFormData() {
             formData = {
                 id: $('#id').val(),
-                classroomName: $('#classroomName').val()
+                classroomName: $('#classroomNameAdd').val()
             }
         }
 
@@ -300,7 +300,7 @@
                 '                    <input\n' +
                 '                        type="text"\n' +
                 '                        name="classroomName"\n' +
-                '                        id="classroomName"\n' +
+                '                        id="classroomNameAdd"\n' +
                 '                        class="common-form-input"\n' +
                 '                        value="' +
                 formData.classroomName +

@@ -64,7 +64,8 @@
 	                        title: '序号',
 	                        field: 'id',
 	                        width: 80,
-	                        align: 'center'
+	                        align: 'center',
+                            type: 'numbers'
 	                    },
 	                    {
 	                        title: '实验室名称',
@@ -135,7 +136,7 @@
             var layerOption = {
                 type: 1,
                 offset: 'auto',
-                title: '编辑',
+                title: type==='edit'?'编辑':'查看',
                 content: getTemplate(formData, type),
                 area: ['700px', '70%'],
                 shade: 0.4,
@@ -270,7 +271,7 @@
         function getFormData() {
             formData = {
                 id: $('#id').val(),
-		        labName: $('#labName').val(),
+		        labName: $('#labNameAdd').val(),
 		        labAddress: $('#labAddress').val()
             }
         }
@@ -285,7 +286,7 @@
             '                    <input\n' +
             '                        type="text"\n' +
             '                        name="userName"\n' +
-	        '                        id="labName"\n' +
+	        '                        id="labNameAdd"\n' +
             '                        class="common-form-input"\n' +
             '                        value="' +
                 formData.labName +
