@@ -389,15 +389,15 @@
                     layer.msg('至少保留一个')
                     return
                 }
+                var reg = new RegExp("^" + data.id)
                 for (var i = 0; i < list.length; i++) {
-                    if (list[i].parentId == data.id) {
+                    if (list[i].parentId == data.id || reg.test(list[i].id)) {
                         list.splice(i, 1)
                     }
                 }
                 list.splice(index, 1)
                 singlUploadOption.data = list
                 singleTable = table.render(singlUploadOption)
-                console.log(1111, singleTable.config.data)
             } else if (layEvent === 'sameLevel') {
                 var idList = String(data.id).split('.')
                 var curFloorList = [],
