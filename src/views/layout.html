@@ -85,6 +85,7 @@
                 // 找到与当前页面路由一致的菜单，若该菜单无二级，则设置为选中状态；若该菜单有二级，则设置该一级菜单展开二级，并将与当前路由一致的二级菜单设为选中状态
                 for (var j = 0; j < menuList.length; j++) {
                     var menuUrlList = menuList[j].menuUrl.split('/')
+
                     if (menuUrlList[1] === firstPath) {
                         var child = menuList[j].child
                         var childNav = ''
@@ -102,8 +103,6 @@
                                 var ddStr = ''
                                 var showDl = false
                                 var pathReg = new RegExp(path, 'ig')
-
-                                // console.log(111, pathReg, list[f].menuUrl)
 
                                 for (var f = 0; f < list.length; f++) {
                                     ddStr +=
@@ -153,6 +152,10 @@
 
                         $('#home_welcome').css({
                             display: 'none'
+                        })
+
+                        $('#side_nav').css({
+                            display: 'block'
                         })
                         $('#side_nav').html(childNav)
 

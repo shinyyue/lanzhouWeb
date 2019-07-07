@@ -81,11 +81,12 @@
                             title: '规则类型',
                             field: 'type',
                             align: 'center',
-                            templet: function (d) {
-                                if (d.type==1) return "实验累计合格次数"
-                                else if (d.type==2) return "实验累计合格时长(单位：秒)"
-                                else if (d.type==3) return "实验成绩合格分数"
-                                else if (d.type==4) return "考试成绩合格分数"
+                            templet: function(d) {
+                                if (d.type == 1) return '实验累计合格次数'
+                                else if (d.type == 2)
+                                    return '实验累计合格时长(单位：秒)'
+                                else if (d.type == 3) return '实验成绩合格分数'
+                                else if (d.type == 4) return '考试成绩合格分数'
                             }
                         },
                         {
@@ -110,7 +111,7 @@
             }
 
         getList(1)
-        $("#searchRuleList").click(function () {
+        $('#searchRuleList').click(function() {
             getList(1)
         })
 
@@ -205,12 +206,12 @@
         })
 
         function getList(page) {
-            var ruleName = $("#ruleName").val(),
+            var ruleName = $('#ruleName').val(),
                 data = {
-                page: page,
-                rows: pageLimit,
-                key: ruleName
-            }
+                    page: page,
+                    rows: pageLimit,
+                    key: ruleName
+                }
             admin.post({
                 url: '/vsMpRule/list',
                 data: JSON.stringify(data),
@@ -298,7 +299,7 @@
         }
 
         function getTemplate(formData, type) {
-            console
+            console.log(1111, formData)
             return (
                 '<div id="rule_details_modal">\n' +
                 '        <form action="" class="layui-form">\n' +
@@ -335,20 +336,20 @@
                 '                    <label class="layui-form-label">规则类型：</label>\n' +
                 '                    <div class="layui-input-block">\n' +
                 '                        <select name="type" id="type" value="' +
-                                    formData.type +
+                formData.type +
                 '">\n' +
                 '                            <option value="">选择规则类型</option>\n' +
                 '                            <option value="1" ' +
-                    (formData.type == 1 ?"selected":"")   +
+                (formData.type == 1 ? 'selected' : '') +
                 '>实验累计合格次数</option>\n' +
                 '                            <option value="2"' +
-                (formData.type == 2 ?"selected":"")   +
+                (formData.type == 2 ? 'selected' : '') +
                 '>实验累计合格时长(单位：秒)</option>\n' +
                 '                            <option value="3"' +
-                (formData.type == 3 ?"selected":"")   +
+                (formData.type == 3 ? 'selected' : '') +
                 '>实验成绩合格分数</option>\n' +
                 '                            <option value="4"' +
-                (formData.type == 4 ?"selected":"")   +
+                (formData.type == 4 ? 'selected' : '') +
                 '>考试成绩合格分数</option>\n' +
                 '                        </select>\n' +
                 '                    </div>\n' +
