@@ -1,4 +1,6 @@
-<div id="source-manage-mylist" class="layui-fluid" lay-title="我的资源库">
+<div id="source-manage-mylist"
+     class="layui-fluid"
+     lay-title="我的资源库">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -6,11 +8,14 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">所属课程</span>
-            <input type="text" id="" />
-            <select name="" id="course">
+            <input type="text"
+                   id="" />
+            <select name=""
+                    id="course">
                 <option value="">选择课程</option>
             </select>
-            <select name="" id="source">
+            <select name=""
+                    id="source">
                 <option value="">请选择资源类型</option>
             </select>
             <button class="search-confirm">
@@ -19,21 +24,21 @@
         </div>
     </div>
     <div class="course-add">
-        <button class="primary-btn" id="add_source">添加资源</button>
+        <button class="primary-btn"
+                id="add_source">添加资源</button>
     </div>
-    <table
-        id="sourcemanage-mylist-table"
-        lay-filter="sourcemanage-mylist-table"
-    ></table>
-    <script type="text/html" id="sourcelist-opt">
+    <table id="sourcemanage-mylist-table"
+           lay-filter="sourcemanage-mylist-table"></table>
+    <script type="text/html"
+            id="sourcelist-opt">
         <button class="course-set-btn" lay-event="check">查看</button>
         <button class="course-set-btn" lay-event="cancelCollect">取消收藏</button>
     </script>
-    <div class="app-table-page" id="sourcemanage-mylist-page"></div>
+    <div class="app-table-page"
+         id="sourcemanage-mylist-page"></div>
 </div>
-
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function(table) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function (table) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -46,18 +51,8 @@
                 limit: 20,
                 first: '首页',
                 last: '尾页',
-                layout: [
-                    'first',
-                    'prev',
-                    'page',
-                    'next',
-                    'last',
-                    'count',
-                    'currLimit',
-                    'curr',
-                    'pageCount'
-                ],
-                jump: function(obj, first) {
+                layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
+                jump: function (obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -68,75 +63,60 @@
                 page: true,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [
-                        {
-                            title: '序号',
-                            field: 'id',
-                            width: 80,
-                            align: 'center',
-                            type: 'numbers'
-                        },
-                        {
-                            title: '资源名称',
-                            field: 'resourceName',
-                            align: 'center'
-                        },
-                        {
-                            title: '类型',
-                            field: 'resourceType',
-                            align: 'center'
-                        },
-                        {
-                            title: '所属课程',
-                            field: 'courseName',
-                            align: 'center'
-                        },
-                        {
-                            title: '上传日期',
-                            field: 'school',
-                            align: 'center'
-                        },
-                        {
-                            title: '上传老师',
-                            field: 'teacherName',
-                            align: 'center'
-                        },
-                        {
-                            title: '点击',
-                            field: 'clickNum',
-                            align: 'center'
-                        },
-                        {
-                            title: '下载',
-                            field: 'downloadNum',
-                            align: 'center'
-                        },
-                        {
-                            title: '评分',
-                            field: 'publish',
-                            align: 'center'
-                        },
-                        {
-                            title: '操作',
-                            align: 'center',
-                            templet: '#sourcelist-opt',
-                            fixed: 'right',
-                            width: 200
-                        }
-                    ]
+                    [{
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center',
+                        type: 'numbers'
+                    }, {
+                        title: '资源名称',
+                        field: 'resourceName',
+                        align: 'center'
+                    }, {
+                        title: '类型',
+                        field: 'resourceType',
+                        align: 'center'
+                    }, {
+                        title: '所属课程',
+                        field: 'courseName',
+                        align: 'center'
+                    }, {
+                        title: '上传日期',
+                        field: 'school',
+                        align: 'center'
+                    }, {
+                        title: '上传老师',
+                        field: 'teacherName',
+                        align: 'center'
+                    }, {
+                        title: '点击',
+                        field: 'clickNum',
+                        align: 'center'
+                    }, {
+                        title: '下载',
+                        field: 'downloadNum',
+                        align: 'center'
+                    }, {
+                        title: '评分',
+                        field: 'publish',
+                        align: 'center'
+                    }, {
+                        title: '操作',
+                        align: 'center',
+                        templet: '#sourcelist-opt',
+                        fixed: 'right',
+                        width: 200
+                    }]
                 ]
             }
-
         getList(1)
-
-        $('#add_source').click(function() {
+        $('#add_source').click(function () {
             window.location.href = 'index.html#/sourceManage/myListAdd'
         })
-
-        table.on('tool(sourcemanage-mylist-table)', function(obj) {
+        table.on('tool(sourcemanage-mylist-table)', function (obj) {
             var data = obj.data //获得当前行数据
             var layEvent = obj.event
-
             if (layEvent === 'check') {
                 location.href = 'index.html#/sourcemanage/details/id=' + data.id
             } else if (layEvent === 'cancelCollect') {
@@ -150,11 +130,11 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function(index) {
+                    yes: function (index) {
                         layer.close(index)
                         cancleCollect(data.id)
                     },
-                    cancel: function(index) {
+                    cancel: function (index) {
                         layer.close(index)
                     }
                 })
@@ -164,7 +144,7 @@
         function cancleCollect(id) {
             admin.delete({
                 url: '/resCollect/del?id=' + id,
-                success: function(res) {
+                success: function (res) {
                     layer.msg('取消收藏成功')
                     getList(1)
                 }
@@ -177,23 +157,21 @@
                 rows: pageLimit
             }
             admin.post({
-                url: '/resCollect/queryList',
+                url: '/dataBank/queryList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     // laypage.render(layPageOption)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
     })
 </script>
-
 <style>
-    #source-manage-mylist {
-    }
+    #source-manage-mylist {}
 </style>

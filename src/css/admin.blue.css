@@ -509,7 +509,8 @@ textarea::-webkit-input-placeholder {
     float: left;
     width: 40px;
     height: 40px;
-    overflow: hidden;
+    /* overflow: hidden; */
+    overflow: visible;
     border-radius: 2px;
     margin-right: 10px;
 }
