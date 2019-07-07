@@ -52,7 +52,8 @@
             tableFilter = 'user_all_table',
             tableOption = {
                 elem: '[lay-filter="' + tableFilter + '"]',
-                page: false,
+                page: true,
+                data:[],
                 cols: [
                     [
                         {
@@ -216,7 +217,7 @@
             var options = ''
             res.data &&
                 res.data.items &&
-                res.data.items.forEach(item => {
+                res.data.items.forEach(function(item){
                     options +=
                         '<option value="' +
                         item.id +
@@ -224,9 +225,8 @@
                         item.roleName +
                         '</option>'
                 })
-            $('#userType').val('')
             $('#userType').append(options)
-            setSelectOptions()
+//            form.render()
         })
 
         getList(1)
@@ -315,7 +315,7 @@
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
-                    laypage.render(layPageOption)
+//                    // laypage.render(layPageOption)
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
@@ -359,7 +359,7 @@
                         )
                         $('#teacher_college_list').append(options)
                         setSelectOptions()
-                        callback && typeof callback === 'function' && callback()
+                        callback && typeof callback === 'function' && callback(res)
                     }
                 },
                 error: function(err) {
@@ -369,7 +369,7 @@
         }
 
         // 用户类型列表
-        function getUserTypeList(callback) {
+        function getRoleList(callback) {
             var data = {
                 page: 1,
                 rows: 100
@@ -402,7 +402,7 @@
                         )
                         $('#userType_list').append(options)
                         setSelectOptions()
-                        callback && typeof callback === 'function' && callback()
+                        callback && typeof callback === 'function' && callback(res)
                     }
                 },
                 error: function(err) {
@@ -668,12 +668,12 @@
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">状态:</label>' +
                 '<div class="layui-input-block">' +
-                '<input type="radio" name="state" value="1" title="启用"' +
+                '<input type="radio" name="status" value="1" title="启用"' +
                 (formData.state === 1 ? ' checked' : '') +
                 (type === 'check' ? ' disabled' : '') +
                 '>' +
-                '<input type="radio" name="state" value="0" title="停用"' +
-                (formData.state === 0 ? ' checked' : '') +
+                '<input type="radio" name="status" value="2" title="停用"' +
+                (formData.state === 2 ? ' checked' : '') +
                 (type === 'check' ? ' disabled' : '') +
                 '>' +
                 '</div>' +
@@ -706,7 +706,7 @@
                 snoOrJno: $('#snoOrJno').val(),
                 email: $('#email').val(),
                 professionId: Number($('#profess_model').val()),
-                state: Number($('input[name=status]').val()),
+                state: Number($('input[name=status]:checked').val()),
                 studentTypeId: Number($('#studentTypeId').val())
             }
         }
@@ -843,15 +843,16 @@
         })
 
         $('#export-cource').on('click', function() {
-            admin.get({
+            window.open("http://39.104.97.6:8080/user/exportExcel")
+            /*admin.get({
                 url: '/user/exportExcel',
-                /*+ '?collegeId=' +
+                /!*+ '?collegeId=' +
                     $('#college').val() +
                     '&facultyId=' +
-                    $('#series_model').val()*/ success: function(
+                    $('#series_model').val()*!/ success: function(
                     res
                 ) {}
-            })
+            })*/
         })
 
         function addData(callback) {
@@ -935,10 +936,11 @@
                 url: '/role/queryRoleList',
                 data: JSON.stringify(data),
                 success: function(res) {
+                    callback && typeof callback === 'function' && callback(res)
                     $('#roleId').html('<option value="">请选择角色</option>')
                     res.data &&
                         res.data.items &&
-                        res.data.items.forEach(item => {
+                        res.data.items.forEach(function(item){
                             $('#roleId').append(
                                 '<option value="' +
                                     item.id +
@@ -948,7 +950,6 @@
                             )
                         })
                     form.render()
-                    callback && typeof callback === 'function' && callback()
                 }
             })
         }
@@ -977,7 +978,7 @@
                             )
                         })
                     form.render()
-                    callback && typeof callback === 'function' && callback()
+                    callback && typeof callback === 'function' && callback(res)
                 }
             })
         }
@@ -1119,7 +1120,7 @@
             var layerOption = {
                 type: 1,
                 offset: 'auto',
-                title: '编辑',
+                title: type==='edit'?'编辑':'查看',
                 content: getTemplate(formData, type),
                 area: ['700px', '70%'],
                 shade: 0.4,

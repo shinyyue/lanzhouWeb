@@ -12,7 +12,7 @@
                 <div class="layui-row">
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label require">课程名称</label>
-                        <select name="courseName" id="plan_course_list">
+                        <select name="curriculumId" id="plan_course_list">
                             <option value="">选择课程</option>
                         </select>
                     </div>
@@ -375,6 +375,7 @@
         form.on('submit(updatePlan)', function(data) {
             // layer.msg(JSON.stringify(data.field))
             console.log(data.field)
+            console.log(222, $('#plan_course_list').find("option[value=' + data.field.curriculumId + ']").text())
             getLearnAddr(data.field)
             return false
         })
@@ -405,7 +406,7 @@
                 data: JSON.stringify(data),
                 success: function(res) {
                     $('#classList').html('<option>请选择</option>')
-                    res.data.items.forEach(item => {
+                    res.data.items.forEach(function(item) {
                         $('#classList').append(
                             '<option value="' +
                                 item.id +
@@ -504,7 +505,7 @@
                 success: function(res) {
                     res.data &&
                         res.data.items &&
-                        res.data.items.forEach(item => {
+                        res.data.items.forEach(function(item){
                             $('#plan_course_list').append(
                                 '<option value="' +
                                     item.id +
