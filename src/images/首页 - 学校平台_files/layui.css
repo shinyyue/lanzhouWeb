@@ -3132,7 +3132,7 @@ hr {
 .layui-table-box,
 .layui-table-view {
     position: relative;
-    overflow: hidden
+    overflow: visible;
 }
 
 .layui-table-view .layui-table {

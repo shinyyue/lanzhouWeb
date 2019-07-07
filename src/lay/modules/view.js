@@ -133,6 +133,7 @@ layui
                     // xhrFields: {withCredentials: true},
                     dataType: 'html',
                     success: function (html) {
+
                         callback({
                             html: html,
                             url: url

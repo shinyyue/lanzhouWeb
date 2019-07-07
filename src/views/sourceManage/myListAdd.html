@@ -5,11 +5,13 @@
             <span>资源管理 > 我的资源库 > 添加资源</span>
         </div>
     </div>
-    <form action="" class="layui-form mylist-add-form">
+    <form action=""
+          class="layui-form mylist-add-form">
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">资源类型</label>
-                <select name="type" id="type">
+                <select name="type"
+                        id="type">
                     <option value="">选择资源类型</option>
                     <option value="1">文档</option>
                     <option value="2">图片</option>
@@ -22,42 +24,105 @@
             </div>
         </div>
         <div class="layui-row">
-            <div class="layui-col-md12 layui-form-item">
+            <div class="layui-col-md12 layui-form-item"
+                 id="single_upload">
                 <label class="layui-form-label">选择文件</label>
-                <button
-                    type="button"
-                    class="layui-btn"
-                    id="upload-file"
-                    name="file"
-                >
-                    <i class="layui-icon">&#xe67c;</i>选择文件
-                </button>
-                <span style="margin-left: 50px; color: red;"
-                    >注：U3D上传zip、rar文件包； exe上传压缩包</span
-                >
+                <button type="button"
+                        class="layui-btn"
+                        id="upload-file"
+                        name="file">
+                    <i class="layui-icon">&#xe67c;</i>选择文件 </button>
+                <span id="file_path"></span>
+                <span style="margin-left: 50px; color: red;">注：U3D上传zip、rar文件包； exe上传压缩包</span>
                 <!-- <input
                     type="text"
                     id="upload_wrapper"
                     class="layui-upload-file"
                 /> -->
             </div>
+            <div class="layui-col-md12 layui-form-item"
+                 id="scorm_upload">
+                <label class="layui-form-label">选择文件</label>
+                <div class="layui-col-md10">
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">自定义添加</li>
+                            <li>批量添加</li>
+                            <li>
+                                <span style="width: 100px; margin-left: 10px; color: red;">说明：1.目录节点无资源，无需添加；2.时长最大不超过10分钟
+                                </span>
+                            </li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <table class="layui-table"
+                                       id="single_upload_table"
+                                       lay-filter="single_upload_table"></table>
+                                <script type="text/html"
+                                        id="resourceName">
+                                    <input class="common-form-input resource-name" type="text"/>
+                                </script>
+                                <script type="text/html"
+                                        id="resourceTime">
+                                    <input class="common-form-input resource-time" type="text">
+                                </script>
+                                <script type="text/html"
+                                        id="resourceHtm">
+                                    <div class="course-set-btn">选择</div>
+                                    <span class="resourceHtm_path"></span>
+                                    <input type="file" accept="file" name="file" class="course-set-btn upload-html" lay-event="htmUpload" />
+                                </script>
+                                <script type="text/html"
+                                        id="resourceSwt">
+                                    <div class="course-set-btn">选择</div>
+                                    <span class="resourceSwf_path"></span>
+                                    <input type="file" accept="file" name="file" class="course-set-btn upload-swt" lay-event="swtUpload" />
+                                </script>
+                                <script type="text/html"
+                                        id="resource_single_opt">
+                                    <li class="course-set-btn" lay-event="delete">移除</li>
+                                    <li class="course-set-btn" lay-event="add">添加</li>
+                                    <!-- <li class="course-set-btn upload" lay-event="upload">上传</li> -->
+                                    <div class="add-level">
+                                        <div class="level-item" lay-event="sameLevel">同级</div>
+                                        <div class="level-item" lay-event="nextLevel">下级</div>
+                                    </div>
+                                </script>
+                            </div>
+                            <div class="layui-tab-item">
+                                <div class="scorm-multiple">
+                                    <li class="layui-btn"
+                                        id="download_template"> 下载目录模版 </li>
+                                    <li class="layui-btn"
+                                        id="check_upload_template"> 查看举例文件 </li>
+                                    <li class="layui-btn"
+                                        id="scorm_multiple_upload">上传</li>
+                                </div>
+                                <table class="layui-table"
+                                       lay-filter="multiple_upload_table"
+                                       id="multiple_upload_table"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">资源名称</label>
-                <input
-                    class="common-form-input"
-                    type="text"
-                    name="name"
-                    id="name"
-                    placeholder="请输入资源名称"
-                />
+                <input class="common-form-input"
+                       type="text"
+                       name="name"
+                       id="name"
+                       placeholder="请输入资源名称" />
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">所属课程</label>
-                <select name="curriculumId" id="curriculumId" lay-verify="">
+                <select name="curriculumId"
+                        id="curriculumId"
+                        lay-verify="">
                     <option value="">请选择所属课程</option>
                 </select>
             </div>
@@ -66,19 +131,15 @@
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">对外访问</label>
                 <div class="layui-input-block">
-                    <input
-                        type="radio"
-                        name="accessAuthority"
-                        value="1"
-                        title="公开"
-                        checked
-                    />
-                    <input
-                        type="radio"
-                        name="accessAuthority"
-                        value="2"
-                        title="私有"
-                    />
+                    <input type="radio"
+                           name="accessAuthority"
+                           value="1"
+                           title="公开"
+                           checked />
+                    <input type="radio"
+                           name="accessAuthority"
+                           value="2"
+                           title="私有" />
                 </div>
             </div>
         </div>
@@ -86,12 +147,10 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">资源描述</label>
                 <div class="layui-col-md9">
-                    <textarea
-                        id="description"
-                        name="description"
-                        placeholder="请输入内容"
-                        class="layui-textarea"
-                    ></textarea>
+                    <textarea id="description"
+                              name="description"
+                              placeholder="请输入内容"
+                              class="layui-textarea"></textarea>
                 </div>
             </div>
         </div>
@@ -99,19 +158,15 @@
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label require">是否下载</label>
                 <div class="layui-input-block">
-                    <input
-                        type="radio"
-                        name="canDownload"
-                        value="1"
-                        title="是"
-                        checked
-                    />
-                    <input
-                        type="radio"
-                        name="canDownload"
-                        value="0"
-                        title="否"
-                    />
+                    <input type="radio"
+                           name="canDownload"
+                           value="1"
+                           title="是"
+                           checked />
+                    <input type="radio"
+                           name="canDownload"
+                           value="0"
+                           title="否" />
                 </div>
             </div>
         </div>
@@ -119,101 +174,417 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label"></label>
                 <div>
-                    <button
-                        class="layui-btn primary-btn"
-                        lay-submit
-                        lay-filter="submit"
-                    >
-                        提交
-                    </button>
-                    <button
-                        class="layui-btn layui-btn-primary cancel-btn"
-                        id="sourmanage-add-cancle"
-                    >
-                        返回
-                    </button>
+                    <button class="layui-btn primary-btn"
+                            lay-submit
+                            lay-filter="submit"> 提交 </button>
+                    <button class="layui-btn layui-btn-primary cancel-btn"
+                            id="sourmanage-add-cancle"> 返回 </button>
                 </div>
             </div>
         </div>
     </form>
 </div>
 <script>
-    layui.use(['form', 'upload'], function() {
+    layui.use(['form', 'upload', 'table', 'tree'], function (table) {
         var form = layui.form,
             upload = layui.upload,
             $ = layui.jquery,
             admin = layui.admin,
-            type = ''
-
+            table = layui.table,
+            tree = layui.tree,
+            type = '',
+            tableData = [{
+                id: 1,
+                parentId: 0,
+                floor: 1,
+                name: '',
+                resourceName: '',
+                sourceName: '',
+                countTime: ''
+            }],
+            singlUploadOption = {
+                page: false,
+                limit: 200,
+                elem: '[lay-filter="single_upload_table"]',
+                data: JSON.parse(JSON.stringify(tableData)),
+                cols: [
+                    [{
+                        title: '序号',
+                        width: 80,
+                        align: 'center',
+                        type: 'numbers'
+                    }, {
+                        title: '编号',
+                        field: 'id',
+                        align: 'center',
+                        width: 80
+                    }, {
+                        title: '上级编号',
+                        field: 'parentId',
+                        align: 'center',
+                        width: 100
+                    }, {
+                        title: '层级',
+                        field: 'floor',
+                        align: 'center',
+                        width: 80
+                    }, {
+                        title: '目录名称',
+                        field: 'name',
+                        align: 'center',
+                        width: 140,
+                        templet: '#resourceName',
+                        edit: 'text'
+                    }, {
+                        title: '展示资源文件',
+                        field: 'resourceName',
+                        align: 'center',
+                        width: 140,
+                        templet: '#resourceHtm',
+                        style: 'white-space: nowrap;overflow: hidden;'
+                    }, {
+                        title: '资源文件',
+                        field: 'sourceName',
+                        align: 'center',
+                        width: 140,
+                        templet: '#resourceSwt',
+                        style: 'white-space: nowrap;overflow: hidden;'
+                    }, {
+                        title: '时长',
+                        field: 'countTime',
+                        align: 'center',
+                        width: 120,
+                        templet: '#resourceTime',
+                        edit: 'number'
+                    }, {
+                        title: '操作',
+                        align: 'center',
+                        style: 'overflow: visible',
+                        templet: '#resource_single_opt'
+                    }]
+                ]
+            },
+            multipleUploadOption = {
+                page: false,
+                limit: 200,
+                elem: '[lay-filter="multiple_upload_table"]',
+                data: [],
+                cols: [
+                    [{
+                        title: '序号',
+                        width: 80,
+                        align: 'center',
+                        type: 'numbers'
+                    }, {
+                        title: '编号',
+                        field: 'id',
+                        align: 'center',
+                        width: 80
+                    }, {
+                        title: '上级编号',
+                        field: 'parentId',
+                        align: 'center',
+                        width: 100
+                    }, {
+                        title: '层级',
+                        field: 'floor',
+                        align: 'center',
+                        width: 80
+                    }, {
+                        title: '目录名称',
+                        field: 'name',
+                        align: 'center',
+                    }, {
+                        title: '展示资源文件',
+                        field: 'resourceName',
+                        align: 'center',
+                    }, {
+                        title: '资源文件',
+                        field: 'sourceName',
+                        align: 'center',
+                    }, {
+                        title: '时长',
+                        field: 'countTime',
+                        align: 'center',
+                    }]
+                ]
+            };
         form.render()
-
-        $('#upload-file').click(function() {
+        $('#upload-file').click(function () {
             if (Number($('#type').val()) === 0) {
                 layer.msg('请先选择上传文件类型')
                 return false
             }
         })
+        $('#download_template').on('click', function () {
+            window.open('http://39.104.97.6:8080/dataBank/exportExcelTemplete');
+        })
+        $('#check_upload_template').on('click', function () {
+            layer.open({
+                type: 1,
+                offset: 'auto',
+                title: '查看示例',
+                content: '<div class="upload-template">' +
+                    '<div>注： 批量添加仅支持上传压缩包。如：a.zip/a.rar</div>' +
+                    '<div id="upload_template_tree"></div>' + '</div>',
+                area: ['700px', '70%'],
+                shade: 0.4,
+                shadeClose: true
+            })
+            tree.render({
+                elem: '#upload_template_tree',
+                data: [{
+                    spread: true,
+                    title: 'resource(文件夹)',
+                    children: [{
+                        title: 'a.swf',
+                    }, {
+                        title: 'b.co',
+                    }]
+                }, {
+                    title: 'a.html',
+                    children: []
+                }, {
+                    title: 'b.html',
+                    children: []
+                }]
+            })
+        })
+        uploadFile(function () {}, '#scorm_multiple_upload', 7)
+        uploadFile(function () {}, '#upload-file')
+        var singleTable = table.render(singlUploadOption)
+        table.on('edit(single_upload_table)', function (obj) {
+            var field = obj.field
+            var line = $(obj.tr.selector).data(index)
+            var index = line.index
+            var list = JSON.parse(JSON.stringify(singleTable.config.data))
+            if (field === 'name') {
+                list[index].name = obj.value.trim()
+            } else if (field === 'countTime') {
+                list[index].countTime = obj.value.trim()
+            }
+            singlUploadOption.data = list
+            singleTable = table.render(singlUploadOption)
+            $('.resource-name').each(function (index) {
+                $(this).val(list[index].name)
+            })
+            $('.resource-time').each(function (index) {
+                $(this).val(list[index].countTime)
+            })
+            form.render()
+        })
+        table.on('tool(single_upload_table)', function (obj) {
+            var data = obj.data
+            var layEvent = obj.event
+            var line = $(obj.tr.selector).data(index)
+            var index = line.index
+            var list = JSON.parse(JSON.stringify(singleTable.config.data))
+            var lastData = list[index - 1]
+            if (layEvent === 'add') {
+                $(obj.tr.selector).find('.add-level').css({
+                    display: 'block'
+                })
+            } else if (layEvent === 'delete') {
+                if (list.length === 1) {
+                    layer.msg('至少保留一个')
+                    return
+                }
+                for (var i = 0; i < list.length; i++) {
+                    if (list[i].parentId == data.id) {
+                        list.splice(i, 1)
+                    }
+                }
+                list.splice(index, 1)
+                singlUploadOption.data = list
+                singleTable = table.render(singlUploadOption)
+                console.log(1111, singleTable.config.data)
+            } else if (layEvent === 'sameLevel') {
+                var idList = String(data.id).split('.')
+                var curFloorList = [],
+                    idTmp = 0;
+                for (var i = 0; i < list.length; i++) {
+                    if (list[i].floor == data.floor) {
+                        curFloorList.push(list[i])
+                    }
+                }
+                for (var j = 0; j < curFloorList.length; j++) {
+                    var idListTmp = String(curFloorList[j].id).split('.')
+                    var last = Number(idListTmp[idListTmp.length - 1])
+                    idTmp = last > idTmp ? last : idTmp
+                }
+                idList[idList.length - 1] = idTmp + 1
+                // 添加同级
+                list.splice(index + 1, 0, {
+                    id: idList.join('.'),
+                    parentId: data.parentId,
+                    floor: data.floor,
+                    name: '',
+                    resourceName: '',
+                    sourceName: '',
+                    countTime: ''
+                })
+                singlUploadOption.data = list
+                singleTable = table.render(singlUploadOption)
+            } else if (layEvent === 'nextLevel') {
+                var curFloorList = []
+                var item = {
+                    id: 0,
+                    parentId: data.id,
+                    floor: data.floor + 1,
+                    name: '',
+                    resourceName: '',
+                    sourceName: '',
+                    countTime: ''
+                }
+                // 找到下级列表
+                for (var i = 0; i < list.length; i++) {
+                    if (list[i].floor == (data.floor + 1) && list[i].parentId == data.id) {
+                        curFloorList.push(list[i])
+                    }
+                }
+                if (curFloorList.length === 0) {
+                    item.id = data.id + '.1'
+                } else {
+                    var idTmp = 0
+                    for (var j = 0; j < curFloorList.length; j++) {
+                        var idList = String(curFloorList[j].id).split('.')
+                        var last = Number(idList[idList.length - 1])
+                        idTmp = last > idTmp ? last : idTmp
+                    }
+                    item.id = data.id + '.' + (idTmp + 1)
+                }
+                list.splice(index + 1, 0, item)
+                singlUploadOption.data = list
+                singleTable = table.render(singlUploadOption)
+            } else if (layEvent === 'htmUpload') {
+                // 获取自定义上传的所有值 singleTable.config.data
+                scormUpload(function (fileData) {
+                    list[index].resourceName = fileData
+                    singlUploadOption.data = list
+                    singleTable = table.render(singlUploadOption)
+                    $('.resourceHtm_path').each(function (index) {
+                        $(this).html(list[index].resourceName)
+                    })
+                }, $(obj.tr).find('.upload-html'))
+            } else if (layEvent === 'swtUpload') {
+                scormUpload(function (fileData) {
+                    list[index].sourceName = fileData
+                    singlUploadOption.data = list
+                    singleTable = table.render(singlUploadOption)
+                    $('.resourceSwf_path').each(function (index) {
+                        $(this).html(list[index].sourceName)
+                    })
+                }, $(obj.tr).find('.upload-swt'))
+            }
+            $('.resource-name').each(function (index) {
+                $(this).val(list[index].name)
+            })
+            $('.resource-time').each(function (index) {
+                $(this).val(list[index].countTime)
+            })
+        })
 
-        uploadFile()
-
-        function uploadFile() {
+        function scormChooseFile(callback, elem) {
             upload.render({
-                elem: '#upload-file', //绑定元素
+                elem: elem,
+                auto: false,
+                choose: function (obj) {
+                    obj.preview(function (index, file, result) {
+                        callback && typeof callback === 'function' && callback(file)
+                    })
+                },
+            })
+        }
+
+        function scormUpload(callback, elem) {
+            upload.render({
+                elem: elem, //绑定元素
                 url: 'http://39.104.97.6:8080/dataBank/oneFileUpload', //上传接口
                 method: 'post',
                 field: 'file',
                 data: {
-                    type: 2
+                    type: 7
                 },
-                before: function(obj) {
-                    // var _this = this
-                    // layer.load()
+                before: function (obj) {
+                    layer.load()
                 },
-                done: function(res) {
+                done: function (res) {
                     if (res.code === 401) {
                         admin.logout()
                     } else if (res.code === 200) {
                         layer.msg('上传成功')
+                        callback && typeof callback === 'function' && callback(res.data)
                     }
-                    layer.closeAll('loading') //关闭loading
+                    layer.closeAll('loading')
                 },
-                error: function(err) {
-                    layer.closeAll('loading') //关闭loading
+                error: function (err) {
+                    layer.closeAll('loading')
                 }
             })
         }
 
+        function uploadFile(callback, elem, type) {
+            var type = type || 2
+            upload.render({
+                elem: elem, //绑定元素
+                url: 'http://39.104.97.6:8080/dataBank/oneFileUpload', //上传接口
+                method: 'post',
+                field: 'file',
+                accept: 'images,file,video,audio',
+                exts: type == 7 ? 'zip|rar|7z' : '',
+                data: {
+                    type: type
+                },
+                before: function (obj) {
+                    layer.load()
+                },
+                done: function (res) {
+                    if (res.code === 401) {
+                        admin.logout()
+                    } else if (res.code === 200) {
+                        if (type == 7) {
+                            var data = JSON.parse(res.data)
+                            multipleUploadOption.data = data
+                            table.render(multipleUploadOption)
+                        } else {
+                            $('#file_path').html(res.data)
+                        }
+                        layer.msg('上传成功')
+                        callback && typeof callback === 'function' && callback()
+                    }
+                    layer.closeAll('loading') //关闭loading
+                },
+                error: function (err) {
+                    layer.closeAll('loading') //关闭loading
+                }
+            })
+        }
         //监听提交
-        form.on('submit(submit)', function(data) {
-            layer.msg(JSON.stringify(data.field))
+        form.on('submit(submit)', function (data) {
             data.field.type = Number(data.field.type)
             data.field.accessAuthority = Number(data.field.accessAuthority)
             data.field.canDownload = Number(data.field.canDownload)
             data.field.curriculumId = Number($('#curriculumId').val())
-
+            data.field.fileUrl = data.field.type === 7 ? JSON.stringify(singleTable.config.data) : $(
+                '#file_path').html()
             admin.post({
                 url: '/dataBank/add',
                 data: JSON.stringify(data.field),
-                success: function() {}
+                success: function (res) {
+                    if (res.code === 200) {
+                        layer.msg('添加成功')
+                        window.location.href = 'index.html#/sourceManage/myList'
+                    } else {
+                        layer.msg(res.msg || '添加失败')
+                    }
+                }
             })
             return false
         })
-
-        $('#sourmanage-add-cancle').on('click', function() {
+        $('#sourmanage-add-cancle').on('click', function () {
             window.history.back(-1)
         })
-
         getAllCourses()
-
-        function extra_data(data) {
-            var item = []
-            $.each(data, function(k, v) {
-                item.push(
-                    '<input type="hidden" name="' + k + '" value="' + v + '">'
-                )
-            })
-            $('.layui-upload-file').after(item.join(''))
-        }
 
         function getAllCourses(callback) {
             admin.post({
@@ -222,35 +593,57 @@
                     page: 1,
                     rows: 10000
                 }),
-                success: function(res) {
+                success: function (res) {
                     $('#curriculumId').html('<option value="">请选择</option>')
-                    res.data &&
-                        res.data.items &&
-                        res.data.items.forEach(item => {
-                            $('#curriculumId').append(
-                                // '<input type="checkbox" lay-skin="primary" name="prerequisiteCourse" value="' +
-                                //     item.id +
-                                //     '" title="' +
-                                //     item.curriculumName +
-                                //     '">'
-                                '<option value="' +
-                                    item.id +
-                                    '" name="curriculumId">' +
-                                    item.curriculumName +
-                                    '</option>'
-                            )
-                            form.render()
-                        })
+                    res.data && res.data.items && res.data.items.forEach(item => {
+                        $('#curriculumId').append('<option value="' + item.id +
+                            '" name="curriculumId">' + item.curriculumName +
+                            '</option>')
+                        form.render()
+                    })
                     callback && typeof callback === 'function' && callback(res)
                 }
             })
         }
+        // fix layui table中调用layui.upload无效的问题
+        function UpladFile() {
+            var fileObj = document.getElementById("file").files[0];
+            var url = 'http://39.104.97.6:8080/dataBank/oneFileUpload';
+            var form = new FormData(); // FormData 对象
+            form.append("file", fileObj); // 文件对象
+            xhr = new XMLHttpRequest(); // XMLHttpRequest 对象
+            xhr.open("post", url, true); //post方式，url为服务器请求地址，true 该参数规定请求是否异步处理。
+            xhr.onload = uploadComplete; //请求完成
+            xhr.onerror = uploadFailed; //请求失败
+            xhr.upload.onprogress = progressFunction; //【上传进度调用方法实现】
+            xhr.upload.onloadstart = function () { //上传开始执行方法
+                ot = new Date().getTime(); //设置上传开始时间
+                oloaded = 0; //设置上传开始时，以上传的文件大小为0
+            };
+            xhr.send(form); //开始上传，发送form数据
+        }
+        // table 操作超出时的tool
+        $(document).off('mousedown', '.layui-table-grid-down').on('mousedown', '.layui-table-grid-down',
+            function (event) {
+                table._tableTrCurr = $(this).closest('td')
+            })
+        $(document).off('click', '.layui-table-tips-main [lay-event]').on('click',
+            '.layui-table-tips-main [lay-event]',
+            function (event) {
+                var elem = $(this)
+                var tableTrCurr = table._tableTrCurr
+                if (!tableTrCurr) {
+                    return
+                }
+                var layerIndex = elem.closest('.layui-table-tips').attr('times')
+                // 关闭当前这个显示更多的tip
+                layer.close(layerIndex)
+                table._tableTrCurr.find('[lay-event="' + elem.attr('lay-event') + '"]').first().click()
+            })
     })
 </script>
-
 <style>
-    #source-manage-mylist-add {
-    }
+    #source-manage-mylist-add {}
 
     #source-manage-mylist-add .mylist-add-form {
         padding: 20px 0;
@@ -258,5 +651,79 @@
 
     #source-manage-mylist-add .layui-textarea {
         width: 100%;
+    }
+
+    .add-level {
+        display: none;
+        position: absolute;
+        top: 28px;
+        left: 40px;
+        background: #fff;
+        z-index: 999;
+    }
+
+    .add-level .level-item {
+        width: 100px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        background: #fff;
+        border: 1px solid #eee;
+    }
+
+    .add-level .level-item:hover {
+        background: #5a8bff;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    #source-manage-mylist-add .scorm-multiple {
+        text-align: right;
+    }
+
+    #source-manage-mylist-add .upload-template {
+        padding: 20px;
+    }
+
+    #source-manage-mylist-add .resource-name {
+        width: 110px;
+        height: 28px;
+    }
+
+    #source-manage-mylist-add .resource-time {
+        width: 90px;
+        height: 28px;
+    }
+
+    #source-manage-mylist-add .layui-table-edit {
+        width: 120px;
+    }
+
+    #source-manage-mylist-add .course-set-btn {
+        height: 28px;
+        padding: 0 10px;
+        /* line-height: 28px; */
+    }
+
+    /* #source-manage-mylist-add .layui-table-cell, */
+    .layui-table-cell {
+        overflow: visible;
+    }
+
+    #source-manage-mylist-add .layui-table-box,
+    #source-manage-mylist-add .layui-table-body {
+        overflow: visible;
+    }
+
+    #source-manage-mylist-add .upload-html,
+    #source-manage-mylist-add .upload-swt {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 0;
+        width: 140px;
     }
 </style>
