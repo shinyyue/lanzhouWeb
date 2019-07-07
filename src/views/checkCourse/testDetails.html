@@ -1,7 +1,5 @@
 <div id="checkcourse-test-details">
-    <div class="test-title">
-        《转辙机》理论测试试卷
-    </div>
+    <div class="test-title"> 《转辙机》理论测试试卷 </div>
     <div class="test-info">
         <div class="test-info-item">
             <span>试卷满分为<i id="full_mark"></i>分</span>
@@ -15,16 +13,13 @@
             <span id="testUseTime">测试用时：<i id="testTime"></i>分钟</span>
         </div>
     </div>
-    <div class="test-details">
-        <div class="test-tip">
-            单选题 (请选择正确答案，本题共计<i>2</i>个小题)
-        </div>
+    <div class="test-details"
+         id="test_details_info">
+        <div class="test-tip"> 单选题 (请选择正确答案，本题共计<i>2</i>个小题) </div>
         <div id="test-details-inner">
             <div class="test-item">
                 <div class="test-question">
-                    <i>1</i
-                    >.ZK4电空转辙机的摩擦联结器下部夹板不得(分值：<i>5</i>分)
-                </div>
+                    <i>1</i>.ZK4电空转辙机的摩擦联结器下部夹板不得(分值：<i>5</i>分) </div>
                 <ul>
                     <li>
                         <span>选项A</span>
@@ -52,9 +47,7 @@
             </div>
             <div class="test-item">
                 <div class="test-question">
-                    <i>2</i
-                    >.ZK4电空转辙机的摩擦联结器下部夹板不得(分值：<i>5</i>分)
-                </div>
+                    <i>2</i>.ZK4电空转辙机的摩擦联结器下部夹板不得(分值：<i>5</i>分) </div>
                 <ul>
                     <li>
                         <span>选项A</span>
@@ -84,16 +77,11 @@
     </div>
 </div>
 <div class="checkcourse-test-btn">
-    <button
-        class="layui-btn layui-btn-primary back-btn"
-        id="checkcourse-test-back"
-    >
-        返回理论测试列表
-    </button>
+    <button class="layui-btn layui-btn-primary back-btn"
+            id="checkcourse-test-back"> 返回理论测试列表 </button>
 </div>
-
 <script>
-    layui.use([], function() {
+    layui.use([], function () {
         var $ = layui.jquery,
             admin = layui.admin,
             route = layui.router(),
@@ -101,90 +89,60 @@
             endTime = route.search.endTime,
             startTime = route.search.startTime,
             now = new Date().getTime()
-
         getDeatils()
 
         function getDeatils() {
             admin.get({
                 url: '/testQuestions/info?id=' + 8,
-                success: function(res) {
+                success: function (res) {
                     $('#full_mark').html(res.data.score)
                     $('#test_time').html(res.data.testTime)
                     $('#startTime').html(res.data.startTime)
                     $('#endTime').html(res.data.endTime)
                     $('#full_mark').html(res.score)
-
+                    $('#test_details_info').html('')
                     var str = ''
                     for (key in res.data.map) {
-                        var title =
-                            '<div class="test-tip">\n' +
-                            '            ' +
-                            res.data.map[key] +
-                            '题 (请选择正确答案，本题共计<i>' +
-                            res.data.map[key].length +
-                            '</i>个小题)\n' +
+                        var title = '<div class="test-tip">\n' + '            ' + key +
+                            '题 (请选择正确答案，本题共计<i>' + res.data.map[key].length + '</i>个小题)\n' +
                             '        </div>\n'
-
                         var content = ''
-
-                        res.data.map[key].forEach(function(item) {
-                            content +=
-                                '        <div id="test-details-inner">\n' +
-                                '            <div class="test-item">\n' +
+                        res.data.map[key].forEach(function (item) {
+                            var option = JSON.parse(item.option)
+                            var opt = ''
+                            for (optKey in option) {
+                                opt += '<li>\n' + '<span>选项' + optKey + '</span>\n' +
+                                    '       <span>' + option[optKey] + '</span>\n' +
+                                    '</li>\n'
+                            }
+                            content += '            <div class="test-item">\n' +
                                 '                <div class="test-question">\n' +
-                                '                    <i>1</i\n' +
-                                '                    >.ZK4电空转辙机的摩擦联结器下部夹板不得(分值：<i>5</i>分)\n' +
-                                '                </div>\n' +
-                                '                <ul>\n' +
-                                '                    <li>\n' +
-                                '                        <span>选项A</span>\n' +
-                                '                        <span>生锈</span>\n' +
-                                '                    </li>\n' +
-                                '                    <li>\n' +
-                                '                        <span>选项B</span>\n' +
-                                '                        <span>生锈</span>\n' +
-                                '                    </li>\n' +
-                                '                    <li>\n' +
-                                '                        <span>选项C</span>\n' +
-                                '                        <span>生锈</span>\n' +
-                                '                    </li>\n' +
-                                '                    <li>\n' +
-                                '                        <span>选项D</span>\n' +
-                                '                        <span>生锈</span>\n' +
-                                '                    </li>\n' +
-                                '                </ul>\n' +
+                                '                    <i>1</i\n' + '                    >' +
+                                item.name + '(分值：<i>5</i>分)\n' + '                </div>\n' +
+                                '                <ul>' + opt + '</ul>\n' +
                                 '                <div style="color: red; margin-bottom: 10px">\n' +
                                 '                    <span>正确答案</span><span>B</span>\n' +
                                 '                </div>\n' +
                                 '                <div style="color: #006699;">\n' +
                                 '                    <span>我的答案</span><span>B</span>\n' +
-                                '                </div>\n' +
-                                '            </div>\n' +
-                                '        </div>'
+                                '                </div>\n' + '            </div>\n'
                         })
+                        var detail = '<div class="test-details">' + title +
+                            ' <div id="test-details-inner">' + content + '</div></div>'
+                        $('#test_details_info').append(detail)
                     }
                 }
             })
         }
-
-        $('#startTime').html(
-            endTime > now
-                ? admin.dateFormat(new Date().getTime() / 1000)
-                : admin.dateFormat(startTime / 1000)
-        )
-
-        $('#endTime').html(
-            endTime > now
-                ? admin.dateFormat((new Date().getTime() + 3600000) / 1000)
-                : admin.dateFormat(endTime / 1000)
-        )
-
-        $('#checkcourse-test-back').on('click', function() {
+        $('#startTime').html(endTime > now ? admin.dateFormat(new Date().getTime() / 1000) : admin.dateFormat(
+            startTime / 1000))
+        $('#endTime').html(endTime > now ? admin.dateFormat((new Date().getTime() + 3600000) / 1000) : admin.dateFormat(
+            endTime / 1000))
+        $('#checkcourse-test-back').on('click', function () {
             window.location.href = 'index.html#/checkcourse/testlist'
         })
     })
 </script>
-
 <style>
     #checkcourse-test-details {
         border: 1px solid #ededed;
