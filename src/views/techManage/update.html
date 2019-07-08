@@ -1,4 +1,5 @@
-<div id="techManage-add" lay-title="添加课程管理">
+<div id="techManage-add"
+     lay-title="添加课程管理">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -6,19 +7,22 @@
         </div>
     </div>
     <div class="course-add-content">
-        <form action="" class="layui-form">
+        <form action=""
+              class="layui-form">
             <div class="ploy-title">对应课程</div>
             <div style="padding: 20px 0;">
                 <div class="layui-row">
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label require">课程名称</label>
-                        <select name="curriculumId" id="plan_course_list">
+                        <select name="curriculumId"
+                                id="plan_course_list">
                             <option value="">选择课程</option>
                         </select>
                     </div>
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">开课单位</label>
-                        <select name="collegeId" id="collegeId">
+                        <select name="collegeId"
+                                id="collegeId">
                             <option value="">选择开课单位</option>
                         </select>
                         <!-- <input type="text" require name="collegeId" class="common-form-input" /> -->
@@ -27,49 +31,39 @@
                 <div class="layui-row">
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">开课名称</label>
-                        <input
-                            class="common-form-input"
-                            type="text"
-                            name="courseName"
-                            id="courseName"
-                            placeholder="请输入课程名称"
-                        />
+                        <input class="common-form-input"
+                               type="text"
+                               name="courseName"
+                               id="courseName"
+                               placeholder="请输入课程名称" />
                     </div>
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">学时</label>
-                        <input
-                            type="text"
-                            name="period"
-                            class="common-form-input"
-                        />
+                        <input type="text"
+                               name="period"
+                               class="common-form-input" />
                     </div>
                 </div>
                 <div class="layui-row">
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">学分</label>
-                        <input
-                            type="text"
-                            name="creditHour"
-                            class="common-form-input"
-                        />
+                        <input type="text"
+                               name="creditHour"
+                               class="common-form-input" />
                     </div>
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">满分</label>
-                        <input
-                            type="text"
-                            name="fullMark"
-                            class="common-form-input"
-                        />
+                        <input type="text"
+                               name="fullMark"
+                               class="common-form-input" />
                     </div>
                 </div>
                 <div class="layui-row">
                     <div class="layui-col-md12 layui-form-item">
                         <label class="layui-form-label">可选专业</label>
-                        <ul
-                            class="techManage-good-at"
+                        <ul class="techManage-good-at layui-col-md9"
                             name="profession"
-                            id="techManage_good_at"
-                        >
+                            id="techManage_good_at">
                             <!-- <li>
                                 <input id="good-at-tech" type="checkbox" lay-skin="primary" name="goodAt[tech]" title="土木工程" />
                             </li>
@@ -88,13 +82,15 @@
                 <div class="layui-row">
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label require">学年</label>
-                        <select name="schoolYearId" id="schoolYear">
+                        <select name="schoolYearId"
+                                id="schoolYear">
                             <option value="">请选择学年</option>
                         </select>
                     </div>
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">学期</label>
-                        <select name="semester" id="semester">
+                        <select name="semester"
+                                id="semester">
                             <option value="1">第一学期</option>
                             <option value="2">第二学期</option>
                         </select>
@@ -104,17 +100,13 @@
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">上课周次</label>
                         <div>
-                            <input
-                                type="text"
-                                name="weekStart"
-                                class="common-form-input short"
-                            />
+                            <input type="text"
+                                   name="weekStart"
+                                   class="common-form-input short" />
                             <span>至</span>
-                            <input
-                                type="text"
-                                name="weekEnd"
-                                class="common-form-input short"
-                            />
+                            <input type="text"
+                                   name="weekEnd"
+                                   class="common-form-input short" />
                         </div>
                     </div>
                     <!-- <div class="layui-col-md6 layui-form-item">
@@ -124,25 +116,19 @@
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">选择单双周</label>
                         <div class="layui-input-block">
-                            <input
-                                type="radio"
-                                name="singleDoubleWeek"
-                                value="1"
-                                title="全部"
-                                checked
-                            />
-                            <input
-                                type="radio"
-                                name="singleDoubleWeek"
-                                value="2"
-                                title="单周"
-                            />
-                            <input
-                                type="radio"
-                                name="singleDoubleWeek"
-                                value="3"
-                                title="双周"
-                            />
+                            <input type="radio"
+                                   name="singleDoubleWeek"
+                                   value="1"
+                                   title="全部"
+                                   checked />
+                            <input type="radio"
+                                   name="singleDoubleWeek"
+                                   value="2"
+                                   title="单周" />
+                            <input type="radio"
+                                   name="singleDoubleWeek"
+                                   value="3"
+                                   title="双周" />
                         </div>
                     </div>
                 </div>
@@ -151,7 +137,8 @@
                         <label class="layui-form-label">上课时间</label>
                         <div>
                             <div class="short">
-                                <select name="weekDay" id="">
+                                <select name="weekDay"
+                                        id="">
                                     <option value="7">星期日</option>
                                     <option value="1">星期一</option>
                                     <option value="2">星期二</option>
@@ -163,10 +150,8 @@
                                 <span class="tech-update-details">第</span>
                             </div>
                             <div class="short">
-                                <select
-                                    name="schooltimeStart"
-                                    id="start_learn_time"
-                                >
+                                <select name="schooltimeStart"
+                                        id="start_learn_time">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -180,15 +165,11 @@
                                     <option value="11">11</option>
                                     <option value="12">12</option>
                                 </select>
-                                <span class="tech-update-details"
-                                    >节 至 第</span
-                                >
+                                <span class="tech-update-details">节 至 第</span>
                             </div>
                             <div class="short">
-                                <select
-                                    name="schooltimeEnd"
-                                    id="end_learn_time"
-                                >
+                                <select name="schooltimeEnd"
+                                        id="end_learn_time">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -213,19 +194,16 @@
                 <div class="layui-row">
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label require">开课教师</label>
-                        <input
-                            type="text"
-                            require
-                            name="userName"
-                            id="userName"
-                            class="common-form-input"
-                        />
+                        <input type="text"
+                               require
+                               name="userName"
+                               id="userName"
+                               class="common-form-input" />
                     </div>
                     <div class="layui-col-md6 layui-form-item">
-                        <label class="layui-form-label require"
-                            >试用学生类别</label
-                        >
-                        <select name="studentTypeId" id="student_type_list">
+                        <label class="layui-form-label require">试用学生类别</label>
+                        <select name="studentTypeId"
+                                id="student_type_list">
                             <option value="">请选择学生类别</option>
                         </select>
                     </div>
@@ -233,15 +211,15 @@
                 <div class="layui-row">
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">校区</label>
-                        <input
-                            class="common-form-input"
-                            type="text"
-                            name="campus"
-                        />
+                        <select name="campusId"
+                                id="campus">
+                            <option value="">请选择校区</option>
+                        </select>
                     </div>
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">上课地点</label>
-                        <select name="siteId" id="student_learn_addr">
+                        <select name="siteId"
+                                id="student_learn_addr">
                             <option value="">请选择上课地点</option>
                             <!-- <option value="0">无</option>
                             <option value="1">教室</option>
@@ -253,92 +231,75 @@
                     <div class="layui-col-md12 layui-form-item">
                         <label class="layui-form-label">面向全校选课</label>
                         <div class="layui-input-block">
-                            <input
-                                type="radio"
-                                name="school"
-                                value="1"
-                                title="是"
-                                lay-filter="schoolChange"
-                                checked
-                            />
-                            <input
-                                type="radio"
-                                name="school"
-                                value="0"
-                                lay-filter="schoolChange"
-                                title="否"
-                            />
+                            <input type="radio"
+                                   name="school"
+                                   value="1"
+                                   title="是"
+                                   lay-filter="schoolChange"
+                                   checked />
+                            <input type="radio"
+                                   name="school"
+                                   value="0"
+                                   lay-filter="schoolChange"
+                                   title="否" />
                         </div>
                     </div>
                 </div>
-                <div class="layui-row" style="display: none;" id="show_all">
+                <div class="layui-row"
+                     style="display: none;"
+                     id="show_all">
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">行政班级</label>
-                        <div class="layui-input-block" id="classList">
-                            <div class="class-item">
-                                <input
-                                    type="checkbox"
-                                    name="classItem"
-                                    value=""
-                                    title=""
-                                />
-                                <input
-                                    type="radio"
-                                    name="isChecked"
-                                    value="1"
-                                    title="是"
-                                />
-                                <input
-                                    type="radio"
-                                    name="isChecked"
-                                    value="0"
-                                    title="否"
-                                />
+                        <div class="layui-col-md7">
+                            <div>
+                                <label>搜索：</label>
+                                <input type="text"
+                                       id="classListChange">
+                                <span>(</span>
+                                <input type="radio"
+                                       disabled>
+                                <span>)</span><span>是否选择整个班级</span>
                             </div>
+                            <div id="classList"></div>
                         </div>
                     </div>
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">学生</label>
-                        <div class="layui-input-block"></div>
+                        <div class="layui-col-md7">
+                            <div>
+                                <label>搜索：</label>
+                                <input type="text"
+                                       id="studentListChange">
+                            </div>
+                            <div id="studentList"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="layui-row">
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">最少选课人数</label>
-                        <input
-                            type="text"
-                            require
-                            name="minStudent"
-                            class="common-form-input"
-                        />
+                        <input type="text"
+                               require
+                               name="minStudent"
+                               class="common-form-input" />
                     </div>
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">最多选课人数</label>
-                        <input
-                            type="text"
-                            require
-                            name="maxStudent"
-                            class="common-form-input"
-                        />
+                        <input type="text"
+                               require
+                               name="maxStudent"
+                               class="common-form-input" />
                     </div>
                 </div>
                 <div class="layui-row">
                     <div class="layui-form-item layui-col-md12">
                         <label class="layui-form-label"></label>
                         <div>
-                            <button
-                                class="layui-btn primary-btn"
-                                lay-submit
-                                lay-filter="updatePlan"
-                            >
-                                提交
-                            </button>
-                            <button
-                                class="layui-btn layui-btn-primary cancel-btn"
-                                id="source-add-cancle"
-                            >
-                                取消
-                            </button>
+                            <button class="layui-btn primary-btn"
+                                    lay-submit
+                                    lay-filter="updatePlan"> 提交 </button>
+                            <button class="layui-btn layui-btn-primary cancel-btn"
+                                    id="source-add-cancle"> 取消 </button>
                         </div>
                     </div>
                 </div>
@@ -346,55 +307,166 @@
         </form>
     </div>
 </div>
-
 <script>
-    layui.use(['form'], function() {
+    layui.use(['form'], function () {
         var form = layui.form,
             $ = layui.jquery,
-            admin = layui.admin
-
+            admin = layui.admin,
+            classList = [],
+            studentList = [];
         $('#userName').val(layui.data('userInfo').userInfo.userName)
-
         form.render()
-
-        // for (var i = 0; i < 12; i++) {
-        //     $('#start_learn_time').append('<option value="' + (i + 1) + '>' + (i + 1) + '</option>')
-        //     $('#end_learn_time').append('<option value="' + (i + 1) + '>' + (i + 1) + '</option>')
-        // }
-        // form.render()
-
-        form.on('radio(schoolChange)', function(a) {
+        form.on('radio(schoolChange)', function (a) {
             if (a.value === '0') {
-                $('#show_all').css({ display: 'block' })
+                $('#show_all').css({
+                    display: 'block'
+                })
             } else {
-                $('#show_all').css({ display: 'none' })
+                $('#show_all').css({
+                    display: 'none'
+                })
             }
         })
-
         //监听提交
-        form.on('submit(updatePlan)', function(data) {
-            // layer.msg(JSON.stringify(data.field))
-            console.log(data.field)
-            console.log(222, $('#plan_course_list').find("option[value=' + data.field.curriculumId + ']").text())
-            getLearnAddr(data.field)
+        form.on('submit(updatePlan)', function (data) {
+            addCoursePlan(data.field)
             return false
         })
-
-        $('#source-add-cancle').on('click', function() {
+        $('#source-add-cancle').on('click', function () {
             window.history.back(-2)
         })
-
+        $('#classListChange').keyup(function (ev) {
+            var reg = new RegExp(ev.currentTarget.value.trim(), 'ig')
+            $('#classList').html('')
+            for (var i = 0; i < classList.length; i++) {
+                if (classList[i].className.match(reg)) {
+                    $('#classList').append('<div class="class-item">' +
+                        '<input type="checkbox"  name="className" lay-skin="primary"  lay-filter="classListChange">' +
+                        '<span class="class-item-name" data-id="' + classList[i].id + '">' +
+                        classList[i].className + '</span>' + '<input type="radio"' +
+                        'name="isChecked' + classList[i].id + '"' + 'value="1"' +
+                        'title="是"  lay-filter="classStatus"/>' + '<input type="radio"' +
+                        'name="isChecked' + classList[i].id + '"' + 'value="0"' +
+                        'title="否"  lay-filter="classStatus"/>' + '</div>')
+                    form.render()
+                    classListRender()
+                }
+            }
+        })
+        $('#studentListChange').keyup(function (ev) {
+            var reg = new RegExp(ev.currentTarget.value.trim(), 'ig')
+            $('#studentList').html('')
+            for (var i = 0; i < studentList.length; i++) {
+                if (studentList[i].userName.match(reg)) {
+                    $('#studentList').append('<div class="class-item">' +
+                        '<input type="checkbox" lay-skin="primary" name="student" title="' +
+                        studentList[i].userName + '" value="' + studentList[i].id + '">' + '</div>'
+                    )
+                    form.render()
+                    classListRender()
+                }
+            }
+        })
         getAllCourse()
-
-        getAllProfess(function() {})
-
+        getAllProfess(function () {})
         getSchoolYearList()
-
-        getStudentList()
-
+        getStudentTypeList()
         getCollegeList()
-
         getClassList()
+        getCampusList()
+
+        function classListRender() {
+            $('#classList').find('.class-item').each(function (index) {
+                if (!$(this).find('input[type=checkbox]').checked) {
+                    $(this).find('input[type=radio]').attr('disabled', 'true')
+                }
+            })
+            form.on('checkbox(classListChange)', function (obj) {
+                var curElem = $(obj.elem);
+                var item = curElem.parents('.class-item')
+                var radio = curElem.parents('.class-item').find('input[type=radio]');
+                if (obj.elem.checked) {
+                    radio.removeAttr('disabled')
+                } else {
+                    radio.attr('checked', false)
+                    radio.attr('disabled', 'disabled')
+                }
+                $('#studentList').html('')
+                studentList = []
+                $('#classList .class-item').each(function (index) {
+                    if ($(this).find('input[type=radio]:checked').val() === '0') {
+                        getStudentList(null, $(this).find('.class-item-name').data('id'))
+                    }
+                })
+                form.render()
+            });
+            form.on('radio(classStatus)', function (obj) {
+                var classItem = $(obj.elem).parents('.class-item')
+                var id = classItem.find('.class-item-name').data('id')
+                if (obj.value === '0') {
+                    $('#studentList').html('')
+                    studentList = []
+                    $('#classList .class-item').each(function (index) {
+                        if ($(this).find('input[type=radio]:checked').val() === '0') {
+                            getStudentList(null, $(this).find('.class-item-name').data('id'))
+                        }
+                    })
+                }
+            })
+        }
+
+        function getStudentList(callback, classId) {
+            var data = {
+                page: 1,
+                rows: 10000,
+                key: '||||||' + classId
+            }
+            admin.post({
+                url: '/user/getUserList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    if (res.code === 200) {
+                        studentList = studentList.concat(res.data.items)
+                        res.data.items.forEach(item => {
+                            $('#studentList').append('<div class="class-item">' +
+                                '<input type="checkbox" lay-skin="primary" name="student" title="' +
+                                item.userName + '" value="' + item.id + '">' + '</div>'
+                            )
+                        })
+                        form.render()
+                        callback && typeof callback === 'function' && callback(res)
+                    }
+                },
+                error: function (err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        function getCampusList(callback) {
+            var data = {
+                page: 1,
+                rows: 10000
+            }
+            admin.post({
+                url: '/campus/list',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    if (res.code === 200) {
+                        $('#campus').html('<option>请选择校区</option>')
+                        res.data.items.forEach(item => {
+                            $('#campus').append('<option value="' + item.id + '">' + item.campusName +
+                                '</option>')
+                        })
+                        form.render()
+                        callback && typeof callback === 'function' && callback(res)
+                    }
+                },
+                error: function (err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
 
         function getClassList(callback) {
             var data = {
@@ -404,21 +476,25 @@
             admin.post({
                 url: '/vsMpClass/getList',
                 data: JSON.stringify(data),
-                success: function(res) {
-                    $('#classList').html('<option>请选择</option>')
-                    res.data.items.forEach(function(item) {
-                        $('#classList').append(
-                            '<option value="' +
-                                item.id +
-                                '">' +
-                                item.collegeName +
-                                '</option>'
-                        )
+                success: function (res) {
+                    classList = res.data.items
+                    $('#classList').html('')
+                    res.data.items.forEach(function (item) {
+                        $('#classList').append('<div class="class-item">' +
+                            '<input type="checkbox" name="className" lay-skin="primary" lay-filter="classListChange">' +
+                            '<span class="class-item-name" data-id="' + item.id + '">' +
+                            item.className + '</span>' + '<input type="radio"' +
+                            'name="isChecked' + item.id + '"' + 'value="1"' +
+                            'title="是" lay-filter="classStatus"/>' +
+                            '<input type="radio"' + 'name="isChecked' + item.id + '"' +
+                            'value="0"' + 'title="否"  lay-filter="classStatus"/>' +
+                            '</div>')
                     })
                     form.render()
+                    classListRender()
                     callback && typeof callback === 'function' && callback()
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -432,23 +508,18 @@
             admin.post({
                 url: '/college/queryCollegeList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     if (res.code === 200) {
                         $('#collegeId').html('<option>请选择学院</option>')
                         res.data.items.forEach(item => {
-                            $('#collegeId').append(
-                                '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.collegeName +
-                                    '</option>'
-                            )
+                            $('#collegeId').append('<option value="' + item.id + '">' +
+                                item.collegeName + '</option>')
                         })
                         form.render()
                         callback && typeof callback === 'function' && callback()
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -459,11 +530,11 @@
             admin.post({
                 url: '/coursePlan/add',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     layer.msg('添加成功')
                     window.history.back(-1)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -477,20 +548,13 @@
             admin.post({
                 url: '/schoolYear/getList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     $('#schoolYear').html('<option vlaue="">请选择</option>')
-                    res.data &&
-                        res.data.items &&
-                        res.data.items.forEach(item => {
-                            $('#schoolYear').append(
-                                '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.schoolYear +
-                                    '</option>'
-                            )
-                            form.render()
-                        })
+                    res.data && res.data.items && res.data.items.forEach(item => {
+                        $('#schoolYear').append('<option value="' + item.id + '">' + item.schoolYear +
+                            '</option>')
+                        form.render()
+                    })
                 }
             })
         }
@@ -502,19 +566,12 @@
                     page: 1,
                     rows: 100
                 }),
-                success: function(res) {
-                    res.data &&
-                        res.data.items &&
-                        res.data.items.forEach(function(item){
-                            $('#plan_course_list').append(
-                                '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.curriculumName +
-                                    '</option>'
-                            )
-                            form.render()
-                        })
+                success: function (res) {
+                    res.data && res.data.items && res.data.items.forEach(function (item) {
+                        $('#plan_course_list').append('<option value="' + item.id + '">' +
+                            item.curriculumName + '</option>')
+                        form.render()
+                    })
                 }
             })
         }
@@ -526,16 +583,12 @@
                     page: 1,
                     rows: 100
                 }),
-                success: function(res) {
+                success: function (res) {
                     $('#techManage_good_at').html('')
                     res.data.items.forEach(item => {
                         $('#techManage_good_at').append(
                             '<li><input type="checkbox" class="checked-forcess" lay-skin="primary" name="profession" value="' +
-                                item.id +
-                                '" title="' +
-                                item.professionName +
-                                '"></li>'
-                        )
+                            item.id + '" title="' + item.professionName + '"></li>')
                     })
                     form.render()
                     callback()
@@ -543,7 +596,7 @@
             })
         }
 
-        function getStudentList() {
+        function getStudentTypeList() {
             var data = {
                 page: 1,
                 rows: 100
@@ -551,25 +604,20 @@
             admin.post({
                 url: '/studentType/studentTypeList',
                 data: JSON.stringify(data),
-                success: function(res) {
-                    res.data &&
-                        res.data.items &&
-                        res.data.items.forEach(item => {
-                            $('#student_type_list').append(
-                                '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.studentTypeName +
-                                    '</option>'
-                            )
-                            form.render()
-                        })
+                success: function (res) {
+                    res.data && res.data.items && res.data.items.forEach(item => {
+                        $('#student_type_list').append('<option value="' + item.id + '">' +
+                            item.studentTypeName + '</option>')
+                        form.render()
+                    })
                 }
             })
         }
 
-        function getLearnAddr(formData) {
-            var data = formData
+        function addCoursePlan(formData) {
+            var data = formData,
+                classIdList = [],
+                studentIdList = [];
             data.period = Number(data.period)
             data.creditHour = Number(data.creditHour)
             data.fullMark = Number(data.fullMark)
@@ -585,21 +633,36 @@
             data.minStudent = Number(data.minStudent)
             data.maxStudent = Number(data.maxStudent)
             data.school = Number(data.school)
-            data.siteId = Number(data.siteId)
-
+            data.siteId = Number(data.siteId) || 0
+            data.campusId = Number(data.campusId)
+            $('#classList .class-item').each(function (index) {
+                if ($(this).find('input[type=checkbox]:checked').length >= 1 && $(this).find(
+                        'input[type=radio]:checked').val() === '1') {
+                    classIdList.push($(this).find('.class-item-name').data('id'))
+                }
+            })
+            data.classId = classIdList.join(',')
+            $('#studentList .class-item').each(function (index) {
+                if ($(this).find('input[type=checkbox]:checked').length > 0) {
+                    studentIdList.push($(this).find('input[type=checkbox]').val())
+                }
+            })
+            data.studentIds = studentIdList.join(',')
             admin.post({
                 url: '/coursePlan/add',
                 data: JSON.stringify(formData),
-                success: function(res) {
-                    console.log(4444, res)
-                    layer.msg('添加成功！')
-                    window.history.back(-1)
+                success: function (res) {
+                    if (res.code === 200) {
+                        layer.msg('添加成功！')
+                        window.history.back(-1)
+                    } else {
+                        layer.msg(res.msg || '添加失败')
+                    }
                 }
             })
         }
     })
 </script>
-
 <style>
     #techManage-add .course-add-content {
         padding: 20px 0;
@@ -609,7 +672,7 @@
         padding: 15px 0;
     }
 
-    #techManage-add .techManage-good-at > li {
+    #techManage-add .techManage-good-at>li {
         float: left;
         margin-right: 20px;
     }
@@ -660,5 +723,10 @@
     .short .layui-input,
     .layui-textarea {
         width: 100px;
+    }
+
+    .class-item-name {
+        display: inline-block;
+        width: 200px;
     }
 </style>
