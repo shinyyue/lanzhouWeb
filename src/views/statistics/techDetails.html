@@ -30,7 +30,7 @@
                 url: '/report/queryFacultyInfoList?collegeId=' + id,
                 success: function(res) {
                     table.render({
-                        page: true,
+                        page: false,
                         skin: 'row, line',
                         data: res.data,
                         elem: '[lay-filter="' + tableFilter + '"]',

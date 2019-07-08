@@ -52,7 +52,7 @@
             tableFilter = 'user_all_table',
             tableOption = {
                 elem: '[lay-filter="' + tableFilter + '"]',
-                page: true,
+                page: false,
                 data:[],
                 cols: [
                     [
@@ -315,7 +315,7 @@
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
-//                    // laypage.render(layPageOption)
+                   laypage.render(layPageOption)
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')

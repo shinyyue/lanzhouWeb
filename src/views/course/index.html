@@ -62,7 +62,7 @@
                 }
             },
             tableOption = {
-                page: true,
+                page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
                     [
@@ -176,7 +176,7 @@
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
-                    // laypage.render(layPageOption)
+                    laypage.render(layPageOption)
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
