@@ -108,14 +108,15 @@
                                 var list = child[k].child
                                 var ddStr = ''
                                 var showDl = false
-                                var pathReg = new RegExp(path, 'ig')
+                                var pathReg = new RegExp('^' + path, 'ig')
+
 
                                 for (var f = 0; f < list.length; f++) {
+                                    var isMatch = pathReg.test(list[f].menuUrl)
+
                                     ddStr +=
                                         '<dd class="' +
-                                        (pathReg.test(list[f].menuUrl) ?
-                                            'active' :
-                                            '') +
+                                        (isMatch ? 'active' : '') +
                                         '">' +
                                         '   <a target="' +
                                         ('' || '') +
