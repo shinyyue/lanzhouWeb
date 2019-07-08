@@ -4,12 +4,13 @@ layui
         api: 'lay/modules/api',
         view: 'lay/modules/view'
     })
-    .define(['conf', 'view', 'api', 'jquery'], function (exports) {
+    .define(['conf', 'view', 'api', 'jquery', 'table'], function (exports) {
         POPUP_DATA = {}
         var conf = layui.conf
         var view = layui.view
         var element = layui.element
         var $ = layui.jquery
+        var table = layui.table
         // var Edit = layui.layedit
 
         layui.extend(conf.extend)
@@ -26,6 +27,7 @@ layui
         self.isInit = false
         self.routeLeaveFunc = null
         self.loginToken = null
+
 
         /**
          * 设置编辑器内容
@@ -158,6 +160,8 @@ layui
                 type: 'put'
             }, params))
         }
+
+        table.set(conf.table)
 
         /**
         self.router = function(url) {
