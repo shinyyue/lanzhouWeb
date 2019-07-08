@@ -1,4 +1,6 @@
-<div class="layui-fluid" id="techManage" lay-title="开课管理">
+<div class="layui-fluid"
+     id="techManage"
+     lay-title="开课管理">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -7,16 +9,20 @@
         <div class="course-title-search">
             <span class="search-project">开课名称</span>
             <input type="text" />
-            <select name="" id="">
+            <select name=""
+                    id="">
                 <option value="">请选择学年</option>
             </select>
-            <select name="" id="">
+            <select name=""
+                    id="">
                 <option value="">请选择学期</option>
             </select>
-            <select name="" id="">
+            <select name=""
+                    id="">
                 <option value="">选择任课老师</option>
             </select>
-            <select name="" id="">
+            <select name=""
+                    id="">
                 <option value="">是否开课</option>
             </select>
             <button class="search-confirm">
@@ -25,20 +31,29 @@
         </div>
     </div>
     <div class="course-add">
-        <button class="add-btn" id="add-cource">添加</button>
+        <button class="add-btn"
+                id="add-cource">添加</button>
     </div>
-    <table id="techManage-plan-table" lay-filter="techManage-plan-table"></table>
-    <script type="text/html" id="techManage-plan-opt">
-        {{#if(d.publish == 0) { }}
-        <button class="course-set-btn" lay-event="edit">编辑</button>
-        <button class="course-set-btn" lay-event="delete">删除</button>
-        <button class="course-set-btn" lay-event="check">查看</button>
-        <button class="course-set-btn" lay-event="publish">发布</button>
-        {{#  } else {  }}
-            <button class="course-set-btn" lay-event="check">查看</button>
-        {{#  }  }}
+    <table id="techManage-plan-table"
+           lay-filter="techManage-plan-table"></table>
+    <script type="text/html"
+            id="techManage-plan-opt">
+    {{#if(d.publish == 0) { }}
+        <button class="course-set-btn"
+                lay-event="edit">编辑</button>
+        <button class="course-set-btn"
+                lay-event="delete">删除</button>
+        <button class="course-set-btn"
+                lay-event="check">查看</button>
+        <button class="course-set-btn"
+                lay-event="publish">发布</button>
+        {{# } else {  }}
+            <button class="course-set-btn"
+                    lay-event="check">查看</button>
+            {{# }  }}
     </script>
-    <div class="app-table-page" id="techManage-table-page"></div>
+    <div class="app-table-page"
+         id="techManage-table-page"></div>
 </div>
 
 <script>
@@ -48,10 +63,10 @@
             $ = layui.jquery,
             table = layui.table,
             admin = layui.admin,
-            pageLimit = 10,
+            pageLimit = 20,
             layPageOption = {
                 elem: 'techManage-table-page', //注意，这里的 test1 是 ID，不用加 # 号
-                limit: 10,
+                limit: 20,
                 first: '首页',
                 last: '尾页',
                 layout: [
@@ -73,7 +88,7 @@
                 }
             },
             tableOption = {
-                // page: true,
+                page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
                     [{
@@ -224,6 +239,7 @@
             location.href = 'index.html#/techManage/update'
         })
     })
+
 </script>
 
 <style>
@@ -283,4 +299,5 @@
         border: 1px solid #ccc;
         cursor: pointer;
     }
+
 </style>

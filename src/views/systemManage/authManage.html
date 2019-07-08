@@ -70,15 +70,15 @@
                 }
             },
             tableOption = {
-                page: true,
+                page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
                     [{
                             title: '序号',
-                            field: 'id',
+                            field: 'sNumber',
                             width: 80,
                             align: 'center',
-                            type: 'numbers'
+                            // type: 'numbers'
                         },
                         {
                             title: '菜单名称',
@@ -226,19 +226,15 @@
                 url: '/menu/getList',
                 data: JSON.stringify(data),
                 success: function (res) {
-                    console.log(1111, res)
+                    if (res.data && res.data.items) {
+                        for (var i = 0; i < res.data.items.length; i++) {
+                            res.data.items[i].sNumber = (page - 1) * pageLimit + i + 1
+                        }
+                    }
                     tableOption.data = (res.data && res.data.items) || []
-                    // tableOption.count = (res.data && res.data.total) || 0
-                    // tableOption.parseData = function (res) { //res 即为原始返回的数据
-                    //     return {
-                    //         "code": res.code, //解析接口状态
-                    //         "msg": res.msg, //解析提示文本
-                    //         "count": res.data.total, //解析数据长度
-                    //         "data": res.data.items //解析数据列表
-                    //     };
-                    // }
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
-                    // laypage.render(layPageOption)
+                    laypage.render(layPageOption)
                 },
                 error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
