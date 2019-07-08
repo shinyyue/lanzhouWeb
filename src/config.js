@@ -70,17 +70,25 @@ layui.define(function (exports) {
         //全局 table 配置
         //参数请参照 https://www.layui.com/doc/modules/table.html
         table: {
-            page: true,
             size: 'lg',
             skin: 'line',
             //每页显示的条数
             limit: 20,
+            limits: [20],
             //是否显示加载条
             loading: true,
             //用于对分页请求的参数：page、limit重新设定名称
-            request: {
-                pageName: 'page', //页码的参数名称，默认：page
-                limitName: 'rows' //每页数据量的参数名，默认：limit
+            // request: {
+            //     pageName: 'page', //页码的参数名称，默认：page
+            //     limitName: 'rows' //每页数据量的参数名，默认：limit
+            // },
+            parseData: function (res) { //res 即为原始返回的数据
+                return {
+                    "code": res.status, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.items //解析数据列表
+                };
             }
         },
         //第三方扩展
