@@ -73,7 +73,7 @@ layui.define(function (exports) {
             size: 'lg',
             skin: 'line',
             //每页显示的条数
-            limit: 5,
+            limit: 20,
             limits: [20],
             //是否显示加载条
             loading: true,
