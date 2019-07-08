@@ -11,7 +11,8 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">资源类型</label>
                 <select name="type"
-                        id="type">
+                        id="type"
+                        lay-filter="typeChange">
                     <option value="">选择资源类型</option>
                     <option value="1">文档</option>
                     <option value="2">图片</option>
@@ -23,7 +24,7 @@
                 </select>
             </div>
         </div>
-        <div class="layui-row">
+        <div class="layui-row show-other-upload">
             <div class="layui-col-md12 layui-form-item"
                  id="single_upload">
                 <label class="layui-form-label">选择文件</label>
@@ -40,7 +41,7 @@
                     class="layui-upload-file"
                 /> -->
             </div>
-            <div class="layui-col-md12 layui-form-item"
+            <div class="layui-col-md12 layui-form-item show-scorm-upload"
                  id="scorm_upload">
                 <label class="layui-form-label">选择文件</label>
                 <div class="layui-col-md10">
@@ -49,7 +50,8 @@
                             <li class="layui-this">自定义添加</li>
                             <li>批量添加</li>
                             <li>
-                                <span style="width: 100px; margin-left: 10px; color: red;">说明：1.目录节点无资源，无需添加；2.时长最大不超过10分钟
+                                <span
+                                      style="width: 100px; margin-left: 10px; color: red;">说明：1.目录节点无资源，无需添加；2.时长最大不超过10分钟
                                 </span>
                             </li>
                         </ul>
@@ -60,33 +62,52 @@
                                        lay-filter="single_upload_table"></table>
                                 <script type="text/html"
                                         id="resourceName">
-                                    <input class="common-form-input resource-name" type="text"/>
+                                    <input class="common-form-input resource-name"
+                                           type="text" />
+
                                 </script>
                                 <script type="text/html"
                                         id="resourceTime">
-                                    <input class="common-form-input resource-time" type="text">
+                                    <input class="common-form-input resource-time"
+                                           type="text">
+
                                 </script>
                                 <script type="text/html"
                                         id="resourceHtm">
                                     <div class="course-set-btn">选择</div>
                                     <span class="resourceHtm_path"></span>
-                                    <input type="file" accept="file" name="file" class="course-set-btn upload-html" lay-event="htmUpload" />
+                                    <input type="file"
+                                           accept="file"
+                                           name="file"
+                                           class="course-set-btn upload-html"
+                                           lay-event="htmUpload" />
+
                                 </script>
                                 <script type="text/html"
                                         id="resourceSwt">
                                     <div class="course-set-btn">选择</div>
                                     <span class="resourceSwf_path"></span>
-                                    <input type="file" accept="file" name="file" class="course-set-btn upload-swt" lay-event="swtUpload" />
+                                    <input type="file"
+                                           accept="file"
+                                           name="file"
+                                           class="course-set-btn upload-swt"
+                                           lay-event="swtUpload" />
+
                                 </script>
                                 <script type="text/html"
                                         id="resource_single_opt">
-                                    <li class="course-set-btn" lay-event="delete">移除</li>
-                                    <li class="course-set-btn" lay-event="add">添加</li>
+                                    <li class="course-set-btn"
+                                        lay-event="delete">移除</li>
+                                    <li class="course-set-btn"
+                                        lay-event="add">添加</li>
                                     <!-- <li class="course-set-btn upload" lay-event="upload">上传</li> -->
                                     <div class="add-level">
-                                        <div class="level-item" lay-event="sameLevel">同级</div>
-                                        <div class="level-item" lay-event="nextLevel">下级</div>
+                                        <div class="level-item"
+                                             lay-event="sameLevel">同级</div>
+                                        <div class="level-item"
+                                             lay-event="nextLevel">下级</div>
                                     </div>
+
                                 </script>
                             </div>
                             <div class="layui-tab-item">
@@ -107,7 +128,7 @@
                 </div>
             </div>
         </div>
-        <div class="layui-row">
+        <div class="layui-row ">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">资源名称</label>
                 <input class="common-form-input"
@@ -352,6 +373,26 @@
         })
         uploadFile(function () {}, '#scorm_multiple_upload', 7)
         uploadFile(function () {}, '#upload-file')
+
+        form.on('select(typeChange)', function (obj) {
+            if (obj.value == 7) {
+                $('.show-scorm-upload').css({
+                    display: 'block'
+                })
+                $('.show-other-upload').css({
+                    display: 'none'
+                })
+            } else {
+                $('.show-scorm-upload').css({
+                    display: 'none'
+                })
+
+                $('.show-other-upload').css({
+                    display: 'block'
+                })
+            }
+        })
+
         var singleTable = table.render(singlUploadOption)
         table.on('edit(single_upload_table)', function (obj) {
             var field = obj.field
@@ -573,7 +614,8 @@
                 success: function (res) {
                     if (res.code === 200) {
                         layer.msg('添加成功')
-                        window.location.href = 'index.html#/sourceManage/myList'
+                        admin.prev()
+                        // window.location.href = 'index.html#/sourceManage/myList'
                     } else {
                         layer.msg(res.msg || '添加失败')
                     }
@@ -641,6 +683,7 @@
                 table._tableTrCurr.find('[lay-event="' + elem.attr('lay-event') + '"]').first().click()
             })
     })
+
 </script>
 <style>
     #source-manage-mylist-add {}
@@ -726,4 +769,9 @@
         padding: 0;
         width: 140px;
     }
+
+    #source-manage-mylist-add .show-scorm-upload {
+        display: none;
+    }
+
 </style>
