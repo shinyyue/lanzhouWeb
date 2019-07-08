@@ -144,7 +144,6 @@
 
         function updateUser() {
             var data = userInfo;
-
             data.account = $('#account').val()
             data.snoOrJno = $('#snoOrJno').val()
             data.phonenumber = $('#phonenumber').val()
@@ -153,6 +152,8 @@
             data.sex = Number($('input[name=sex]').val())
             data.newPassWord = $('#oldPwd').val()
             data.oldPassWord = $('#newPwd').val()
+            debugger
+            data.id = layui.data('userInfo').userInfo.id
 
             admin.put({
                 url: '/user/updateUser',
@@ -160,7 +161,9 @@
                 success: function (res) {
                     console.log(333, res)
                     layer.msg('修改成功')
-                    getUserInfo()
+//                    getUserInfo()
+                    //调转个人信息页面
+                    window.location.href = 'index.html#/personalInfo/personalInfo'
                 }
             })
         }
@@ -182,7 +185,7 @@
                 newPassWord: $('#oldPwd').val(),
                 oldPassWord: $('#newPwd').val()
             }
-
+            console.log(2,formData)
             // || !$('#oldPwd').val() ||
             // !$('#newPwd').val() || !$('#pwdConfirm').val()
             if (!formData.account || !formData.snoOrJno || !formData.userName) {
@@ -229,7 +232,4 @@
     }
 
     .short .layui-input,
-    .layui-textarea {
-        width: 100px;
-    }
-</style>
+    .l

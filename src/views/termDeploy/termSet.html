@@ -60,7 +60,7 @@
                 }
             },
             tableOption = {
-                page: false,
+                page: true,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
                     [
@@ -197,7 +197,7 @@
             var layerOption = {
                 type: 1,
                 offset: 'auto',
-                title: '编辑',
+                title: type==='edit'?'编辑':'查看',
                 content: getTemplate(formData, type),
                 area: ['700px', '70%'],
                 shade: 0.4,
@@ -276,7 +276,7 @@
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
-                    laypage.render(layPageOption)
+                    // laypage.render(layPageOption)
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
@@ -348,7 +348,7 @@
         function getFormData() {
             formData = {
                 id: $('#id').val(),
-                semester: $('#semester').val(),
+                semester: $('#semesterAdd input[name="semester"]:checked ').val(),
                 schoolYear: $('#schoolYear').val(),
                 startTime: $('#startTime').val(),
                 endTime: $('#endTime').val()
@@ -387,13 +387,14 @@
         }
 
         function getTemplate(formData, type) {
+            // console.log(formData)
             return (
                 '<div id="term_details_modal">\n' +
                 '        <form action=" " class="layui-form">\n' +
                 '            <div class="layui-row">\n' +
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">学期：</label>\n' +
-                '                    <div class="layui-input-block">\n' +
+                '                    <div class="layui-input-block" id="semesterAdd">\n' +
                 '                        <input\n' +
                 '                            type="radio"\n' +
                 '                            name="semester"\n' +
@@ -407,7 +408,6 @@
                 '                            value="2"\n' +
                 '                            title="第2学期"\n' +
                 (formData.semester == 2 ? 'checked' : '') +
-                '                            checked\n' +
                 '                        />\n' +
                 '                    </div>\n' +
                 '                </div>\n' +
@@ -443,12 +443,17 @@
                 '            <div class="layui-row">\n' +
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">学年:</label>\n' +
-                '                       <div class="layui-input-block">\n' +
-                '                           <select name="schoolYear" id="schoolYear" value="' +
-                formData.schoolYear +
-                '                           ">\n' +
-                '                           </select>\n' +
-                '                       </div>\n' +
+                '<input type="text" name="schoolYear" id="schoolYear" value="' +
+                (formData.schoolYear || '') +
+                '"' +
+                (type === 'check' ? 'disabled' : '') +
+                ' class="common-form-input">' +
+                // '                       <div class="layui-input-block">\n' +
+                // '                           <select name="schoolYear" id="schoolYear" value="' +
+                // formData.schoolYear +
+                // '                           ">\n' +
+                // '                           </select>\n' +
+                // '                       </div>\n' +
                 // '                    <input\n' +
                 // '                        type="text"\n' +
                 // '                        name="schoolYear"\n' +

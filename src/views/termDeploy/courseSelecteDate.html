@@ -63,7 +63,7 @@
                 }
             },
             tableOption = {
-                page: false,
+                page: true,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
                     [
@@ -117,8 +117,8 @@
         getList(1)
 
         table.on('tool(course-data-mylist-table)', function(obj) {
-            var data = obj.data //获得当前行数据
-            var layEvent = obj.event,
+            var data = obj.data, //获得当前行数据
+                layEvent = obj.event,
                 type = ''
 
             if (layEvent === 'delete') {
@@ -135,6 +135,7 @@
                     yes: function(index, layero) {
                         // 提交
                         layer.close(index)
+                        console.log(data)
                         deleteData(data.id)
                     },
                     cancel: function(index) {
@@ -189,7 +190,7 @@
             var layerOption = {
                 type: 1,
                 offset: 'auto',
-                title: '编辑',
+                title: type==='edit'?'编辑':'查看',
                 content: getTemplate(formData, type),
                 area: ['700px', '70%'],
                 shade: 0.4,
@@ -267,7 +268,7 @@
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
-                    laypage.render(layPageOption)
+                    // laypage.render(layPageOption)
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')

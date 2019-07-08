@@ -56,7 +56,7 @@
                 }
             },
             tableOption = {
-                page: false,
+                page: true,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
                     [
@@ -72,11 +72,11 @@
                             field: 'collegeName',
                             align: 'center'
                         },
-                        // {
-                        //     title: '学院编码',
-                        //     field: 'courceName',
-                        //     align: 'center'
-                        // },
+                        {
+                            title: '学院编码',
+                            field: 'collegeCode',
+                            align: 'center'
+                        },
                         // {
                         //     title: '类型',
                         //     field: 'courseCode',
@@ -100,7 +100,7 @@
             formData = {
                 lastOrg: '',
                 collegeName: '',
-                collegeNumber: '',
+                collegeCode: '',
                 type: '',
                 remark: ''
             }
@@ -144,7 +144,7 @@
             var layerOption = {
                 type: 1,
                 offset: 'auto',
-                title: '编辑',
+                title: type==='edit'?'编辑':'查看',
                 content: getTemplate(formData, type),
                 area: ['700px', '70%'],
                 shade: 0.4,
@@ -211,7 +211,7 @@
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
-                    laypage.render(layPageOption)
+                    // laypage.render(layPageOption)
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
@@ -234,7 +234,8 @@
         function updateData(data) {
             var data = {
                 id: data.id,
-                collegeName: data.collegeName
+                collegeName: data.collegeName,
+                collegeCode: data.collegeCode
             }
             admin.put({
                 url: '/college/updateCollege',
@@ -260,7 +261,8 @@
 
         function addData() {
             var data = {
-                collegeName: $('#college-name').val()
+                collegeName: $('#college-name').val(),
+                collegeCode: $('#college-number').val()
             }
 
             admin.post({
@@ -279,7 +281,7 @@
             formData = {
                 lastOrg: $('#last-org').val(),
                 collegeName: $('#college-name').val(),
-                collegeNumber: $('#college-number').val(),
+                collegeCode: $('#college-number').val(),
                 type: $('#college-type').val(),
                 remark: $('#college-remark').val()
             }
@@ -316,19 +318,19 @@
                 '                    />\n' +
                 '                </div>\n' +
                 '            </div>\n' +
-                // '            <div class="layui-row">\n' +
-                // '                <div class="layui-col-md12 layui-form-item">\n' +
-                // '                    <label class="layui-form-label">学院编码:</label>\n' +
-                // '                    <input\n' +
-                // '                        type="text"\n' +
-                // '                        id="college-number"' +
-                // '                        name="userName"\n' +
-                // '                        class="common-form-input"\n' +
-                // '                        value="' + (formData.collegeNumber || '') + '"\n' +
-                // (type === 'check' ? 'disabled' : '') +
-                // '                    />\n' +
-                // '                </div>\n' +
-                // '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                    <label class="layui-form-label">学院编码:</label>\n' +
+                '                    <input\n' +
+                '                        type="text"\n' +
+                '                        id="college-number"' +
+                '                        name="userName"\n' +
+                '                        class="common-form-input"\n' +
+                '                        value="' + (formData.collegeCode || '') + '"\n' +
+                (type === 'check' ? 'disabled' : '') +
+                '                    />\n' +
+                '                </div>\n' +
+                '            </div>\n' +
                 // '            <div class="layui-row">\n' +
                 // '                <div class="layui-col-md12 layui-form-item">\n' +
                 // '                    <label class="layui-form-label">类型:</label>\n' +

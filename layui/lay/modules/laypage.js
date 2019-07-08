@@ -1,4 +1,5 @@
-/** layui-v2.4.0 MIT License By https://www.layui.com */ ;
+/** layui-v2.4.0 MIT License By https://www.layui.com */
+
 layui.define(function (e) {
     "use strict";
     var a = document,

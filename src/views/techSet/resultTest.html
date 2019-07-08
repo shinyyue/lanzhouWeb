@@ -5,8 +5,8 @@
             <span>开课管理 > 铁路信号知识 > 实验过程 > 实验统计</span>
         </div>
         <div class="course-title-search">
-            <input type="text" value="请输入关键字" />
-            <button class="search-confirm">
+            <input type="text" placeholder="请输入关键字" id="resultTestName" />
+            <button class="search-confirm" id="searchResultTestList">
                 <img src="src/images/search.png" />
             </button>
         </div>
@@ -55,7 +55,7 @@
                 }
             },
             tableOption = {
-                page: false,
+                page: true,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
                     [{
@@ -122,13 +122,17 @@
         })
 
         getList(1)
+        $("#searchResultTestList").click(function () {
+            getList(1)
+        })
 
         function getList(page) {
-            var data = {
-                page: page,
-                rows: pageLimit,
-                curriculumId:1
-            }
+            var resultTestName = $("#resultTestName").val(),
+                data = {
+                    page: page,
+                    rows: pageLimit,
+                    curriculumId:1
+                }
             admin.post({
                 url: '/vsMpTestRecord/queryCorrectionExperiment',
                 data: JSON.stringify(data),
@@ -136,7 +140,7 @@
                     tableOption.data = (res.data && res.data.items) || [];
                     layPageOption.count = (res.data && res.data.total) || 0;
                     table.render(tableOption)
-                    laypage.render(layPageOption)
+                    // laypage.render(layPageOption)
                 },
                 error: function (err) {
                     layer.msg(err && err.msg || '数据请求失败');
@@ -151,7 +155,7 @@
 //            $ = layui.jquery
 //
 //        table.render({
-//            page: false,
+//            page: true,
 //            data: [
 //                {
 //                    id: 1,

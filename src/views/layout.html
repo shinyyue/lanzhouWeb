@@ -58,8 +58,6 @@
                 firstPath = route.path[0], // 一级路由地址
                 menuList = layui.data('role').role.menuTrees
 
-            console.log(777, path, route)
-
             // todo: 路由判断不严谨，需去掉hash参数
 
             initHeaderNav()
@@ -69,15 +67,20 @@
                 var menuStr = ''
                 for (var i = 0; i < menuList.length; i++) {
                     var status = '',
-                        menuUrlList = menuList[i].menuUrl.split('/');
+                        menuUrlList = menuList[i].menuUrl.split('/')
 
                     // 当前页面与此nav的一级路由相同时，设置header_nav的选中状态, 并设置侧边栏
                     if (menuUrlList[1] === firstPath) {
                         status = 'active'
                     }
                     menuStr +=
-                        '<li class="layui-nav-item ' + status + '"' +
-                        'data-path="' + menuList[i].menuUrl + '"> ' + menuList[i].menuName +
+                        '<li class="layui-nav-item ' +
+                        status +
+                        '"' +
+                        'data-path="' +
+                        menuList[i].menuUrl +
+                        '"> ' +
+                        menuList[i].menuName +
                         '</li>'
                 }
                 $('#header_nav').prepend(menuStr)
@@ -87,44 +90,67 @@
                 // 根据一级路由找到对应的侧边列表，渲染
                 // 找到与当前页面路由一致的菜单，若该菜单无二级，则设置为选中状态；若该菜单有二级，则设置该一级菜单展开二级，并将与当前路由一致的二级菜单设为选中状态
                 for (var j = 0; j < menuList.length; j++) {
-                    var menuUrlList = menuList[j].menuUrl.split('/');
+                    var menuUrlList = menuList[j].menuUrl.split('/')
+
                     if (menuUrlList[1] === firstPath) {
-                        var child = menuList[j].child;
+                        var child = menuList[j].child
                         var childNav = ''
 
                         if (child.length === 0) {
                             setHomeSide()
-                            return;
+                            return
                         }
                         for (var k = 0; k < child.length; k++) {
-                            var dlStr = '';
-                            var childFirstPath = child[k].menuUrl.split('/')[1];
+                            var dlStr = ''
+                            var childFirstPath = child[k].menuUrl.split('/')[1]
 
                             if (child[k].child.length > 0) {
-                                var list = child[k].child;
-                                var ddStr = '';
-                                var showDl = false;
+                                var list = child[k].child
+                                var ddStr = ''
+                                var showDl = false
+                                var pathReg = new RegExp(path, 'ig')
 
                                 for (var f = 0; f < list.length; f++) {
                                     ddStr +=
-                                        '<dd class="' + (list[f].menuUrl === path ? 'active' : '') + '">' +
-                                        '   <a target="' + ('' || '') + '" ' +
-                                        '      lay-href="' + (list[f].menuUrl || '') + '">' +
+                                        '<dd class="' +
+                                        (pathReg.test(list[f].menuUrl) ?
+                                            'active' :
+                                            '') +
+                                        '">' +
+                                        '   <a target="' +
+                                        ('' || '') +
+                                        '" ' +
+                                        '      lay-href="' +
+                                        (list[f].menuUrl || '') +
+                                        '" data-url="' +
+                                        (list[f].menuUrl || '') +
+                                        '">' +
                                         list[f].menuName +
                                         '   </a>' +
                                         '</dd>'
                                 }
 
-                                showDl = (firstPath === childFirstPath) ? 'show' : ''
+                                showDl =
+                                    firstPath === childFirstPath ? 'show' : ''
 
-                                dlStr = '<dl class="layui-nav-child ' + showDl + '">' + ddStr + '</dd>'
+                                dlStr =
+                                    '<dl class="layui-nav-child ' +
+                                    showDl +
+                                    '">' +
+                                    ddStr +
+                                    '</dd>'
                             }
 
                             childNav +=
                                 '<li class="layui-nav-item">' +
-                                '   <a href="/index.html#' + child[k].menuUrl +
-                                '"data-url="' + child[k].menuUrl + '">' +
-                                '       <cite>' + child[k].menuName + '</cite>' +
+                                '   <a href="/index.html#' +
+                                child[k].menuUrl +
+                                '"data-url="' +
+                                child[k].menuUrl +
+                                '">' +
+                                '       <cite>' +
+                                child[k].menuName +
+                                '</cite>' +
                                 '   </a>' +
                                 dlStr +
                                 '</li>'
@@ -132,6 +158,10 @@
 
                         $('#home_welcome').css({
                             display: 'none'
+                        })
+
+                        $('#side_nav').css({
+                            display: 'block'
                         })
                         $('#side_nav').html(childNav)
 
@@ -145,46 +175,62 @@
                                 $(this).addClass('layui-this')
                             }
                         })
+
+                        $('#side_nav .layui-nav-item').click(function () {
+                            $(this).addClass('layui-this')
+                            $(this)
+                                .siblings()
+                                .removeClass('layui-this')
+
+                            var dl = $(this).find('dl')
+                            if (dl) {
+                                $(this)
+                                    .find('dl')
+                                    .css('display', 'block')
+                                if (
+                                    $(this)
+                                    .siblings()
+                                    .find('dl')
+                                ) {
+                                    $(this)
+                                        .siblings()
+                                        .find('dl')
+                                        .css('display', 'none')
+                                }
+                            }
+                        })
+
+                        $('#side_nav')
+                            .find('.layui-nav-item  dd')
+                            .on('click', function () {
+                                $(this).css('background', '#fff')
+                                $(this)
+                                    .find('a')
+                                    .css('color', '#1a3471')
+                                $(this)
+                                    .siblings()
+                                    .css('background', '#1a3471')
+                                $(this)
+                                    .siblings()
+                                    .find('a')
+                                    .css('color', '#fff')
+                                $(this).addClass('active')
+                                $(this)
+                                    .siblings()
+                                    .removeClass('active')
+
+                                window.location.href =
+                                    'index.html#' +
+                                    $(this)
+                                    .find('a')
+                                    .data('url')
+                                path = $(this)
+                                    .find('a')
+                                    .data('url')
+                            })
                     }
                 }
             }
-
-            $('#side_nav .layui-nav-item').click(function () {
-                $(this).addClass('layui-this');
-                $(this).siblings().removeClass('layui-this')
-
-                var dl = $(this).find('dl')
-                if (dl) {
-                    $(this)
-                        .find('dl')
-                        .css('display', 'block')
-                    if (
-                        $(this)
-                        .siblings()
-                        .find('dl')
-                    ) {
-                        $(this)
-                            .siblings()
-                            .find('dl')
-                            .css('display', 'none')
-                    }
-                }
-            })
-
-            $('#side_nav .layui-nav-child dd').on('click', function () {
-                $(this).css('background', '#fff')
-                $(this)
-                    .find('a')
-                    .css('color', '#1a3471')
-                $(this)
-                    .siblings()
-                    .css('background', '#1a3471')
-                $(this)
-                    .siblings()
-                    .find('a')
-                    .css('color', '#fff')
-            })
-
 
             function setHomeSide() {
                 if (path === '/student') {
@@ -210,7 +256,7 @@
             }
 
             $(document).on('click', '#header_nav li', function () {
-                var curPath = $(this).data('path');
+                var curPath = $(this).data('path')
 
                 // 设置一级菜单的状态
                 $(this).addClass('active')
@@ -239,7 +285,8 @@
 
 <style>
     #app-body {
-        width: 1130px;
+        /* width: 1130px; */
+        width: 100%;
         height: calc(100% - 50px);
         max-height: 80%;
         overflow: auto;
@@ -382,7 +429,6 @@
     #side_nav .layui-nav-child.show {
         display: block;
     }
-
 
     #side_nav .layui-nav-child dd.active {
         background: #fff;

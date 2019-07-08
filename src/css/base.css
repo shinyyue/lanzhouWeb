@@ -6,6 +6,16 @@
     border-bottom: 1px solid rgba(231, 235, 244, 1);
 }
 
+.layui-nav {
+    padding: 0;
+}
+
+.layui-nav-child {
+    top: auto;
+    box-shadow: none;
+    border: none;
+}
+
 .layui-input,
 .layui-textarea {
     width: 230px;
@@ -29,7 +39,7 @@
 .layui-form-label {
     font-size: 16px;
     font-weight: bold;
-    width: 120px;
+    width: 140px;
     display: inline-block;
     margin-right: 20px;
 }
@@ -135,6 +145,7 @@
 }
 
 .course-set-btn {
+    display: inline-block;
     padding: 4px 10px;
     border: 1px solid #ccc;
     cursor: pointer;

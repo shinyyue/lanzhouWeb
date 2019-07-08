@@ -2,72 +2,46 @@
     <div class="chat-inner">
         <div class="chat-history-list">
             <div class="history-search">
-                <input type="text" placeholder="搜索课程" class="layui-input" />
-                <i class="layui-icon layui-icon-search search-icon"></i>
+                <input
+                    id="search_course"
+                    type="text"
+                    placeholder="搜索课程"
+                    class="layui-input"
+                />
+                <i
+                    class="layui-icon layui-icon-search search-icon"
+                    id="get_search"
+                ></i>
             </div>
-            <div class="history-list">
-                <div class="member-item active">
-                    <img src="src/images/user_logo.png" class="member-avator" />
-                    <span>铁路信息知识</span>
-                </div>
-                <div class="member-item">
-                    <img src="src/images/user_logo.png" class="member-avator" />
-                    <span>计算机网络</span>
-                </div>
-                <div class="member-item">
-                    <img src="src/images/user_logo.png" class="member-avator" />
-                    <span>计算机联锁</span>
-                </div>
-            </div>
+            <div class="history-list" id="published_course"></div>
         </div>
         <div class="chating-list">
             <div class="chating-title">
                 <span>答疑库</span>
-                <span class="chating-title-center">铁路信号知识(60)</span>
+                <span class="chating-title-center" id="courseName"></span>
                 <ul class="chating-add-btn">
                     <li></li>
                     <li></li>
                     <li></li>
                 </ul>
             </div>
-            <div class="chating-content">
-                <span class="chat-time">10:01</span>
-                <div class="chat-dialog chat-myself">
-                    <img src="src/images/user_logo.png" class="member-avator" />
-                    <div class="member-info">
-                        <div>同学甲</div>
-                        <div class="chat-info">
-                            老师我有一个问题
-                        </div>
-                        <div class="triangle"></div>
-                    </div>
-                </div>
-                <div class="chat-dialog chat-others">
-                    <img src="src/images/user_logo.png" class="member-avator" />
-                    <div class="member-info">
-                        <div>同学甲</div>
-                        <div class="chat-info">
-                            老师我有一个问题
-                        </div>
-                        <div class="triangle"></div>
-                    </div>
-                </div>
-            </div>
+            <div class="chating-content" id="chat_list"></div>
             <div class="chating-replay">
                 <textarea
                     name=""
-                    id=""
+                    id="chat_content"
                     cols="30"
                     rows="10"
                     class="layui-textarea"
-                    placeholder="请输入你的问题"
+                    placeholder="请输入你的回答"
                 ></textarea>
                 <div class="chating-btn">
-                    <button class="layui-btn layui-btn-primary replay-btn left">
+                    <!-- <button class="layui-btn layui-btn-primary replay-btn left">
                         搜索
-                    </button>
+                    </button> -->
                     <button
                         class="layui-btn layui-btn-primary replay-btn right"
+                        id="send_message"
                     >
                         发送
                     </button>
@@ -105,30 +79,221 @@
 <script>
     layui.use([], function() {
         var $ = layui.jquery,
-            admin = layui.admin
+            admin = layui.admin,
+            publishedCourseList = [],
+            userId = layui.data('userInfo').userInfo.id,
+            ws = new WebSocket('ws://39.104.97.6:8088/netty3?userId=' + userId),
+            checkedItem = null,
+            curChatList = [],
+            message = {
+                contentText: '',
+                toUserId: '',
+                type: 0,
+                fromUserId: 0,
+                isTeacher: 1,
+                userName: layui.data('userInfo').userInfo.userName
+            }
 
         getList()
 
-        $('.chating-add-btn').click(function() {
-            $('.chat-member-list').css({ display: 'block' })
+        if (!checkedItem) {
+            $('.chating-content').html('')
+            $('#send_message').css('display', 'none')
+        }
+
+        $('#get_search').click(function() {
+            search()
         })
+        $('#send_message').click(function() {
+            $('#send_message').css('display', 'block')
+            if (!$('#chat_content').val()) {
+                layer.msg('请输入')
+                return
+            }
+            message.contentText = $('#chat_content')
+                .val()
+                .trim()
+            wsHandler(message)
+        })
+
+        // $('.chating-add-btn').click(function() {
+        //     $('.chat-member-list').css({ display: 'block' })
+        // })
+
+        ws.onopen = function() {}
+
+        ws.onmessage = function(evt) {
+            var msg = JSON.parse(evt.data)
+            if (msg.toUserId === checkedItem.toUserId) {
+                getChatHistory(checkedItem.toUserId)
+            }
+        }
+
+        ws.onclose = function() {
+            // 关闭 websocket
+            alert('连接已关闭...')
+        }
+
+        function chatTemplate(chatList) {
+            var str = ''
+            chatList.forEach(function(item) {
+                str +=
+                    '<span class="chat-time">' +
+                    admin.dateFormat(new Date(item.sendTime).getTime() / 1000) +
+                    '</span>' +
+                    '<div class="chat-dialog ' +
+                    (item.sendUserId === userId
+                        ? 'chat-myself'
+                        : 'chat-others') +
+                    '">' +
+                    '<img src="src/images/user_logo.png" class="member-avator" />' +
+                    '<div class="member-info">' +
+                    '<div>' +
+                    item.sendUserName +
+                    '</div>' +
+                    '<div class="chat-info">' +
+                    item.content +
+                    '</div>' +
+                    '<div class="triangle"></div>' +
+                    '</div>' +
+                    '</div>'
+            })
+
+            $('#chat_list').html(str)
+
+            var timer = setInterval(function() {
+                var iScrollTop = $('#chat_list').scrollTop()
+
+                if (
+                    iScrollTop >=
+                    document.getElementById('chat_list').scrollHeight -
+                        $('#chat_list').innerHeight()
+                ) {
+                    clearInterval(timer)
+                }
+                $('#chat_list').scrollTop((iScrollTop += 50))
+            }, 20)
+        }
+
+        function wsHandler(sendMessage) {
+            var timer = null
+            // CONNECTING === 0 连接还没开启。
+            // OPEN === 1 连接已开启并准备好进行通信。
+            // CLOSING === 2 连接正在关闭的过程中。
+            // CLOSED === 3 连接已经关闭，或者连接无法建立。
+            if (ws.readyState === 1) {
+                ws.send(JSON.stringify(sendMessage))
+                clearTimeout(timer)
+            } else if (ws.readyState === 2) {
+                timer = setTimeout(() => {
+                    wsHandler(sendMessage)
+                }, 500)
+            } else if (ws.readyState === 3) {
+                clearTimeout(timer)
+            }
+        }
+
+        function initWS() {}
 
         function getList() {
             var data = {
                 page: 1,
-                rows: 10000,
-                userId: layui.data('userInfo').userInfo.id
+                rows: 10000
             }
             admin.post({
-                url: '/selectedCourse/getList',
+                url: '/coursePlan/listCourse',
                 data: JSON.stringify(data),
                 success: function(res) {
-                    console.log(res)
+                    var arr = []
+                    var courseItem = ''
+
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(function(item) {
+                            if (item.publish == 1) {
+                                arr.push(item)
+                                courseItem +=
+                                    '<div class="member-item">' +
+                                    '<img src="src/images/user_logo.png" class="member-avator" />' +
+                                    '<span>' +
+                                    item.courseName +
+                                    '</span>' +
+                                    '</div>'
+                            }
+                        })
+                    publishedCourseList = arr
+                    $('#published_course').html(courseItem)
+                    $('#published_course .member-item').click(function() {
+                        checkedItem = publishedCourseList[$(this).index()]
+                        message.toUserId = checkedItem.id
+                        $('#courseName').html(checkedItem.courseName)
+                        $('#send_message').css('display', 'block')
+                        getChatHistory(checkedItem.id)
+                        wsHandler(message)
+                        $(this).addClass('active')
+                        $(this)
+                            .siblings()
+                            .removeClass('active')
+                    })
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
+        }
+
+        function getChatHistory(targetId) {
+            var data = {
+                sendTargetType: 1,
+                sendTargetId: targetId,
+                page: 1,
+                rows: 10000
+            }
+            admin.get({
+                url:
+                    '/chattingRecords/getList?sendTargetType=1&sendTargetId=' +
+                    targetId +
+                    '&page=1&rows=10000',
+                success: function(res) {
+                    if (res.data && res.data.items) {
+                        curChatList = res.data.items
+                    }
+                    chatTemplate(curChatList)
+                },
+                error: function() {}
+            })
+        }
+
+        function search() {
+            var keyWord = $('#search_course').val()
+            var len = publishedCourseList.length
+            var arr = []
+            var reg = new RegExp(keyWord)
+            if (keyWord === '') {
+                getList()
+                return
+            }
+            for (var i = 0; i < len; i++) {
+                //如果字符串中不包含目标字符会返回-1
+                if (publishedCourseList[i].courseName.match(reg)) {
+                    arr.push(publishedCourseList[i])
+                }
+            }
+
+            var courseItem = ''
+            arr.forEach(function(item) {
+                if (item.publish == 1) {
+                    arr.push(item)
+                    courseItem +=
+                        '<div class="member-item">' +
+                        '<img src="src/images/user_logo.png" class="member-avator" />' +
+                        '<span>' +
+                        item.courseName +
+                        '</span>' +
+                        '</div>'
+                }
+            })
+            $('#published_course').html(courseItem)
         }
     })
 </script>
@@ -282,11 +447,14 @@
 
     .chating-content {
         padding: 20px;
+        height: 372px;
+        overflow-y: auto;
+        box-sizing: border-box;
     }
 
     .chating-content .chat-time {
         display: block;
-        max-width: 70px;
+        max-width: 140px;
         text-align: center;
         border-radius: 4px;
         padding: 6px 10px;

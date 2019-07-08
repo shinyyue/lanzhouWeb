@@ -6,10 +6,10 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">姓名</span>
-            <input type="text" id="teacherName"/>
+            <input type="text" id="teacherName" />
             <span class="search-project">账号</span>
             <input type="text" id="teacherCount" />
-            <span class="search-project" >学院</span>
+            <span class="search-project">学院</span>
             <select name="" id="college" lay-filter="collegeAll">
                 <option value="">请选择学院</option>
             </select>
@@ -24,7 +24,7 @@
         <button class="add-btn" id="export-cource">导出</button>
     </div>
     <table id="user_teacher_table" lay-filter="user_teacher_table"></table>
-    <div class="app-table-page" id="user_teacher_disable"></div>
+    <div class="app-table-page" id="teacher-mylist-page"></div>
     <script type="text/html" id="user_teacher_opt">
         {{#if(d.state === 1){ }}
             <button class="course-set-btn" lay-event="disabledUser">停用</button>
@@ -48,7 +48,7 @@
             tableFilter = 'user_teacher_table',
             tableOption = {
                 elem: '[lay-filter="' + tableFilter + '"]',
-                page: false,
+                page: true,
                 cols: [
                     [
                         {
@@ -136,6 +136,19 @@
             classesList = [],
             professList = [],
             addModalTemp = '',
+            formData = {
+                roleId: 2,
+                sex: '',
+                phonenumber: '',
+                userName: '',
+                facultyId: '',
+                classId: '',
+                collegeId: '',
+                snoOrJno: '',
+                email: '',
+                professionId: '',
+                state: ''
+            },
             importModalTemplate = `<form action="" class="layui-form my-add-form">
                             <div class="layui-row">
                                 <div class="layui-col-md12 layui-form-item">
@@ -169,21 +182,23 @@
 
         getCollegeList(function(res) {
             var options = ''
-            res.data.items.forEach(item => {
-                options +=
-                    '<option value="' +
-                    item.id +
-                    '">' +
-                    item.collegeName +
-                    '</option>'
-            })
+            res.data &&
+                res.data.items &&
+                res.data.items.forEach(item => {
+                    options +=
+                        '<option value="' +
+                        item.id +
+                        '">' +
+                        item.collegeName +
+                        '</option>'
+                })
             $('#college').val('')
             $('#college').append(options)
             setSelectOptions()
         })
 
         getList(1)
-        $('#teacher-search').click(function () {
+        $('#teacher-search').click(function() {
             getList(1)
         })
 
@@ -192,11 +207,21 @@
             var teacherName = $('#teacherName').val(),
                 teacherCount = $('#teacherCount').val(),
                 college = $('#college').val(),
-                userType = 2
+                userType = 2,
                 data = {
                     page: page,
                     rows: 20,
-                    key: teacherName + '|' + teacherCount + '|' + college + '|' + userType+'|'+'|'+'|'
+                    key:
+                        teacherName +
+                        '|' +
+                        teacherCount +
+                        '|' +
+                        college +
+                        '|' +
+                        userType +
+                        '|' +
+                        '|' +
+                        '|'
                 }
 
             admin.post({
@@ -206,14 +231,13 @@
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
-                    laypage.render(layPageOption)
+                    // laypage.render(layPageOption)
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
-
 
         function updateData(formData) {
             admin.put({
@@ -240,7 +264,11 @@
                 url: '/college/queryCollegeList',
                 data: JSON.stringify(data),
                 success: function(res) {
-                    if (res.data.items && res.data.items.length > 0) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
                         collegeList = res.data.items
                         var options = ''
                         res.data.items.forEach(item => {
@@ -313,7 +341,11 @@
 
                 success: function(res) {
                     $('#profession').val('')
-                    if (res.data.items && res.data.items.length > 0) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
                         professList = res.data.items
                         callback(res)
                     }
@@ -338,7 +370,11 @@
                 data: JSON.stringify(data),
                 success: function(res) {
                     $('#classes').val('')
-                    if (res.data.items && res.data.items.length > 0) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
                         classesList = res.data.items
                         callback(res)
                     }
@@ -465,8 +501,8 @@
                 (formData.state == 1 ? ' checked' : '') +
                 (type === 'check' ? ' disabled' : '') +
                 '>' +
-                '<input type="radio" name="status" value="0" title="停用"' +
-                (formData.state == 0 && formData.state != ''
+                '<input type="radio" name="status" value="2" title="停用"' +
+                (formData.state == 2 && formData.state != ''
                     ? ' checked'
                     : '') +
                 (type === 'check' ? ' disabled' : '') +
@@ -492,7 +528,7 @@
         function getFormData() {
             formData = {
                 roleId: 2,
-                sex: Number($('input[name=sex]').val()),
+                sex: Number($('input[name=sex]:checked').val()),
                 phonenumber: $('#phone').val(),
                 userName: $('#userName').val(),
                 // facultyId: Number($('#series_model').val()),
@@ -501,7 +537,7 @@
                 snoOrJno: $('#snoOrJno').val(),
                 email: $('#email').val(),
                 // professionId: Number($('#profess_model').val()),
-                state: Number($('input[name=status]').val())
+                state: Number($('input[name=status]:checked').val())
                 // studentTypeId: 1
             }
         }
@@ -546,14 +582,16 @@
 
             form.on('select(college)', function(data) {
                 getSeriesList(function(res) {
-                    res.data.items.forEach(item => {
-                        series +=
-                            '<option value="' +
-                            item.id +
-                            '">' +
-                            item.facultyName +
-                            '</option>'
-                    })
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            series +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.facultyName +
+                                '</option>'
+                        })
                     $('#series_model').html(series)
                     form.render('select')
                 }, data.value)
@@ -561,14 +599,16 @@
 
             form.on('select(series)', function(data) {
                 getProfessList(function(res) {
-                    res.data.items.forEach(item => {
-                        profe +=
-                            '<option value="' +
-                            item.id +
-                            '">' +
-                            item.professionName +
-                            '</option>'
-                    })
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            profe +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.professionName +
+                                '</option>'
+                        })
                     $('#profess_model').html(profe)
                     form.render('select')
                 }, data.value)
@@ -576,14 +616,16 @@
 
             form.on('select(profess)', function(data) {
                 getClassList(function(res) {
-                    res.data.items.forEach(item => {
-                        classes +=
-                            '<option value="' +
-                            item.id +
-                            '">' +
-                            item.className +
-                            '</option>'
-                    })
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            classes +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.className +
+                                '</option>'
+                        })
                     $('#classes_model').html(classes)
                     form.render('select')
                 }, data.value)
@@ -815,7 +857,7 @@
             var layerOption = {
                 type: 1,
                 offset: 'auto',
-                title: '编辑',
+                title: type==='edit'?'编辑':'查看',
                 content: getTemplate(formData, type),
                 area: ['700px', '70%'],
                 shade: 0.4,
@@ -869,7 +911,6 @@
                     },
                     done: function(res, index, upload) {
                         //上传后的回调
-                        console.log(344, res)
                         layer.msg(res.msg)
                     },
                     accept: 'file'

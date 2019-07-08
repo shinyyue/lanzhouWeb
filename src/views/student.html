@@ -1,13 +1,17 @@
 <div id="student-index" lay-title="首页">
     <div class="home-title">
-        <span>您本学期有<i id="course-count">1</i>门课程学习</span>
+        <span>您本学期有<i id="course-count"></i>门课程学习</span>
         <span class="home-title-time">2018-2019-2</span>
     </div>
-    <div class="student-course-list">
-        <div class="course-item">
+    <div class="student-course-list" id="checked_course_list">
+        <!-- <div class="course-item">
             <div class="course-item-left">
-                <div class="course-name">开课名称：<span>zk4电空转辙机</span></div>
-                <div class="course-process">当前任务完成率：<span>40%</span></div>
+                <div class="course-name">
+                    开课名称：<span>zk4电空转辙机</span>
+                </div>
+                <div class="course-process">
+                    当前任务完成率：<span>40%</span>
+                </div>
             </div>
             <div class="course-item-right">
                 <div class="item-right-top">
@@ -18,32 +22,79 @@
                 </div>
                 <div class="item-right-bottom">
                     待完成任务<span>0</span>个，虚拟实验<span>0</span>个，提交报告<span>0</span>个，理论测试<span>0</span>个
-                    <button class="course-details" onclick="jumpToDetails()">详情</button>
+                    <button class="course-details" onclick="jumpToDetails()">
+                        详情
+                    </button>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 
 <script>
-    function jumpToDetails() {
-        window.location.href = 'index.html#/checkcourse/preintro';
+    function jumpToDetails(id) {
+        window.location.href = 'index.html#/checkCourse/preintro/id=' + id
+        window.location.reload()
     }
 
-    layui.use(['admin'], function () {
-        var admin = layui.admin;
+    layui.use(['admin'], function() {
+        var admin = layui.admin
 
         function getList() {
-//            var userId = layui.data('userInfo').userInfo.id
-
             admin.post({
-                url: '/selectedCourse/getList',
-                data: JSON.stringify({
-                    "page": 1,
-                    "rows": 10
-                }),
-                success: function (res) {
-                    console.log(111, res)
+                url: '/report/queryStuIndexInfo',
+                data: JSON.stringify({}),
+                success: function(res) {
+                    if (res.data && res.data.length > 0) {
+                        var str = ''
+                        $('#course-count').html(Number(res.data.length))
+                        res.data.forEach(function(item) {
+                            str +=
+                                '<div class="course-item">\n' +
+                                '            <div class="course-item-left">\n' +
+                                '                <div class="course-name">\n' +
+                                '                    开课名称：<span>' +
+                                item.courseName +
+                                '</span>\n' +
+                                '                </div>\n' +
+                                '                <div class="course-process">\n' +
+                                '                    当前任务完成率：<span>' +
+                                item.percentage +
+                                '</span>\n' +
+                                '                </div>\n' +
+                                '            </div>\n' +
+                                '            <div class="course-item-right">\n' +
+                                '                <div class="item-right-top">\n' +
+                                '                    <span class="course-step">\n' +
+                                '                        <span class="course-step-inner"></span>\n' +
+                                '                    </span>\n' +
+                                '                    <span>' +
+                                item.percentage +
+                                '</span>%\n' +
+                                '                </div>\n' +
+                                '                <div class="item-right-bottom">\n' +
+                                '                    待完成任务<span>' +
+                                '接口少字段' +
+                                '</span>个，虚拟实验<span>' +
+                                item.allExperiment +
+                                '</span>个，提交报告<span>' +
+                                '接口少字段' +
+                                '</span>个，理论测试<span>' +
+                                item.allPape +
+                                '</span>个\n' +
+                                '                    <button class="course-details" onclick="jumpToDetails(' +
+                                item.id +
+                                ')">\n' +
+                                '                        详情\n' +
+                                '                    </button>\n' +
+                                '                </div>\n' +
+                                '            </div>\n' +
+                                '        </div>'
+                        })
+                        $('#checked_course_list').html(
+                            str || '<div>暂无数据</div>'
+                        )
+                    }
                 }
             })
         }
@@ -57,7 +108,8 @@
         box-sizing: border-box;
     }
 
-    #student-index {}
+    #student-index {
+    }
 
     .home-title {
         padding: 20px;
@@ -79,7 +131,6 @@
         padding: 20px 0;
         font-size: 16px;
     }
-
 
     .student-course-list .course-item {
         width: 100%;
@@ -114,7 +165,7 @@
         margin-top: 10px;
     }
 
-    .course-process>span {
+    .course-process > span {
         color: #0066cc;
     }
 
