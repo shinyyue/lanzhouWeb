@@ -50,8 +50,7 @@
                             <li class="layui-this">自定义添加</li>
                             <li>批量添加</li>
                             <li>
-                                <span
-                                      style="width: 100px; margin-left: 10px; color: red;">说明：1.目录节点无资源，无需添加；2.时长最大不超过10分钟
+                                <span style="width: 100px; margin-left: 10px; color: red;">说明：1.目录节点无资源，无需添加；2.时长最大不超过10分钟
                                 </span>
                             </li>
                         </ul>
@@ -373,7 +372,6 @@
         })
         uploadFile(function () {}, '#scorm_multiple_upload', 7)
         uploadFile(function () {}, '#upload-file')
-
         form.on('select(typeChange)', function (obj) {
             if (obj.value == 7) {
                 $('.show-scorm-upload').css({
@@ -386,13 +384,11 @@
                 $('.show-scorm-upload').css({
                     display: 'none'
                 })
-
                 $('.show-other-upload').css({
                     display: 'block'
                 })
             }
         })
-
         var singleTable = table.render(singlUploadOption)
         table.on('edit(single_upload_table)', function (obj) {
             var field = obj.field
@@ -565,13 +561,14 @@
         }
 
         function uploadFile(callback, elem, type) {
-            var type = type || 2
+            var type = type || Number($('#type').val())
             upload.render({
                 elem: elem, //绑定元素
                 url: 'http://39.104.97.6:8080/dataBank/oneFileUpload', //上传接口
                 method: 'post',
                 field: 'file',
-                accept: 'images,file,video,audio',
+                accept: 'file',
+                // accept: 'images,file,video,audio',
                 exts: type == 7 ? 'zip|rar|7z' : '',
                 data: {
                     type: type
@@ -683,7 +680,6 @@
                 table._tableTrCurr.find('[lay-event="' + elem.attr('lay-event') + '"]').first().click()
             })
     })
-
 </script>
 <style>
     #source-manage-mylist-add {}
@@ -773,5 +769,4 @@
     #source-manage-mylist-add .show-scorm-upload {
         display: none;
     }
-
 </style>
