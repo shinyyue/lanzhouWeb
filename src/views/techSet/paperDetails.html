@@ -1,88 +1,97 @@
-<div id="course-details" lay-title="课程管理详情">
+<div id="course-details"
+     lay-title="课程管理详情">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>开课管理 > 铁路信号知识 > 试卷管理 > 查看试卷</span>
+            <span>开课管理 > <span id="courseName"></span> > 试卷管理 > 查看试卷</span>
         </div>
     </div>
     <div class="course-add-content">
-        <form action="" class="layui-form">
+        <form action=""
+              class="layui-form">
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">试卷名称</label>
-                    <span>ZK4电空转辙机</span>
+                    <span class="paper-info"
+                          id="name"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">所属策略</label>
-                    <span>转辙机</span>
+                    <span class="paper-info"
+                          id="strategyId"></span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
-                    <label class="layui-form-label">所开开课</label>
-                    <span>铁路信号知识</span>
+                    <label class="layui-form-label">所属开课</label>
+                    <span class="paper-info"
+                          id="curriculumId"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">考试时长</label>
-                    <span>60</span>
+                    <span class="paper-info"
+                          id="testTime"></span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">安排教师</label>
-                    <span>王小虎</span>
+                    <span class="paper-info"
+                          id="userName"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">编辑时间</label>
-                    <span>2019-4-30 10:28:44</span>
+                    <span class="paper-info"
+                          id="updateTime"></span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">考试开始时间</label>
-                    <span>2019-4-30 10:28:44</span>
+                    <span class="paper-info"
+                          id="startTime"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">考试结束时间</label>
-                    <span>2019-4-30 10:28:44</span>
+                    <span class="paper-info"
+                          id="endTime"></span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">是否发布试卷</label>
-                    <span>已发布</span>
+                    <span class="paper-info"
+                          id="publish"></span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-form-item layui-col-md12">
                     <label class="layui-form-label"></label>
                     <div>
-                        <button class="layui-btn layui-btn-primary cancel-btn " id="source-add-cancle">
-                            返回
-                        </button>
+                        <button class="layui-btn layui-btn-primary cancel-btn "
+                                id="source-add-cancle"> 返回 </button>
                     </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
-
 <script>
     layui.use(['form', 'layedit'], function () {
         var form = layui.form,
             layedit = layui.layedit,
-            $ = layui.jquery
-
+            $ = layui.jquery,
+            admin = layui.admin,
+            route = layui.router(),
+            id = route.search.id || layui.data('techSet').techSetId,
+            courseName = layui.data('techSet').techSetName;
         form.render()
         layedit.build('techManage-intro-edit', {
-            tool: [
-                'strong', //加粗
+            tool: ['strong', //加粗
                 'italic', //斜体
                 'underline', //下划线
                 'del', //删除线
-
                 '|', //分割线
-
                 'left', //左对齐
                 'center', //居中对齐
                 'right', //右对齐
@@ -90,61 +99,40 @@
                 'image' //插入图片
             ]
         })
-
+        $('#courseName').html(courseName)
         //监听提交
         form.on('submit(submit)', function (data) {
             layer.msg(JSON.stringify(data.field))
             return false
         })
-
         $('#source-add-cancle').on('click', function () {
             location.href = 'index.html#/techSet/paperManage'
         })
+        getDetails()
 
-        // form.on('submit(back)', function () {
-        //     window.history.back(-1);
-        // })
+        function getDetails() {
+            admin.get({
+                url: '/examinationPaper/queryById?id=' + id,
+                success: function (res) {
+                    $('#publish').html(res.data.publish == 0 ? '否' : '是')
+                    $('#name').html(res.data.name)
+                    $('#strategyId').html(res.data.strategyId)
+                    $('#curriculumId').html(res.data.curriculumId)
+                    $('#testTime').html(res.data.testTime)
+                    $('#startTime').html(admin.dateFormat(new Date(res.data.startTime).getTime() /
+                        1000))
+                    $('#endTime').html(admin.dateFormat(new Date(res.data.endTime).getTime() / 1000))
+                }
+            })
+        }
     })
 </script>
-
 <style>
-    #techManage-add {}
-
-    #techManage-details .techManage-add-content {
-        padding: 15px 0;
+    #course-details .paper-info {
+        line-height: 38px;
     }
 
-    #techManage-details .techManage-add-content .layui-form-label {
-        font-size: 16px;
-        font-weight: bold;
-        width: 120px;
-        display: inline-block;
-    }
-
-    #techManage-details .layui-form-item {
-        clear: none;
-    }
-
-    #techManage-details .layui-form-item span {
-        display: inline-block;
-        padding: 9px 15px;
-        font-size: 16px;
-    }
-
-    #techManage-details .pre-techManage {
-        float: left;
-        width: calc(100 - 230px);
-    }
-
-    #techManage-details .pre-techManage .pre-techManage-checkbox {
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        margin-top: 10px;
-        padding: 10px;
-    }
-
-    #techManage-details .layui-layedit {
-        width: 83%;
-        float: left;
-        background: #fff;
+    #course-details .course-add-content {
+        padding: 20px 0;
     }
 </style>

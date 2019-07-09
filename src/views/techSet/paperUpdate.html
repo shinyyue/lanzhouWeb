@@ -1,8 +1,11 @@
-<div id="techset_paperdetails" lay-title="添加课程管理">
+<div id="techset_paperdetails">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>开课管理 > 铁路信号知识 > 试卷管理 > 添加试卷</span>
+            <span
+                >开课管理 > <span id="courseName"></span> > 试卷管理 >
+                <span id="tile_manage">添加试卷</span></span
+            >
         </div>
     </div>
     <div class="course-add-content">
@@ -14,6 +17,7 @@
                         type="text"
                         require
                         name="name"
+                        id="name"
                         class="common-form-input"
                     />
                 </div>
@@ -36,6 +40,7 @@
                     <input
                         type="text"
                         name="testTime"
+                        id="testTime"
                         class="common-form-input"
                     />
                     <span>分钟</span>
@@ -52,9 +57,7 @@
                     />
                 </div>
                 <div class="layui-col-md6 layui-form-item">
-                    <label class="layui-input layui-form-label require"
-                        >考试结束时间</label
-                    >
+                    <label class="layui-form-label require">考试结束时间</label>
                     <input
                         type="text"
                         name="endTime"
@@ -63,11 +66,7 @@
                     />
                 </div>
             </div>
-
-            <button class="layui-btn" id="submit">保存</button>
-            <button class="layui-btn" id="source-add-cancle">取消</button>
-
-            <!--<div class="layui-row">-->
+            <!-- <div class="layui-row">-->
             <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">是否发布试卷</label>-->
             <!--<div class="layui-input-block">-->
@@ -81,48 +80,121 @@
             <!--<input type="radio" name="sex" value="否" title="否" />-->
             <!--</div>-->
             <!--</div>-->
-            <!--</div>-->
+            <!--</div> -->
+            <div class="layui-row">
+                <div class="layui-col-md6 layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-btn primary-btn" id="submit">
+                        保存
+                    </div>
+                    <button
+                        class="layui-btn layui-btn-primary cancel-btn"
+                        id="source-add-cancle"
+                    >
+                        取消
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
 </div>
-
 <script>
     layui.use(['form', 'laydate'], function() {
         var form = layui.form,
             $ = layui.jquery,
             admin = layui.admin,
-            laydate = layui.laydate
-
+            laydate = layui.laydate,
+            route = layui.router(),
+            id = route.search.id || layui.data('techSet').techSetId,
+            courseName = layui.data('techSet').techSetName
         form.render()
+        $('#courseName').html(courseName)
+        $('#tile_manage').html(id ? '修改试卷' : '添加试卷')
         //监听提交
-        form.on('submit(submit)', function(data) {
-            layer.msg(JSON.stringify(data.field))
-            return false
+        $('#submit').on('click', function() {
+            var data = {
+                name: $('#name').val(),
+                strategyId: $('#strategyId').val(),
+                curriculumId: $('#curriculumId').val(),
+                testTime: $('#testTime').val(),
+                startTime: $('#startTime').val(),
+                endTime: $('#endTime').val()
+            }
+            if (id) {
+                data.id = id
+                updateData(data)
+            } else {
+                addData(data)
+            }
         })
-
         $('#source-add-cancle').on('click', function() {
-            window.history.back(-2)
+            window.location.href = 'index.html#/techSet/paperManage'
+            location.reload()
         })
-
         laydate.render({
             elem: '#startTime', //指定元素
             type: 'datetime'
         })
-
         laydate.render({
             elem: '#endTime', //指定元素
             type: 'datetime'
         })
-
         getPloyList()
         getCourseList()
+        if (id) {
+            getDetails()
+        }
 
-        function addData() {
-            var data = {}
+        function getDetails() {
+            admin.get({
+                url: '/examinationPaper/queryById?id=' + id,
+                success: function(res) {
+                    $('#name').val(res.data.name)
+                    $('#strategyId').val(res.data.strategyId)
+                    $('#curriculumId').val(res.data.curriculumId)
+                    $('#testTime').val(res.data.testTime)
+                    $('#startTime').val(
+                        admin.dateFormat(
+                            new Date(res.data.startTime).getTime() / 1000
+                        )
+                    )
+                    $('#endTime').val(
+                        admin.dateFormat(
+                            new Date(res.data.endTime).getTime() / 1000
+                        )
+                    )
+                }
+            })
+        }
+
+        function updateData(data) {
+            admin.put({
+                url: '/examinationPaper/update',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (res.code === 200) {
+                        layer.msg('修改成功')
+                        admin.prev()
+                    } else {
+                        layer.msg(res.msg || '修改失败')
+                    }
+                }
+            })
+        }
+
+        function addData(data) {
+            data.publish = 1
             admin.post({
                 url: '/examinationPaper/add',
                 data: JSON.stringify(data),
-                success: function(res) {}
+                success: function(res) {
+                    if (res.code === 200) {
+                        layer.msg('添加成功')
+                        admin.prev()
+                    } else {
+                        layer.msg(res.msg || '添加失败')
+                    }
+                }
             })
         }
 
@@ -184,7 +256,6 @@
         }
     })
 </script>
-
 <style>
     #techset_paperdetails .course-add-content {
         padding: 20px 0;

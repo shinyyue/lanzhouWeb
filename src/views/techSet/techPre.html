@@ -1,84 +1,81 @@
-<div id="techset-techpre" layui-title="课程导读">
+<div id="techset-techpre"
+     layui-title="课程导读">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
             <span>开课管理 > <span id="preCourseName"></span> > 课程导读</span>
         </div>
     </div>
-    <form action="" class="layui-form my-form">
+    <form action=""
+          class="layui-form my-form">
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">课程导读名称</label>
-                <span id="name" class="info-details"></span>
-                <button
-                    class="layui-btn layui-btn-primary"
-                    style="margin-left: 60px;"
-                    id="tech-pre-check"
-                >
-                    查看其他导师导读
-                </button>
+                <span id="name"
+                      class="info-details"></span>
+                <div class="layui-btn layui-btn-primary"
+                     style="margin-left: 60px;"
+                     id="tech-pre-check"> 查看其他导师导读 </div>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">原创者</label>
-                <span id="" class="info-details"></span>
+                <span id="userName"
+                      class="info-details"></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">是否可被引用</label>
-                <span id="cited" class="info-details"></span>
+                <span id="cited"
+                      class="info-details"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">建议分数</label>
-                <span id="recommendedScores" class="info-details"></span>
+                <span id="recommendedScores"
+                      class="info-details"></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">创建时间</label>
-                <span id="createTime" class="info-details"></span>
+                <span id="createTime"
+                      class="info-details"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">课程导读内容</label>
                 <div class="layui-col-md9">
-                    <textarea
-                        name="content"
-                        id="content"
-                        class="layui-textarea"
-                    ></textarea>
+                    <textarea name="content"
+                              id="content"
+                              class="layui-textarea"></textarea>
                 </div>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label "></label>
-                <button class="layui-btn primary-btn" id="tech-pre-save">
-                    修改
-                </button>
-                <button class="layui-btn " id="tech-pre-back">
-                    返回首页
-                </button>
+                <!-- todo: 缺少修改页面 -->
+                <!-- <button class="layui-btn primary-btn"
+                        id="tech-pre-save"> 修改 </button> -->
+                <button class="layui-btn "
+                        id="tech-pre-back"> 返回首页 </button>
             </div>
         </div>
     </form>
 </div>
-
 <script>
     var checkDetails = {},
         preDetailsTemp = ''
-
-    layui.use([], function() {
+    layui.use([], function () {
         var $ = layui.jquery,
             admin = layui.admin,
             route = layui.router(),
-            id = route.search.id || layui.data('techSet').techSetId
-
-        $('#tech-pre-back').on('click', function() {
+            id = route.search.id || layui.data('techSet').techSetId,
+            courseName = layui.data('techSet').techSetName;
+        $('#tech-pre-back').on('click', function () {
             location.href = '/index.html#/'
         })
-
         getDetails()
         getOtherList()
         getTemplate()
@@ -86,9 +83,10 @@
         function getDetails() {
             admin.get({
                 url: '/introduction/queryById?id=' + id,
-                success: function(res) {
+                success: function (res) {
                     var data = res.data || {}
-                    $('#preCourseName').html(data.name)
+                    $('#preCourseName').html(data.name || courseName)
+                    $('#userName').html(data.userName)
                     $('#name').html(data.name)
                     $('#cited').html(data.cited === 0 ? '引用' : '未引用')
                     $('#recommendedScores').html(data.recommendedScores)
@@ -106,38 +104,18 @@
             admin.post({
                 url: '/introduction/list',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     var list = ''
-                    res.data &&
-                        res.data.items &&
-                        res.data.items.forEach((item, index) => {
-                            list +=
-                                '<tr>' +
-                                '<td>' +
-                                (index + 1) +
-                                '</td>' +
-                                '<td>' +
-                                item.name +
-                                '</td>' +
-                                '<td>' +
-                                item.userId +
-                                '</td>' +
-                                '<td>' +
-                                admin.dateFormat(
-                                    new Date(item.updateTime).getTime() / 1000
-                                ) +
-                                '</td>' +
-                                '<td>' +
-                                item.recommendedScores +
-                                '</td>' +
-                                '<td>' +
-                                '<button class="layui-btn layui-btn-primary" class="pre-check-detail" onclick="check(' +
-                                item +
-                                ')">查看</button>' +
-                                '</td>' +
-                                '</tr>'
-                        })
-                    $('#tech-pre-check').on('click', function() {
+                    for (var i = 0; i < res.data.length; i++) {
+                        var item = res.data[i]
+                        list += '<tr>' + '<td>' + (i + 1) + '</td>' + '<td>' + item.name + '</td>' +
+                            '<td>' + item.userName + '</td>' + '<td>' + admin.dateFormat(new Date(
+                                item.createTime).getTime() / 1000) + '</td>' + '<td>' + item.recommendedScores +
+                            '</td>' + '<td>' +
+                            '<button class="layui-btn layui-btn-primary pre-check-detail" data-index="' +
+                            i + '">查看</button>' + '</td>' + '</tr>'
+                    }
+                    $('#tech-pre-check').on('click', function () {
                         layer.open({
                             type: 1,
                             offset: 'auto',
@@ -147,76 +125,36 @@
                             shade: 0.4,
                             shadeClose: true
                         })
+                        $('.pre-check-detail').click(function () {
+                            var index = $(this).data('index')
+                            check(res.data[index])
+                        })
                     })
                 }
             })
         }
 
         function getTemplate(list) {
-            return (
-                '<table class="layui-table">' +
-                '<thead>' +
-                '<tr>' +
-                '<th>序号</th>' +
-                '<th>资源名称</th>' +
-                '<th>原创者</th>' +
-                '<th>引用时间</th>' +
-                '<th>建议分数</th>' +
-                '<th>操作</th>' +
-                '</tr>' +
-                '</thead>' +
-                '<tbody>' +
-                list +
-                '</tbody>' +
-                '</table>'
-            )
+            return ('<table class="layui-table">' + '<thead>' + '<tr>' + '<th>序号</th>' + '<th>资源名称</th>' +
+                '<th>原创者</th>' + '<th>引用时间</th>' + '<th>建议分数</th>' + '<th>操作</th>' + '</tr>' + '</thead>' +
+                '<tbody>' + list + '</tbody>' + '</table>')
         }
 
         function check(data) {
-            preDetailsTemp =
-                '<div class="pre-details">' +
-                '<div class="details-item">' +
-                '<span class="details-item-label">课程导读名称</span>' +
-                '<span class="details-item-text">' +
-                data.name +
-                '</span>' +
-                '</div>' +
-                '<div class="details-item">' +
-                '<div class="details-item-inner">' +
-                '<span class="details-item-label">原创者</span>' +
-                '<span class="details-item-text">' +
-                data.userId +
-                '</span>' +
-                '</div>' +
-                '<div class="details-item-inner">' +
-                '<span class="details-item-label">是否可被引用</span>' +
-                '<span class="details-item-text">' +
-                (data.cited === 0 ? '引用' : '未引用') +
-                '</span>' +
-                '</div>' +
-                '</div>' +
-                '<div class="details-item">' +
-                '<div class="details-item-inner">' +
-                '<span class="details-item-label">建议分数</span>' +
-                '<span class="details-item-text">' +
-                data.recommendedScores +
-                '</span>' +
-                '</div>' +
-                '<div class="details-item-inner">' +
-                '<span class="details-item-label">创建时间</span>' +
-                '<span class="details-item-text">' +
-                data.createTime +
-                '</span>' +
-                '</div>' +
-                '</div>' +
-                '<div class="details-item details-item-content">' +
-                '<span class="details-item-label">课程导读内容</span>' +
-                '<div class="details-item-text">' +
-                data.content +
-                '</div>' +
-                '</div>' +
-                '</div>'
-
+            preDetailsTemp = '<div class="pre-details">' + '<div class="details-item">' +
+                '<span class="details-item-label">课程导读名称</span>' + '<span class="details-item-text">' + data.name +
+                '</span>' + '</div>' + '<div class="details-item">' + '<div class="details-item-inner">' +
+                '<span class="details-item-label">原创者</span>' + '<span class="details-item-text">' + data.userName +
+                '</span>' + '</div>' + '<div class="details-item-inner">' +
+                '<span class="details-item-label">是否可被引用</span>' + '<span class="details-item-text">' + (data.cited ===
+                    0 ? '引用' : '未引用') + '</span>' + '</div>' + '</div>' + '<div class="details-item">' +
+                '<div class="details-item-inner">' + '<span class="details-item-label">建议分数</span>' +
+                '<span class="details-item-text">' + data.recommendedScores + '</span>' + '</div>' +
+                '<div class="details-item-inner">' + '<span class="details-item-label">创建时间</span>' +
+                '<span class="details-item-text">' + admin.dateFormat(new Date(data.createTime).getTime() /
+                    1000) + '</span>' + '</div>' + '</div>' + '<div class="details-item details-item-content">' +
+                '<span class="details-item-label">课程导读内容</span>' + '<div class="details-item-text">' + data.content +
+                '</div>' + '</div>' + '</div>'
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -228,25 +166,10 @@
                 shadeClose: true
             })
         }
-
-        setTimeout(function() {
-            checkDetails = {
-                id: 1,
-                preName: '计算机网络课程导读',
-                creater: '教师',
-                teacher: '杨威',
-                time: '2019-01-01',
-                score: '150分',
-                isImport: '是',
-                content: '互联网与互联网有什么不同？'
-            }
-        }, 500)
     })
 </script>
-
 <style>
-    #techset-techpre {
-    }
+    #techset-techpre {}
 
     #techset-techpre .my-form {
         padding: 25px 0;

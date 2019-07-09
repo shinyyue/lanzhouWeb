@@ -77,6 +77,7 @@
             // 找到与当前页面路由一致的菜单，若该菜单无二级，则设置为选中状态；若该菜单有二级，则设置该一级菜单展开二级，并将与当前路由一致的二级菜单设为选中状态
             for (var j = 0; j < menuList.length; j++) {
                 var menuUrlList = menuList[j].menuUrl.split('/')
+                console.log(333, menuUrlList[1], firstPath)
                 if (menuUrlList[1] === firstPath || firstPath === 'techSet') {
                     console.log(4444, firstPath)
                     if (firstPath === 'techSet') {
@@ -165,7 +166,6 @@
                         }
                     })
                     $('#side_nav .layui-nav-item').click(function () {
-                        // admin.initView(route)
                         $(this).addClass('layui-this')
                         $(this).siblings().removeClass('layui-this')
                         var dl = $(this).find('dl')
@@ -208,7 +208,6 @@
             }
         }
         $(document).on('click', '#header_nav li', function () {
-            // admin.initView(route)
             var curPath = $(this).data('path')
             // 设置一级菜单的状态
             $(this).addClass('active')
@@ -216,6 +215,7 @@
             window.location.href = 'index.html#' + curPath
             path = curPath
             firstPath = path.split('/')[1]
+            location.reload()
             setSideNav()
         })
         $('#logout').on('click', function () {
@@ -366,6 +366,7 @@
         background: rgba(26, 52, 113, 1);
         color: #fff;
         display: none;
+        position: static;
     }
 
     #side_nav .layui-nav-child.show {

@@ -123,6 +123,10 @@
                     key: 'techSetId',
                     value: data.id
                 })
+                layui.data('techSet', {
+                    key: 'techSetName',
+                    value: data.courseName
+                })
                 location.href = 'index.html#/techSet/techPre/id=' + data.id
                 location.reload()
             }
