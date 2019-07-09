@@ -707,6 +707,10 @@
             data.school = Number(data.school)
             data.siteId = Number(data.siteId) || 0
             data.campusId = Number(data.campusId)
+            if (data.school == 0) {
+                // todo:
+                data.wholeClass = 0
+            }
             $('#classList .class-item').each(function (index) {
                 if ($(this).find('input[type=checkbox]:checked').length >= 1 && $(this).find(
                         'input[type=radio]:checked').val() === '1') {
