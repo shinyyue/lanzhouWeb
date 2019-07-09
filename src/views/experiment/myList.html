@@ -1,4 +1,6 @@
-<div class="layui-fluid" id="experiment-my-list" lay-title="我的实验库">
+<div class="layui-fluid"
+     id="experiment-my-list"
+     lay-title="我的实验库">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -7,12 +9,14 @@
         <div class="course-title-search">
             <span class="search-project">实验名称</span>
             <input type="text" />
-            <select name="" id="">
+            <select name=""
+                    id="">
                 <option value="">选择课程</option>
                 <option value="">课程1</option>
                 <option value="">课程2</option>
             </select>
-            <select name="" id="">
+            <select name=""
+                    id="">
                 <option value="">请选择实验类型</option>
                 <option value="">实验类型1</option>
                 <option value="">实验类型2</option>
@@ -24,22 +28,22 @@
         </div>
     </div>
     <div class="course-add">
-        <button class="add-btn" id="experiment-mylist-add">添加</button>
+        <button class="add-btn"
+                id="experiment-mylist-add">添加</button>
     </div>
-    <table
-        id="experiment-mylist-table"
-        lay-filter="experiment-mylist-table"
-    ></table>
-    <script type="text/html" id="experiment-mylist-opt">
+    <table id="experiment-mylist-table"
+           lay-filter="experiment-mylist-table"></table>
+    <script type="text/html"
+            id="experiment-mylist-opt">
         <button class="course-set-btn" lay-event="edit">编辑</button>
         <button class="course-set-btn" lay-event="delete">删除</button>
         <button class="course-set-btn" lay-event="check">查看</button>
     </script>
-    <div class="app-table-page" id="experiment-mylist-page"></div>
+    <div class="app-table-page"
+         id="experiment-mylist-page"></div>
 </div>
-
 <script>
-    layui.use(['table', 'jquery'], function(table, $) {
+    layui.use(['table', 'jquery'], function (table, $) {
         var tableFilter = 'experiment-mylist-table',
             laypage = layui.laypage,
             $ = layui.jquery,
@@ -51,18 +55,8 @@
                 limit: 20,
                 first: '首页',
                 last: '尾页',
-                layout: [
-                    'first',
-                    'prev',
-                    'page',
-                    'next',
-                    'last',
-                    'count',
-                    'currLimit',
-                    'curr',
-                    'pageCount'
-                ],
-                jump: function(obj, first) {
+                layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
+                jump: function (obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -73,58 +67,47 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [
-                        {
-                            title: '序号',
-                            field: 'id',
-                            width: 80,
-                            align: 'center'
-                        },
-                        {
-                            title: '实验名称',
-                            field: 'name',
-                            align: 'center'
-                        },
-                        {
-                            title: '课程名称',
-                            field: 'curriculumName',
-                            align: 'center'
-                        },
-                        {
-                            title: '实验类型',
-                            field: 'experimentalType',
-                            align: 'center'
-                        },
-                        {
-                            title: '创建者',
-                            field: 'responsor',
-                            align: 'center'
-                        },
-                        {
-                            field: 'isCommon',
-                            title: '是否共享',
-                            align: 'center',
-                            templet: function(d) {
-                                return d ? '是' : '否'
-                            }
-                        },
-                        {
-                            title: '操作',
-                            align: 'center',
-                            templet: '#experiment-mylist-opt',
-                            width: 180
+                    [{
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center'
+                    }, {
+                        title: '实验名称',
+                        field: 'name',
+                        align: 'center'
+                    }, {
+                        title: '课程名称',
+                        field: 'curriculumName',
+                        align: 'center'
+                    }, {
+                        title: '实验类型',
+                        field: 'experimentalType',
+                        align: 'center'
+                    }, {
+                        title: '创建者',
+                        field: 'responsor',
+                        align: 'center'
+                    }, {
+                        field: 'isCommon',
+                        title: '是否共享',
+                        align: 'center',
+                        templet: function (d) {
+                            return d ? '是' : '否'
                         }
-                    ]
+                    }, {
+                        title: '操作',
+                        align: 'center',
+                        templet: '#experiment-mylist-opt',
+                        width: 180
+                    }]
                 ]
             }
-
         getList(1)
-
-        table.on('tool(college-mylist-table)', function(obj) {
+        table.on('tool(experiment-mylist-table)', function (obj) {
             var data = obj.data
             var layEvent = obj.event,
                 type = ''
-
             if (layEvent === 'delete') {
                 layer.open({
                     type: 1,
@@ -136,11 +119,11 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function(index, layero) {
+                    yes: function (index, layero) {
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function(index) {
+                    cancel: function (index) {
                         layer.close(index)
                     }
                 })
@@ -148,45 +131,24 @@
             }
             if (layEvent === 'edit') {
                 //编辑
-                type = 'edit'
+                location.href = 'index.html#/experiment/myadd/id=' + data.id
             } else if (layEvent === 'check') {
-                type = 'check'
+                location.href = 'index.html#/experiment/mydetails/id=' + data.id
             }
-
-            var layerOption = {
-                type: 1,
-                offset: 'auto',
-                title: type==='edit'?'编辑':'查看',
-                content: getTemplate(formData, type),
-                area: ['700px', '70%'],
-                shade: 0.4,
-                shadeClose: true,
-                btn: type === 'check' ? [] : ['确定', '取消'],
-                yes: function(index, layero) {
-                    layer.close(index)
-                    getFormData()
-                    if (type === 'check') {
-                        location.href = 'index.html#/experiment/mydetails'
-                    } else if (type === 'edit') {
-                        location.href = 'index.html#/experiment/myadd'
-                    }
-                },
-                cancel: function(index) {
-                    layer.close(index)
-                }
-            }
-
-            layer.open(layerOption)
-            form.render()
         })
 
         function deleteData(id) {
             admin.delete({
                 url: '/experiments/del?id=' + id,
-                success: function(res) {
-                    getList(1)
+                success: function (res) {
+                    if (res.code === 200) {
+                        layer.msg('删除成功')
+                        getList()
+                    } else {
+                        layer.msg(res.msg || '删除失败')
+                    }
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -200,51 +162,53 @@
             admin.post({
                 url: '/experiments/listInfo',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
-
-        $('#experiment-mylist-add').on('click', function() {
+        $('#experiment-mylist-add').on('click', function () {
             location.href = 'index.html#/experiment/myadd'
         })
-
-        $('#experiment-mylist-edit').on('click', function() {
-            location.href = 'index.html#/experiment/myadd'
+        $('#experiment-mylist-delete').on('click', function () {
+            layer.confirm('您确定要删除么?', {
+                icon: 3,
+                title: '提示',
+                shade: 0.5,
+                maxWidth: 500,
+                maxHeight: 500
+            }, function (confirm) {
+                // 用户点击确定
+                layer.close(confirm)
+                deleteData(data.id)
+            }, function (cancel) {
+                // 用户点击取消
+                layer.close(cancel)
+            })
         })
-
-        $('#experiment-mylist-check').on('click', function() {
-            location.href = 'index.html#/experiment/mydetails'
-        })
-
-        $('#experiment-mylist-delete').on('click', function() {
-            layer.confirm(
-                '您确定要删除么?',
-                {
-                    icon: 3,
-                    title: '提示',
-                    shade: 0.5,
-                    maxWidth: 500,
-                    maxHeight: 500
-                },
-                function(confirm) {
-                    // 用户点击确定
-                    layer.close(confirm)
-                },
-                function(cancel) {
-                    // 用户点击取消
-                    layer.close(cancel)
+        $(document).off('mousedown', '.layui-table-grid-down').on('mousedown', '.layui-table-grid-down',
+            function (event) {
+                table._tableTrCurr = $(this).closest('td')
+            })
+        $(document).off('click', '.layui-table-tips-main [lay-event]').on('click',
+            '.layui-table-tips-main [lay-event]',
+            function (event) {
+                var elem = $(this)
+                var tableTrCurr = table._tableTrCurr
+                if (!tableTrCurr) {
+                    return
                 }
-            )
-        })
+                var layerIndex = elem.closest('.layui-table-tips').attr('times')
+                // 关闭当前这个显示更多的tip
+                layer.close(layerIndex)
+                table._tableTrCurr.find('[lay-event="' + elem.attr('lay-event') + '"]').first().click()
+            })
     })
 </script>
-
 <style></style>
