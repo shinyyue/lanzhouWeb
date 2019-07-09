@@ -64,8 +64,10 @@
                 if (menuUrlList[1] === firstPath) {
                     status = 'active'
                 }
-                menuStr += '<li class="layui-nav-item ' + status + '"' + 'data-path="' + menuList[i].menuUrl +
-                    '"> ' + menuList[i].menuName + '</li>'
+                if (menuList[i].menuName !== '课程内容') {
+                    menuStr += '<li class="layui-nav-item ' + status + '"' + 'data-path="' + menuList[i].menuUrl +
+                        '"> ' + menuList[i].menuName + '</li>'
+                }
             }
             $('#header_nav').prepend(menuStr)
         }
@@ -118,7 +120,7 @@
                         }
                     })
                     $('#side_nav .layui-nav-item').click(function () {
-                        admin.initView(route)
+                        // admin.initView(route)
                         $(this).addClass('layui-this')
                         $(this).siblings().removeClass('layui-this')
                         var dl = $(this).find('dl')
@@ -161,7 +163,7 @@
             }
         }
         $(document).on('click', '#header_nav li', function () {
-            admin.initView(route)
+            // admin.initView(route)
             var curPath = $(this).data('path')
             // 设置一级菜单的状态
             $(this).addClass('active')
