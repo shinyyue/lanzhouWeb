@@ -483,7 +483,7 @@
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">学生类型:</label>' +
                 '<div class="user-class">' +
-                '<select name="studentTypeId" id="student_type_list" class="common-form-input" value="' +
+                '<select name="studentTypeId" id="studentTypeId" class="common-form-input" value="' +
                 formData.studentTypeId +
                 '"' +
                 (type === 'check' ? 'disabled' : '') +
@@ -816,34 +816,7 @@
             })
         }
 
-        function getStudentTypeList(callback) {
-            var data = {
-                page: 1,
-                rows: 10000
-            }
-            admin.post({
-                url: '/studentType/studentTypeList',
-                data: JSON.stringify(data),
-                success: function(res) {
-                    $('#student_type_list').html(
-                        '<option value="">请选择学生类型</option>'
-                    )
-                    res.data &&
-                        res.data.items &&
-                        res.data.items.forEach(item => {
-                            $('#student_type_list').append(
-                                '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.studentTypeName +
-                                    '</option>'
-                            )
-                        })
-                    form.render()
-                    callback && typeof callback === 'function' && callback()
-                }
-            })
-        }
+
 
         function updateData(formData) {
             admin.put({
@@ -954,9 +927,37 @@
             //     form.render()
             // })
 
+            function getStudentTypeList(callback) {
+                var data = {
+                    page: 1,
+                    rows: 10000
+                }
+                admin.post({
+                    url: '/studentType/studentTypeList',
+                    data: JSON.stringify(data),
+                    success: function(res) {
+                        $('#studentTypeId').html(
+                            '<option value="">请选择学生类型</option>'
+                        )
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(function(item) {
+                            $('#studentTypeId').append(
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.studentTypeName +
+                                '</option>'
+                            )
+                        })
+                        form.render()
+                        callback && typeof callback === 'function' && callback(res)
+                    }
+                })
+            }
             console.log(444, formData)
             getStudentTypeList(function() {
-                $('#student_type_list').val(formData.studentTypeId)
+                $('#studentTypeId').val(formData.studentTypeId)
                 form.render()
             })
             getCollegeList(function() {

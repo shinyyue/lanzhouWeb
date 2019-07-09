@@ -88,6 +88,9 @@
                 success: function(res) {
                     if (res.code === 200) {
                         layer.msg('更新成功！')
+                        window.location.href = 'index.html#/termDeploy/classTime'
+                        window.location.reload()
+//                        window.history.go(-1)
                     } else {
                         layer.msg(res.msg || '更新失败')
                     }
@@ -103,7 +106,7 @@
                     table.render(tableOption)
                     classTimeList = res.data
 
-                    res.data.forEach(item => {
+                    res.data.forEach(function(item) {
                         laydate.render({
                             elem: '.class-time-' + item.id + '-1',
                             type: 'time',

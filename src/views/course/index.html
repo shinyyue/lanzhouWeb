@@ -101,7 +101,7 @@
                             width: 80
                         },
                         {
-                            field: 'gradeId',
+                            field: 'gradeName',
                             title: '年级',
                             align: 'center'
                         },
@@ -116,7 +116,7 @@
                             align: 'center',
                             width: 140,
                             templet: function(d) {
-                                return d ? '是' : '否'
+                                return d.profession==0 ? '是' : '否'
                             }
                         },
                         {

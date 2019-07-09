@@ -34,7 +34,7 @@
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label require">课程负责人</label>
-                    <span id="userId">王小虎</span>
+                    <span id="userName">王小虎</span>
                 </div>
             </div>
             <div class="layui-row">
@@ -44,7 +44,7 @@
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">实验室名称</label>
-                    <span id="labName">铁路信号</span>
+                    <span id="labName"></span>
                 </div>
             </div>
             <div class="layui-row">
@@ -64,7 +64,7 @@
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">课程介绍</label>
-                    <span id="">本科目是巴拉巴拉巴拉</span>
+                    <span id="presentation"></span>
                 </div>
             </div>
             <div class="layui-row">
@@ -101,12 +101,13 @@
                     $('#period').html(data.period)
                     $('#creditHour').html(data.creditHour)
                     $('#fullMark').html(data.fullMark)
-                    $('#userId').html(data.userId)
-                    $('#profession').html(data.profession)
+                    $('#userName').html(data.userName)
+                    $('#profession').html(data.profession==0?'所有专业':data.profession)
                     $('#labName').html(data.labName)
                     $('#prerequisiteCourse').html(data.prerequisiteCourse)
                     $('#gradeId').html(data.gradeId)
                     $('#semester').html(data.semester)
+                    $('#presentation').html(data.presentation)
                     // $('#').html(data)
                     // $('#').html(data)
                 }
