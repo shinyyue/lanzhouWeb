@@ -154,9 +154,12 @@
 
         function deleteData(id) {
             admin.delete({
-                url: '/examinationPaper/deleteCollege?id=' + id,
+                url: '/examinationPaper/del?id=' + id,
                 success: function (res) {
-                    getList(1)
+                    if (res.code === 200) {
+                        layer.msg('删除成功')
+                        getList(1)
+                    }
                 },
                 error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
