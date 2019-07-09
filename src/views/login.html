@@ -87,7 +87,7 @@
 
     .login-container {
         height: 480px;
-        background: url('/lanzhouWeb/src/images/login-bg.jpeg') no-repeat 100%
+        background: url('/src/images/login-bg.jpeg') no-repeat 100%
             100%;
         display: flex;
         flex-direction: row;
@@ -159,67 +159,56 @@
         display: none;
     }
 </style>
-<div id="VIEW-login" lay-title="登录">
+<div id="VIEW-login"
+     lay-title="登录">
     <div class="login-wrap">
         <div class="login-header">
-            <img src="/lanzhouWeb/src/images/logo.png" class="login-logo" />
+            <img src="/src/images/logo.png"
+                 class="login-logo" />
             <span class="login-name">虚拟仿真实验教学管理平台</span>
         </div>
         <div class="login-container">
-            <img
-                src="/lanzhouWeb/src/images/login-left.png"
-                class="login-left"
-            />
-            <div class="layui-form login-right" lay-filter="login-form">
+            <img src="/src/images/login-left.png"
+                 class="login-left" />
+            <div class="layui-form login-right"
+                 lay-filter="login-form">
                 <ul class="login-type-tab">
-                    <li login-type="password" class="active">用户登录</li>
+                    <li login-type="password"
+                        class="active">用户登录</li>
                 </ul>
                 <div class="normal-login-form">
                     <div class="layui-form-item">
-                        <label
-                            class="layui-icon label-icon layui-icon-username"
-                        ></label>
-                        <input
-                            type="text"
-                            name="snoOrJno"
-                            lay-verify="snoOrJno"
-                            lay-verType="tips"
-                            placeholder="学（工）号"
-                            maxlength="11"
-                            autocomplete="off"
-                            class="layui-input"
-                        />
+                        <label class="layui-icon label-icon layui-icon-username"></label>
+                        <input type="text"
+                               name="snoOrJno"
+                               lay-verify="snoOrJno"
+                               lay-verType="tips"
+                               placeholder="学（工）号"
+                               maxlength="11"
+                               autocomplete="off"
+                               class="layui-input" />
                     </div>
                     <div class="layui-form-item password-block">
-                        <label
-                            class="layui-icon label-icon layui-icon-password"
-                        ></label>
-                        <input
-                            type="password"
-                            name="password"
-                            value=""
-                            lay-verify="password"
-                            lay-verType="tips"
-                            placeholder="密码"
-                            autocomplete="off"
-                            class="layui-input"
-                        />
+                        <label class="layui-icon label-icon layui-icon-password"></label>
+                        <input type="password"
+                               name="password"
+                               value=""
+                               lay-verify="password"
+                               lay-verType="tips"
+                               placeholder="密码"
+                               autocomplete="off"
+                               class="layui-input" />
                     </div>
                     <div class="forget-pwd">
                         <a href="">忘记密码？</a>
                     </div>
                     <div class="layui-form-item">
-                        <button
-                            class="layui-btn layui-btn-normal layui-btn-fluid"
-                            lay-submit
-                            lay-filter="login-submit"
-                        >
-                            <i
-                                style="display: none"
-                                class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"
-                            ></i>
-                            登录
-                        </button>
+                        <button class="layui-btn layui-btn-normal layui-btn-fluid"
+                                lay-submit
+                                lay-filter="login-submit">
+                            <i style="display: none"
+                               class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>
+                            登录 </button>
                         <!-- <ul class="login-user"
                             id="login-user"
                             lay-submit
@@ -234,25 +223,21 @@
         </div>
     </div>
 </div>
-
 <script>
-    layui.use(['admin', 'util', 'form'], function(admin, util, form) {
+    layui.use(['admin', 'util', 'form'], function (admin, util, form) {
         var $ = layui.jquery
         var view = $('#VIEW-login')
         var userInfo = {}
         var router = layui.router()
-
         form.render()
-
         form.verify({
-            snoOrJno: function(value, el) {
+            snoOrJno: function (value, el) {
                 // if (value.length < 5) return '请输入正确的学（工）号';
             },
-            password: function(value, el) {
+            password: function (value, el) {
                 if (value.length < 6) return '登录密码不能少于 6 位'
             }
         })
-
         // $('#login-user li').click(function() {
         //     userInfo.role = $(this).data('value')
         //     switch (res.data.role.id) {
@@ -270,32 +255,28 @@
         //             break
         //     }
         // })
-
         //提交登录表单
-        form.on('submit(login-submit)', function(data) {
+        form.on('submit(login-submit)', function (data) {
             userInfo = data.field
             var loading = $(this).find('.layui-icon')
             if (loading.is(':visible')) return
-
             loading.show()
-
             admin.post({
                 url: '/login/login',
                 data: JSON.stringify(userInfo),
-                success: function(res) {
+                success: function (res) {
                     // var cookieLast = getCookie('token')
                     // setCookie('token', cookieLast)
-
                     switch (res.data.role.id) {
                         // 老师
                         case 2:
                             admin.navigate('/')
                             break
-                        // 学生
+                            // 学生
                         case 1:
                             admin.navigate('/student')
                             break
-                        // 管理员
+                            // 管理员
                         case 3:
                             admin.navigate('/user/all')
                             break
@@ -304,18 +285,16 @@
                         key: 'role',
                         value: res.data.role.id
                     })
-
                     layui.data('userInfo', {
                         key: 'userInfo',
                         value: res.data.vsMpUser
                     })
-
                     layui.data('role', {
                         key: 'role',
                         value: res.data.role
                     })
                 },
-                complete: function(err) {
+                complete: function (err) {
                     loading.hide()
                 }
             })
@@ -325,10 +304,8 @@
             var Days = 30
             var exp = new Date()
             exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000)
-            document.cookie =
-                name + '=' + escape(value) + ';expires=' + exp.toGMTString()
+            document.cookie = name + '=' + escape(value) + ';expires=' + exp.toGMTString()
         }
-
         //读取cookies
         function getCookie(name) {
             var arr,
