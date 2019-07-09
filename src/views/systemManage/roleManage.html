@@ -1,34 +1,39 @@
-<div id="source-manage-mylist" class="layui-fluid" lay-title="角色管理">
+<div id="source-manage-mylist"
+     class="layui-fluid"
+     lay-title="角色管理">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
             <span>系统管理 > 角色列表</span>
         </div>
         <div class="course-title-search">
-            <input type="text" placeholder="请输入关键字" id="roleName" />
-            <button class="search-confirm" id="searchRoleList">
+            <input type="text"
+                   placeholder="请输入关键字"
+                   id="roleName" />
+            <button class="search-confirm"
+                    id="searchRoleList">
                 <img src="src/images/search.png" />
             </button>
         </div>
     </div>
     <div class="course-add">
-        <button class="primary-btn" id="add_role">添加</button>
+        <button class="primary-btn"
+                id="add_role">添加</button>
     </div>
     <div id="test1"></div>
-    <table id="role-mylist-table" lay-filter="role-mylist-table"></table>
-    <script type="text/html" id="role-manage-opt">
+    <table id="role-mylist-table"
+           lay-filter="role-mylist-table"></table>
+    <script type="text/html"
+            id="role-manage-opt">
         <button class="course-set-btn" lay-event="edit">编辑</button>
         <button class="course-set-btn" lay-event="delete">删除</button>
         <button class="course-set-btn" lay-event="check">查看</button>
     </script>
-    <div class="app-table-page" id="role-mylist-page"></div>
+    <div class="app-table-page"
+         id="role-mylist-page"></div>
 </div>
-
 <script>
-    layui.use(['element', 'table', 'jquery', 'form', 'tree', 'admin'], function(
-        table,
-        $
-    ) {
+    layui.use(['element', 'table', 'jquery', 'form', 'tree', 'admin'], function (table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -47,18 +52,8 @@
                 limit: 20,
                 first: '首页',
                 last: '尾页',
-                layout: [
-                    'first',
-                    'prev',
-                    'page',
-                    'next',
-                    'last',
-                    'count',
-                    'currLimit',
-                    'curr',
-                    'pageCount'
-                ],
-                jump: function(obj, first) {
+                layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
+                jump: function (obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr, obj.limit)
@@ -69,15 +64,13 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [
-                        {
+                    [{
                             title: '序号',
                             field: 'id',
                             width: 80,
                             align: 'center',
                             type: 'numbers'
-                        },
-                        {
+                        }, {
                             title: '角色名称',
                             field: 'roleName',
                             align: 'center'
@@ -101,13 +94,10 @@
                             title: '创建时间',
                             field: 'createTime',
                             align: 'center',
-                            templet: function(d) {
-                                return admin.dateFormat(
-                                    new Date(d.createTime).getTime() / 1000
-                                )
+                            templet: function (d) {
+                                return admin.dateFormat(new Date(d.createTime).getTime() / 1000)
                             }
-                        },
-                        {
+                        }, {
                             title: '操作',
                             align: 'center',
                             templet: '#role-manage-opt',
@@ -117,18 +107,14 @@
                     ]
                 ]
             }
-
         getList(1, 20)
-
-        $('#searchRoleList').click(function() {
+        $('#searchRoleList').click(function () {
             getList(1)
         })
-
-        table.on('tool(role-mylist-table)', function(obj) {
+        table.on('tool(role-mylist-table)', function (obj) {
             var data = obj.data //获得当前行数据
             var layEvent = obj.event,
                 type = ''
-
             if (layEvent === 'delete') {
                 layer.open({
                     type: 1,
@@ -140,12 +126,12 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function(index, layero) {
+                    yes: function (index, layero) {
                         // 提交
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function(index) {
+                    cancel: function (index) {
                         layer.close(index)
                     }
                 })
@@ -159,18 +145,15 @@
                 formData = data
                 type = 'check'
             }
-
             var list = data.menuPermissions.split(',')
             var newList = []
-
-            getMenuList(function(allList) {
-                allList.forEach(function(item) {
+            getMenuList(function (allList) {
+                allList.forEach(function (item) {
                     item.checked = list.indexOf(String(item.id)) > -1
                     newList.push(item)
                 })
                 renderTree(newList, 'update')
             })
-
             var layerOption = {
                 type: 1,
                 offset: 'auto',
@@ -180,7 +163,7 @@
                 shade: 0.4,
                 shadeClose: true,
                 btn: type === 'check' ? [] : ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -190,34 +173,25 @@
                         updateData(formData)
                     }
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             }
-
             layer.open(layerOption)
             form.render()
         })
 
         function getTemplate(formData, type) {
-            return (
-                '<div id="college_details_modal">\n' +
-                '        <form action="" class="layui-form">\n' +
+            return ('<div id="college_details_modal">\n' + '        <form action="" class="layui-form">\n' +
                 '            <div class="layui-row">\n' +
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">角色名称：</label>\n' +
-                '                    <input\n' +
-                '                        type="text"\n' +
+                '                    <input\n' + '                        type="text"\n' +
                 '                        name="roleName"\n' +
                 '                        class="common-form-input"\n' +
-                '                        id="roleNameUpdate"\n' +
-                '                        value="' +
-                (formData.roleName || '') +
-                '"\n' +
-                (type === 'check' ? 'disabled' : '') +
-                '                    />\n' +
-                '                </div>\n' +
-                '            </div>\n' +
+                '                        id="roleNameUpdate"\n' + '                        value="' + (
+                    formData.roleName || '') + '"\n' + (type === 'check' ? 'disabled' : '') +
+                '                    />\n' + '                </div>\n' + '            </div>\n' +
                 // '            <div class="layui-row">\n' +
                 // '                <div class="layui-col-md12 layui-form-item">\n' +
                 // '                    <label class="layui-form-label">英文名称:</label>\n' +
@@ -248,25 +222,16 @@
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">分配权限:</label>\n' +
                 '                    <div id="auth_list" class="auth-list-tree"></div>\n' +
-                '                </div>\n' +
-                '            </div>\n' +
+                '                </div>\n' + '            </div>\n' +
                 '            <div class="layui-row">\n' +
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">角色描述:</label>\n' +
-                '                    <textarea\n' +
-                '                        name="desc"\n' +
+                '                    <textarea\n' + '                        name="desc"\n' +
                 '                        class="layui-textarea role-remark"\n' +
-                '                        id="role-remark"\n' +
-                '                        value="' +
-                (formData.desc || '') +
-                '"\n' +
-                (type === 'check' ? 'disabled' : '') +
-                '                    ></textarea>\n' +
-                '                </div>\n' +
-                '            </div>\n' +
-                '        </form>\n' +
-                '    </div>'
-            )
+                '                        id="role-remark"\n' + '                        value="' + (
+                    formData.desc || '') + '"\n' + (type === 'check' ? 'disabled' : '') +
+                '                    ></textarea>\n' + '                </div>\n' + '            </div>\n' +
+                '        </form>\n' + '    </div>')
         }
 
         function getFormData() {
@@ -288,13 +253,13 @@
             admin.post({
                 url: '/role/queryRoleList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -305,7 +270,6 @@
                 roleName: $('#roleNameUpdate').val(),
                 menuPermissions: ''
             }
-
             var menuList = tree.getChecked('1')
             var list = []
             menuList.forEach(item => {
@@ -315,7 +279,7 @@
             admin.post({
                 url: '/role/addRole',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     if (res.code === 200) {
                         layer.msg('添加成功！')
                         getList(1, 20)
@@ -330,12 +294,23 @@
             menuList.forEach(item => {
                 list.push(item.id)
             })
+            for (var i = 0; i < menuList.length; i++) {
+                list.push(menuList[i].id)
+                if (menuList[i].child.length > 0) {
+                    for (var j = 0; j < menuList[i].child.length; j++) {
+                        var item = menuList[i].child[j]
+                        if (item.checked) {
+                            list.push(item.id)
+                        }
+                    }
+                }
+            }
             formData.menuPermissions = list.join(',')
             formData.roleName = $('#roleNameUpdate').val()
             admin.put({
                 url: '/role/upDateRole',
                 data: JSON.stringify(formData),
-                success: function(res) {
+                success: function (res) {
                     if (res.code === 200) {
                         layer.msg('更新成功！')
                         getList(1, 20)
@@ -347,13 +322,13 @@
         function deleteData(id) {
             admin.delete({
                 url: '/role/deleteRole?id=' + id,
-                success: function(res) {
+                success: function (res) {
                     if (res.code === 200) {
                         layer.msg('删除成功！')
                         getList(1, 20)
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -361,33 +336,32 @@
 
         function initLayerOpen() {
             formData = {
-                roleName: '',
-//                name: '',
-                id: '',
-                desc: ''
-            },
-            layer.open({
-                type: 1,
-                offset: 'auto',
-                title: '添加',
-                content: getTemplate(formData),
-                area: ['700px', '70%'],
-                shade: 0.4,
-                skin: 'user-edit-modal',
-                shadeClose: true,
-                btn: ['确定', '取消'],
-                yes: function(index, layero) {
-                    addData()
-                    layer.close(index)
+                    roleName: '',
+                    //                name: '',
+                    id: '',
+                    desc: ''
                 },
-                cancel: function(index) {
-                    layer.close(index)
-                }
-            })
+                layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '添加',
+                    content: getTemplate(formData),
+                    area: ['700px', '70%'],
+                    shade: 0.4,
+                    skin: 'user-edit-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        addData()
+                        layer.close(index)
+                    },
+                    cancel: function (index) {
+                        layer.close(index)
+                    }
+                })
             form.render()
-
             // 渲染权限列表
-            getMenuList(function(list) {
+            getMenuList(function (list) {
                 renderTree(list)
             })
         }
@@ -400,31 +374,35 @@
             admin.post({
                 url: '/menu/getListTree',
                 data: JSON.stringify(data),
-                success: function(res) {
-                    callback(res.data.items)
+                success: function (res) {
+                    callback(res.data)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
 
         function renderTree(treeData, type) {
-            treeData.forEach(function(item) {
-                item.title = item.menuName
-                if (!type) {
-                    item.checked = true
-                }
-                if (item.child && item.child.length > 0) {
-                    item.child.forEach(function(c) {
-                        c.title = c.menuName
-                        if (!type) {
-                            c.checked = true
+            for (var i = 0; i < treeData.length; i++) {
+                treeData[i].title = treeData[i].menuName
+                treeData[i].spread = true
+                if (treeData[i].child.length > 0) {
+                    for (var j = 0; j < treeData[i].child.length; j++) {
+                        var item = treeData[i].child[j]
+                        item.title = item.menuName
+                        item.spread = true
+                        if (item.child.length > 0) {
+                            for (var m = 0; m < item.child.length; m++) {
+                                var c = item.child[m]
+                                c.title = c.menuName
+                            }
                         }
-                    })
-                    item.children = item.child
+                        item.children = item.child
+                    }
+                    treeData[i].children = treeData[i].child
                 }
-            })
+            }
             tree.render({
                 elem: '#auth_list',
                 data: treeData,
@@ -432,18 +410,11 @@
                 id: '1'
             })
         }
-
-        $('#add_role').on('click', function() {
+        $('#add_role').on('click', function () {
             initLayerOpen()
-            //清空form表单
-//            $('#roleName').val('')
-//            $('#usName').val('')
-//            $('#showId').val('')
-//            $('#role-remark').val('')
         })
     })
 </script>
-
 <style>
     .role-edit-modal .layui-layer-content {
         padding: 20px;
