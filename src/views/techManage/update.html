@@ -224,11 +224,8 @@
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">上课地点</label>
                         <select name="siteId"
-                                id="student_learn_addr">
+                                id="siteId">
                             <option value="">请选择上课地点</option>
-                            <!-- <option value="0">无</option>
-                            <option value="1">教室</option>
-                            <option value="2">实验室</option> -->
                         </select>
                     </div>
                 </div>
@@ -286,12 +283,14 @@
                         <input type="text"
                                require
                                name="minStudent"
+                               id="minStudent"
                                class="common-form-input" />
                     </div>
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">最多选课人数</label>
                         <input type="text"
                                require
+                               id="maxStudent"
                                name="maxStudent"
                                class="common-form-input" />
                     </div>
@@ -375,12 +374,13 @@
             }
         })
         getAllCourse()
+        getCampusList()
         getAllProfess(function () {})
         getSchoolYearList()
         getStudentTypeList()
         getCollegeList()
         getClassList()
-        getCampusList()
+        getClassRoom()
         if (id) {
             getDetails()
         }
@@ -389,8 +389,6 @@
             admin.get({
                 url: '/coursePlan/queryById?id=' + id,
                 success: function (res) {
-                    // $('#singleDoubleWeek').html(res.data.singleDoubleWeek == 1 ? '全部' : res.data.singleDoubleWeek ==
-                    //     2 ? '单周' : '双周')
                     $('#plan_course_list').val(res.data.curriculumId)
                     $('#collegeId').val(res.data.collegeId)
                     $('#courseName').val(res.data.courseName)
@@ -414,7 +412,6 @@
                     $('#weekEnd').val(res.data.weekEnd)
                     $('#schooltimeStart').val(res.data.schooltimeStart)
                     $('#schooltimeEnd').val(res.data.schooltimeEnd)
-                    // $('#singleDoubleWeek').val(String(res.data.singleDoubleWeek))
                     $('#studentTypeId').val(res.data.studentTypeId)
                     $('#campus').val(res.data.campusId)
                     $('#siteId').val(res.data.siteId)
@@ -575,6 +572,31 @@
             })
         }
 
+        function getClassRoom(callback) {
+            var data = {
+                page: 1,
+                rows: 10000
+            }
+            admin.post({
+                url: '/classroom/list',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    if (res.code === 200) {
+                        $('#siteId').html('<option>请选择</option>')
+                        res.data.items.forEach(item => {
+                            $('#siteId').append('<option value="' + item.id + '">' + item.classroomName +
+                                '</option>')
+                        })
+                        form.render()
+                        callback && typeof callback === 'function' && callback(res)
+                    }
+                },
+                error: function (err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
         function addLearn() {
             var data = {}
             admin.post({
@@ -698,6 +720,22 @@
                 }
             })
             data.studentIds = studentIdList.join(',')
+            if (id) {
+                data.id = id
+                admin.put({
+                    url: '/coursePlan/update',
+                    data: JSON.stringify(formData),
+                    success: function (res) {
+                        if (res.code === 200) {
+                            layer.msg('更新成功！')
+                            window.history.back(-1)
+                        } else {
+                            layer.msg(res.msg || '更新失败')
+                        }
+                    }
+                })
+                return
+            }
             admin.post({
                 url: '/coursePlan/add',
                 data: JSON.stringify(formData),
