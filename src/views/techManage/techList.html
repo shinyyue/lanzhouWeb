@@ -1,4 +1,6 @@
-<div class="layui-fluid" id="techManage" lay-title="开课管理">
+<div class="layui-fluid"
+     id="techManage"
+     lay-title="开课管理">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -7,16 +9,20 @@
         <div class="course-title-search">
             <span class="search-project">开课名称</span>
             <input type="text" />
-            <select name="" id="">
+            <select name=""
+                    id="">
                 <option value="">请选择学年</option>
             </select>
-            <select name="" id="">
+            <select name=""
+                    id="">
                 <option value="">请选择学期</option>
             </select>
-            <select name="" id="">
+            <select name=""
+                    id="">
                 <option value="">选择任课老师</option>
             </select>
-            <select name="" id="">
+            <select name=""
+                    id="">
                 <option value="">是否开课</option>
             </select>
             <button class="search-confirm">
@@ -24,18 +30,16 @@
             </button>
         </div>
     </div>
-    <table
-        id="techManage-list-table"
-        lay-filter="techManage-list-table"
-    ></table>
-    <script type="text/html" id="techManage-opt">
-        <button class="course-set-btn" lay-event="techSet">课程设置</button>
+    <table id="techManage-list-table"
+           lay-filter="techManage-list-table"></table>
+    <script type="text/html"
+            id="techManage-opt"> <button class="course-set-btn" lay-event="techSet">课程设置</button>
     </script>
-    <div class="app-table-page" id="techManage-list-page"></div>
+    <div class="app-table-page"
+         id="techManage-list-page"></div>
 </div>
-
 <script>
-    layui.use(['table', 'jquery'], function(table, $) {
+    layui.use(['table', 'jquery'], function (table, $) {
         var tableFilter = 'techManage-list-table',
             laypage = layui.laypage,
             $ = layui.jquery,
@@ -47,18 +51,8 @@
                 limit: 20,
                 first: '首页',
                 last: '尾页',
-                layout: [
-                    'first',
-                    'prev',
-                    'page',
-                    'next',
-                    'last',
-                    'count',
-                    'currLimit',
-                    'curr',
-                    'pageCount'
-                ],
-                jump: function(obj, first) {
+                layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
+                jump: function (obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -69,42 +63,48 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [
-                        {
+                    [{
                             title: '序号',
                             field: 'id',
                             width: 80,
-                            align: 'center'
-                        },
-                        {
+                            align: 'center',
+                            type: 'numbers'
+                        }, {
                             title: '开课名称',
                             field: 'courseName',
                             align: 'center'
-                        },
-                        {
-                            title: '任课老师',
-                            field: 'userName',
+                        }, {
+                            title: '上课周次',
+                            field: 'startEndWeek',
                             align: 'center'
-                        },
-                        {
+                        }, {
                             title: '上课时间',
                             field: 'startEndTIME',
                             align: 'center'
-                        },
-                        {
+                        }, {
                             title: '上课地点',
                             align: 'center',
                             field: 'classroomName'
-                        },
-                        {
-                            title: '状态',
+                        }, {
+                            title: '选课人数',
                             align: 'center',
-                            field: 'publish',
-                            width: 80,
-                            templet: function(data) {
-                                return data.publish === 1 ? '已发布' : '待发布'
-                            }
+                            field: 'selectStuNum',
+                            width: 100
+                        }, {
+                            title: '学分',
+                            align: 'center',
+                            field: 'creditHour',
+                            width: 80
                         },
+                        //  {
+                        //     title: '状态',
+                        //     align: 'center',
+                        //     field: 'publish',
+                        //     width: 80,
+                        //     templet: function (data) {
+                        //         return data.publish === 1 ? '已发布' : '待发布'
+                        //     }
+                        // }, 
                         {
                             title: '操作',
                             align: 'center',
@@ -114,13 +114,10 @@
                     ]
                 ]
             }
-
         getList(1)
-
-        table.on('tool(techManage-list-table)', function(obj) {
+        table.on('tool(techManage-list-table)', function (obj) {
             var data = obj.data //获得当前行数据
             var layEvent = obj.event
-
             if (layEvent === 'techSet') {
                 layui.data('techSet', {
                     key: 'techSetId',
@@ -137,22 +134,21 @@
                 rows: pageLimit
             }
             admin.post({
-                url: '/coursePlan/list',
+                url: '/coursePlan/listCourse',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
     })
 </script>
-
 <style>
     .layui-table {
         width: 100%;
