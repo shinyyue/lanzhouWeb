@@ -1,79 +1,95 @@
-<div id="tech_manege_details" lay-title="课程管理详情">
+<div id="tech_manege_details"
+     lay-title="课程管理详情">
     <div class="course-title">
         <div class="course-title-location">
             <span>查看开课计划</span>
         </div>
     </div>
     <div class="course-add-content">
-        <form action="" class="layui-form">
+        <form action=""
+              class="layui-form">
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">开课编号</label>
-                    <span class="info-details" id="">--</span>
+                    <span class="info-details"
+                          id="">--</span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">选择单双周</label>
-                    <span class="info-details" id="singleDoubleWeek"></span>
+                    <span class="info-details"
+                          id="singleDoubleWeek"></span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">所开课程</label>
-                    <span class="info-details" id="courseName"></span>
+                    <span class="info-details"
+                          id="courseName"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">开课单位</label>
-                    <span class="info-details" id="collegeId">--</span>
+                    <span class="info-details"
+                          id="collegeId">--</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">适合学生类别</label>
-                    <span class="info-details" id="studentTypeId"></span>
+                    <span class="info-details"
+                          id="studentTypeId"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">满分</label>
-                    <span class="info-details" id="fullMark"></span>
+                    <span class="info-details"
+                          id="fullMark"></span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">学时</label>
-                    <span class="info-details" id="period"></span>
+                    <span class="info-details"
+                          id="period"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">学分</label>
-                    <span class="info-details" id="creditHour"></span>
+                    <span class="info-details"
+                          id="creditHour"></span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">任课老师</label>
-                    <span class="info-details" id="teacherId">--</span>
+                    <span class="info-details"
+                          id="teacherId">--</span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">上课地点</label>
-                    <span class="info-details" id="">--</span>
+                    <span class="info-details"
+                          id="">--</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">校区</label>
-                    <span class="info-details" id="campusId">--</span>
+                    <span class="info-details"
+                          id="campusId">--</span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">面向全校开课</label>
-                    <span class="info-details" id="school"></span>
+                    <span class="info-details"
+                          id="school"></span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">上课周次</label>
-                    <span class="info-details" id="week"></span>
+                    <span class="info-details"
+                          id="week"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">上课时间</label>
-                    <span class="info-details" id="schooltime"></span>
+                    <span class="info-details"
+                          id="schooltime"></span>
                 </div>
             </div>
             <div class="layui-row">
@@ -86,44 +102,29 @@
                 <div class="layui-form-item layui-col-md12">
                     <label class="layui-form-label"></label>
                     <div>
-                        <button
-                            class="layui-btn primary-btn"
-                            id="add-tech-manage"
-                        >
-                            添加开课计划
-                        </button>
-                        <button
-                            class="layui-btn primary-btn"
-                            id="update-tech-manage"
-                        >
-                            修改开课计划
-                        </button>
-                        <button
-                            class="layui-btn layui-btn-primary cancel-btn "
-                            id="source-add-cancle"
-                        >
-                            返回
-                        </button>
+                        <button class="layui-btn primary-btn"
+                                id="add-tech-manage"> 添加开课计划 </button>
+                        <button class="layui-btn primary-btn"
+                                id="update-tech-manage"> 修改开课计划 </button>
+                        <button class="layui-btn layui-btn-primary cancel-btn "
+                                id="source-add-cancle"> 返回 </button>
                     </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
-
 <script>
-    layui.use(['form', 'layedit'], function() {
+    layui.use(['form', 'layedit'], function () {
         var form = layui.form,
             layedit = layui.layedit,
             $ = layui.jquery,
-            admin = layui.admin
-        route = layui.router()
-        id = route.search.id
-
+            admin = layui.admin,
+            route = layui.router(),
+            id = route.search.id;
         form.render()
         layedit.build('techManage-intro-edit', {
-            tool: [
-                'strong', //加粗
+            tool: ['strong', //加粗
                 'italic', //斜体
                 'underline', //下划线
                 'del', //删除线
@@ -135,40 +136,31 @@
                 'image' //插入图片
             ]
         })
-
         //监听提交
-        form.on('submit(submit)', function(data) {
+        form.on('submit(submit)', function (data) {
             layer.msg(JSON.stringify(data.field))
             return false
         })
-
-        $('#source-add-cancle').on('click', function() {
+        $('#source-add-cancle').on('click', function () {
             window.history.back(-1)
         })
-
-        $('#add-tech-manage').on('click', function() {
+        $('#add-tech-manage').on('click', function () {
             location.href = 'index.html#/techManage/update'
         })
-        $('#update-tech-manage').on('click', function() {
+        $('#update-tech-manage').on('click', function () {
+            location.href = 'index.html#/techManage/update/id=' + id
+        })
+        $('#add-tech-manage').on('click', function () {
             location.href = 'index.html#/techManage/update'
         })
-        $('#add-tech-manage').on('click', function() {
-            location.href = 'index.html#/techManage/update'
-        })
-
         getDetails()
 
         function getDetails() {
             admin.get({
                 url: '/coursePlan/queryById?id=' + id,
-                success: function(res) {
-                    $('#singleDoubleWeek').html(
-                        res.data.singleDoubleWeek == 1
-                            ? '全部'
-                            : res.data.singleDoubleWeek == 2
-                            ? '单周'
-                            : '双周'
-                    )
+                success: function (res) {
+                    $('#singleDoubleWeek').html(res.data.singleDoubleWeek == 1 ? '全部' : res.data.singleDoubleWeek ==
+                        2 ? '单周' : '双周')
                     $('#courseName').html(res.data.courseName)
                     $('#collegeName').html(res.data.collegeName)
                     $('#studentTypeName').html(res.data.studentTypeName)
@@ -178,18 +170,14 @@
                     $('#teacherName').html(res.data.teacherName)
                     $('#campusName').html(res.data.campusName)
                     $('#school').html(res.data.school == 1 ? '是' : '否')
-                    $('#week').html(
-                        '第' + res.data.weekStart + '周至第' + res.data.weekEnd + '周'
-                    )
-                    $('#schooltime').html(
-                        '第' + res.data.schooltimeStart + '节至第' + res.data.schooltimeEnd+ '节'
-                    )
+                    $('#week').html('第' + res.data.weekStart + '周至第' + res.data.weekEnd + '周')
+                    $('#schooltime').html('第' + res.data.schooltimeStart + '节至第' + res.data.schooltimeEnd +
+                        '节')
                 }
             })
         }
     })
 </script>
-
 <style>
     #tech_manege_details .course-add-content {
         padding: 20px 0;

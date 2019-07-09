@@ -41,6 +41,7 @@
                         <label class="layui-form-label">学时</label>
                         <input type="text"
                                name="period"
+                               id="period"
                                class="common-form-input" />
                     </div>
                 </div>
@@ -49,12 +50,14 @@
                         <label class="layui-form-label">学分</label>
                         <input type="text"
                                name="creditHour"
+                               id="creditHour"
                                class="common-form-input" />
                     </div>
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">满分</label>
                         <input type="text"
                                name="fullMark"
+                               id="fullMark"
                                class="common-form-input" />
                     </div>
                 </div>
@@ -102,10 +105,12 @@
                         <div>
                             <input type="text"
                                    name="weekStart"
+                                   id="weekStart"
                                    class="common-form-input short" />
                             <span>至</span>
                             <input type="text"
                                    name="weekEnd"
+                                   id="weekEnd"
                                    class="common-form-input short" />
                         </div>
                     </div>
@@ -138,7 +143,7 @@
                         <div>
                             <div class="short">
                                 <select name="weekDay"
-                                        id="">
+                                        id="weekDay">
                                     <option value="7">星期日</option>
                                     <option value="1">星期一</option>
                                     <option value="2">星期二</option>
@@ -151,7 +156,7 @@
                             </div>
                             <div class="short">
                                 <select name="schooltimeStart"
-                                        id="start_learn_time">
+                                        id="schooltimeStart">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -169,7 +174,7 @@
                             </div>
                             <div class="short">
                                 <select name="schooltimeEnd"
-                                        id="end_learn_time">
+                                        id="schooltimeEnd">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -203,7 +208,7 @@
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label require">试用学生类别</label>
                         <select name="studentTypeId"
-                                id="student_type_list">
+                                id="studentTypeId">
                             <option value="">请选择学生类别</option>
                         </select>
                     </div>
@@ -313,7 +318,9 @@
             $ = layui.jquery,
             admin = layui.admin,
             classList = [],
-            studentList = [];
+            studentList = [],
+            route = layui.router(),
+            id = route.search.id;
         $('#userName').val(layui.data('userInfo').userInfo.userName)
         form.render()
         form.on('radio(schoolChange)', function (a) {
@@ -374,6 +381,49 @@
         getCollegeList()
         getClassList()
         getCampusList()
+        if (id) {
+            getDetails()
+        }
+
+        function getDetails() {
+            admin.get({
+                url: '/coursePlan/queryById?id=' + id,
+                success: function (res) {
+                    // $('#singleDoubleWeek').html(res.data.singleDoubleWeek == 1 ? '全部' : res.data.singleDoubleWeek ==
+                    //     2 ? '单周' : '双周')
+                    $('#plan_course_list').val(res.data.curriculumId)
+                    $('#collegeId').val(res.data.collegeId)
+                    $('#courseName').val(res.data.courseName)
+                    $('#fullMark').val(res.data.fullMark)
+                    $('#period').val(res.data.period)
+                    $('#creditHour').val(res.data.creditHour)
+                    var professionList = res.data.profession.split(',')
+                    $('input[name=profession]').each(function (index) {
+                        if (professionList.indexOf($(this).val()) > -1) {
+                            $(this).attr('checked', true)
+                        }
+                    })
+                    $('input[name=singleDoubleWeek]').each(function (index) {
+                        if ($(this).val() == res.data.singleDoubleWeek) {
+                            $(this).attr('checked', true)
+                        }
+                    })
+                    $('#schoolYear').val(String(res.data.schoolYearId))
+                    $('#semester').val(res.data.semester)
+                    $('#weekStart').val(res.data.weekStart)
+                    $('#weekEnd').val(res.data.weekEnd)
+                    $('#schooltimeStart').val(res.data.schooltimeStart)
+                    $('#schooltimeEnd').val(res.data.schooltimeEnd)
+                    // $('#singleDoubleWeek').val(String(res.data.singleDoubleWeek))
+                    $('#studentTypeId').val(res.data.studentTypeId)
+                    $('#campus').val(res.data.campusId)
+                    $('#siteId').val(res.data.siteId)
+                    $('input[name=school][value=' + res.data.school + ']').attr('checked', true)
+                    $('#minStudent').val(res.data.minStudent)
+                    $('#maxStudent').val(res.data.maxStudent)
+                }
+            })
+        }
 
         function classListRender() {
             $('#classList').find('.class-item').each(function (index) {
@@ -606,7 +656,7 @@
                 data: JSON.stringify(data),
                 success: function (res) {
                     res.data && res.data.items && res.data.items.forEach(item => {
-                        $('#student_type_list').append('<option value="' + item.id + '">' +
+                        $('#studentTypeId').append('<option value="' + item.id + '">' +
                             item.studentTypeName + '</option>')
                         form.render()
                     })

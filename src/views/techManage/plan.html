@@ -38,7 +38,7 @@
            lay-filter="techManage-plan-table"></table>
     <script type="text/html"
             id="techManage-plan-opt">
-    {{#if(d.publish == 0) { }}
+        {{#if(d.publish == 0) { }}
         <button class="course-set-btn"
                 lay-event="edit">编辑</button>
         <button class="course-set-btn"
@@ -55,7 +55,6 @@
     <div class="app-table-page"
          id="techManage-table-page"></div>
 </div>
-
 <script>
     layui.use(['table', 'jquery'], function (table, $) {
         var tableFilter = 'techManage-plan-table',
@@ -69,17 +68,7 @@
                 limit: 20,
                 first: '首页',
                 last: '尾页',
-                layout: [
-                    'first',
-                    'prev',
-                    'page',
-                    'next',
-                    'last',
-                    'count',
-                    'currLimit',
-                    'curr',
-                    'pageCount'
-                ],
+                layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
                 jump: function (obj, first) {
                     //首次不执行
                     if (!first) {
@@ -92,57 +81,47 @@
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
                     [{
-                            title: '序号',
-                            field: 'id',
-                            width: 80,
-                            align: 'center',
-                            type: 'numbers'
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center',
+                        type: 'numbers'
+                    }, {
+                        title: '开课名称',
+                        field: 'courseName',
+                        align: 'center'
+                    }, {
+                        title: '任课老师',
+                        field: 'userName',
+                        align: 'center'
+                    }, {
+                        title: '上课时间',
+                        field: 'startEndTIME',
+                        align: 'center'
+                    }, {
+                        title: '上课地点',
+                        align: 'center',
+                        field: 'classroomName',
+                    }, {
+                        title: '状态',
+                        align: 'center',
+                        field: 'publish',
+                        width: 80,
+                        templet: function (data) {
+                            return data.publish == 1 ? '已发布' : '待发布';
                         },
-                        {
-                            title: '开课名称',
-                            field: 'courseName',
-                            align: 'center'
-                        },
-                        {
-                            title: '任课老师',
-                            field: 'userName',
-                            align: 'center'
-                        },
-                        {
-                            title: '上课时间',
-                            field: 'startEndTIME',
-                            align: 'center'
-                        },
-                        {
-                            title: '上课地点',
-                            align: 'center',
-                            field: 'classroomName',
-                        },
-                        {
-                            title: '状态',
-                            align: 'center',
-                            field: 'publish',
-                            width: 80,
-                            templet: function (data) {
-                                return data.publish == 1 ? '已发布' : '待发布';
-                            },
-                        },
-                        {
-                            title: '操作',
-                            align: 'center',
-                            templet: '#techManage-plan-opt',
-                            width: 210
-                        }
-                    ]
+                    }, {
+                        title: '操作',
+                        align: 'center',
+                        templet: '#techManage-plan-opt',
+                        width: 210
+                    }]
                 ]
             };
-
         getList(1)
-
         table.on('tool(techManage-plan-table)', function (obj) {
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event;
-
             if (layEvent === 'delete') {
                 layer.open({
                     type: 1,
@@ -188,7 +167,6 @@
                     }
                 })
             }
-
         })
 
         function getList(page) {
@@ -228,20 +206,35 @@
                 url: '/coursePlan/publishAll?ids=' + id,
                 success: function (res) {
                     layer.msg('发布成功！')
+                    getList(1)
                 },
                 error: function (err) {
                     layer.msg(err && err.msg || '发布失败');
                 }
             })
         }
-
         $('#add-cource').on('click', function () {
             location.href = 'index.html#/techManage/update'
         })
+        $(document).off('mousedown', '.layui-table-grid-down').on('mousedown', '.layui-table-grid-down',
+            function (event) {
+                table._tableTrCurr = $(this).closest('td')
+            })
+        $(document).off('click', '.layui-table-tips-main [lay-event]').on('click',
+            '.layui-table-tips-main [lay-event]',
+            function (event) {
+                var elem = $(this)
+                var tableTrCurr = table._tableTrCurr
+                if (!tableTrCurr) {
+                    return
+                }
+                var layerIndex = elem.closest('.layui-table-tips').attr('times')
+                // 关闭当前这个显示更多的tip
+                layer.close(layerIndex)
+                table._tableTrCurr.find('[lay-event="' + elem.attr('lay-event') + '"]').first().click()
+            })
     })
-
 </script>
-
 <style>
     .layui-table {
         width: 100%;
@@ -299,5 +292,4 @@
         border: 1px solid #ccc;
         cursor: pointer;
     }
-
 </style>

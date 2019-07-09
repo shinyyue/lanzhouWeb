@@ -1,4 +1,6 @@
-<div class="layui-fluid" id="experiment-my-list" lay-title="我的实验库">
+<div class="layui-fluid"
+     id="experiment-my-list"
+     lay-title="我的实验库">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -6,41 +8,40 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">课程名称</span>
-            <input type="text" id="courseName" />
-            <select name="" id="college"> </select>
-            <button class="search-confirm" id="searchCheckList">
+            <input type="text"
+                   id="courseName" />
+            <select name=""
+                    id="college"> </select>
+            <button class="search-confirm"
+                    id="searchCheckList">
                 <img src="src/images/search.png" />
             </button>
         </div>
     </div>
     <div class="course-add">
-        <span class="search-project">选课日期：</span>
-        2019-3-15
-        <span class="search-project">至</span>
-        2019-10-28
-    </div>
-    <table
-        id="experiment-mylist-table"
-        lay-filter="experiment-mylist-table"
-    ></table>
+        <span class="search-project">选课日期：</span> 2019-3-15 <span class="search-project">至</span> 2019-10-28 </div>
+    <table id="experiment-mylist-table"
+           lay-filter="experiment-mylist-table"></table>
     <!-- <script type="text/html" id="experiment-mylist-opt">
         <button class="course-set-btn" lay-event="edit">编辑</button>
         <button class="course-set-btn" lay-event="delete">删除</button>
         <button class="course-set-btn" lay-event="check">查看</button>
     </script> -->
-    <div class="app-table-page" id="experiment-mylist-page"></div>
+    <div class="app-table-page"
+         id="experiment-mylist-page"></div>
     <div style="text-align: center">
-        <button class="primary-btn " id="submit_add">提交</button>
+        <button class="primary-btn "
+                id="submit_add">提交</button>
     </div>
 </div>
-
 <script>
-    layui.use(['table', 'jquery'], function(table, $) {
+    layui.use(['table', 'jquery', 'form'], function (table, $) {
         var tableFilter = 'experiment-mylist-table',
             laypage = layui.laypage,
             $ = layui.jquery,
             table = layui.table,
             admin = layui.admin,
+            form = layui.form,
             pageLimit = 20,
             checkedList = [],
             layPageOption = {
@@ -48,18 +49,8 @@
                 limit: 20,
                 first: '首页',
                 last: '尾页',
-                layout: [
-                    'first',
-                    'prev',
-                    'page',
-                    'next',
-                    'last',
-                    'count',
-                    'currLimit',
-                    'curr',
-                    'pageCount'
-                ],
-                jump: function(obj, first) {
+                layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
+                jump: function (obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -71,86 +62,73 @@
                 elem: '[lay-filter="' + tableFilter + '"]',
                 id: 'queryList',
                 cols: [
-                    [
-                        { type: 'checkbox' },
-                        {
-                            title: '序号',
-                            field: 'id',
-                            width: 80,
-                            align: 'center',
-                            type: 'numbers'
-                        },
-                        {
-                            title: '课程代码',
-                            field: 'courseCode',
-                            align: 'center'
-                        },
-                        {
-                            title: '开课名称',
-                            field: 'courseName',
-                            align: 'center'
-                        },
-                        {
-                            title: '学分',
-                            field: 'creditHour',
-                            align: 'center'
-                        },
-                        {
-                            title: '课程类型',
-                            field: 'courseType',
-                            align: 'center',
-                            templet: function(d) {
-                                return d ? '必修' : '选修'
-                            }
-                        },
-                        {
-                            title: '上课时间',
-                            field: 'startEndTIME',
-                            align: 'center'
-                        },
-                        {
-                            title: '上课地点',
-                            field: 'classroomName',
-                            align: 'center'
-                        },
-                        {
-                            title: '开课单位',
-                            field: 'collegeName',
-                            align: 'center'
+                    [{
+                        type: 'checkbox'
+                    }, {
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center',
+                        type: 'numbers'
+                    }, {
+                        title: '课程代码',
+                        field: 'courseCode',
+                        align: 'center'
+                    }, {
+                        title: '开课名称',
+                        field: 'courseName',
+                        align: 'center'
+                    }, {
+                        title: '学分',
+                        field: 'creditHour',
+                        align: 'center'
+                    }, {
+                        title: '课程类型',
+                        field: 'courseType',
+                        align: 'center',
+                        templet: function (d) {
+                            return d == 0 ? '必修' : '选修'
                         }
-                    ]
+                    }, {
+                        title: '上课时间',
+                        field: 'startEndTIME',
+                        align: 'center'
+                    }, {
+                        title: '上课地点',
+                        field: 'classroomName',
+                        align: 'center'
+                    }, {
+                        title: '开课单位',
+                        field: 'collegeName',
+                        align: 'center'
+                    }]
                 ]
             }
-
         getList(1)
-        $('#searchCheckList').click(function() {
+        $('#searchCheckList').click(function () {
             getList(1)
         })
-
-        table.on('checkbox(experiment-mylist-table)', function() {
+        table.on('checkbox(experiment-mylist-table)', function () {
             checkedList = []
             var list = layui.table.checkStatus('queryList').data
-            list.forEach(function(item) {
+            list.forEach(function (item) {
                 checkedList.push({
                     courseNumber: item.courseCode,
                     coursePlanId: item.id
                 })
             })
         })
-
-        $('#submit_add').click(function() {
+        $('#submit_add').click(function () {
             if (checkedList.length === 0) {
                 layer.msg('请先选择')
                 return
             }
             addCourse()
         })
-
-        table.on('tool(experiment-mylist-table)', function(obj) {
+        table.on('tool(experiment-mylist-table)', function (obj) {
             var data = obj.data
             var layEvent = obj.event,
                 type = ''
-
             if (layEvent === 'delete') {
                 layer.open({
                     type: 1,
@@ -162,11 +140,11 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function(index, layero) {
+                    yes: function (index, layero) {
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function(index) {
+                    cancel: function (index) {
                         layer.close(index)
                     }
                 })
@@ -178,17 +156,16 @@
             } else if (layEvent === 'check') {
                 type = 'check'
             }
-
             var layerOption = {
                 type: 1,
                 offset: 'auto',
-                title: type==='edit'?'编辑':'查看',
+                title: type === 'edit' ? '编辑' : '查看',
                 content: getTemplate(formData, type),
                 area: ['700px', '70%'],
                 shade: 0.4,
                 shadeClose: true,
                 btn: type === 'check' ? [] : ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -197,11 +174,10 @@
                         location.href = 'index.html#/experiment/myadd'
                     }
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             }
-
             layer.open(layerOption)
             form.render()
         })
@@ -209,10 +185,10 @@
         function deleteData(id) {
             admin.delete({
                 url: '/experiments/del?id=' + id,
-                success: function(res) {
+                success: function (res) {
                     getList(1)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -231,13 +207,13 @@
             admin.post({
                 url: '/coursePlan/listCourseStu',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -251,7 +227,7 @@
             admin.post({
                 url: '/selectedCourse/add',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     if (res.code === 200) {
                         table.reload()
                         layer.msg('添加成功')
@@ -261,55 +237,39 @@
                 }
             })
         }
-
-        $('#experiment-mylist-add').on('click', function() {
+        $('#experiment-mylist-add').on('click', function () {
             location.href = 'index.html#/experiment/myadd'
         })
-
-        $('#experiment-mylist-edit').on('click', function() {
+        $('#experiment-mylist-edit').on('click', function () {
             location.href = 'index.html#/experiment/myadd'
         })
-
-        $('#experiment-mylist-check').on('click', function() {
+        $('#experiment-mylist-check').on('click', function () {
             location.href = 'index.html#/experiment/mydetails'
         })
-
-        $('#experiment-mylist-delete').on('click', function() {
-            layer.confirm(
-                '您确定要删除么?',
-                {
-                    icon: 3,
-                    title: '提示',
-                    shade: 0.5,
-                    maxWidth: 500,
-                    maxHeight: 500
-                },
-                function(confirm) {
-                    // 用户点击确定
-                    layer.close(confirm)
-                },
-                function(cancel) {
-                    // 用户点击取消
-                    layer.close(cancel)
-                }
-            )
+        $('#experiment-mylist-delete').on('click', function () {
+            layer.confirm('您确定要删除么?', {
+                icon: 3,
+                title: '提示',
+                shade: 0.5,
+                maxWidth: 500,
+                maxHeight: 500
+            }, function (confirm) {
+                // 用户点击确定
+                layer.close(confirm)
+            }, function (cancel) {
+                // 用户点击取消
+                layer.close(cancel)
+            })
         })
-
-        getCollegeList(function(res) {
+        getCollegeList(function (res) {
             var options = ''
             res.data.items.forEach(item => {
-                options +=
-                    '<option value="' +
-                    item.id +
-                    '">' +
-                    item.collegeName +
-                    '</option>'
+                options += '<option value="' + item.id + '">' + item.collegeName + '</option>'
             })
             $('#college').val('')
             $('#college').append(options)
             setSelectOptions()
         })
-
         // 学院列表
         function getCollegeList(callback) {
             var data = {
@@ -319,63 +279,46 @@
             admin.post({
                 url: '/college/queryCollegeList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     if (res.data.items && res.data.items.length > 0) {
                         collegeList = res.data.items
                         var options = ''
                         res.data.items.forEach(item => {
-                            options +=
-                                '<option value="' +
-                                item.id +
-                                '">' +
-                                item.collegeName +
+                            options += '<option value="' + item.id + '">' + item.collegeName +
                                 '</option>'
                         })
-                        $('#college').html(
-                            '<option value="">请选择开课单位</option>'
-                        )
+                        $('#college').html('<option value="">请选择开课单位</option>')
                         $('#college').append(options)
                         /*$('#teacher_college_list').html(
                             '<option value="">请选择学院</option>'
                         )
                         $('#teacher_college_list').append(options)*/
                         //                        setSelectOptions()
-                        callback && typeof callback === 'function' && callback()
+                        callback && typeof callback === 'function' && callback(res)
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
-
         /*getCollegeList(function() {
             $('#college_model').val(formData.collegeId)
             form.render()
         })*/
-
         //        getCollegeList(function() {
         //            $('#teacher_college_list').val(formData.collegeId)
         //            form.render()
         //        })
-
-        /*function setSelectOptions() {
+        function setSelectOptions() {
             $('#college_model').html('')
             var col = ''
-
             collegeList.forEach(item => {
-                col +=
-                '<option value="' +
-                item.id +
-                '">' +
-                item.collegeName +
-                '</option>'
-        })
+                col += '<option value="' + item.id + '">' + item.collegeName + '</option>'
+            })
             $('#college_model').html(col)
-
             form.render('select')
-        }*/
+        }
     })
 </script>
-
 <style></style>

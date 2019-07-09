@@ -291,17 +291,12 @@
         function updateData(formData) {
             var menuList = tree.getChecked('1')
             var list = []
-            menuList.forEach(item => {
-                list.push(item.id)
-            })
             for (var i = 0; i < menuList.length; i++) {
                 list.push(menuList[i].id)
                 if (menuList[i].child.length > 0) {
                     for (var j = 0; j < menuList[i].child.length; j++) {
                         var item = menuList[i].child[j]
-                        if (item.checked) {
-                            list.push(item.id)
-                        }
+                        list.push(item.id)
                     }
                 }
             }
