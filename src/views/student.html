@@ -37,8 +37,9 @@
         window.location.reload()
     }
 
-    layui.use(['admin'], function() {
-        var admin = layui.admin
+    layui.use(['admin','jquery'], function() {
+        var admin = layui.admin,
+            $ = layui.jquery
 
         function getList() {
             admin.post({
