@@ -272,9 +272,21 @@
             }
             var menuList = tree.getChecked('1')
             var list = []
-            menuList.forEach(item => {
-                list.push(item.id)
-            })
+            for (var i = 0; i < menuList.length; i++) {
+                list.push(menuList[i].id)
+                if (menuList[i].child.length > 0) {
+                    for (var j = 0; j < menuList[i].child.length; j++) {
+                        var item = menuList[i].child[j]
+                        list.push(item.id)
+                        if (item.child.length > 0) {
+                            for (var m = 0; m < item.child.length; m++) {
+                                var c = item.child[m]
+                                list.push(c.id)
+                            }
+                        }
+                    }
+                }
+            }
             data.menuPermissions = list.join(',')
             admin.post({
                 url: '/role/addRole',
@@ -297,6 +309,12 @@
                     for (var j = 0; j < menuList[i].child.length; j++) {
                         var item = menuList[i].child[j]
                         list.push(item.id)
+                        if (item.child.length > 0) {
+                            for (var m = 0; m < item.child.length; m++) {
+                                var c = item.child[m]
+                                list.push(c.id)
+                            }
+                        }
                     }
                 }
             }
