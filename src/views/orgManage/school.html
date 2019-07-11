@@ -332,7 +332,9 @@
                 '                    <label class="layui-form-label">所属学院:</label>\n' +
                 '                    <select id="collegeId" value="' +
                 formData.collegeId +
-                '">\n' +
+                '"' +
+                'disabled=' +(type === 'check' ? '"disabled"' : 'false') +
+                '>\n' +
                 '                    </select>\n' +
                 '                </div>\n' +
                 '            </div>\n' +
@@ -345,6 +347,7 @@
                 '                        id="facultyName"\n' +
                 '                        class="common-form-input"\n' +
                 '                        value=""\n' +
+                (type === 'check' ? 'disabled' : '') +
                 '                    />\n' +
                 '                </div>\n' +
                 '            </div>\n' +
@@ -357,6 +360,7 @@
                 '                        id="facultyCode"\n' +
                 '                        class="common-form-input"\n' +
                 '                        value=""\n' +
+                (type === 'check' ? 'disabled' : '') +
                 '                    />\n' +
                 '                </div>\n' +
                 '            </div>\n' +
