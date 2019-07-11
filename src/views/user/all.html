@@ -528,8 +528,8 @@
 
         function getTemplate(formData, type) {
             return (
-                '<div id="user_details_modal">' +
-                '<form action="" class="layui-form">' +
+                '<div>' +
+                '<form action="" id="user_details_modal" class="layui-form">' +
                 '<div class="layui-row">' +
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">学(工)号:</label>' +
@@ -569,7 +569,7 @@
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">角色:</label>' +
                 '<div class="user-class">' +
-                '<select name="roleId" id="roleId" class="common-form-input" value="' +
+                '<select name="roleId" id="roleId" lay-filter="roleChange" class="common-form-input" value="' +
                 formData.roleId +
                 '"' +
                 (type === 'check' ? 'disabled' : '') +
@@ -607,7 +607,7 @@
                 '</div>' +
                 '</div>' +
                 '</div>' +
-                '<div class="layui-row role-student">' +
+                '<div class="layui-row">' +
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">行政班级:</label>' +
                 '<div class="user-class">' +
@@ -692,6 +692,7 @@
                 '</form>' +
                 '</div>'
             )
+
         }
 
         function getFormData() {
@@ -808,6 +809,7 @@
             resetFormData()
             // 加载学院/系/班级/专业列表
             var temp = getTemplate(formData)
+
             layer.closeAll()
             layer.open({
                 type: 1,
@@ -829,6 +831,19 @@
                     layer.close(index)
                 }
             })
+
+
+            form.on('select(roleChange)', function(obj) {
+                if (obj.value == 2) {
+                    $('.role-student').css({display: 'none'})
+                    
+                } else if (obj.value == 3)  {
+                    $('.role-student').css({display: 'none'})
+
+                } else {
+                    $('.role-student').css({display: 'block'})
+                }
+            })
             form.render()
             getRoleList()
             getStudentTypeList()
@@ -837,9 +852,13 @@
             // $('.role-teacher').css({ display: 'none' })
             // $('.role-student').css({ display: 'none' })
 
-            // $('#roleId').change(function(val) {
-            //     console.log(1222, val)
-            // })
+            $('#roleId').change(function(val) {
+                console.log(1222, val)
+            })
+
+           
+
+           
         })
 
         $('#export-cource').on('click', function() {

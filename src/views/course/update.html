@@ -73,7 +73,7 @@
                                value=""
                                title="所有专业" />
                     </div>
-                    <ul class="course-good-at"
+                    <ul class="course-good-at layui-col-md8"
                         id="course_gooda_at"></ul>
                 </div>
             </div>
@@ -200,13 +200,20 @@
         getGradeList()
 
         function addData(data) {
+            var professionList = [];
             data.creditHour = Number(data.creditHour)
             data.fullMark = Number(data.fullMark)
             data.userId = layui.data('userInfo').userInfo.id
             data.period = Number(data.period)
             data.presentation = layedit.getContent(index)
             data.semester = Number(data.semester)
-            data.profession = Number(data.profession)
+            $('#course_gooda_at li').each(function (index) {
+                var item = $(this).find('input[type=checkbox]');
+                if ($(this).find('.layui-form-checked').length > 0) {
+                    professionList.push(item.val())
+                }
+            })
+            data.profession = professionList.join(',')
             data.prerequisiteCourse = $('input[name=prerequisiteCourse]:checked').val()
             admin.post({
                 url: '/vsMpCurriculum/add',
@@ -214,7 +221,7 @@
                 success: function (res) {
                     layer.msg('添加成功')
                     history.go(-1);
-//                    window.location.href = 'index.html#/course/index'
+                    //                    window.location.href = 'index.html#/course/index'
                 },
                 error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
@@ -223,20 +230,25 @@
         }
 
         function updateData(data) {
-            var formData = courseInfo
+            var formData = courseInfo,
+                professionList = [];
             formData.creditHour = Number(data.creditHour)
             formData.fullMark = Number(data.fullMark)
             formData.userId = layui.data('userInfo').userInfo.id
             formData.period = Number(data.period)
             formData.presentation = layedit.getContent(index)
             formData.semester = Number(data.semester)
-            formData.profession = []
-            $('input[name=profession]').each(function () {
-                if ($(this).attr('checked') && $(this).val()) {
-                    formData.profession.push($(this).val())
+            $('#course_gooda_at li').each(function (index) {
+                var item = $(this).find('input[type=checkbox]');
+                if ($(this).find('.layui-form-checked').length > 0) {
+                    if (item.val() === '') {
+                        professionList = []
+                        return;
+                    }
+                    professionList.push(item.val())
                 }
             })
-            formData.profession = formData.profession.join(',')
+            formData.profession = professionList.join(',')
             formData.labId = Number(data.labId)
             formData.prerequisiteCourse = $('input[name=prerequisiteCourse]:checked').val()
             formData.gradeId = $('input[name=gradeId]:checked').val()
@@ -283,7 +295,7 @@
                     rows: 100
                 }),
                 success: function (res) {
-                    res.data.items && res.data.items.forEach(function(item) {
+                    res.data.items && res.data.items.forEach(function (item) {
                         $('#labId').append('<option value="' + item.id + '">' + item.labName +
                             '</option>')
                     })
@@ -303,7 +315,7 @@
                 data: JSON.stringify(data),
                 success: function (res) {
                     $('#gradeId').html('')
-                    res.data && res.data.items && res.data.items.forEach(function(item) {
+                    res.data && res.data.items && res.data.items.forEach(function (item) {
                         $('#gradeId').append('<input\n' + 'type="radio"\n' +
                             'name="gradeId"\n' + 'value="' + item.id + '"\n' +
                             'title="' + item.gradeName + '"\n' + '/>')
@@ -324,7 +336,7 @@
                     key: '||'
                 }),
                 success: function (res) {
-                    res.data && res.data.items && res.data.items.forEach(function(item) {
+                    res.data && res.data.items && res.data.items.forEach(function (item) {
                         $('#noNeed_course').append(
                             '<input type="checkbox" lay-skin="primary" name="prerequisiteCourse" value="' +
                             item.id + '" title="' + item.curriculumName + '">')
@@ -353,8 +365,12 @@
                     $('input[name=gradeId][value=' + data.gradeId + ']').attr('checked', 'checked')
                     $('input[name=semester][value=' + data.semester + ']').attr('checked',
                         'checked')
-                    $('input[name=profession][value=' + data.profession + ']').attr('checked',
-                        'checked')
+                    var professionList = res.data.profession.split(',')
+                    $('input[name=profession]').each(function (index) {
+                        if (professionList.indexOf($(this).val()) > -1) {
+                            $(this).attr('checked', true)
+                        }
+                    })
                     layedit.setContent('index', data.presentation, false)
                     form.render()
                 }
