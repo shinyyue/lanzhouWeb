@@ -265,8 +265,7 @@
                 url: '/login/login',
                 data: JSON.stringify(userInfo),
                 success: function (res) {
-                    // var cookieLast = getCookie('token')
-                    // setCookie('token', cookieLast)
+                    loading.hide()
                     switch (res.data.role.id) {
                         // 老师
                         case 2:

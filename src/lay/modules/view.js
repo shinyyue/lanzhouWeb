@@ -486,11 +486,15 @@ layui
                     contentType: 'application/json;charset=utf-8',
                     headers: conf.requestHeaders || {},
                     success: function (res) {
+                        layer.closeAll('loading')
                         var status = res[conf.response.statusName]
                         if (status != conf.response.statusCode.ok) {
                             if (status == conf.response.statusCode.logout) {
                                 layui.admin.logout()
+                            } else if (res.status == 402) {
+                                layer.msg('无操作权限')
                             } else {
+                                layer.msg(res.msg || '数据请求异常！')
                                 self.log(
                                     '返回状态码异常：' +
                                     res[conf.response.statusName] +
@@ -502,6 +506,7 @@ layui
                         if ($.isFunction(success)) success(res)
                     },
                     error: function (res) {
+                        layer.closeAll('loading')
                         if (res.status == conf.logoutHttpCode) {
                             layui.admin.logout()
                         } else if (res.status == 402) {
