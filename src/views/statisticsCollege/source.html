@@ -1,0 +1,330 @@
+<div id="statistics_source">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>统计管理 > 资源统计管理</span>
+        </div>
+    </div>
+    <div class="statistics-source-content">
+        <div class="source-content-item">
+            <h4>全校资源库数量及详细信息统计</h4>
+            <div>
+                <span>选择学院：</span>
+                <select name="" id="" class="layui-select">
+                    <option value="">土木工程学院</option>
+                    <option value="">自动化与电气学院</option>
+                </select>
+            </div>
+            <table id="source_detaisl_table" lay-filter="source_detaisl_table"></table>
+        </div>
+        <div class="source-content-item">
+            <div class="source-content-title">
+                <h4>资源列表详情</h4>
+                <div class="source-content-search">
+                    <button class="search-confirm">
+                        <img src="src/images/search.png">
+                    </button>
+                    <input type="text" class="layui-input" placeholder="请输入关键字">
+                </div>
+            </div>
+            <table id="sourcelist_detaisl_table" lay-filter="sourcelist_detaisl_table"></table>
+        </div>
+        <div class="source-content-item">
+            <h4>各学院资源库数量及详细信息统计</h4>
+            <div>
+                <span>选择学院：</span>
+                <select name="" id="" class="layui-select">
+                    <option value="">土木工程学院</option>
+                    <option value="">自动化与电气学院</option>
+                </select>
+            </div>
+            <table id="college_detaisl_table" lay-filter="college_detaisl_table"></table>
+        </div>
+        <div class="source-content-item">
+            <div class="source-content-title">
+                <h4>资源列表详情</h4>
+                <div class="source-content-search">
+                    <button class="search-confirm">
+                        <img src="src/images/search.png">
+                    </button>
+                    <input type="text" class="layui-input" placeholder="请输入关键字">
+                </div>
+            </div>
+            <table id="college_sourcelist_detaisl_table" lay-filter="college_sourcelist_detaisl_table"></table>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['table'], function (table) {
+        var table = layui.table,
+            tableFilter1 = 'source_detaisl_table',
+            tableFilter2 = 'sourcelist_detaisl_table',
+            tableFilter3 = 'college_detaisl_table',
+            tableFilter4 = 'college_sourcelist_detaisl_table'
+
+        table.render({
+            page: false,
+            skin: 'row, line',
+            data: [{
+                id: 1,
+                courceName: '发电机哈哈',
+                courseCode: 20190101,
+                responsor: '王小虎',
+                time: '第一学期',
+                class: '所有年级',
+                isCommon: false,
+                score: 1,
+                times: 100
+            }],
+            elem: '[lay-filter="' + tableFilter1 + '"]',
+            cols: [
+                [{
+                        title: '资源总数',
+                        field: 'id',
+                        align: 'center',
+                        rowspan: 2
+                    },
+                    {
+                        title: '资源类型',
+                        field: 'courceName',
+                        align: 'center',
+                        colspan: 5
+                    }
+                ],
+                [{
+                        title: '文档资源',
+                        align: 'center',
+                        field: 'times',
+                    },
+                    {
+                        title: '图片资源',
+                        align: 'center',
+                        field: 'times',
+                    },
+                    {
+                        title: '视频资源',
+                        align: 'center',
+                        field: 'times',
+                    }, {
+                        title: '软件资源',
+                        align: 'center',
+                        field: 'times',
+                    }, {
+                        title: '静态资源',
+                        align: 'center',
+                        field: 'times',
+                    }
+                ]
+            ]
+
+        })
+
+        table.render({
+            page: false,
+            skin: 'row, line',
+            data: [{
+                id: 1,
+                courceName: '发电机哈哈',
+                courseCode: 20190101,
+                responsor: '王小虎',
+                time: '第一学期',
+                class: '所有年级',
+                isCommon: false,
+                score: 1,
+                times: 100
+            }],
+            elem: '[lay-filter="' + tableFilter3 + '"]',
+            cols: [
+                [{
+                        title: '资源总数',
+                        field: 'id',
+                        align: 'center',
+                        rowspan: 2
+                    },
+                    {
+                        title: '资源类型',
+                        field: 'courceName',
+                        align: 'center',
+                        colspan: 5
+                    }
+                ],
+                [{
+                        title: '文档资源',
+                        align: 'center',
+                        field: 'times',
+                    },
+                    {
+                        title: '图片资源',
+                        align: 'center',
+                        field: 'times',
+                    },
+                    {
+                        title: '视频资源',
+                        align: 'center',
+                        field: 'times',
+                    }, {
+                        title: '软件资源',
+                        align: 'center',
+                        field: 'times',
+                    }, {
+                        title: '静态资源',
+                        align: 'center',
+                        field: 'times',
+                    }
+                ]
+            ]
+
+        })
+
+        table.render({
+            page: false,
+            skin: 'row, line',
+            data: [{
+                id: 1,
+                courceName: '发电机哈哈',
+                courseCode: 20190101,
+                responsor: '王小虎',
+                time: '第一学期',
+                class: '所有年级',
+                isCommon: false,
+                score: 1,
+                times: 100
+            }],
+            elem: '[lay-filter="' + tableFilter2 + '"]',
+            cols: [
+                [{
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center',
+                    },
+                    {
+                        title: '资源名称',
+                        field: 'courceName',
+                        align: 'center',
+                    },
+                    {
+                        title: '所属学院',
+                        field: 'courseCode',
+                        align: 'center',
+                    },
+                    {
+                        title: '资源类型',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '点击量',
+                        align: 'center',
+                        field: 'times',
+                    },
+                    {
+                        title: '下载量',
+                        align: 'center',
+                        field: 'times',
+                    },
+                    {
+                        title: '资源评分',
+                        align: 'center',
+                        field: 'times',
+                    }
+                ]
+            ]
+
+        })
+
+        table.render({
+            page: false,
+            skin: 'row, line',
+            data: [{
+                id: 1,
+                courceName: '发电机哈哈',
+                courseCode: 20190101,
+                responsor: '王小虎',
+                time: '第一学期',
+                class: '所有年级',
+                isCommon: false,
+                score: 1,
+                times: 100
+            }],
+            elem: '[lay-filter="' + tableFilter4 + '"]',
+            cols: [
+                [{
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center',
+                    },
+                    {
+                        title: '资源名称',
+                        field: 'courceName',
+                        align: 'center',
+                    },
+                    {
+                        title: '所属学院',
+                        field: 'courseCode',
+                        align: 'center',
+                    },
+                    {
+                        title: '资源类型',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '点击量',
+                        align: 'center',
+                        field: 'times',
+                    },
+                    {
+                        title: '下载量',
+                        align: 'center',
+                        field: 'times',
+                    },
+                    {
+                        title: '资源评分',
+                        align: 'center',
+                        field: 'times',
+                    }
+                ]
+            ]
+
+        })
+
+
+    })
+</script>
+
+<style>
+    .statistics-source-content {
+        padding: 0 20px 20px;
+    }
+
+    .statistics-source-content h4 {
+        font-size: 16px;
+        padding: 10px 10px 10px 0;
+    }
+
+    .source-content-title {
+        clear: both;
+        overflow: hidden;
+    }
+
+    .source-content-title h4 {
+        float: left;
+    }
+
+    .source-content-title .source-content-search {
+        float: right;
+    }
+
+    .source-content-title .search-confirm {
+        float: right;
+        height: 37px;
+        /* lin */
+    }
+
+    .source-content-title .layui-input {
+        float: right;
+    }
+</style>

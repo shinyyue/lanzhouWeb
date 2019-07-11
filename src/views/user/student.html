@@ -59,6 +59,7 @@
             admin = layui.admin,
             importModalTemplate = '',
             table = layui.table,
+            conf = layui.conf,
             tableFilter = 'user_student_table',
             tableOption = {
                 elem: '[lay-filter="' + tableFilter + '"]',
@@ -712,7 +713,7 @@
             // setSelectOptions();
         })
 
-        $('#export-cource').on('click', function() {
+        /*$('#export-cource').on('click', function() {
             admin.get({
                 url:
                     '/user/exportExcel?collegeId=' +
@@ -721,7 +722,7 @@
                     $('#series').val(),
                 success: function(res) {}
             })
-        })
+        })*/
 
         function addData(callback) {
             admin.delete({
@@ -1006,6 +1007,11 @@
 
             layer.open(layerOption)
             form.render()
+        })
+
+        $('#export-cource').on('click', function() {
+            url = conf.requestUrl + "/user/exportExcel"
+            window.open(url)
         })
 
         $('#import-cource').on('click', function() {

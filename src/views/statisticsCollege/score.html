@@ -1,0 +1,340 @@
+<div id="statistics_score">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>统计管理 > 成绩统计分析</span>
+        </div>
+    </div>
+    <div class="statistics-tech-content">
+        <div class="tech-item">
+            <div class="tech-item-title">各学院学生在各个成绩区间所占人数的百分比趋势</div>
+            <div id="statistics_score_count" style="height:400px;"></div>
+        </div>
+        <div class="tech-item">
+            <div class="tech-item-title">各学院学生在各个成绩区间所占人数的百分比趋势</div>
+            <div id="statistics_score_status" style="height:400px;"></div>
+        </div>
+        <div class="tech-item">
+            <div class="tech-item-title">各学院开课成绩明细分析</div>
+            <table id="statistics_score_table" lay-filter="statistics_score_table"></table>
+        </div>
+        <div class="tech-item">
+            <div class="tech-item-title">各学院及格率和优秀率升降比例</div>
+            <table id="statistics_score_rate_table" lay-filter="statistics_score_rate_table"></table>
+        </div>
+        <div class="tech-item">
+            <div class="tech-item-title">各学院学生及格人数和优秀人数对比分析</div>
+            <div id="statistics_score_rate" style="height:400px;"></div>
+        </div>
+        <div class="tech-item">
+            <div class="tech-item-title">实验成绩统计</div>
+            <div id="test_score" style="height:400px;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['echarts', 'table'], function (table) {
+
+        var $ = layui.jquery,
+            table = layui.table,
+            tableFilter = 'statistics_score_table',
+            tableFilter1 = 'statistics_score_rate_table'
+
+        function initChart(id, option) {
+            echarts.init(document.getElementById(id), layui.echartsTheme).setOption(option);
+        }
+
+        var scoreOption = {
+            xAxis: {
+                data: ['土木工程学院', '自动化与电气工程学院', '其他学院'],
+            },
+            yAxis: {},
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                },
+            },
+            legend: {
+                type: 'scroll',
+                orient: 'horizontal',
+                top: 10,
+                data: ['及格', '优秀'],
+            },
+            series: [{
+                name: '及格人数',
+                type: 'bar',
+                stack: '堆叠',
+                data: [399, 209],
+                barGap: '-100%',
+            }, {
+                name: '优秀人数',
+                type: 'bar',
+                stack: '堆叠',
+                data: [199, 309]
+            }]
+        }
+        initChart('statistics_score_count', scoreOption)
+
+        var scoreLinkOption = {
+            legend: {
+                bottom: 10,
+                data: ['土木工程学院', '自动化与电气工程学院'],
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['0-20', '20-40', '40-60', '60-80']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                    name: '自动化与电气工程学院',
+                    type: 'line',
+                    stack: '堆叠',
+                    data: [120, 132]
+                },
+                {
+                    name: '土木工程学院',
+                    type: 'line',
+                    stack: '堆叠',
+                    data: [220, 182]
+                },
+            ]
+        }
+        initChart('statistics_score_status', scoreLinkOption)
+
+        table.render({
+            page: false,
+            skin: 'row, line',
+            data: [{
+                id: 1,
+                courceName: '发电机哈哈',
+                courseCode: 20190101,
+                responsor: '王小虎',
+                time: '第一学期',
+                class: '所有年级',
+                isCommon: false,
+                score: 1,
+                times: 100
+            }],
+            elem: '[lay-filter="' + tableFilter + '"]',
+            // height: 'full-300',
+            cols: [
+                [{
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center',
+                    },
+                    {
+                        title: '学院',
+                        field: 'courceName',
+                        align: 'center',
+                    },
+                    {
+                        title: '开课数',
+                        field: 'courseCode',
+                        align: 'center',
+                    },
+                    {
+                        title: '学生人数',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '不及格人数',
+                        align: 'center',
+                        field: 'times',
+                    },
+                    {
+                        title: '优秀人数',
+                        align: 'center',
+                        field: 'times',
+                    },
+                    // {
+                    //     title: '操作',
+                    //     align: 'center',
+                    //     templet: '#statistics_tech_opt',
+                    // }
+                ]
+            ]
+
+        })
+
+        table.render({
+            page: false,
+            skin: 'row, line',
+            data: [{
+                id: 1,
+                courceName: '发电机哈哈',
+                courseCode: 20190101,
+                responsor: '王小虎',
+                time: '第一学期',
+                class: '所有年级',
+                isCommon: false,
+                score: 1,
+                times: 100
+            }],
+            elem: '[lay-filter="' + tableFilter1 + '"]',
+            cols: [
+                [{
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center',
+                    },
+                    {
+                        title: '学院',
+                        field: 'courceName',
+                        align: 'center',
+                    },
+                    {
+                        title: '及格率',
+                        field: 'courseCode',
+                        align: 'center',
+                    },
+                    {
+                        title: '+升  -降  =平',
+                        field: 'responsor',
+                        align: 'center',
+                    },
+                    {
+                        title: '优秀率',
+                        align: 'center',
+                        field: 'times',
+                    }
+                ]
+            ]
+
+        })
+
+        var rateOption = {
+            legend: {
+                bottom: 10,
+                data: ['当前学期 及格人数', '当前学期 优秀人数', '近一学期 及格人数', '近一学期 优秀人数'],
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['土木工程学院', '自动化与电气工程学院'],
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                    name: '当前学期 及格人数',
+                    type: 'line',
+                    stack: '堆叠',
+                    data: [220, 181]
+                }, {
+                    name: '当前学期 优秀人数',
+                    type: 'line',
+                    stack: '堆叠',
+                    data: [120, 132]
+                },
+                {
+                    name: '近一学期 及格人数',
+                    type: 'line',
+                    stack: '堆叠',
+                    data: [182, 40]
+                }, {
+                    name: '近一学期 优秀人数',
+                    type: 'line',
+                    stack: '堆叠',
+                    data: [132, 30]
+                }
+            ]
+        }
+
+        initChart('statistics_score_rate', rateOption)
+
+        var testScoreOption = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            legend: {
+                bottom: 10,
+                data: ['0-60分', '60-79分', '80-100分'],
+            },
+            xAxis: {
+
+            },
+            yAxis: {
+                data: ['zk3电空转辙机', '信号灯', '仿真实验']
+            },
+            series: [{
+                    name: '0-60分',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    data: [32, 12, 20]
+                },
+                {
+                    name: '60-79分',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    data: [10, 23, 41]
+                }, {
+                    name: '80-100分',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    data: [13, 21, 31]
+                }
+            ]
+        }
+
+        initChart('test_score', testScoreOption)
+
+    })
+</script>
+
+<style>
+    #statistics_score {}
+
+    #statistics_score .statistics-tech-content {
+        padding: 20px;
+    }
+
+    #statistics_score .tech-item {
+        border: 1px solid #ededed;
+    }
+
+    #statistics_score .tech-item-title {
+        padding: 10px;
+        background: #d5eaff;
+        font-weight: bold;
+    }
+
+    #statistics_score {
+        padding: 20px;
+    }
+</style>

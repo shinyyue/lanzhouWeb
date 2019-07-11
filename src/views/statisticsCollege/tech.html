@@ -1,0 +1,275 @@
+<div id="statistics_tech">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>统计管理 > 开课统计管理</span>
+        </div>
+    </div>
+    <div class="statistics-tech-content">
+        <div class="tech-item">
+            <div class="tech-item-title">全校开课数量及占比情况</div>
+            <div id="statistics_tech_count" style="height:400px;"></div>
+        </div>
+        <div class="tech-item">
+            <div class="tech-item-title">全校开课与未开课情况对比分析</div>
+            <div id="statistics_tech_status" style="height:400px;"></div>
+        </div>
+        <h4>各学院开课情况明细分析</h4>
+        <table
+            class="layui-table"
+            id="tech_status_table"
+            lay-filter="tech_status_table"
+        ></table>
+        <script type="text/html" id="statistics_tech_opt">
+            <button class="layui-btn layui-btn-primary" lay-event="check" id="statistics_tech_check">查看</button>
+        </script>
+    </div>
+</div>
+
+<script>
+    layui.use(['echarts', 'table', 'admin'], function(table) {
+        var $ = layui.jquery,
+            table = layui.table,
+            tableFilter = 'tech_status_table',
+            admin = layui.admin
+
+        function initChart(id, option) {
+            echarts
+                .init(document.getElementById(id), layui.echartsTheme)
+                .setOption(option)
+        }
+
+        table.on('tool(tech_status_table)', function(obj) {
+            var data = obj.data,
+                layEvent = obj.event
+
+            if (layEvent === 'check') {
+                location.href =
+                    'index.html#/statistics/techdetails/id=' + data.collegeId
+            }
+        })
+
+        getFacultyCourse()
+
+        // getClassNums()
+
+        getClassNumsStatus()
+
+        // 各学院开课数量明细分析
+        function getClassNumsStatus() {
+            admin.get({
+                url: '/report/queryFacultyInfo',
+                success: function(res) {
+                    table.render({
+                        page: false,
+                        skin: 'row, line',
+                        data: res.data,
+                        elem: '[lay-filter="' + tableFilter + '"]',
+                        cols: [
+                            [
+                                {
+                                    title: '序号',
+                                    field: 'id',
+                                    width: 80,
+                                    align: 'center',
+                                    rowspan: 2,
+                                    type: 'numbers'
+                                },
+                                {
+                                    title: '学院',
+                                    field: 'collegeName',
+                                    align: 'center',
+                                    rowspan: 2
+                                },
+                                {
+                                    title: '开课数',
+                                    field: 'countSchool',
+                                    align: 'center',
+                                    rowspan: 2
+                                },
+                                {
+                                    title: '开课类型',
+                                    field: 'responsor',
+                                    align: 'center',
+                                    colspan: 2
+                                },
+                                {
+                                    title: '课时数作',
+                                    align: 'center',
+                                    field: 'times',
+                                    colspan: 2
+                                },
+                                {
+                                    title: '操作',
+                                    align: 'center',
+                                    templet: '#statistics_tech_opt',
+                                    rowspan: 2
+                                }
+                            ],
+                            [
+                                {
+                                    title: '必修',
+                                    align: 'center',
+                                    field: 'countSchool'
+                                },
+                                {
+                                    title: '选修',
+                                    align: 'center',
+                                    field: 'countNotSchool'
+                                },
+                                {
+                                    title: '30及以上',
+                                    align: 'center',
+                                    field: 'countTimeBig'
+                                },
+                                {
+                                    title: '30以下',
+                                    align: 'center',
+                                    field: 'countTimeSmall'
+                                }
+                            ]
+                        ]
+                    })
+                }
+            })
+        }
+
+        // todo: 没接口开课未开课
+        function getClassNums() {
+            admin.get({
+                url: '/report/queryFacultyInfoList',
+                success: function(res) {
+                    var statusOption = {
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                                type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        legend: {
+                            bottom: 10,
+                            data: ['开课', '未开课']
+                        },
+                        xAxis: {
+                            data: [
+                                '土木工程学院',
+                                '自动化与电气工程学院',
+                                '其他学院'
+                            ]
+                        },
+                        yAxis: {},
+                        series: [
+                            {
+                                name: '开课',
+                                type: 'bar',
+                                stack: '总量',
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'insideRight'
+                                    }
+                                },
+                                data: [320, 320, 200]
+                            },
+                            {
+                                name: '未开课',
+                                type: 'bar',
+                                stack: '总量',
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'insideRight'
+                                    }
+                                },
+                                data: [120, 132, 101]
+                            }
+                        ]
+                    }
+
+                    initChart('statistics_tech_status', statusOption)
+                }
+            })
+        }
+
+        function getFacultyCourse() {
+            admin.get({
+                url: '/report/queryFacultyCourse',
+                success: function(res) {
+                    var option = {
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: '科目：{b} <br> 数量： {c} <br> {a}:{d}%'
+                        },
+                        legend: {
+                            type: 'scroll',
+                            orient: 'horizontal',
+                            bottom: 20,
+                            data: res.data.map(item => item.faculty_name)
+                        },
+                        series: [
+                            {
+                                name: '百分比',
+                                type: 'pie',
+                                radius: '55%',
+                                data: res.data.map(item => {
+                                    return {
+                                        name: item.faculty_name,
+                                        value: item.count
+                                    }
+                                })
+                            }
+                        ]
+                    }
+
+                    initChart('statistics_tech_count', option)
+                }
+            })
+        }
+    })
+</script>
+
+<style>
+    #statistics_tech {
+    }
+
+    #statistics_tech .statistics-tech-content {
+        padding: 20px;
+    }
+
+    #statistics_tech .tech-item {
+        border: 1px solid #ededed;
+    }
+
+    #statistics_tech .tech-item-title {
+        padding: 10px;
+        background: #d5eaff;
+        font-weight: bold;
+    }
+
+    #statistics_tech .layui-table td,
+    .layui-table th,
+    .layui-table-col-set,
+    .layui-table-fixed-r,
+    .layui-table-grid-down,
+    .layui-table-header,
+    .layui-table-page,
+    .layui-table-tips-main,
+    .layui-table-tool,
+    .layui-table-total,
+    .layui-table-view,
+    .layui-table[lay-skin='line'],
+    .layui-table[lay-skin='row'] {
+        border-color: #999;
+    }
+
+    #statistics_tech .layui-table tbody tr:hover,
+    .layui-table thead tr,
+    .layui-table-click,
+    .layui-table-header,
+    .layui-table-hover,
+    .layui-table-mend,
+    .layui-table-patch,
+    .layui-table-tool {
+        background: #d5eaff;
+    }
+</style>
