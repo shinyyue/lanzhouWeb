@@ -40,12 +40,13 @@
          id="techManage-list-page"></div>
 </div>
 <script>
-    layui.use(['table', 'jquery'], function (table, $) {
+    layui.use(['table', 'jquery', 'common'], function (table, $) {
         var tableFilter = 'techManage-list-table',
             laypage = layui.laypage,
             $ = layui.jquery,
             admin = layui.admin,
             route = layui.router(),
+            common = layui.common,
             pageLimit = 20,
             layPageOption = {
                 elem: 'techManage-list-page', //注意，这里的 test1 是 ID，不用加 # 号
@@ -128,6 +129,7 @@
                     key: 'techSetName',
                     value: data.courseName
                 })
+                common.setCookie('courseId', data.id)
                 location.href = 'index.html#/techSet/techPre/id=' + data.id
                 location.reload()
             }
