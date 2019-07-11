@@ -1,0 +1,85 @@
+<div id="statistics_tech_details">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>统计管理 > 开课统计管理</span>
+        </div>
+    </div>
+    <div class="statistics-tech-content">
+        <h4>自动化与电气工程学院开课明细</h4>
+        <table
+            class="layui-table"
+            id="tech_details_table"
+            lay-filter="tech_details_table"
+        ></table>
+        <div id="tech_details_page"></div>
+    </div>
+</div>
+
+<script>
+    layui.use(['table'], function(table) {
+        var table = layui.table,
+            tableFilter = 'tech_details_table',
+            admin = layui.admin,
+            route = layui.router(),
+            id = route.search.id
+
+        getList()
+        function getList() {
+            admin.get({
+                url: '/report/queryFacultyInfoList?collegeId=' + id,
+                success: function(res) {
+                    table.render({
+                        page: false,
+                        skin: 'row, line',
+                        data: res.data,
+                        elem: '[lay-filter="' + tableFilter + '"]',
+                        cols: [
+                            [
+                                {
+                                    title: '序号',
+                                    field: 'id',
+                                    width: 80,
+                                    align: 'center',
+                                    type: 'numbers'
+                                },
+                                {
+                                    title: '开课名称',
+                                    field: 'courseName',
+                                    align: 'center'
+                                },
+                                {
+                                    title: '开课类型',
+                                    field: '',
+                                    align: 'center'
+                                },
+                                {
+                                    title: '课时数作',
+                                    align: 'center',
+                                    field: 'countTime'
+                                },
+                                {
+                                    title: '院系',
+                                    align: 'center',
+                                    field: 'collegeName'
+                                }
+                            ]
+                        ]
+                    })
+                }
+            })
+        }
+    })
+</script>
+
+<style>
+    #statistics_tech_details {
+    }
+
+    #statistics_tech_details h4 {
+        background: #d5eaff;
+        padding: 10px;
+        font-weight: bold;
+        font-size: 16px;
+    }
+</style>
