@@ -112,9 +112,8 @@
                     $('#courseName').html(data.courseName)
                     $('#resourceDes').val(data.resourceDes)
 
-                    fileUrl = 'http://39.104.97.6:8001/' + data.fileUrl
+                    fileUrl = conf.fileRequestUrl + data.fileUrl
                     if (data.type == 1) {
-                        debugger
                         // 文档
                         // window.open(fileUrl)
                         $('#fileUrl').hide();
