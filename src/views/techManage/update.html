@@ -689,7 +689,8 @@
         function addCoursePlan(formData) {
             var data = formData,
                 classIdList = [],
-                studentIdList = [];
+                studentIdList = [],
+                professionList = [];
             data.period = Number(data.period)
             data.creditHour = Number(data.creditHour)
             data.fullMark = Number(data.fullMark)
@@ -711,6 +712,13 @@
                 // todo:
                 data.wholeClass = 0
             }
+            $('#techManage_good_at li').each(function (index) {
+                var item = $(this).find('input[type=checkbox]');
+                if ($(this).find('.layui-form-checked').length > 0) {
+                    professionList.push(item.val())
+                }
+            })
+            data.profession = professionList.join(',')
             $('#classList .class-item').each(function (index) {
                 if ($(this).find('input[type=checkbox]:checked').length >= 1 && $(this).find(
                         'input[type=radio]:checked').val() === '1') {
@@ -746,7 +754,8 @@
                 success: function (res) {
                     if (res.code === 200) {
                         layer.msg('添加成功！')
-                        window.history.back(-1)
+                        window.localStorage.href = '/index.html#/techManage/plan'
+                        window.location.reload()
                     } else {
                         layer.msg(res.msg || '添加失败')
                     }
