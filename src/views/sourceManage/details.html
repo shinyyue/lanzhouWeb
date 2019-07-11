@@ -112,7 +112,7 @@
                     $('#courseName').html(data.courseName)
                     $('#resourceDes').val(data.resourceDes)
 
-                    fileUrl = conf.fileRequestUrl + data.fileUrl
+                    fileUrl = conf.fileRequestUrl + '/' + data.fileUrl
                     if (data.type == 1) {
                         // 文档
                         // window.open(fileUrl)
