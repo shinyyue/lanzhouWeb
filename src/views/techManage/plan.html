@@ -8,24 +8,28 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">开课名称</span>
-            <input type="text" />
+            <input type="text" id="courseName"/>
             <select name=""
-                    id="">
+                    id="schoolYear">
                 <option value="">请选择学年</option>
             </select>
             <select name=""
-                    id="">
+                    id="semester">
                 <option value="">请选择学期</option>
+                <option value="1">第一学期</option>
+                <option value="2">第二学期</option>
             </select>
             <select name=""
-                    id="">
+                    id="teacher">
                 <option value="">选择任课老师</option>
             </select>
             <select name=""
-                    id="">
+                    id="ifBeginCourse">
                 <option value="">是否开课</option>
+                <option value="0">否</option>
+                <option value="1">是</option>
             </select>
-            <button class="search-confirm">
+            <button class="search-confirm" id="cource-search">
                 <img src="src/images/search.png" />
             </button>
         </div>
@@ -170,10 +174,25 @@
         })
 
         function getList(page) {
-            var data = {
-                page: page,
-                rows: pageLimit
-            }
+            var courseName = $('#courseName').val(),
+                schoolYear = $('#schoolYear').val(),
+                semester = $('#semester').val(),
+                teacher = $('#teacher').val(),
+                ifBeginCourse = $('#ifBeginCourse').val(),
+                data = {
+                    page: page,
+                    rows: pageLimit,
+                    key:
+                    courseName +
+                    '|' +
+                    schoolYear +
+                    '|' +
+                    semester +
+                    '|' +
+                    teacher +
+                    '|' +
+                    ifBeginCourse
+                }
             admin.post({
                 url: '/coursePlan/list',
                 data: JSON.stringify(data),
@@ -233,6 +252,96 @@
                 layer.close(layerIndex)
                 table._tableTrCurr.find('[lay-event="' + elem.attr('lay-event') + '"]').first().click()
             })
+
+
+        // 学年列表
+        function getSchoolYearList(callback) {
+            var data = {
+                page: 1,
+                rows: 100
+            }
+            admin.post({
+                url: '/schoolYear/getList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
+                        var options = ''
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            options +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.schoolYear +
+                                '</option>'
+                        })
+                        $('#schoolYear').html(
+                            '<option value="">请选择学年</option>'
+                        )
+                        $('#schoolYear').append(options)
+                        callback && typeof callback === 'function' && callback(res)
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        getSchoolYearList(function(res) {
+        })
+
+
+        // 任课老师列表
+        function getTeacherList(callback) {
+            var data = {
+                page: 1,
+                rows: 2000,
+                key: '|||2|||'
+            }
+            admin.post({
+                url: '/user/getUserList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
+                        var options = ''
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            options +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.userName +
+                                '</option>'
+                        })
+                        $('#teacher').html(
+                            '<option value="">请选择任课老师</option>'
+                        )
+                        $('#teacher').append(options)
+                        callback && typeof callback === 'function' && callback(res)
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        getTeacherList(function(res) {
+        })
+
+        $('#cource-search').click(function() {
+            getList(1)
+        })
+
     })
 </script>
 <style>

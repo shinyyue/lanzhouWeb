@@ -8,24 +8,25 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">开课名称</span>
-            <input type="text" />
+            <input type="text" id="courseName"/>
+            <span class="search-project">开课单位</span>
             <select name=""
-                    id="">
-                <option value="">请选择学年</option>
+                    id="courseUnit">
+                <option value="">请选择开课单位</option>
             </select>
-            <select name=""
-                    id="">
-                <option value="">请选择学期</option>
-            </select>
-            <select name=""
-                    id="">
-                <option value="">选择任课老师</option>
-            </select>
-            <select name=""
-                    id="">
-                <option value="">是否开课</option>
-            </select>
-            <button class="search-confirm">
+            <!--<select name=""-->
+                    <!--id="">-->
+                <!--<option value="">请选择学期</option>-->
+            <!--</select>-->
+            <!--<select name=""-->
+                    <!--id="">-->
+                <!--<option value="">选择任课老师</option>-->
+            <!--</select>-->
+            <!--<select name=""-->
+                    <!--id="">-->
+                <!--<option value="">是否开课</option>-->
+            <!--</select>-->
+            <button class="search-confirm" id = "cource-search">
                 <img src="src/images/search.png" />
             </button>
         </div>
@@ -133,10 +134,16 @@
         })
 
         function getList(page) {
-            var data = {
-                page: page,
-                rows: pageLimit
-            }
+            var courseName = $('#courseName').val(),
+                courseUnit = $('#courseUnit').val(),
+                data = {
+                    page: page,
+                    rows: pageLimit,
+                    key:
+                    courseName +
+                    '|' +
+                    courseUnit
+                }
             admin.post({
                 url: '/coursePlan/listCourse',
                 data: JSON.stringify(data),
@@ -151,7 +158,56 @@
                 }
             })
         }
+
+
+        // 开课单位（学院）列表
+        function getCourseUnitList(callback) {
+            var data = {
+                page: 1,
+                rows: 100
+            }
+            admin.post({
+                url: '/college/queryCollegeList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
+                        var options = ''
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            options +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.collegeName +
+                                '</option>'
+                        })
+                        $('#courseUnit').html(
+                            '<option value="">请选择开课单位</option>'
+                        )
+                        $('#courseUnit').append(options)
+                        callback && typeof callback === 'function' && callback(res)
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        getCourseUnitList(function(res) {
+        })
+
+        $('#cource-search').click(function() {
+            getList(1)
+        })
     })
+
+
+
 </script>
 <style>
     .layui-table {
