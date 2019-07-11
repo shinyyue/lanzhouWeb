@@ -6,11 +6,6 @@ layui.define(['layer'], function (exports) {
 
     var common = {
 
-        // 后台服务器地址
-        domain: 'http://39.104.97.6:8080',
-        // 后台文件服务器地址
-        fileDomain: 'http://39.104.97.6:8001/',
-
         /**
          * 抛出一个异常错误信息
          * @param {String} msg
