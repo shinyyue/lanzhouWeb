@@ -169,7 +169,7 @@
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
-                        location.href = 'index.html#/experiment/mydetails'
+                        location.href = 'index.html#/experiment/myDetails'
                     } else if (type === 'edit') {
                         location.href = 'index.html#/experiment/myadd'
                     }
@@ -244,7 +244,7 @@
             location.href = 'index.html#/experiment/myadd'
         })
         $('#experiment-mylist-check').on('click', function () {
-            location.href = 'index.html#/experiment/mydetails'
+            location.href = 'index.html#/experiment/myDetails'
         })
         $('#experiment-mylist-delete').on('click', function () {
             layer.confirm('您确定要删除么?', {
