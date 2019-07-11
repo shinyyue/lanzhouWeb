@@ -59,12 +59,12 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label "></label>
                 <div>
-                    <!--<button class="layui-btn primary-btn"
+                    <button class="layui-btn primary-btn"
                             lay-submit
                             id="collect"> 收藏 </button>
                     <button class="layui-btn primary-btn"
                             lay-submit
-                            id="canclecollect"> 取消收藏 </button>-->
+                            id="canclecollect"> 取消收藏 </button>
                     <button class="layui-btn primary-btn"
                             lay-submit
                             id="download"> 下载 </button>
@@ -111,36 +111,11 @@
                     $('#courseName').html(data.courseName)
                     $('#courseName').html(data.courseName)
                     $('#resourceDes').val(data.resourceDes)
-
-                    fileUrl = 'http://39.104.97.6:8001/' + data.fileUrl
                     if (data.type == 1) {
-                        debugger
-                        // 文档
-                        // window.open(fileUrl)
-                        $('#fileUrl').hide();
+                        window.open(data.fileUrl)
                     } else if (data.type == 2) {
-                        // 图片
-                        $('#fileUrl').html('<img src="' + fileUrl +
+                        $('#fileUrl').html('<img src="' + data.fileUrl +
                             '" style="width: 100%; height: 100%;">')
-                    } else if (data.type == 3) {
-                        // 视频
-                        $('#fileUrl').html('<video src="' + fileUrl + '" controls="controls" style="width: 100%; height: 100%;">')
-                    } else if (data.type == 4) {
-                        // flash
-                        // $('#fileUrl').html('<video width="320" height="240" controls="controls">' +
-                        //     '<object data="'+fileUrl+'" width="320" height="240">'+
-                        //     '<embed src="'+fileUrl+'" style="width: 100%; height: 100%;" />'+
-                        //     '</object></video>')
-                        $('#fileUrl').html('<embed src="'+fileUrl+'" type="application/x-shockwave-flash" style="width: 100%; height: 100%;" quality="high" />')
-                    } else if (data.type == 5) {
-                        // exe
-                        $('#fileUrl').hide();
-                    } else if (data.type == 6) {
-                        // U3D
-                        // @TODO
-                    } else if (data.type == 7) {
-                        // scorm课件
-                        // @TODO
                     }
                 }
             })
