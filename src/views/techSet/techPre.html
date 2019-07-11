@@ -58,8 +58,8 @@
                 <!-- todo: 缺少修改页面 -->
                 <!-- <button class="layui-btn primary-btn"
                         id="tech-pre-save"> 修改 </button> -->
-                <button class="layui-btn "
-                        id="tech-pre-back"> 返回首页 </button>
+                <div class="layui-btn "
+                        id="tech-pre-back"> 返回首页 </div>
             </div>
         </div>
     </form>
@@ -75,6 +75,7 @@
             courseName = layui.data('techSet').techSetName;
         $('#tech-pre-back').on('click', function () {
             location.href = '/index.html#/'
+            location.reload()
         })
         getDetails()
         getOtherList()
