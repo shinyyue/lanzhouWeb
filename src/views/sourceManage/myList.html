@@ -147,6 +147,9 @@
                 success: function (res) {
                     layer.msg('取消收藏成功')
                     getList(1)
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '失败')
                 }
             })
         }
