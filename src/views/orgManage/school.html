@@ -332,8 +332,8 @@
                 '                    <label class="layui-form-label">所属学院:</label>\n' +
                 '                    <select id="collegeId" value="' +
                 formData.collegeId +
-                '"' +
-                'disabled=' +(type === 'check' ? '"disabled"' : 'false') +
+                '"' +  (type === 'check'? 'disabled=' : '') +
+                // 'disabled=' +(type === 'check' ? '"disabled"' : '"false"') +
                 '>\n' +
                 '                    </select>\n' +
                 '                </div>\n' +
