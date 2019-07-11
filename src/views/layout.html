@@ -77,52 +77,50 @@
             // 找到与当前页面路由一致的菜单，若该菜单无二级，则设置为选中状态；若该菜单有二级，则设置该一级菜单展开二级，并将与当前路由一致的二级菜单设为选中状态
             for (var j = 0; j < menuList.length; j++) {
                 var menuUrlList = menuList[j].menuUrl.split('/')
-                console.log(333, menuUrlList[1], firstPath)
-                if (menuUrlList[1] === firstPath || firstPath === 'techSet') {
-                    console.log(4444, firstPath)
-                    if (firstPath === 'techSet') {
-                        menuList[j] = {
-                            menuName: '课程设置',
-                            menuUrl: '/techSet/techPre',
-                            child: [{
-                                menuName: '课程导读',
-                                menuUrl: '/techSet/techPre',
-                                child: []
-                            }, {
-                                menuName: '试卷管理',
-                                menuUrl: '/techSet/paperManage',
-                                child: []
-                            }, {
-                                menuName: '实验准备',
-                                menuUrl: '/techSet/readyCheck',
-                                child: [{
-                                    menuName: '布置新实验',
-                                    menuUrl: '/techSet/readyCheck'
-                                }, {
-                                    menuName: '已安排实验',
-                                    menuUrl: '/techSet/readyList'
-                                }]
-                            }, {
-                                menuName: '实验过程',
-                                menuUrl: '/techSet/processTest',
-                                child: []
-                            }, {
-                                menuName: '实验结果',
-                                menuUrl: '/techSet/processTest',
-                                child: [{
-                                    menuName: '实验批改',
-                                    menuUrl: '/techSet/resultTest'
-                                }, {
-                                    menuName: '成绩导出',
-                                    menuUrl: '/techSet/scoreOut'
-                                }]
-                            }, {
-                                menuName: '实验评价',
-                                menuUrl: '/techSet/evaluate',
-                                child: []
-                            }]
-                        }
-                    }
+                if (menuUrlList[1] === firstPath) {
+                    // if (firstPath === 'techSet') {
+                    //     menuList[j] = {
+                    //         menuName: '课程设置',
+                    //         menuUrl: '/techSet/techPre',
+                    //         child: [{
+                    //             menuName: '课程导读',
+                    //             menuUrl: '/techSet/techPre',
+                    //             child: []
+                    //         }, {
+                    //             menuName: '试卷管理',
+                    //             menuUrl: '/techSet/paperManage',
+                    //             child: []
+                    //         }, {
+                    //             menuName: '实验准备',
+                    //             menuUrl: '/techSet/readyCheck',
+                    //             child: [{
+                    //                 menuName: '布置新实验',
+                    //                 menuUrl: '/techSet/readyCheck'
+                    //             }, {
+                    //                 menuName: '已安排实验',
+                    //                 menuUrl: '/techSet/readyList'
+                    //             }]
+                    //         }, {
+                    //             menuName: '实验过程',
+                    //             menuUrl: '/techSet/processTest',
+                    //             child: []
+                    //         }, {
+                    //             menuName: '实验结果',
+                    //             menuUrl: '/techSet/processTest',
+                    //             child: [{
+                    //                 menuName: '实验批改',
+                    //                 menuUrl: '/techSet/resultTest'
+                    //             }, {
+                    //                 menuName: '成绩导出',
+                    //                 menuUrl: '/techSet/scoreOut'
+                    //             }]
+                    //         }, {
+                    //             menuName: '实验评价',
+                    //             menuUrl: '/techSet/evaluate',
+                    //             child: []
+                    //         }]
+                    //     }
+                    // }
                     var child = menuList[j].child
                     var childNav = ''
                     if (child.length === 0) {
