@@ -116,6 +116,7 @@
         }
 
         function addData(data) {
+            debugger
             var formData = {
                 parentId: $('#pName').val(),
                 name: data.name,
@@ -168,7 +169,7 @@
                 rows: 100000
             }
             admin.post({
-                url: '/knowledgePoint/queryChildrenByPid?pId=0',
+                url: '/knowledgePoint/list',
                 data: JSON.stringify(data),
                 success: function(res) {
                     res.data &&
@@ -176,9 +177,9 @@
                         res.data.items.forEach(item => {
                             $('#pName').append(
                                 '<option value="' +
-                                    item.id +
+                                    item.cId +
                                     '">' +
-                                    item.curriculumName +
+                                    item.cName +
                                     '</option>'
                             )
                         })
