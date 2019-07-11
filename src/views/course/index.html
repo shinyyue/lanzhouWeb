@@ -6,14 +6,16 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">课程名称</span>
-            <input type="text" />
-            <select name="" id="">
+            <input type="text" id="gradeName" />
+            <select name="" id="grade">
                 <option value="">所有年级</option>
             </select>
-            <select name="" id="">
+            <select name="" id="semester">
                 <option value="">请选择学期</option>
+                <option value="1">第一学期</option>
+                <option value="2">第二学期</option>
             </select>
-            <button class="search-confirm">
+            <button class="search-confirm" id="cource-search">
                 <img src="src/images/search.png" />
             </button>
         </div>
@@ -164,11 +166,19 @@
         })
 
         function getList(page) {
-            var data = {
-                page: page,
-                rows: pageLimit,
-                key: '||'
-            }
+            var gradeName = $('#gradeName').val(),
+                grade = $('#grade').val(),
+                semester = $('#semester').val(),
+                data = {
+                    page: page,
+                    rows: pageLimit,
+                    key:
+                    gradeName +
+                    '|' +
+                    grade +
+                    '|' +
+                    semester
+                }
             admin.post({
                 url: '/vsMpCurriculum/getList',
                 data: JSON.stringify(data),
@@ -196,6 +206,53 @@
 
         $('#add-cource').on('click', function() {
             location.href = 'index.html#/course/update'
+        })
+
+
+
+        // 年级列表
+        function getGradeList(callback) {
+            var data = {
+                page: 1,
+                rows: 100
+            }
+            admin.post({
+                url: '/grade/queryGradeList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
+                        var options = ''
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            options +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.gradeName +
+                                '</option>'
+                        })
+                        $('#grade').html(
+                            '<option value="">所有年级</option>'
+                        )
+                        $('#grade').append(options)
+                        callback && typeof callback === 'function' && callback(res)
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        getGradeList(function(res) {
+        })
+
+        $('#cource-search').click(function() {
+            getList(1)
         })
     })
 </script>
@@ -258,3 +315,4 @@
         cursor: pointer;
     }
 </style>
+            
