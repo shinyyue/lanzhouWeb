@@ -31,9 +31,16 @@
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">所属开课</label>
-                    <select name="curriculumId" id="curriculumId">
+                    <!--<select name="curriculumId" id="curriculumId">
                         <option value="">请选择课程</option>
-                    </select>
+                    </select>-->
+                    <input
+                            type="text"
+                            name="curriculumId"
+                            id="curriculumId"
+                            class="common-form-input"
+                            readonly="readonly"
+                    />
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">考试时长</label>
@@ -105,9 +112,11 @@
             admin = layui.admin,
             laydate = layui.laydate,
             route = layui.router(),
-            id = route.search.id || layui.data('techSet').techSetId,
+            courseId = layui.data('techSet').techSetId,
+            id = route.search.id || '',
             courseName = layui.data('techSet').techSetName
         form.render()
+        debugger
         $('#courseName').html(courseName)
         $('#tile_manage').html(id ? '修改试卷' : '添加试卷')
         //监听提交
@@ -115,10 +124,10 @@
             var data = {
                 name: $('#name').val(),
                 strategyId: $('#strategyId').val(),
-                curriculumId: $('#curriculumId').val(),
+                curriculumId: courseId,
                 testTime: $('#testTime').val(),
-                startTime: $('#startTime').val(),
-                endTime: $('#endTime').val()
+                startTime: new Date($('#startTime').val()).getTime(),
+                endTime: new Date($('#endTime').val()).getTime()
             }
             if (id) {
                 data.id = id
@@ -140,7 +149,9 @@
             type: 'datetime'
         })
         getPloyList()
-        getCourseList()
+        // 设置开课
+        // getCourseList()
+        $('#curriculumId').val(courseName)
         if (id) {
             getDetails()
         }
@@ -227,33 +238,33 @@
             })
         }
 
-        function getCourseList() {
-            var data = {
-                page: 1,
-                rows: 1000000
-            }
-            admin.post({
-                url: '/vsMpCurriculum/getList',
-                data: JSON.stringify(data),
-                success: function(res) {
-                    res.data &&
-                        res.data.items &&
-                        res.data.items.forEach(item => {
-                            $('#curriculumId').append(
-                                '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.curriculumName +
-                                    '</option>'
-                            )
-                        })
-                    form.render()
-                },
-                error: function(err) {
-                    layer.msg((err && err.msg) || '数据请求失败')
-                }
-            })
-        }
+        // function getCourseList() {
+        //     var data = {
+        //         page: 1,
+        //         rows: 1000000
+        //     }
+        //     admin.post({
+        //         url: '/vsMpCurriculum/getList',
+        //         data: JSON.stringify(data),
+        //         success: function(res) {
+        //             res.data &&
+        //                 res.data.items &&
+        //                 res.data.items.forEach(item => {
+        //                     $('#curriculumId').append(
+        //                         '<option value="' +
+        //                             item.id +
+        //                             '">' +
+        //                             item.curriculumName +
+        //                             '</option>'
+        //                     )
+        //                 })
+        //             form.render()
+        //         },
+        //         error: function(err) {
+        //             layer.msg((err && err.msg) || '数据请求失败')
+        //         }
+        //     })
+        // }
     })
 </script>
 <style>
