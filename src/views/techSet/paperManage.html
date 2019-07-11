@@ -31,6 +31,7 @@
             table = layui.table,
             admin = layui.admin,
             route = layui.router(),
+            courseId = layui.data('techSet').techSetId
             courseName = layui.data('techSet').techSetName,
             pageLimit = 20,
             layPageOption = {
@@ -135,7 +136,7 @@
             var data = {
                 page: page,
                 rows: pageLimit,
-                key: 1
+                key: courseId
             }
             admin.post({
                 url: '/examinationPaper/stuList',
