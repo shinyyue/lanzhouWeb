@@ -21,10 +21,10 @@
             <div class="source-content-title">
                 <h4>资源列表详情</h4>
                 <div class="source-content-search">
-                    <button class="search-confirm">
+                    <button class="search-confirm" id="source_detaisl_btn">
                         <img src="src/images/search.png">
                     </button>
-                    <input type="text" class="layui-input" placeholder="请输入关键字">
+                    <input type="text" class="layui-input" placeholder="请输入关键字" id="source_detaisl_key">
                 </div>
             </div>
             <table id="sourcelist_detaisl_table" lay-filter="sourcelist_detaisl_table"></table>
@@ -44,10 +44,10 @@
             <div class="source-content-title">
                 <h4>资源列表详情</h4>
                 <div class="source-content-search">
-                    <button class="search-confirm">
+                    <button class="search-confirm" id="college_detaisl_btn">
                         <img src="src/images/search.png">
                     </button>
-                    <input type="text" class="layui-input" placeholder="请输入关键字">
+                    <input type="text" class="layui-input" placeholder="请输入关键字" id="college_detaisl_key">
                 </div>
             </div>
             <table id="college_sourcelist_detaisl_table" lay-filter="college_sourcelist_detaisl_table"></table>
@@ -56,32 +56,193 @@
 </div>
 
 <script>
-    layui.use(['table'], function (table) {
-        var table = layui.table,
-            tableFilter1 = 'source_detaisl_table',
-            tableFilter2 = 'sourcelist_detaisl_table',
-            tableFilter3 = 'college_detaisl_table',
-            tableFilter4 = 'college_sourcelist_detaisl_table'
+    layui.use(['table', 'admin'], function (table) {
+        var $ = layui.jquery,
+            table = layui.table,
+            admin = layui.admin;
 
-        table.render({
+        // 全校资源库数量及详细信息统计
+        sourceDetaislOption = {
             page: false,
             skin: 'row, line',
-            data: [{
-                id: 1,
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '王小虎',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1,
-                times: 100
-            }],
-            elem: '[lay-filter="' + tableFilter1 + '"]',
+            data: [],
+            elem: '[lay-filter="source_detaisl_table"]',
+            cols: [
+                [{
+                    title: '资源总数',
+                    field: 'allTimes',
+                    align: 'center',
+                    rowspan: 2
+                },
+                    {
+                        title: '资源类型',
+                        field: 'courceName',
+                        align: 'center',
+                        colspan: 7
+                    }
+                ],
+                [{
+                    title: '文档资源',
+                    align: 'center',
+                    field: 'docTimes',
+                }, {
+                    title: '图片资源',
+                    align: 'center',
+                    field: 'picTimes',
+                }, {
+                    title: '视频资源',
+                    align: 'center',
+                    field: 'videoTimes',
+                }, {
+                    title: 'flash资源',
+                    align: 'center',
+                    field: 'flashTimes',
+                }, {
+                    title: 'EXE资源',
+                    align: 'center',
+                    field: 'exeTimes',
+                }, {
+                    title: 'U3D资源',
+                    align: 'center',
+                    field: 'u3dTimes',
+                }, {
+                    title: 'scorm课件资源',
+                    align: 'center',
+                    field: 'scormTimes',
+                }]
+            ]
+        }
+        // 全校资源库数量及详细信息统计
+        var typeToResourceList = ["", "docTimes", "picTimes", "videoTimes", "flashTimes", "exeTimes", "u3dTimes", "scormTimes"];
+        function querySourceByCollectId() {
+            admin.get({
+                url: '/report/querySourceByCollectId?collegeId=8',
+                success: function(res) {
+                    var innerData = {
+                        allTimes: 0,
+                        docTimes: 0,
+                        videoTimes: 0,
+                        flashTimes: 0,
+                        exeTimes: 0,
+                        u3dTimes: 0,
+                        scormTimes: 0
+                    };
+                    if(res.code === 200) {
+                        res.data.forEach(item => {
+                            innerData.allTimes += item.COUNT
+                            innerData[typeToResourceList[item.type]] = item.COUNT
+                        })
+                    }
+                    sourceDetaislOption.data = [innerData]
+                    table.render(sourceDetaislOption)
+                }
+            })
+        }
+        querySourceByCollectId();
+
+        // 资源列表详情
+        sourcelistDetaislTableOption = {
+            page: false,
+            skin: 'row, line',
+            data: [],
+            elem: '[lay-filter="sourcelist_detaisl_table"]',
+            cols: [
+                [{
+                    title: '序号',
+                    field: 'insc_id',
+                    width: 80,
+                    align: 'center',
+                },
+                    {
+                        title: '资源名称',
+                        field: 'name',
+                        align: 'center',
+                    },
+                    {
+                        title: '所属学院',
+                        field: 'college_name',
+                        align: 'center',
+                    },
+                    {
+                        title: '资源类型',
+                        field: 'type_name',
+                        align: 'center',
+                    },
+                    {
+                        title: '点击量',
+                        align: 'center',
+                        field: 'click_num',
+                    },
+                    {
+                        title: '下载量',
+                        align: 'center',
+                        field: 'download_num',
+                    }
+                ]
+            ]
+        }
+        // 资源列表详情
+        var typeToResourceNameList = ["", "文档资源", "图片资源", "视频资源", "flash资源", "EXE资源", "U3D资源", "scorm课件资源"];
+        function querySourceByCollectIdInfo(page, key) {
+            admin.post({
+                url: '/report/querySourceByCollectIdInfo',
+                data: JSON.stringify({
+                    page: page,
+                    rows: 10,
+                    key: key,
+                    desc: true
+                }),
+                success: function(res) {
+                    // 测试数据
+                    var test = {
+                        code: 200,
+                        data: {
+                            items: [
+                                {
+                                    "college_name": "兰大",
+                                    "name": "资源名称",
+                                    "click_num": 12,
+                                    "type": 1,
+                                    "download_num": 20
+                                }, {
+                                    "college_name": "兰大",
+                                    "name": "1",
+                                    "click_num": 0,
+                                    "type": 2,
+                                    "download_num": 0
+                                }
+                            ]
+                        }
+                    }
+                    res = test
+
+                    if(res.code === 200) {
+                        var startInscId = (page-1) * 10 + 1
+                        res.data.items.forEach(item => {
+                            item.insc_id = startInscId++
+                            item.type_name = typeToResourceNameList[item.type]
+                        })
+                        sourcelistDetaislTableOption.data = res.data.items
+                        table.render(sourcelistDetaislTableOption)
+                    }
+
+                }
+            })
+        }
+        querySourceByCollectIdInfo(1, '');
+        $('#college_detaisl_btn').click(() => querySourceByCollectIdInfo(1, $('#college_detaisl_key').val()))
+
+
+        // 各学院资源库数量及详细信息统计
+        collegeDetaislTableOption = {
+            page: false,
+            skin: 'row, line',
+            data: [],
+            elem: '[lay-filter="college_detaisl_table"]',
             cols: [
                 [{
                         title: '资源总数',
-                        field: 'id',
+                        field: 'allTimes',
                         align: 'center',
                         rowspan: 2
                     },
@@ -89,208 +250,158 @@
                         title: '资源类型',
                         field: 'courceName',
                         align: 'center',
-                        colspan: 5
+                        colspan: 7
                     }
                 ],
                 [{
-                        title: '文档资源',
-                        align: 'center',
-                        field: 'times',
-                    },
-                    {
-                        title: '图片资源',
-                        align: 'center',
-                        field: 'times',
-                    },
-                    {
-                        title: '视频资源',
-                        align: 'center',
-                        field: 'times',
-                    }, {
-                        title: '软件资源',
-                        align: 'center',
-                        field: 'times',
-                    }, {
-                        title: '静态资源',
-                        align: 'center',
-                        field: 'times',
-                    }
-                ]
+                    title: '文档资源',
+                    align: 'center',
+                    field: 'docTimes',
+                }, {
+                    title: '图片资源',
+                    align: 'center',
+                    field: 'picTimes',
+                }, {
+                    title: '视频资源',
+                    align: 'center',
+                    field: 'videoTimes',
+                }, {
+                    title: 'flash资源',
+                    align: 'center',
+                    field: 'flashTimes',
+                }, {
+                    title: 'EXE资源',
+                    align: 'center',
+                    field: 'exeTimes',
+                }, {
+                    title: 'U3D资源',
+                    align: 'center',
+                    field: 'u3dTimes',
+                }, {
+                    title: 'scorm课件资源',
+                    align: 'center',
+                    field: 'scormTimes',
+                }]
             ]
+        }
+        // 各学院资源库数量及详细信息统计
+        function querySourceByFacultyId() {
+            admin.get({
+                url: '/report/querySourceByFacultyId?facultyId=8',
+                success: function(res) {
+                    var innerData = {
+                        allTimes: 0,
+                        docTimes: 0,
+                        videoTimes: 0,
+                        flashTimes: 0,
+                        exeTimes: 0,
+                        u3dTimes: 0,
+                        scormTimes: 0
+                    };
+                    if(res.code === 200) {
+                        res.data.forEach(item => {
+                            innerData.allTimes += item.COUNT
+                            innerData[typeToResourceList[item.type]] = item.COUNT
+                        })
+                    }
+                    collegeDetaislTableOption.data = [innerData]
+                    table.render(collegeDetaislTableOption)
 
-        })
+                }
+            })
+        }
+        querySourceByFacultyId();
 
-        table.render({
+
+        // 资源列表详情
+        collegeSourcelistDetaislTableOption = {
             page: false,
             skin: 'row, line',
-            data: [{
-                id: 1,
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '王小虎',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1,
-                times: 100
-            }],
-            elem: '[lay-filter="' + tableFilter3 + '"]',
+            data: [],
+            elem: '[lay-filter="college_sourcelist_detaisl_table"]',
             cols: [
                 [{
-                        title: '资源总数',
-                        field: 'id',
-                        align: 'center',
-                        rowspan: 2
-                    },
-                    {
-                        title: '资源类型',
-                        field: 'courceName',
-                        align: 'center',
-                        colspan: 5
-                    }
-                ],
-                [{
-                        title: '文档资源',
-                        align: 'center',
-                        field: 'times',
-                    },
-                    {
-                        title: '图片资源',
-                        align: 'center',
-                        field: 'times',
-                    },
-                    {
-                        title: '视频资源',
-                        align: 'center',
-                        field: 'times',
-                    }, {
-                        title: '软件资源',
-                        align: 'center',
-                        field: 'times',
-                    }, {
-                        title: '静态资源',
-                        align: 'center',
-                        field: 'times',
-                    }
-                ]
-            ]
-
-        })
-
-        table.render({
-            page: false,
-            skin: 'row, line',
-            data: [{
-                id: 1,
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '王小虎',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1,
-                times: 100
-            }],
-            elem: '[lay-filter="' + tableFilter2 + '"]',
-            cols: [
-                [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center',
-                    },
+                    title: '序号',
+                    field: 'insc_id',
+                    width: 80,
+                    align: 'center',
+                },
                     {
                         title: '资源名称',
-                        field: 'courceName',
+                        field: 'name',
                         align: 'center',
                     },
                     {
                         title: '所属学院',
-                        field: 'courseCode',
+                        field: 'college_name',
                         align: 'center',
                     },
                     {
                         title: '资源类型',
-                        field: 'responsor',
+                        field: 'type_name',
                         align: 'center',
                     },
                     {
                         title: '点击量',
                         align: 'center',
-                        field: 'times',
+                        field: 'click_num',
                     },
                     {
                         title: '下载量',
                         align: 'center',
-                        field: 'times',
-                    },
-                    {
-                        title: '资源评分',
-                        align: 'center',
-                        field: 'times',
+                        field: 'download_num',
                     }
                 ]
             ]
-
-        })
-
-        table.render({
-            page: false,
-            skin: 'row, line',
-            data: [{
-                id: 1,
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '王小虎',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1,
-                times: 100
-            }],
-            elem: '[lay-filter="' + tableFilter4 + '"]',
-            cols: [
-                [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center',
-                    },
-                    {
-                        title: '资源名称',
-                        field: 'courceName',
-                        align: 'center',
-                    },
-                    {
-                        title: '所属学院',
-                        field: 'courseCode',
-                        align: 'center',
-                    },
-                    {
-                        title: '资源类型',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '点击量',
-                        align: 'center',
-                        field: 'times',
-                    },
-                    {
-                        title: '下载量',
-                        align: 'center',
-                        field: 'times',
-                    },
-                    {
-                        title: '资源评分',
-                        align: 'center',
-                        field: 'times',
+        }
+        // 资源列表详情
+        function querySourceByFacultyIdInfo(page, key) {
+            admin.post({
+                url: '/report/querySourceByFacultyIdInfo',
+                data: JSON.stringify({
+                    page: page,
+                    rows: 10,
+                    key: key,
+                    desc: true
+                }),
+                success: function(res) {
+                    // 测试数据
+                    var test = {
+                        code: 200,
+                        data: {
+                            items: [
+                                {
+                                    "college_name": "兰大",
+                                    "name": "资源名称",
+                                    "click_num": 12,
+                                    "type": 1,
+                                    "download_num": 20
+                                }, {
+                                    "college_name": "兰大",
+                                    "name": "1",
+                                    "click_num": 0,
+                                    "type": 2,
+                                    "download_num": 0
+                                }
+                            ]
+                        }
                     }
-                ]
-            ]
+                    res = test
 
-        })
-
+                    if(res.code === 200) {
+                        var startInscId = (page-1) * 10 + 1
+                        res.data.items.forEach(item => {
+                            item.insc_id = startInscId++
+                            item.type_name = typeToResourceNameList[item.type]
+                        })
+                        collegeSourcelistDetaislTableOption.data = res.data.items
+                        table.render(collegeSourcelistDetaislTableOption)
+                    }
+                }
+            })
+        }
+        querySourceByFacultyIdInfo(1, '');
+        $('#source_detaisl_btn').click(() => querySourceByCollectIdInfo(1, $('#source_detaisl_key').val()))
 
     })
 </script>
