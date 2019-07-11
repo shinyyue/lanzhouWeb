@@ -245,7 +245,9 @@
                 data: JSON.stringify(formData),
                 success: function (res) {
                     layer.msg('添加成功')
-                    window.history.back(-1)
+//                    window.history.back(-1)
+                    window.location.href = 'index.html#/course/index'
+                    window.location.reload()
                 },
                 error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
