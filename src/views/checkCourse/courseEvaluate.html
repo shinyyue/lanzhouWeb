@@ -7,7 +7,7 @@
     </div>
     <form action="" class="layui-form my-form">
         <div class="layui-row">
-            <div class="ploy-title">基本信息</div>
+            <div class="ploy-title" id="coursePlanName">基本信息</div>
         </div>
         <hr />
         <div class="layui-row">
@@ -25,7 +25,8 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">评价</label>
                 <div class="layui-col-md9">
-                    <textarea name="desc" class="layui-textarea"></textarea>
+                    <textarea name="desc" class="layui-textarea" id="evaluate">
+                    </textarea>
                 </div>
             </div>
         </div>
@@ -51,6 +52,13 @@
         </div>
     </form>
 </div>
+
+<script>
+    layui.use(['jquery'], function() {
+        var $ = layui.jquery
+        $("#coursePlanName").html(layui.data('course').coursePlanName)
+    })
+</script>
 
 <style>
     #checkcourse-preintro {

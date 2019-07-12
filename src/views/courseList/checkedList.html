@@ -114,7 +114,7 @@
                 //应该是跳转页面
 //                formData = data;
                 console.log(data)
-                getDetail(data.coursePlanId)
+                getDetail(data)
             }
 
             // layer.open(layerOption);
@@ -142,7 +142,7 @@
             })
         };
 
-        function getDetail(id) {
+        function getDetail(data) {
 //            admin.get({
 //                url: '/introduction/queryById?id=' + id,
 //                success: function (res) {
@@ -154,9 +154,13 @@
 //            })
             layui.data('course', {
                 key: 'coursePlanId',
-                value: id
+                value: data.coursePlanId
             })
-            window.location.href = 'index.html#/checkCourse/preIntro/id='+id
+            layui.data('course', {
+                key: 'coursePlanName',
+                value: data.courseName
+            })
+            window.location.href = 'index.html#/checkCourse/preIntro/id='+data.coursePlanId
             window.location.reload()
         }
     })
