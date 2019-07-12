@@ -228,31 +228,7 @@
                     desc: true
                 }),
                 success: function(res) {
-                    // 测试数据
-                    var test = {
-                        code: 200,
-                        data: {
-                            total: 53,
-                            items: [
-                                {
-                                    "college_name": "兰大",
-                                    "name": "资源名称",
-                                    "click_num": 12,
-                                    "type": 1,
-                                    "download_num": 20
-                                }, {
-                                    "college_name": "兰大",
-                                    "name": "1",
-                                    "click_num": 0,
-                                    "type": 2,
-                                    "download_num": 0
-                                }
-                            ]
-                        }
-                    }
-                    res = test
-
-                    if(res.code === 200) {
+                    if(res.data && res.data.items) {
                         var startInscId = (page-1) * 10 + 1
                         res.data.items.forEach(item => {
                             item.insc_id = startInscId++
@@ -260,10 +236,9 @@
                         })
                         sourcelistDetailTableOption.data = res.data.items
                         sourcelistDetailPageOption.count = (res.data && res.data.total) || 0
-                        table.render(sourcelistDetailTableOption)
-                        laypage.render(sourcelistDetailPageOption)
                     }
-
+                    table.render(sourcelistDetailTableOption)
+                    laypage.render(sourcelistDetailPageOption)
                 }
             })
         }
@@ -416,31 +391,7 @@
                     desc: true
                 }),
                 success: function(res) {
-                    // 测试数据
-                    var test = {
-                        code: 200,
-                        data: {
-                            total: 45,
-                            items: [
-                                {
-                                    "college_name": "兰大",
-                                    "name": "资源名称",
-                                    "click_num": 12,
-                                    "type": 1,
-                                    "download_num": 20
-                                }, {
-                                    "college_name": "兰大",
-                                    "name": "1",
-                                    "click_num": 0,
-                                    "type": 2,
-                                    "download_num": 0
-                                }
-                            ]
-                        }
-                    }
-                    res = test
-
-                    if(res.code === 200) {
+                    if(res.data && res.data.item) {
                         var startInscId = (page-1) * 10 + 1
                         res.data.items.forEach(item => {
                             item.insc_id = startInscId++
@@ -448,9 +399,9 @@
                         })
                         collegeSourcelistDetailTableOption.data = res.data.items
                         collegeSourcelistDetailPageOption.count = (res.data && res.data.total) || 0
-                        table.render(collegeSourcelistDetailTableOption)
-                        laypage.render(collegeSourcelistDetailPageOption)
                     }
+                    table.render(collegeSourcelistDetailTableOption)
+                    laypage.render(collegeSourcelistDetailPageOption)
                 }
             })
         }
