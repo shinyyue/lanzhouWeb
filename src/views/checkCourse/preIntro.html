@@ -63,7 +63,7 @@
 
         function getDetails(id) {
             admin.get({
-                url: '/introduction/queryById?id=' + id,
+                url: '/introduction/queryById?id=' + layui.data('course').coursePlanId,
                 success: function (res) {
                     debugger
                     $('#preCourseName').html(res.data.name)

@@ -152,6 +152,10 @@
 //                    layer.msg(err && err.msg || '数据请求失败');
 //                }
 //            })
+            layui.data('course', {
+                key: 'coursePlanId',
+                value: id
+            })
             window.location.href = 'index.html#/checkCourse/preIntro/id='+id
             window.location.reload()
         }
