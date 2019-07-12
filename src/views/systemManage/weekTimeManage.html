@@ -175,6 +175,14 @@
             })
 
             setTimeout(function() {
+                laydate.render({
+                    elem: '#startTime',
+                    type: 'date'
+                })
+                laydate.render({
+                    elem: '#endTime',
+                    type: 'date'
+                })
                 $('#startTime').val(
                     admin
                         .dateFormat(new Date(data.startTime).getTime() / 1000)
@@ -187,13 +195,14 @@
                 )
             }, 0)
 
-            var layerOption = {
+            layer.open({
                 type: 1,
                 offset: 'auto',
                 title: type==='edit'?'编辑':'查看',
                 content: getTemplate(formData, type),
                 area: ['700px', '70%'],
                 shade: 0.4,
+                skin: 'week-time-edit-modal',
                 shadeClose: true,
                 btn: type === 'check' ? [] : ['确定', '取消'],
                 yes: function(index, layero) {
@@ -210,9 +219,8 @@
                 cancel: function(index) {
                     layer.close(index)
                 }
-            }
+            })
 
-            layer.open(layerOption)
             form.render()
         })
 
@@ -434,8 +442,8 @@
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">周次日期:</label>\n' +
                 '                    <div class="layui-inline">\n' +
-                '                        <input type="text" class="layui-input" id="startTime" style="display: inline;width: 40%;" />-\n' +
-                '                        <input type="text" class="layui-input" id="endTime"  style="display: inline;width: 40%;"/>\n' +
+                '                        <input type="text" class="layui-input" id="startTime" readonly="readonly" style="display: inline;width: 40%;" />-\n' +
+                '                        <input type="text" class="layui-input" id="endTime"  readonly="readonly" style="display: inline;width: 40%;"/>\n' +
                 '                    </div>\n' +
                 '                </div>\n' +
                 '            </div>\n' +
