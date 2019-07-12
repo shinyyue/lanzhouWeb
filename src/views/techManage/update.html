@@ -101,16 +101,18 @@
                 </div>
                 <div class="layui-row">
                     <div class="layui-col-md6 layui-form-item">
-                        <label class="layui-form-label">上课周次</label>
+                        <label class="layui-form-label require" >上课周次</label>
                         <div>
                             <input type="text"
                                    name="weekStart"
                                    id="weekStart"
+                                   lay-verify = "required"
                                    class="common-form-input short" />
                             <span>至</span>
                             <input type="text"
                                    name="weekEnd"
                                    id="weekEnd"
+                                   lay-verify = "required"
                                    class="common-form-input short" />
                         </div>
                     </div>
@@ -139,10 +141,10 @@
                 </div>
                 <div class="layui-row">
                     <div class="layui-col-md12 layui-form-item">
-                        <label class="layui-form-label">上课时间</label>
+                        <label class="layui-form-label require">上课时间</label>
                         <div>
                             <div class="short">
-                                <select name="weekDay"
+                                <select name="weekDay"  lay-verify = "required"
                                         id="weekDay">
                                     <option value="7">星期日</option>
                                     <option value="1">星期一</option>
@@ -155,7 +157,7 @@
                                 <span class="tech-update-details">第</span>
                             </div>
                             <div class="short">
-                                <select name="schooltimeStart"
+                                <select name="schooltimeStart"  lay-verify = "required"
                                         id="schooltimeStart">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -173,7 +175,7 @@
                                 <span class="tech-update-details">节 至 第</span>
                             </div>
                             <div class="short">
-                                <select name="schooltimeEnd"
+                                <select name="schooltimeEnd"  lay-verify = "required"
                                         id="schooltimeEnd">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
