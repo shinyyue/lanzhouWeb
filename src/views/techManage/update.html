@@ -15,7 +15,7 @@
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label require">课程名称</label>
                         <select name="curriculumId"
-                                id="plan_course_list">
+                                id="plan_course_list" lay-verify = "required">
                             <option value="">选择课程</option>
                         </select>
                     </div>
@@ -85,7 +85,7 @@
                 <div class="layui-row">
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label require">学年</label>
-                        <select name="schoolYearId"
+                        <select name="schoolYearId" lay-verify = "required"
                                 id="schoolYear">
                             <option value="">请选择学年</option>
                         </select>
@@ -200,14 +200,14 @@
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label require">开课教师</label>
                         <input type="text"
-                               require
+                               lay-verify = "required"
                                name="userName"
                                id="userName"
                                class="common-form-input" />
                     </div>
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label require">试用学生类别</label>
-                        <select name="studentTypeId"
+                        <select name="studentTypeId" lay-verify = "required"
                                 id="studentTypeId">
                             <option value="">请选择学生类别</option>
                         </select>
@@ -622,7 +622,6 @@
                 url: '/schoolYear/getList',
                 data: JSON.stringify(data),
                 success: function (res) {
-                    $('#schoolYear').html('<option vlaue="">请选择</option>')
                     res.data && res.data.items && res.data.items.forEach(item => {
                         $('#schoolYear').append('<option value="' + item.id + '">' + item.schoolYear +
                             '</option>')
@@ -696,6 +695,10 @@
             data.creditHour = Number(data.creditHour)
             data.fullMark = Number(data.fullMark)
             data.semester = Number(data.semester)
+            if(data.schoolYearId == undefined || data.schoolYearId == null || data.schoolYearId == "" ){
+                layer.msg('学年数据不能为空！')
+                return
+            }
             data.schoolYearId = Number(data.schoolYearId)
             data.weekStart = Number(data.weekStart)
             data.weekEnd = Number(data.weekEnd)
