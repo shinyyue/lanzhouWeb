@@ -7,7 +7,7 @@
     </div>
     <form action="" class="layui-form my-form">
         <div class="layui-row">
-            <div class="ploy-title" id="coursePlanName">基本信息</div>
+            <div class="ploy-title" id="coursePlanName" name="curriculumId">课程</div>
         </div>
         <hr />
         <div class="layui-row">
@@ -54,9 +54,18 @@
 </div>
 
 <script>
-    layui.use(['jquery'], function() {
-        var $ = layui.jquery
-        $("#coursePlanName").html(layui.data('course').coursePlanName)
+    layui.use(['jquery','form'], function() {
+        var $ = layui.jquery,
+            form = layui.form
+        $("#coursePlanName").html(layui.data('course').coursePlanName),
+        $("#coursePlanName").val(layui.data('course').coursePlanId),
+        $("#userName").html(layui.data('userInfo').userInfo.userName)
+
+        form.on('submit(submit)', function(data){
+            console.log(data);
+            return false;
+        });
+
     })
 </script>
 
