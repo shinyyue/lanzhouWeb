@@ -339,7 +339,8 @@
             return false
         })
         $('#source-add-cancle').on('click', function () {
-            window.history.back(-2)
+            // window.history.back(-2)
+            window.location.href = 'index.html#/techManage/plan'
         })
         $('#classListChange').keyup(function (ev) {
             var reg = new RegExp(ev.currentTarget.value.trim(), 'ig')
