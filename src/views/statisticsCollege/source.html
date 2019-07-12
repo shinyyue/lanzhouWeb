@@ -10,9 +10,8 @@
             <h4>全校资源库数量及详细信息统计</h4>
             <div>
                 <span>选择学院：</span>
-                <select name="" id="" class="layui-select">
-                    <option value="">土木工程学院</option>
-                    <option value="">自动化与电气学院</option>
+                <select name="collegeList" id="collegeList" class="layui-select">
+                    <option value="">全部</option>
                 </select>
             </div>
             <table id="source_detail_table" lay-filter="source_detail_table"></table>
@@ -34,9 +33,8 @@
             <h4>各学院资源库数量及详细信息统计</h4>
             <div>
                 <span>选择学院：</span>
-                <select name="" id="" class="layui-select">
-                    <option value="">土木工程学院</option>
-                    <option value="">自动化与电气学院</option>
+                <select name="facultyList" id="facultyList" class="layui-select">
+                    <option value="">全部</option>
                 </select>
             </div>
             <table id="college_detail_table" lay-filter="college_detail_table"></table>
@@ -63,6 +61,26 @@
             table = layui.table,
             laypage = layui.laypage,
             admin = layui.admin;
+
+        // 查询学院列表
+        admin.post({
+            url: '/college/queryCollegeList',
+            data: JSON.stringify({page: 1, rows: 100}),
+            success: function(res) {
+                if (res.data && res.data.items && res.data.items.length > 0) {
+                    collegeList = res.data.items
+                    var options = '<option value="">全部</option>'
+                    res.data.items && res.data.items.forEach(item => options += '<option value="' + item.id + '">' + item.collegeName + '</option>')
+                    $('#collegeList').html(options)
+                    $('#facultyList').html(options)
+                }
+            },
+            error: function(err) {
+                layer.msg((err && err.msg) || '数据请求失败')
+            }
+        })
+        $('#collegeList').change(e => querySourceByCollectId(e.currentTarget.value))
+        $('#facultyList').change(e => querySourceByFacultyId(e.currentTarget.value))
 
         // 全校资源库数量及详细信息统计
         sourceDetailOption = {
@@ -117,13 +135,14 @@
         }
         // 全校资源库数量及详细信息统计
         var typeToResourceList = ["", "docTimes", "picTimes", "videoTimes", "flashTimes", "exeTimes", "u3dTimes", "scormTimes"];
-        function querySourceByCollectId() {
+        function querySourceByCollectId(collegeId) {
             admin.get({
-                url: '/report/querySourceByCollectId?collegeId=8',
+                url: '/report/querySourceByCollectId' + (collegeId &&  collegeId != undefined && collegeId != ''? ('?collegeId=' + collegeId): ''),
                 success: function(res) {
                     var innerData = {
                         allTimes: 0,
                         docTimes: 0,
+                        picTimes: 0,
                         videoTimes: 0,
                         flashTimes: 0,
                         exeTimes: 0,
@@ -304,13 +323,14 @@
             ]
         }
         // 各学院资源库数量及详细信息统计
-        function querySourceByFacultyId() {
+        function querySourceByFacultyId(facultyId) {
             admin.get({
-                url: '/report/querySourceByFacultyId?facultyId=8',
+                url: '/report/querySourceByFacultyId' + (facultyId &&  facultyId != undefined && facultyId != ''? ('?facultyId=' + facultyId): ''),
                 success: function(res) {
                     var innerData = {
                         allTimes: 0,
                         docTimes: 0,
+                        picTimes: 0,
                         videoTimes: 0,
                         flashTimes: 0,
                         exeTimes: 0,
@@ -325,7 +345,6 @@
                     }
                     collegeDetailTableOption.data = [innerData]
                     table.render(collegeDetailTableOption)
-
                 }
             })
         }
