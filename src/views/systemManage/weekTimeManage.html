@@ -27,10 +27,12 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin', 'laydate'], function(
+    layui.use(['table', 'jquery', 'form', 'admin', 'laydate','layedit'], function(
         table,
         $
     ) {
+
+
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -220,8 +222,8 @@
                     layer.close(index)
                 }
             })
-
             form.render()
+
         })
 
         $('#add_week-time').on('click', function() {
@@ -257,6 +259,7 @@
                 }
             })
             form.render()
+
         })
 
         function getList(page) {
@@ -429,6 +432,7 @@
                 '                    <label class="layui-form-label">周次名称:</label>\n' +
                 '                    <input\n' +
                 '                        type="number"\n' +
+                'onkeyup="this.value=this.value.replace(/[^0-9-]+/,"");"\n'+
                 '                        name="name"\n' +
                 '                        id="name"\n' +
                 '                        class="common-form-input"\n' +
