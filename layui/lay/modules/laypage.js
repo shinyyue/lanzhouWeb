@@ -49,7 +49,7 @@ layui.define(function (e) {
                 }(),
                 currLimit: '<span class="layui-laypage-currLimit">每页' + a.limit + '条</span>',
                 curr: '<span class="layui-laypage-curr">当前第' + a.curr + '页</span>',
-                pageCount: '<span class="layui-laypage-pageCount">共' + parseInt(a.count / a.limit) + '页</span>',
+                pageCount: '<span class="layui-laypage-pageCount">共' + parseInt(a.count / a.limit + 1) + '页</span>',
                 refresh: ['<a href="javascript:;" data-page="' + a.curr + '" class="layui-laypage-refresh">', '<i class="layui-icon layui-icon-refresh"></i>', "</a>"].join(""),
                 skip: function () {
                     return ['<span class="layui-laypage-skip">&#x5230;&#x7B2C;', '<input type="text" min="1" value="' + a.curr + '" class="layui-input">', '&#x9875;<button type="button" class="layui-laypage-btn">&#x786e;&#x5b9a;</button>', "</span>"].join("")
