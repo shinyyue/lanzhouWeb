@@ -89,11 +89,11 @@
             endTime = route.search.endTime,
             startTime = route.search.startTime,
             now = new Date().getTime()
-        getDeatils()
+        getDeatils(id)
 
-        function getDeatils() {
+        function getDeatils(id) {
             admin.get({
-                url: '/testQuestions/info?id=' + 8,
+                url: '/testQuestions/info?id=' + id,
                 success: function (res) {
                     $('#full_mark').html(res.data.score)
                     $('#test_time').html(res.data.testTime)
