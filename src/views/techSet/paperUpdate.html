@@ -31,9 +31,6 @@
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">所属开课</label>
-                    <!--<select name="curriculumId" id="curriculumId">
-                        <option value="">请选择课程</option>
-                    </select>-->
                     <input
                             type="text"
                             name="curriculumId"
@@ -116,7 +113,6 @@
             id = route.search.id || '',
             courseName = layui.data('techSet').techSetName
         form.render()
-        debugger
         $('#courseName').html(courseName)
         $('#tile_manage').html(id ? '修改试卷' : '添加试卷')
         //监听提交
@@ -148,12 +144,13 @@
             elem: '#endTime', //指定元素
             type: 'datetime'
         })
-        getPloyList()
+
         // 设置开课
-        // getCourseList()
         $('#curriculumId').val(courseName)
         if (id) {
             getDetails()
+        } else {
+            getPloyList(-1)
         }
 
         function getDetails() {
@@ -161,8 +158,7 @@
                 url: '/examinationPaper/queryById?id=' + id,
                 success: function(res) {
                     $('#name').val(res.data.name)
-                    $('#strategyId').val(res.data.strategyId)
-                    $('#curriculumId').val(res.data.curriculumId)
+                    getPloyList(res.data.strategyId)
                     $('#testTime').val(res.data.testTime)
                     $('#startTime').val(
                         admin.dateFormat(
@@ -209,7 +205,7 @@
             })
         }
 
-        function getPloyList() {
+        function getPloyList(chosenId) {
             var data = {
                 page: 1,
                 rows: 100000
@@ -222,13 +218,7 @@
                     res.data &&
                         res.data.items &&
                         res.data.items.forEach(item => {
-                            $('#strategyId').append(
-                                '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.strategyName +
-                                    '</option>'
-                            )
+                            $('#strategyId').append('<option '+(chosenId==item.id?'selected':'')+' value="' + item.id + '">' + item.strategyName + '</option>')
                         })
                     form.render()
                 },
@@ -237,34 +227,6 @@
                 }
             })
         }
-
-        // function getCourseList() {
-        //     var data = {
-        //         page: 1,
-        //         rows: 1000000
-        //     }
-        //     admin.post({
-        //         url: '/vsMpCurriculum/getList',
-        //         data: JSON.stringify(data),
-        //         success: function(res) {
-        //             res.data &&
-        //                 res.data.items &&
-        //                 res.data.items.forEach(item => {
-        //                     $('#curriculumId').append(
-        //                         '<option value="' +
-        //                             item.id +
-        //                             '">' +
-        //                             item.curriculumName +
-        //                             '</option>'
-        //                     )
-        //                 })
-        //             form.render()
-        //         },
-        //         error: function(err) {
-        //             layer.msg((err && err.msg) || '数据请求失败')
-        //         }
-        //     })
-        // }
     })
 </script>
 <style>
