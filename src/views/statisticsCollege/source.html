@@ -15,19 +15,20 @@
                     <option value="">自动化与电气学院</option>
                 </select>
             </div>
-            <table id="source_detaisl_table" lay-filter="source_detaisl_table"></table>
+            <table id="source_detail_table" lay-filter="source_detail_table"></table>
         </div>
         <div class="source-content-item">
             <div class="source-content-title">
                 <h4>资源列表详情</h4>
                 <div class="source-content-search">
-                    <button class="search-confirm" id="source_detaisl_btn">
+                    <button class="search-confirm" id="source_detail_btn">
                         <img src="src/images/search.png">
                     </button>
-                    <input type="text" class="layui-input" placeholder="请输入关键字" id="source_detaisl_key">
+                    <input type="text" class="layui-input" placeholder="请输入关键字" id="source_detail_key">
                 </div>
             </div>
-            <table id="sourcelist_detaisl_table" lay-filter="sourcelist_detaisl_table"></table>
+            <table id="sourcelist_detail_table" lay-filter="sourcelist_detail_table"></table>
+            <div class="app-table-page" id="sourcelist_detail_page"></div>
         </div>
         <div class="source-content-item">
             <h4>各学院资源库数量及详细信息统计</h4>
@@ -38,19 +39,20 @@
                     <option value="">自动化与电气学院</option>
                 </select>
             </div>
-            <table id="college_detaisl_table" lay-filter="college_detaisl_table"></table>
+            <table id="college_detail_table" lay-filter="college_detail_table"></table>
         </div>
         <div class="source-content-item">
             <div class="source-content-title">
                 <h4>资源列表详情</h4>
                 <div class="source-content-search">
-                    <button class="search-confirm" id="college_detaisl_btn">
+                    <button class="search-confirm" id="college_detail_btn">
                         <img src="src/images/search.png">
                     </button>
-                    <input type="text" class="layui-input" placeholder="请输入关键字" id="college_detaisl_key">
+                    <input type="text" class="layui-input" placeholder="请输入关键字" id="college_detail_key">
                 </div>
             </div>
-            <table id="college_sourcelist_detaisl_table" lay-filter="college_sourcelist_detaisl_table"></table>
+            <table id="college_sourcelist_detail_table" lay-filter="college_sourcelist_detail_table"></table>
+            <div class="app-table-page" id="college_sourcelist_detail_page"></div>
         </div>
     </div>
 </div>
@@ -59,14 +61,15 @@
     layui.use(['table', 'admin'], function (table) {
         var $ = layui.jquery,
             table = layui.table,
+            laypage = layui.laypage,
             admin = layui.admin;
 
         // 全校资源库数量及详细信息统计
-        sourceDetaislOption = {
+        sourceDetailOption = {
             page: false,
             skin: 'row, line',
             data: [],
-            elem: '[lay-filter="source_detaisl_table"]',
+            elem: '[lay-filter="source_detail_table"]',
             cols: [
                 [{
                     title: '资源总数',
@@ -133,19 +136,19 @@
                             innerData[typeToResourceList[item.type]] = item.COUNT
                         })
                     }
-                    sourceDetaislOption.data = [innerData]
-                    table.render(sourceDetaislOption)
+                    sourceDetailOption.data = [innerData]
+                    table.render(sourceDetailOption)
                 }
             })
         }
         querySourceByCollectId();
 
         // 资源列表详情
-        sourcelistDetaislTableOption = {
-            page: false,
+        sourcelistDetailTableOption = {
+            // page: false,
             skin: 'row, line',
             data: [],
-            elem: '[lay-filter="sourcelist_detaisl_table"]',
+            elem: '[lay-filter="sourcelist_detail_table"]',
             cols: [
                 [{
                     title: '序号',
@@ -181,6 +184,19 @@
                 ]
             ]
         }
+        sourcelistDetailPageOption = {
+            elem: 'sourcelist_detail_page',
+            limit: 10,
+            first: '首页',
+            last: '尾页',
+            layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
+            jump: function(obj, first) {
+                //首次不执行
+                if (!first) {
+                    querySourceByCollectIdInfo(obj.curr, $('#college_detail_key').val())
+                }
+            }
+        }
         // 资源列表详情
         var typeToResourceNameList = ["", "文档资源", "图片资源", "视频资源", "flash资源", "EXE资源", "U3D资源", "scorm课件资源"];
         function querySourceByCollectIdInfo(page, key) {
@@ -197,6 +213,7 @@
                     var test = {
                         code: 200,
                         data: {
+                            total: 53,
                             items: [
                                 {
                                     "college_name": "兰大",
@@ -222,23 +239,25 @@
                             item.insc_id = startInscId++
                             item.type_name = typeToResourceNameList[item.type]
                         })
-                        sourcelistDetaislTableOption.data = res.data.items
-                        table.render(sourcelistDetaislTableOption)
+                        sourcelistDetailTableOption.data = res.data.items
+                        sourcelistDetailPageOption.count = (res.data && res.data.total) || 0
+                        table.render(sourcelistDetailTableOption)
+                        laypage.render(sourcelistDetailPageOption)
                     }
 
                 }
             })
         }
         querySourceByCollectIdInfo(1, '');
-        $('#college_detaisl_btn').click(() => querySourceByCollectIdInfo(1, $('#college_detaisl_key').val()))
+        $('#college_detail_btn').click(() => querySourceByCollectIdInfo(1, $('#college_detail_key').val()))
 
 
         // 各学院资源库数量及详细信息统计
-        collegeDetaislTableOption = {
+        collegeDetailTableOption = {
             page: false,
             skin: 'row, line',
             data: [],
-            elem: '[lay-filter="college_detaisl_table"]',
+            elem: '[lay-filter="college_detail_table"]',
             cols: [
                 [{
                         title: '资源总数',
@@ -304,8 +323,8 @@
                             innerData[typeToResourceList[item.type]] = item.COUNT
                         })
                     }
-                    collegeDetaislTableOption.data = [innerData]
-                    table.render(collegeDetaislTableOption)
+                    collegeDetailTableOption.data = [innerData]
+                    table.render(collegeDetailTableOption)
 
                 }
             })
@@ -314,11 +333,11 @@
 
 
         // 资源列表详情
-        collegeSourcelistDetaislTableOption = {
+        collegeSourcelistDetailTableOption = {
             page: false,
             skin: 'row, line',
             data: [],
-            elem: '[lay-filter="college_sourcelist_detaisl_table"]',
+            elem: '[lay-filter="college_sourcelist_detail_table"]',
             cols: [
                 [{
                     title: '序号',
@@ -354,6 +373,19 @@
                 ]
             ]
         }
+        collegeSourcelistDetailPageOption = {
+            elem: 'college_sourcelist_detail_page',
+            limit: 10,
+            first: '首页',
+            last: '尾页',
+            layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
+            jump: function(obj, first) {
+                //首次不执行
+                if (!first) {
+                    querySourceByFacultyIdInfo(obj.curr, $('#source_detail_key').val())
+                }
+            }
+        }
         // 资源列表详情
         function querySourceByFacultyIdInfo(page, key) {
             admin.post({
@@ -369,6 +401,7 @@
                     var test = {
                         code: 200,
                         data: {
+                            total: 45,
                             items: [
                                 {
                                     "college_name": "兰大",
@@ -394,14 +427,16 @@
                             item.insc_id = startInscId++
                             item.type_name = typeToResourceNameList[item.type]
                         })
-                        collegeSourcelistDetaislTableOption.data = res.data.items
-                        table.render(collegeSourcelistDetaislTableOption)
+                        collegeSourcelistDetailTableOption.data = res.data.items
+                        collegeSourcelistDetailPageOption.count = (res.data && res.data.total) || 0
+                        table.render(collegeSourcelistDetailTableOption)
+                        laypage.render(collegeSourcelistDetailPageOption)
                     }
                 }
             })
         }
         querySourceByFacultyIdInfo(1, '');
-        $('#source_detaisl_btn').click(() => querySourceByCollectIdInfo(1, $('#source_detaisl_key').val()))
+        $('#source_detail_btn').click(() => querySourceByCollectIdInfo(1, $('#source_detail_key').val()))
 
     })
 </script>
