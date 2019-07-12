@@ -6,14 +6,12 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">所属知识点</span>
-            <select name="" id="">
-                <option value="">选择课程</option>
-                <option value="">课程1</option>
-                <option value="">课程2</option>
+            <select name="" id="knowledgePoint">
+                <option value="">请选择知识点</option>
             </select>
             <span class="search-project">创建人</span>
-            <input type="text" />
-            <button class="search-confirm">
+            <input type="text" id="createdBy" />
+            <button class="search-confirm" id="cource-search">
                 <img src="src/images/search.png" />
             </button>
         </div>
@@ -214,10 +212,16 @@
             })
 
         function getList(page) {
-            var data = {
-                page: page,
-                rows: pageLimit
-            }
+            var knowledgePoint = $('#knowledgePoint').val(),
+                createdBy = $('#createdBy').val(),
+                data = {
+                    page: page,
+                    rows: pageLimit,
+                    key:
+                    knowledgePoint +
+                    '|' +
+                    createdBy
+                }
             admin.post({
                 url: '/exercises/getList',
                 data: JSON.stringify(data),
@@ -295,6 +299,52 @@
                     // 提交
                 }
             })
+        })
+
+
+        // 知识点列表
+        function getKnowledgePointList(callback) {
+            var data = {
+                page: 1,
+                rows: 1000
+            }
+            admin.post({
+                url: '/knowledgePoint/list',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
+                        var options = ''
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            options +=
+                                '<option value="' +
+                                item.cId +
+                                '">' +
+                                item.cName +
+                                '</option>'
+                        })
+                        $('#knowledgePoint').html(
+                            '<option value="">请选择知识点</option>'
+                        )
+                        $('#knowledgePoint').append(options)
+                        callback && typeof callback === 'function' && callback(res)
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        getKnowledgePointList(function(res) {
+        })
+
+        $('#cource-search').click(function() {
+            getList(1)
         })
     })
 </script>

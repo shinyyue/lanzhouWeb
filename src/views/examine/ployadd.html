@@ -429,7 +429,8 @@
                 strategyName: $('input[name="strategyName"]')
                     .val()
                     .trim(),
-                strategyEntries: list
+                // strategyEntries: list
+                strategyEntries: JSON.stringify(list)
             }
 
             admin.post({
