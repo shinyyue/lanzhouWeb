@@ -1,86 +1,92 @@
-<div class="layui-fluid" id="processTest" lay-title="开课管理">
+<div class="layui-fluid" id="processDetail" lay-title="开课管理">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>开课管理 > 铁路信号知识 > 实验过程 > 实验统计</span>
+            <span>开课管理 > <span id="courseName"></span> > 实验过程 > 实验统计</span>
         </div>
     </div>
     <table
-        id="processTest-list-table"
-        lay-filter="processTest-list-table"
+        id="processDetail-list-table"
+        lay-filter="processDetail-list-table"
     ></table>
-    <div class="app-table-page" id="processTest-table-page"></div>
+    <div class="app-table-page" id="processDetail-table-page"></div>
+    <div class="layui-row">
+        <div class="layui-form-item layui-col-md12">
+            <label class="layui-form-label"></label>
+            <div>
+                <button class="layui-btn layui-btn-primary cancel-btn "
+                        id="source-add-cancle"> 返回 </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
     layui.use(['table', 'jquery'], function(table, $) {
-        var tableFilter = 'processTest-list-table',
+        var tableFilter = 'processDetail-list-table',
             laypage = layui.laypage,
-            $ = layui.jquery
+            $ = layui.jquery,
+            route = layui.router(),
+            admin = layui.admin,
+            courseName = layui.data('techSet').techSetName,
+            pageLimit = 20;
 
-        table.render({
+        $('#courseName').html(courseName);
+
+        tableOption = {
             page: false,
-            data: [
-                {
-                    id: 1,
-                    courceName: '发电机哈哈',
-                    processTestCode: 20190101,
-                    responsor: '王小虎',
-                    time: '第一学期',
-                    class: '所有年级',
-                    isCommon: false,
-                    score: 1
-                }
-            ],
             elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
             cols: [
                 [
                     {
                         title: '序号',
                         field: 'id',
                         width: 80,
-                        align: 'center'
+                        align: 'center',
+                        templet: d => d.LAY_TABLE_INDEX+1
                     },
                     {
                         title: '学生姓名',
-                        field: 'courceName',
-                        align: 'center'
+                        field: 'userName',
+                        align: 'center',
+                        width: 120
                     },
                     {
                         title: '班级',
-                        field: 'processTestCode',
-                        align: 'center'
+                        field: 'className',
+                        align: 'center',
+                        width: 200
                     },
                     {
                         title: '开始时间/结束时间',
                         align: 'center',
                         field: 'times',
-                        width: 180
+                        width: 400,
+                        templet: function (d) {
+                            return admin.dateFormat(new Date(d.startTime).getTime() / 1000)+"-"+admin.dateFormat(new Date(d.endTime).getTime() / 1000);
+                        }
                     },
                     {
                         title: '次数',
-                        field: 'responsor',
-                        align: 'center'
+                        field: 'countSize',
+                        align: 'center',
+                        width: 80
                     },
                     {
                         title: '累计时长',
-                        align: 'center',
-                        width: 80
+                        align: 'totleTime',
+                        width: 120,
+                        templet: d => Math.floor(d.totleTime/3600) + ":" + Math.floor(d.totleTime%3600/60) + ":" + d.totleTime%60
                     }
                 ]
             ]
-        })
+        };
 
         //执行一个laypage实例
-        laypage.render({
-            elem: 'processTest-table-page', //注意，这里的 test1 是 ID，不用加 # 号
-            count: 50, //数据总数，从服务端得到
-            limit: 10,
+        layPageOption = {
+            elem: 'processDetail-table-page', //注意，这里的 test1 是 ID，不用加 # 号
             first: '首页',
             last: '尾页',
-            hash: 'page',
-            curr: location.hash.replace('#!page=', ''),
             layout: [
                 'first',
                 'prev',
@@ -91,8 +97,78 @@
                 'currLimit',
                 'curr',
                 'pageCount'
-            ]
+            ],
+            jump: function (obj, first) {
+                //首次不执行
+                if (!first) {
+                    getList(obj.curr)
+                }
+            }
+        }
+
+        getList = page => {
+            admin.post({
+                url: '/curriculumExperiment/queryTestResult',
+                data: JSON.stringify({
+                    page: page,
+                    rows: pageLimit,
+                    curriculumExperimentId: route.search.id || 0
+                }),
+                success: function (res) {
+
+                    // 测试数据
+                    // test = {
+                    //     "msg": "成功",
+                    //     "code": 200,
+                    //     "data": {
+                    //         "total": 3,
+                    //         "items": [
+                    //             {
+                    //                 "countSize": 2,
+                    //                 "totleTime": 15,
+                    //                 "className": "一年级二班",
+                    //                 "startTime": "2019-05-29T20:08:50.000+0000",
+                    //                 "endTime": "2019-06-26T08:44:21.000+0000",
+                    //                 "userName": "jack"
+                    //             },
+                    //             {
+                    //                 "countSize": 1,
+                    //                 "totleTime": 1000,
+                    //                 "className": "二年级一班",
+                    //                 "startTime": "2019-06-26T08:46:05.000+0000",
+                    //                 "endTime": "2019-06-26T08:46:07.000+0000",
+                    //                 "userName": "李四"
+                    //             },
+                    //             {
+                    //                 "countSize": 1,
+                    //                 "totleTime": 100,
+                    //                 "className": "一年级一班",
+                    //                 "startTime": "2019-06-26T08:46:46.000+0000",
+                    //                 "endTime": "2019-06-26T08:46:45.000+0000",
+                    //                 "userName": "王五"
+                    //             }
+                    //         ]
+                    //     }
+                    // }
+                    // res = test
+
+                    tableOption.data = (res.data && res.data.items) || [];
+                    layPageOption.count = (res.data && res.data.total) || 0;
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
+                }
+            })
+        };
+
+        getList(1)
+
+        $('#source-add-cancle').on('click', function () {
+            location.href = 'index.html#/techSet/processTest'
         })
+
     })
 </script>
 
@@ -101,28 +177,28 @@
         width: 100%;
     }
 
-    .processTest-title .processTest-title-location {
+    .processDetail-title .processDetail-title-location {
         float: left;
     }
 
-    .processTest-title .processTest-title-search {
+    .processDetail-title .processDetail-title-search {
         float: right;
         text-align: right;
     }
 
-    .processTest-title .processTest-title-search select,
-    .processTest-title .processTest-title-search input {
+    .processDetail-title .processDetail-title-search select,
+    .processDetail-title .processDetail-title-search input {
         width: 118px;
         height: 30px;
         padding: 0 4px;
         border-radius: 0;
     }
 
-    .processTest-title .processTest-title-search .search-project {
+    .processDetail-title .processDetail-title-search .search-project {
         line-height: 30px;
     }
 
-    .processTest-title .processTest-title-search .search-confirm {
+    .processDetail-title .processDetail-title-search .search-confirm {
         width: 51px;
         height: 30px;
         background: #ff6600;
@@ -131,12 +207,12 @@
         cursor: pointer;
     }
 
-    .processTest-add {
+    .processDetail-add {
         text-align: right;
         padding: 20px 0 10px;
     }
 
-    .processTest-add .add-btn {
+    .processDetail-add .add-btn {
         width: 70px;
         height: 30px;
         background: #ff6600;
@@ -144,11 +220,11 @@
         font-size: 16px;
     }
 
-    #processTest-opt {
+    #processDetail-opt {
         width: 200px;
     }
 
-    .processTest-set-btn {
+    .processDetail-set-btn {
         padding: 4px 10px;
         border: 1px solid #ccc;
         cursor: pointer;
