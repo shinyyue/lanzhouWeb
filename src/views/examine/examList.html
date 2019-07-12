@@ -22,11 +22,15 @@
     </div>
     <table id="examine-examlist-table" lay-filter="examlist"></table>
     <script type="text/html" id="examine-examlist-opt">
-        <button class="course-set-btn" id="examine-examlist-edit" lay-event="edit">编辑</button>
         <button class="course-set-btn" id="examine-examlist-check" lay-event="check">查看</button>
+        {{#if(d.publish == 0) { }}
+        <button class="course-set-btn" id="examine-examlist-edit" lay-event="edit">编辑</button>
         <button class="course-set-btn" id="examine-examlist-delete" lay-event="delete">删除</button>
-        <button class="course-set-btn" id="examine-examlist-copy" lay-event="copy">复制</button>
+        <!--<button class="course-set-btn" id="examine-examlist-copy" lay-event="copy">复制</button>-->
         <button class="course-set-btn" id="examine-examlist-push" lay-event="publish">发布</button>
+        <!--{{# } else if(d.publish == 1){  }}
+        <button class="course-set-btn" id="examine-examlist-check" lay-event="check">查看</button>-->
+        {{# }  }}
     </script>
     <div class="app-table-page" id="examine-examlist-page"></div>
 </div>
