@@ -176,7 +176,8 @@
             return false
         })
         $('#source-add-cancle').on('click', function () {
-            window.history.go(-1)
+            // window.history.go(-1)
+            window.location.href = 'index.html#/course/index'
         })
         getAllCourses(function () {
             getExperimentRoomList(function () {
@@ -236,6 +237,7 @@
             formData.fullMark = Number(data.fullMark)
             formData.userId = layui.data('userInfo').userInfo.id
             formData.period = Number(data.period)
+            formData.curriculumName = data.curriculumName
             formData.presentation = layedit.getContent(index)
             formData.semester = Number(data.semester)
             $('#course_gooda_at li').each(function (index) {
