@@ -6,13 +6,13 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">所属课程</span>
-            <input type="text" />
-            <select name="" id="">
-                <option value="">选择课程</option>
-                <option value="">课程1</option>
-                <option value="">课程2</option>
-            </select>
-            <button class="search-confirm">
+            <input type="text" id="course"/>
+            <!--<select name="" id="">-->
+                <!--<option value="">选择课程</option>-->
+                <!--<option value="">课程1</option>-->
+                <!--<option value="">课程2</option>-->
+            <!--</select>-->
+            <button class="search-confirm" id="knowledge-search">
                 <img src="src/images/search.png" />
             </button>
         </div>
@@ -137,10 +137,12 @@
         })
 
         function getList(page) {
-            var data = {
-                page: page,
-                rows: pageLimit
-            }
+            var course = $('#course').val(),
+                data = {
+                    page: page,
+                    rows: pageLimit,
+                    key: course
+                }
             admin.post({
                 url: '/knowledgePoint/list',
                 data: JSON.stringify(data),
@@ -168,6 +170,9 @@
 
         $('#examine-knowledge-add').on('click', function() {
             location.href = 'index.html#/examine/addknow'
+        })
+        $('#knowledge-search').click(function() {
+            getList(1)
         })
     })
 </script>

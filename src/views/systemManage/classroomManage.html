@@ -235,6 +235,10 @@
                 id: data.id,
                 classroomName: data.classroomName
             }
+            if(data.classroomName == null || data.classroomName == ""|| data.classroomName == undefined){
+                layer.msg("教室名称不能为空！")
+                return
+            }
             admin.put({
                 url: '/classroom/update',
                 data: JSON.stringify(data),
@@ -265,6 +269,10 @@
         function addData(data) {
             var data = {
                 classroomName: data.classroomName
+            }
+            if(data.classroomName == null || data.classroomName == ""|| data.classroomName == undefined){
+                layer.msg("教室名称不能为空！")
+                return
             }
             admin.post({
                 url: '/classroom/add',
