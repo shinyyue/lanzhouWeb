@@ -75,6 +75,8 @@
         </div>
     </div>
 </div>
+<script src="src/plugins/UnityLoader.js"></script>
+<script src="src/plugins/UnityProgress.js"></script>
 <script>
     layui.use(['form', 'admin'], function () {
         var $ = layui.jquery,
@@ -111,7 +113,6 @@
                     $('#courseName').html(data.courseName)
                     $('#courseName').html(data.courseName)
                     $('#resourceDes').val(data.resourceDes)
-
                     fileUrl = conf.fileRequestUrl + '/' + data.fileUrl
                     if (data.type == 1) {
                         // 文档
@@ -123,20 +124,26 @@
                             '" style="width: 100%; height: 100%;">')
                     } else if (data.type == 3) {
                         // 视频
-                        $('#fileUrl').html('<video src="' + fileUrl + '" controls="controls" style="width: 100%; height: 100%;">')
+                        $('#fileUrl').html('<video src="' + fileUrl +
+                            '" controls="controls" style="width: 100%; height: 100%;">')
                     } else if (data.type == 4) {
                         // flash
                         // $('#fileUrl').html('<video width="320" height="240" controls="controls">' +
                         //     '<object data="'+fileUrl+'" width="320" height="240">'+
                         //     '<embed src="'+fileUrl+'" style="width: 100%; height: 100%;" />'+
                         //     '</object></video>')
-                        $('#fileUrl').html('<embed src="'+fileUrl+'" type="application/x-shockwave-flash" style="width: 100%; height: 100%;" quality="high" />')
+                        $('#fileUrl').html('<embed src="' + fileUrl +
+                            '" type="application/x-shockwave-flash" style="width: 100%; height: 100%;" quality="high" />'
+                        )
                     } else if (data.type == 5) {
                         // exe
                         $('#fileUrl').hide();
                     } else if (data.type == 6) {
                         // U3D
                         // @TODO
+                        UnityLoader.instantiate("fileUrl", data.fileUrl, {
+                            onProgress: UnityProgress
+                        })
                     } else if (data.type == 7) {
                         // scorm课件
                         // @TODO
@@ -171,15 +178,6 @@
 
         function download() {
             window.open(conf.requestUrl + '/dataBank/downloadFile?filePath=' + details.fileUrl)
-            // admin.get({
-            //     url: '/dataBank/downloadFile?filePath=' + details.fileUrl,
-            //     success: function (res) {
-            //         layer.msg('下载成功')
-            //     },
-            //     error: function (err) {
-            //         layer.msg((err && err.msg) || '下载失败')
-            //     }
-            // })
         }
     })
 </script>
