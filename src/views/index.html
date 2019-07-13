@@ -98,17 +98,17 @@
                         {
                             title: '上课地点',
                             align: 'center',
-                            field: 'address',
+                            field: 'classroomName',
                             minWidth: 120
                         },
                         {
                             title: '选课人数',
                             align: 'center',
-                            field: 'count',
+                            field: 'selectStuNum',
                             minWidth: 120
                         },
                         {
-                            field: 'score',
+                            field: 'creditHour',
                             title: '学分',
                             align: 'center',
                             width: 80
@@ -131,7 +131,7 @@
                 key: '|||' + layui.data('userInfo').userInfo.id + '|'
             }
             admin.post({
-                url: '/coursePlan/list',
+                url: '/coursePlan/listCourse',
                 data: JSON.stringify(data),
                 success: function(res) {
                     tableOption.data = (res.data && res.data.items) || []
