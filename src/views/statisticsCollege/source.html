@@ -202,10 +202,12 @@
                 ]
             }
         }
+        currPage = 1
         sourcelistDetailPageOption = (tableFilter, pageFilter, inputVal, count) => {
             return {
                 elem: pageFilter,
                 count: count,
+                curr: currPage,   // ???? 自动跳前一页???
                 limit: 10,
                 first: '首页',
                 last: '尾页',
@@ -220,6 +222,7 @@
         }
 
         querySourceByCollectIdInfo = (tableFilter, pageFilter, page, key) => {
+            currPage = page
             admin.post({
                 url: '/report/querySourceByCollectIdInfo',
                 data: JSON.stringify({
@@ -240,7 +243,7 @@
                         count = (res.data && res.data.total) || 0
                     }
                     table.render(sourcelistDetailTableOption(tableFilter, data))
-                    laypage.render(sourcelistDetailPageOption(tableFilter, pageFilter, key, count))
+                    laypage.render(sourcelistDetailPageOption(tableFilter, pageFilter, key, count, page))
                 }
             })
         }
