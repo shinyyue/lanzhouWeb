@@ -49,6 +49,7 @@
             admin = layui.admin,
             importModalTemplate = '',
             table = layui.table,
+            conf = layui.conf,
             tableFilter = 'user_all_table',
             tableOption = {
                 elem: '[lay-filter="' + tableFilter + '"]',
@@ -862,16 +863,13 @@
         })
 
         $('#export-cource').on('click', function() {
-            window.open("http://39.104.97.6:8080/user/exportExcel")
-            /*admin.get({
-                url: '/user/exportExcel',
-                /!*+ '?collegeId=' +
-                    $('#college').val() +
-                    '&facultyId=' +
-                    $('#series_model').val()*!/ success: function(
-                    res
-                ) {}
-            })*/
+            $('#export-cource').on('click', function () {
+                var collegeId = $("#college").val()==''?'':$("#college").val(),
+                    roleId = $("#userType").val()==''?'':$("#userType").val(),
+                    url = conf.requestUrl + "/user/exportExcel?roleId="+roleId+"&collegeId=" + collegeId
+                debugger
+                window.open(url)
+            })
         })
 
         function addData(callback) {
