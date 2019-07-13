@@ -202,16 +202,19 @@
                 ]
             }
         }
+        currPage = 1
         sourcelistDetailPageOption = (tableFilter, pageFilter, inputVal, count) => {
             return {
                 elem: pageFilter,
                 count: count,
+                curr: currPage,   // ???? 自动跳前一页???
                 limit: 10,
                 first: '首页',
                 last: '尾页',
                 layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
                 jump: (obj, first) => {
                     //首次不执行
+                    currPage = obj.curr
                     if (!first) {
                         querySourceByCollectIdInfo(tableFilter, pageFilter, obj.curr, inputVal)
                     }
@@ -240,7 +243,7 @@
                         count = (res.data && res.data.total) || 0
                     }
                     table.render(sourcelistDetailTableOption(tableFilter, data))
-                    laypage.render(sourcelistDetailPageOption(tableFilter, pageFilter, key, count))
+                    laypage.render(sourcelistDetailPageOption(tableFilter, pageFilter, key, count, page))
                 }
             })
         }
