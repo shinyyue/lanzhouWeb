@@ -1,4 +1,4 @@
-<div id="techset-techPre"
+<div id="techset-techPre-edit"
      layui-title="课程导读">
     <div class="course-title">
         <div class="course-title-location">
@@ -6,49 +6,51 @@
             <span>开课管理 > <span id="preCourseName"></span> 课程导读</span>
         </div>
     </div>
-    <form action=""
-          class="layui-form my-form">
+    <form class="layui-form my-form">
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">课程导读名称</label>
-                <span id="name"
-                      class="info-details"></span>
+                <input class="common-form-input"
+                       type="text"
+                       id="name"
+                       placeholder="请输入课程导读名称" />
+            </div>
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label ">参考导读</label>
                 <div class="layui-btn layui-btn-primary"
-                     style="margin-left: 60px;"
+                     style=""
                      id="tech-pre-check"> 查看其他导师导读 </div>
             </div>
         </div>
         <div class="layui-row">
-            <div class="layui-col-md6 layui-form-item">
-                <label class="layui-form-label ">原创者</label>
-                <span id="userName"
-                      class="info-details"></span>
-            </div>
-            <div class="layui-col-md6 layui-form-item">
+            <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">是否可被引用</label>
-                <span id="cited"
-                      class="info-details"></span>
+                <div class="layui-input-block">
+                    <input type="radio"
+                           name="cited"
+                           value="1"
+                           title="是" />
+                    <input type="radio"
+                           name="cited"
+                           value="0"
+                           title="否" />
+                </div>
             </div>
         </div>
         <div class="layui-row">
-            <div class="layui-col-md6 layui-form-item">
+            <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">建议分数</label>
-                <span id="recommendedScores"
-                      class="info-details"></span>
-            </div>
-            <div class="layui-col-md6 layui-form-item">
-                <label class="layui-form-label ">创建时间</label>
-                <span id="createTime"
-                      class="info-details"></span>
+                <input class="common-form-input"
+                       type="text"
+                       id="recommendedScores"
+                       placeholder="请输入建议分数" />
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">课程导读内容</label>
                 <div class="layui-col-md9">
-                    <textarea name="content"
-                              id="content"
-                              class="layui-textarea"></textarea>
+                    <div id="techSet_content"></div>
                 </div>
             </div>
         </div>
@@ -56,9 +58,9 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label "></label>
                 <div class="layui-btn primary-btn"
-                     id="tech-pre-save"> 修改 </div>
+                     id="tech-edit-save"> 提交 </div>
                 <div class="layui-btn "
-                     id="tech-pre-back"> 返回首页 </div>
+                     id="tech-edit-back"> 取消 </div>
             </div>
         </div>
     </form>
@@ -66,34 +68,96 @@
 <script>
     var checkDetails = {},
         preDetailsTemp = ''
-    layui.use([], function () {
+    layui.use(['layedit'], function () {
         var $ = layui.jquery,
             admin = layui.admin,
+            form = layui.form,
+            layedit = layui.layedit,
             route = layui.router(),
             id = route.search.id || layui.data('techSet').techSetId,
+            type = route.search.type,
             courseName = layui.data('techSet').techSetName;
-        $('#tech-pre-back').on('click', function () {
-            location.href = '/index.html#/'
+        var index = layedit.build('techSet_content', {
+            tool: ['strong', //加粗
+                'italic', //斜体
+                'underline', //下划线
+                'del', //删除线
+                '|', //分割线
+                'left', //左对齐
+                'center', //居中对齐
+                'right', //右对齐
+                'link', //超链接
+                'image' //插入图片
+            ]
+        })
+        form.render()
+        $('#tech-edit-back').on('click', function () {
+            location.href = '/index.html#/techSet/techPre/id=' + id
             location.reload()
         })
-        $('#tech-pre-save').click(function () {
-            location.href = $('#tech-pre-save').html() === '去添加' ?
-                '/index.html#/techSet/techPreEdit/id=' + id + '/type=add' :
-                '/index.html#/techSet/techPreEdit/id=' + id + '/type=edit'
-            location.reload()
+        $('#tech-edit-save').click(function () {
+            if (type === 'edit') {
+                updateData()
+            } else {
+                addData()
+            }
         })
-        getDetails()
+        type === 'edit' && getDetails()
         getOtherList()
         getTemplate()
+
+        function addData() {
+            var data = {
+                name: $('#name').val(),
+                cited: Number($('input[name=cited]:checked').val()),
+                recommendedScores: Number($('#recommendedScores').val()),
+                content: layedit.getContent(index),
+                coursePlanId: Number(id)
+            }
+            admin.post({
+                url: '/introduction/add',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    if (res.code === 200) {
+                        layer.msg('添加成功！')
+                        // location.href = '/index.html#/techSet/techPre/id=' + id
+                        // location.reload()
+                    } else {
+                        layer.msg(res.msg || '添加失败')
+                    }
+                }
+            })
+        }
+
+        function updateData() {
+            var data = {
+                id,
+                name: $('#name').val(),
+                cited: $('input[name=cited]:checked').val(),
+                recommendedScores: Number($('#recommendedScores').val()),
+                content: layedit.getContent(index),
+                coursePlanId: Number(id)
+            }
+            admin.put({
+                url: '/introduction/update',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    if (res.code === 200) {
+                        layer.msg('修改成功！')
+                        location.href = '/index.html#/techSet/techPre/id=' + id
+                        location.reload()
+                    } else {
+                        layer.msg(res.msg || '修改失败')
+                    }
+                }
+            })
+        }
 
         function getDetails() {
             admin.get({
                 url: '/introduction/queryById?id=' + id,
                 success: function (res) {
-                    if (!res.data) {
-                        $('#tech-pre-save').html('去添加')
-                        return
-                    }
+                    if (!res.data) return
                     var data = res.data || {}
                     $('#preCourseName').html((data.name || courseName) + ' > ')
                     $('#userName').html(data.userName)
@@ -179,13 +243,11 @@
     })
 </script>
 <style>
-    #techset-techPre {}
-
-    #techset-techPre .my-form {
+    #techset-techPre-edit .my-form {
         padding: 25px 0;
     }
 
-    #techset-techPre .info-details {
+    #techset-techPre-edit .info-details {
         display: inline-block;
         line-height: 38px;
     }

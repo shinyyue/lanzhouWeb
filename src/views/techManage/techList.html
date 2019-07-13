@@ -8,25 +8,27 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">开课名称</span>
-            <input type="text" id="courseName"/>
+            <input type="text"
+                   id="courseName" />
             <span class="search-project">开课单位</span>
             <select name=""
                     id="courseUnit">
                 <option value="">请选择开课单位</option>
             </select>
             <!--<select name=""-->
-                    <!--id="">-->
-                <!--<option value="">请选择学期</option>-->
+            <!--id="">-->
+            <!--<option value="">请选择学期</option>-->
             <!--</select>-->
             <!--<select name=""-->
-                    <!--id="">-->
-                <!--<option value="">选择任课老师</option>-->
+            <!--id="">-->
+            <!--<option value="">选择任课老师</option>-->
             <!--</select>-->
             <!--<select name=""-->
-                    <!--id="">-->
-                <!--<option value="">是否开课</option>-->
+            <!--id="">-->
+            <!--<option value="">是否开课</option>-->
             <!--</select>-->
-            <button class="search-confirm" id = "cource-search">
+            <button class="search-confirm"
+                    id="cource-search">
                 <img src="src/images/search.png" />
             </button>
         </div>
@@ -129,7 +131,6 @@
                     key: 'techSetName',
                     value: data.courseName
                 })
-                // common.setCookie('courseId', data.id)
                 location.href = 'index.html#/techSet/techPre/id=' + data.id
                 location.reload()
             }
@@ -141,10 +142,7 @@
                 data = {
                     page: page,
                     rows: pageLimit,
-                    key:
-                    courseName +
-                    '|' +
-                    courseUnit
+                    key: courseName + '|' + courseUnit
                 }
             admin.post({
                 url: '/coursePlan/listCourse',
@@ -160,8 +158,6 @@
                 }
             })
         }
-
-
         // 开课单位（学院）列表
         function getCourseUnitList(callback) {
             var data = {
@@ -171,45 +167,28 @@
             admin.post({
                 url: '/college/queryCollegeList',
                 data: JSON.stringify(data),
-                success: function(res) {
-                    if (
-                        res.data &&
-                        res.data.items &&
-                        res.data.items.length > 0
-                    ) {
+                success: function (res) {
+                    if (res.data && res.data.items && res.data.items.length > 0) {
                         var options = ''
-                        res.data.items &&
-                        res.data.items.forEach(item => {
-                            options +=
-                                '<option value="' +
-                                item.id +
-                                '">' +
-                                item.collegeName +
+                        res.data.items && res.data.items.forEach(item => {
+                            options += '<option value="' + item.id + '">' + item.collegeName +
                                 '</option>'
                         })
-                        $('#courseUnit').html(
-                            '<option value="">请选择开课单位</option>'
-                        )
+                        $('#courseUnit').html('<option value="">请选择开课单位</option>')
                         $('#courseUnit').append(options)
                         callback && typeof callback === 'function' && callback(res)
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
-
-        getCourseUnitList(function(res) {
-        })
-
-        $('#cource-search').click(function() {
+        getCourseUnitList(function (res) {})
+        $('#cource-search').click(function () {
             getList(1)
         })
     })
-
-
-
 </script>
 <style>
     .layui-table {

@@ -51,7 +51,6 @@
             path = route.href, // 路由后缀
             firstPath = route.path[0], // 一级路由地址
             menuList = layui.data('role').role.menuTrees;
-
         initHeaderNav()
         setSideNav()
 
@@ -64,9 +63,8 @@
                 if (menuUrlList[1] === firstPath) {
                     status = 'active'
                 }
-                if (menuList[i].menuName !== '课程内容') {
-                    menuStr += '<li class="layui-nav-item ' + status + '"' + 'data-path="' + menuList[i]
-                        .menuUrl +
+                if (menuList[i].menuName !== '课程内容' && menuList[i].menuName !== '课程设置') {
+                    menuStr += '<li class="layui-nav-item ' + status + '"' + 'data-path="' + menuList[i].menuUrl +
                         '"> ' + menuList[i].menuName + '</li>'
                 }
             }
@@ -103,8 +101,7 @@
                             showDl = firstPath === childFirstPath ? 'show' : ''
                             dlStr = '<dl class="layui-nav-child ' + showDl + '">' + ddStr + '</dd>'
                         }
-                        childNav += '<li class="layui-nav-item">' + '   <a href="/index.html#' + child[k]
-                            .menuUrl +
+                        childNav += '<li class="layui-nav-item">' + '   <a href="/index.html#' + child[k].menuUrl +
                             '"data-url="' + child[k].menuUrl + '">' + '       <cite>' + child[k].menuName +
                             '</cite>' + '   </a>' + dlStr + '</li>'
                     }
@@ -181,7 +178,6 @@
         $('#nav_user_name').html(layui.data('userInfo').userInfo.userName)
         $('#nav_user_role').html(layui.data('userInfo').userInfo.roleName || '')
     })
-
 </script>
 <style>
     #app-body {
@@ -349,5 +345,4 @@
         color: #fff;
         background: rgba(0, 176, 202, 1);
     }
-
 </style>
