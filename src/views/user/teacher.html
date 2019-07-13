@@ -55,6 +55,7 @@
             admin = layui.admin,
             importModalTemplate = '',
             table = layui.table,
+            conf = layui.conf,
             tableFilter = 'user_teacher_table',
             tableOption = {
                 elem: '[lay-filter="' + tableFilter + '"]',
@@ -526,11 +527,11 @@
             // setSelectOptions();
         })
         $('#export-cource').on('click', function () {
-            admin.get({
-                url: '/user/exportExcel?collegeId=' + $('#college').val() + '&facultyId=' + $(
-                    '#series').val(),
-                success: function (res) {}
-            })
+            var collegeId = $("#college").val()==''?'':$("#college").val(),
+                url = conf.requestUrl + "/user/exportExcel?roleId=2&collegeId=" + collegeId
+            debugger
+            window.open(url)
+
         })
         getCollegeList(function () {
             $('#college_model').val(formData.collegeId)
