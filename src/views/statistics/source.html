@@ -205,10 +205,12 @@
                 ]
             }
         }
+        currPage = 1
         sourcelistDetailPageOption = (tableFilter, pageFilter, inputVal, count) => {
             return {
                 elem: pageFilter,
                 count: count,
+                curr: currPage,   // ???? 自动跳前一页???
                 limit: 10,
                 first: '首页',
                 last: '尾页',

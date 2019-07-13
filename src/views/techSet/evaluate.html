@@ -2,19 +2,19 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>开课管理 > 铁路信号知识 > 课程评价 > 课程评价列表</span>
+            <span>开课管理 > <span id="courseName"></span> > 课程评价 > 课程评价列表</span>
         </div>
         <div class="course-title-search">
-            <input type="text" value="请输入关键字" />
-            <button class="search-confirm">
+            <input type="text" placeholder="请输入关键字" id="evaluate-key"/>
+            <button class="search-confirm" id="searchEvaluateList">
                 <img src="src/images/search.png" />
             </button>
         </div>
     </div>
     <table id="evaluate-list-table" lay-filter="evaluate-list-table"></table>
     <script type="text/html" id="evaluate-opt">
-        <button class="course-set-btn" id="evaluate-add-delete">删除</button>
-        <button class="course-set-btn" id="evaluate-add-edit">回复</button>
+        <button class="course-set-btn" id="evaluate-add-delete" lay-event="delete">删除</button>
+        <button class="course-set-btn" id="evaluate-add-edit" lay-event="reply">回复</button>
     </script>
     <div class="app-table-page" id="evaluate-table-page"></div>
 </div>
@@ -27,6 +27,8 @@
             tableFilter = 'evaluate-list-table',
             table = layui.table,
             admin = layui.admin,
+            courseId = layui.data('techSet').techSetId,
+            courseName = layui.data('techSet').techSetName,
             pageLimit = 20,
             layPageOption = {
                 elem: 'evaluate-table-page', //注意，这里的 test1 是 ID，不用加 # 号
@@ -63,33 +65,33 @@
                         type: 'numbers'
                     },
                         {
-                            title: '实验名称',
-                            field: 'experimentName',
-                            align: 'center'
-                        },
-                        {
-                            title: '开课名称',
+                            title: '课程名称',
                             field: 'courseName',
                             align: 'center'
                         },
                         {
-                            title: '实验类型',
-                            field: 'typeName',
+                            title: '学生名称',
+                            field: 'userName',
                             align: 'center'
                         },
                         {
-                            title: '开始/结束时间',
-                            field: 'startTime',
+                            title: '内容',
+                            field: 'content',
+                            align: 'center'
+                        },
+                        {
+                            title: '发布时间',
+                            field: 'createTime',
                             align: 'center',
                             templet: function (d) {
                                 console.log(d)
-                                return admin.dateFormat(new Date(d.startTime).getTime() / 1000)+"至"+admin.dateFormat(new Date(d.endTime).getTime() / 1000);
+                                return admin.dateFormat(new Date(d.createTime).getTime() / 1000);
                             }
                         },
                         {
                             title: '操作',
                             align: 'center',
-                            templet: '#readyTest-opt',
+                            templet: '#evaluate-opt',
                             fixed: 'right',
                             width: 200
                         }
@@ -97,18 +99,17 @@
                 ]
             }
 
-
         table.on('tool(evaluate-list-table)', function (obj) {
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event,
                 type = '';
 
-            if (layEvent === 'evaluate-add-edit') {
+            if (layEvent === 'reply') {
                 formData = data;
                 type = 'check';
+                // @TODO 页面还没做
                 window.location.href = 'index.html#/techSet/readyPlan'
-            }
-            else if (layEvent === 'delete') {
+            } else if (layEvent === 'delete') {
                 layer.open({
                     type: 1,
                     offset: 'auto',
@@ -132,13 +133,15 @@
             }
         })
 
+        $('#courseName').html(courseName)
+
         getList(1)
 
         function getList(page) {
             var data = {
                 page: page,
                 rows: pageLimit,
-                key:1
+                key: courseId
             }
             admin.post({
                 url: '/coursre/getList',
