@@ -214,7 +214,6 @@
                 layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
                 jump: (obj, first) => {
                     //首次不执行
-                    currPage = obj.curr
                     if (!first) {
                         querySourceByCollectIdInfo(tableFilter, pageFilter, obj.curr, inputVal)
                     }
@@ -223,6 +222,7 @@
         }
 
         querySourceByCollectIdInfo = (tableFilter, pageFilter, page, key) => {
+            currPage = page
             admin.post({
                 url: '/report/querySourceByCollectIdInfo',
                 data: JSON.stringify({

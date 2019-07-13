@@ -225,6 +225,7 @@
         }
 
         querySourceByFacultyIdInfo = (tableFilter, pageFilter, page, key) => {
+            currPage = page
             admin.post({
                 url: '/report/querySourceByFacultyIdInfo',
                 data: JSON.stringify({
@@ -234,29 +235,6 @@
                     desc: true
                 }),
                 success: res => {
-                    // 测试数据
-                    // var test = {
-                    //     code: 200,
-                    //     data: {
-                    //         total: 53,
-                    //         items: [
-                    //             {
-                    //                 "faculty_name": "兰大" + key,
-                    //                 "name": "资源名称"+ key,
-                    //                 "click_num": 12,
-                    //                 "type": 1,
-                    //                 "download_num": 20
-                    //             }, {
-                    //                 "faculty_name": "兰大+ key",
-                    //                 "name": "1"+ key,
-                    //                 "click_num": 0,
-                    //                 "type": 2,
-                    //                 "download_num": 0
-                    //             }
-                    //         ]
-                    //     }
-                    // }
-                    // res = test
                     var count = 0, data = []
                     if(res.data && res.data.items) {
                         var startInscId = (page-1) * 10 + 1
