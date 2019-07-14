@@ -13,7 +13,9 @@
         <button class="course-set-btn" lay-event="edit">编辑</button>
         <button class="course-set-btn" lay-event="delete">删除</button>
          <button class="course-set-btn" lay-event="check">查看</button>
+        {{#  if (d.state == 0) {}}
         <button class="course-set-btn" lay-event="publish">发布并邮件通知学生</button>
+        {{#}  }}
     </script>
     <div class="app-table-page" id="readyTest-table-page"></div>
 </div>
