@@ -6,17 +6,21 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">实验名称</span>
-            <input type="text" />
-            <select name="" id="">
-                <option value="">2018-2019学年</option>
+            <input type="text" id="name" />
+            <select name="" id="schoolYear">
+                <option value="">请选择学年</option>
             </select>
-            <select name="" id="">
-                <option value="">第一学期</option>
+            <select name=""
+                    id="semester">
+                <option value="">请选择学期</option>
+                <option value="1">第一学期</option>
+                <option value="2">第二学期</option>
             </select>
-            <select name="" id="">
-                <option value="">选择实验类型</option>
+            <select name=""
+                    id="experimentType">
+                <option value="">请选择实验类型</option>
             </select>
-            <button class="search-confirm">
+            <button class="search-confirm" id="experiment-search">
                 <img src="src/images/search.png" />
             </button>
         </div>
@@ -177,15 +181,19 @@
         getList(1)
 
         function getList(page) {
-            var data = {
-                page: page,
-                rows: 10,
-                id: layui.data('course').coursePlanId,
-                name: '',
-                gradeId: null,
-                semester: null,
-                experimentype: null
-            }
+            var name = $('#name').val(),
+                schoolYear = $('#schoolYear').val(),
+                semester = $('#semester').val(),
+                experimentType = $('#experimentType').val(),
+                data = {
+                    page: page,
+                    rows: pageLimit,
+                    id: layui.data('course').coursePlanId,
+                    name: name,
+                    gradeId: schoolYear,
+                    semester: semester,
+                    experimentype: experimentType
+                }
             admin.post({
                 url: '/curriculumExperiment/queryStudentList',
                 data: JSON.stringify(data),
@@ -223,6 +231,91 @@
                     .first()
                     .click()
             })
+
+        // 学年列表
+        function getSchoolYearList(callback) {
+            var data = {
+                page: 1,
+                rows: 100
+            }
+            admin.post({
+                url: '/schoolYear/getList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
+                        var options = ''
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            options +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.schoolYear +
+                                '</option>'
+                        })
+                        $('#schoolYear').html(
+                            '<option value="">请选择学年</option>'
+                        )
+                        $('#schoolYear').append(options)
+                        callback && typeof callback === 'function' && callback(res)
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        getSchoolYearList(function(res) {
+        })
+        // 实验分类列表
+        function getExperimentTypeList(callback) {
+            var data = {
+                page: 1,
+                rows: 1000
+            }
+            admin.post({
+                url: '/experimentType/experimentTypeList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
+                        var options = ''
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            options +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.typeName +
+                                '</option>'
+                        })
+                        $('#experimentType').html(
+                            '<option value="">请选择实验类型</option>'
+                        )
+                        $('#experimentType').append(options)
+                        callback && typeof callback === 'function' && callback(res)
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        getExperimentTypeList(function(res) {
+        })
+        $('#experiment-search').click(function() {
+            getList(1)
+        })
+
     })
 </script>
 
