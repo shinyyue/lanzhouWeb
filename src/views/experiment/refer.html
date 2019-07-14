@@ -6,19 +6,16 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">实验名称</span>
-            <input type="text" />
-            <select name="" id="">
+            <input type="text" id="experimentName" />
+            <select name=""
+                    id="course">
                 <option value="">选择课程</option>
-                <option value="">课程1</option>
-                <option value="">课程2</option>
             </select>
-            <select name="" id="">
+            <select name=""
+                    id="experimentType">
                 <option value="">请选择实验类型</option>
-                <option value="">实验类型1</option>
-                <option value="">实验类型2</option>
-                <option value="">实验类型3</option>
             </select>
-            <button class="search-confirm">
+            <button class="search-confirm" id="experiment-search">
                 <img src="src/images/search.png" />
             </button>
         </div>
@@ -83,7 +80,7 @@
                         },
                         {
                             title: '实验类型',
-                            field: 'experimentalType',
+                            field: 'experimentalTypeName',
                             align: 'center'
                         },
                         {
@@ -127,11 +124,14 @@
         })
 
         function getList(page) {
-            var data = {
-                page: page,
-                rows: pageLimit,
-                key: '|||0'
-            }
+            var course = $('#course').val(),
+                experimentName = $('#experimentName').val(),
+                experimentType = $('#experimentType').val(),
+                data = {
+                    page: page,
+                    rows: pageLimit,
+                    key: experimentName + '|' + course +'|' + experimentType
+                }
             admin.post({
                 url: '/experiments/list',
                 data: JSON.stringify(data),
@@ -153,6 +153,92 @@
             if (layEvent === 'check') {
                 location.href = 'index.html#/experiment/myDetails/id=' + data.id
             }
+        })
+        // 课程列表
+        function getCourseList(callback) {
+            var data = {
+                page: 1,
+                rows: 1000
+            }
+            admin.post({
+                url: '/vsMpCurriculum/getList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
+                        var options = ''
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            options +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.curriculumName +
+                                '</option>'
+                        })
+                        $('#course').html(
+                            '<option value="">请选择课程</option>'
+                        )
+                        $('#course').append(options)
+                        callback && typeof callback === 'function' && callback(res)
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        getCourseList(function(res) {
+        })
+
+
+        // 实验分类列表
+        function getExperimentTypeList(callback) {
+            var data = {
+                page: 1,
+                rows: 1000
+            }
+            admin.post({
+                url: '/experimentType/experimentTypeList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
+                        var options = ''
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            options +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.typeName +
+                                '</option>'
+                        })
+                        $('#experimentType').html(
+                            '<option value="">请选择实验类型</option>'
+                        )
+                        $('#experimentType').append(options)
+                        callback && typeof callback === 'function' && callback(res)
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        getExperimentTypeList(function(res) {
+        })
+
+        $('#experiment-search').click(function() {
+            getList(1)
         })
     })
 </script>
