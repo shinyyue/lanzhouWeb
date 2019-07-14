@@ -134,10 +134,41 @@
                         layer.close(index)
                     }
                 })
+            } else if (layEvent == 'publish') {
+                layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '系统提示',
+                    content: '是否发布并邮件通知学生？',
+                    area: ['300px', '200px'],
+                    shade: 0.4,
+                    skin: 'system-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function(index, layero) {
+                        layer.close(index)
+                        publish(data.id)
+                    },
+                    cancel: function(index) {
+                        layer.close(index)
+                    }
+                })
             }
         })
 
         getList(1)
+
+        function publish(id) {
+            admin.get({
+                url: '/curriculumExperiment/publishAndSendMail?id=' + id,
+                success: function(res) {
+                    if (res.code == 200) {
+                        layer.msg('发布并邮件通知学生成功')
+                        getList(1)
+                    }
+                }
+            })
+        }
 
         function deleteData(id) {
             admin.delete({

@@ -170,9 +170,7 @@
             courseId = layui.data('techSet').techSetId,
             courseName = layui.data('techSet').techSetName,
             admin = layui.admin,
-            details = {},
-            courseId = layui.data('techSet').techSetId,
-            courseName = layui.data('techSet').techSetName
+            details = {}
 
         $('#coursePlanName').html(courseName + ' >')
 
@@ -206,8 +204,8 @@
                 countStu: details.countStudent,
                 reportRatio: $('#reportRatio').val(),
                 experimentRatio: $('#experimentRatio').val(),
-                startTime: $('#startTime').val(),
-                endTime: $('#endTime').val(),
+                startTime: new Date($('#startTime').val()).getTime(),
+                endTime: new Date($('#endTime').val()).getTime(),
                 experimentName: $('#experimentName').val(),
                 experimentType: Number(
                     $('input[name=experimentType]:checked').val()
