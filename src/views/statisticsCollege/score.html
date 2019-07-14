@@ -159,6 +159,10 @@
                     title: '优秀人数',
                     align: 'center',
                     field: 'goodStu',
+                }, {
+                    title: '操作',
+                    align: 'center',
+                    templet: d => '<button class="course-set-btn" lay-event="check">查看</button>'
                 }]
             ]
         }
@@ -189,6 +193,15 @@
             })
         }
         getStatisticsScoreList(1)
+        table.on('tool(statistics_score_table)', obj => {
+            var data = obj.data //获得当前行数据
+            var layEvent = obj.event;
+            if(layEvent == 'check') {
+                layui.data('collegeSet', {key: 'collegeId', value: data.id})
+                layui.data('collegeSet', {key: 'collegeName', value: data.college_name})
+                window.location.href = 'index.html#/statisticsCollege/scoreDetails/v=' + Math.ceil(Math.random()*10000)
+            }
+        })
 
         // 各学院及格率和优秀率升降比例
         statisticsScoreRateTableOption = {
