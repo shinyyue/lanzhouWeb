@@ -8,16 +8,21 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">所属课程</span>
-            <select name=""
-                    id="course">
+            <select name="" id="course">
                 <option value="">选择课程</option>
             </select>
-            <select name=""
-                    id="source">
+            <select name="" id="source">
                 <option value="">请选择资源类型</option>
+                <option value="1">文档</option>
+                <option value="2">图片</option>
+                <option value="3">视频</option>
+                <option value="4">flash</option>
+                <option value="5">EXE</option>
+                <option value="6">U3D</option>
+                <option value="7">scorm课件</option>
             </select>
-            <button class="search-confirm">
-                <img src="src/images/search.png" />
+            <button class="search-confirm" id="source-search">
+                <img src="src/images/search.png">
             </button>
         </div>
     </div>
@@ -153,10 +158,14 @@
         }
 
         function getList(page) {
-            var data = {
-                page: page,
-                rows: pageLimit
-            }
+            var course = $('#course').val(),
+                source = $('#source').val(),
+                data = {
+                    page: page,
+                    rows: pageLimit,
+                    curriculumId: course,
+                    type: source
+                }
             admin.post({
                 url: '/dataBank/queryList',
                 data: JSON.stringify(data),
@@ -171,6 +180,44 @@
                 }
             })
         }
+        // 课程计划列表
+        function getCourseList(callback) {
+            admin.get({
+                url: '/vsMpCurriculum/list',
+                success: function(res) {
+                    if (
+                        res.data &&
+                        res.data.length > 0
+                    ) {
+                        var options = ''
+                        res.data &&
+                        res.data.forEach(item => {
+                            options +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.curriculumName +
+                                '</option>'
+                        })
+                        $('#course').html(
+                            '<option value="">请选择课程</option>'
+                        )
+                        $('#course').append(options)
+                        callback && typeof callback === 'function' && callback(res)
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        getCourseList(function(res) {
+        })
+
+        $('#source-search').click(function() {
+            getList(1)
+        })
     })
 </script>
 <style>
