@@ -145,14 +145,18 @@
                 shadeClose: true,
                 btn: type === 'check' ? [] : ['确定', '取消'],
                 yes: function(index, layero) {
-                    layer.close(index)
                     getFormData()
                     if (type === 'check') {
                         getData(data.id)
                     } else if (type === 'edit') {
                         formData.id = data.id
+                        if(formData.typeName == null || formData.typeName ==  ""){
+                            layer.msg('实验类型名称不能为空！')
+                            return
+                        }
                         updateData(formData)
                     }
+                    layer.close(index)
                 },
                 cancel: function(index) {
                     layer.close(index)
@@ -181,6 +185,10 @@
                 btn: ['确定', '取消'],
                 yes: function(index, layero) {
                     getFormData()
+                    if(formData.typeName == null || formData.typeName ==  ""){
+                        layer.msg('实验类型名称不能为空！')
+                        return
+                    }
                     layer.close(index)
                     addData(formData)
                 },
@@ -284,7 +292,7 @@
                 '        <form action="" class="layui-form">\n' +
                 '            <div class="layui-row">\n' +
                 '                <div class="layui-col-md12 layui-form-item">\n' +
-                '                    <label class="layui-form-label">实验类型名称：</label>\n' +
+                '                    <label class="layui-form-label require">实验类型名称：</label>\n' +
                 '                    <input\n' +
                 '                        type="text"\n' +
                 '                        name="typeName"\n' +
