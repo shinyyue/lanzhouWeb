@@ -35,7 +35,7 @@
             admin = layui.admin,
             route = layui.router(),
             courseId = layui.data('techSet').techSetId
-            courseName = layui.data('techSet').techSetName,
+        courseName = layui.data('techSet').techSetName,
             pageLimit = 20,
             layPageOption = {
                 elem: 'paperManage-table-page', //注意，这里的 test1 是 ID，不用加 # 号
@@ -124,7 +124,8 @@
                     }
                 })
                 return
-            }if (layEvent === 'publish') {
+            }
+            if (layEvent === 'publish') {
                 layer.open({
                     type: 1,
                     offset: 'auto',
@@ -151,9 +152,11 @@
             } else if (layEvent === 'check') {
                 window.location.href = 'index.html#/techSet/paperDetails/id=' + data.id
             }
+            window.location.reload()
         })
         $('#add_paper').on('click', function () {
             window.location.href = 'index.html#/techSet/paperUpdate'
+            window.location.reload()
         })
 
         function getList(page) {
