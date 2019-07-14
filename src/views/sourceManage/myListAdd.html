@@ -47,11 +47,11 @@
                 <div class="layui-col-md10">
                     <div class="layui-tab">
                         <ul class="layui-tab-title">
-                            <li class="layui-this">自定义添加</li>
-                            <li>批量添加</li>
+                            <li class="layui-this"
+                                data-id="1">自定义添加</li>
+                            <li data-id="2">批量添加</li>
                             <li>
-                                <span
-                                      style="width: 100px; margin-left: 10px; color: red;">说明：1.目录节点无资源，无需添加；2.时长最大不超过10分钟
+                                <span style="width: 100px; margin-left: 10px; color: red;">说明：1.目录节点无资源，无需添加；2.时长最大不超过10分钟
                                 </span>
                             </li>
                         </ul>
@@ -223,6 +223,7 @@
                 sourceName: '',
                 countTime: ''
             }],
+            scormUrl = '',
             singlUploadOption = {
                 page: false,
                 limit: 200,
@@ -371,7 +372,6 @@
                 }]
             })
         })
-
         form.on('select(typeChange)', function (obj) {
             resourceType = obj.value
             $('#type').find()
@@ -383,7 +383,6 @@
                     display: 'none'
                 })
                 uploadFile(function () {}, '#scorm_multiple_upload', 7)
-
             } else {
                 uploadFile(function () {}, '#upload-file', resourceType)
                 $('.show-scorm-upload').css({
@@ -590,11 +589,12 @@
                             var data = JSON.parse(res.data)
                             multipleUploadOption.data = data
                             table.render(multipleUploadOption)
+                            scormUrl = res.data
                         } else {
                             $('#file_path').html(res.data)
                         }
                         layer.msg('上传成功')
-                        callback && typeof callback === 'function' && callback()
+                        callback && typeof callback === 'function' && callback(res.data)
                     } else {
                         layer.msg(res.msg || '上传失败')
                     }
@@ -607,20 +607,22 @@
         }
         //监听提交
         form.on('submit(submit)', function (data) {
+            var tabId = $('.layui-tab-title').find('.layui-this').data('id'),
+                scormFileUrl = tabId === 1 ? JSON.stringify(singleTable.config.data) : scormUrl
             data.field.type = Number(data.field.type)
             data.field.accessAuthority = Number(data.field.accessAuthority)
             data.field.canDownload = Number(data.field.canDownload)
             data.field.curriculumId = Number($('#curriculumId').val())
-            data.field.fileUrl = data.field.type === 7 ? JSON.stringify(singleTable.config.data) : $(
-                '#file_path').html()
+            data.field.fileUrl = data.field.type === 7 ? scormFileUrl : $('#file_path').html()
             admin.post({
                 url: '/dataBank/add',
                 data: JSON.stringify(data.field),
                 success: function (res) {
                     if (res.code === 200) {
                         layer.msg('添加成功')
-                        admin.prev()
-                        // window.location.href = 'index.html#/sourceManage/myList'
+                        // admin.prev()
+                        window.location.href = 'index.html#/sourceManage/myList'
+                        window.location.reload()
                     } else {
                         layer.msg(res.msg || '添加失败')
                     }
@@ -652,7 +654,6 @@
                 }
             })
         }
-
         // table 操作超出时的tool
         $(document).off('mousedown', '.layui-table-grid-down').on('mousedown', '.layui-table-grid-down',
             function (event) {
@@ -672,7 +673,6 @@
                 table._tableTrCurr.find('[lay-event="' + elem.attr('lay-event') + '"]').first().click()
             })
     })
-
 </script>
 <style>
     #source-manage-mylist-add {}
@@ -762,5 +762,4 @@
     #source-manage-mylist-add .show-scorm-upload {
         display: none;
     }
-
 </style>

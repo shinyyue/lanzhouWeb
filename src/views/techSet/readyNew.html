@@ -1,13 +1,15 @@
-<div id="ready-new" layui-title="布置新实验">
+<div id="ready-new"
+     layui-title="布置新实验">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>开课管理 > 铁路信号知识 > 实验准备 > 布置新实验</span>
+            <span>开课管理 > <span id="courseName"></span> 实验准备 > 布置新实验</span>
         </div>
     </div>
     <div class="ready-new-step">
         <div class="new-step-inner">
-            <button class="layui-btn layui-btn-primary" style="color: red;">选择开课</button>
+            <button class="layui-btn layui-btn-primary"
+                    style="color: red;">选择开课</button>
             <img src="src/images/arrow-right.svg">
             <button class="layui-btn layui-btn-primary">选择实验</button>
             <img src="src/images/arrow-right.svg">
@@ -16,15 +18,16 @@
             <button class="layui-btn layui-btn-primary">安排成功</button>
         </div>
     </div>
-
-    <table id="ready-new-table" lay-filter="ready-new-table"></table>
-    <script type="text/html" id="ready-new-opt">
+    <table id="ready-new-table"
+           lay-filter="ready-new-table"></table>
+    <script type="text/html"
+            id="ready-new-opt">
         <button class="course-set-btn" lay-event="check">查看</button>
         <button class="course-set-btn" lay-event="choose">选择</button>
     </script>
-    <div class="app-table-page" id="ready-new-page"></div>
+    <div class="app-table-page"
+         id="ready-new-page"></div>
 </div>
-
 <script>
     layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
         var $ = layui.jquery,
@@ -34,22 +37,14 @@
             table = layui.table,
             admin = layui.admin,
             pageLimit = 20,
+            courseId = layui.data('techSet').techSetId,
+            courseName = layui.data('techSet').techSetName,
             layPageOption = {
                 elem: 'ready-new-page', //注意，这里的 test1 是 ID，不用加 # 号
                 limit: 20,
                 first: '首页',
                 last: '尾页',
-                layout: [
-                    'first',
-                    'prev',
-                    'page',
-                    'next',
-                    'last',
-                    'count',
-                    'currLimit',
-                    'curr',
-                    'pageCount'
-                ],
+                layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
                 jump: function (obj, first) {
                     //首次不执行
                     if (!first) {
@@ -67,39 +62,33 @@
                         width: 80,
                         align: 'center',
                         type: 'numbers'
-                    },
-                        {
-                            title: '实验名称',
-                            field: 'experimentName',
-                            align: 'center'
-                        },
-                         {
-                             title: '所属课程',
-                             field: 'courseName',
-                             align: 'center'
-                         },
-                         {
-                             title: '实验类型',
-                             field: 'typeName',
-                             align: 'center'
-                         },
-                        {
-                            title: '实验时长',
-                            field: 'countTime',
-                            align: 'center'
-                        },{
-                            title: '创建者',
-                            field: 'userName',
-                            align: 'center'
-                        },
-                        {
-                            title: '操作',
-                            align: 'center',
-                            templet: '#ready-new-opt',
-                            fixed: 'right',
-                            width: 200
-                        }
-                    ]
+                    }, {
+                        title: '实验名称',
+                        field: 'experimentName',
+                        align: 'center'
+                    }, {
+                        title: '所属课程',
+                        field: 'courseName',
+                        align: 'center'
+                    }, {
+                        title: '实验类型',
+                        field: 'typeName',
+                        align: 'center'
+                    }, {
+                        title: '实验时长',
+                        field: 'countTime',
+                        align: 'center'
+                    }, {
+                        title: '创建者',
+                        field: 'userName',
+                        align: 'center'
+                    }, {
+                        title: '操作',
+                        align: 'center',
+                        templet: '#ready-new-opt',
+                        fixed: 'right',
+                        width: 200
+                    }]
                 ]
             },
             formData = {
@@ -109,60 +98,31 @@
                 type: '',
                 remark: ''
             };
-
         table.on('tool(ready-new-table)', function (obj) {
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event,
                 type = '';
-
             if (layEvent === 'check') {
                 location.href = 'index.html#/experiment/myDetails/id=' + data.id
-            }else if (layEvent === 'choose') {
+            } else if (layEvent === 'choose') {
                 layui.data('course', {
                     key: 'experimentId',
                     value: data.id
                 })
                 location.href = 'index.html#/experiment/readyPlan'
             }
-
             form.render();
         })
-
-//        $('#add_college').on('click', function () {
-//            formData = {};
-//            layer.open({
-//                type: 1,
-//                offset: 'auto',
-//                title: '添加',
-//                content: getTemplate(formData),
-//                area: ['700px', '70%'],
-//                shade: 0.4,
-//                skin: 'user-edit-modal',
-//                shadeClose: true,
-//                btn: ['确定', '取消'],
-//                yes: function (index, layero) {
-//                    layer.close(index)
-//                    addData(formData)
-//                },
-//                cancel: function (index) {
-//                    layer.close(index)
-//                }
-//            })
-//            form.render()
-//        });
-
-
-
         getList(1)
+        $('#courseName').html(courseName + ' >')
 
         function getList(page) {
             var data = {
                 page: page,
                 rows: pageLimit,
-                curriculumId : layui.data('techSet').techSetId
+                curriculumId: Number(layui.data('techSet').techSetId)
             }
             admin.post({
-
                 url: '/curriculumExperiment/queryExpListByCurriculumId',
                 data: JSON.stringify(data),
                 success: function (res) {
@@ -243,7 +203,6 @@
         }
     })
 </script>
-
 <style>
     .ready-new-step {
         padding: 25px 0;

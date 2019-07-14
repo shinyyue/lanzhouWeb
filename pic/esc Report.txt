@@ -1,0 +1,31 @@
+Movie Report
+------------
+
+Frame #    Frame Bytes    Total Bytes    Page
+-------    -----------    -----------    ---------------
+    1          2818           2818        Scene 1
+
+Page                       Shape Bytes    Text Bytes
+-----------------------    -----------    ----------
+Scene 1                           0             0
+
+Embedded Objects                 56             0
+
+Symbol                     Shape Bytes    Text Bytes
+-----------------------    -----------    ----------
+page                             43             0
+Symbol 23                         0             0
+Symbol 22                         0             0
+Symbol 21                         0             0
+Symbol 20                         0             0
+Symbol 19                         0             0
+go_button                         0             0
+Symbol 17                         0             0
+ÍÆ                                0             0
+tui                               0             0
+sharemune                         0             0
+mune01                            0             0
+
+Bitmap                     Compressed  Original    Compression
+-----------------------    ----------  ----------  ------------
+add03                           2551        2664   Lossless

@@ -6,9 +6,54 @@
         </div>
     </div>
     <div class="source-details-inner">
-        <div class="source-display"
-             id="fileUrl">
+        <div class="source-display" id="fileUrl">
+            <div id="mune_area">
+                <div class="tab_a" id="tab_b">
+                    <ul class="tab1 tab1ys">
+                        <li>
+                            <a
+                                id="tab_ch1"
+                                class="active"
+                                href="javascript:void(0)"
+                                ><img src="src/images/xue.png"
+                            /></a>
+                        </li>
+                        <!-- <li>
+                            <a id="tab_ch2"
+                               href="javascript:void(0)"><img src="src/images/lian.png" /></a>
+                        </li> -->
+                    </ul>
+                    <ul class="tab_con tabcon_sy">
+                        <li id="tabcon1">
+                            <div
+                                class="munebtnlist"
+                                id="tabcon1_menulist"
+                            ></div>
+                        </li>
+                        <li id="tabcon2" class="hidden">
+                            <div class="munebtnlist">
+                                <div id="tabcon2_menulist"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="mune_btn" class="munebtna" data-zt="a"></div>
+            <div
+                id="pagecon"
+                style=" min-width: 900px; height: 500px;float: left"
+            >
+                <iframe
+                    frameBorder="0"
+                    id="innerTarget"
+                    name="innerTarget"
+                    scrolling="no"
+                    src="iframe2.htm"
+                    style="width: 100%; height: 100%"
+                ></iframe>
+            </div>
         </div>
+
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">资源名称</label>
@@ -33,9 +78,11 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">资源描述</label>
                 <div class="layui-col-md9">
-                    <textarea name="desc"
-                              class="layui-textarea"
-                              id="resourceDes"></textarea>
+                    <textarea
+                        name="desc"
+                        class="layui-textarea"
+                        id="resourceDes"
+                    ></textarea>
                 </div>
             </div>
         </div>
@@ -65,11 +112,19 @@
                     <button class="layui-btn primary-btn"
                             lay-submit
                             id="canclecollect"> 取消收藏 </button>-->
-                    <button class="layui-btn primary-btn"
-                            lay-submit
-                            id="download"> 下载 </button>
-                    <button class="layui-btn layui-btn-primary cancel-btn"
-                            id="sourmanage_add_cancle"> 返回 </button>
+                    <button
+                        class="layui-btn primary-btn"
+                        lay-submit
+                        id="download"
+                    >
+                        下载
+                    </button>
+                    <button
+                        class="layui-btn layui-btn-primary cancel-btn"
+                        id="sourmanage_add_cancle"
+                    >
+                        返回
+                    </button>
                 </div>
             </div>
         </div>
@@ -77,8 +132,10 @@
 </div>
 <script src="src/plugins/UnityLoader.js"></script>
 <script src="src/plugins/UnityProgress.js"></script>
+<script src="src/plugins/resource_url.js"></script>
+<script src="menutree/menuTree.js"></script>
 <script>
-    layui.use(['form', 'admin'], function () {
+    layui.use(['form', 'admin'], function() {
         var $ = layui.jquery,
             admin = layui.admin,
             conf = layui.conf,
@@ -86,23 +143,23 @@
             id = route.search.id,
             details = {}
         getDetails()
-        $('#collect').on('click', function () {
+        $('#collect').on('click', function() {
             collect()
         })
-        $('#canclecollect').on('click', function () {
+        $('#canclecollect').on('click', function() {
             cancleCollect()
         })
-        $('#download').on('click', function () {
+        $('#download').on('click', function() {
             download()
         })
-        $('#sourmanage_add_cancle').on('click', function () {
+        $('#sourmanage_add_cancle').on('click', function() {
             window.history.go(-1)
         })
 
         function getDetails() {
             admin.get({
                 url: '/dataBank/queryOne?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     var data = res.data
                     details = data
                     $('#resourceName').html(data.resourceName)
@@ -117,36 +174,92 @@
                     if (data.type == 1) {
                         // 文档
                         // window.open(fileUrl)
-                        $('#fileUrl').hide();
+                        $('#fileUrl').hide()
                     } else if (data.type == 2) {
                         // 图片
-                        $('#fileUrl').html('<img src="' + fileUrl +
-                            '" style="width: 100%; height: 100%;">')
+                        $('#fileUrl').html(
+                            '<img src="' +
+                                fileUrl +
+                                '" style="width: 100%; height: 100%;">'
+                        )
                     } else if (data.type == 3) {
                         // 视频
-                        $('#fileUrl').html('<video src="' + fileUrl +
-                            '" controls="controls" style="width: 100%; height: 100%;">')
+                        $('#fileUrl').html(
+                            '<video src="' +
+                                fileUrl +
+                                '" controls="controls" style="width: 100%; height: 100%;">'
+                        )
                     } else if (data.type == 4) {
                         // flash
                         // $('#fileUrl').html('<video width="320" height="240" controls="controls">' +
                         //     '<object data="'+fileUrl+'" width="320" height="240">'+
                         //     '<embed src="'+fileUrl+'" style="width: 100%; height: 100%;" />'+
                         //     '</object></video>')
-                        $('#fileUrl').html('<embed src="' + fileUrl +
-                            '" type="application/x-shockwave-flash" style="width: 100%; height: 100%;" quality="high" />'
+                        $('#fileUrl').html(
+                            '<embed src="' +
+                                fileUrl +
+                                '" type="application/x-shockwave-flash" style="width: 100%; height: 100%;" quality="high" />'
                         )
                     } else if (data.type == 5) {
                         // exe
-                        $('#fileUrl').hide();
+                        $('#fileUrl').hide()
                     } else if (data.type == 6) {
                         // U3D
-                        // @TODO
-                        UnityLoader.instantiate("fileUrl", data.fileUrl, {
-                            onProgress: UnityProgress
-                        })
+                        $('#fileUrl').html('')
+                        var jsonFile = JSON.parse(data.fileUrl).json
+                        UnityLoader.instantiate(
+                            'fileUrl',
+                            'http://39.104.97.6:8001/' + jsonFile,
+                            {
+                                onProgress: UnityProgress
+                            }
+                        )
                     } else if (data.type == 7) {
                         // scorm课件
-                        // @TODO
+                        var sourceList = JSON.parse(data.fileUrl)
+                        var munebtn = document.getElementById('mune_btn')
+                        var mune = document.getElementById('mune_area')
+                        var treeStr = ''
+
+                        for (var i = 0; i < sourceList.length; i++) {
+                            var floor = ''
+                            for (
+                                var k = 0;
+                                k < Number(sourceList[i].floor);
+                                k++
+                            ) {
+                                floor += '-'
+                            }
+                            addtree(
+                                floor + sourceList[i].name,
+                                'http://39.104.97.6:8001/' +
+                                    sourceList[i].sourceName,
+                                'innerTarget'
+                            )
+                        }
+                        createtree('tabcon1_menulist')
+
+                        $('.menu-list').click(function() {
+                            getSWFUrl(
+                                'pagecon',
+                                'http://39.104.97.6:8001/' +
+                                    sourceList[0].sourceName
+                            )
+                        })
+                        munebtn.onclick = function() {
+                            var p = $('#pagecon')
+                            if (this.getAttribute('data-zt') == 'a') {
+                                mune.style.display = 'none'
+                                this.className = 'munebtnb'
+                                this.setAttribute('data-zt', 'b')
+                                p.css({ 'min-width': '1126px' })
+                            } else {
+                                mune.style.display = 'block'
+                                this.className = 'munebtna'
+                                this.setAttribute('data-zt', 'a')
+                                p.css({ 'min-width': '900px' })
+                            }
+                        }
                     }
                 }
             })
@@ -159,7 +272,7 @@
             admin.put({
                 url: '/resCollect/add?id=' + id,
                 // data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     layer.msg('收藏成功')
                     getDetails()
                 }
@@ -169,7 +282,7 @@
         function cancleCollect() {
             admin.delete({
                 url: '/resCollect/del?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     layer.msg('取消收藏成功')
                     getDetails()
                 }
@@ -177,12 +290,17 @@
         }
 
         function download() {
-            window.open(conf.requestUrl + '/dataBank/downloadFile?filePath=' + details.fileUrl)
+            window.open(
+                conf.requestUrl +
+                    '/dataBank/downloadFile?filePath=' +
+                    details.fileUrl
+            )
         }
     })
 </script>
 <style>
-    #source-manage-details {}
+    #source-manage-details #fileUrl {
+    }
 
     .source-details-inner {
         padding: 20px 0;
@@ -190,7 +308,7 @@
 
     .source-display {
         width: 100%;
-        height: 415px;
+        height: 500px;
         background: rgba(0, 0, 0, 0.2);
     }
 
@@ -202,5 +320,111 @@
 
     .layui-textarea {
         width: 100%;
+    }
+
+    #mune_area {
+        width: 326px;
+        height: 500px;
+        float: left;
+        overflow-x: hidden;
+        overfloe-y: auto;
+        background: #a7b7c9;
+    }
+
+    #mune_btn {
+        width: 16px;
+        height: 500px;
+        float: left;
+    }
+
+    .munebtna {
+        background: url(pic/left.png) center center #4a5279 no-repeat;
+        cursor: pointer;
+    }
+    .munebtnb {
+        background: url(pic/right.png) center center #4a5279 no-repeat;
+        cursor: pointer;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .tab1ys {
+        width: 326px;
+        height: 60px;
+        border-bottom: #0d0f14 solid 5px;
+    }
+
+    .tab1ys li {
+        width: 163px;
+        float: left;
+    }
+
+    .tab1ys li a {
+        width: 73px;
+        height: 60px;
+        background: #4b4b4b;
+        display: block;
+        position: relative;
+        /* font: normal 30px/60px "΢���ź�"; */
+        color: #fff;
+        padding-left: 90px;
+    }
+
+    .tab1ys li a img {
+        position: absolute;
+        top: 7px;
+        left: 40px;
+        border: none;
+    }
+
+    .tab1ys li a.active {
+        background: #f95900;
+    }
+
+    .munebtnlist {
+        width: 280px;
+        margin: 0px 0 0 0px;
+    }
+
+    .munebtnlist h4 {
+        /* font: bold 14px/16px '΢���ź�'; */
+        height: 16px;
+        padding-left: 20px;
+        background: url(pic/1_open.png) no-repeat;
+    }
+    #tabcon1 {
+        padding: 20px 10px;
+    }
+</style>
+<style type="text/css">
+    .blockhide {
+        display: block;
+    }
+
+    .blockmove {
+        overflow: hidden;
+        height: 1px;
+        display: block;
+    }
+
+    .blockshow {
+        overflow: visible;
+        display: none;
+    }
+
+    .hideme {
+        overflow: visible;
+        display: none;
+    }
+
+    .showme {
+        overflow: visible;
+        display: block;
+    }
+
+    .faisunMenu td {
+        font-size: 10pt;
     }
 </style>
