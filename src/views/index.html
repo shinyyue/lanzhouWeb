@@ -3,7 +3,8 @@
      id="VIEW-index">
     <div class="home-title">
         <span>您本学期在虚拟实验中心承担<i id="course-count"></i>门课程</span>
-        <span class="home-title-time">2018-2019-2</span>
+        <span class="home-title-time"
+              id="curSchollYear"></span>
     </div>
     <table id="list-table"
            lay-filter="list-table"></table>
@@ -120,6 +121,7 @@
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
+                    $('#curSchoolYear').html(res.data.schoolYear)
                     $('#course-count').html(layPageOption.count)
                 },
                 error: function (err) {
