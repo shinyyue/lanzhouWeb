@@ -15,9 +15,12 @@
            lay-filter="paperManage-list-table"></table>
     <script type="text/html"
             id="paperManage-opt">
-        <button class="course-set-btn" lay-event="edit">编辑</button>
-        <button class="course-set-btn" lay-event="delete">删除</button>
         <button class="course-set-btn" lay-event="check">查看</button>
+        {{#  if (d.publish == 0) {}}
+        <button class="course-set-btn" lay-event="edit">编辑</button>
+        <button class="course-set-btn" lay-event="publish">发布</button>
+        {{#}  }}
+        <!--<button class="course-set-btn" lay-event="delete">删除</button>-->
     </script>
     <div class="app-table-page"
          id="paperManage-table-page"></div>
@@ -58,7 +61,7 @@
                         type: 'numbers'
                     }, {
                         title: '试卷名称',
-                        field: 'examinationPaperName',
+                        field: 'name',
                         align: 'center'
                     }, {
                         title: '所属课程',
@@ -121,6 +124,27 @@
                     }
                 })
                 return
+            }if (layEvent === 'publish') {
+                layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '系统提示',
+                    content: '是否要发布此试卷？',
+                    area: ['300px', '200px'],
+                    shade: 0.4,
+                    skin: 'system-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        // 提交
+                        layer.close(index)
+                        publish(data.id)
+                    },
+                    cancel: function (index) {
+                        layer.close(index)
+                    }
+                })
+                return
             }
             if (layEvent === 'edit') {
                 window.location.href = 'index.html#/techSet/paperUpdate/id=' + data.id
@@ -139,7 +163,7 @@
                 key: courseId
             }
             admin.post({
-                url: '/examinationPaper/stuList',
+                url: '/examinationPaper/list',
                 data: JSON.stringify(data),
                 success: function (res) {
                     tableOption.data = (res.data && res.data.items) || []
@@ -159,6 +183,21 @@
                 success: function (res) {
                     if (res.code === 200) {
                         layer.msg('删除成功')
+                        getList(1)
+                    }
+                },
+                error: function (err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        function publish(id) {
+            admin.put({
+                url: '/examinationPaper/changePublish?id=' + id,
+                success: function (res) {
+                    if (res.code === 200) {
+                        layer.msg('发布成功')
                         getList(1)
                     }
                 },

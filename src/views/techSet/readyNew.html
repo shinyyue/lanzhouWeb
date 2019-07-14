@@ -19,7 +19,8 @@
 
     <table id="ready-new-table" lay-filter="ready-new-table"></table>
     <script type="text/html" id="ready-new-opt">
-        <button class="course-set-btn" id="sourcemanage-mylist-check">选择</button>
+        <button class="course-set-btn" lay-event="check">查看</button>
+        <button class="course-set-btn" lay-event="choose">选择</button>
     </script>
     <div class="app-table-page" id="ready-new-page"></div>
 </div>
@@ -68,29 +69,33 @@
                         type: 'numbers'
                     },
                         {
-                            title: '学院名称',
-                            field: 'collegeName',
+                            title: '实验名称',
+                            field: 'experimentName',
                             align: 'center'
                         },
-                        // {
-                        //     title: '学院编码',
-                        //     field: 'courceName',
-                        //     align: 'center'
-                        // },
-                        // {
-                        //     title: '类型',
-                        //     field: 'courseCode',
-                        //     align: 'center'
-                        // },
+                         {
+                             title: '所属课程',
+                             field: 'courseName',
+                             align: 'center'
+                         },
+                         {
+                             title: '实验类型',
+                             field: 'typeName',
+                             align: 'center'
+                         },
                         {
-                            title: '备注',
-                            field: 'responsor',
+                            title: '实验时长',
+                            field: 'countTime',
+                            align: 'center'
+                        },{
+                            title: '创建者',
+                            field: 'userName',
                             align: 'center'
                         },
                         {
                             title: '操作',
                             align: 'center',
-                            templet: '#sourcelist-opt',
+                            templet: '#ready-new-opt',
                             fixed: 'right',
                             width: 200
                         }
@@ -110,96 +115,55 @@
             var layEvent = obj.event,
                 type = '';
 
-            if (layEvent === 'delete') {
-                layer.open({
-                    type: 1,
-                    offset: 'auto',
-                    title: '系统提示',
-                    content: '该信息为重要信息，是否删除？',
-                    area: ['300px', '200px'],
-                    shade: 0.4,
-                    skin: 'system-modal',
-                    shadeClose: true,
-                    btn: ['确定', '取消'],
-                    yes: function (index, layero) {
-                        // 提交
-                        layer.close(index)
-                        deleteData(data.id)
-                    },
-                    cancel: function (index) {
-                        layer.close(index)
-                    }
+            if (layEvent === 'check') {
+                location.href = 'index.html#/experiment/myDetails/id=' + data.id
+            }else if (layEvent === 'choose') {
+                layui.data('course', {
+                    key: 'experimentId',
+                    value: data.id
                 })
-                return;
-            }
-            if (layEvent === 'edit') { //编辑
-                formData = data;
-                type = 'edit';
-            } else if (layEvent === 'check') {
-                formData = data;
-                type = 'check';
+                location.href = 'index.html#/experiment/readyPlan'
             }
 
-            var layerOption = {
-                type: 1,
-                offset: 'auto',
-                title: type==='edit'?'编辑':'查看',
-                content: getTemplate(formData, type),
-                area: ['700px', '70%'],
-                shade: 0.4,
-                shadeClose: true,
-                btn: (type === 'check') ? [] : ['确定', '取消'],
-                yes: function (index, layero) {
-                    layer.close(index)
-                    getFormData()
-                    if (type === 'check') {
-                        getData(data.id)
-                    } else if (type === 'edit') {
-                        formData.id = data.id
-                        updateData(formData)
-                    }
-                },
-                cancel: function (index) {
-                    layer.close(index)
-                }
-            }
-
-            layer.open(layerOption);
             form.render();
         })
 
-        $('#add_college').on('click', function () {
-            formData = {};
-            layer.open({
-                type: 1,
-                offset: 'auto',
-                title: '添加',
-                content: getTemplate(formData),
-                area: ['700px', '70%'],
-                shade: 0.4,
-                skin: 'user-edit-modal',
-                shadeClose: true,
-                btn: ['确定', '取消'],
-                yes: function (index, layero) {
-                    layer.close(index)
-                    addData(formData)
-                },
-                cancel: function (index) {
-                    layer.close(index)
-                }
-            })
-            form.render()
-        });
+//        $('#add_college').on('click', function () {
+//            formData = {};
+//            layer.open({
+//                type: 1,
+//                offset: 'auto',
+//                title: '添加',
+//                content: getTemplate(formData),
+//                area: ['700px', '70%'],
+//                shade: 0.4,
+//                skin: 'user-edit-modal',
+//                shadeClose: true,
+//                btn: ['确定', '取消'],
+//                yes: function (index, layero) {
+//                    layer.close(index)
+//                    addData(formData)
+//                },
+//                cancel: function (index) {
+//                    layer.close(index)
+//                }
+//            })
+//            form.render()
+//        });
+
+
 
         getList(1)
 
         function getList(page) {
             var data = {
                 page: page,
-                rows: pageLimit
+                rows: pageLimit,
+                curriculumId : layui.data('techSet').techSetId
             }
             admin.post({
-                url: '/college/queryCollegeList',
+
+                url: '/curriculumExperiment/queryExpListByCurriculumId',
                 data: JSON.stringify(data),
                 success: function (res) {
                     tableOption.data = (res.data && res.data.items) || [];
