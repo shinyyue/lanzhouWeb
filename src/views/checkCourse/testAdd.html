@@ -15,7 +15,7 @@
             <span>测试用时：<i>0</i>分钟</span>
         </div>
     </div>
-    <div class="test-details">
+    <!--<div class="test-details">
         <div class="test-tip">单选题 (请选择正确答案，本题共计<i>1</i>个小题)</div>
         <div id="test-details-inner">
             <div class="test-item">
@@ -38,10 +38,10 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>
 <div class="checkcourse-test-btn">
-    <button class="layui-btn  primary-btn" id="checkcourse-test-back">提交</button>
+    <button class="layui-btn  primary-btn" id="checkcourse-test-submit">提交</button>
     <button class="layui-btn layui-btn-primary back-btn" id="checkcourse-test-back">返回</button>
 </div>
 
@@ -53,7 +53,7 @@
 
         form.render();
         $('#checkcourse-test-back').on('click', function () {
-            window.history.back(-1);
+            window.history.go(-1);
         })
     })
 </script>
