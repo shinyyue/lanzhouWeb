@@ -54,7 +54,7 @@
             tableOption = {
                 elem: '[lay-filter="' + tableFilter + '"]',
                 page: false,
-                data:[],
+                data: [],
                 cols: [
                     [
                         {
@@ -218,7 +218,7 @@
             var options = ''
             res.data &&
                 res.data.items &&
-                res.data.items.forEach(function(item){
+                res.data.items.forEach(function(item) {
                     options +=
                         '<option value="' +
                         item.id +
@@ -227,7 +227,7 @@
                         '</option>'
                 })
             $('#userType').append(options)
-//            form.render()
+            //            form.render()
         })
 
         getList(1)
@@ -316,7 +316,7 @@
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
-                   laypage.render(layPageOption)
+                    laypage.render(layPageOption)
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
@@ -360,7 +360,9 @@
                         )
                         $('#teacher_college_list').append(options)
                         setSelectOptions()
-                        callback && typeof callback === 'function' && callback(res)
+                        callback &&
+                            typeof callback === 'function' &&
+                            callback(res)
                     }
                 },
                 error: function(err) {
@@ -403,7 +405,9 @@
                         )
                         $('#userType_list').append(options)
                         setSelectOptions()
-                        callback && typeof callback === 'function' && callback(res)
+                        callback &&
+                            typeof callback === 'function' &&
+                            callback(res)
                     }
                 },
                 error: function(err) {
@@ -693,7 +697,6 @@
                 '</form>' +
                 '</div>'
             )
-
         }
 
         function getFormData() {
@@ -833,16 +836,13 @@
                 }
             })
 
-
             form.on('select(roleChange)', function(obj) {
                 if (obj.value == 2) {
-                    $('.role-student').css({display: 'none'})
-                    
-                } else if (obj.value == 3)  {
-                    $('.role-student').css({display: 'none'})
-
+                    $('.role-student').css({ display: 'none' })
+                } else if (obj.value == 3) {
+                    $('.role-student').css({ display: 'none' })
                 } else {
-                    $('.role-student').css({display: 'block'})
+                    $('.role-student').css({ display: 'block' })
                 }
             })
             form.render()
@@ -856,18 +856,20 @@
             $('#roleId').change(function(val) {
                 console.log(1222, val)
             })
-
-           
-
-           
         })
 
         $('#export-cource').on('click', function() {
-            $('#export-cource').on('click', function () {
-                var collegeId = $("#college").val()==''?'':$("#college").val(),
-                    roleId = $("#userType").val()==''?'':$("#userType").val(),
-                    url = conf.requestUrl + "/user/exportExcel?roleId="+roleId+"&collegeId=" + collegeId
-                debugger
+            $('#export-cource').on('click', function() {
+                var collegeId =
+                        $('#college').val() == '' ? '' : $('#college').val(),
+                    roleId =
+                        $('#userType').val() == '' ? '' : $('#userType').val(),
+                    url =
+                        conf.requestUrl +
+                        '/user/exportExcel?roleId=' +
+                        roleId +
+                        '&collegeId=' +
+                        collegeId
                 window.open(url)
             })
         })
@@ -957,7 +959,7 @@
                     $('#roleId').html('<option value="">请选择角色</option>')
                     res.data &&
                         res.data.items &&
-                        res.data.items.forEach(function(item){
+                        res.data.items.forEach(function(item) {
                             $('#roleId').append(
                                 '<option value="' +
                                     item.id +
@@ -1137,7 +1139,7 @@
             var layerOption = {
                 type: 1,
                 offset: 'auto',
-                title: type==='edit'?'编辑':'查看',
+                title: type === 'edit' ? '编辑' : '查看',
                 content: getTemplate(formData, type),
                 area: ['700px', '70%'],
                 shade: 0.4,

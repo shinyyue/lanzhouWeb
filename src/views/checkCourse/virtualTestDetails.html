@@ -2,7 +2,10 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>选课 > 铁路信号知识 > 虚拟实验 > 虚拟实验列表 > 虚拟实验信息</span>
+            <span
+                >选课 > 铁路信号知识 > 虚拟实验 > 虚拟实验列表 >
+                虚拟实验信息</span
+            >
         </div>
     </div>
     <div class="source-details-inner">
@@ -36,22 +39,24 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">实验要求</label>
                 <div class="layui-col-md9">
-                    <textarea name="desc"
-                              class="layui-textarea"
-                              id="require"></textarea>
+                    <textarea
+                        name="desc"
+                        class="layui-textarea"
+                        id="require"
+                    ></textarea>
                 </div>
             </div>
         </div>
-        <div class="source-display"
-             id="fileUrl">
-        </div>
+        <div class="source-display" id="fileUrl"></div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">实验内容</label>
                 <div class="layui-col-md9">
-                    <textarea name="desc"
-                              class="layui-textarea"
-                              id="testContent"></textarea>
+                    <textarea
+                        name="desc"
+                        class="layui-textarea"
+                        id="testContent"
+                    ></textarea>
                 </div>
             </div>
         </div>
@@ -59,9 +64,11 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">实验报告</label>
                 <div class="layui-col-md9">
-                    <textarea name="desc"
-                              class="layui-textarea"
-                              id="labReport"></textarea>
+                    <textarea
+                        name="desc"
+                        class="layui-textarea"
+                        id="labReport"
+                    ></textarea>
                 </div>
             </div>
         </div>
@@ -75,22 +82,29 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label "></label>
                 <div>
-                    <button class="layui-btn primary-btn"
-                            lay-submit
-                            id="save"> 暂存 </button>
-                    <button class="layui-btn primary-btn"
-                            lay-submit
-                            id="submit"> 提交 </button>
-                    <button class="layui-btn layui-btn-primary cancel-btn"
-                            id="back"> 返回 </button>
+                    <button class="layui-btn primary-btn" lay-submit id="save">
+                        暂存
+                    </button>
+                    <button
+                        class="layui-btn primary-btn"
+                        lay-submit
+                        id="submit"
+                    >
+                        提交
+                    </button>
+                    <button
+                        class="layui-btn layui-btn-primary cancel-btn"
+                        id="back"
+                    >
+                        返回
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script>
-    layui.use(['form', 'admin'], function () {
-        debugger
+    layui.use(['form', 'admin'], function() {
         var $ = layui.jquery,
             admin = layui.admin,
             conf = layui.conf,
@@ -99,42 +113,48 @@
             type = route.search.type,
             details = {}
         getDetails()
-        $('#save').on('click', function () {
+        $('#save').on('click', function() {
             // todo
             save()
         })
-        $('#submit').on('click', function () {
+        $('#submit').on('click', function() {
             // todo
             submit()
         })
-        $('#back').on('click', function () {
+        $('#back').on('click', function() {
             window.history.go(-1)
         })
 
         function getDetails() {
             admin.get({
-                url: '/vsMpTestRecord/startReLookTest?curriculumExperimentId=' + id,
-                success: function (res) {
+                url:
+                    '/vsMpTestRecord/startReLookTest?curriculumExperimentId=' +
+                    id,
+                success: function(res) {
                     var data = JSON.parse(res.data)
-                    debugger
                     details = data
-                    $('#curriculumExperimentName').html(data.curriculumExperimentName)
+                    $('#curriculumExperimentName').html(
+                        data.curriculumExperimentName
+                    )
                     $('#experimentType').html(data.experimentType)
                     $('#courseName').html(data.courseName)
                     $('#require').html(data.require)
                     $('#labReport').html(data.labReport)
                     $('#testContent').html(data.testContent)
                     $('#testTotleTime').html(data.testTotleTime)
-                    $('#fileUrl').html('<img src="' + data.resourceIds +
-                        '" style="width: 100%; height: 100%;">')
+                    $('#fileUrl').html(
+                        '<img src="' +
+                            data.resourceIds +
+                            '" style="width: 100%; height: 100%;">'
+                    )
 
-                    if (type == 'check' || type == 'review'){
+                    if (type == 'check' || type == 'review') {
                         $('#experimentRatio').html(data.experimentRatio)
                         $('#reportRatio').html(data.reportRatio)
-                        $("#save").attr("style","display:none;");
-                        $("#submit").attr("style","display:none;");
+                        $('#save').attr('style', 'display:none;')
+                        $('#submit').attr('style', 'display:none;')
                     } else {
-                        $("#noadd").attr("style","display:none;");
+                        $('#noadd').attr('style', 'display:none;')
                     }
                 }
             })
@@ -148,9 +168,9 @@
             admin.post({
                 url: '/vsMpTestRecord/addMpObject',
                 data: JSON.stringify(formData),
-                success: function (res) {
+                success: function(res) {
                     layer.msg('暂存成功')
-                    window.history.back(-1);
+                    window.history.back(-1)
                 }
             })
         }
@@ -160,17 +180,17 @@
             admin.post({
                 url: '/vsMpTestRecord/addMpObject',
                 data: JSON.stringify(formData),
-                success: function (res) {
+                success: function(res) {
                     layer.msg('提交成功')
-                    window.history.back(-1);
+                    window.history.back(-1)
                 }
             })
         }
-
     })
 </script>
 <style>
-    #virtualTest-details {}
+    #virtualTest-details {
+    }
 
     .source-details-inner {
         padding: 20px 0;
