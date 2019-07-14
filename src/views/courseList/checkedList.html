@@ -16,7 +16,7 @@
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function (table) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function(table) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -24,7 +24,6 @@
             table = layui.table,
             admin = layui.admin,
             pageLimit = 20,
-
             layPageOption = {
                 elem: 'checked-list-page', //注意，这里的 test1 是 ID，不用加 # 号
                 limit: 20,
@@ -41,7 +40,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function (obj, first) {
+                jump: function(obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -52,42 +51,44 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center',
-                        type: 'numbers'
-                    },
+                    [
+                        {
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center',
+                            type: 'numbers'
+                        },
                         {
                             title: '开课名称',
                             field: 'courseName',
                             align: 'center'
                         },
-                         {
-                             title: '开课编码',
-                             field: 'courseNumber',
-                             align: 'center'
-                         },
-                         {
-                             title: '学分',
-                             field: 'creditHour',
-                             align: 'center'
-                         },
+                        {
+                            title: '开课编码',
+                            field: 'courseNumber',
+                            align: 'center'
+                        },
+                        {
+                            title: '学分',
+                            field: 'creditHour',
+                            align: 'center'
+                        },
                         {
                             title: '课程类型',
                             field: 'school',
                             align: 'center'
-                        },{
-                             title: '上课时间',
-                             field: 'time',
-                             align: 'center'
-                         },
-                         {
-                             title: '上课地点',
-                             field: 'classroomName',
-                             align: 'center'
-                         },
+                        },
+                        {
+                            title: '上课时间',
+                            field: 'time',
+                            align: 'center'
+                        },
+                        {
+                            title: '上课地点',
+                            field: 'classroomName',
+                            align: 'center'
+                        },
                         {
                             title: '状态',
                             field: 'publish',
@@ -106,19 +107,16 @@
 
         getList(1)
 
-        table.on('tool(checked-list-table)', function (obj) {
-            var data = obj.data; //获得当前行数据
+        table.on('tool(checked-list-table)', function(obj) {
+            var data = obj.data //获得当前行数据
             var layEvent = obj.event,
-                type = '';
+                type = ''
             if (layEvent === 'getDetail') {
-                //应该是跳转页面
-//                formData = data;
-                console.log(data)
                 getDetail(data)
             }
 
             // layer.open(layerOption);
-            form.render();
+            form.render()
         })
 
         function getList(page) {
@@ -130,28 +128,28 @@
             admin.post({
                 url: '/selectedCourse/getList',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
+        }
 
         function getDetail(data) {
-//            admin.get({
-//                url: '/introduction/queryById?id=' + id,
-//                success: function (res) {
-//
-//                },
-//                error: function (err) {
-//                    layer.msg(err && err.msg || '数据请求失败');
-//                }
-//            })
+            //            admin.get({
+            //                url: '/introduction/queryById?id=' + id,
+            //                success: function (res) {
+            //
+            //                },
+            //                error: function (err) {
+            //                    layer.msg(err && err.msg || '数据请求失败');
+            //                }
+            //            })
             layui.data('course', {
                 key: 'coursePlanId',
                 value: data.coursePlanId
@@ -160,7 +158,8 @@
                 key: 'coursePlanName',
                 value: data.courseName
             })
-            window.location.href = 'index.html#/checkCourse/preIntro/id='+data.coursePlanId
+            window.location.href =
+                'index.html#/checkCourse/preIntro/id=' + data.coursePlanId
             window.location.reload()
         }
     })
