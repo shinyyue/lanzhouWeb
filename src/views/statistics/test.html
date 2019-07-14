@@ -8,19 +8,19 @@
 
     <div class="statistics-tech-content">
         <div class="tech-item">
-            <div class="tech-item-title">全校实验数量统计</div>
+            <div class="tech-item-title">全院实验数量统计</div>
             <div id="statistics_test_count" style="height:400px;"></div>
         </div>
         <div class="tech-item">
-            <div class="tech-item-title">全校实验使用情况统计</div>
+            <div class="tech-item-title">全院实验使用情况统计</div>
             <div id="statistics_test_status" style="height:400px;"></div>
         </div>
         <div class="tech-item">
-            <div class="tech-item-title">各学院实验数量统计</div>
+            <div class="tech-item-title">各系实验数量统计</div>
             <div id="statistics_test_nums" style="height:400px;"></div>
         </div>
         <div class="tech-item">
-            <div class="tech-item-title">各学院实验使用情况统计</div>
+            <div class="tech-item-title">各系实验使用情况统计</div>
             <div id="college_test_count" style="height:400px;"></div>
         </div>
         <div class="tech-item">
@@ -51,7 +51,7 @@
         getCollegeTestUseNums()
         getStudentNums()
 
-        // 全校实验数量统计
+        // 全院实验数量统计
         function getAllNums() {
             admin.get({
                 url: '/report/queryAllExperiment',
@@ -89,7 +89,7 @@
             })
         }
 
-        // 全校实验使用情况统计
+        // 全院实验使用情况统计
         function testUseStatus() {
             admin.get({
                 url: '/report/queryAllUsedExperiment',
@@ -145,155 +145,178 @@
             })
         }
 
-        // 各学院实验数量统计
+        // 各系实验数量统计
         function getCollegeTestNums() {
             admin.get({
                 url: '/report/queryExperimentForCollege',
-                success: function(res) {
-                    console.log(res)
+                success: res => {
+                    var xAxisData = [], legendData = [], series = []
+                    res.data.forEach(college => {
+                        xAxisData.push(college.collegeName)
+                        college.data.forEach(detail => !legendData.includes(detail.typeName || '错误数据') && legendData.push(detail.typeName || '错误数据'))
+                    })
+
+                    series = legendData.map(legend => {
+                        return {
+                            name: legend,
+                            type: 'bar',
+                            stack: '总量',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'insideRight',
+                                    formatter: function (params) {
+                                        if (params.value > 0) {
+                                            return params.value;
+                                        } else {
+                                            return '';
+                                        }
+                                    }
+                                }
+                            },
+                            data: xAxisData.map(collegeName => {
+                                var t = res.data.filter(college => college.collegeName === collegeName)[0].data.filter(college => legend === college.typeName)
+                                if(t && t.length > 0) return t[0].expCount
+                                return 0
+                            })
+                        }
+                    })
+
+                    var numsOption = {
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                                // 坐标轴指示器，坐标轴触发有效
+                                type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                            }, formatter: function(params, ticket, callback) {
+                                return params[0].axisValue + "<br />" +
+                                    params.filter(p => p.value > 0).map(p => {
+                                        return '<span style="color:'+p.color+'">●</span>'+p.seriesName + ': ' + p.value
+                                    }).join("<br />")
+                            }
+                        },
+                        legend: {
+                            type: 'scroll',
+                            orient: 'horizontal',
+                            top: 10,
+                            data: legendData
+                        },
+                        xAxis: {
+                            type : 'category',
+                            data: xAxisData
+                        },
+                        yAxis: {
+                            type : 'value'
+                        },
+                        series: series
+                    }
+                    initChart('statistics_test_nums', numsOption)
                 }
             })
         }
 
-        // 各各学院实验使用情况统计
+        // 各系实验使用情况统计
         function getCollegeTestUseNums() {
             admin.get({
                 url: '',
-                success: function(res) {}
+                success: res => {
+                    var xAxisData = [], studentCountList = [], teacherCountList = []
+                    res.data.forEach(college => {
+                        xAxisData.push(college.collegeName)
+                        studentCountList.push(college.studentCount)
+                        teacherCountList.push(college.teacherCount)
+                    })
+
+                    var collegeStatusOption = {
+                        xAxis: {
+                            data: xAxisData
+                        },
+                        yAxis: {},
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                                // 坐标轴指示器，坐标轴触发有效
+                                type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        legend: {
+                            type: 'scroll',
+                            orient: 'horizontal',
+                            top: 10,
+                            data: ['学生参与人数', '教师安排人次']
+                        },
+                        series: [
+                            {
+                                name: '学生参与人数',
+                                type: 'bar',
+                                stack: '堆叠',
+                                data: studentCountList,
+                                barGap: '-100%'
+                            },
+                            {
+                                name: '教师安排人次',
+                                type: 'bar',
+                                stack: '堆叠',
+                                data: teacherCountList
+                            }
+                        ]
+                    }
+                    initChart('college_test_count', collegeStatusOption)
+                }
             })
         }
 
-        // 各学院学生及格人数和优秀人数对比分析
+        // 各系学生及格人数和优秀人数对比分析
         function getStudentNums() {
             admin.get({
                 url: '',
-                success: function(res) {}
+                success: res => {
+                    var xAxisData = [], passCountList = [], goodCount = []
+                    res.data.forEach(college => {
+                        xAxisData.push(college.collegeName)
+                        passCountList.push(college.passCount)
+                        goodCount.push(college.goodCount)
+                    })
+
+                    var resultOption = {
+                        xAxis: {
+                            data: xAxisData
+                        },
+                        yAxis: {},
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                                // 坐标轴指示器，坐标轴触发有效
+                                type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        legend: {
+                            type: 'scroll',
+                            orient: 'horizontal',
+                            top: 10,
+                            data: ['及格人数', '优秀人数']
+                        },
+                        series: [
+                            {
+                                name: '及格人数',
+                                type: 'bar',
+                                stack: '堆叠',
+                                data: passCountList,
+                                barGap: '-100%'
+                            },
+                            {
+                                name: '优秀人数',
+                                type: 'bar',
+                                stack: '堆叠',
+                                data: goodCount
+                            }
+                        ]
+                    }
+                    initChart('result_count', resultOption)
+                }
             })
         }
 
-        var numsOption = {
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    // 坐标轴指示器，坐标轴触发有效
-                    type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-                }
-            },
-            legend: {
-                data: [
-                    '虚拟实验',
-                    '演示实验',
-                    '客户端实验',
-                    '虚实实验',
-                    '远程实验',
-                    '三维实验',
-                    '应用虚拟实验'
-                ]
-            },
-            xAxis: {
-                data: ['土木工程学院', '自动化与电气工程学院', '其他学院']
-            },
-            yAxis: {},
-            series: [
-                {
-                    // name: '开课',
-                    type: 'bar',
-                    stack: '总量',
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'insideRight'
-                        }
-                    },
-                    data: [320, 320, 20, 199, 320, 421, 239]
-                },
-                {
-                    // name: '未开课',
-                    type: 'bar',
-                    stack: '总量',
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'insideRight'
-                        }
-                    },
-                    data: [120, 220, 320, 299, 220, 321, 139]
-                }
-            ]
-        }
-        initChart('statistics_test_nums', numsOption)
-
-        var collegeStatusOption = {
-            xAxis: {
-                data: ['土木工程学院', '自动化与电气工程学院', '其他学院']
-            },
-            yAxis: {},
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    // 坐标轴指示器，坐标轴触发有效
-                    type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-                }
-            },
-            legend: {
-                type: 'scroll',
-                orient: 'horizontal',
-                top: 10,
-                data: ['学生参与人数', '教师安排人次']
-            },
-            series: [
-                {
-                    name: '学生参与人数',
-                    type: 'bar',
-                    stack: '堆叠',
-                    data: [399, 209],
-                    barGap: '-100%'
-                },
-                {
-                    name: '教师安排人次',
-                    type: 'bar',
-                    stack: '堆叠',
-                    data: [199, 309]
-                }
-            ]
-        }
-        initChart('college_test_count', collegeStatusOption)
-
-        var resultOption = {
-            xAxis: {
-                data: ['土木工程学院', '自动化与电气工程学院', '其他学院']
-            },
-            yAxis: {},
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    // 坐标轴指示器，坐标轴触发有效
-                    type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-                }
-            },
-            legend: {
-                type: 'scroll',
-                orient: 'horizontal',
-                top: 10,
-                data: ['及格人数', '优秀人数']
-            },
-            series: [
-                {
-                    name: '及格人数',
-                    type: 'bar',
-                    stack: '堆叠',
-                    data: [399, 209],
-                    barGap: '-100%'
-                },
-                {
-                    name: '优秀人数',
-                    type: 'bar',
-                    stack: '堆叠',
-                    data: [199, 309]
-                }
-            ]
-        }
-        initChart('result_count', resultOption)
     })
 </script>
 
