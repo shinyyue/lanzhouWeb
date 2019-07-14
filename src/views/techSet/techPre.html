@@ -95,7 +95,7 @@
                         return
                     }
                     var data = res.data || {}
-                    $('#preCourseName').html((data.name || courseName) + ' > ')
+                    $('#preCourseName').html((courseName) + ' > ')
                     $('#userName').html(data.userName)
                     $('#name').html(data.name)
                     $('#cited').html(data.cited === 0 ? '引用' : '未引用')

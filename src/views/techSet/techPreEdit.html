@@ -120,8 +120,8 @@
                 success: function (res) {
                     if (res.code === 200) {
                         layer.msg('添加成功！')
-                        // location.href = '/index.html#/techSet/techPre/id=' + id
-                        // location.reload()
+                        location.href = '/index.html#/techSet/techPre/id=' + id
+                        location.reload()
                     } else {
                         layer.msg(res.msg || '添加失败')
                     }
@@ -159,13 +159,19 @@
                 success: function (res) {
                     if (!res.data) return
                     var data = res.data || {}
-                    $('#preCourseName').html((data.name || courseName) + ' > ')
-                    $('#userName').html(data.userName)
-                    $('#name').html(data.name)
-                    $('#cited').html(data.cited === 0 ? '引用' : '未引用')
-                    $('#recommendedScores').html(data.recommendedScores)
-                    $('#content').val(data.content)
-                    $('#createTime').html(data.createTime)
+                    $('#preCourseName').html((courseName) + ' > ')
+                    $('#userName').val(data.userName)
+                    $('#name').val(data.name)
+                    $('input[name=cited]').each(function (index) {
+                        if ($(this).val() == data.cited) {
+                            $(this).attr('checked', true)
+                            form.render()
+                        }
+                    })
+                    $('#cited').val(data.cited === 0 ? '引用' : '未引用')
+                    $('#recommendedScores').val(data.recommendedScores)
+                    layedit.setContent(index, data.content)
+                    form.render()
                 }
             })
         }
