@@ -17,10 +17,12 @@
         <div class="tech-item">
             <div class="tech-item-title">各学院开课成绩明细分析</div>
             <table id="statistics_score_table" lay-filter="statistics_score_table"></table>
+            <div class="app-table-page" id="statistics_score_page"></div>
         </div>
         <div class="tech-item">
             <div class="tech-item-title">各学院及格率和优秀率升降比例</div>
             <table id="statistics_score_rate_table" lay-filter="statistics_score_rate_table"></table>
+            <div class="app-table-page" id="statistics_score_rate_page"></div>
         </div>
         <div class="tech-item">
             <div class="tech-item-title">各学院学生及格人数和优秀人数对比分析</div>
@@ -38,6 +40,8 @@
 
         var $ = layui.jquery,
             table = layui.table,
+            admin = layui.admin,
+            laypage = layui.laypage,
             tableFilter = 'statistics_score_table',
             tableFilter1 = 'statistics_score_rate_table'
 
@@ -45,236 +49,359 @@
             echarts.init(document.getElementById(id), layui.echartsTheme).setOption(option);
         }
 
-        var scoreOption = {
-            xAxis: {
-                data: ['土木工程学院', '自动化与电气工程学院', '其他学院'],
-            },
-            yAxis: {},
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: { // 坐标轴指示器，坐标轴触发有效
-                    type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+        // 各学院学生在各个成绩区间所占人数的百分比趋势
+        initScoreTable = scoreList => {
+            var xAxisData = [], goodList = [], passList = [];
+            scoreList.forEach(score => {
+                xAxisData.push(score.collegeName)
+                goodList.push(score.goodStu)
+                passList.push(score.passStu)
+            })
+            var scoreOption = {
+                xAxis: {
+                    data: xAxisData,
+                    type: 'category'
                 },
-            },
-            legend: {
-                type: 'scroll',
-                orient: 'horizontal',
-                top: 10,
-                data: ['及格', '优秀'],
-            },
-            series: [{
-                name: '及格人数',
-                type: 'bar',
-                stack: '堆叠',
-                data: [399, 209],
-                barGap: '-100%',
-            }, {
-                name: '优秀人数',
-                type: 'bar',
-                stack: '堆叠',
-                data: [199, 309]
-            }]
+                axisLabel: {
+                    interval: 0,
+                    rotate: 40
+                },
+                yAxis: {},
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                    },
+                },
+                legend: {
+                    type: 'scroll',
+                    orient: 'horizontal',
+                    top: 10,
+                    data: ['及格', '优秀'],
+                },
+                series: [{
+                    name: '及格人数',
+                    type: 'bar',
+                    stack: '堆叠',
+                    data: passList,
+                    barGap: '-100%',
+                }, {
+                    name: '优秀人数',
+                    type: 'bar',
+                    stack: '堆叠',
+                    data: goodList
+                }]
+            }
+            initChart('statistics_score_count', scoreOption)
         }
-        initChart('statistics_score_count', scoreOption)
 
-        var scoreLinkOption = {
-            legend: {
-                bottom: 10,
-                data: ['土木工程学院', '自动化与电气工程学院'],
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: ['0-20', '20-40', '40-60', '60-80']
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [{
-                    name: '自动化与电气工程学院',
+        // 各学院学生在各个成绩区间所占人数的百分比趋势
+        initScoreLinkTable = scoreLinkList => {
+            var legendData = [], series = [];
+            scoreLinkList.forEach(sl => {
+                legendData.push(sl.collegeName)
+                series.push({
+                    name: sl.collegeName,
                     type: 'line',
                     stack: '堆叠',
-                    data: [120, 132]
+                    data: [sl.fff, sl.eee, sl.ddd, sl.ccc, sl.bbb]
+                })
+            })
+            var scoreLinkOption = {
+                legend: {
+                    bottom: -20,
+                    data: legendData,
                 },
-                {
-                    name: '土木工程学院',
-                    type: 'line',
-                    stack: '堆叠',
-                    data: [220, 182]
+                tooltip: {
+                    trigger: 'axis'
                 },
-            ]
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['0-20', '20-40', '40-60', '60-80', '80-100']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: series
+            }
+            initChart('statistics_score_status', scoreLinkOption)
         }
-        initChart('statistics_score_status', scoreLinkOption)
 
-        table.render({
+        // 各学院开课成绩明细分析
+        statisticsScoreTableOption = {
             page: false,
             skin: 'row, line',
-            data: [{
-                id: 1,
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '王小虎',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1,
-                times: 100
-            }],
             elem: '[lay-filter="' + tableFilter + '"]',
-            // height: 'full-300',
             cols: [
                 [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center',
-                    },
-                    {
-                        title: '学院',
-                        field: 'courceName',
-                        align: 'center',
-                    },
-                    {
-                        title: '开课数',
-                        field: 'courseCode',
-                        align: 'center',
-                    },
-                    {
-                        title: '学生人数',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '不及格人数',
-                        align: 'center',
-                        field: 'times',
-                    },
-                    {
-                        title: '优秀人数',
-                        align: 'center',
-                        field: 'times',
-                    },
-                    // {
-                    //     title: '操作',
-                    //     align: 'center',
-                    //     templet: '#statistics_tech_opt',
-                    // }
-                ]
+                    title: '序号',
+                    field: 'id',
+                    width: 80,
+                    align: 'center',
+                }, {
+                    title: '学院',
+                    field: 'college_name',
+                    align: 'center',
+                }, {
+                    title: '开课数',
+                    field: 'countKC',
+                    align: 'center',
+                }, {
+                    title: '学生人数',
+                    field: 'countStu',
+                    align: 'center',
+                }, {
+                    title: '不及格人数',
+                    align: 'center',
+                    field: 'noPassStu',
+                }, {
+                    title: '优秀人数',
+                    align: 'center',
+                    field: 'goodStu',
+                }, {
+                    title: '操作',
+                    align: 'center',
+                    templet: d => '<button class="course-set-btn" lay-event="check">查看</button>'
+                }]
             ]
-
+        }
+        statisticsScorePageOption = {
+            elem: 'statistics_score_page',
+            limit: 10,
+            first: '首页',
+            last: '尾页',
+            layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
+            jump: (obj, first) => {
+                //首次不执行
+                if (!first) {
+                    getStatisticsScoreList(obj.curr)
+                }
+            }
+        }
+        getStatisticsScoreList = page => {
+            admin.post({
+                url: '/report/queryThird',
+                data: JSON.stringify({rows: 10, page: page}),
+                success: res => {
+                    statisticsScoreTableOption.data = (res.data && res.data.items) || [];
+                    table.render(statisticsScoreTableOption)
+                    statisticsScorePageOption.count = (res.data && res.data.total) || 0;
+                    laypage.render(statisticsScorePageOption)
+                },
+                error: err => layer.msg((err && err.msg) || '数据请求失败')
+            })
+        }
+        getStatisticsScoreList(1)
+        table.on('tool(statistics_score_table)', obj => {
+            var data = obj.data //获得当前行数据
+            var layEvent = obj.event;
+            if(layEvent == 'check') {
+                layui.data('collegeSet', {key: 'collegeId', value: data.id})
+                layui.data('collegeSet', {key: 'collegeName', value: data.college_name})
+                window.location.href = 'index.html#/statisticsCollege/scoreDetails/v=' + Math.ceil(Math.random()*10000)
+            }
         })
 
-        table.render({
+        // 各学院及格率和优秀率升降比例
+        statisticsScoreRateTableOption = {
             page: false,
             skin: 'row, line',
-            data: [{
-                id: 1,
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '王小虎',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1,
-                times: 100
-            }],
+            data: [],
             elem: '[lay-filter="' + tableFilter1 + '"]',
             cols: [
                 [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center',
-                    },
+                    title: '序号',
+                    field: 'id',
+                    width: 80,
+                    align: 'center',
+                },
                     {
                         title: '学院',
-                        field: 'courceName',
+                        field: 'collegeName',
                         align: 'center',
                     },
                     {
                         title: '及格率',
-                        field: 'courseCode',
+                        field: 'passPercent1',
                         align: 'center',
+                        templet: d => d.passPercent1 + '%'
                     },
                     {
                         title: '+升  -降  =平',
                         field: 'responsor',
                         align: 'center',
+                        templet: d => {
+                            if(d.passPercent1 == d.passPercent2) return '=0%'
+                            else if (d.passPercent1 > d.passPercent2) return '+' + (d.passPercent1 - d.passPercent2) + '%'
+                            else return (d.passPercent1 - d.passPercent2) + '%'
+                        }
                     },
                     {
                         title: '优秀率',
                         align: 'center',
-                        field: 'times',
+                        field: 'goodPercent1',
+                        templet: d => d.goodPercent1 + '%'
+                    },
+                    {
+                        title: '+升  -降  =平',
+                        field: 'responsor',
+                        align: 'center',
+                        templet: d => {
+                            if(d.goodPercent1 == d.goodPercent2) return '=0%'
+                            else if (d.goodPercent1 > d.goodPercent2) return '+' + (d.goodPercent1 - d.goodPercent2) + '%'
+                            else return (d.goodPercent1 - d.goodPercent2) + '%'
+                        }
                     }
                 ]
             ]
+        }
+        statisticsScoreRatePageOption = {
+            elem: 'statistics_score_rate_page',
+            limit: 10,
+            first: '首页',
+            last: '尾页',
+            layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
+            jump: (obj, first) => {
+                //首次不执行
+                if (!first) {
+                    getStatisticsScoreRateTableList(obj.curr)
+                }
+            }
+        }
+        getStatisticsScoreRateTableList = page => {
+            admin.post({
+                url: '/report/queryFour',
+                data: JSON.stringify({rows: 10, page: page}),
+                success: res => {
+                    statisticsScoreRateTableOption.data = (res.data && res.data.items) || [];
+                    table.render(statisticsScoreRateTableOption)
+                    statisticsScoreRatePageOption.count = (res.data && res.data.total) || 0;
+                    laypage.render(statisticsScoreRatePageOption)
+                },
+                error: err => layer.msg((err && err.msg) || '数据请求失败')
+            })
+        }
+        getStatisticsScoreRateTableList(1)
 
-        })
-
-        var rateOption = {
-            legend: {
-                bottom: 10,
-                data: ['当前学期 及格人数', '当前学期 优秀人数', '近一学期 及格人数', '近一学期 优秀人数'],
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: ['土木工程学院', '自动化与电气工程学院'],
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [{
+        // 各学院及格人数和优秀人数对比分析
+        initStatisticsScoreRate = statisticsScoreRateList => {
+            var xAxisData = [], goodStuDYXQList = [], passStuDYXQList = [], goodStuJYXNList = [],
+                passStuJYXNList = [], goodStuJYXQList = [], passStuJYXQList = [], goodStuJLXNList = [],
+                passStuJLXNList = [], goodStuJSXNList = [], passStuJSXNList = []
+            statisticsScoreRateList.forEach(score => {
+                xAxisData.push(score.collegeName)
+                goodStuDYXQList.push(score.goodStuDYXQ)
+                passStuDYXQList.push(score.passStuDYXQ)
+                goodStuJYXNList.push(score.goodStuJYXN)
+                passStuJYXNList.push(score.passStuJYXN)
+                goodStuJYXQList.push(score.goodStuJYXQ)
+                passStuJYXQList.push(score.passStuJYXQ)
+                goodStuJLXNList.push(score.goodStuJLXN)
+                passStuJLXNList.push(score.passStuJLXN)
+                goodStuJSXNList.push(score.goodStuJSXN)
+                passStuJSXNList.push(score.passStuJSXN)
+            })
+            var rateOption = {
+                legend: {
+                    bottom: 10,
+                    data: ['当前学期 及格人数', '当前学期 优秀人数', '近一学年 及格人数', '近一学年 优秀人数', '近一学期 及格人数',
+                        '近一学期 优秀人数', '近两学年 及格人数', '近两学年 优秀人数', '近三学年 及格人数', '近三学年 优秀人数',],
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: xAxisData,
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
                     name: '当前学期 及格人数',
                     type: 'line',
                     stack: '堆叠',
-                    data: [220, 181]
+                    data: passStuDYXQList
                 }, {
                     name: '当前学期 优秀人数',
                     type: 'line',
                     stack: '堆叠',
-                    data: [120, 132]
-                },
-                {
+                    data: goodStuDYXQList
+                }, {
+                    name: '近一学年 及格人数',
+                    type: 'line',
+                    stack: '堆叠',
+                    data: passStuJYXNList
+                }, {
+                    name: '近一学年 优秀人数',
+                    type: 'line',
+                    stack: '堆叠',
+                    data: goodStuJYXNList
+                }, {
                     name: '近一学期 及格人数',
                     type: 'line',
                     stack: '堆叠',
-                    data: [182, 40]
+                    data: passStuJYXQList
                 }, {
                     name: '近一学期 优秀人数',
                     type: 'line',
                     stack: '堆叠',
-                    data: [132, 30]
-                }
-            ]
+                    data: goodStuJYXQList
+                }, {
+                    name: '近两学年 及格人数',
+                    type: 'line',
+                    stack: '堆叠',
+                    data: passStuJLXNList
+                }, {
+                    name: '近两学年 优秀人数',
+                    type: 'line',
+                    stack: '堆叠',
+                    data: goodStuJLXNList
+                }, {
+                    name: '近三学年 及格人数',
+                    type: 'line',
+                    stack: '堆叠',
+                    data: passStuJSXNList
+                }, {
+                    name: '近三学年 优秀人数',
+                    type: 'line',
+                    stack: '堆叠',
+                    data: goodStuJSXNList
+                }]
+            }
+
+            initChart('statistics_score_rate', rateOption)
         }
 
-        initChart('statistics_score_rate', rateOption)
+        // 实验成绩统计
+        initTestScoreTable = testScoreList => {
+            var yAxisData = [], aaaList = [], bbbList = [], cccList = [];
+            testScoreList.forEach(score => {
+                yAxisData.push(score.collegeName)
+                aaaList.push(score.aaa)
+                bbbList.push(score.bbb)
+                cccList.push(score.ccc)
+            })
+            var testScoreOption = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                legend: {
+                    bottom: 10,
+                    data: ['0-60分', '60-79分', '80-100分'],
+                },
+                xAxis: {
 
-        var testScoreOption = {
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: { // 坐标轴指示器，坐标轴触发有效
-                    type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-                }
-            },
-            legend: {
-                bottom: 10,
-                data: ['0-60分', '60-79分', '80-100分'],
-            },
-            xAxis: {
-
-            },
-            yAxis: {
-                data: ['zk3电空转辙机', '信号灯', '仿真实验']
-            },
-            series: [{
+                },
+                yAxis: {
+                    data: yAxisData
+                },
+                series: [{
                     name: '0-60分',
                     type: 'bar',
                     stack: '总量',
@@ -284,35 +411,54 @@
                             position: 'insideRight'
                         }
                     },
-                    data: [32, 12, 20]
+                    data: aaaList
                 },
-                {
-                    name: '60-79分',
-                    type: 'bar',
-                    stack: '总量',
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'insideRight'
-                        }
-                    },
-                    data: [10, 23, 41]
-                }, {
-                    name: '80-100分',
-                    type: 'bar',
-                    stack: '总量',
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'insideRight'
-                        }
-                    },
-                    data: [13, 21, 31]
-                }
-            ]
+                    {
+                        name: '60-79分',
+                        type: 'bar',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'insideRight'
+                            }
+                        },
+                        data: bbbList
+                    }, {
+                        name: '80-100分',
+                        type: 'bar',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'insideRight'
+                            }
+                        },
+                        data: cccList
+                    }
+                ]
+            }
+
+            initChart('test_score', testScoreOption)
         }
 
-        initChart('test_score', testScoreOption)
+        // 初始化页面数据
+        admin.get({
+            url: '/report/queryTotleCollege',
+            success: res => {
+                if (res.data) {
+                    initScoreTable(res.data[0].first)
+                    initScoreLinkTable(res.data[0].second)
+                    // initStatisticsScoreTable(res.data.third)
+                    // initStatisticsScoreRateTable(res.data.four)
+                    initStatisticsScoreRate(res.data[0].five)
+                    initTestScoreTable(res.data[0].six)
+                }
+            },
+            error: err => layer.msg((err && err.msg) || '数据请求失败')
+        })
+
+
 
     })
 </script>

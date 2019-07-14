@@ -1,0 +1,185 @@
+<div id="expe">
+    <div class="expe-title">
+        <div class="expe-title-location">
+            <span>您的位置：</span>
+            <span>统计管理 > 成绩统计分析</span>
+        </div>
+    </div>
+    <div class="expe-content">
+        <div class="expe-item">
+            <div class="expe-content-title">
+                <h4><span id="expeName"></span>实验成绩统计</h4>
+                <div class="expe-content-search">
+                    <!--<button class="search-confirm" id="expe_detail_btn">
+                        <img src="src/images/search.png">
+                    </button>-->
+                    <!--<span class="search-project">选择分数段</span>
+                    <select name="" id="professionList" lay-filter="professionList">
+                        <option value="">请选择分数段</option>
+                        <option value="">0-60分</option>
+                        <option value="">60-79分</option>
+                        <option value="">80-100分</option>
+                    </select>-->
+
+                    <button class="layui-btn layui-btn-primary cancel-btn " id="source-add-cancle">
+                        返回
+                    </button>
+                </div>
+            </div>
+            <table id="expe_table" lay-filter="expe_table"></table>
+            <div class="app-table-page" id="expe_page"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['table'], table => {
+
+        var $ = layui.jquery,
+            table = layui.table,
+            admin = layui.admin,
+            laypage = layui.laypage,
+            tableFilter = 'expe_table';
+
+        $('#collegeName').html(layui.data('collegeSet').collegeName);
+
+        // 实验成绩统计
+        expeTableOption = {
+            page: false,
+            skin: 'row, line',
+            elem: '[lay-filter="' + tableFilter + '"]',
+            cols: [
+                [{
+                    title: '序号',
+                    field: 'id',
+                    width: 80,
+                    align: 'center',
+                    templet: d => d.LAY_TABLE_INDEX + 1
+                }, {
+                    title: '学生姓名',
+                    field: 'userName',
+                    align: 'center',
+                }, {
+                    title: '学号',
+                    field: 'snoOrJno',
+                    align: 'center',
+                }, {
+                    title: '手机',
+                    field: 'phonenumber',
+                    align: 'center'
+                }, {
+                    title: '班级',
+                    align: 'center',
+                    field: 'className',
+                }, {
+                    title: '试验时长',
+                    align: 'center',
+                    field: 'totleTime',
+                }, {
+                    title: '实验总分',
+                    align: 'center',
+                    field: 'sumScore',
+                }, {
+                    title: '操作',
+                    align: 'center',
+                    templet: d => '<button class="course-set-btn" lay-event="check">查看</button>'
+                }]
+            ]
+        }
+        expePageOption = {
+            elem: 'expe_page',
+            limit: 10,
+            first: '首页',
+            last: '尾页',
+            layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
+            jump: (obj, first) => {
+                //首次不执行
+                if (!first) {
+                    getExpeList(obj.curr)
+                }
+            }
+        }
+        getExpeList = page => {
+            admin.post({
+                url: '/report/queryStuExpeInfo',
+                data: JSON.stringify({
+                    rows: 10,
+                    page: page,
+                    key: layui.data('collegeSet').studentId
+                }),
+                success: res => {
+                    $('#expeName').html((res.data && res.data.items && res.data.items.length > 0)? res.data.items[0].experimentName: '');
+                    expeTableOption.data = (res.data && res.data.items) || [];
+                    table.render(expeTableOption)
+                    expePageOption.count = (res.data && res.data.total) || 0;
+                    laypage.render(expePageOption)
+                },
+                error: err => layer.msg((err && err.msg) || '数据请求失败')
+            })
+        }
+        getExpeList(1)
+        table.on('tool(expe_table)', obj => {
+            var data = obj.data //获得当前行数据
+            var layEvent = obj.event;
+            if(layEvent == 'check') {
+                // @TODO 没详情页
+                // window.location.href = 'index.html#/statisticsCollege/expeDetail'
+            }
+        })
+
+        $('#source-add-cancle').on('click', function () {
+            window.location.href = 'index.html#/statisticsCollege/scoreDetails'
+        })
+
+    })
+</script>
+
+<style>
+    #expe {
+        padding: 20px;
+    }
+
+    #expe .expe-content {
+        padding: 20px;
+    }
+
+    #expe .expe-item {
+        border: 1px solid #ededed;
+    }
+
+    #expe .expe-content-title {
+        padding: 10px;
+        background: #d5eaff;
+        font-weight: bold;
+    }
+
+    .expe-content-title {
+        clear: both;
+        overflow: hidden;
+    }
+
+    .expe-content-title h4 {
+        float: left;
+        padding: 10px;
+        background: #d5eaff;
+        font-weight: bold;
+    }
+
+    .expe-content-title .expe-content-search {
+        float: right;
+    }
+
+    .expe-content-title .search-confirm {
+        float: right;
+        height: 37px;
+        /* lin */
+    }
+
+    .expe-content-title .layui-input {
+        float: right;
+    }
+
+    .search-project {
+        height: 38px;
+    }
+</style>

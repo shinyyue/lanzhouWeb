@@ -104,12 +104,14 @@
 <script>
     layui.use(['form'], function () {
         var form = layui.form,
-            $ = layui.jquery
+            $ = layui.jquery,
+            router = layui.router(),
+            id = router.search.id;
 
         form.render();
 
         $('#ready-plan').on('click', function () {
-            location.href = 'index.html#/techset/readydone'
+            location.href = 'index.html#/techSet/readyDone'
         })
     })
 </script>

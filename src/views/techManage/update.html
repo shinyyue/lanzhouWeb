@@ -711,6 +711,10 @@
             data.studentTypeId = Number(data.studentTypeId)
             data.minStudent = Number(data.minStudent)
             data.maxStudent = Number(data.maxStudent)
+            if(data.maxStudent <= data.minStudent){
+                layer.msg('最多选课人数必须大于最少选课人数！')
+                return
+            }
             data.school = Number(data.school)
             data.siteId = Number(data.siteId) || 0
             data.campusId = Number(data.campusId)
