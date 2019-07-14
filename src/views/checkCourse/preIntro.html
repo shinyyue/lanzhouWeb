@@ -65,7 +65,6 @@
             admin.get({
                 url: '/introduction/queryById?id=' + layui.data('course').coursePlanId,
                 success: function (res) {
-                    debugger
                     $('#preCourseName').html(res.data.name)
                     $('#userName').html(res.data.userName)
                     $('#cited').html(res.data.cited === 0 ? '引用' : '未引用')
