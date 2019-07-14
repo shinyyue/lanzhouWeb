@@ -147,8 +147,11 @@
             layedit = layui.layedit,
             $ = layui.jquery,
             admin = layui.admin,
+            route = layui.router(),
+            id = route.search.id,
             requireIndex,
             reportIndex
+
         var user = JSON.parse(localStorage.userInfo)
         var userName = user.userInfo.userName
         $('#teacherName').val(userName)
@@ -158,6 +161,35 @@
             addData()
             return false
         })
+
+        setTimeout(function() {
+            id && getDetails()
+        }, 1000)
+
+        function getDetails() {
+            admin.get({
+                url: '/experiments/queryById?id=' + id,
+                success: function(res) {
+                    console.log(444, res.data)
+                    $('#name').val(res.data.name)
+                    $('#curriculumId').val(res.data.curriculumId)
+                    $('#experimentalType').val(res.data.experimentalType)
+                    $('input[name="cite"]').each(function(index) {
+                        if ($(this).val() == res.data.cite) {
+                            $(this).attr('checked', true)
+                        }
+                    })
+                    $('#cite').val(res.data.cite == 0 ? '否' : '是')
+                    $('#userName').val(res.data.userName)
+                    $('#experimentRatio').val(res.data.experimentRatio)
+                    $('#reportRatio').val(res.data.reportRatio)
+                    layedit.setContent(requireIndex, res.data.require)
+                    layedit.setContent(reportIndex, res.data.labReport)
+                    $('#resourceUrl').val(res.data.resourceUrl)
+                    form.render()
+                }
+            })
+        }
 
         function buildLayEdit(id) {
             return layedit.build(id, {
@@ -205,6 +237,7 @@
                 success: function(res) {
                     layer.msg('上传成功')
                     window.history.back(-1)
+                    // window.location.reload()
                 }
             })
         }
@@ -282,7 +315,7 @@
                         res.data.items.forEach(function(item) {
                             $('#resourceIds').append(
                                 '<input type="checkbox" name="resourceIds" data-url="' +
-                                    item.url +
+                                    item.fileUrl +
                                     '" lay-skin="primary" value="' +
                                     item.id +
                                     '" title="' +
