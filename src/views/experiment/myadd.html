@@ -27,7 +27,7 @@
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">负责老师</label>
-                <input class="common-form-input" type="text" name="teacherName" id="teacherName" placeholder="请输入负责教师">
+                <input class="common-form-input" type="text" name="teacherName" id="teacherName" readonly >
             </div>
         </div>
         <div class="layui-row">
@@ -118,7 +118,9 @@
             admin = layui.admin,
             requireIndex,
             reportIndex;
-
+        var user =  JSON.parse(localStorage.userInfo)
+        var userName = user.userInfo.userName
+        $('#teacherName').val(userName)
         form.render();
 
         $('#addExperiment').on('click', function () {
