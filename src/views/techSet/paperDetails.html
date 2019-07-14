@@ -122,6 +122,8 @@
                     $('#startTime').html(admin.dateFormat(new Date(res.data.startTime).getTime() /
                         1000))
                     $('#endTime').html(admin.dateFormat(new Date(res.data.endTime).getTime() / 1000))
+                    $('#updateTime').html(admin.dateFormat(new Date(res.data.updateTime).getTime() /
+                        1000))
                 }
             })
         }

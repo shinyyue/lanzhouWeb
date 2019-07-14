@@ -1,4 +1,5 @@
-<div id="examine-examlist" layui-title="习题库">
+<div id="examine-examlist"
+     layui-title="习题库">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -6,22 +7,29 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">所属知识点</span>
-            <select name="" id="knowledgePoint">
+            <select name=""
+                    id="knowledgePoint">
                 <option value="">请选择知识点</option>
             </select>
             <span class="search-project">创建人</span>
-            <input type="text" id="createdBy" />
-            <button class="search-confirm" id="cource-search">
+            <input type="text"
+                   id="createdBy" />
+            <button class="search-confirm"
+                    id="cource-search">
                 <img src="src/images/search.png" />
             </button>
         </div>
     </div>
     <div class="course-add">
-        <button class="primary-btn" id="examine-examlist-import">导入</button>
-        <button class="primary-btn" id="examine-examlist-add">添加习题</button>
+        <button class="primary-btn"
+                id="examine-examlist-import">导入</button>
+        <button class="primary-btn"
+                id="examine-examlist-add">添加习题</button>
     </div>
-    <table id="examine-examlist-table" lay-filter="examlist"></table>
-    <script type="text/html" id="examine-examlist-opt">
+    <table id="examine-examlist-table"
+           lay-filter="examlist"></table>
+    <script type="text/html"
+            id="examine-examlist-opt">
         <button class="course-set-btn" id="examine-examlist-check" lay-event="check">查看</button>
         {{#if(d.publish == 0) { }}
         <button class="course-set-btn" id="examine-examlist-edit" lay-event="edit">编辑</button>
@@ -32,11 +40,11 @@
         <button class="course-set-btn" id="examine-examlist-check" lay-event="check">查看</button>-->
         {{# }  }}
     </script>
-    <div class="app-table-page" id="examine-examlist-page"></div>
+    <div class="app-table-page"
+         id="examine-examlist-page"></div>
 </div>
-
 <script>
-    layui.use(['table', 'form'], function(table) {
+    layui.use(['table', 'form'], function (table) {
         var $ = layui.jquery,
             laypage = layui.laypage,
             form = layui.form,
@@ -49,18 +57,8 @@
                 limit: 20,
                 first: '首页',
                 last: '尾页',
-                layout: [
-                    'first',
-                    'prev',
-                    'page',
-                    'next',
-                    'last',
-                    'count',
-                    'currLimit',
-                    'curr',
-                    'pageCount'
-                ],
-                jump: function(obj, first) {
+                layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
+                jump: function (obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -71,59 +69,49 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [
-                        {
-                            title: '序号',
-                            field: 'id',
-                            width: 80,
-                            align: 'center'
-                        },
-                        {
-                            title: '习题快照',
-                            field: 'snapshot',
-                            align: 'center'
-                        },
-                        {
-                            title: '所属实验',
-                            field: 'name',
-                            align: 'center'
-                        },
-                        {
-                            title: '所属课程',
-                            field: 'curriculumName',
-                            align: 'center'
-                        },
-                        {
-                            title: '习题类型',
-                            field: 'typeName',
-                            align: 'center'
-                        },
-                        {
-                            title: '认知类型',
-                            field: 'cognitiveTypeName',
-                            align: 'center'
-                        },
-                        {
-                            title: '难易程度',
-                            field: 'difficultyName',
-                            align: 'center'
-                        },
-                        {
-                            title: '状态',
-                            field: 'responsor',
-                            align: 'center'
-                        },
-                        {
-                            title: '操作',
-                            align: 'center',
-                            templet: '#examine-examlist-opt'
-                        }
-                    ]
+                    [{
+                        title: '序号',
+                        field: 'id',
+                        width: 80,
+                        align: 'center'
+                    }, {
+                        title: '习题快照',
+                        field: 'snapshot',
+                        align: 'center'
+                    }, {
+                        title: '所属实验',
+                        field: 'name',
+                        align: 'center'
+                    }, {
+                        title: '所属课程',
+                        field: 'curriculumName',
+                        align: 'center'
+                    }, {
+                        title: '习题类型',
+                        field: 'typeName',
+                        align: 'center'
+                    }, {
+                        title: '认知类型',
+                        field: 'cognitiveTypeName',
+                        align: 'center'
+                    }, {
+                        title: '难易程度',
+                        field: 'difficultyName',
+                        align: 'center'
+                    }, {
+                        title: '状态',
+                        field: 'responsor',
+                        align: 'center'
+                    }, {
+                        title: '操作',
+                        align: 'center',
+                        templet: '#examine-examlist-opt'
+                    }]
                 ]
             },
             modalTemplate = ''
-
-        modalTemplate = `<form action="" class="layui-form my-add-form">
+        modalTemplate =
+            `<form action="" class="layui-form my-add-form">
                 <div class="layui-row">
                     <div class="layui-col-md12 layui-form-item">
                         <label class="layui-form-label">所属部门</label>
@@ -153,15 +141,11 @@
                     </div>
                 </div>
             </form>`
-
         form.render()
-
         getList(1)
-
-        table.on('tool(examlist)', function(obj) {
+        table.on('tool(examlist)', function (obj) {
             var data = obj.data //获得当前行数据
             var layEvent = obj.event
-
             if (layEvent === 'check') {
                 location.href = 'index.html#/examine/examDetail/id=' + data.id
             } else if (layEvent === 'edit') {
@@ -181,26 +165,23 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function(index, layero) {
+                    yes: function (index, layero) {
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function(index) {
+                    cancel: function (index) {
                         layer.close(index)
                     }
                 })
             }
         })
-
-        $(document)
-            .off('mousedown', '.layui-table-grid-down')
-            .on('mousedown', '.layui-table-grid-down', function(event) {
+        $(document).off('mousedown', '.layui-table-grid-down').on('mousedown', '.layui-table-grid-down',
+            function (event) {
                 table._tableTrCurr = $(this).closest('td')
             })
-
-        $(document)
-            .off('click', '.layui-table-tips-main [lay-event]')
-            .on('click', '.layui-table-tips-main [lay-event]', function(event) {
+        $(document).off('click', '.layui-table-tips-main [lay-event]').on('click',
+            '.layui-table-tips-main [lay-event]',
+            function (event) {
                 var elem = $(this)
                 var tableTrCurr = table._tableTrCurr
                 if (!tableTrCurr) {
@@ -209,10 +190,7 @@
                 var layerIndex = elem.closest('.layui-table-tips').attr('times')
                 // 关闭当前这个显示更多的tip
                 layer.close(layerIndex)
-                table._tableTrCurr
-                    .find('[lay-event="' + elem.attr('lay-event') + '"]')
-                    .first()
-                    .click()
+                table._tableTrCurr.find('[lay-event="' + elem.attr('lay-event') + '"]').first().click()
             })
 
         function getList(page) {
@@ -221,21 +199,18 @@
                 data = {
                     page: page,
                     rows: pageLimit,
-                    key:
-                    knowledgePoint +
-                    '|' +
-                    createdBy
+                    key: knowledgePoint + '|' + createdBy
                 }
             admin.post({
                 url: '/exercises/getList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -244,11 +219,11 @@
         function deleteData(id) {
             admin.delete({
                 url: '/exercises/delete?id=' + id,
-                success: function(res) {
+                success: function (res) {
                     layer.msg('删除成功')
                     getList(1)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -257,11 +232,11 @@
         function publishData(id) {
             admin.put({
                 url: '/exercises/press?id=' + id,
-                success: function(res) {
+                success: function (res) {
                     layer.msg('发布成功')
                     getList(1)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '发布失败')
                 }
             })
@@ -274,21 +249,19 @@
             admin.post({
                 url: '/exercises/copy',
                 data: JSON.stringify(id),
-                success: function(res) {
+                success: function (res) {
                     layer.msg('复制成功')
                     getList(1)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '复制失败')
                 }
             })
         }
-
-        $('#examine-examlist-add').on('click', function() {
+        $('#examine-examlist-add').on('click', function () {
             location.href = 'index.html#/examine/examAdd'
         })
-
-        $('#examine-examlist-import').on('click', function() {
+        $('#examine-examlist-import').on('click', function () {
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -299,13 +272,11 @@
                 shade: 0.4,
                 shadeClose: true,
                 btn: ['提交', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     // 提交
                 }
             })
         })
-
-
         // 知识点列表
         function getKnowledgePointList(callback) {
             var data = {
@@ -315,44 +286,29 @@
             admin.post({
                 url: '/knowledgePoint/list',
                 data: JSON.stringify(data),
-                success: function(res) {
-                    if (
-                        res.data &&
-                        res.data.items &&
-                        res.data.items.length > 0
-                    ) {
+                success: function (res) {
+                    if (res.data && res.data.items && res.data.items.length > 0) {
                         var options = ''
-                        res.data.items &&
-                        res.data.items.forEach(item => {
-                            options +=
-                                '<option value="' +
-                                item.cId +
-                                '">' +
-                                item.cName +
+                        res.data.items && res.data.items.forEach(item => {
+                            options += '<option value="' + item.cId + '">' + item.cName +
                                 '</option>'
                         })
-                        $('#knowledgePoint').html(
-                            '<option value="">请选择知识点</option>'
-                        )
+                        $('#knowledgePoint').html('<option value="">请选择知识点</option>')
                         $('#knowledgePoint').append(options)
                         callback && typeof callback === 'function' && callback(res)
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
-
-        getKnowledgePointList(function(res) {
-        })
-
-        $('#cource-search').click(function() {
+        getKnowledgePointList(function (res) {})
+        $('#cource-search').click(function () {
             getList(1)
         })
     })
 </script>
-
 <style>
     .layui-form-label {
         width: 80px;
@@ -365,7 +321,7 @@
     .layui-form input[type='checkbox'],
     .layui-form input[type='radio'],
     .layui-form select {
-        display: block;
+        /* display: block; */
         height: 30px;
         line-height: 30px;
     }

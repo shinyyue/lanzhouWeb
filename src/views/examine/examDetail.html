@@ -5,7 +5,8 @@
             <span>题库管理 > 习题库 > 查看习题</span>
         </div>
     </div>
-    <form action="" class="layui-form my-add-form">
+    <form action=""
+          class="layui-form my-add-form">
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属课程</label>
@@ -66,7 +67,6 @@
                 <span id="content"></span>
             </div>
         </div>
-
         <div id="option_list"></div>
         <!-- <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
@@ -102,28 +102,19 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label"></label>
                 <div class="layui-col-md9">
-                    <button
-                        class="layui-btn primary-btn"
-                        lay-submit
-                        lay-filter="submit"
-                        id="examine-examdetail-add"
-                    >
-                        继续添加
-                    </button>
-                    <button
-                        class="layui-btn layui-btn-primary cancel-btn"
-                        id="examine-examdetail-back"
-                    >
-                        返回习题列表
-                    </button>
+                    <button class="layui-btn primary-btn"
+                            lay-submit
+                            lay-filter="submit"
+                            id="examine-examdetail-add"> 继续添加 </button>
+                    <button class="layui-btn layui-btn-primary cancel-btn"
+                            id="examine-examdetail-back"> 返回习题列表 </button>
                 </div>
             </div>
         </div>
     </form>
 </div>
-
 <script>
-    layui.use(['form', 'layedit'], function() {
+    layui.use(['form', 'layedit'], function () {
         var form = layui.form,
             layedit = layui.layedit,
             $ = layui.jquery,
@@ -131,18 +122,13 @@
             route = layui.router(),
             id = route.search.id,
             layeditIndex
-
         form.render()
-
         layeditIndex = layedit.build('exam-add-edit', {
-            tool: [
-                'strong', //加粗
+            tool: ['strong', //加粗
                 'italic', //斜体
                 'underline', //下划线
                 'del', //删除线
-
                 '|', //分割线
-
                 'left', //左对齐
                 'center', //居中对齐
                 'right', //右对齐
@@ -150,21 +136,20 @@
                 'image' //插入图片
             ]
         })
-
         getDetails()
-
-        $('#examine-examdetail-back').on('click', function() {
-            window.history.back(-1)
+        $('#examine-examdetail-back').on('click', function () {
+            window.location.href = 'index.html#/examine/examList'
+            window.location.reload()
         })
-
-        $('#examine-examdetail-add').on('click ', function() {
-            window.history.back(-1)
+        $('#examine-examdetail-add').on('click ', function () {
+            window.location.href = 'index.html#/examine/examAdd'
+            window.location.reload()
         })
 
         function getDetails() {
             admin.get({
                 url: '/exercises/get?id=' + id,
-                success: function(res) {
+                success: function (res) {
                     $('#snapshot').html(res.data.snapshot)
                     $('#knowledgeName').html(res.data.knowledgeName)
                     $('#curriculumName').html(res.data.curriculumName)
@@ -175,36 +160,28 @@
                     $('#experimentName').html(res.data.experimentName)
                     $('#snapshot').html(res.data.snapshot)
                     $('#annotation').html(res.data.annotation)
-                    $('#answer').html(res.data.answer)
+                    var answer = JSON.parse(res.data.answer);
+                    $('#answer').html('')
+                    for (var k in answer) {
+                        $('#answer').append(k + ':' + answer[k])
+                    }
                     $('#content').html(res.data.content)
-                    $('#createTime').html(
-                        admin.dateFormat(new Date(res.data.createTime) / 1000)
-                    )
-
+                    $('#createTime').html(admin.dateFormat(new Date(res.data.createTime) / 1000))
                     var optionList = JSON.parse(res.data.option)
-                    for (key in optionList) {
-                        $('#option_list').append(
-                            '<div class="layui-row">\n' +
-                                '            <div class="layui-col-md12 layui-form-item">\n' +
-                                '                <label class="layui-form-label ">选项 ' +
-                                key +
-                                '</label>\n' +
-                                '                <span>' +
-                                optionList[key] +
-                                '</span>\n' +
-                                '            </div>\n' +
-                                '        </div>'
-                        )
+                    for (var key in optionList) {
+                        $('#option_list').append('<div class="layui-row">\n' +
+                            '            <div class="layui-col-md12 layui-form-item">\n' +
+                            '                <label class="layui-form-label ">选项 ' + key +
+                            '</label>\n' + '                <span>' + optionList[key] +
+                            '</span>\n' + '            </div>\n' + '        </div>')
                     }
                 }
             })
         }
     })
 </script>
-
 <style>
-    #examine-examadd {
-    }
+    #examine-examadd {}
 
     #examine-examadd .my-add-form {
         padding: 25px 0;

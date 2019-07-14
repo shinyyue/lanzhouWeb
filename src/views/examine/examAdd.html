@@ -36,7 +36,8 @@
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属课程</label>
                 <select id="curriculumId"
-                        name="curriculumId"> </select>
+                        name="curriculumId"
+                        lay-filter="curriculumChange"> </select>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label require">所属知识点</label>
@@ -129,6 +130,9 @@
         if (id) {
             getDetails()
         }
+        form.on('select(curriculumChange)', function (obj) {
+            getKnowledgeList(Number(obj.value))
+        })
 
         function renderOption() {
             $('#optionWrapper').html('')
@@ -208,7 +212,6 @@
             ]
         })
         getAllCourses()
-        getKnowledgeList()
 
         function getAllCourses() {
             admin.post({
@@ -228,20 +231,16 @@
             })
         }
 
-        function getKnowledgeList() {
-            var data = {
-                page: 1,
-                rows: 100000
-            }
-            admin.post({
-                url: '/knowledgePoint/list',
-                data: JSON.stringify(data),
+        function getKnowledgeList(id) {
+            admin.get({
+                url: '/knowledgePoint/listByCurriculumId?curriculumId=' + id,
                 success: function (res) {
                     $('#knowledgePoint').html('<option value="">请选择</option>')
-                    res.data && res.data.items && res.data.items.forEach(item => {
-                        $('#knowledgePoint').append('<option value="' + item.cId + '">' +
-                            item.cName + '</option>')
-                    })
+                    if (!res.data) return;
+                    for (var k = 0; k < res.data.length; k++) {
+                        $('#knowledgePoint').append('<option value="' + res.data[k].id + '">' + res
+                            .data[k].name + '</option>')
+                    }
                     form.render()
                 },
                 error: function (err) {
@@ -262,14 +261,13 @@
                 })
             })
             var key = $('input[name=option]:checked').attr('data-opt')
-            var value = $('input[name=option]:checked').val()
-            answer['' + key] = value
+            answer['' + key] = optionObj[key]
             var data = {
                 type: $('#type').val(),
-                difficulty: $('#difficulty').val(),
-                curriculumId: $('#curriculumId').val(),
-                knowledgePointId: $('#knowledgePoint').val(),
-                cognitiveType: $('#cognitiveType').val(),
+                difficulty: Number($('#difficulty').val()),
+                curriculumId: Number($('#curriculumId').val()),
+                knowledgePointId: Number($('#knowledgePoint').val()),
+                cognitiveType: Number($('#cognitiveType').val()),
                 content: layedit.getContent(layEditIndex),
                 annotation: $('#annotation').val(),
                 option: JSON.stringify(optionObj),
