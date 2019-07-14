@@ -42,7 +42,7 @@
             table = layui.table,
             admin = layui.admin,
             laypage = layui.laypage,
-            collegeId = layui.data('userInfo').userInfo.collegeId
+            collegeId = layui.data('userInfo').userInfo.collegeId,
             tableFilter = 'statistics_score_table',
             tableFilter1 = 'statistics_score_rate_table'
 
@@ -163,11 +163,11 @@
                         align: 'center',
                         field: 'goodStu',
                     },
-                    // {
-                    //     title: '操作',
-                    //     align: 'center',
-                    //     templet: '#statistics_tech_opt',
-                    // }
+                    {
+                        title: '操作',
+                        align: 'center',
+                        templet: d => '<button class="course-set-btn" lay-event="check">查看</button>'
+                    }
                 ]
             ]
         }
@@ -198,6 +198,12 @@
             })
         }
         getStatisticsScoreList(1)
+        table.on('tool(statistics_score_table)', obj => {
+            var layEvent = obj.event;
+            if(layEvent == 'check') {
+                window.location.href = 'index.html#/statistics/scoreDetails/v=' + Math.ceil(Math.random()*10000)
+            }
+        })
 
         // 各学院及格率和优秀率升降比例
         statisticsScoreRateTableOption = {
