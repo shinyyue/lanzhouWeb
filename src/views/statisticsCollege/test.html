@@ -218,7 +218,7 @@
         // 各各学院实验使用情况统计
         function getCollegeTestUseNums() {
             admin.get({
-                url: '',
+                url: '/report/queryAllCollegeExpUseInfo',
                 success: res => {
                     var xAxisData = [], studentCountList = [], teacherCountList = []
                     res.data.forEach(college => {
@@ -269,7 +269,7 @@
         // 各学院学生及格人数和优秀人数对比分析
         function getStudentNums() {
             admin.get({
-                url: '',
+                url: '/report/queryGlobleCollegeStuGrade',
                 success: res => {
                     var xAxisData = [], passCountList = [], goodCount = []
                     res.data.forEach(college => {
