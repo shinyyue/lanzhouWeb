@@ -10,51 +10,164 @@
             <span>从<i>2019-01-01 10:30</i>至<i>2019-0101 11:30</i></span>
         </div>
         <div class="test-info-item">
-            <span>考生：<i>李梓萌</i></span>
+            <span>考生：<i id="userName"></i></span>
             <span>本次试卷成绩：<i>0</i>分</span>
             <span>测试用时：<i>0</i>分钟</span>
         </div>
     </div>
-    <div class="test-details">
-        <div class="test-tip">单选题 (请选择正确答案，本题共计<i>1</i>个小题)</div>
-        <div id="test-details-inner">
-            <div class="test-item">
-                <div class="test-question"><i>2</i>.ZK4电空转辙机的摩擦联结器下部夹板不得(分值：<i>5</i>分)</div>
-                <form action="" class="layui-form">
-                    <ul>
-                        <li>
-                            <input type="radio" name="check" title="A、生锈">
-                        </li>
-                        <li>
-                            <input type="radio" name="check" title="B、生锈">
-                        </li>
-                        <li>
-                            <input type="radio" name="check" title="C、生锈">
-                        </li>
-                        <li>
-                            <input type="radio" name="check" title="D、生锈">
-                        </li>
-                    </ul>
-                </form>
-            </div>
-        </div>
-    </div>
+    <div class="test-details" id="test_details"></div>
 </div>
 <div class="checkcourse-test-btn">
-    <button class="layui-btn  primary-btn" id="checkcourse-test-back">提交</button>
-    <button class="layui-btn layui-btn-primary back-btn" id="checkcourse-test-back">返回</button>
+    <button class="layui-btn  primary-btn" id="checkcourse-test-submit">
+        提交
+    </button>
+    <button
+        class="layui-btn layui-btn-primary back-btn"
+        id="checkcourse-test-back"
+    >
+        返回
+    </button>
 </div>
 
 <script>
-    layui.use([], function () {
+    layui.use([], function() {
         var $ = layui.jquery,
-            form = layui.form;
+            form = layui.form,
+            admin = layui.admin,
+            route = layui.router(),
+            id = route.search.id,
+            endTime = route.search.endTime,
+            startTime = route.search.startTime,
+            now = new Date().getTime()
 
-
-        form.render();
-        $('#checkcourse-test-back').on('click', function () {
-            window.history.back(-1);
+        form.render()
+        $('#checkcourse-test-back').on('click', function() {
+            window.history.go(-1)
         })
+
+        $('#checkcourse-test-submit').click(function() {
+            var list = []
+            $('.test-item').each(function() {
+                var obj = {
+                    id: $(this)
+                        .find('input')
+                        .data('num'),
+                    value: ''
+                }
+                $(this)
+                    .find('ul li')
+                    .each(function(index) {
+                        if ($(this).find('.layui-form-radioed').length > 0) {
+                            obj.value = $(this)
+                                .find('input')
+                                .val()
+                        }
+                    })
+
+                list.push(obj)
+            })
+
+            var arr = {}
+            for (var j = 0; j < list.length; j++) {
+                var obj = {}
+                arr[list[j].id] = list[j].value
+            }
+
+            admin.post({
+                url: '/theoryTesting/add',
+                data: JSON.stringify({
+                    answerOptions: JSON.stringify(arr),
+                    examinationPaperId: id
+                }),
+                success: function(res) {
+                    if (res.code === 200) {
+                        layer.msg('提交成功！')
+                        window.location.href =
+                            'index.html#/checkCourse/testDetails/id=' +
+                            id +
+                            '/endTime=' +
+                            new Date(res.data.endTime).getTime() +
+                            '/startTime=' +
+                            new Date(res.data.startTime).getTime()
+                    }
+                }
+            })
+        })
+
+        $('#userName').html(layui.data('userInfo').userInfo.userName)
+
+        getList()
+
+        function getList() {
+            admin.get({
+                url: '/testQuestions/info?id=' + id,
+                success: function(res) {
+                    if (res.code === 200) {
+                        var str = ''
+                        for (var key in res.data.map) {
+                            var list = res.data.map[key],
+                                listStr = ''
+
+                            var tip =
+                                '<div class="test-tip">' +
+                                key +
+                                '题 (请选择正确答案，本题共计<i>' +
+                                list.length +
+                                '</i>个小题)' +
+                                '</div> '
+
+                            var itemStr = ''
+                            for (var i = 0; i < list.length; i++) {
+                                var opt = JSON.parse(list[i].option),
+                                    optStr = ''
+
+                                for (var v in opt) {
+                                    optStr +=
+                                        '<li>\n' +
+                                        '   <input type="radio" name="check" title="' +
+                                        v +
+                                        '、' +
+                                        opt[v] +
+                                        '" value="' +
+                                        v +
+                                        '"  data-num="' +
+                                        list[i].exercisesId +
+                                        '"/>\n' +
+                                        '</li>\n'
+                                }
+
+                                itemStr +=
+                                    '            <div class="test-item">\n' +
+                                    '                <div class="test-question">\n' +
+                                    '                    <i>' +
+                                    (+i + 1) +
+                                    '、' +
+                                    list[i].name +
+                                    '.</i>' +
+                                    // '(分值：<i>5</i>分)\n' +
+                                    '                </div>\n' +
+                                    '                <form action="" class="layui-form">\n' +
+                                    '                    <ul>\n' +
+                                    optStr +
+                                    '                    </ul>\n' +
+                                    '                </form>\n' +
+                                    '            </div>\n'
+                            }
+
+                            var inner =
+                                '<div id="test-details-inner">' +
+                                itemStr +
+                                '</div>'
+
+                            str += tip + inner
+                        }
+                        $('#test_details').html(str)
+
+                        form.render()
+                    }
+                }
+            })
+        }
     })
 </script>
 

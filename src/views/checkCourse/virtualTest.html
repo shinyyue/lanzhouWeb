@@ -169,13 +169,17 @@
 
             if (layEvent === 'start') {
                 formData = data
-                type = 'check'
-                window.location.href = 'index.html#/techSet/readyPlan'
+                type = 'add'
+                // window.location.href = 'index.html#/checkCourse/virtualTestDetails/id=' + data.id + '&type=' + type
             } else if (layEvent === 'review') {
                 formData = data
+                type = 'review'
+                // window.location.href = 'index.html#/checkCourse/virtualTestDetails/id=' + data.id + '&type=' + type
+            } else {
+                formData = data
                 type = 'check'
-                window.location.href = 'index.html#/techSet/readyPlan'
             }
+            window.location.href = 'index.html#/checkCourse/virtualTestDetails/id=' + data.id + '/type=' + type
         })
 
         getList(1)

@@ -244,7 +244,7 @@
                 data: JSON.stringify(data),
                 success: function(res) {
                     if (res.code === 200) {
-                        getList(1)
+                        getList(layPageOption.curr)
                         layer.msg('更新成功！')
                     } else {
                         layer.msg((res && res.msg) || '更新失败')

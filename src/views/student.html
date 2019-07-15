@@ -33,11 +33,15 @@
 
 <script>
     function jumpToDetails(id) {
+        layui.data('course', {
+            key: 'coursePlanId',
+            value: id
+        })
         window.location.href = 'index.html#/checkCourse/preIntro/id=' + id
         window.location.reload()
     }
 
-    layui.use(['admin','jquery'], function() {
+    layui.use(['admin', 'jquery'], function() {
         var admin = layui.admin,
             $ = layui.jquery
 

@@ -817,7 +817,6 @@
             var collegeId = $("#college").val()==''?'':$("#college").val(),
                 facultyId = $("#series").val()==''?'':$("#series").val(),
                 url = conf.requestUrl + "/user/exportExcel?roleId=1&collegeId=" + collegeId + "&facultyId=" + facultyId
-            debugger
             window.open(url)
         })
         $('#import-cource').on('click', function () {
