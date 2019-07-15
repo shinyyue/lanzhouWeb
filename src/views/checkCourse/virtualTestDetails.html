@@ -111,7 +111,8 @@
             route = layui.router(),
             id = route.search.id,
             type = route.search.type,
-            details = {}
+            details = {},
+            startDate = new Date()
         getDetails()
         $('#save').on('click', function() {
             // todo
@@ -151,8 +152,12 @@
                     if (type == 'check' || type == 'review') {
                         $('#experimentRatio').html(data.experimentRatio)
                         $('#reportRatio').html(data.reportRatio)
-                        $('#save').attr('style', 'display:none;')
+
+                        // $('#save').attr('style', 'display:none;')
                         $('#submit').attr('style', 'display:none;')
+                        $('#require').attr('disabled', 'true;')
+                        $('#labReport').attr('disabled', 'true;')
+                        $('#testContent').attr('disabled', 'true;')
                     } else {
                         $('#noadd').attr('style', 'display:none;')
                     }
@@ -161,16 +166,40 @@
         }
 
         function save() {
+            debugger
+            var endDate = new Date();
+            var labReportAddress= details.labReportAddress;
+            var testContent= $('#testContent').val();
+            var curriculumExperimentId= id;
+            var curriculumId= null;
+            var experimentId= null;
+            var totalTime= endDate - startDate;
+            var labReport= $('#labReport').val();
             //todo
             var data = {
-                id: Number(id)
+                labReportAddress: labReportAddress,
+                testContent: testContent,
+                curriculumExperimentId: curriculumExperimentId,
+                curriculumId: curriculumId,
+                experimentId: experimentId,
+                totalTime: totalTime,
+                labReport: labReport,
+                endTime: endDate,
+                startTime: startDate
             }
             admin.post({
                 url: '/vsMpTestRecord/addMpObject',
-                data: JSON.stringify(formData),
+                data: JSON.stringify(data),
                 success: function(res) {
-                    layer.msg('暂存成功')
-                    window.history.back(-1)
+                    if (res.code === 200) {
+                        layer.msg('暂存成功！')
+                        window.history.back(-1)
+                    } else {
+                        layer.msg((res && res.msg) || '添加失败')
+                    }
+                },
+                error: function (err) {
+                    layer.msg(err && err.msg || '数据请求失败');
                 }
             })
         }
