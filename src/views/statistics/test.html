@@ -39,6 +39,9 @@
             admin = layui.admin
         // tableFilter = 'tech_status_table'
 
+        // 获取学院管理员的学院id
+        collegeId = layui.data('userInfo').userInfo.collegeId
+
         function initChart(id, option) {
             echarts
                 .init(document.getElementById(id), layui.echartsTheme)
@@ -54,14 +57,14 @@
         // 全院实验数量统计
         function getAllNums() {
             admin.get({
-                url: '/report/queryAllExperiment',
+                url: '/report/queryGlobleCollegeExpCount?collegeId=' + collegeId,
                 success: function(res) {
                     var nameList = []
                     var dataList = []
 
                     res.data.forEach(function(item) {
-                        nameList.push(item.typeName)
-                        dataList.push(item.counts)
+                        nameList.push(item.experimentName)
+                        dataList.push(item.experimentCount)
                     })
                     var option = {
                         tooltip: {
@@ -92,16 +95,16 @@
         // 全院实验使用情况统计
         function testUseStatus() {
             admin.get({
-                url: '/report/queryAllUsedExperiment',
+                url: '/report/queryGlobleCollegeUseInfo?collegeId=' + collegeId,
                 success: function(res) {
                     var nameList = []
-                    var allCountList = []
-                    var useList = []
+                    var studentCountList = []
+                    var teacherCountList = []
 
                     res.data.forEach(function(item) {
                         nameList.push(item.typeName)
-                        allCountList.push(item.allCount)
-                        useList.push(item.usedCount)
+                        studentCountList.push(item.studentCount)
+                        teacherCountList.push(item.teacherStudent)
                     })
                     var statusOption = {
                         tooltip: {
@@ -124,18 +127,24 @@
                                 type: 'value'
                             }
                         ],
+                        legend: {
+                            type: 'scroll',
+                            orient: 'horizontal',
+                            top: 10,
+                            data: ['学生参与人数', '教师安排人次']
+                        },
                         series: [
                             {
-                                name: '总数量',
+                                name: '学生参与人数',
                                 type: 'bar',
                                 barGap: 0,
-                                data: allCountList,
+                                data: studentCountList,
                                 barWidth: 70
                             },
                             {
-                                name: '使用量',
+                                name: '教师安排人次',
                                 type: 'bar',
-                                data: useList,
+                                data: teacherCountList,
                                 barWidth: 70
                             }
                         ]
