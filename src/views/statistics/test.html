@@ -23,12 +23,12 @@
             <div class="tech-item-title">各系实验使用情况统计</div>
             <div id="college_test_count" style="height:400px;"></div>
         </div>-->
-        <div class="tech-item">
+        <!--<div class="tech-item">
             <div class="tech-item-title">
-                各学院学生及格人数和优秀人数对比分析
+                各系学生及格人数和优秀人数对比分析
             </div>
             <div id="result_count" style="height:400px;"></div>
-        </div>
+        </div>-->
     </div>
 </div>
 
@@ -49,7 +49,7 @@
         testUseStatus()
         // getCollegeTestNums()
         // getCollegeTestUseNums()
-        getStudentNums()
+        // getStudentNums()
 
         // 全院实验数量统计
         function getAllNums() {
@@ -267,55 +267,55 @@
         // }
 
         // 各系学生及格人数和优秀人数对比分析
-        function getStudentNums() {
-            admin.get({
-                url: '',
-                success: res => {
-                    var xAxisData = [], passCountList = [], goodCount = []
-                    res.data.forEach(college => {
-                        xAxisData.push(college.collegeName)
-                        passCountList.push(college.passCount)
-                        goodCount.push(college.goodCount)
-                    })
-
-                    var resultOption = {
-                        xAxis: {
-                            data: xAxisData
-                        },
-                        yAxis: {},
-                        tooltip: {
-                            trigger: 'axis',
-                            axisPointer: {
-                                // 坐标轴指示器，坐标轴触发有效
-                                type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-                            }
-                        },
-                        legend: {
-                            type: 'scroll',
-                            orient: 'horizontal',
-                            top: 10,
-                            data: ['及格人数', '优秀人数']
-                        },
-                        series: [
-                            {
-                                name: '及格人数',
-                                type: 'bar',
-                                stack: '堆叠',
-                                data: passCountList,
-                                barGap: '-100%'
-                            },
-                            {
-                                name: '优秀人数',
-                                type: 'bar',
-                                stack: '堆叠',
-                                data: goodCount
-                            }
-                        ]
-                    }
-                    initChart('result_count', resultOption)
-                }
-            })
-        }
+        // function getStudentNums() {
+        //     admin.get({
+        //         url: '',
+        //         success: res => {
+        //             var xAxisData = [], passCountList = [], goodCount = []
+        //             res.data.forEach(college => {
+        //                 xAxisData.push(college.collegeName)
+        //                 passCountList.push(college.passCount)
+        //                 goodCount.push(college.goodCount)
+        //             })
+        //
+        //             var resultOption = {
+        //                 xAxis: {
+        //                     data: xAxisData
+        //                 },
+        //                 yAxis: {},
+        //                 tooltip: {
+        //                     trigger: 'axis',
+        //                     axisPointer: {
+        //                         // 坐标轴指示器，坐标轴触发有效
+        //                         type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+        //                     }
+        //                 },
+        //                 legend: {
+        //                     type: 'scroll',
+        //                     orient: 'horizontal',
+        //                     top: 10,
+        //                     data: ['及格人数', '优秀人数']
+        //                 },
+        //                 series: [
+        //                     {
+        //                         name: '及格人数',
+        //                         type: 'bar',
+        //                         stack: '堆叠',
+        //                         data: passCountList,
+        //                         barGap: '-100%'
+        //                     },
+        //                     {
+        //                         name: '优秀人数',
+        //                         type: 'bar',
+        //                         stack: '堆叠',
+        //                         data: goodCount
+        //                     }
+        //                 ]
+        //             }
+        //             initChart('result_count', resultOption)
+        //         }
+        //     })
+        // }
 
     })
 </script>
