@@ -110,6 +110,7 @@
             conf = layui.conf,
             route = layui.router(),
             id = route.search.id,
+            curriculumId = route.search.curriculumId,
             type = route.search.type,
             details = {},
             startDate = new Date()
@@ -171,13 +172,13 @@
             var labReportAddress= details.labReportAddress;
             var testContent= $('#testContent').val();
             var curriculumExperimentId= id;
-            var curriculumId= null;
-            var experimentId= null;
+            var curriculumId= route.search.curriculumId;
+            var experimentId= id;
             var totalTime= endDate - startDate;
             var labReport= $('#labReport').val();
             //todo
             var data = {
-                labReportAddress: labReportAddress,
+//                labReportAddress: labReportAddress,
                 testContent: testContent,
                 curriculumExperimentId: curriculumExperimentId,
                 curriculumId: curriculumId,
@@ -188,7 +189,7 @@
                 startTime: startDate
             }
             admin.post({
-                url: '/vsMpTestRecord/addMpObject',
+                url: '/testStaging/add',
                 data: JSON.stringify(data),
                 success: function(res) {
                     if (res.code === 200) {

@@ -141,7 +141,7 @@
                                 } else if (d.state == 1) {
                                     if (
                                         new Date().getTime() / 1000 <
-                                        d.endtTime
+                                        new Date(d.endtTime)
                                     ) {
                                         return '实验中'
                                     } else {
@@ -179,7 +179,8 @@
                 formData = data
                 type = 'check'
             }
-            window.location.href = 'index.html#/checkCourse/virtualTestDetails/id=' + data.id + '/type=' + type
+            debugger
+            window.location.href = 'index.html#/checkCourse/virtualTestDetails/id=' + data.id + '/type=' + type + '/curriculumId=' + data.experimentId
         })
 
         getList(1)
