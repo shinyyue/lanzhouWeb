@@ -172,7 +172,7 @@
             }
 
             getSchoolYearList(function() {
-                $('#schoolYear').val(data.schoolYear)
+                $('#schoolYear').val(data.schoolYearId)
                 form.render()
             })
 
@@ -375,13 +375,24 @@
                         res.data.items.length > 0
                     ) {
                         res.data.items.forEach(function(item) {
-                            $('#schoolYear').append(
-                                '<option value="' +
+                            if (item.id == formData.schoolYearId){
+                                $('#schoolYear').append(
+                                    '<option value="' +
                                     item.id +
                                     '">' +
                                     item.schoolYear +
                                     '</option>'
-                            )
+                                )
+                            } else {
+                                $('#schoolYear').append(
+                                    '<option value="' +
+                                    item.id +
+                                    '">' +
+                                    item.schoolYear +
+                                    '</option>'
+                                )
+                            }
+
                         })
                     }
                     form.render()
@@ -432,7 +443,7 @@
                 '                    <label class="layui-form-label">周次名称:</label>\n' +
                 '                    <input\n' +
                 '                        type="number"\n' +
-                'onkeyup="this.value=this.value.replace(/[^0-9-]+/,"");"\n'+
+                'onBlur="this.value=this.value.replace(/[^0-9-]+/,"");"\n'+
                 '                        name="name"\n' +
                 '                        id="name"\n' +
                 '                        class="common-form-input"\n' +
