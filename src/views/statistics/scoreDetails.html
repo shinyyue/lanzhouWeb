@@ -47,7 +47,6 @@
             success: res =>  $('#collegeName').html(res.data.collegeName),
             error: err => layer.msg((err && err.msg) || '数据请求失败')
         })
-        $('#collegeName').html(layui.data('collegeSet').collegeName);
 
         // 所有学生成绩统计
         scoreTableOption = {
