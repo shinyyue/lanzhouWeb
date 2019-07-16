@@ -3,7 +3,8 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>开课管理 > 开课计划 > 添加开课计划</span>
+            <span id="techManage-addnew">开课管理 > 开课计划 > 添加开课计划</span>
+            <span id="techManage-update">开课管理 > 开课计划 > 编辑开课计划</span>
         </div>
     </div>
     <div class="course-add-content">
@@ -386,6 +387,9 @@
         getClassRoom()
         if (id) {
             getDetails()
+            $('#techManage-addnew').attr('style', 'display:none;')
+        } else {
+            $('#techManage-update').attr('style', 'display:none;')
         }
 
         function getDetails() {
