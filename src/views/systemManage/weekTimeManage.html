@@ -375,24 +375,13 @@
                         res.data.items.length > 0
                     ) {
                         res.data.items.forEach(function(item) {
-                            if (item.id == formData.schoolYearId){
-                                $('#schoolYear').append(
-                                    '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.schoolYear +
-                                    '</option>'
-                                )
-                            } else {
-                                $('#schoolYear').append(
-                                    '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.schoolYear +
-                                    '</option>'
-                                )
-                            }
-
+                            $('#schoolYear').append(
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.schoolYear +
+                                '</option>'
+                            )
                         })
                     }
                     form.render()
