@@ -242,8 +242,9 @@
                 data: JSON.stringify(formData),
                 success: function(res) {
                     layer.msg('上传成功')
-                    window.history.back(-1)
-                    // window.location.reload()
+                    // window.history.back(-1)
+                    window.location.href = 'index.html#/experiment/myList'
+                    window.location.reload()
                 }
             })
         }
