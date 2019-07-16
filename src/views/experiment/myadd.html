@@ -15,12 +15,13 @@
                     type="text"
                     name="name"
                     id="name"
+                    lay-verify = "required"
                     placeholder="请输入实验名称"
                 />
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label require">所属课程</label>
-                <select name="curriculumId" id="curriculumId">
+                <select name="curriculumId" id="curriculumId" lay-verify = "required">
                     <option value="">选择课程</option>
                 </select>
             </div>
@@ -28,7 +29,7 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label require">实验类型</label>
-                <select name="experimentalType" id="experimentalType">
+                <select name="experimentalType" id="experimentalType" lay-verify = "required">
                     <option value="">选择实验类型</option>
                 </select>
             </div>
@@ -236,6 +237,18 @@
                 resourceIds: JSON.stringify(ids),
                 require: layedit.getContent(requireIndex) || '',
                 labReport: layedit.getContent(reportIndex) || ''
+            }
+            if (formData.name == '') {
+                layer.msg("实验名称不能为空！")
+                return
+            }
+            if (formData.curriculumId == '') {
+                layer.msg("所属课程不能为空！")
+                return
+            }
+            if (formData.experimentalType == '') {
+                layer.msg("实验类型不能为空！")
+                return
             }
             admin.post({
                 url: '/experiments/add',
