@@ -1,4 +1,4 @@
-<div>
+<div>  
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -211,7 +211,10 @@
                     $('input[name=experimentType]:checked').val()
                 )
             }
-
+            if(reportRatio+experimentRatio!=100){
+                // layer.msg('成绩比重为100%才能提交')
+                return '成绩比重为100%才能提交'
+            }
             admin.post({
                 url: '/curriculumExperiment/teacherAdd',
                 data: JSON.stringify(data),
@@ -315,9 +318,3 @@
         line-height: 38px;
         height: 38px;
         /* width: 80%; */
-    }
-
-    .info-details {
-        line-height: 38px;
-    }
-</style>

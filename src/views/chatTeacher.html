@@ -210,7 +210,7 @@
                     res.data &&
                         res.data.items &&
                         res.data.items.forEach(function(item) {
-                            if (item.publish == 1) {
+                            // if (item.publish == 1) {
                                 arr.push(item)
                                 courseItem +=
                                     '<div class="member-item">' +
@@ -219,7 +219,7 @@
                                     item.courseName +
                                     '</span>' +
                                     '</div>'
-                            }
+                            // }
                         })
                     publishedCourseList = arr
                     $('#published_course').html(courseItem)
