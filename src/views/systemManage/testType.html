@@ -96,7 +96,7 @@
 
         getList(1)
         $("#searchTestTypeList").click(function () {
-            getList(1)
+            getList(layPageOption.curr)
         })
 
         table.on('tool(test-type-mylist-table)', function(obj) {
@@ -225,7 +225,7 @@
             admin.delete({
                 url: '/experimentType/del?id=' + id,
                 success: function(res) {
-                    getList(1)
+                    getList(layPageOption.curr)
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
@@ -243,7 +243,7 @@
                 url: '/experimentType/update',
                 data: JSON.stringify(data),
                 success: function(res) {
-                    getList(1)
+                    getList(layPageOption.curr)
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')

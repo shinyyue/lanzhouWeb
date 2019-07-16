@@ -238,7 +238,7 @@
             admin.delete({
                 url: '/vsMpRule/del?id=' + id,
                 success: function(res) {
-                    getList(1)
+                    getList(layPageOption.curr)
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
@@ -258,7 +258,7 @@
                 url: '/vsMpRule/update',
                 data: JSON.stringify(data),
                 success: function(res) {
-                    getList(1)
+                    getList(layPageOption.curr)
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
