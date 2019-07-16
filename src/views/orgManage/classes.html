@@ -286,7 +286,7 @@
                 url: '/vsMpClass/update',
                 data: JSON.stringify(data),
                 success: function(res) {
-                    getList(1)
+                    getList(layPageOption.curr)
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')

@@ -14,12 +14,13 @@
                     type="text"
                     name="name"
                     id="name"
+                    lay-verify="required"
                     placeholder="请输入实验名称"
                 />
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label require">所属课程</label>
-                <select name="curriculumId" id="curriculumId">
+                <select name="curriculumId" id="curriculumId" lay-verify = "required">
                     <option value="">选择课程</option>
                 </select>
             </div>

@@ -100,7 +100,7 @@
                     $('#name').html(data.name)
                     $('#cited').html(data.cited === 0 ? '引用' : '未引用')
                     $('#recommendedScores').html(data.recommendedScores)
-                    $('#content').val(data.content)
+                    $('#content').html(data.content)
                     $('#createTime').html(admin.dateFormat(new Date(data.createTime).getTime() /
                         1000))
                 }

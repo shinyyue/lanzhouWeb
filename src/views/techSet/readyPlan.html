@@ -211,9 +211,10 @@
                     $('input[name=experimentType]:checked').val()
                 )
             }
-            if(reportRatio+experimentRatio!=100){
-                // layer.msg('成绩比重为100%才能提交')
-                return '成绩比重为100%才能提交'
+            debugger
+            if(parseInt(data.reportRatio)+parseInt(data.experimentRatio)!=100){
+                layer.msg('成绩比重为100%才能提交')
+                return
             }
             admin.post({
                 url: '/curriculumExperiment/teacherAdd',
