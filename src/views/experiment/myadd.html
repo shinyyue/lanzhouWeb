@@ -165,6 +165,11 @@
         form.render()
 
         $('#addExperiment').on('click', function() {
+            debugger
+            if (id){
+                updateData(id)
+                return
+            }
             addData()
             return false
         })
@@ -217,7 +222,7 @@
             })
         }
 
-        function addData(data) {
+        function addData() {
             var ids = []
             $('input[name=resourceIds]:checked').each(function(index) {
                 ids.push({
@@ -236,7 +241,8 @@
                 reportRatio: $('#reportRatio').val() || '',
                 resourceIds: JSON.stringify(ids),
                 require: layedit.getContent(requireIndex) || '',
-                labReport: layedit.getContent(reportIndex) || ''
+                labReport: layedit.getContent(reportIndex) || '',
+                dataType: $('#sourceType').val()
             }
             if (formData.name == '') {
                 layer.msg("实验名称不能为空！")
@@ -250,11 +256,67 @@
                 layer.msg("实验类型不能为空！")
                 return
             }
+            if (parseInt(formData.reportRatio)+parseInt(formData.experimentRatio)!=100){
+                layer.msg("成绩比重不足100%！")
+                return
+            }
             admin.post({
                 url: '/experiments/add',
                 data: JSON.stringify(formData),
                 success: function(res) {
                     layer.msg('上传成功')
+                    // window.history.back(-1)
+                    window.location.href = 'index.html#/experiment/myList'
+                    window.location.reload()
+                }
+            })
+        }
+
+        function updateData(id) {
+            var ids = []
+            $('input[name=resourceIds]:checked').each(function(index) {
+                ids.push({
+                    id: $(this).val(),
+                    url: $(this).data('url'),
+                    type: $('#sourceType').val()
+                })
+                console.log(1222, $(this).data('url'))
+            })
+            var formData = {
+                id: id,
+                name: $('#name').val() || '',
+                curriculumId: Number($('#curriculumId').val()) || '',
+                experimentalType: Number($('#experimentalType').val()) || '',
+                cite: Number($('input[name="cite"]:checked').val()) || '',
+                teacherName: $('#teacherName').val() || '',
+                experimentRatio: $('#experimentRatio').val() || '',
+                reportRatio: $('#reportRatio').val() || '',
+                resourceIds: JSON.stringify(ids),
+                require: layedit.getContent(requireIndex) || '',
+                labReport: layedit.getContent(reportIndex) || '',
+                dataType: $('#sourceType').val()
+            }
+            if (formData.name == '') {
+                layer.msg("实验名称不能为空！")
+                return
+            }
+            if (formData.curriculumId == '') {
+                layer.msg("所属课程不能为空！")
+                return
+            }
+            if (formData.experimentalType == '') {
+                layer.msg("实验类型不能为空！")
+                return
+            }
+            if (parseInt(formData.reportRatio)+parseInt(formData.experimentRatio)!=100){
+                layer.msg("成绩比重不足100%！")
+                return
+            }
+            admin.put({
+                url: '/experiments/update',
+                data: JSON.stringify(formData),
+                success: function(res) {
+                    layer.msg('修改成功')
                     // window.history.back(-1)
                     window.location.href = 'index.html#/experiment/myList'
                     window.location.reload()
@@ -334,13 +396,13 @@
                         res.data.items &&
                         res.data.items.forEach(function(item) {
                             $('#resourceIds').append(
-                                '<input type="checkbox" name="resourceIds" data-url="' +
+                                "<input type='checkbox' name='resourceIds' data-url='" +
                                     item.fileUrl +
-                                    '" lay-skin="primary" value="' +
+                                    "' lay-skin='primary' value='" +
                                     item.id +
-                                    '" title="' +
+                                    "' title='" +
                                     item.resourceName +
-                                    '">'
+                                    "'>"
                             )
                         })
                     form.render()

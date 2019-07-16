@@ -101,7 +101,7 @@
                             showDl = firstPath === childFirstPath ? 'show' : ''
                             dlStr = '<dl class="layui-nav-child ' + showDl + '">' + ddStr + '</dd>'
                         }
-                        childNav += '<li class="layui-nav-item">' + '   <a href="/index.html#' + child[k].menuUrl +
+                        childNav += '<li class="layui-nav-item">' + '   <a class="layui-nav-first" href="/index.html#' + child[k].menuUrl +
                             '"data-url="' + child[k].menuUrl + '">' + '       <cite>' + child[k].menuName +
                             '</cite>' + '   </a>' + dlStr + '</li>'
                     }
@@ -123,11 +123,16 @@
                         $(this).addClass('layui-this')
                         $(this).siblings().removeClass('layui-this')
                         var dl = $(this).find('dl')
-                        if (dl) {
+                        console.log(2222, dl)
+                        if (dl.length > 0) {
                             $(this).find('dl').css('display', 'block')
                             if ($(this).siblings().find('dl')) {
                                 $(this).siblings().find('dl').css('display', 'none')
                             }
+                        } else {
+                            window.location.href = $(this).find('.layui-nav-first').data('url')
+                            window.location.reload()
+                            console.log(1111)
                         }
                     })
                     $('#side_nav').find('.layui-nav-item  dd').on('click', function () {
@@ -138,6 +143,7 @@
                         $(this).addClass('active')
                         $(this).siblings().removeClass('active')
                         window.location.href = 'index.html#' + $(this).find('a').data('url')
+                        location.reload()
                         path = $(this).find('a').data('url')
                     })
                 }
