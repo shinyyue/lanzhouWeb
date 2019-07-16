@@ -1,5 +1,4 @@
-<div id="course_update"
-     lay-title="课程管理">
+<div id="course_update" lay-title="课程管理">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -7,82 +6,96 @@
         </div>
     </div>
     <div class="course-add-content">
-        <form action=""
-              class="layui-form">
+        <form action="" class="layui-form">
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label require">课程名称</label>
-                    <input class="common-form-input"
-                           type="text"
-                           name="curriculumName"
-                           id="curriculumName"
-                           placeholder="请输入课程名称" />
+                    <input
+                        class="common-form-input"
+                        type="text"
+                        name="curriculumName"
+                        id="curriculumName"
+                        placeholder="请输入课程名称"
+                    />
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label require">课程代码</label>
-                    <input type="text"
-                           require
-                           name="curriculumCode"
-                           id="curriculumCode"
-                           class="common-form-input" />
+                    <input
+                        type="text"
+                        require
+                        name="curriculumCode"
+                        id="curriculumCode"
+                        class="common-form-input"
+                    />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">学时</label>
-                    <input class="common-form-input"
-                           type="text"
-                           name="period"
-                           id="period"
-                           placeholder="请输入学时" />
+                    <input
+                        class="common-form-input"
+                        type="text"
+                        name="period"
+                        id="period"
+                        placeholder="请输入学时"
+                    />
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">学分</label>
-                    <input type="text"
-                           name="creditHour"
-                           id="creditHour"
-                           class="common-form-input" />
+                    <input
+                        type="text"
+                        name="creditHour"
+                        id="creditHour"
+                        class="common-form-input"
+                    />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">满分</label>
-                    <input class="common-form-input"
-                           type="text"
-                           name="fullMark"
-                           id="fullMark"
-                           placeholder="请输入分数" />
+                    <input
+                        class="common-form-input"
+                        type="text"
+                        name="fullMark"
+                        id="fullMark"
+                        placeholder="请输入分数"
+                    />
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label require">课程负责人</label>
-                    <input type="text"
-                           name="userName"
-                           class="common-form-input"
-                           id="userName"
-                           disabled />
+                    <input
+                        type="text"
+                        name="userName"
+                        class="common-form-input"
+                        id="userName"
+                        disabled
+                    />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">适合专业</label>
                     <div class="layui-input-block">
-                        <input type="checkbox"
-                               name="profession"
-                               lay-skin="primary"
-                               lay-filter="checkedAll"
-                               value=""
-                               title="所有专业" />
+                        <input
+                            type="checkbox"
+                            name="profession"
+                            lay-skin="primary"
+                            lay-filter="checkedAll"
+                            id="allProfession"
+                            value="0"
+                            title="所有专业"
+                        />
                     </div>
-                    <ul class="course-good-at layui-col-md8"
-                        id="course_gooda_at"></ul>
+                    <ul
+                        class="course-good-at layui-col-md8"
+                        id="course_gooda_at"
+                    ></ul>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">实验室名称</label>
-                    <select name="labId"
-                            id="labId"
-                            lay-verify="">
+                    <select name="labId" id="labId" lay-verify="">
                         <option value="">请选择实验室</option>
                     </select>
                 </div>
@@ -95,50 +108,65 @@
                             <span>搜索</span>
                             <input class="common-form-input" type="text" name="preSourceSearch" placeholder="请输入名称">
                         </div> -->
-                        <div class="pre-course-checkbox"
-                             id="noNeed_course"></div>
+                        <div
+                            class="pre-course-checkbox"
+                            id="noNeed_course"
+                        ></div>
                     </div>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">适合开课年级</label>
-                    <div class="layui-col-md10"
-                         id="gradeId"></div>
+                    <div class="layui-col-md10" id="gradeId"></div>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">适合开课学期</label>
                     <div class="layui-col-md10">
-                        <input type="radio"
-                               name="semester"
-                               value="1"
-                               title="第一学期" />
-                        <input type="radio"
-                               name="semester"
-                               value="2"
-                               title="第二学期" />
+                        <input
+                            type="radio"
+                            name="semester"
+                            value="1"
+                            title="第一学期"
+                        />
+                        <input
+                            type="radio"
+                            name="semester"
+                            value="2"
+                            title="第二学期"
+                        />
                     </div>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">课程介绍</label>
-                    <div class="layui-col-md10"
-                         id="course-intro-edit"
-                         name="presentation"></div>
+                    <div
+                        class="layui-col-md10"
+                        id="course-intro-edit"
+                        name="presentation"
+                    ></div>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-form-item layui-col-md12">
                     <label class="layui-form-label"></label>
                     <div>
-                        <button class="layui-btn primary-btn"
-                                lay-submit
-                                lay-filter="submit"> 提交 </button>
-                        <button class="layui-btn layui-btn-primary cancel-btn"
-                                id="source-add-cancle"> 取消 </button>
+                        <button
+                            class="layui-btn primary-btn"
+                            lay-submit
+                            lay-filter="submit"
+                        >
+                            提交
+                        </button>
+                        <button
+                            class="layui-btn layui-btn-primary cancel-btn"
+                            id="source-add-cancle"
+                        >
+                            取消
+                        </button>
                     </div>
                 </div>
             </div>
@@ -146,7 +174,7 @@
     </div>
 </div>
 <script>
-    layui.use(['form', 'layedit'], function () {
+    layui.use(['form', 'layedit'], function() {
         var form = layui.form,
             layedit = layui.layedit,
             $ = layui.jquery,
@@ -157,7 +185,8 @@
         form.render()
         $('#userName').val(layui.data('userInfo').userInfo.userName)
         var index = layedit.build('course-intro-edit', {
-            tool: ['strong', //加粗
+            tool: [
+                'strong', //加粗
                 'italic', //斜体
                 'underline', //下划线
                 'del', //删除线
@@ -170,25 +199,24 @@
             ]
         })
         //监听提交
-        form.on('submit(submit)', function (data) {
-            console.log(888, data.field)
+        form.on('submit(submit)', function(data) {
             id ? updateData(data.field) : addData(data.field)
             return false
         })
-        $('#source-add-cancle').on('click', function () {
+        $('#source-add-cancle').on('click', function() {
             // window.history.go(-1)
             window.location.href = 'index.html#/course/index'
         })
-        getAllCourses(function () {
-            getExperimentRoomList(function () {
-                getAllProfess(function () {
+        getAllCourses(function() {
+            getExperimentRoomList(function() {
+                getAllProfess(function() {
                     if (id) {
                         getDetails()
                     }
                 })
             })
         })
-        form.on('checkbox(checkedAll)', function (data) {
+        form.on('checkbox(checkedAll)', function(data) {
             var a = data.elem.checked
             if (a == true) {
                 $('.checked-forcess').prop('checked', true)
@@ -201,30 +229,32 @@
         getGradeList()
 
         function addData(data) {
-            var professionList = [];
+            var professionList = []
             data.creditHour = Number(data.creditHour)
             data.fullMark = Number(data.fullMark)
             data.userId = layui.data('userInfo').userInfo.id
             data.period = Number(data.period)
             data.presentation = layedit.getContent(index)
             data.semester = Number(data.semester)
-            $('#course_gooda_at li').each(function (index) {
-                var item = $(this).find('input[type=checkbox]');
+            $('#course_gooda_at li').each(function(index) {
+                var item = $(this).find('input[type=checkbox]')
                 if ($(this).find('.layui-form-checked').length > 0) {
                     professionList.push(item.val())
                 }
             })
             data.profession = professionList.join(',')
-            data.prerequisiteCourse = $('input[name=prerequisiteCourse]:checked').val()
+            data.prerequisiteCourse = $(
+                'input[name=prerequisiteCourse]:checked'
+            ).val()
             admin.post({
                 url: '/vsMpCurriculum/add',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     layer.msg('添加成功')
-                    history.go(-1);
+                    history.go(-1)
                     //                    window.location.href = 'index.html#/course/index'
                 },
-                error: function (err) {
+                error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -232,7 +262,7 @@
 
         function updateData(data) {
             var formData = courseInfo,
-                professionList = [];
+                professionList = []
             formData.creditHour = Number(data.creditHour)
             formData.fullMark = Number(data.fullMark)
             formData.userId = layui.data('userInfo').userInfo.id
@@ -240,30 +270,37 @@
             formData.curriculumName = data.curriculumName
             formData.presentation = layedit.getContent(index)
             formData.semester = Number(data.semester)
-            $('#course_gooda_at li').each(function (index) {
-                var item = $(this).find('input[type=checkbox]');
-                if ($(this).find('.layui-form-checked').length > 0) {
-                    if (item.val() === '') {
-                        professionList = []
-                        return;
+            var flag = false
+            if (
+                $('#allProfession')
+                    .parent()
+                    .find('.layui-form-checked').length > 0
+            ) {
+                flag = true
+            } else {
+                $('#course_gooda_at li').each(function(index) {
+                    var item = $(this).find('input[type=checkbox]')
+                    if ($(this).find('.layui-form-checked').length > 0) {
+                        professionList.push(item.val())
                     }
-                    professionList.push(item.val())
-                }
-            })
-            formData.profession = professionList.join(',')
+                })
+            }
+
+            formData.profession = flag ? '0' : professionList.join(',')
             formData.labId = Number(data.labId)
-            formData.prerequisiteCourse = $('input[name=prerequisiteCourse]:checked').val()
+            formData.prerequisiteCourse = $(
+                'input[name=prerequisiteCourse]:checked'
+            ).val()
             formData.gradeId = $('input[name=gradeId]:checked').val()
             admin.put({
                 url: '/vsMpCurriculum/update',
                 data: JSON.stringify(formData),
-                success: function (res) {
+                success: function(res) {
                     layer.msg('修改成功')
-//                    window.history.back(-1)
                     window.location.href = 'index.html#/course/index'
                     window.location.reload()
                 },
-                error: function (err) {
+                error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -276,12 +313,16 @@
                     page: 1,
                     rows: 100
                 }),
-                success: function (res) {
+                success: function(res) {
                     $('#course_gooda_at').html('')
                     res.data.items.forEach(item => {
                         $('#course_gooda_at').append(
                             '<li><input type="checkbox" class="checked-forcess" lay-skin="primary" name="profession" value="' +
-                            item.id + '" title="' + item.professionName + '"></li>')
+                                item.id +
+                                '" title="' +
+                                item.professionName +
+                                '"></li>'
+                        )
                         form.render()
                     })
                     callback && typeof callback === 'function' && callback()
@@ -296,11 +337,17 @@
                     page: 1,
                     rows: 100
                 }),
-                success: function (res) {
-                    res.data.items && res.data.items.forEach(function (item) {
-                        $('#labId').append('<option value="' + item.id + '">' + item.labName +
-                            '</option>')
-                    })
+                success: function(res) {
+                    res.data.items &&
+                        res.data.items.forEach(function(item) {
+                            $('#labId').append(
+                                '<option value="' +
+                                    item.id +
+                                    '">' +
+                                    item.labName +
+                                    '</option>'
+                            )
+                        })
                     form.render()
                     callback()
                 }
@@ -315,15 +362,26 @@
             admin.post({
                 url: '/grade/queryGradeList',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     $('#gradeId').html('')
-                    res.data && res.data.items && res.data.items.forEach(function (item) {
-                        $('#gradeId').append('<input\n' + 'type="radio"\n' +
-                            'name="gradeId"\n' + 'value="' + item.id + '"\n' +
-                            'title="' + item.gradeName + '"\n' + '/>')
-                    })
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(function(item) {
+                            $('#gradeId').append(
+                                '<input\n' +
+                                    'type="radio"\n' +
+                                    'name="gradeId"\n' +
+                                    'value="' +
+                                    item.id +
+                                    '"\n' +
+                                    'title="' +
+                                    item.gradeName +
+                                    '"\n' +
+                                    '/>'
+                            )
+                        })
                 },
-                error: function (err) {
+                error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -337,13 +395,19 @@
                     rows: 100,
                     key: '||'
                 }),
-                success: function (res) {
-                    res.data && res.data.items && res.data.items.forEach(function (item) {
-                        $('#noNeed_course').append(
-                            '<input type="checkbox" lay-skin="primary" name="prerequisiteCourse" value="' +
-                            item.id + '" title="' + item.curriculumName + '">')
-                        form.render()
-                    })
+                success: function(res) {
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(function(item) {
+                            $('#noNeed_course').append(
+                                '<input type="checkbox" lay-skin="primary" name="prerequisiteCourse" value="' +
+                                    item.id +
+                                    '" title="' +
+                                    item.curriculumName +
+                                    '">'
+                            )
+                            form.render()
+                        })
                     callback(res)
                 }
             })
@@ -352,7 +416,7 @@
         function getDetails() {
             admin.get({
                 url: '/vsMpCurriculum/get?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     var data = res.data
                     courseInfo = data
                     $('#curriculumName').val(data.curriculumName)
@@ -362,13 +426,25 @@
                     $('#fullMark').val(data.fullMark)
                     $('#userId').val(data.userId)
                     $('#labId').val(data.labId)
-                    $('input[name=prerequisiteCourse][value=' + data.prerequisiteCourse + ']').attr(
-                        'checked', 'checked')
-                    $('input[name=gradeId][value=' + data.gradeId + ']').attr('checked', 'checked')
-                    $('input[name=semester][value=' + data.semester + ']').attr('checked',
-                        'checked')
-                    var professionList = res.data.profession.split(',')
-                    $('input[name=profession]').each(function (index) {
+                    $(
+                        'input[name=prerequisiteCourse][value=' +
+                            data.prerequisiteCourse +
+                            ']'
+                    ).attr('checked', 'checked')
+                    $('input[name=gradeId][value=' + data.gradeId + ']').attr(
+                        'checked',
+                        'checked'
+                    )
+                    $('input[name=semester][value=' + data.semester + ']').attr(
+                        'checked',
+                        'checked'
+                    )
+                    var professionList = !res.data.profession
+                        ? []
+                        : res.data.profession === '0'
+                        ? ['0']
+                        : res.data.profession.split(',')
+                    $('input[name=profession]').each(function(index) {
                         if (professionList.indexOf($(this).val()) > -1) {
                             $(this).attr('checked', true)
                         }
@@ -381,13 +457,14 @@
     })
 </script>
 <style>
-    #course_update {}
+    #course_update {
+    }
 
     #course_update .course-add-content {
         padding: 15px 0;
     }
 
-    #course_update .course-good-at>li {
+    #course_update .course-good-at > li {
         float: left;
         margin-right: 20px;
     }
