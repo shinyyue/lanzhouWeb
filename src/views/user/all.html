@@ -960,13 +960,23 @@
                     res.data &&
                         res.data.items &&
                         res.data.items.forEach(function(item) {
-                            $('#roleId').append(
-                                '<option value="' +
+                            if(formData.roleId == item.id){
+                                $('#roleId').append(
+                                    '<option value="' +
+                                    item.id +
+                                    '" selected>' +
+                                    item.roleName +
+                                    '</option>'
+                                )
+                            } else {
+                                $('#roleId').append(
+                                    '<option value="' +
                                     item.id +
                                     '">' +
                                     item.roleName +
                                     '</option>'
-                            )
+                                )
+                            }
                         })
                     form.render()
                 }

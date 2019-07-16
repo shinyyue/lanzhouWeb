@@ -98,7 +98,7 @@
                     $('#preCourseName').html((courseName) + ' > ')
                     $('#userName').html(data.userName)
                     $('#name').html(data.name)
-                    $('#cited').html(data.cited === 0 ? '引用' : '未引用')
+                    $('#cited').html(data.cited === 0 ? '未引用' : '引用')
                     $('#recommendedScores').html(data.recommendedScores)
                     $('#content').html(data.content)
                     $('#createTime').html(admin.dateFormat(new Date(data.createTime).getTime() /

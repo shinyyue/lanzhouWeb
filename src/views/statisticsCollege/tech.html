@@ -50,9 +50,7 @@
         })
 
         getFacultyCourse()
-
-        // getClassNums()
-
+        getClassNums()
         getClassNumsStatus()
 
         // 各学院开课数量明细分析
@@ -134,11 +132,18 @@
             })
         }
 
-        // todo: 没接口开课未开课
+        // 全校开课与未开课情况对比分析
         function getClassNums() {
             admin.get({
-                url: '/report/queryFacultyInfoList',
-                success: function(res) {
+                url: '/report/queryOpenOrNo',
+                success: res => {
+                    var xAxisData = [], openCourseList = [], noOpenCourseList = []
+                    res.data.forEach(score => {
+                        xAxisData.push(score.collegeName)
+                        openCourseList.push(score.openCourse)
+                        noOpenCourseList.push(score.noOpenCourse)
+
+                    })
                     var statusOption = {
                         tooltip: {
                             trigger: 'axis',
@@ -151,11 +156,7 @@
                             data: ['开课', '未开课']
                         },
                         xAxis: {
-                            data: [
-                                '土木工程学院',
-                                '自动化与电气工程学院',
-                                '其他学院'
-                            ]
+                            data: xAxisData
                         },
                         yAxis: {},
                         series: [
@@ -169,7 +170,7 @@
                                         position: 'insideRight'
                                     }
                                 },
-                                data: [320, 320, 200]
+                                data: openCourseList
                             },
                             {
                                 name: '未开课',
@@ -181,7 +182,7 @@
                                         position: 'insideRight'
                                     }
                                 },
-                                data: [120, 132, 101]
+                                data: noOpenCourseList
                             }
                         ]
                     }
