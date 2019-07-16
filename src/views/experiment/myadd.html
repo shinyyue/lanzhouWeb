@@ -2,7 +2,8 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>实验管理 > 我的实验库 > 添加实验</span>
+            <span id = "experiment-my-addnew">实验管理 > 我的实验库 > 添加实验</span>
+            <span id = "experiment-my-update">实验管理 > 我的实验库 > 编辑实验</span>
         </div>
     </div>
     <form action="" class="layui-form my-add-form">
@@ -14,20 +15,21 @@
                     type="text"
                     name="name"
                     id="name"
+                    lay-verify = "required"
                     placeholder="请输入实验名称"
                 />
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label require">所属课程</label>
-                <select name="curriculumId" id="curriculumId">
+                <select name="curriculumId" id="curriculumId" lay-verify = "required">
                     <option value="">选择课程</option>
                 </select>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
-                <label class="layui-form-label">实验类型</label>
-                <select name="experimentalType" id="experimentalType">
+                <label class="layui-form-label require">实验类型</label>
+                <select name="experimentalType" id="experimentalType" lay-verify = "required">
                     <option value="">选择实验类型</option>
                 </select>
             </div>
@@ -151,6 +153,11 @@
             id = route.search.id,
             requireIndex,
             reportIndex
+        if (id == null){
+            $('#experiment-my-update').attr('style', 'display:none;')
+        } else {
+            $('#experiment-my-addnew').attr('style', 'display:none;')
+        }
 
         var user = JSON.parse(localStorage.userInfo)
         var userName = user.userInfo.userName
@@ -231,13 +238,26 @@
                 require: layedit.getContent(requireIndex) || '',
                 labReport: layedit.getContent(reportIndex) || ''
             }
+            if (formData.name == '') {
+                layer.msg("实验名称不能为空！")
+                return
+            }
+            if (formData.curriculumId == '') {
+                layer.msg("所属课程不能为空！")
+                return
+            }
+            if (formData.experimentalType == '') {
+                layer.msg("实验类型不能为空！")
+                return
+            }
             admin.post({
                 url: '/experiments/add',
                 data: JSON.stringify(formData),
                 success: function(res) {
                     layer.msg('上传成功')
-                    window.history.back(-1)
-                    // window.location.reload()
+                    // window.history.back(-1)
+                    window.location.href = 'index.html#/experiment/myList'
+                    window.location.reload()
                 }
             })
         }
