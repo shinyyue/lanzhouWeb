@@ -262,13 +262,13 @@
             })
         })
         getCollegeList(function (res) {
-            var options = ''
-            res.data.items.forEach(item => {
-                options += '<option value="' + item.id + '">' + item.collegeName + '</option>'
-            })
-            $('#college').val('')
-            $('#college').append(options)
-            setSelectOptions()
+            // var options = ''
+            // res.data.items.forEach(item => {
+            //     options += '<option value="' + item.id + '">' + item.collegeName + '</option>'
+            // })
+            // $('#college').val('')
+            // $('#college').append(options)
+            // setSelectOptions()
         })
         // 学院列表
         function getCollegeList(callback) {
