@@ -758,6 +758,9 @@
                         } else {
                             layer.msg(res.msg || '更新失败')
                         }
+                    },
+                    error: function(err) {
+                        layer.msg((err && err.msg) || '数据请求失败')
                     }
                 })
                 return
