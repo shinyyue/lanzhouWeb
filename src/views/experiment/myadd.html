@@ -124,13 +124,13 @@
                 <div>
                     <!--<button class="layui-btn primary-btn" lay-submit lay-filter="stage">暂存</button>-->
                     <!-- lay-submit lay-filter="addExperiment" -->
-                    <button
+                    <div
                         class="layui-btn primary-btn"
                         lay-filter="addExperiment"
                         id="addExperiment"
                     >
                         提交
-                    </button>
+                    </div>
                     <button
                         class="layui-btn layui-btn-primary cancel-btn"
                         id="experiment-add-cancle"
@@ -165,7 +165,7 @@
         form.render()
 
         $('#addExperiment').on('click', function() {
-//            debugger
+            debugger
             if (id){
                 updateData(id)
             }else{
@@ -222,6 +222,7 @@
         }
 
         function addData() {
+            console.log(11111111)
             var ids = []
             $('input[name=resourceIds]:checked').each(function(index) {
                 ids.push({
@@ -263,10 +264,22 @@
                 url: '/experiments/add',
                 data: JSON.stringify(formData),
                 success: function(res) {
-                    layer.msg('上传成功')
-                    // window.history.back(-1)
-                    window.location.href = 'index.html#/experiment/myList'
-                    window.location.reload()
+                    if (res.code==200){
+                        layer.msg('上传成功')
+                        // window.history.back(-1)
+                        window.location.href = 'index.html#/experiment/myList'
+                        window.location.reload()
+                    }
+                    else{
+                        debugger
+                        layer.msg(res.msg||'修改失败')
+                        return
+                    }
+                },
+                error:function (res) {
+                    debugger
+                    layer.msg(res.msg||'修改失败')
+                    return
                 }
             })
         }
@@ -307,7 +320,6 @@
                 layer.msg("实验类型不能为空！")
                 return
             }
-            debugger
             if (parseInt(formData.reportRatio)+parseInt(formData.experimentRatio)!=100){
                 layer.msg("成绩比重不足100%！")
                 return
@@ -316,13 +328,16 @@
                 url: '/experiments/update',
                 data: JSON.stringify(formData),
                 success: function(res) {
+                    debugger
                     if (res.code==200){
                         layer.msg('修改成功')
                         // window.history.back(-1)
                         window.location.href = 'index.html#/experiment/myList'
                         window.location.reload()
                     }else{
+                        debugger
                         layer.msg(res.msg||'修改失败')
+                        return
                     }
                 },
                 error:function (res) {

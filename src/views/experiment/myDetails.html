@@ -101,13 +101,18 @@
             <div class="layui-form-item layui-col-md12">
                 <label class="layui-form-label"></label>
                 <div>
-                    <button class="layui-btn primary-btn" id="my-details-update">修改</button>
+                    <div class="layui-btn primary-btn" id="my-details-update">修改</div>
                     <button class="layui-btn layui-btn-primary cancel-btn " id="my-details-back">返回</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script src="src/plugins/UnityLoader.js"></script>
+<script src="src/plugins/UnityProgress.js"></script>
+<script src="src/plugins/resource_url.js"></script>
+<script src="menutree/menuTree.js"></script>
 
 <script>
     layui.use(['table'], function (table) {
@@ -182,8 +187,10 @@
                             }
                         )
                     } else if (res.data.dataType == 7) {
+                        console.log(111222, res.data.resourceIds)
+                        console.log(33333, JSON.parse(res.data.resourceIds))
                         // scorm课件
-                        var sourceList = JSON.parse(data.fileUrl)
+                        var sourceList = JSON.parse(res.data.resourceIds)[0].url
                         var munebtn = document.getElementById('mune_btn')
                         var mune = document.getElementById('mune_area')
                         var treeStr = ''
