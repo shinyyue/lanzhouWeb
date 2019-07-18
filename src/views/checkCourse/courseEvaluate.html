@@ -16,7 +16,7 @@
                     学生: <span id="userName"></span>
                 </div>
                 <div class="layui-col-md6" style="float: right">
-                    2019-05-20 11:45
+                    <span id="date" ></span>
                 </div>
             </div>
         </div>
@@ -58,10 +58,28 @@
         var $ = layui.jquery,
             form = layui.form
             admin = layui.admin,
+            time=getNowFormatDate,
         $("#coursePlanName").html(layui.data('course').coursePlanName),
         $("#coursePlanName").val(layui.data('course').coursePlanId),
         $("#userName").html(layui.data('userInfo').userInfo.userName)
-
+        $("#date").html(time);
+        function getNowFormatDate() {
+            var date = new Date();
+            var seperator1 = "-";
+            var seperator2 = ":";
+            var month = date.getMonth() + 1;
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+                + " " + date.getHours() + seperator2 + date.getMinutes()
+                + seperator2 + date.getSeconds();
+            return currentdate;
+        }
         form.on('submit(submit)', function(data){
             debugger
 
