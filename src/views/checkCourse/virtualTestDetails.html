@@ -137,15 +137,15 @@
             admin = layui.admin,
             conf = layui.conf,
             route = layui.router(),
-            curriculumExperimentId = route.search.curriculumId,  // 实验课程课程id
-            experimentId = route.search.curriculumId,  // 实验id
-            curriculumId = route.search.curriculumId,  // 课程id
+            curriculumExperimentId = layui.data('course').curriculumExperimentId,  // 实验课程课程id
+            experimentId = layui.data('course').experimentId,  // 实验id
+            curriculumId = layui.data('course').coursePlanId,  // 课程id
             type = route.search.type,
             startDate = new Date(),
             testContent = '', // 资源快照状态
             dataType = 0;  // 资源类型
 
-        $('#save').on('click', save)
+        $('#save').on('click', () => save())
         $('#submit').on('click', submit)
         $('#back').on('click', () => window.history.go(-1))
 
@@ -163,7 +163,7 @@
                     $('#require').html(data.require)
                     $('#labReport').html(data.labReport)
                     $('#testTotleTime').html(data.testTotleTime)
-
+                    dataType = res.data.dataType
                     testContent = res.data.testContent || 0
                     if (res.data.dataType == 1) {
                         // 文档
@@ -200,7 +200,6 @@
                             }
                         )
                     } else if (res.data.dataType == 7) {
-                        debugger
                         console.log(33333, JSON.parse(res.data.resourceIds))
                         // scorm课件
                         var sourceList = JSON.parse(res.data.resourceIds)[0].url
@@ -216,17 +215,19 @@
                             addtree(
                                 floor + sourceList[i].name,
                                 conf.fileRequestUrl + '/' +  sourceList[i].sourceName,
-                                'innerTarget'
+                                'innerTarget',
+                                sourceList[i].id
                             )
                         }
                         createtree('tabcon1_menulist')
-
-                        $('.menu-list').click(function() {
-                            getSWFUrl(
-                                'pagecon',
-                                conf.fileRequestUrl + '/' + sourceList[0].sourceName
-                            )
-                        })
+                        // $('.menu-list').click(function() {
+                        //     console.log($(this).data("id"))
+                        //     getSWFUrl(
+                        //         'pagecon',
+                        //         conf.fileRequestUrl + '/' + sourceList[0].sourceName
+                        //     )
+                        // })
+                        $('.menu-list').click(() => changeScromeNode($(this).data("id"), $(this).data("href")))
                         munebtn.onclick = function() {
                             var p = $('#pagecon')
                             if (this.getAttribute('data-zt') == 'a') {
@@ -260,6 +261,12 @@
             })
         }
         getDetails()
+
+        // scrome   切换节点
+        changeScromeNode = (id, url) => {
+            console.log(id, url + "------------")
+            getSWFUrl('pagecon', conf.fileRequestUrl + '/' + url)
+        }
 
         // 暂存
         save = () => {
