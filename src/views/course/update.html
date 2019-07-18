@@ -161,12 +161,12 @@
                         >
                             提交
                         </button>
-                        <button
+                        <div
                             class="layui-btn layui-btn-primary cancel-btn"
                             id="source-add-cancle"
                         >
                             取消
-                        </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -257,14 +257,13 @@
             data.prerequisiteCourse = $(
                 'input[name=prerequisiteCourse]:checked'
             ).val()
-            debugger
             admin.post({
                 url: '/vsMpCurriculum/add',
                 data: JSON.stringify(data),
                 success: function(res) {
                     layer.msg('添加成功')
-                    // history.go(-1)
-                                       window.location.href = 'index.html#/course/index'
+//                    history.go(-1)
+                    window.location.href = 'index.html#/course/index'
                     window.location.reload()
                 },
                 error: function(err) {
@@ -462,7 +461,6 @@
                             $(this).attr('checked', true)
                         }
                     })
-                    debugger
                     layedit.setContent('index', data.presentation, false)
                     form.render()
                 }
