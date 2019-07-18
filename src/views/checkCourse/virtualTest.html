@@ -166,6 +166,9 @@
             var data = obj.data //获得当前行数据
             var layEvent = obj.event,
                 type = ''
+            layui.data('virtualTest', {key: 'curriculumExperimentId',value: data.id})  // 实验课程id
+            layui.data('virtualTest', {key: 'curriculumId',value: data.id})  // 课程id
+            layui.data('virtualTest', {key: 'experimentId',value: data.experimentId})  // 实验id
 
             if (layEvent === 'start') {
                 formData = data
