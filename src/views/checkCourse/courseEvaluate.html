@@ -57,12 +57,31 @@
     layui.use(['jquery','form'], function() {
         var $ = layui.jquery,
             form = layui.form
+            admin = layui.admin,
         $("#coursePlanName").html(layui.data('course').coursePlanName),
         $("#coursePlanName").val(layui.data('course').coursePlanId),
         $("#userName").html(layui.data('userInfo').userInfo.userName)
 
         form.on('submit(submit)', function(data){
-            console.log(data);
+            debugger
+
+            var param = {
+                curriculumId: layui.data('course').coursePlanId,
+                content: data.field.desc
+            }
+            admin.post({
+                url: '/coursre/add',
+                data: JSON.stringify(param),
+                success: function(res) {
+                    debugger
+                    if (res.code === 200) {
+                        layer.msg('评论成功！')
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
             return false;
         });
         $('#source-add-cancle').on('click', function() {
