@@ -2,7 +2,7 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>铁路信号知识 > 课程评价 > 学生评价</span>
+            <span id = "courseEvaluate"></span>
         </div>
     </div>
     <form action="" class="layui-form my-form">
@@ -62,6 +62,7 @@
         $("#coursePlanName").html(layui.data('course').coursePlanName),
         $("#coursePlanName").val(layui.data('course').coursePlanId),
         $("#userName").html(layui.data('userInfo').userInfo.userName)
+        $("#courseEvaluate").html(layui.data('course').coursePlanName + ' > 课程评价 > 学生评价')
         $("#date").html(time);
         function getNowFormatDate() {
             var date = new Date();
