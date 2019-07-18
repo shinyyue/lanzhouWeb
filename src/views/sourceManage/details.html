@@ -170,6 +170,9 @@
                     $('#courseName').html(data.courseName)
                     $('#courseName').html(data.courseName)
                     $('#resourceDes').val(data.resourceDes)
+                    if (data.canDownload == 0){
+                        $('#download').attr('style', 'display:none;')
+                    }
                     fileUrl = conf.fileRequestUrl + '/' + data.fileUrl
                     if (data.type == 1) {
                         // 文档
@@ -256,6 +259,7 @@
                             }
                         }
                     }
+
                 }
             })
         }

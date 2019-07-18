@@ -114,7 +114,7 @@
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label "></label>
-                <button class="primary-btn">查看已安排试验</button>
+                <button class="primary-btn" id="back">查看已安排试验</button>
             </div>
         </div>
     </form>
@@ -193,6 +193,10 @@
                 window.location.href =
                     '/index.html#/techSet/assignDetails/id=' + id
             }
+        })
+        $('#back').on('click', function() {
+            window.location.href =
+                '/index.html#/techSet/readyList'
         })
 
         details()

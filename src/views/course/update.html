@@ -236,13 +236,24 @@
             data.period = Number(data.period)
             data.presentation = layedit.getContent(index)
             data.semester = Number(data.semester)
-            $('#course_gooda_at li').each(function(index) {
-                var item = $(this).find('input[type=checkbox]')
-                if ($(this).find('.layui-form-checked').length > 0) {
-                    professionList.push(item.val())
-                }
-            })
-            data.profession = professionList.join(',')
+
+            var flag = false
+            if (
+                $('#allProfession')
+                    .parent()
+                    .find('.layui-form-checked').length > 0
+            ) {
+                flag = true
+            } else {
+                $('#course_gooda_at li').each(function(index) {
+                    var item = $(this).find('input[type=checkbox]')
+                    if ($(this).find('.layui-form-checked').length > 0) {
+                        professionList.push(item.val())
+                    }
+                })
+            }
+
+            data.profession = flag ? '0' : professionList.join(',')
             data.prerequisiteCourse = $(
                 'input[name=prerequisiteCourse]:checked'
             ).val()

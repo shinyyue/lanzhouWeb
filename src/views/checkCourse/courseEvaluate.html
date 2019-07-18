@@ -2,7 +2,7 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>铁路信号知识 > 课程评价 > 学生评价</span>
+            <span id = "courseEvaluate"></span>
         </div>
     </div>
     <form action="" class="layui-form my-form">
@@ -16,7 +16,7 @@
                     学生: <span id="userName"></span>
                 </div>
                 <div class="layui-col-md6" style="float: right">
-                    2019-05-20 11:45
+                    <span id="date" ></span>
                 </div>
             </div>
         </div>
@@ -57,12 +57,50 @@
     layui.use(['jquery','form'], function() {
         var $ = layui.jquery,
             form = layui.form
+            admin = layui.admin,
+            time=getNowFormatDate,
         $("#coursePlanName").html(layui.data('course').coursePlanName),
         $("#coursePlanName").val(layui.data('course').coursePlanId),
         $("#userName").html(layui.data('userInfo').userInfo.userName)
-
+        $("#courseEvaluate").html(layui.data('course').coursePlanName + ' > 课程评价 > 学生评价')
+        $("#date").html(time);
+        function getNowFormatDate() {
+            var date = new Date();
+            var seperator1 = "-";
+            var seperator2 = ":";
+            var month = date.getMonth() + 1;
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+                + " " + date.getHours() + seperator2 + date.getMinutes()
+                + seperator2 + date.getSeconds();
+            return currentdate;
+        }
         form.on('submit(submit)', function(data){
-            console.log(data);
+            debugger
+
+            var param = {
+                curriculumId: layui.data('course').coursePlanId,
+                content: data.field.desc
+            }
+            admin.post({
+                url: '/coursre/add',
+                data: JSON.stringify(param),
+                success: function(res) {
+                    debugger
+                    if (res.code === 200) {
+                        layer.msg('评论成功！')
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
             return false;
         });
         $('#source-add-cancle').on('click', function() {

@@ -3,8 +3,7 @@
         <div class="course-title-location">
             <span>您的位置：</span>
             <span
-                >选课 > 铁路信号知识 > 虚拟实验 > 虚拟实验列表 >
-                虚拟实验信息</span
+                >选课 > <span id="courseNameNav"></span> > 虚拟实验 > 虚拟实验列表 > 虚拟实验信息</span
             >
         </div>
     </div>
@@ -49,29 +48,22 @@
         </div>
         <div class="source-display" id="fileUrl">
             <div id="mune_area">
-                <div class="tab_a" id="tab_b">
+                <div class="tab_a"
+                     id="tab_b">
                     <ul class="tab1 tab1ys">
                         <li>
-                            <a
-                                    id="tab_ch1"
-                                    class="active"
-                                    href="javascript:void(0)"
-                            ><img src="src/images/xue.png"
-                            /></a>
+                            <a id="tab_ch1"
+                               class="active"
+                               href="javascript:void(0)"><img src="src/images/xue.png" /></a>
                         </li>
-                        <!-- <li>
-                            <a id="tab_ch2"
-                               href="javascript:void(0)"><img src="src/images/lian.png" /></a>
-                        </li> -->
                     </ul>
                     <ul class="tab_con tabcon_sy">
                         <li id="tabcon1">
-                            <div
-                                    class="munebtnlist"
-                                    id="tabcon1_menulist"
-                            ></div>
+                            <div class="munebtnlist"
+                                 id="tabcon1_menulist"></div>
                         </li>
-                        <li id="tabcon2" class="hidden">
+                        <li id="tabcon2"
+                            class="hidden">
                             <div class="munebtnlist">
                                 <div id="tabcon2_menulist"></div>
                             </div>
@@ -79,32 +71,17 @@
                     </ul>
                 </div>
             </div>
-            <div id="mune_btn" class="munebtna" data-zt="a"></div>
-            <div
-                    id="pagecon"
-                    style=" min-width: 900px; height: 500px;float: left"
-            >
-                <iframe
-                        frameBorder="0"
+            <div id="mune_btn"
+                 class="munebtna"
+                 data-zt="a"></div>
+            <div id="pagecon"
+                 style=" min-width: 900px; height: 500px;float: left">
+                <iframe frameBorder="0"
                         id="innerTarget"
                         name="innerTarget"
                         scrolling="no"
                         src="iframe2.htm"
-                        style="width: 100%; height: 100%"
-                ></iframe>
-            </div>
-        </div>
-        <div class="source-display" id="fileUrl"></div>
-        <div class="layui-row">
-            <div class="layui-col-md12 layui-form-item">
-                <label class="layui-form-label">实验内容</label>
-                <div class="layui-col-md9">
-                    <textarea
-                        name="desc"
-                        class="layui-textarea"
-                        id="testContent"
-                    ></textarea>
-                </div>
+                        style="width: 100%; height: 100%"></iframe>
             </div>
         </div>
         <div class="layui-row">
@@ -160,81 +137,54 @@
             admin = layui.admin,
             conf = layui.conf,
             route = layui.router(),
-            id = route.search.id,
-            curriculumId = route.search.curriculumId,
+            curriculumExperimentId = route.search.curriculumId,  // 实验课程课程id
+            experimentId = route.search.curriculumId,  // 实验id
+            curriculumId = route.search.curriculumId,  // 课程id
             type = route.search.type,
-            details = {},
-            startDate = new Date()
-        getDetails()
-        $('#save').on('click', function() {
-            // todo
-            save()
-        })
-        $('#submit').on('click', function() {
-            // todo
-            submit()
-        })
-        $('#back').on('click', function() {
-            window.history.go(-1)
-        })
+            startDate = new Date(),
+            testContent = '', // 资源快照状态
+            dataType = 0;  // 资源类型
 
-        function getDetails() {
+        $('#save').on('click', save)
+        $('#submit').on('click', submit)
+        $('#back').on('click', () => window.history.go(-1))
+
+        getDetails = () => {
             admin.get({
-                url:
-                    '/vsMpTestRecord/startReLookTest?curriculumExperimentId=' +
-                    id,
+                url:  '/vsMpTestRecord/startReLookTest?curriculumExperimentId=' + curriculumExperimentId,
                 success: function(res) {
-                    var data = JSON.parse(res.data)
-                    details = data
+                    var data = res.data
                     $('#curriculumExperimentName').html(
                         data.curriculumExperimentName
                     )
                     $('#experimentType').html(data.experimentType)
                     $('#courseName').html(data.courseName)
+                    $('#courseNameNav').html(data.courseName)
                     $('#require').html(data.require)
                     $('#labReport').html(data.labReport)
-                    $('#testContent').html(data.testContent)
                     $('#testTotleTime').html(data.testTotleTime)
-                    /*$('#fileUrl').html(
-                        '<img src="' +
-                            data.resourceIds +
-                            '" style="width: 100%; height: 100%;">'
-                    )*/
-                    debugger
-                    if (res.data.dataType === 2) {
-                        var list = JSON.parse(res.data.resourceIds),
-                            str = ''
-                        for(var i = 0; i < list.length; i++) {
-                            str += '<img src="' + conf.fileRequestUrl + '/' +list[i].url + '">'
-                        }
-                        $('#fileUrl').html(str)
-                        return;
-                    }
-                    fileUrl = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url
+
+                    testContent = res.data.testContent || 0
                     if (res.data.dataType == 1) {
                         // 文档
                         // window.open(fileUrl)
                         $('#fileUrl').hide()
                     } else if (res.data.dataType == 2) {
                         // 图片
-                        $('#fileUrl').html(
-                            '<img src="' +
-                            fileUrl +
-                            '" style="width: 100%; height: 100%;">'
-                        )
+                        var fileUrl = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url
+                        $('#fileUrl').html('<img src="' + fileUrl + '" style="width: 100%; height: 100%;">')
                     } else if (res.data.dataType == 3) {
                         // 视频
-                        $('#fileUrl').html(
-                            '<video src="' +
-                            fileUrl +
-                            '" controls="controls" style="width: 100%; height: 100%;">'
-                        )
+                        var fileUrl = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url
+                        $('#fileUrl').html('<video src="' + fileUrl + '" controls="controls" id="file_video_detail" style="width: 100%; height: 100%;" />');
+                        var fileVideoDetail = document.getElementById('file_video_detail');
+                        fileVideoDetail.currentTime = testContent;
+                        fileVideoDetail.onpause = () => testContent = fileVideoDetail.currentTime
+                        fileVideoDetail.onended = () => testContent = 0
                     } else if (res.data.dataType == 4) {
-                        $('#fileUrl').html(
-                            '<embed src="' +
-                            fileUrl +
-                            '" type="application/x-shockwave-flash" style="width: 100%; height: 100%;" quality="high" />'
-                        )
+                        // flash
+                        var fileUrl = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url
+                        $('#fileUrl').html('<embed src="' + fileUrl + '" type="application/x-shockwave-flash" style="width: 100%; height: 100%;" quality="high" />')
                     } else if (res.data.dataType == 5) {
                         // exe
                         $('#fileUrl').hide()
@@ -251,7 +201,6 @@
                         )
                     } else if (res.data.dataType == 7) {
                         debugger
-                        console.log(111222, res.data.resourceIds)
                         console.log(33333, JSON.parse(res.data.resourceIds))
                         // scorm课件
                         var sourceList = JSON.parse(res.data.resourceIds)[0].url
@@ -261,17 +210,12 @@
 
                         for (var i = 0; i < sourceList.length; i++) {
                             var floor = ''
-                            for (
-                                var k = 0;
-                                k < Number(sourceList[i].floor);
-                                k++
-                            ) {
+                            for (var k = 0; k < Number(sourceList[i].floor); k++) {
                                 floor += '-'
                             }
                             addtree(
                                 floor + sourceList[i].name,
-                                'http://39.104.97.6:8001/' +
-                                sourceList[i].sourceName,
+                                conf.fileRequestUrl + '/' +  sourceList[i].sourceName,
                                 'innerTarget'
                             )
                         }
@@ -280,8 +224,7 @@
                         $('.menu-list').click(function() {
                             getSWFUrl(
                                 'pagecon',
-                                'http://39.104.97.6:8001/' +
-                                sourceList[0].sourceName
+                                conf.fileRequestUrl + '/' + sourceList[0].sourceName
                             )
                         })
                         munebtn.onclick = function() {
@@ -300,6 +243,7 @@
                         }
                     }
 
+
                     if (type == 'check' || type == 'review') {
                         $('#experimentRatio').html(data.experimentRatio)
                         $('#reportRatio').html(data.reportRatio)
@@ -315,33 +259,28 @@
                 }
             })
         }
+        getDetails()
 
-        function save() {
-            debugger
+        // 暂存
+        save = () => {
             var endDate = new Date();
-            var labReportAddress= details.labReportAddress;
-            var testContent= $('#testContent').val();
-            var curriculumExperimentId= id;
-            var curriculumId= route.search.curriculumId;
-            var experimentId= id;
-            var totalTime= endDate - startDate;
-            var labReport= $('#labReport').val();
-            //todo
+            var labReport = $('#labReport').val();
             var data = {
-//                labReportAddress: labReportAddress,
-                testContent: testContent,
                 curriculumExperimentId: curriculumExperimentId,
                 curriculumId: curriculumId,
                 experimentId: experimentId,
-                totalTime: totalTime,
-                labReport: labReport,
-                endTime: endDate,
-                startTime: startDate
+                dataType: dataType,
+                startTimeStr: admin.dateFormat(startDate/1000),
+                endTimeStr: admin.dateFormat(endDate/1000),
+                useTime: (endDate.getTime() - startDate.getTime())/1000,
+                testContent: testContent,
+                labReport: labReport
             }
+
             admin.post({
                 url: '/testStaging/add',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: res => {
                     if (res.code === 200) {
                         layer.msg('暂存成功！')
                         window.history.back(-1)
@@ -349,21 +288,32 @@
                         layer.msg((res && res.msg) || '添加失败')
                     }
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
-                }
+                error: err => layer.msg((err && err.msg) || '数据请求失败')
             })
         }
 
-        function submit() {
-            //todo
+        // 提交
+        submit = () => {
+            var endDate = new Date();
+            var labReport= $('#labReport').val();
+            var data = {
+                testContent: testContent,
+                curriculumExperimentId: curriculumExperimentId,
+                curriculumId: curriculumId,
+                experimentId: experimentId,
+                totalTime: (endDate.getTime() - startDate.getTime())/1000,
+                startTimeStr: admin.dateFormat(startDate/1000),
+                endTimeStr: admin.dateFormat(endDate/1000),
+                labReport: labReport,
+            }
             admin.post({
                 url: '/vsMpTestRecord/addMpObject',
-                data: JSON.stringify(formData),
-                success: function(res) {
+                data: JSON.stringify(data),
+                success: res => {
                     layer.msg('提交成功')
                     window.history.back(-1)
-                }
+                },
+                error: err => layer.msg((err && err.msg) || '数据请求失败')
             })
         }
     })
@@ -390,5 +340,103 @@
 
     .layui-textarea {
         width: 100%;
+    }
+
+     #source-manage-details #fileUrl {
+     }
+
+    .source-details-inner {
+        padding: 20px 0;
+    }
+
+    .source-display {
+        width: 100%;
+        height: 500px;
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    #source-manage-details .layui-form-item span {
+        display: inline-block;
+        padding: 9px 0px;
+        font-size: 16px;
+    }
+
+    .layui-textarea {
+        width: 100%;
+    }
+
+    #mune_area {
+        width: 326px;
+        height: 500px;
+        float: left;
+        overflow-x: hidden;
+        overfloe-y: auto;
+        background: #a7b7c9;
+    }
+
+    #mune_btn {
+        width: 16px;
+        height: 500px;
+        float: left;
+    }
+
+    .munebtna {
+        background: url('pic/left.png') center center #4a5279 no-repeat;
+        cursor: pointer;
+    }
+
+    .munebtnb {
+        background: url('pic/right.png') center center #4a5279 no-repeat;
+        cursor: pointer;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .tab1ys {
+        width: 326px;
+        height: 60px;
+        border-bottom: #0d0f14 solid 5px;
+    }
+
+    .tab1ys li {
+        width: 163px;
+        float: left;
+    }
+
+    .tab1ys li a {
+        width: 73px;
+        height: 60px;
+        background: #4b4b4b;
+        display: block;
+        position: relative;
+        color: #fff;
+        padding-left: 90px;
+    }
+
+    .tab1ys li a img {
+        position: absolute;
+        top: 7px;
+        left: 40px;
+        border: none;
+    }
+
+    .tab1ys li a.active {
+        background: #f95900;
+    }
+
+    .munebtnlist {
+        width: 280px;
+        margin: 0px 0 0 0px;
+    }
+
+    .munebtnlist h4 {
+        height: 16px;
+        padding-left: 20px;
+        background: url('pic/1_open.png') no-repeat;
+    }
+    #tabcon1 {
+        padding: 20px 10px;
     }
 </style>

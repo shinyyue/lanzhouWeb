@@ -46,9 +46,10 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">课程导读内容</label>
                 <div class="layui-col-md9">
-                    <textarea name="content"
-                              id="content"
-                              class="layui-textarea"></textarea>
+                    <!--<textarea name="content"-->
+                              <!--id="content"-->
+                              <!--class="layui-textarea"></textarea>-->
+                    <div id="content"></div>
                 </div>
             </div>
         </div>
@@ -66,9 +67,10 @@
 <script>
     var checkDetails = {},
         preDetailsTemp = ''
-    layui.use([], function () {
+    layui.use(['layedit'], function () {
         var $ = layui.jquery,
             admin = layui.admin,
+            layedit = layui.layedit,
             route = layui.router(),
             id = route.search.id || layui.data('techSet').techSetId,
             courseName = layui.data('techSet').techSetName;
@@ -86,6 +88,12 @@
         getOtherList()
         getTemplate()
 
+
+        var index = layedit.build('content', {
+            tool: [
+            ]
+        })
+
         function getDetails() {
             admin.get({
                 url: '/introduction/queryById?id=' + id,
@@ -100,7 +108,9 @@
                     $('#name').html(data.name)
                     $('#cited').html(data.cited === 0 ? '未引用' : '引用')
                     $('#recommendedScores').html(data.recommendedScores)
-                    $('#content').html(data.content)
+                    layedit.setContent(index, data.content)
+                    $("#content").next().find('iframe').contents().find('body').prop("contenteditable",false);
+
                     $('#createTime').html(admin.dateFormat(new Date(data.createTime).getTime() /
                         1000))
                 }

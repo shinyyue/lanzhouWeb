@@ -130,9 +130,9 @@
                                 $(this).siblings().find('dl').css('display', 'none')
                             }
                         } else {
-                            window.location.href = $(this).find('.layui-nav-first').data('url')
-                            window.location.reload()
-                            console.log(1111)
+                            // window.location.href = $(this).find('.layui-nav-first').data('url')
+                            // window.location.reload()
+                            // console.log(1111)
                         }
                     })
                     $('#side_nav').find('.layui-nav-item  dd').on('click', function () {
@@ -182,7 +182,7 @@
             admin.logout()
         })
         $('#nav_user_name').html(layui.data('userInfo').userInfo.userName)
-        $('#nav_user_role').html(layui.data('userInfo').userInfo.roleName || '')
+        $('#nav_user_role').html(layui.data('role').role.roleName || '')
     })
 </script>
 <style>

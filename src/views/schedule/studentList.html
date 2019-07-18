@@ -1,0 +1,97 @@
+<div id="schedule-student-list" lay-title="学生个人课程表">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>课程表 > 学生个人课程表</span>
+        </div>
+    </div>
+    <div class="course-add">
+        <button class="primary-btn" id="sourcemanage-mylist">打印</button>
+    </div>
+
+    <table
+        id="schedule-student-table"
+        lay-filter="schedule-student-table"
+    ></table>
+</div>
+
+<script>
+    layui.use(['table'], function(table) {
+        var table = layui.table,
+            tableFilter = 'schedule-student-table',
+            admin = layui.admin,
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [
+                        {
+                            title: '星期时间节数',
+                            field: 'id',
+                            align: 'center'
+                        },
+                        {
+                            title: '星期一',
+                            field: 'courseCode',
+                            align: 'center'
+                        },
+                        {
+                            title: '星期二',
+                            field: 'courceName',
+                            align: 'center'
+                        },
+                        {
+                            title: '星期三',
+                            field: 'courseCode',
+                            align: 'center'
+                        },
+                        {
+                            title: '星期四',
+                            field: 'responsor',
+                            align: 'center'
+                        },
+                        {
+                            title: '星期五',
+                            field: 'responsor',
+                            align: 'center'
+                        },
+                        {
+                            title: '星期六',
+                            field: 'responsor',
+                            align: 'center'
+                        },
+                        {
+                            title: '星期日',
+                            field: 'responsor',
+                            align: 'center'
+                        }
+                    ]
+                ]
+            }
+
+        getList()
+        function getList() {
+            admin.get({
+                url: '/vsMpSchelule/getStuList',
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    table.render(tableOption)
+                }
+            })
+        }
+    })
+</script>
+
+<style>
+    #schedule-student-list {
+    }
+
+    #schedule-student-list
+        .layui-table-view
+        .layui-table[lay-size='lg']
+        tbody
+        .layui-table-cell {
+        height: 110px;
+        line-height: 1.2;
+    }
+</style>

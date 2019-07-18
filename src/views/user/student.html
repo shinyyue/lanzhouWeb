@@ -651,7 +651,7 @@
                 success: function (res) {
                     if (res.code === 200) {
                         layer.msg('修改成功')
-                        getList(1)
+                        getList(layPageOption.curr)
                     } else {
                         layer.msg(res.msg || '修改失败')
                     }

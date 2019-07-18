@@ -212,7 +212,9 @@
             ]
         })
         getAllCourses()
-
+        $('#examine-addknow-back').on('click', function () {
+            window.location.href = 'index.html#/examine/examList'
+        })
         function getAllCourses() {
             admin.post({
                 url: '/vsMpCurriculum/getList',

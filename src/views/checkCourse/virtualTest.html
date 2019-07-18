@@ -2,7 +2,7 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>选课 > 铁路信号知识 > 虚拟实验 > 虚拟实验列表</span>
+            <span id = "virtualTest-title">选课 > 铁路信号知识 > 虚拟实验 > 虚拟实验列表</span>
         </div>
         <div class="course-title-search">
             <span class="search-project">实验名称</span>
@@ -166,6 +166,9 @@
             var data = obj.data //获得当前行数据
             var layEvent = obj.event,
                 type = ''
+            layui.data('virtualTest', {key: 'curriculumExperimentId',value: data.id})  // 实验课程id
+            layui.data('virtualTest', {key: 'curriculumId',value: data.id})  // 课程id
+            layui.data('virtualTest', {key: 'experimentId',value: data.experimentId})  // 实验id
 
             if (layEvent === 'start') {
                 formData = data
@@ -182,7 +185,7 @@
             debugger
             window.location.href = 'index.html#/checkCourse/virtualTestDetails/id=' + data.id + '/type=' + type + '/curriculumId=' + data.experimentId
         })
-
+        $("#virtualTest-title").html('选课 > ' + layui.data('course').coursePlanName + ' > 虚拟实验 > 虚拟实验列表')
         getList(1)
 
         function getList(page) {
