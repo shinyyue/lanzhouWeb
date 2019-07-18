@@ -63,7 +63,7 @@
         })
 
         getDetails(id)
-
+        $("#precourse_name").html(layui.data('course').coursePlanName)
         function getDetails(id) {
             admin.get({
                 url: '/introduction/queryById?id=' + (id || coursePlanId),

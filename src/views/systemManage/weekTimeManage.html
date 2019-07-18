@@ -108,7 +108,7 @@
                             align: 'center',
                             templet: function(d) {
                                 var str = admin.dateFormat(
-                                    new Date(d.startTime).getTime() / 1000
+                                    new Date(d.endTime).getTime() / 1000
                                 )
                                 return str.substring(0, 11)
                             }
@@ -267,7 +267,7 @@
                 data = {
                 page: page,
                 rows: pageLimit,
-                key: weekTimeName
+                name: weekTimeName
             }
             admin.post({
                 url: '/cycle/list',
@@ -302,7 +302,7 @@
                 id: data.id,
                 semester: data.semester,
                 name: data.name,
-                schoolYear: data.schoolYear,
+                schoolYearId: data.schoolYear,
                 startTime: data.startTime,
                 endTime: data.endTime
             }
@@ -332,7 +332,7 @@
             var data = {
                 semester: $('input[name=semester]:checked').val(),
                 name: data.name,
-                schoolYear: data.schoolYear,
+                schoolYearId: data.schoolYear,
                 startTime: data.startTime,
                 endTime: data.endTime
             }
@@ -351,7 +351,7 @@
         function getFormData() {
             formData = {
                 id: $('#id').val(),
-                semester: $('#semester').val(),
+                semester: $('#semester input[name="semester"]:checked ').val(),
                 name: $('#name').val(),
                 schoolYear: $('#schoolYear').val(),
                 startTime: $('#startTime').val(),
@@ -397,7 +397,7 @@
                 '            <div class="layui-row">\n' +
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">学期：</label>\n' +
-                '                    <div class="layui-input-block">\n' +
+                '                    <div class="layui-input-block" id="semester">\n' +
                 '                        <input\n' +
                 '                            type="radio"\n' +
                 '                            name="semester"\n' +

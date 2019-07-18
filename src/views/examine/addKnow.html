@@ -2,7 +2,8 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>题库管理 > 知识点 > 添加知识点</span>
+            <span id = "knowledgePoint-add">题库管理 > 知识点 > 添加知识点</span>
+            <span id = "knowledgePoint-edit">题库管理 > 知识点 > 编辑知识点</span>
         </div>
     </div>
     <form action="" class="layui-form my-add-form">
@@ -39,6 +40,7 @@
                 <label class="layui-form-label">知识点描述</label>
                 <div class="layui-col-md9">
                     <textarea
+                            id="describe"
                         name="describe"
                         placeholder="请输入内容"
                         class="layui-textarea"
@@ -74,17 +76,16 @@
         var form = layui.form,
             $ = layui.jquery,
             admin = layui.admin,
-            route = layui.router(),
-            id = route.search.id
+            id = layui.admin.route.search.id
 
         form.render()
 
         form.on('submit(submit)', function(data) {
             userInfo = data.field
             userInfo.curriculumId = Number($('#curriculumId').val())
-            addData(userInfo)
 
-            $('#login-user').addClass('show')
+            id ? updateData(userInfo) : addData(userInfo)
+            // $('#login-user').addClass('show')
             return false
         })
 
@@ -93,15 +94,16 @@
         })
 
         getCourseList(function() {
-            if (id) {
-                getDetails()
-            }
+
         })
         getKnowList(function() {
-            if (id) {
-                getDetails()
-            }
         })
+        if (id) {
+            $('#knowledgePoint-add').attr('style', 'display:none;')
+            getDetails()
+        } else {
+            $('#knowledgePoint-edit').attr('style', 'display:none;')
+        }
 
         function getDetails() {
             admin.get({
@@ -111,6 +113,25 @@
                     $('#pName').val(res.data.pId)
                     $('#curriculumId').val(res.data.curriculumId)
                     $('#describe').val(res.data.describe)
+                }
+            })
+        }
+
+        function updateData(data) {
+            var formData = {
+                parentId: $('#pName').val(),
+                name: data.name,
+                curriculumId: data.curriculumId,
+                describe: data.describe,
+                id: id,
+            }
+            admin.put({
+                url: '/knowledgePoint/update',
+                data: JSON.stringify(formData),
+                success: function() {
+                    layer.msg('修改成功！')
+                    location.href = 'index.html#/examine/knowledge'
+                    window.location.reload()
                 }
             })
         }
@@ -128,7 +149,8 @@
                 data: JSON.stringify(formData),
                 success: function() {
                     layer.msg('添加成功！')
-                    window.history.back(-1)
+                    location.href = 'index.html#/examine/knowledge'
+                    window.location.reload()
                 }
             })
         }

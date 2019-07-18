@@ -374,7 +374,7 @@
                         path: '/termDeploy/classTime'
                     },
                     {
-                        name: '年期管理',
+                        name: '年级管理',
                         path: '/termDeploy/gradeManage'
                     }
                 ]
