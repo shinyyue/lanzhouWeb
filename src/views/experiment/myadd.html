@@ -47,7 +47,7 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">可被引用</label>
-                <div class="layui-input-block">
+                <div class="layui-input-block" id ="cite">
                     <input type="radio" name="cite" value="1" title="是" />
                     <input type="radio" name="cite" value="0" title="否" />
                 </div>
@@ -235,7 +235,7 @@
                 name: $('#name').val() || '',
                 curriculumId: Number($('#curriculumId').val()) || '',
                 experimentalType: Number($('#experimentalType').val()) || '',
-                cite: Number($('input[name="cite"]:checked').val()) || '',
+                cite: $('#cite input[name="cite"]:checked ').val() || '',
                 teacherName: $('#teacherName').val() || '',
                 experimentRatio: $('#experimentRatio').val() || '',
                 reportRatio: $('#reportRatio').val() || '',
@@ -299,7 +299,7 @@
                 name: $('#name').val() || '',
                 curriculumId: Number($('#curriculumId').val()) || '',
                 experimentalType: Number($('#experimentalType').val()) || '',
-                cite: Number($('input[name="cite"]:checked').val()) || '',
+                cite: $('#cite input[name="cite"]:checked ').val() || '',
                 teacherName: $('#teacherName').val() || '',
                 experimentRatio: $('#experimentRatio').val() || '',
                 reportRatio: $('#reportRatio').val() || '',
@@ -324,6 +324,7 @@
                 layer.msg("成绩比重不足100%！")
                 return
             }
+            debugger
             admin.put({
                 url: '/experiments/update',
                 data: JSON.stringify(formData),
