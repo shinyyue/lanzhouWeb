@@ -222,7 +222,7 @@
         }
 
         function addData() {
-            console.log(11111111)
+//            console.log(11111111)
             var ids = []
             $('input[name=resourceIds]:checked').each(function(index) {
                 ids.push({
@@ -272,13 +272,13 @@
                     }
                     else{
                         debugger
-                        layer.msg(res.msg||'修改失败')
+                        layer.msg(res.msg||'添加失败')
                         return
                     }
                 },
                 error:function (res) {
                     debugger
-                    layer.msg(res.msg||'修改失败')
+                    layer.msg(res.msg||'添加失败')
                     return
                 }
             })
