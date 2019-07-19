@@ -19,6 +19,10 @@
                 <option value="6">U3D</option>
                 <option value="7">scorm课件</option>
             </select>
+            <span class="search-project">上传老师</span>
+            <select name="" id="teacher">
+                <option value="">选择上传人</option>
+            </select>
             <button class="search-confirm" id="source-search">
                 <img src="src/images/search.png">
             </button>
@@ -145,10 +149,12 @@
         function getList(page) {
             var course = $('#course').val(),
                 source = $('#source').val(),
+                teacher = $('#teacher').val(),
                 data = {
                     page: page,
                     rows: pageLimit,
                     curriculumId: course,
+                    userId: teacher,
                     type: source
                 }
             admin.post({
@@ -198,6 +204,48 @@
         }
 
         getCourseList(function(res) {
+        })
+
+        // 任课老师列表
+        function getTeacherList(callback) {
+            var data = {
+                page: 1,
+                rows: 2000,
+                key: '|||2|||'
+            }
+            admin.post({
+                url: '/user/getUserList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
+                        var options = ''
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            options +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.userName +
+                                '</option>'
+                        })
+                        $('#teacher').html(
+                            '<option value="">请选择上传人</option>'
+                        )
+                        $('#teacher').append(options)
+                        callback && typeof callback === 'function' && callback(res)
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        getTeacherList(function(res) {
         })
 
         $('#source-search').click(function() {
