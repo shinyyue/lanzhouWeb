@@ -42,6 +42,7 @@
                         name="desc"
                         class="layui-textarea"
                         id="require"
+                        readonly
                     ></textarea>
                 </div>
             </div>
@@ -142,12 +143,33 @@
             curriculumId = layui.data('course').coursePlanId,  // 课程id
             type = route.search.type,
             startDate = new Date(),
-            testContent = '', // 资源快照状态
-            dataType = 0;  // 资源类型
+            testContent, // 资源快照状态
+            dataType = 0,  // 资源类型
+            scromeChosenNode;  // scrome 选中node信息
 
         $('#save').on('click', () => save())
         $('#submit').on('click', submit)
         $('#back').on('click', () => window.history.go(-1))
+
+        // 请求最后一次暂存记录
+        // getLastTestContent = () => {
+        //     admin.post({
+        //         url: '/testStaging/getList',
+        //         data: JSON.stringify({
+        //             "curriculumExperimentId": curriculumExperimentId,
+        //             "curriculumId": curriculumId,
+        //             "experimentId": experimentId,
+        //             "page": 1,
+        //             "rows": 1
+        //         }),
+        //         success: function (res) {
+        //             if(res.data) {
+        //                 if(res.)
+        //             }
+        //         }
+        //     })
+        // }
+
 
         getDetails = () => {
             admin.get({
@@ -164,7 +186,7 @@
                     $('#labReport').html(data.labReport)
                     $('#testTotleTime').html(data.testTotleTime)
                     dataType = res.data.dataType
-                    testContent = res.data.testContent || 0
+
                     if (res.data.dataType == 1) {
                         // 文档
                         // window.open(fileUrl)
@@ -175,12 +197,7 @@
                         $('#fileUrl').html('<img src="' + fileUrl + '" style="width: 100%; height: 100%;">')
                     } else if (res.data.dataType == 3) {
                         // 视频
-                        var fileUrl = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url
-                        $('#fileUrl').html('<video src="' + fileUrl + '" controls="controls" id="file_video_detail" style="width: 100%; height: 100%;" />');
-                        var fileVideoDetail = document.getElementById('file_video_detail');
-                        fileVideoDetail.currentTime = testContent;
-                        fileVideoDetail.onpause = () => testContent = fileVideoDetail.currentTime
-                        fileVideoDetail.onended = () => testContent = 0
+                        renderVideo(res.data)
                     } else if (res.data.dataType == 4) {
                         // flash
                         var fileUrl = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url
@@ -200,50 +217,8 @@
                             }
                         )
                     } else if (res.data.dataType == 7) {
-                        console.log(33333, JSON.parse(res.data.resourceIds))
-                        // scorm课件
-                        var sourceList = JSON.parse(res.data.resourceIds)[0].url
-                        var munebtn = document.getElementById('mune_btn')
-                        var mune = document.getElementById('mune_area')
-                        var treeStr = ''
-
-                        for (var i = 0; i < sourceList.length; i++) {
-                            var floor = ''
-                            for (var k = 0; k < Number(sourceList[i].floor); k++) {
-                                floor += '-'
-                            }
-                            addtree(
-                                floor + sourceList[i].name,
-                                conf.fileRequestUrl + '/' +  sourceList[i].sourceName,
-                                'innerTarget',
-                                sourceList[i].id
-                            )
-                        }
-                        createtree('tabcon1_menulist')
-                        // $('.menu-list').click(function() {
-                        //     console.log($(this).data("id"))
-                        //     getSWFUrl(
-                        //         'pagecon',
-                        //         conf.fileRequestUrl + '/' + sourceList[0].sourceName
-                        //     )
-                        // })
-                        $('.menu-list').click(() => changeScromeNode($(this).data("id"), $(this).data("href")))
-                        munebtn.onclick = function() {
-                            var p = $('#pagecon')
-                            if (this.getAttribute('data-zt') == 'a') {
-                                mune.style.display = 'none'
-                                this.className = 'munebtnb'
-                                this.setAttribute('data-zt', 'b')
-                                p.css({ 'min-width': '1126px' })
-                            } else {
-                                mune.style.display = 'block'
-                                this.className = 'munebtna'
-                                this.setAttribute('data-zt', 'a')
-                                p.css({ 'min-width': '900px' })
-                            }
-                        }
+                        renderScrome(res.data)
                     }
-
 
                     if (type == 'check' || type == 'review') {
                         $('#experimentRatio').html(data.experimentRatio)
@@ -262,10 +237,111 @@
         }
         getDetails()
 
-        // scrome   切换节点
+        // 渲染视频
+        renderVideo = data => {
+            testContent = data.testContent || 0
+            var fileUrl = conf.fileRequestUrl + '/' + JSON.parse(data.resourceIds)[0].url
+            $('#fileUrl').html('<video src="' + fileUrl + '" controls="controls" id="file_video_detail" style="width: 100%; height: 100%;" />');
+            var fileVideoDetail = document.getElementById('file_video_detail');
+            fileVideoDetail.currentTime = testContent;
+            fileVideoDetail.onpause = () => testContent = fileVideoDetail.currentTime
+            fileVideoDetail.onended = () => testContent = 0
+        }
+
+        // 渲染scrome
+        renderScrome = data => {
+            // scorm课件
+            // var sourceList = JSON.parse(data.resourceIds)[0].url
+            sourceList =  [{
+                "name": "ZYJ7型电液转辙机",
+                "resourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.1.htm",
+                "id": "1",
+                "sourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.1.swf",
+                "floor": "1",
+                "countTime": "6",
+                "parentId": "0"
+            }, {
+                "name": "土木工程",
+                "resourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.2.1.htm",
+                "id": "2",
+                "sourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.2.1.swf",
+                "floor": "2",
+                "countTime": "6",
+                "parentId": "5"
+            }, {
+                "name": "土木工程",
+                "resourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.2.2.htm",
+                "id": "3",
+                "sourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.2.2.swf",
+                "floor": "2",
+                "countTime": "6",
+                "parentId": "1"
+            }, {
+                "name": "铁路信息",
+                "resourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.3.1.htm",
+                "id": "4",
+                "sourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.3.1.swf",
+                "floor": "2",
+                "countTime": "6",
+                "parentId": "3"
+            }, {
+                "name": "铁路信息",
+                "resourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.3.2.htm",
+                "id": "5",
+                "sourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.3.2.swf",
+                "floor": "3",
+                "countTime": "6",
+                "parentId": "a1.1.3"
+            }]
+            var munebtn = document.getElementById('mune_btn')
+            var mune = document.getElementById('mune_area')
+            testContent = JSON.parse(data.testContent || '{}')
+
+            for (var i = 0; i < sourceList.length; i++) {
+                var floor = ''
+                for (var k = 0; k < Number(sourceList[i].floor); k++) {
+                    floor += '-'
+                }
+
+                addtree(
+                    floor + sourceList[i].name,
+                    conf.fileRequestUrl + '/' +  sourceList[i].sourceName,
+                    'innerTarget',
+                    sourceList[i].id
+                )
+            }
+            createtree('tabcon1_menulist')
+            $('.menu-list').click(function() {
+                changeScromeNode($(this).data("id"), $(this).data("href"))
+            })
+            munebtn.onclick = function() {
+                var p = $('#pagecon')
+                if (this.getAttribute('data-zt') == 'a') {
+                    mune.style.display = 'none'
+                    this.className = 'munebtnb'
+                    this.setAttribute('data-zt', 'b')
+                    p.css({ 'min-width': '1126px' })
+                } else {
+                    mune.style.display = 'block'
+                    this.className = 'munebtna'
+                    this.setAttribute('data-zt', 'a')
+                    p.css({ 'min-width': '900px' })
+                }
+            }
+        }
+
+        // scrome 切换节点
         changeScromeNode = (id, url) => {
-            console.log(id, url + "------------")
-            getSWFUrl('pagecon', conf.fileRequestUrl + '/' + url)
+            getSWFUrl('pagecon', url)
+            var now = new Date()
+            if(scromeChosenNode) {
+                // 非初次点击叶子节点
+                testContent[scromeChosenNode.id] = (now.getTime() - scromeChosenNode.startTime.getTime())/1000 + (testContent[scromeChosenNode.id] || 0)
+            }
+            scromeChosenNode = {
+                id: id,
+                startTime: now,
+            }
         }
 
         // 暂存
@@ -280,7 +356,7 @@
                 startTimeStr: admin.dateFormat(startDate/1000),
                 endTimeStr: admin.dateFormat(endDate/1000),
                 useTime: (endDate.getTime() - startDate.getTime())/1000,
-                testContent: testContent,
+                testContent: JSON.stringify(testContent),
                 labReport: labReport
             }
 
@@ -445,5 +521,30 @@
     }
     #tabcon1 {
         padding: 20px 10px;
+    }
+
+    .blockhide {
+        display: block;
+    }
+
+    .blockmove {
+        overflow: hidden;
+        height: 1px;
+        display: block;
+    }
+
+    .blockshow {
+        overflow: visible;
+        display: none;
+    }
+
+    .hideme {
+        overflow: visible;
+        display: none;
+    }
+
+    .showme {
+        overflow: visible;
+        display: block;
     }
 </style>
