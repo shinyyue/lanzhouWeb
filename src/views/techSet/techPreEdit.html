@@ -77,6 +77,7 @@
             id = route.search.id || layui.data('techSet').techSetId,
             type = route.search.type,
             courseName = layui.data('techSet').techSetName;
+            courserId = '';
         var index = layedit.build('techSet_content', {
             tool: ['strong', //加粗
                 'italic', //斜体
@@ -131,7 +132,7 @@
 
         function updateData() {
             var data = {
-                id,
+                id: courserId,
                 name: $('#name').val(),
                 cited: $('input[name=cited]:checked').val(),
                 recommendedScores: Number($('#recommendedScores').val()),
@@ -168,6 +169,7 @@
                             form.render()
                         }
                     })
+                    courserId = data.id
                     $('#cited').val(data.cited === 0 ? '引用' : '未引用')
                     $('#recommendedScores').val(data.recommendedScores)
                     layedit.setContent(index, data.content)

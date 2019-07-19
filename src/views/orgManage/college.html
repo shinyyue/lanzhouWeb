@@ -84,7 +84,7 @@
                         // },
                         {
                             title: '备注',
-                            field: 'responsor',
+                            field: 'remarks',
                             align: 'center'
                         },
                         {
@@ -140,7 +140,7 @@
                 formData = data
                 type = 'check'
             }
-
+debugger
             var layerOption = {
                 type: 1,
                 offset: 'auto',
@@ -235,7 +235,8 @@
             var data = {
                 id: data.id,
                 collegeName: data.collegeName,
-                collegeCode: data.collegeCode
+                collegeCode: data.collegeCode,
+                remarks:data.remarks,
             }
             admin.put({
                 url: '/college/updateCollege',
@@ -262,7 +263,9 @@
         function addData() {
             var data = {
                 collegeName: $('#college-name').val(),
-                collegeCode: $('#college-number').val()
+                collegeCode: $('#college-number').val(),
+                remarks: $('#remarks').val(),
+
             }
 
             admin.post({
@@ -283,11 +286,13 @@
                 collegeName: $('#college-name').val(),
                 collegeCode: $('#college-number').val(),
                 type: $('#college-type').val(),
-                remark: $('#college-remark').val()
+                remarks: $('#remarks').val()
             }
         }
 
         function getTemplate(formData, type) {
+            debugger
+            var ii= formData.remarks
             return (
                 '<div id="college_details_modal">\n' +
                 '        <form action="" class="layui-form">\n' +
@@ -350,14 +355,14 @@
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">备注:</label>\n' +
                 '                    <textarea\n' +
-                '                        id="college-remark"' +
-                '                        name="desc"\n' +
+                '                        id="remarks"' +
+                '                        name="remarks"\n' +
                 '                        value="' +
-                (formData.remark || '') +
+                (formData.remarks || '') +
                 '"' +
                 (type === 'check' ? 'disabled' : '') +
                 '                        class="layui-textarea college-remark"\n' +
-                '                    ></textarea>\n' +
+                '                    >'+ii+'</textarea>\n' +
                 '                </div>\n' +
                 '            </div>\n' +
                 '        </form>\n' +
