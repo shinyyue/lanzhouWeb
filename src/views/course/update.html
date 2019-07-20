@@ -103,13 +103,14 @@
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">选修课程</label>
-                    <div class="pre-course layui-col-md10">
+                    <div class="pre-course layui-col-md9">
                         <!-- <div>
                             <span>搜索</span>
                             <input class="common-form-input" type="text" name="preSourceSearch" placeholder="请输入名称">
                         </div> -->
                         <div
                             class="pre-course-checkbox"
+                            name="noNeed_course"
                             id="noNeed_course"
                         ></div>
                     </div>
@@ -118,13 +119,13 @@
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">适合开课年级</label>
-                    <div class="layui-col-md10" id="gradeId"></div>
+                    <div class="layui-col-md9" id="gradeId" name="gradeId"></div>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">适合开课学期</label>
-                    <div class="layui-col-md10">
+                    <div class="layui-col-md9">
                         <input
                             type="radio"
                             name="semester"
@@ -144,7 +145,7 @@
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">课程介绍</label>
                     <div
-                        class="layui-col-md10"
+                        class="layui-col-md9"
                         id="course-intro-edit"
                         name="presentation"
                     ></div>
@@ -154,13 +155,13 @@
                 <div class="layui-form-item layui-col-md12">
                     <label class="layui-form-label"></label>
                     <div>
-                        <button
+                        <div
                             class="layui-btn primary-btn"
-                            lay-submit
-                            lay-filter="submit"
+
+                            id="experiment_submit"
                         >
                             提交
-                        </button>
+                        </div>
                         <div
                             class="layui-btn layui-btn-primary cancel-btn"
                             id="source-add-cancle"
@@ -198,9 +199,42 @@
                 'image' //插入图片
             ]
         })
-        //监听提交
-        form.on('submit(submit)', function(data) {
-            id ? updateData(data.field) : addData(data.field)
+
+        $("#experiment_submit").click(function (data) {
+            var data = {
+                curriculumName : $("#curriculumName").val(),
+                curriculumCode : $("#curriculumCode").val(),
+                period : $("#period").val(),
+                creditHour : $("#creditHour").val(),
+                fullMark : $("#fullMark").val(),
+                userName : $("#userName").val(),
+                profession : $("#allProfession").val(),
+                labId : $("#labId").val(),
+                noNeed_course : $("#noNeed_course").val(),
+                gradeId : $('input[name=gradeId]:checked').val(),
+                presentation : $("#course-intro-edit").val(),
+                semester : $('input[name=semester]:checked').val()
+            }
+            var noNeedCpurseList = []
+            $('#noNeed_course li').each(function(index) {
+                var item = $(this).find('input[type=checkbox]')
+                if ($(this).find('.layui-form-checked').length > 0) {
+                    noNeedCpurseList.push(item.val())
+                }
+            })
+            data.noNeed_course = noNeedCpurseList.join(',')
+            debugger
+            if (!data.curriculumName) {
+                layer.msg("课程名称不能为空！")
+                return
+            }if (!data.curriculumCode) {
+                layer.msg("课程代码不能为空！")
+                return
+            }if (!data.semester) {
+                layer.msg("请选择开课学期！")
+                return
+            }
+            id ? updateData(data) : addData(data)
             return false
         })
         $('#source-add-cancle').on('click', function() {
@@ -230,6 +264,7 @@
 
         function addData(data) {
             var professionList = []
+            debugger
             data.creditHour = Number(data.creditHour)
             data.fullMark = Number(data.fullMark)
             data.userId = layui.data('userInfo').userInfo.id
@@ -257,14 +292,20 @@
             data.prerequisiteCourse = $(
                 'input[name=prerequisiteCourse]:checked'
             ).val()
+
             admin.post({
                 url: '/vsMpCurriculum/add',
                 data: JSON.stringify(data),
                 success: function(res) {
-                    layer.msg('添加成功')
+                    if(res.code==200){
+                        layer.msg('添加成功')
+                    }
+                    else{
+                        layer.msg(res.msg||'添加失败')
+                    }
 //                    history.go(-1)
-                    window.location.href = 'index.html#/course/index'
-                    window.location.reload()
+//                    window.location.href = 'index.html#/course/index'
+//                    window.location.reload()
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
@@ -327,7 +368,7 @@
                 }),
                 success: function(res) {
                     $('#course_gooda_at').html('')
-                    res.data.items.forEach(item => {
+                    res.data.items.forEach(function(item) {
                         $('#course_gooda_at').append(
                             '<li><input type="checkbox" class="checked-forcess" lay-skin="primary" name="profession" value="' +
                                 item.id +
@@ -412,11 +453,11 @@
                         res.data.items &&
                         res.data.items.forEach(function(item) {
                             $('#noNeed_course').append(
-                                '<input type="checkbox" lay-skin="primary" name="prerequisiteCourse" value="' +
+                                '<li style="float: left;margin-right: 20px;"><input type="checkbox" lay-skin="primary" name="prerequisiteCourse" value="' +
                                     item.id +
                                     '" title="' +
                                     item.curriculumName +
-                                    '">'
+                                    '"></li>'
                             )
                             form.render()
                         })
@@ -461,7 +502,7 @@
                             $(this).attr('checked', true)
                         }
                     })
-                    layedit.setContent('index', data.presentation, false)
+                    layedit.setContent(index, data.presentation, false)
                     form.render()
                 }
             })
@@ -490,6 +531,8 @@
         border: 1px solid rgba(0, 0, 0, 0.2);
         margin-top: 10px;
         padding: 10px;
+        clear: both;
+        overflow: hidden;
     }
 
     #course_update .layui-layedit {

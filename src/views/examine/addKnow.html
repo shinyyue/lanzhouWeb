@@ -147,10 +147,18 @@
             admin.post({
                 url: '/knowledgePoint/add',
                 data: JSON.stringify(formData),
-                success: function() {
-                    layer.msg('添加成功！')
-                    location.href = 'index.html#/examine/knowledge'
-                    window.location.reload()
+                success: function(res) {
+                    if (res.code == 200){
+                        layer.msg('添加成功！')
+                        location.href = 'index.html#/examine/knowledge'
+                        window.location.reload()
+                    }else{
+                        layer.msg(res.msg||'添加失败！')
+                        return
+                    }
+                },error:function (res) {
+                    layer.msg(res.msg||'添加失败！')
+                    return
                 }
             })
         }
