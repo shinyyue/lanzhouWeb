@@ -148,28 +148,8 @@
             scromeChosenNode;  // scrome 选中node信息
 
         $('#save').on('click', () => save())
-        $('#submit').on('click', submit)
+        $('#submit').on('click', () => submit())
         $('#back').on('click', () => window.history.go(-1))
-
-        // 请求最后一次暂存记录
-        // getLastTestContent = () => {
-        //     admin.post({
-        //         url: '/testStaging/getList',
-        //         data: JSON.stringify({
-        //             "curriculumExperimentId": curriculumExperimentId,
-        //             "curriculumId": curriculumId,
-        //             "experimentId": experimentId,
-        //             "page": 1,
-        //             "rows": 1
-        //         }),
-        //         success: function (res) {
-        //             if(res.data) {
-        //                 if(res.)
-        //             }
-        //         }
-        //     })
-        // }
-
 
         getDetails = () => {
             admin.get({
@@ -251,48 +231,7 @@
         // 渲染scrome
         renderScrome = data => {
             // scorm课件
-            // var sourceList = JSON.parse(data.resourceIds)[0].url
-            sourceList =  [{
-                "name": "ZYJ7型电液转辙机",
-                "resourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.1.htm",
-                "id": "1",
-                "sourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.1.swf",
-                "floor": "1",
-                "countTime": "6",
-                "parentId": "0"
-            }, {
-                "name": "土木工程",
-                "resourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.2.1.htm",
-                "id": "2",
-                "sourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.2.1.swf",
-                "floor": "2",
-                "countTime": "6",
-                "parentId": "5"
-            }, {
-                "name": "土木工程",
-                "resourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.2.2.htm",
-                "id": "3",
-                "sourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.2.2.swf",
-                "floor": "2",
-                "countTime": "6",
-                "parentId": "1"
-            }, {
-                "name": "铁路信息",
-                "resourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.3.1.htm",
-                "id": "4",
-                "sourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.3.1.swf",
-                "floor": "2",
-                "countTime": "6",
-                "parentId": "3"
-            }, {
-                "name": "铁路信息",
-                "resourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.3.2.htm",
-                "id": "5",
-                "sourceName": "data/7/6/2019-07-14-15/201907141504187017resourceresource/a1.1.3.2.swf",
-                "floor": "3",
-                "countTime": "6",
-                "parentId": "a1.1.3"
-            }]
+            var sourceList = JSON.parse(data.resourceIds)[0].url
             var munebtn = document.getElementById('mune_btn')
             var mune = document.getElementById('mune_area')
             testContent = JSON.parse(data.testContent || '{}')
@@ -303,8 +242,14 @@
                     floor += '-'
                 }
 
+                var nameRate = ''
+                if(sourceList.filter(s => s.parentId === sourceList[i].id).length == 0) {
+                    var nameStudented = Math.min(testContent[sourceList[i].id] || 0, sourceList[i].countTime)
+                    nameRate = '(' + (nameStudented*100/sourceList[i].countTime).toFixed(2) + '%)'
+                }
+
                 addtree(
-                    floor + sourceList[i].name,
+                    floor + sourceList[i].name + nameRate,
                     conf.fileRequestUrl + '/' +  sourceList[i].sourceName,
                     'innerTarget',
                     sourceList[i].id
@@ -380,13 +325,13 @@
             var endDate = new Date();
             var labReport= $('#labReport').val();
             var data = {
-                testContent: testContent,
+                testContent: JSON.stringify(testContent),
                 curriculumExperimentId: curriculumExperimentId,
                 curriculumId: curriculumId,
                 experimentId: experimentId,
                 totalTime: (endDate.getTime() - startDate.getTime())/1000,
-                startTimeStr: admin.dateFormat(startDate/1000),
-                endTimeStr: admin.dateFormat(endDate/1000),
+                startTime: startDate.getTime(),
+                endTime: endDate.getTime(),
                 labReport: labReport,
             }
             admin.post({
