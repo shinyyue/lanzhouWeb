@@ -90,7 +90,7 @@
                         align: 'center'
                     }, {
                         title: '上传日期',
-                        field: 'school',
+                        field: 'createTime',
                         align: 'center'
                     }, {
                         title: '上传老师',
@@ -105,10 +105,10 @@
                         field: 'downloadNum',
                         align: 'center'
                     }, {
-                        title: '评分',
-                        field: 'publish',
-                        align: 'center'
-                    }, {
+//                        title: '评分',
+//                        field: 'publish',
+//                        align: 'center'
+//                    }, {
                         title: '操作',
                         align: 'center',
                         templet: '#sourcelist-opt',
@@ -173,7 +173,7 @@
                     type: source
                 }
             admin.post({
-                url: '/dataBank/queryList',
+                url: '/resCollect/queryList',
                 data: JSON.stringify(data),
                 success: function (res) {
                     tableOption.data = (res.data && res.data.items) || []

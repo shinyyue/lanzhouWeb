@@ -10,37 +10,37 @@
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label require">课程名称</label>
-                    <span id="curriculumName">铁路信号</span>
+                    <span id="curriculumName"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label require">课程代码</label>
-                    <span id="curriculumCode">0101</span>
+                    <span id="curriculumCode"></span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">学时</label>
-                    <span id="period">8周</span>
+                    <span id="period"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">学分</label>
-                    <span id="creditHour">24</span>
+                    <span id="creditHour"></span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">满分</label>
-                    <span id="fullMark">100</span>
+                    <span id="fullMark"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label require">课程负责人</label>
-                    <span id="userName">王小虎</span>
+                    <span id="userName"></span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">适合专业</label>
-                    <span id="profession">所有专业</span>
+                    <span id="profession"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">实验室名称</label>
@@ -50,17 +50,17 @@
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">选修课程</label>
-                    <span id="prerequisiteCourse">铁路信号</span>
+                    <span id="prerequisiteCourse"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">适合开课年级</label>
-                    <span id="gradeId">所有年级</span>
+                    <span id="gradeId"></span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">适合开课学期</label>
-                    <span id="semester">所有学期</span>
+                    <span id="semester"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">课程介绍</label>
@@ -102,10 +102,10 @@
                     $('#creditHour').html(data.creditHour)
                     $('#fullMark').html(data.fullMark)
                     $('#userName').html(data.userName)
-                    $('#profession').html(data.profession==0?'所有专业':data.profession)
+                    $('#profession').html(data.profession==0?'所有专业':data.professionName)
                     $('#labName').html(data.libName)
-                    $('#prerequisiteCourse').html(data.prerequisiteCourse)
-                    $('#gradeId').html(data.gradeId)
+                    $('#prerequisiteCourse').html(data.prerequisiteCourseName)
+                    $('#gradeId').html(data.gradeName)
                     $('#semester').html(data.semester)
                     $('#presentation').html(data.presentation)
                     // $('#').html(data)

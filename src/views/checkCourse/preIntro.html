@@ -68,16 +68,18 @@
             admin.get({
                 url: '/introduction/queryById?id=' + (id || coursePlanId),
                 success: function(res) {
-                    $('#preCourseName').html(res.data.name)
-                    $('#userName').html(res.data.userName)
-                    $('#cited').html(res.data.cited === 0 ? '引用' : '未引用')
-                    $('#recommendedScores').html(res.data.recommendedScores)
-                    $('#content').val(res.data.content)
-                    $('#createTime').html(
-                        admin.dateFormat(
-                            new Date(res.data.createTime).getTime() / 1000
+                    if(res.data){
+                        $('#preCourseName').html(res.data.name)
+                        $('#userName').html(res.data.userName)
+                        $('#cited').html(res.data.cited === 0 ? '引用' : '未引用')
+                        $('#recommendedScores').html(res.data.recommendedScores)
+                        $('#content').val(res.data.content)
+                        $('#createTime').html(
+                            admin.dateFormat(
+                                new Date(res.data.createTime).getTime() / 1000
+                            )
                         )
-                    )
+                    }
                 }
             })
         }
