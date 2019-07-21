@@ -32,10 +32,14 @@
 </div>
 
 <script>
-    function jumpToDetails(id) {
+    function jumpToDetails(id, courseName) {
         layui.data('course', {
             key: 'coursePlanId',
             value: id
+        })
+        layui.data('course', {
+            key: 'coursePlanName',
+            value: courseName
         })
         window.location.href = 'index.html#/checkCourse/preIntro/id=' + id
         window.location.reload()
@@ -88,8 +92,8 @@
                                 item.allPape +
                                 '</span>个\n' +
                                 '                    <button class="course-details" onclick="jumpToDetails(' +
-                                item.id +
-                                ')">\n' +
+                                item.id + ', \'' + item.courseName +
+                                '\')">\n' +
                                 '                        详情\n' +
                                 '                    </button>\n' +
                                 '                </div>\n' +
