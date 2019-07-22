@@ -23,6 +23,7 @@ layui.define(function (exports) {
         debug: layui.cache.debug,
         //网站名称
         name: '学校平台',
+
         //默认视图文件名
         entry: '/index',
         //视图文件后缀名

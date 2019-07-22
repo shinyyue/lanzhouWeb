@@ -30,13 +30,15 @@
         lay-filter="virtualTest_list_table"
     ></table>
     <script type="text/html" id="virtualTest-opt">
-        {{#  if (d.state === 2) {}}
+        {{#  if (d.expState === 1) { }}
+        <!-- 未提交 -->
+        <button class="course-set-btn" lay-event="add">开始实验</button>
+        {{# } else if (d.expState === 2) { }}
+        <!-- 已提交 -->
+        <button class="course-set-btn" lay-event="review">复习实验</button>
+        {{# } else { }}
         <button class="course-set-btn" lay-event="review">复习实验</button>
         <button class="course-set-btn" lay-event="check">查看成绩</button>
-        {{# } else if (new Date(d.startTime) < new Date() && new Date(d.endtTime) > new Date()) { }}
-        <button class="course-set-btn" lay-event="start">开始实验</button>
-        {{# } else if (new Date(d.endtTime) < new Date()) { }}
-        <button class="course-set-btn" lay-event="review">复习实验</button>
         {{# }  }}
     </script>
     <div class="app-table-page" id="virtualTest-table-page"></div>
@@ -112,13 +114,9 @@
                             align: 'center',
                             templet: function(d) {
                                 return (
-                                    admin.dateFormat(
-                                        new Date(d.startTime).getTime() / 1000
-                                    ) +
+                                    admin.dateFormat(new Date(d.startTime).getTime() / 1000) +
                                     '至' +
-                                    admin.dateFormat(
-                                        new Date(d.endtTime).getTime() / 1000
-                                    )
+                                    admin.dateFormat(new Date(d.endtTime).getTime() / 1000)
                                 )
                             }
                         },
@@ -136,16 +134,9 @@
                             field: 'state',
                             align: 'center',
                             templet: function(d) {
-                                if (d.state == 2) {
-                                    return '已发布成绩'
-                                } else if (d.state == 1) {
-                                    if (new Date() < new Date(d.endtTime)) {
-                                        return '实验中'
-                                    } else {
-                                        return '实验结束'
-                                    }
-                                }
-                                return d.state == 2 ? '已发布成绩' : '选做'
+                                if(d.expState == 1) return '实验中'
+                                else if(d.expState == 2) return '实验结束'
+                                else if(d.expState == 3) return '已发布成绩'
                             }
                         },
                         {
@@ -166,19 +157,19 @@
             layui.data('course', {key: 'curriculumExperimentId',value: data.id})  // 实验课程id
             layui.data('course', {key: 'experimentId',value: data.experimentId})  // 实验id
 
-            if (layEvent === 'start') {
-                formData = data
-                type = 'add'
-                // window.location.href = 'index.html#/checkCourse/virtualTestDetails/id=' + data.id + '&type=' + type
-            } else if (layEvent === 'review') {
-                formData = data
-                type = 'review'
-                // window.location.href = 'index.html#/checkCourse/virtualTestDetails/id=' + data.id + '&type=' + type
-            } else {
-                formData = data
-                type = 'check'
-            }
-            window.location.href = 'index.html#/checkCourse/virtualTestDetails/id=' + data.id + '/type=' + type + '/curriculumId=' + data.experimentId
+            // if (layEvent === 'start') {
+            //     formData = data
+            //     type = 'add'
+            //     // window.location.href = 'index.html#/checkCourse/virtualTestDetails/id=' + data.id + '&type=' + type
+            // } else if (layEvent === 'review') {
+            //     formData = data
+            //     type = 'review'
+            //     // window.location.href = 'index.html#/checkCourse/virtualTestDetails/id=' + data.id + '&type=' + type
+            // } else {
+            //     formData = data
+            //     type = 'check'
+            // }
+            window.location.href = 'index.html#/checkCourse/virtualTestDetails/id=' + data.id + '/type=' + layEvent + '/curriculumId=' + data.experimentId
         })
         $("#virtualTest-title").html('选课 > ' + layui.data('course').coursePlanName + ' > 虚拟实验 > 虚拟实验列表')
         getList(1)

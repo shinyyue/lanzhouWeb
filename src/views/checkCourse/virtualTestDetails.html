@@ -200,18 +200,29 @@
                         renderScrome(res.data)
                     }
 
-                    if (type == 'check' || type == 'review') {
-                        $('#experimentRatio').html(data.experimentRatio)
-                        $('#reportRatio').html(data.reportRatio)
-
-                        // $('#save').attr('style', 'display:none;')
+                    if(type === 'add') {
+                        // 开始实验
+                        $('#noadd').attr('style', 'display:none;')
+                    } else if(type === 'review') {
+                        // 复习实验
+                        $('#noadd').attr('style', 'display:none;')
+                        $('#save').attr('style', 'display:none;')
                         $('#submit').attr('style', 'display:none;')
                         $('#require').attr('disabled', 'true;')
                         $('#labReport').attr('disabled', 'true;')
                         $('#testContent').attr('disabled', 'true;')
-                    } else {
-                        $('#noadd').attr('style', 'display:none;')
+                    } else if(type === 'check') {
+                        // 查看成绩
+                        $('#experimentRatio').html(data.experimentRatio)
+                        $('#reportRatio').html(data.reportRatio)
+
+                        $('#save').attr('style', 'display:none;')
+                        $('#submit').attr('style', 'display:none;')
+                        $('#require').attr('disabled', 'true;')
+                        $('#labReport').attr('disabled', 'true;')
+                        $('#testContent').attr('disabled', 'true;')
                     }
+
                 }
             })
         }
