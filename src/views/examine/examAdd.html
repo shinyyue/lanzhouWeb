@@ -195,7 +195,12 @@
             return false
         })
         $('#addData').on('click', function () {
-            addData()
+            if (id) {
+                updateData()
+            } else {
+                addData()
+            }
+
             return false
         })
         layEditIndex = layedit.build('exam-add-edit', {
@@ -280,6 +285,44 @@
                 data: JSON.stringify(data),
                 success: function (res) {
                     layer.msg('添加成功')
+                    window.history.back(-1)
+                },
+                error: function (err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        function updateData() {
+            var optionObj = {}
+            var answer = {}
+            optionList.forEach((item, index) => {
+                $('input[name=optContent]').each(function (k) {
+                    if (index === k) {
+                        item.content = $(this).val()
+                        optionObj[item.opt] = item.content
+                    }
+                })
+            })
+            var key = $('input[name=option]:checked').attr('data-opt')
+            answer['' + key] = optionObj[key]
+            var data = {
+                id: id,
+                type: $('#type').val(),
+                difficulty: Number($('#difficulty').val()),
+                curriculumId: Number($('#curriculumId').val()),
+                knowledgePointId: Number($('#knowledgePoint').val()),
+                cognitiveType: Number($('#cognitiveType').val()),
+                content: layedit.getContent(layEditIndex),
+                annotation: $('#annotation').val(),
+                option: JSON.stringify(optionObj),
+                answer: JSON.stringify(answer)
+            }
+            admin.put({
+                url: '/exercises/update',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    layer.msg('更新成功')
                     window.history.back(-1)
                 },
                 error: function (err) {
