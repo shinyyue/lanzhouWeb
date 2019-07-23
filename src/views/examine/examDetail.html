@@ -160,11 +160,11 @@
                     $('#experimentName').html(res.data.experimentName)
                     $('#snapshot').html(res.data.snapshot)
                     $('#annotation').html(res.data.annotation)
-                    var answer = JSON.parse(res.data.answer);
-                    $('#answer').html('')
-                    for (var k in answer) {
-                        $('#answer').append(k + ':' + answer[k])
-                    }
+                    var answer = res.data.answer;
+                    $('#answer').html(answer)
+//                    for (var k in answer) {
+//                        $('#answer').append(k + ':' + answer[k])
+//                    }
                     $('#content').html(res.data.content)
                     $('#createTime').html(admin.dateFormat(new Date(res.data.createTime) / 1000))
                     var optionList = JSON.parse(res.data.option)

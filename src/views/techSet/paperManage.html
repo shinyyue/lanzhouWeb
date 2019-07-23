@@ -69,10 +69,10 @@
                         align: 'center'
                     }, {
                         title: '编辑时间',
-                        field: 'endTime',
+                        field: 'updateTime',
                         align: 'center',
                         templet: function (d) {
-                            return admin.dateFormat(new Date(d.endTime).getTime() / 1000)
+                            return admin.dateFormat(new Date(d.updateTime).getTime() / 1000)
                         }
                     }, {
                         title: '考试时长',
@@ -80,7 +80,7 @@
                         align: 'center'
                     }, {
                         title: '安排教师',
-                        field: 'userName',
+                        field: 'teacherName',
                         align: 'center'
                     }, {
                         title: '操作',
@@ -148,7 +148,7 @@
                 return
             }
             if (layEvent === 'edit') {
-                window.location.href = 'index.html#/techSet/paperUpdate/id=' + data.id
+3w2                window.location.href = 'index.html#/techSet/paperUpdate/id=' + data.id
             } else if (layEvent === 'check') {
                 window.location.href = 'index.html#/techSet/paperDetails/id=' + data.id
             }
