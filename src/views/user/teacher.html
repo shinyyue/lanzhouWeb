@@ -20,6 +20,7 @@
     </div>
     <div class="course-add">
         <!-- <button class="add-btn" id="add_cource">添加</button> -->
+        <button class="add-btn" id="download-temple">下载模板</button>
         <button class="add-btn" id="import-cource">导入</button>
         <button class="add-btn" id="export-cource">导出</button>
     </div>
@@ -854,39 +855,63 @@
             layer.open(layerOption)
             form.render()
         })
-        $('#import-cource').on('click', function() {
-            layer.open({
-                type: 1,
-                offset: 'auto',
-                title: '批量导入',
-                content: importModalTemplate,
-                area: ['500px', '400px'],
-                skin: 'import-modal',
-                shade: 0.4,
-                shadeClose: true,
-                btn: ['提交', '取消'],
-                yes: function(index, layero) {
-                    layer.close(index)
-                }
-            })
-            form.render()
-            $('#upload').change(function(e) {
-                var formData = new FormData()
-                formData.append('file', e.target.files[0])
-                upload.render({
-                    elem: '#upload',
-                    url: '/user/importExp',
-                    data: {
-                        file: formData
-                    },
-                    done: function(res, index, upload) {
-                        //上传后的回调
-                        layer.msg(res.msg)
-                    },
-                    accept: 'file'
-                })
-            })
+        $('#download-temple').on('click', function() {
+            window.open(conf.requestUrl +"/excel/用户模板.xls")
         })
+
+        upload.render({
+            elem: '#import-cource',
+            url: conf.requestUrl + '/user/importExp',
+            field: 'file',
+            accept: 'file',
+            exts: 'xls|xlsx',
+            before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                layer.load(); //上传loading
+            },
+            done: function(res, index, upload) {
+                //上传后的回调
+                layer.closeAll('loading'); //关闭loading
+                layer.msg(res.msg)
+                getList(1)
+            },
+            error: function(index, upload){
+                layer.closeAll('loading'); //关闭loading
+                layer.msg(res.msg || '导入失败')
+            },
+        })
+        // $('#import-cource').on('click', function() {
+        //     layer.open({
+        //         type: 1,
+        //         offset: 'auto',
+        //         title: '批量导入',
+        //         content: importModalTemplate,
+        //         area: ['500px', '400px'],
+        //         skin: 'import-modal',
+        //         shade: 0.4,
+        //         shadeClose: true,
+        //         btn: ['提交', '取消'],
+        //         yes: function(index, layero) {
+        //             layer.close(index)
+        //         }
+        //     })
+        //     form.render()
+        //     $('#upload').change(function(e) {
+        //         var formData = new FormData()
+        //         formData.append('file', e.target.files[0])
+        //         upload.render({
+        //             elem: '#upload',
+        //             url: '/user/importExp',
+        //             data: {
+        //                 file: formData
+        //             },
+        //             done: function(res, index, upload) {
+        //                 //上传后的回调
+        //                 layer.msg(res.msg)
+        //             },
+        //             accept: 'file'
+        //         })
+        //     })
+        // })
     })
 </script>
 <style>
