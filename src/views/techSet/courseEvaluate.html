@@ -1,7 +1,7 @@
 <div id="checkcourse-preintro">
     <div class="course-title">
         <div class="course-title-location">
-            <span>您的位置：开课管理</span>
+            <span>您的位置：开课管理 > </span>
             <span id = "courseEvaluate"></span>
         </div>
     </div>
@@ -25,8 +25,7 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">评价</label>
                 <div class="layui-col-md9">
-                    <textarea name="desc" class="layui-textarea" id="evaluate">
-                    </textarea>
+                    <textarea name="desc" class="layui-textarea" readonly id="evaluate"></textarea>
                 </div>
             </div>
         </div>
@@ -81,9 +80,10 @@
             time=getNowFormatDate,
         $("#coursePlanName").html(layui.data('course').coursePlanName),
         $("#coursePlanName").val(layui.data('course').coursePlanId),
-        $("#userName").html(layui.data('userInfo').userInfo.userName)
+        $("#userName").html(layui.data('courseComment').stuName)
         $("#courseEvaluate").html(layui.data('course').coursePlanName + ' > 课程评价 > 老师回复')
         $("#date").html(time);
+        $("#evaluate").val(layui.data('courseComment').content);
         function getNowFormatDate() {
             var date = new Date();
             var seperator1 = "-";
@@ -102,17 +102,15 @@
             return currentdate;
         }
         form.on('submit(submit)', function(data){
-            debugger
-
             var param = {
                 curriculumId: layui.data('course').coursePlanId,
-                content: data.field.desc
+                content: data.field.desc,
+                reviewId: layui.data('courseComment').id
             }
             admin.post({
                 url: '/coursre/add',
                 data: JSON.stringify(param),
                 success: function(res) {
-                    debugger
                     if (res.code === 200) {
                         layer.msg('评论成功！')
                     }
