@@ -110,6 +110,7 @@
             laydate = layui.laydate,
             route = layui.router(),
             courseId = layui.data('techSet').techSetId,
+            kechengId = layui.data('techSet').kechengId,
             id = route.search.id || '',
             courseName = layui.data('techSet').techSetName
         form.render()
@@ -212,7 +213,8 @@
         function getPloyList(chosenId) {
             var data = {
                 page: 1,
-                rows: 100000
+                rows: 100000,
+                key: kechengId
             }
             admin.post({
                 url: '/strategy/list',

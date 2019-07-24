@@ -80,12 +80,23 @@
                         style="width: 100%; height: 100%"></iframe>
             </div>
         </div>
-        <div class="layui-row">
+        <div class="layui-row" id="labReportDiv">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">实验报告</label>
                 <div class="layui-col-md9" >
                     <!--<textarea name="desc" class="layui-textarea" id="labReport" ></textarea>-->
                     <div class="layui-col-md10" id="labReport"></div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row" id="labReportAddressDiv">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label">上传实验报告</label>
+                <div class="layui-col-md9" >
+                    <button type="button" class="layui-btn" id="labReportAddress">
+                        <i class="layui-icon">&#xe67c;</i>上传PDF
+                        <span id="file_path"></span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -125,10 +136,11 @@
 <script src="src/plugins/resource_url.js"></script>
 <script src="menutree/menuTree.js"></script>
 <script>
-    layui.use(['form', 'admin', 'layedit'], function() {
+    layui.use(['form', 'admin', 'layedit','upload'], function() {
         var $ = layui.jquery,
             admin = layui.admin,
             layedit = layui.layedit,
+            upload = layui.upload,
             conf = layui.conf,
             route = layui.router(),
             curriculumExperimentId = layui.data('course').curriculumExperimentId,  // 实验课程课程id
@@ -151,7 +163,7 @@
                 success: function(res) {
                     var data = res.data
                     $('#curriculumExperimentName').html(
-                        data.curriculumExperimentName
+                        data.courseName
                     )
                     $('#experimentType').html(data.experimentType)
                     $('#courseName').html(data.courseName)
@@ -194,6 +206,12 @@
                         renderScrome(res.data)
                     }
 
+                    if(res.data.correctType==1){
+                        $('#labReportDiv').attr('style', 'display:none;')
+                    }
+                    if(res.data.correctType==0){
+                        $('#labReportAddressDiv').attr('style', 'display:none;')
+                    }
                     if(type === 'add') {
                         // 开始实验
                         $('#noadd').attr('style', 'display:none;')
@@ -323,7 +341,8 @@
                 endTimeStr: admin.dateFormat(endDate/1000),
                 useTime: (endDate.getTime() - startDate.getTime())/1000,
                 testContent: JSON.stringify(testContent),
-                labReport: labReport
+                labReport: labReport,
+                labReportAddress: $('#file_path').html()
             }
 
             admin.post({
@@ -365,6 +384,31 @@
                 error: err => layer.msg((err && err.msg) || '数据请求失败')
             })
         }
+        //文件上传
+        var uploadInst = upload.render({
+            elem: '#labReportAddress' //绑定元素
+            ,url: conf.requestUrl + '/dataBank/oneFileUpload' //上传接口
+            ,field: 'file'
+            ,method: 'post'
+            ,data: {
+                type: 1
+            }
+            ,done: function (res) {
+                if (res.code === 401) {
+                    admin.logout()
+                } else if (res.code === 200) {
+                    $('#file_path').html(res.data)
+                    layer.msg('上传成功')
+                } else {
+                    layer.msg(res.msg || '上传失败')
+                }
+                layer.closeAll('loading') //关闭loading
+            },
+            error: function (err) {
+                layer.msg(err.msg || '上传失败')
+                layer.closeAll('loading') //关闭loading
+            }
+        });
     })
 </script>
 <style>
