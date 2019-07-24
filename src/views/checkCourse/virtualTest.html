@@ -134,7 +134,7 @@
                             field: 'state',
                             align: 'center',
                             templet: function(d) {
-                                if(d.expState == 1) return '实验中'
+                                if(d.expState == 1) return new Date(d.startTime).getTime()>new Date().getTime()?'未开始':'实验中'
                                 else if(d.expState == 2) return '实验结束'
                                 else if(d.expState == 3) return '已发布成绩'
                             }
@@ -157,6 +157,11 @@
             layui.data('course', {key: 'curriculumExperimentId',value: data.id})  // 实验课程id
             layui.data('course', {key: 'experimentId',value: data.experimentId})  // 实验id
 
+            debugger
+            if (data.expState == 1&&new Date(data.startTime).getTime()>new Date().getTime()){
+                layer.alert('实验暂未开始', {icon: 6})
+                return
+            }
             // if (layEvent === 'start') {
             //     formData = data
             //     type = 'add'

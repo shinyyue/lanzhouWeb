@@ -200,7 +200,7 @@
                                class="layui-input" />
                     </div>
                     <div class="forget-pwd">
-                        <a href="">忘记密码？</a>
+                        <a id="forget_password">忘记密码？</a>
                     </div>
                     <div class="layui-form-item">
                         <button class="layui-btn layui-btn-normal layui-btn-fluid"
@@ -313,5 +313,11 @@
             if ((arr = document.cookie.match(reg))) return unescape(arr[2])
             else return null
         }
+        var forget_password = '请与管理员联系！</br>' +
+            '电话：13909311189</br>' +
+            '邮箱：admin@163.com'
+        $("#forget_password").click(function () {
+            layer.alert(forget_password, {icon: 6})
+        })
     })
 </script>
