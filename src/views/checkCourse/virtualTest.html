@@ -157,7 +157,6 @@
             layui.data('course', {key: 'curriculumExperimentId',value: data.id})  // 实验课程id
             layui.data('course', {key: 'experimentId',value: data.experimentId})  // 实验id
 
-            debugger
             if (data.expState == 1&&new Date(data.startTime).getTime()>new Date().getTime()){
                 layer.alert('实验暂未开始', {icon: 6})
                 return
