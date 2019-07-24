@@ -31,6 +31,7 @@
         <div class="tech-item">
             <div class="tech-item-title">实验成绩统计</div>
             <div id="test_score" style="height:400px;"></div>
+            <div class="app-table-page" id="test_score_page"></div>
         </div>
     </div>
 </div>
@@ -379,7 +380,7 @@
         initTestScoreTable = testScoreList => {
             var yAxisData = [], aaaList = [], bbbList = [], cccList = [];
             testScoreList.forEach(score => {
-                yAxisData.push(score.collegeName)
+                yAxisData.push(score.expName)
                 aaaList.push(score.aaa)
                 bbbList.push(score.bbb)
                 cccList.push(score.ccc)
@@ -441,6 +442,32 @@
 
             initChart('test_score', testScoreOption)
         }
+        testScoreRatePageOption = {
+            elem: 'test_score_page',
+            limit: 10,
+            first: '首页',
+            last: '尾页',
+            layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
+            jump: (obj, first) => {
+                //首次不执行
+                if (!first) {
+                    getTestScoreList(obj.curr)
+                }
+            }
+        }
+        getTestScoreList = page => {
+            admin.post({
+                url: '/report/queryExpAndScoreArea',
+                data: JSON.stringify({rows: 10, page: page}),
+                success: res => {
+                    initTestScoreTable(res.data.items)
+                    testScoreRatePageOption.count = (res.data && res.data.total) || 0;
+                    laypage.render(testScoreRatePageOption)
+                },
+                error: err => layer.msg((err && err.msg) || '数据请求失败')
+            })
+        }
+        getTestScoreList(1)
 
         // 初始化页面数据
         admin.get({
@@ -452,7 +479,7 @@
                     // initStatisticsScoreTable(res.data.third)
                     // initStatisticsScoreRateTable(res.data.four)
                     initStatisticsScoreRate(res.data[0].five)
-                    initTestScoreTable(res.data[0].six)
+                    // initTestScoreTable(res.data[0].six)
                 }
             },
             error: err => layer.msg((err && err.msg) || '数据请求失败')
