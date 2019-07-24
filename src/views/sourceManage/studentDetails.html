@@ -154,7 +154,8 @@
                     var fileUrl = conf.fileRequestUrl + '/' + data.fileUrl
                     if (data.type == 1) {
                         // 文档
-                        $('#fileUrl').hide()
+                        window.open(fileUrl)
+                        // $('#fileUrl').hide()
                     } else if (data.type == 2) {
                         // 图片
                         $('#fileUrl').html(
