@@ -324,6 +324,10 @@
                 layer.msg("实验类型不能为空！")
                 return
             }
+            if (formData.resourceIds == ''||formData.resourceIds == '[]') {
+                layer.msg("请选择资源！")
+                return
+            }
             if (parseInt(formData.reportRatio)+parseInt(formData.experimentRatio)!=100){
                 layer.msg("成绩比重不足100%！")
                 return

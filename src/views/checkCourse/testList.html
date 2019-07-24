@@ -10,9 +10,9 @@
         lay-filter="checkcourse-testlist-table"
     ></table>
     <script type="text/html" id="checkcourse-testlist-opt">
-        {{# if (new Date(d.endTime).getTime() > new Date().getTime()) { }}
+        {{# if (new Date(d.startTime).getTime() <= new Date().getTime()&&new Date(d.endTime).getTime() >= new Date().getTime()&&d.publish==1) { }}
         <button class="course-set-btn" id="checkcourse-testlist-test" lay-event="test">测试</button>
-        {{# } else { }}
+        {{# } else if(d.publish==2) { }}
         <button class="course-set-btn" id="checkcourse-testlist-check" lay-event="check">查看</button>
         {{# } }}
     </script>
