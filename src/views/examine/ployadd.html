@@ -62,7 +62,7 @@
                         <tbody id="poly-add-strategy"></tbody> -->
                     </table>
                     <script type="text/html" id="knowlegePoint">
-                        <select name="knowledgePoint" class="knowledgePoint" lay-filter="knowlegePointChange"></select>
+                        <select name="knowledgePoint" class="knowledgePoint" lay-filter="knowlegePointChange" id="knowlegePointChange"></select>
                     </script>
                     <script type="text/html" id="askType">
                         <select name="exercisesType" class="exercisesType ploy-select" lay-filter="exercisesTypeChange">
@@ -127,6 +127,7 @@
             $ = layui.jquery,
             form = layui.form,
             admin = layui.admin,
+            kechengId = layui.data('techSet').kechengId,
             option = {
                 exercisesDifficulty: '',
                 exercisesSize: '',
@@ -206,6 +207,10 @@
             window.history.back(-1)
         })
 
+        /*$("#knowlegePointChange").click(function () {
+            debugger
+            getKnowlegeList()
+        })*/
         form.on('select(knowlegePointChange)', function(obj) {
             $('.layui-table-body').css('overflow', 'visible')
             $('.layui-table-box').css('overflow', 'visible')
@@ -439,7 +444,8 @@
                 success: function(res) {
                     if (res.code === 200) {
                         layer.msg('添加成功')
-                        window.history.go(-1)
+                        location.href = 'index.html#/examine/ploy'
+                        window.location.reload()
                     } else {
                         layer.msg(res.msg || '添加失败')
                     }
@@ -503,6 +509,7 @@
             var data = {
                 page: 1,
                 rows: 100000
+                ,curriculumId: $("#curriculumId").val()
             }
             admin.post({
                 url: '/knowledgePoint/list',

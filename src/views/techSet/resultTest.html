@@ -3,8 +3,7 @@
         <div class="course-title-location">
             <span>您的位置：</span>
             <span
-                >开课管理 > <span id="coursePlanName"></span> 实验过程 >
-                实验统计</span
+                >开课管理 > <span id="coursePlanName"></span> 实验结果 </span
             >
         </div>
         <div class="course-title-search">
@@ -130,10 +129,15 @@
             var layEvent = obj.event,
                 type = ''
 
-            if (layEvent === 'evaluate-add-edit') {
+            if (layEvent === 'resultTest-add-check') {
                 formData = data
                 type = 'check'
-                window.location.href = 'index.html#/techSet/readyPlan'
+                window.location.href = 'index.html#/techSet/resultUpdate'
+            }
+            if (layEvent === 'resultTest-add-edit') {
+//                formData = data
+//                type = 'check'
+                window.location.href = 'index.html#/techSet/resultUpdate'
             }
         })
 

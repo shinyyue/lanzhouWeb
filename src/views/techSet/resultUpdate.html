@@ -21,9 +21,9 @@
         </div>
     </div>
     <div class="course-add">
-        <button class="add-btn" id="add-cource">发布成绩</button>
-        <button class="add-btn" id="add-cource">成绩导出</button>
-        <button class="add-btn" id="add-cource">报告导出</button>
+        <button class="add-btn" id="publish-score">发布成绩</button>
+        <button class="add-btn" id="export-score">成绩导出</button>
+        <button class="add-btn" id="import-report">报告导出</button>
     </div>
     <table
         id="resultUpdate-list-table"
@@ -149,7 +149,7 @@
         })
 
         $('#resultUpdate-add-edit').on('click', function() {
-            location.href = 'index.html#/resultUpdate/update'
+            location.href = 'index.html#/techSet/teacherScoring'
         })
 
         $('#resultUpdate-add-delete').on('click', function() {
