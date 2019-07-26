@@ -112,13 +112,13 @@
                     <button class="layui-btn primary-btn"
                             lay-submit
                             id="canclecollect"> 取消收藏 </button>-->
-                    <button
+                    <!-- <button
                         class="layui-btn primary-btn"
                         lay-submit
                         id="download"
                     >
                         下载
-                    </button>
+                    </button> -->
                     <button
                         class="layui-btn layui-btn-primary cancel-btn"
                         id="sourmanage_add_cancle"
@@ -171,8 +171,8 @@
                     $('#courseName').html(data.courseName)
                     $('#resourceDes').val(data.resourceDes)
                     if (data.canDownload == 0 || data.type != 5) {
-                        //                        $('#download').attr('style', 'display:none;')
-                        $('#download').hide()
+                        //$('#download').attr('style', 'display:none;')
+                        // $('#download').hide()
                     }
                     fileUrl = conf.fileRequestUrl + '/' + data.fileUrl
                     if (data.type == 1) {

@@ -1,58 +1,55 @@
-<div id="ready-check"
-     layui-title="选择实验">
+<div id="ready-check" layui-title="选择实验">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>开课管理 > <span id="courseName"></span> > 实验准备 > 选择实验</span>
+            <span
+                >开课管理 > <span id="courseName"></span> > 实验准备 >
+                选择实验</span
+            >
         </div>
     </div>
     <div class="ready-new-step">
         <div class="new-step-inner">
-            <button class="layui-btn layui-btn-primary"
+            <!-- <button class="layui-btn layui-btn-primary"
                     style="background-color: rgba(0, 102, 102, 1) !important; color: #fff">选择开课</button>
-            <img src="src/images/arrow-right.svg">
-            <button class="layui-btn layui-btn-primary"
-                    style="color: red;">选择实验</button>
-            <img src="src/images/arrow-right.svg">
+            <img src="src/images/arrow-right.svg"> -->
+            <button class="layui-btn layui-btn-primary" style="color: red;">
+                选择实验
+            </button>
+            <img src="src/images/arrow-right.svg" />
             <button class="layui-btn layui-btn-primary">设置安排属性</button>
-            <img src="src/images/arrow-right.svg">
+            <img src="src/images/arrow-right.svg" />
             <button class="layui-btn layui-btn-primary">安排成功</button>
         </div>
     </div>
-    <form action=""
-          class="layui-form ready-new-title">
+    <form action="" class="layui-form ready-new-title">
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">当前开课</label>
-                <span style="line-height: 38px;"
-                      id="current_course"></span>
+                <span style="line-height: 38px;" id="current_course"></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">实验名称</label>
-                <select name=""
-                        id="">
+                <select name="" id="">
                     <option value="">请选择实验名称</option>
                     <option value="">信号灯</option>
                     <option value="">转辙机</option>
                 </select>
                 <button class="search-confirm">
-                    <img src="src/images/search.png">
+                    <img src="src/images/search.png" />
                 </button>
             </div>
         </div>
     </form>
-    <table id="ready-check-table"
-           lay-filter="ready-check-table"></table>
-    <script type="text/html"
-            id="ready-check-opt">
+    <table id="ready-check-table" lay-filter="ready-check-table"></table>
+    <script type="text/html" id="ready-check-opt">
         <button class="course-set-btn" lay-event="ready-check-detail">查看</button>
         <button class="course-set-btn" lay-event="ready-check-check">选择</button>
     </script>
-    <div class="app-table-page"
-         id="ready-check-page"></div>
+    <div class="app-table-page" id="ready-check-page"></div>
 </div>
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function(table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -68,8 +65,18 @@
                 limit: 20,
                 first: '首页',
                 last: '尾页',
-                layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
-                jump: function (obj, first) {
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function(obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -80,48 +87,56 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center',
-                        type: 'numbers'
-                    }, {
-                        title: '实验名称',
-                        field: 'experimentName',
-                        align: 'center'
-                    }, {
-                        title: '所属课程',
-                        field: 'courseName',
-                        align: 'center'
-                    }, {
-                        title: '实验类型',
-                        field: 'typeName',
-                        align: 'center'
-                    }, {
-                        title: '时长',
-                        field: 'countTime',
-                        align: 'center'
-                    }, {
-                        title: '创建者',
-                        field: 'userName',
-                        align: 'center'
-                    }, {
-                        title: '操作',
-                        align: 'center',
-                        templet: '#ready-check-opt',
-                        fixed: 'right',
-                        width: 200
-                    }]
+                    [
+                        {
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center',
+                            type: 'numbers'
+                        },
+                        {
+                            title: '实验名称',
+                            field: 'experimentName',
+                            align: 'center'
+                        },
+                        {
+                            title: '所属课程',
+                            field: 'courseName',
+                            align: 'center'
+                        },
+                        {
+                            title: '实验类型',
+                            field: 'typeName',
+                            align: 'center'
+                        },
+                        {
+                            title: '时长',
+                            field: 'countTime',
+                            align: 'center'
+                        },
+                        {
+                            title: '创建者',
+                            field: 'userName',
+                            align: 'center'
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#ready-check-opt',
+                            fixed: 'right',
+                            width: 200
+                        }
+                    ]
                 ]
             }
-        table.on('tool(ready-check-table)', function (obj) {
-            var data = obj.data; //获得当前行数据
+        table.on('tool(ready-check-table)', function(obj) {
+            var data = obj.data //获得当前行数据
             var layEvent = obj.event,
-                type = '';
+                type = ''
             if (layEvent === 'ready-check-check') {
-                formData = data;
-                type = 'check';
+                formData = data
+                type = 'check'
                 window.location.href = 'index.html#/techSet/readyPlan'
             }
         })
@@ -139,24 +154,24 @@
             admin.post({
                 url: '/curriculumExperiment/queryExpListByCurriculumId',
                 data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        };
+        }
 
         function getData(id) {
             admin.get({
                 url: '/college/queryCollege?id=' + id,
-                success: function (res) {},
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
+                success: function(res) {},
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
