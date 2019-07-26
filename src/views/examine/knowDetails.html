@@ -25,7 +25,7 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">知识点名称</label>
-                <span class="info-details" id="name">zk4电控转辙机</span>
+                <span class="info-details" id="name"></span>
             </div>
         </div>
         <div class="layui-row">
@@ -66,7 +66,7 @@
             admin.get({
                 url: '/knowledgePoint/queryById?id=' + id,
                 success: function(res) {
-                    $('#name').html(res.data.name)
+                    $('#name').html(res.data.cName)
                     $('#parentId').html(res.data.pName)
                     $('#curriculumId').html(res.data.curriculumName)
                     $('#describe').html(res.data.describe)
