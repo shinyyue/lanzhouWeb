@@ -13,7 +13,7 @@
                     <button type="button" class="layui-btn" id="uploadAvator">
                         <i class="layui-icon">&#xe67c;</i>上传图片
                     </button>
-                    <!-- <img src="" width="120" height="120" id="avator" /> -->
+                     <img src="" width="120" height="120" id="avator" />
                     <span class="upload-avator">
                         图片尺寸为120*120px或等比例图片
                         支持格式为JPG、JPEG、PNG，
@@ -102,6 +102,7 @@
             $ = layui.jquery,
             admin = layui.admin,
             upload = layui.upload,
+            conf = layui.conf,
             userInfo = {};
 
         // form.render()
@@ -109,10 +110,13 @@
         upload.render({
             elem: '#uploadAvator' //绑定元素
                 ,
-            url: '' //上传接口
+            url: conf.requestUrl + '/user/importImg' //上传接口
                 ,
+            method: 'get',
             done: function (res) {
                 //上传完毕回调
+                $('#avator').attr('src', conf.fileRequestUrl+'/'+res.data)
+//                $('#uploadAvator').attr('src', conf.fileRequestUrl+'/'+res.data)
             },
             error: function () {
                 //请求异常回调

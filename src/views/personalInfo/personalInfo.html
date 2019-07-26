@@ -82,6 +82,7 @@
     layui.use(['form', 'layedit'], function () {
         var form = layui.form,
             $ = layui.jquery,
+            conf = layui.conf,
             admin = layui.admin;
 
         getUserInfo();
@@ -90,8 +91,9 @@
             admin.get({
                 url: '/user/getUserByID?id=' + layui.data('userInfo').userInfo.id,
                 success: function (res) {
+                    debugger
                     const data = res.data;
-                    $('#avator').attr('src', data.avator)
+                    $('#avator').attr('src', conf.fileRequestUrl+'/'+data.photoImage)
                     $('#account').html(data.snoOrJno);
                     $('#snoOrJno').html(data.snoOrJno)
                     $('#phonenumber').html(data.phonenumber)
@@ -100,6 +102,7 @@
                     $('#sex').html(data.sex === 1 ? '男' : (data.sex === 0 ? '女' : '-'))
                     $('#role').html(data.roleName)
                     $('#college').html(data.collegeName)
+//                    $("#avator").src=conf.fileRequestUrl+'/'+data.photoImage
                 }
             })
         }
