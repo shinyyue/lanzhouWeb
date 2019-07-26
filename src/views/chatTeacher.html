@@ -78,9 +78,7 @@
 <div class="layui-row">
     <div class="layui-col-md12 layui-form-item">
         <div style="text-align:center">
-            <button
-                    class="layui-btn layui-btn-primary cancel-btn"
-                    id="back">
+            <button class="layui-btn layui-btn-primary cancel-btn" id="back">
                 返回
             </button>
         </div>
@@ -98,9 +96,9 @@
             curChatList = [],
             message = {
                 contentText: '',
-                toUserId: '',
+                toUserId: 0,
                 type: 0,
-                fromUserId: 0,
+                fromUserId: Number(userId),
                 isTeacher: 1,
                 userName: layui.data('userInfo').userInfo.userName
             }
@@ -156,14 +154,13 @@
                     admin.dateFormat(new Date(item.sendTime).getTime() / 1000) +
                     '</span>' +
                     '<div class="chat-dialog ' +
-                    (item.sendUserId === userId
+                    (item.sendUserId == userId
                         ? 'chat-myself'
                         : 'chat-others') +
                     '">' +
                     '<img src="src/images/user_logo.png" class="member-avator" />' +
                     '<div class="member-info">' +
                     '<div>' +
-                    item.sendUserName +
                     '</div>' +
                     '<div class="chat-info">' +
                     item.content +
@@ -225,21 +222,21 @@
                         res.data.items &&
                         res.data.items.forEach(function(item) {
                             // if (item.publish == 1) {
-                                arr.push(item)
-                                courseItem +=
-                                    '<div class="member-item">' +
-                                    '<img src="src/images/user_logo.png" class="member-avator" />' +
-                                    '<span>' +
-                                    item.courseName +
-                                    '</span>' +
-                                    '</div>'
+                            arr.push(item)
+                            courseItem +=
+                                '<div class="member-item">' +
+                                '<img src="src/images/user_logo.png" class="member-avator" />' +
+                                '<span>' +
+                                item.courseName +
+                                '</span>' +
+                                '</div>'
                             // }
                         })
                     publishedCourseList = arr
                     $('#published_course').html(courseItem)
                     $('#published_course .member-item').click(function() {
                         checkedItem = publishedCourseList[$(this).index()]
-                        message.toUserId = checkedItem.id
+                        message.fromUserId = Number(checkedItem.id)
                         $('#courseName').html(checkedItem.courseName)
                         $('#send_message').css('display', 'block')
                         getChatHistory(checkedItem.id)
@@ -290,22 +287,21 @@
             for (var i = 0; i < len; i++) {
                 //如果字符串中不包含目标字符会返回-1
                 if (publishedCourseList[i].courseName.match(reg)) {
+                    console.log(222, reg, publishedCourseList[i].courseName)
                     arr.push(publishedCourseList[i])
                 }
             }
 
             var courseItem = ''
             arr.forEach(function(item) {
-                if (item.publish == 1) {
-                    arr.push(item)
-                    courseItem +=
-                        '<div class="member-item">' +
-                        '<img src="src/images/user_logo.png" class="member-avator" />' +
-                        '<span>' +
-                        item.courseName +
-                        '</span>' +
-                        '</div>'
-                }
+                arr.push(item)
+                courseItem +=
+                    '<div class="member-item">' +
+                    '<img src="src/images/user_logo.png" class="member-avator" />' +
+                    '<span>' +
+                    item.courseName +
+                    '</span>' +
+                    '</div>'
             })
             $('#published_course').html(courseItem)
         }
@@ -475,6 +471,7 @@
         background: #dadada;
         color: #fff;
         margin: 10px auto;
+        clear: right;
     }
 
     .chating-content .chat-dialog {

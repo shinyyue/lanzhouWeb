@@ -74,18 +74,15 @@
             <div class="get-more">点击查看更多成员</div>
         </div>
     </div>
-
 </div>
 <div class="layui-row">
-<div class="layui-col-md12 layui-form-item">
-    <div style="text-align:center">
-        <button
-                class="layui-btn layui-btn-primary cancel-btn"
-                id="back">
-                                                        返回
-        </button>
+    <div class="layui-col-md12 layui-form-item">
+        <div style="text-align:center">
+            <button class="layui-btn layui-btn-primary cancel-btn" id="back">
+                返回
+            </button>
+        </div>
     </div>
-</div>
 </div>
 
 <script>
@@ -145,6 +142,7 @@
         })
 
         function wsHandler(sendMessage) {
+            console.log(222, ws.readyState, sendMessage)
             var timer = null
             // CONNECTING === 0 连接还没开启。
             // OPEN === 1 连接已开启并准备好进行通信。
@@ -231,6 +229,45 @@
             })
         }
 
+        function chatTemplate(chatList) {
+            var str = ''
+            chatList.forEach(function(item) {
+                str +=
+                    '<span class="chat-time">' +
+                    admin.dateFormat(new Date(item.sendTime).getTime() / 1000) +
+                    '</span>' +
+                    '<div class="chat-dialog ' +
+                    (item.toUserId == userId ? 'chat-myself' : 'chat-others') +
+                    '">' +
+                    '<img src="src/images/user_logo.png" class="member-avator" />' +
+                    '<div class="member-info">' +
+                    '<div>' +
+                    item.userName +
+                    '</div>' +
+                    '<div class="chat-info">' +
+                    item.content +
+                    '</div>' +
+                    '<div class="triangle"></div>' +
+                    '</div>' +
+                    '</div>'
+            })
+
+            $('#chat_list').html(str)
+
+            var timer = setInterval(function() {
+                var iScrollTop = $('#chat_list').scrollTop()
+
+                if (
+                    iScrollTop >=
+                    document.getElementById('chat_list').scrollHeight -
+                        $('#chat_list').innerHeight()
+                ) {
+                    clearInterval(timer)
+                }
+                $('#chat_list').scrollTop((iScrollTop += 50))
+            }, 20)
+        }
+
         function search() {
             var keyWord = $('#search_course').val()
             var len = publishedCourseList.length
@@ -249,16 +286,14 @@
 
             var courseItem = ''
             arr.forEach(function(item) {
-                if (item.publish == 1) {
-                    arr.push(item)
-                    courseItem +=
-                        '<div class="member-item">' +
-                        '<img src="src/images/user_logo.png" class="member-avator" />' +
-                        '<span>' +
-                        item.courseName +
-                        '</span>' +
-                        '</div>'
-                }
+                arr.push(item)
+                courseItem +=
+                    '<div class="member-item">' +
+                    '<img src="src/images/user_logo.png" class="member-avator" />' +
+                    '<span>' +
+                    item.courseName +
+                    '</span>' +
+                    '</div>'
             })
             $('#checked_course_list').html(courseItem)
         }
@@ -428,6 +463,7 @@
         background: #dadada;
         color: #fff;
         margin: 10px auto;
+        clear: right;
     }
 
     .chating-content .chat-dialog {
