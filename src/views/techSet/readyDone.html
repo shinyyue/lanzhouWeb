@@ -1,35 +1,30 @@
-<div id="ready-done">
+* 、。*-*-<div id="ready-done">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span
-                >开课管理 > <span id="coursePlanName"></span> 实验准备 >
-                布置新实验</span
-            >
+            <span>开课管理 > <span id="coursePlanName"></span> 实验准备 >
+                布置新实验</span>
         </div>
     </div>
     <div class="ready-new-step">
         <div class="new-step-inner">
-            <!-- <button class="layui-btn layui-btn-primary"
+            <button class="layui-btn layui-btn-primary"
                     style="background-color: rgba(0, 102, 102, 1) !important; color: #fff">
                 选择开课
             </button>
-            <img src="src/images/arrow-right.svg" /> -->
-            <button
-                class="layui-btn layui-btn-primary"
-                style="background-color: rgba(0, 102, 102, 1) !important; color: #fff"
-            >
+            <img src="src/images/arrow-right.svg" />
+            <button class="layui-btn layui-btn-primary"
+                    style="background-color: rgba(0, 102, 102, 1) !important; color: #fff">
                 选择实验
             </button>
             <img src="src/images/arrow-right.svg" />
-            <button
-                class="layui-btn layui-btn-primary"
-                style="background-color: rgba(0, 102, 102, 1) !important; color: #fff"
-            >
+            <button class="layui-btn layui-btn-primary"
+                    style="background-color: rgba(0, 102, 102, 1) !important; color: #fff">
                 设置安排属性
             </button>
             <img src="src/images/arrow-right.svg" />
-            <button class="layui-btn layui-btn-primary" style="color: red;">
+            <button class="layui-btn layui-btn-primary"
+                    style="color: red;">
                 安排成功
             </button>
         </div>
@@ -38,7 +33,8 @@
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">实验名称</label>
-                <span class="info-details" id="courseName"></span>
+                <span class="info-details"
+                      id="experimentName"></span>
             </div>
         </div>
         <div class="layui-row">
@@ -48,56 +44,64 @@
             </div> -->
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">选课人数</label>
-                <span class="info-details" id="countStudent"></span>
+                <span class="info-details"
+                      id="countStudent"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">必做/选做</label>
-                <span class="info-details" id="experimentype"></span>
+                <span class="info-details"
+                      id="experimentype"></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">实验类型</label>
-                <span class="info-details" id="typeName"></span>
+                <span class="info-details"
+                      id="typeName"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">成绩比重</label>
                 <span class="info-details">实验成绩比例：</span>
-                <span class="info-details" id="experimentRatio"></span>
-                <span class="info-details" style="margin-left: 20px;"
-                    >报告成绩比例：
+                <span class="info-details"
+                      id="experimentRatio"></span>
+                <span class="info-details"
+                      style="margin-left: 20px;">报告成绩比例：
                 </span>
-                <span class="info-details" id="reportRatio"></span>
+                <span class="info-details"
+                      id="reportRatio"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">实验地点</label>
-                <span class="info-details" id="labAddress"></span>
+                <span class="info-details"
+                      id="labAddress"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">实验报告批改类型</label>
-                <span class="info-details" id="correctType"></span>
+                <span class="info-details"
+                      id="correctType"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">已安排时段</label>
                 <div class="layui-col-md9">
-                    <table
-                        class="layui-table"
-                        id="timeRange-table"
-                        lay-filter="timeRange-table"
-                    ></table>
-                    <script type="text/html" id="ready-check">
+                    <table class="layui-table"
+                           id="timeRange-table"
+                           lay-filter="timeRange-table"></table>
+                    <script type="text/html"
+                            id="ready-check">
                         <button class="course-set-btn"
                                 lay-event="ready-check">查看</button>
+
                     </script>
-                    <script type="text/html" id="ready_endTime">
+                    <script type="text/html"
+                            id="ready_endTime">
                         <input type="text"
                                class="common-form-input"
                                style="width: 100px;"
@@ -106,6 +110,7 @@
                              style="padding: 0 6px; line-height: 30px;
                         height: 30px;"
                              id="editEndTime">确定</div>
+
                     </script>
                 </div>
             </div>
@@ -113,20 +118,18 @@
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label "></label>
-                <div
-                    class="primary-btn"
-                    style="width: 180px;float: left;"
-                    id="back"
-                >
-                    查看已安排试验
-                </div>
+                <div class="primary-btn"
+                     style="width: 180px;float: left;"
+                     id="back">查看已安排试验</div>
             </div>
         </div>
     </form>
+    <div class="layui-btn" style="text-align: center"
+         id="go_back"> 返回 </div>
 </div>
 
 <script>
-    layui.use(['table', 'form', 'laydate'], function(table) {
+    layui.use(['table', 'form', 'laydate'], function (table) {
         var table = layui.table,
             form = layui.form,
             admin = layui.admin,
@@ -143,8 +146,7 @@
                 skin: 'row, line',
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [
-                        {
+                    [{
                             title: '序号',
                             width: 80,
                             align: 'center',
@@ -154,12 +156,12 @@
                             title: '开始时间',
                             field: 'startTime',
                             align: 'center',
-                            templet: function(d) {
-                                return d
-                                    ? admin.dateFormat(
-                                          new Date(d.startTime).getTime() / 1000
-                                      )
-                                    : ''
+                            templet: function (d) {
+                                return d ?
+                                    admin.dateFormat(
+                                        new Date(d.startTime).getTime() / 1000
+                                    ) :
+                                    ''
                             }
                         },
                         {
@@ -190,7 +192,7 @@
         form.render()
         $('#coursePlanName').html(courseName + ' >')
 
-        table.on('tool(timeRange-table)', function(obj) {
+        table.on('tool(timeRange-table)', function (obj) {
             var data = obj.data
             var layEvent = obj.event
 
@@ -199,8 +201,9 @@
                     '/index.html#/techSet/assignDetails/id=' + id
             }
         })
-        $('#back').on('click', function() {
-            window.location.href = '/index.html#/techSet/readyList'
+        $('#back').on('click', function () {
+            window.location.href =
+                '/index.html#/techSet/readyList'
         })
 
         details()
@@ -208,9 +211,9 @@
         function details() {
             admin.get({
                 url: '/curriculumExperiment/arrangementExperiment?id=' + id,
-                success: function(res) {
+                success: function (res) {
                     var details = res.data
-                    $('#courseName').html(details.courseName)
+                    $('#experimentName').html(details.experimentName)
                     $('#countStudent').html(details.countStudent)
                     $('#typeName').html(details.typeName)
                     $('#experimentype').html(
@@ -220,20 +223,18 @@
                     $('#reportRatio').html(details.reportRatio + '%')
                     $('#labAddress').html(details.labAddress)
                     $('#correctType').html(
-                        details.correctType == 0
-                            ? '在线编辑模式'
-                            : '上传pdf模式'
+                        details.correctType == 0 ?
+                        '在线编辑模式' :
+                        '上传pdf模式'
                     )
                     $('#typeName').html(details.typeName)
 
-                    tableOption.data = [
-                        {
-                            startTime: details.startTime,
-                            endTime: details.endtTime,
-                            arguementStu: details.arguementStu,
-                            countStudent: details.countStudent
-                        }
-                    ]
+                    tableOption.data = [{
+                        startTime: details.startTime,
+                        endTime: details.endtTime,
+                        arguementStu: details.arguementStu,
+                        countStudent: details.countStudent
+                    }]
 
                     table.render(tableOption)
 
@@ -246,14 +247,14 @@
                     $('#endTime').val(details.endtTime)
                     form.render()
 
-                    $('#editEndTime').click(function() {
+                    $('#editEndTime').click(function () {
                         admin.post({
                             url: '/curriculumExperiment/update',
                             data: JSON.stringify({
                                 id: id,
                                 endTime: $('#endTime').val()
                             }),
-                            success: function(res) {
+                            success: function (res) {
                                 if (res.code == 200) {
                                     layer.msg('修改成功')
                                     window.location.href =
@@ -268,7 +269,12 @@
                 }
             })
         }
+        $("#go_back").click(function () {
+            window.history.go(-1)
+            // window.location.reload()
+        })
     })
+
 </script>
 
 <style>
@@ -288,4 +294,5 @@
     .info-details {
         line-height: 38px;
     }
+
 </style>
