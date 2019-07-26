@@ -99,8 +99,11 @@
                         },
                         {
                             title: '状态',
-                            field: 'typeName',
-                            align: 'center'
+                            field: 'state',
+                            align: 'center',
+                            templet: function(d) {
+                                return d.state==2?'已发布成绩':'批改中'
+                            }
                         },
                         {
                             title: '已提交',
