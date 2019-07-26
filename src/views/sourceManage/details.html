@@ -170,8 +170,8 @@
                     $('#courseName').html(data.courseName)
                     $('#courseName').html(data.courseName)
                     $('#resourceDes').val(data.resourceDes)
-                    if (data.canDownload == 0||data.type!=5){
-//                        $('#download').attr('style', 'display:none;')
+                    if (data.canDownload == 0 || data.type != 5) {
+                        //                        $('#download').attr('style', 'display:none;')
                         $('#download').hide()
                     }
                     fileUrl = conf.fileRequestUrl + '/' + data.fileUrl
@@ -260,7 +260,6 @@
                             }
                         }
                     }
-
                 }
             })
         }
@@ -292,7 +291,9 @@
         function download() {
             window.open(
                 conf.requestUrl +
-                    '/dataBank/downloadFile?filePath=' +
+                    '/dataBank/downloadFile?id=' +
+                    id +
+                    '&filePath=' +
                     details.fileUrl
             )
         }
