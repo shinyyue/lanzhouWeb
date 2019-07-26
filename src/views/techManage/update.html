@@ -117,10 +117,6 @@
                                    class="common-form-input short" />
                         </div>
                     </div>
-                    <!-- <div class="layui-col-md6 layui-form-item">
-                    <label class="layui-form-label">选择单双周</label>
-                    <input type="text" name="score" class="common-form-input" />
-                </div> -->
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">选择单双周</label>
                         <div class="layui-input-block">
@@ -255,7 +251,7 @@
                      id="show_all">
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">行政班级</label>
-                        <div class="layui-col-md7">
+                        <div class="layui-col-md8">
                             <div>
                                 <label>搜索：</label>
                                 <input type="text"
@@ -265,7 +261,7 @@
                                        disabled>
                                 <span>)</span><span>是否选择整个班级</span>
                             </div>
-                            <div id="classList"></div>
+                            <div id="classList" style="height:300px; overflow-y: scroll;"></div>
                         </div>
                     </div>
                     <div class="layui-col-md6 layui-form-item">
@@ -276,7 +272,7 @@
                                 <input type="text"
                                        id="studentListChange">
                             </div>
-                            <div id="studentList"></div>
+                            <div id="studentList" style="height:300px; overflow-y: scroll;"></div>
                         </div>
                     </div>
                 </div>
@@ -342,7 +338,6 @@
             return false
         })
         $('#source-add-cancle').on('click', function () {
-            // window.history.back(-2)
             window.location.href = 'index.html#/techManage/plan'
         })
         $('#classListChange').keyup(function (ev) {
@@ -457,15 +452,13 @@
             form.on('radio(classStatus)', function (obj) {
                 var classItem = $(obj.elem).parents('.class-item')
                 var id = classItem.find('.class-item-name').data('id')
-                if (obj.value === '0') {
-                    $('#studentList').html('')
-                    studentList = []
-                    $('#classList .class-item').each(function (index) {
-                        if ($(this).find('input[type=radio]:checked').val() === '0') {
-                            getStudentList(null, $(this).find('.class-item-name').data('id'))
-                        }
-                    })
-                }
+                $('#studentList').html('')
+                studentList = []
+                $('#classList .class-item').each(function (index) {
+                    if ($(this).find('input[type=radio]:checked').val() === '0') {
+                        getStudentList(null, $(this).find('.class-item-name').data('id'))
+                    }
+                })
             })
         }
 
@@ -604,21 +597,6 @@
             })
         }
 
-        function addLearn() {
-            var data = {}
-            admin.post({
-                url: '/coursePlan/add',
-                data: JSON.stringify(data),
-                success: function (res) {
-                    layer.msg('添加成功')
-                    window.history.back(-1)
-                },
-                error: function (err) {
-                    layer.msg((err && err.msg) || '数据请求失败')
-                }
-            })
-        }
-
         function getSchoolYearList() {
             var data = {
                 page: 1,
@@ -722,10 +700,6 @@
             data.school = Number(data.school)
             data.siteId = Number(data.siteId) || 0
             data.campusId = Number(data.campusId)
-            if (data.school == 0) {
-                // todo:
-                data.wholeClass = 0
-            }
             $('#techManage_good_at li').each(function (index) {
                 var item = $(this).find('input[type=checkbox]');
                 if ($(this).find('.layui-form-checked').length > 0) {
