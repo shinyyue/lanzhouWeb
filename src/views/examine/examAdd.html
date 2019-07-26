@@ -5,14 +5,11 @@
             <span>题库管理 > 习题库 > 添加习题</span>
         </div>
     </div>
-    <form action=""
-          class="layui-form my-add-form">
+    <form action="" class="layui-form my-add-form">
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label require">习题类型</label>
-                <select name="type"
-                        id="type"
-                        lay-verify="">
+                <select name="type" id="type" lay-filter="typeChange">
                     <option value="">请选择</option>
                     <option value="1">单选</option>
                     <option value="2">多选</option>
@@ -21,30 +18,35 @@
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label require">习题难度</label>
-                <select name="difficulty"
-                        id="difficulty"
-                        lay-verify="">
+                <select name="difficulty" id="difficulty" lay-verify="">
                     <option value="">选择</option>
                     <option value="4">非常难</option>
                     <option value="3">难</option>
                     <option value="2">中等</option>
                     <option value="1">易</option>
                 </select>
-                <span style="color: red">说明：易1分，中等2分，难3分，非常难4分</span>
+                <span style="color: red"
+                    >说明：易1分，中等2分，难3分，非常难4分</span
+                >
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属课程</label>
-                <select id="curriculumId"
-                        name="curriculumId"
-                        lay-filter="curriculumChange"> </select>
+                <select
+                    id="curriculumId"
+                    name="curriculumId"
+                    lay-filter="curriculumChange"
+                >
+                </select>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label require">所属知识点</label>
-                <select name="knowledgePointId"
-                        id="knowledgePoint"
-                        lay-verify="">
+                <select
+                    name="knowledgePointId"
+                    id="knowledgePoint"
+                    lay-verify=""
+                >
                     <option value="">选择知识点</option>
                 </select>
             </div>
@@ -52,8 +54,7 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">认知类型</label>
-                <select name="cognitiveType"
-                        id="cognitiveType">
+                <select name="cognitiveType" id="cognitiveType">
                     <option value="">请选择</option>
                     <option value="1">了解</option>
                     <option value="2">熟悉</option>
@@ -64,18 +65,19 @@
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">题目</label>
-                <div class="layui-col-md10"
-                     id="exam-add-edit"></div>
+                <div class="layui-col-md10" id="exam-add-edit"></div>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">注释/帮助</label>
                 <div class="layui-col-md9">
-                    <textarea id="annotation"
-                              name="annotation"
-                              placeholder="请输入内容"
-                              class="layui-textarea"></textarea>
+                    <textarea
+                        id="annotation"
+                        name="annotation"
+                        placeholder="请输入内容"
+                        class="layui-textarea"
+                    ></textarea>
                 </div>
             </div>
         </div>
@@ -83,10 +85,12 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label"></label>
                 <div class="layui-col-md9">
-                    <button class="layui-btn layui-btn-primary"
-                            id="addOpt"> 添加选项 </button>
-                    <button class="layui-btn layui-btn-primary"
-                            id="deleteOpt"> 减少选项 </button>
+                    <button class="layui-btn layui-btn-primary" id="addOpt">
+                        添加选项
+                    </button>
+                    <button class="layui-btn layui-btn-primary" id="deleteOpt">
+                        减少选项
+                    </button>
                 </div>
             </div>
         </div>
@@ -96,17 +100,22 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label"></label>
                 <div class="layui-col-md9">
-                    <button class="layui-btn primary-btn"
-                            id="addData"> 提交 </button>
-                    <button class="layui-btn layui-btn-primary cancel-btn"
-                            id="examine-addknow-back"> 返回 </button>
+                    <div class="layui-btn primary-btn" id="addData">
+                        提交
+                    </div>
+                    <div
+                        class="layui-btn layui-btn-primary cancel-btn"
+                        id="examine-addknow-back"
+                    >
+                        返回
+                    </button>
                 </div>
             </div>
         </div>
     </form>
 </div>
 <script>
-    layui.use(['layedit'], function () {
+    layui.use(['layedit'], function() {
         var form = layui.form,
             layedit = layui.layedit,
             $ = layui.jquery,
@@ -114,48 +123,79 @@
             layEditIndex,
             route = layui.router(),
             id = route.search.id,
-            optionList = [{
-                opt: 'A',
-                content: ''
-            }, {
-                opt: 'B',
-                content: ''
-            }, {
-                opt: 'C',
-                content: ''
-            }, {
-                opt: 'D',
-                content: ''
-            }]
+            optionList = [
+                {
+                    opt: 'A',
+                    content: ''
+                },
+                {
+                    opt: 'B',
+                    content: ''
+                },
+                {
+                    opt: 'C',
+                    content: ''
+                },
+                {
+                    opt: 'D',
+                    content: ''
+                }
+            ]
         renderOption()
-        if (id) {
-            getDetails()
-        }
-        form.on('select(curriculumChange)', function (obj) {
+        
+        form.on('select(curriculumChange)', function(obj) {
             getKnowledgeList(Number(obj.value))
         })
 
-        function renderOption() {
+        form.on('select(typeChange)', function(obj) {
+            renderOption(obj.value)
+        })
+
+        function renderOption(type) {
             $('#optionWrapper').html('')
-            optionList.forEach(item => {
-                $('#optionWrapper').append('<div class="layui-row option-item">\n' +
-                    '            <div class="layui-col-md12 layui-form-item">\n' +
-                    '                <label class="layui-form-label">选项<span class="option-my-title">' +
-                    item.opt + '</span></label>\n' +
-                    '                <div class="layui-col-md9">\n' +
-                    '                    <input type="radio" name="option" data-opt="' + item.opt +
-                    '" value="' + item.content + '" title="">\n' +
-                    '                    <input type="text" class="common-form-input" value="' +
-                    item.content + '" style="width: 90%;" name="optContent">\n' +
-                    '                </div>\n' + '            </div>\n' + '        </div>')
-            })
+
+            for (var i = 0; i < optionList.length; i++) {
+                var str =
+                    type != 2
+                        ? '<input type="radio" name="option" data-opt="' +
+                          optionList[i].opt +
+                          '" value="' +
+                          optionList[i].content +
+                          '" ' +
+                          (optionList[i].checked == optionList[i].opt  ? ' checked' : '') +
+                          '>\n'
+                        : '<input type="checkbox" lay-skin="primary" name="option" data-opt="' +
+                          optionList[i].opt +
+                          '" value="' +
+                          optionList[i].content +
+                          '" '+
+                          (optionList[i].checked == optionList[i].opt  ? ' checked' : '') +                          
+                          '>\n'
+
+                $('#optionWrapper').append(
+                    '<div class="layui-row option-item">\n' +
+                        '            <div class="layui-col-md12 layui-form-item">\n' +
+                        '                <label class="layui-form-label">选项<span class="option-my-title">' +
+                        optionList[i].opt +
+                        '</span></label>\n' +
+                        '                <div class="layui-col-md9">\n' +
+                        str +
+                        '                    <input type="text" class="common-form-input" value="' +
+                        optionList[i].content +
+                        '" style="width: 90%;" name="optContent">\n' +
+                        '                </div>\n' +
+                        '            </div>\n' +
+                        '        </div>'
+                )
+            }
             form.render()
         }
 
         function getDetails() {
             admin.get({
                 url: '/exercises/get?id=' + id,
-                success: function (res) {
+                success: function(res) {
+                    getKnowledgeList(res.data.curriculumId, res.data.knowledgePointId)
                     $('#type').val(res.data.type)
                     $('#snapshot').val(res.data.snapshot)
                     $('#annotation').val(res.data.annotation)
@@ -168,6 +208,7 @@
                     var option = JSON.parse(res.data.option)
                     for (key in option) {
                         optionList.push({
+                            checked: res.data.answer,
                             opt: key,
                             content: option[key]
                         })
@@ -176,7 +217,7 @@
                 }
             })
         }
-        $('#addOpt').on('click', function () {
+        $('#addOpt').on('click', function() {
             var count1 = 0
             var arr1 = []
             for (var i = 65; i < 91; i++) {
@@ -190,12 +231,12 @@
             renderOption()
             return false
         })
-        $('#deleteOpt').on('click', function () {
+        $('#deleteOpt').on('click', function() {
             optionList.splice(optionList.length - 1, 1)
             renderOption()
             return false
         })
-        $('#addData').on('click', function () {
+        $('#addData').on('click', function() {
             if (id) {
                 updateData()
             } else {
@@ -205,7 +246,8 @@
             return false
         })
         layEditIndex = layedit.build('exam-add-edit', {
-            tool: ['strong', //加粗
+            tool: [
+                'strong', //加粗
                 'italic', //斜体
                 'underline', //下划线
                 'del', //删除线
@@ -218,7 +260,7 @@
             ]
         })
         getAllCourses()
-        $('#examine-addknow-back').on('click', function () {
+        $('#examine-addknow-back').on('click', function() {
             window.location.href = 'index.html#/examine/examList'
         })
         function getAllCourses() {
@@ -228,30 +270,48 @@
                     page: 1,
                     rows: 100000
                 }),
-                success: function (res) {
+                success: function(res) {
+                    if (id) {
+                        getDetails()
+                    }
                     $('#curriculumId').html('<option value="">请选择</option>')
-                    res.data && res.data.items && res.data.items.forEach(item => {
-                        $('#curriculumId').append('<option value="' + item.id + '">' + item
-                            .curriculumName + '</option>')
-                    })
+                    res.data &&
+                        res.data.items &&
+                        res.data.items.forEach(item => {
+                            $('#curriculumId').append(
+                                '<option value="' +
+                                    item.id +
+                                    '">' +
+                                    item.curriculumName +
+                                    '</option>'
+                            )
+                        })
                     form.render()
                 }
             })
         }
 
-        function getKnowledgeList(id) {
+        function getKnowledgeList(id, kId) {
             admin.get({
                 url: '/knowledgePoint/listByCurriculumId?curriculumId=' + id,
-                success: function (res) {
-                    $('#knowledgePoint').html('<option value="">请选择</option>')
-                    if (!res.data) return;
+                success: function(res) {
+                    $('#knowledgePoint').html(
+                        '<option value="">请选择</option>'
+                    )
+                    if (!res.data) return
                     for (var k = 0; k < res.data.length; k++) {
-                        $('#knowledgePoint').append('<option value="' + res.data[k].id + '">' + res
-                            .data[k].name + '</option>')
+                        $('#knowledgePoint').append(
+                            '<option value="' +
+                                res.data[k].id +
+                                '">' +
+                                res.data[k].name +
+                                '</option>'
+                        )
                     }
+                    $('#knowledgePoint').val(kId)
                     form.render()
                 },
-                error: function (err) {
+                error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -259,17 +319,28 @@
 
         function addData() {
             var optionObj = {}
-            var answer = {}
+            var answer = []
             optionList.forEach((item, index) => {
-                $('input[name=optContent]').each(function (k) {
+                $('input[name=optContent]').each(function(k) {
                     if (index === k) {
                         item.content = $(this).val()
                         optionObj[item.opt] = item.content
                     }
                 })
             })
-            var key = $('input[name=option]:checked').attr('data-opt')
-            answer['' + key] = optionObj[key]
+
+            if ($('#type').val() == 2) {
+                $('input[name=option]').each(function() {
+                    var checked = $(this).siblings('.layui-form-checked')
+                    if (checked.length > 0) {
+                        answer.push($(this).attr('data-opt'))
+                    }
+                })
+            } else {
+                var key = $('input[name=option]:checked').attr('data-opt')
+                answer.push(key) 
+            }
+
             var data = {
                 type: $('#type').val(),
                 difficulty: Number($('#difficulty').val()),
@@ -279,16 +350,16 @@
                 content: layedit.getContent(layEditIndex),
                 annotation: $('#annotation').val(),
                 option: JSON.stringify(optionObj),
-                answer: JSON.stringify(answer)
+                answer: answer.join(',')
             }
             admin.post({
                 url: '/exercises/add',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     layer.msg('添加成功')
                     window.history.back(-1)
                 },
-                error: function (err) {
+                error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -296,17 +367,26 @@
 
         function updateData() {
             var optionObj = {}
-            var answer = {}
+            var answer = []
             optionList.forEach((item, index) => {
-                $('input[name=optContent]').each(function (k) {
+                $('input[name=optContent]').each(function(k) {
                     if (index === k) {
                         item.content = $(this).val()
                         optionObj[item.opt] = item.content
                     }
                 })
             })
-            var key = $('input[name=option]:checked').attr('data-opt')
-            answer['' + key] = optionObj[key]
+            if ($('#type').val() == 2) {
+                $('input[name=option]').each(function() {
+                    var checked = $(this).siblings('.layui-form-checked')
+                    if (checked.length > 0) {
+                        answer.push($(this).attr('data-opt'))
+                    }
+                })
+            } else {
+                var key = $('input[name=option]:checked').attr('data-opt')
+                answer.push(key) 
+            }
             var data = {
                 id: id,
                 type: $('#type').val(),
@@ -317,16 +397,16 @@
                 content: layedit.getContent(layEditIndex),
                 annotation: $('#annotation').val(),
                 option: JSON.stringify(optionObj),
-                answer: JSON.stringify(answer)
+                answer: answer.join(',')
             }
             admin.put({
                 url: '/exercises/update',
                 data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     layer.msg('更新成功')
                     window.history.back(-1)
                 },
-                error: function (err) {
+                error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -334,7 +414,8 @@
     })
 </script>
 <style>
-    #examine-examadd {}
+    #examine-examadd {
+    }
 
     #examine-examadd .my-add-form {
         padding: 25px 0;
