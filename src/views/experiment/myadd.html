@@ -418,7 +418,8 @@
             var data = {
                 page: 1,
                 rows: 100000,
-                type: type
+                type: type,
+                curriculumId: $("#curriculumId").val()
             }
             admin.post({
                 url: '/dataBank/queryAllList',
