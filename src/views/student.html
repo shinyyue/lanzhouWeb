@@ -83,13 +83,11 @@
                                 '                </div>\n' +
                                 '                <div class="item-right-bottom">\n' +
                                 '                    待完成任务<span>' +
-                                '接口少字段' +
+                                (Number(item.unDoExp) + Number(item.unDoPaper)) +
                                 '</span>个，虚拟实验<span>' +
-                                item.allExperiment +
-                                '</span>个，提交报告<span>' +
-                                '接口少字段' +
+                                item.unDoExp +
                                 '</span>个，理论测试<span>' +
-                                item.allPape +
+                                item.unDoPaper +
                                 '</span>个\n' +
                                 '                    <button class="course-details" onclick="jumpToDetails(' +
                                 item.id + ', \'' + item.courseName +

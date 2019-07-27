@@ -148,9 +148,7 @@
         // $('#canclecollect').on('click', function () {
         //     cancleCollect()
         // })
-        $('#download').on('click', function() {
-            download()
-        })
+
         $('#sourmanage_add_cancle').on('click', function() {
             window.history.go(-1)
         })
@@ -169,6 +167,15 @@
                     $('#courseName').html(data.courseName)
                     $('#courseName').html(data.courseName)
                     $('#resourceDes').val(data.resourceDes)
+                    //点击下载
+                    $('#download').on('click', function() {
+                        debugger
+                        if(data.type!=5){
+                            layer.msg('此类型不支持下载')
+                            return
+                        }
+                        download()
+                    })
                     var fileUrl = conf.fileRequestUrl + '/' + data.fileUrl
                     if (data.type == 1) {
                         // 文档
