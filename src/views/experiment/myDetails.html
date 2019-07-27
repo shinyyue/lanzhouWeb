@@ -41,7 +41,7 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">实验报告</label>
-                <span id="labReport">333333333333</span>
+                <span id="labReport"></span>
             </div>
         </div>
         <div class="layui-row">
@@ -131,13 +131,13 @@
                 success: function (res) {
                     $('#name').html(res.data.name)
                     $('#curriculumName').html(res.data.curriculumName)
-                    $('#experimentalType').html(res.data.experimentalType)
+                    $('#experimentalType').html(res.data.experimentalTypeName)
                     $('#cite').html(res.data.cite == 0 ? '否' : '是')
                     $('#userName').html(res.data.userName)
                     $('#require').html(res.data.require)
+                    $('#labReport').html(res.data.labReport)
 //                    $('#resourceUrl').html(res.data.resourceUrl)
 
-                    debugger
                     if (res.data.dataType === 2) {
                         var list = JSON.parse(res.data.resourceIds),
                             str = ''

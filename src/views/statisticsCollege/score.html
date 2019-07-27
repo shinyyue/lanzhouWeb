@@ -459,12 +459,14 @@
             admin.post({
                 url: '/report/queryExpAndScoreArea',
                 data: JSON.stringify({rows: 10, page: page}),
-                success: res => {
+                success: function(res) {
                     initTestScoreTable(res.data.items)
                     testScoreRatePageOption.count = (res.data && res.data.total) || 0;
                     laypage.render(testScoreRatePageOption)
                 },
-                error: err => layer.msg((err && err.msg) || '数据请求失败')
+                error: function (err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
             })
         }
         getTestScoreList(1)

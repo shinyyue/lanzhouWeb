@@ -73,6 +73,7 @@
         $('#collegeList').change(e => {
             querySourceByCollectId(e.currentTarget.value)
             // @TODO 更新资源列表详情
+            querySourceByCollectIdInfo('college_sourcelist_detail_table', 'college_sourcelist_detail_page', 1, e.currentTarget.value);
         })
 
         // 资源库数量及详细信息统计

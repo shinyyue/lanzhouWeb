@@ -131,7 +131,7 @@
                 success: function (res) {
                     const data = res.data;
                     userInfo = data;
-                    $('#avator').attr('src', data.avator)
+                    $('#avator').attr('src', conf.fileRequestUrl+'/'+data.photoImage)
                     $('#account').val(data.snoOrJno);
                     $('#snoOrJno').val(data.snoOrJno)
                     $('#phonenumber').val(data.phonenumber)
