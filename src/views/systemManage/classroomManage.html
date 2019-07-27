@@ -296,7 +296,8 @@
         function getFormData() {
             formData = {
                 id: $('#id').val(),
-                classroomName: $('#classroomNameAdd').val()
+                classroomName: $('#classroomNameAdd').val(),
+                remarks: $('#remarksAdd').val()
             }
         }
 
@@ -323,6 +324,7 @@
                 '                    <label class="layui-form-label">教室描述:</label>\n' +
                 '                    <textarea\n' +
                 '                        name="remarks"\n' +
+                '                        id="remarksAdd"\n' +
                 '                        class="layui-textarea classroom-remark"\n' +
                 '                    >' +
                 (formData.remarks || '') +

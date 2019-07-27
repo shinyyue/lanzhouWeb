@@ -91,7 +91,6 @@
             admin.get({
                 url: '/user/getUserByID?id=' + layui.data('userInfo').userInfo.id,
                 success: function (res) {
-                    debugger
                     const data = res.data;
                     $('#avator').attr('src', conf.fileRequestUrl+'/'+data.photoImage)
                     $('#account').html(data.snoOrJno);

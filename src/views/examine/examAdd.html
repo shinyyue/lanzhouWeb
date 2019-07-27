@@ -2,7 +2,7 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>题库管理 > 习题库 > 添加习题</span>
+            <span>题库管理 > 习题库 > <span id="haveId"></span>习题</span>
         </div>
     </div>
     <form action="" class="layui-form my-add-form">
@@ -142,6 +142,12 @@
                 }
             ]
         renderOption()
+
+        if(id){
+            $("#haveId").html('编辑')
+        }else{
+            $("#haveId").html('添加')
+        }
         
         form.on('select(curriculumChange)', function(obj) {
             getKnowledgeList(Number(obj.value))
