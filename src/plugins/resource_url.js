@@ -1,4 +1,7 @@
 // JavaScript Document
+
+console.log(1111122222)
+
 function getURL(url) {
     var fileName = url.substring(url.lastIndexOf('/') + 1);
     document.getElementById("co_url").innerHTML = '<object classid="clsid:31B7EB4E-8B4B-11D1-A789-00A0CC6651A8" width="1100" height="713" codebase="http://www.cult3d.com/download/cult.cab#version=5,2,0,99">' +
@@ -7,6 +10,16 @@ function getURL(url) {
         ' <embed pluginspage="http://www.cult3d.com/download/" width="1100" height="713" src="resources/' + fileName + '" antialiasing="0" type="application/x-cult3d-object"></embed>' +
         '</object>';
 }
+
+function getCOUrl(id, url) {
+    var fileName = url;
+    document.getElementById(id).innerHTML = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="1100" height="713">' +
+        '<param name="movie" value="' + fileName + '">' +
+        '<param name="quality" value="high">' +
+        '<embed src="' + fileName + '" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"  style="width: 100%; height: 100%"></embed>' +
+        '</object>';
+}
+
 
 function getSWFUrl(id, url) {
     var fileName = url;
@@ -17,14 +30,6 @@ function getSWFUrl(id, url) {
         '</object>';
 }
 
-function getCOSWFUrl(url) {
-    var fileName = url;
-    document.getElementById("co_url").innerHTML = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="1100" height="713">' +
-        '<param name="movie" value="' + fileName + '">' +
-        '<param name="quality" value="high">' +
-        '<embed src="' + fileName + '" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"  style="width: 100%; height: 100%"></embed>' +
-        '</object>';
-}
 
 function getDCRUrl(url) {
     var fileName = url.substring(url.lastIndexOf('/') + 1);
