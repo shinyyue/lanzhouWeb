@@ -1,7 +1,5 @@
 // JavaScript Document
 
-console.log(1111122222)
-
 function getURL(url) {
     var fileName = url.substring(url.lastIndexOf('/') + 1);
     document.getElementById("co_url").innerHTML = '<object classid="clsid:31B7EB4E-8B4B-11D1-A789-00A0CC6651A8" width="1100" height="713" codebase="http://www.cult3d.com/download/cult.cab#version=5,2,0,99">' +

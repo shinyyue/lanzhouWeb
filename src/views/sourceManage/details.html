@@ -6,16 +6,17 @@
         </div>
     </div>
     <div class="source-details-inner">
-        <div class="source-display"
-             id="fileUrl">
+        <div class="source-display" id="fileUrl">
             <div id="mune_area">
-                <div class="tab_a"
-                     id="tab_b">
+                <div class="tab_a" id="tab_b">
                     <ul class="tab1 tab1ys">
                         <li>
-                            <a id="tab_ch1"
-                               class="active"
-                               href="javascript:void(0)"><img src="src/images/xue.png" /></a>
+                            <a
+                                id="tab_ch1"
+                                class="active"
+                                href="javascript:void(0)"
+                                ><img src="src/images/xue.png"
+                            /></a>
                         </li>
                         <!-- <li>
                             <a id="tab_ch2"
@@ -24,11 +25,12 @@
                     </ul>
                     <ul class="tab_con tabcon_sy">
                         <li id="tabcon1">
-                            <div class="munebtnlist"
-                                 id="tabcon1_menulist"></div>
+                            <div
+                                class="munebtnlist"
+                                id="tabcon1_menulist"
+                            ></div>
                         </li>
-                        <li id="tabcon2"
-                            class="hidden">
+                        <li id="tabcon2" class="hidden">
                             <div class="munebtnlist">
                                 <div id="tabcon2_menulist"></div>
                             </div>
@@ -36,11 +38,11 @@
                     </ul>
                 </div>
             </div>
-            <div id="mune_btn"
-                 class="munebtna"
-                 data-zt="a"></div>
-            <div id="pagecon"
-                 style=" min-width: 900px; height: 500px;float: left">
+            <div id="mune_btn" class="munebtna" data-zt="a"></div>
+            <div
+                id="pagecon"
+                style=" min-width: 900px; height: 500px;float: left"
+            >
                 <!-- <iframe frameBorder="0"
                         id="innerTarget"
                         name="innerTarget"
@@ -49,20 +51,6 @@
                         style="width: 100%; height: 100%"></iframe> -->
             </div>
         </div>
-
-        <!-- <object classid="clsid:31B7EB4E-8B4B-11D1-A789-00A0CC6651A8"
-                width="400"
-                height="300"
-                codebase="http://www.Cult3D.com/download/cult.cab">
-            <param name="SRC"
-                   value="http://39.104.97.6:8001/data/7/6/2019-07-26-18/201907261827147304resource3resource3/resource/a1.1.co">
-            <embed pluginspage="http://www.Cult3D.com/download/"
-                   width="400"
-                   height="300"
-                   src="http://39.104.97.6:8001/data/7/6/2019-07-26-18/201907261827147304resource3resource3/resource/a1.1.co"
-                   type="application/x-Cult3D-object">
-            </embed> 
-        </object> -->
 
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
@@ -88,9 +76,11 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">资源描述</label>
                 <div class="layui-col-md9">
-                    <textarea name="desc"
-                              class="layui-textarea"
-                              id="resourceDes"></textarea>
+                    <textarea
+                        name="desc"
+                        class="layui-textarea"
+                        id="resourceDes"
+                    ></textarea>
                 </div>
             </div>
         </div>
@@ -127,8 +117,10 @@
                     >
                         下载
                     </button> -->
-                    <button class="layui-btn layui-btn-primary cancel-btn"
-                            id="sourmanage_add_cancle">
+                    <button
+                        class="layui-btn layui-btn-primary cancel-btn"
+                        id="sourmanage_add_cancle"
+                    >
                         返回
                     </button>
                 </div>
@@ -141,7 +133,7 @@
 <script src="src/plugins/resource_url.js"></script>
 <script src="menutree/menuTree.js"></script>
 <script>
-    layui.use(['form', 'admin'], function () {
+    layui.use(['form', 'admin'], function() {
         var $ = layui.jquery,
             admin = layui.admin,
             conf = layui.conf,
@@ -150,23 +142,23 @@
             details = {}
         getDetails()
 
-        $('#collect').on('click', function () {
+        $('#collect').on('click', function() {
             collect()
         })
-        $('#canclecollect').on('click', function () {
+        $('#canclecollect').on('click', function() {
             cancleCollect()
         })
-        $('#download').on('click', function () {
+        $('#download').on('click', function() {
             download()
         })
-        $('#sourmanage_add_cancle').on('click', function () {
+        $('#sourmanage_add_cancle').on('click', function() {
             window.history.go(-1)
         })
 
         function getDetails() {
             admin.get({
                 url: '/dataBank/queryOne?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     var data = res.data
                     details = data
                     $('#resourceName').html(data.resourceName)
@@ -190,21 +182,21 @@
                         // 图片
                         $('#fileUrl').html(
                             '<img src="' +
-                            fileUrl +
-                            '" style="width: 100%; height: 100%;">'
+                                fileUrl +
+                                '" style="width: 100%; height: 100%;">'
                         )
                     } else if (data.type == 3) {
                         // 视频
                         $('#fileUrl').html(
                             '<video src="' +
-                            fileUrl +
-                            '" controls="controls" style="width: 100%; height: 100%;">'
+                                fileUrl +
+                                '" controls="controls" style="width: 100%; height: 100%;">'
                         )
                     } else if (data.type == 4) {
                         $('#fileUrl').html(
                             '<embed src="' +
-                            fileUrl +
-                            '" type="application/x-shockwave-flash" style="width: 100%; height: 100%;" quality="high" />'
+                                fileUrl +
+                                '" type="application/x-shockwave-flash" style="width: 100%; height: 100%;" quality="high" />'
                         )
                     } else if (data.type == 5) {
                         // exe
@@ -215,7 +207,8 @@
                         var jsonFile = JSON.parse(data.fileUrl).json
                         UnityLoader.instantiate(
                             'fileUrl',
-                            'http://39.104.97.6:8001/' + jsonFile, {
+                            'http://39.104.97.6:8001/' + jsonFile,
+                            {
                                 onProgress: UnityProgress
                             }
                         )
@@ -229,42 +222,34 @@
                         for (var i = 0; i < sourceList.length; i++) {
                             var floor = ''
                             for (
-                                var k = 0; k < Number(sourceList[i].floor); k++
+                                var k = 0;
+                                k < Number(sourceList[i].floor);
+                                k++
                             ) {
                                 floor += '-'
                             }
                             addtree(
                                 floor + sourceList[i].name,
                                 'http://39.104.97.6:8001/' +
-                                sourceList[i].sourceName,
+                                    sourceList[i].sourceName,
                                 'innerTarget'
                             )
                         }
                         createtree('tabcon1_menulist')
 
-
-                        $('.menu-list').click(function () {
-                            var list = sourceList[0].sourceName.split('.');
+                        $('.menu-list').click(function(index) {
+                            var list = sourceList[0].sourceName.split('.')
                             var type = list[list.length - 1]
-                            console.log(1111, type)
                             if (type === 'swf') {
-                                getSWFUrl(
-                                    'pagecon',
-                                    'http://39.104.97.6:8001/' +
-                                    sourceList[0].sourceName
-                                )
+                                getSWFUrl('pagecon', $(this).attr('data-href'))
                             } else if (type === 'co') {
-                                // console.log(2222, type, getCOUrl)
                                 getCODCRUrl(
                                     'pagecon',
-                                    'http://39.104.97.6:8001/' +
-                                    sourceList[0].sourceName
+                                    $(this).attr('data-href')
                                 )
-
                             }
-
                         })
-                        munebtn.onclick = function () {
+                        munebtn.onclick = function() {
                             var p = $('#pagecon')
                             if (this.getAttribute('data-zt') == 'a') {
                                 mune.style.display = 'none'
@@ -294,7 +279,7 @@
             admin.put({
                 url: '/resCollect/add?id=' + id,
                 // data: JSON.stringify(data),
-                success: function (res) {
+                success: function(res) {
                     layer.msg('收藏成功')
                     getDetails()
                 }
@@ -304,7 +289,7 @@
         function cancleCollect() {
             admin.delete({
                 url: '/resCollect/del?id=' + id,
-                success: function (res) {
+                success: function(res) {
                     layer.msg('取消收藏成功')
                     getDetails()
                 }
@@ -314,71 +299,62 @@
         function download() {
             window.open(
                 conf.requestUrl +
-                '/dataBank/downloadFile?id=' +
-                id +
-                '&filePath=' +
-                details.fileUrl
+                    '/dataBank/downloadFile?id=' +
+                    id +
+                    '&filePath=' +
+                    details.fileUrl
             )
         }
 
         function getCODCRUrl(id, url) {
-            var fileName = url;
+            var fileName = url
             console.log(2222, fileName)
-            // document.getElementById(id).innerHTML = '<object data="' + fileName +
-            //     '" style="width: 100%; height:100%;" type="application/x-cult3d-object">' +
-            //     '<param name=src value="' + fileName + '">' + '</object>'
             document.getElementById(id).innerHTML =
-                '<span>' + fileName +
-                '<span><object classid="clsid:31B7EB4E-8B4B-11D1-A789-00A0CC6651A8" style="width: 100%; hieght: 100%;"'
-            'codebase="http://www.Cult3D.com/download/cult.cab">' +
-            '<param name="SRC"' +
-            'value="' + fileName + '">' +
-                '<embed pluginspage="http://www.Cult3D.com/download/"' +
-                'width="400"' +
-                'height="300"' +
-                'src="' + fileName + '"' +
-                'type="application/x-Cult3D-object">' +
-                '</embed> ' +
+                '<object classid="clsid:31B7EB4E-8B4B-11D1-A789-00A0CC6651A8" style = "width: 100%; height:100%;" codebase="http://www.cult3d.com/download/cult.cab#version=5,2,0,99" > ' +
+                '<param name="SRC" value="' +
+                fileName +
+                '">' +
+                '<param name="ANTIALIASING" value="0">' +
+                '<embed pluginspage="http://www.cult3d.com/newuser/index.html"' +
+                'style = "width: 100%; height:100%;"' +
+                'src = "' +
+                fileName +
+                '" antialiasing="0" type="application/x-cult3d-object"></embed>' +
                 '</object>'
-            // '<object classid="clsid:31B7EB4E-8B4B-11D1-A789-00A0CC6651A8" style = "width: 100%; height:100%;" codebase="http://www.cult3d.com/download/cult.cab#version=5,2,0,99" > ' +
-            // '<param name="SRC" value="' + fileName + '">' +
-            // '<param name="ANTIALIASING" value="0">' +
-            // '<embed pluginspage="http://www.cult3d.com/newuser/index.html"' +
-            // 'style = "width: 100%; height:100%;"' +
-            // 'src = "' +
-            // fileName + '" antialiasing="0" type="application/x-cult3d-object"></embed>' +
-            // '</object>';
         }
 
         function getCOUrl(id, url) {
-            var fileName = url;
-            console.log(2222, fileName)
+            var fileName = url
             document.getElementById(id).innerHTML =
                 '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="1100" height="713">' +
-                '<param name="movie" value="' + fileName + '">' +
+                '<param name="movie" value="' +
+                fileName +
+                '">' +
                 '<param name="quality" value="high">' +
-                '<embed src="' + fileName +
-                '" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"  style="width: 100%; height: 100%"></embed>' +
-                '</object>';
+                '<embed src="' +
+                fileName +
+                '" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-cult3d-object"  style="width: 100%; height: 100%"></embed>' +
+                '</object>'
         }
-
 
         function getSWFUrl(id, url) {
-            var fileName = url;
+            var fileName = url
             document.getElementById(id).innerHTML =
                 '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="1400" height="713">' +
-                '<param name="movie" value="' + fileName + '">' +
+                '<param name="movie" value="' +
+                fileName +
+                '">' +
                 '<param name="quality" value="high">' +
-                '<embed src="' + fileName +
+                '<embed src="' +
+                fileName +
                 '" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" style="width: 100%; height: 100%"></embed>' +
-                '</object>';
+                '</object>'
         }
-
     })
-
 </script>
 <style>
-    #source-manage-details #fileUrl {}
+    #source-manage-details #fileUrl {
+    }
 
     .source-details-inner {
         padding: 20px 0;
@@ -477,7 +453,6 @@
     #tabcon1 {
         padding: 20px 10px;
     }
-
 </style>
 <style type="text/css">
     .blockhide {
@@ -508,5 +483,4 @@
     .faisunMenu td {
         font-size: 10pt;
     }
-
 </style>
