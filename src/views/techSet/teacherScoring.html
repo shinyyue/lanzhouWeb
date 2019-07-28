@@ -170,8 +170,15 @@
 
                     if (res.data.dataType == 1) {
                         // 文档
-                        // window.open(fileUrl)
-                        $('#fileUrl').hide()
+                        var fileUrl =
+                            conf.fileRequestUrl +
+                            '/' +
+                            JSON.parse(res.data.resourceIds)[0].url
+                        $('#fileUrl').html(
+                            '<iframe src="' +
+                                fileUrl +
+                                '" width="100%" height="100%" frameborder="1"></iframe>'
+                        )
                     } else if (res.data.dataType == 2) {
                         // 图片
                         var fileUrl = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url
