@@ -205,15 +205,24 @@
                         res.data.items.length > 0
                     ) {
                         var options = ''
-                        res.data.items &&
-                        res.data.items.forEach(item => {
+                        for(var i = 0; i < res.data.items.length; i++) {
+                            var item = res.data.items[i];
                             options +=
                                 '<option value="' +
                                 item.id +
                                 '">' +
                                 item.curriculumName +
                                 '</option>'
-                        })
+                        }
+//                        res.data.items &&
+//                        res.data.items.forEach(item => {
+//                            options +=
+//                                '<option value="' +
+//                                item.id +
+//                                '">' +
+//                                item.curriculumName +
+//                                '</option>'
+//                        })
                         $('#course').html(
                             '<option value="">请选择课程</option>'
                         )
