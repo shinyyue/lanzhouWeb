@@ -6,7 +6,8 @@
         </div>
     </div>
     <div class="source-details-inner">
-        <div class="source-display" id="fileUrl">
+        <div class="source-display" id="fileUrl"></div>
+        <div class="source-display" id="scorm_fileUrl" style="display: none">
             <div id="mune_area">
                 <div class="tab_a" id="tab_b">
                     <ul class="tab1 tab1ys">
@@ -176,8 +177,13 @@
                     fileUrl = conf.fileRequestUrl + '/' + data.fileUrl
                     if (data.type == 1) {
                         // 文档
-                        window.open(fileUrl)
-                        // $('#fileUrl').hide()
+                        // window.open(fileUrl)
+                        $('#fileUrl').html(
+                            '<iframe src="' +
+                                fileUrl +
+                                '" width="100%" height="100%" frameborder="1"></iframe>'
+                        )
+                        $('#fileUrl').css({ height: '1000px' })
                     } else if (data.type == 2) {
                         // 图片
                         $('#fileUrl').html(
@@ -203,7 +209,7 @@
                         $('#fileUrl').hide()
                     } else if (data.type == 6) {
                         // U3D
-                        $('#fileUrl').html('')
+                        // $('#fileUrl').html('')
                         var jsonFile = JSON.parse(data.fileUrl).json
                         UnityLoader.instantiate(
                             'fileUrl',
@@ -213,6 +219,7 @@
                             }
                         )
                     } else if (data.type == 7) {
+                        $('#scorm_fileUrl').show()
                         // scorm课件
                         var sourceList = JSON.parse(data.fileUrl)
                         var munebtn = document.getElementById('mune_btn')
