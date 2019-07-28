@@ -163,6 +163,7 @@
                 success: function(res) {
                     var data = res.data
                     details = data
+                    if (!res.data) return
                     $('#resourceName').html(data.resourceName)
                     $('#teacherName').html(data.teacherName)
                     $('#accessAuthority').html(data.accessAuthority)
@@ -238,6 +239,7 @@
                             ) {
                                 floor += '-'
                             }
+                            console.log(333, sourceList)
                             addtree(
                                 floor + sourceList[i].name,
                                 'http://39.104.97.6:8001/' +

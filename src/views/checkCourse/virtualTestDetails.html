@@ -287,7 +287,7 @@
         getDetails()
 
         // 渲染视频
-        renderVideo = data => {
+        renderVideo = function(data) {
             testContent = data.testContent || 0
             var fileUrl =
                 conf.fileRequestUrl + '/' + JSON.parse(data.resourceIds)[0].url
@@ -304,7 +304,7 @@
         }
 
         // 渲染scrome
-        renderScrome = data => {
+        renderScrome = function(data) {
             $('#scorm_fileUrl').show()
             // scorm课件
             var sourceList = JSON.parse(data.resourceIds)[0].url
@@ -364,8 +364,14 @@
         }
 
         // scrome 切换节点
-        changeScromeNode = (id, url) => {
-            getSWFUrl('pagecon', url)
+        changeScromeNode = function(id, href) {
+            var list = sourceList[0].sourceName.split('.')
+            var type = list[list.length - 1]
+            if (type === 'swf') {
+                getSWFUrl('pagecon', href)
+            } else if (type === 'co') {
+                getCODCRUrl('pagecon', href)
+            }
             var now = new Date()
             if (scromeChosenNode) {
                 // 非初次点击叶子节点
@@ -381,7 +387,7 @@
         }
 
         // 暂存
-        save = () => {
+        save = function() {
             var endDate = new Date()
             var labReport = layedit.getContent(reportIndex) || ''
             var data = {
@@ -413,7 +419,7 @@
         }
 
         // 提交
-        submit = () => {
+        submit = function() {
             var endDate = new Date()
             var labReport = layedit.getContent(reportIndex) || ''
             var data = {
@@ -461,6 +467,22 @@
                 layer.closeAll('loading') //关闭loading
             }
         })
+
+        function getCODCRUrl(id, url) {
+            var fileName = url
+            document.getElementById(id).innerHTML =
+                '<object classid="clsid:31B7EB4E-8B4B-11D1-A789-00A0CC6651A8" style = "width: 100%; height:100%;" codebase="http://www.cult3d.com/download/cult.cab#version=5,2,0,99" > ' +
+                '<param name="SRC" value="' +
+                fileName +
+                '">' +
+                '<param name="ANTIALIASING" value="0">' +
+                '<embed pluginspage="http://www.cult3d.com/newuser/index.html"' +
+                'style = "width: 100%; height:100%;"' +
+                'src = "' +
+                fileName +
+                '" antialiasing="0" type="application/x-cult3d-object"></embed>' +
+                '</object>'
+        }
     })
 </script>
 <style>

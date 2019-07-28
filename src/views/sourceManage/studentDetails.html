@@ -249,11 +249,16 @@
                         }
                         createtree('tabcon1_menulist')
                         $('.menu-list').click(function() {
-                            getSWFUrl(
-                                'pagecon',
-                                'http://39.104.97.6:8001/' +
-                                    sourceList[0].sourceName
-                            )
+                            var list = sourceList[0].sourceName.split('.')
+                            var type = list[list.length - 1]
+                            if (type === 'swf') {
+                                getSWFUrl('pagecon', $(this).attr('data-href'))
+                            } else if (type === 'co') {
+                                getCODCRUrl(
+                                    'pagecon',
+                                    $(this).attr('data-href')
+                                )
+                            }
                         })
                         munebtn.onclick = function() {
                             var p = $('#pagecon')
@@ -290,6 +295,22 @@
                     getDetails()
                 }
             })
+        }
+
+        function getCODCRUrl(id, url) {
+            var fileName = url
+            document.getElementById(id).innerHTML =
+                '<object classid="clsid:31B7EB4E-8B4B-11D1-A789-00A0CC6651A8" style = "width: 100%; height:100%;" codebase="http://www.cult3d.com/download/cult.cab#version=5,2,0,99" > ' +
+                '<param name="SRC" value="' +
+                fileName +
+                '">' +
+                '<param name="ANTIALIASING" value="0">' +
+                '<embed pluginspage="http://www.cult3d.com/newuser/index.html"' +
+                'style = "width: 100%; height:100%;"' +
+                'src = "' +
+                fileName +
+                '" antialiasing="0" type="application/x-cult3d-object"></embed>' +
+                '</object>'
         }
 
         function cancleCollect() {
