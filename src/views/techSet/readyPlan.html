@@ -153,7 +153,7 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">实验成绩合格次数</label>
                 <input
-                    type="text"
+                    type="number"
                     class="common-form-input"
                     style="width: 230px;"
                     id="ruleNum"
@@ -164,7 +164,7 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">实验成绩合格用时</label>
                 <input
-                    type="text"
+                    type="number"
                     class="common-form-input"
                     style="width: 230px;"
                     id="ruleTime"
@@ -229,8 +229,8 @@
                 experimentRatio: $('#experimentRatio').val(),
                 startTime: new Date($('#startTime').val()).getTime(),
                 endTime: new Date($('#endTime').val()).getTime(),
-                runTime: $('#runTime').val(),
-                runNum: $('#runNum').val(),
+                ruleTime: $('#ruleTime').val(),
+                ruleNum: $('#ruleNum').val(),
                 experimentName: $('#experimentName').val(),
                 experimentType: Number(
                     $('input[name=experimentType]:checked').val()
