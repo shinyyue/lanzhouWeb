@@ -278,8 +278,8 @@
         function submit() {
             var data = {
                 id: id,
-                experimentRatio: $('#realExperimentRatio').html(),
-                reportRatio: $('#realReportRatio').html(),
+                experimentRatio: Number($('#realExperimentRatio').html()),
+                reportRatio: Number($('#realReportRatio').html()),
                 content: $('#content').val()
             }
             admin.post({
