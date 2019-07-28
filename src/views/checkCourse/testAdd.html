@@ -1,11 +1,9 @@
 <div id="checkcourse-test-details">
-    <div class="test-title">
-        <i id ="name"></i>理论测试试卷
-    </div>
+    <div class="test-title"><i id="name"></i>理论测试试卷</div>
     <div class="test-info">
         <div class="test-info-item">
-            <span>试卷满分为<i id= "score"></i>分</span>
-            <span>考试时间为<i id ="testTime"></i>分钟</span>
+            <span>试卷满分为<i id="score"></i>分</span>
+            <span>考试时间为<i id="testTime"></i>分钟</span>
             <span>本次测试的考试时间：</span>
             <span>从<i id="startTime"></i>至<i id="endTime"></i></span>
         </div>
@@ -52,15 +50,32 @@
                     id: $(this)
                         .find('input')
                         .data('num'),
-                    value: ''
+                    value: []
                 }
                 $(this)
                     .find('ul li')
                     .each(function(index) {
-                        if ($(this).find('.layui-form-radioed').length > 0) {
-                            obj.value = $(this)
-                                .find('input')
-                                .val()
+                        //
+                        if ($(this).attr('data-type') === '多选') {
+                            if (
+                                $(this).find('.layui-form-checked').length > 0
+                            ) {
+                                obj.value.push(
+                                    $(this)
+                                        .find('input')
+                                        .val()
+                                )
+                            }
+                        } else {
+                            if (
+                                $(this).find('.layui-form-radioed').length > 0
+                            ) {
+                                obj.value.push(
+                                    $(this)
+                                        .find('input')
+                                        .val()
+                                )
+                            }
                         }
                     })
 
@@ -70,7 +85,7 @@
             var arr = {}
             for (var j = 0; j < list.length; j++) {
                 var obj = {}
-                arr[list[j].id] = list[j].value
+                arr[list[j].id] = list[j].value.join(',')
             }
 
             admin.post({
@@ -119,14 +134,20 @@
 
                             var itemStr = ''
                             for (var i = 0; i < list.length; i++) {
-                                name= list[i].name
+                                name = list[i].name
                                 var opt = JSON.parse(list[i].option),
                                     optStr = ''
 
                                 for (var v in opt) {
                                     optStr +=
-                                        '<li>\n' +
-                                        '   <input type="radio" name="check" title="' +
+                                        '<li data-type="' +
+                                        key +
+                                        '">\n' +
+                                        '   <input type="' +
+                                        (key === '多选'
+                                            ? 'checkbox'
+                                            : 'radio') +
+                                        '" lay-skin="primary" name="check" title="' +
                                         v +
                                         '、' +
                                         opt[v] +
@@ -177,22 +198,35 @@
         }
 
         function formatTime(time) {
-            var d = new Date(time);
-            var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+            var d = new Date(time)
+            var times =
+                d.getFullYear() +
+                '-' +
+                (d.getMonth() + 1) +
+                '-' +
+                d.getDate() +
+                ' ' +
+                d.getHours() +
+                ':' +
+                d.getMinutes() +
+                ':' +
+                d.getSeconds()
             return times
         }
         time()
-        function time(){
-            var dateEnd =  new Date().getTime();
-            var dateDiff = dateEnd - now;//时间差的毫秒数
-            var leave1=dateDiff%(24*3600*1000)    //计算天数后剩余的毫秒数
+        function time() {
+            var dateEnd = new Date().getTime()
+            var dateDiff = dateEnd - now //时间差的毫秒数
+            var leave1 = dateDiff % (24 * 3600 * 1000) //计算天数后剩余的毫秒数
             // var hours=Math.floor(leave1/(3600*1000))//计算出小时数
             //计算相差分钟数
-            var leave2=leave1%(3600*1000)    //计算小时数后剩余的毫秒数
-            var minutes=Math.floor(leave2/(60*1000))//计算相差分钟数
+            var leave2 = leave1 % (3600 * 1000) //计算小时数后剩余的毫秒数
+            var minutes = Math.floor(leave2 / (60 * 1000)) //计算相差分钟数
             $('#diffTime').html(minutes)
-            setTimeout(function(){ time() }, 60000); //设定函数自动执行时间为 1000 ms(1 s)
-        };
+            setTimeout(function() {
+                time()
+            }, 60000) //设定函数自动执行时间为 1000 ms(1 s)
+        }
     })
 </script>
 
