@@ -171,6 +171,7 @@
                     '/vsMpTestRecord/startReLookTest?curriculumExperimentId=' +
                     curriculumExperimentId,
                 success: function(res) {
+                    if (!res.data) return
                     var data = res.data
                     $('#curriculumExperimentName').html(
                         data.curriculumExperimentName
