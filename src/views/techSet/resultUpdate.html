@@ -41,11 +41,15 @@
             laypage = layui.laypage,
             admin = layui.admin,
             $ = layui.jquery,
+            conf = layui.conf,
             route = layui.router(),
             curriculumExperimentId = route.search.id,
+            type = route.search.type,
             hasPublishScore = false;
         $('#coursePlanName').html(layui.data('techSet').techSetName)
-
+        if(type == 'check') {
+            $('#publish-score').hide()
+        }
 
         tableOption = {
             page: false,
@@ -99,7 +103,11 @@
                         align: 'center',
                         field: 'state',
                         width: 80,
-                        templet: d => d.state == 2? '已批该': '未批该'
+                        templet: function(d) {
+                            if(d.state == 2) return '已批该';
+                            else if(d.state == 3) return '已发布成绩';
+                            else return '未批该'
+                        }
                     },
                     {
                         field: 'experimentRatio',
@@ -115,14 +123,18 @@
                         field: 'isCommon',
                         title: '总成绩',
                         align: 'center',
-                        templet: d => (d.experimentRatio || 0) + (d.reportRatio || 0)
+                        templet: function(d) {
+                            return (d.experimentRatio || 0) + (d.reportRatio || 0)
+                        }
                     },
                     {
                         title: '操作',
                         align: 'center',
                         templet: '#resultUpdate-opt',
                         width: 180,
-                        templet: d => '<button class="course-set-btn" lay-event="resultUpdate-add-edit"  '+(hasPublishScore?'disabled="disabled"':'')+'>手动批改</button>'
+                        templet: function(d) {
+                            return  '<button class="course-set-btn" lay-event="resultUpdate-add-edit"  '+(hasPublishScore || type =='check'?'disabled="disabled"':'')+'>手动批改</button>'
+                        }
                     }
                 ]
             ]
@@ -147,7 +159,7 @@
                 'pageCount'
             ]
         }
-        getTableList = page =>  {
+        function getTableList(page) {
             admin.post({
                 url: '/vsMpTestRecord/queryCorrectionExperimentListForStu',
                 data: JSON.stringify({
@@ -158,13 +170,15 @@
                     rows: 10,
                     page: page
                 }),
-                success: res => {
+                success: function(res) {
                     tableOption.data = (res.data && res.data.items) || []
                     pageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(pageOption)
                 },
-                error: err => layer.msg((err && err.msg) || '数据请求失败')
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
             })
         }
         getTableList(1)
@@ -204,11 +218,12 @@
             //     }
             // )
         })
-        publishScore = () => {
+        function publishScore() {
             admin.get({
                 url: '/vsMpTestRecord/release?curriculumExperimentId=' + curriculumExperimentId,
-                success: res => {
+                success: function(res) {
                     if (res.code === 200) {
+                        $('#publish-score').hide()
                         hasPublishScore = true;
                         getTableList(pageOption.curr)
                         layer.msg('发布成功！')
@@ -221,7 +236,7 @@
 
         // 成绩导出
         $('#export-score').click(function() {
-            window.open('/vsMpTestRecord/downloadResult?curriculumExperimentId=' + curriculumExperimentId);
+            window.open(conf.requestUrl + '/vsMpTestRecord/downloadResult?curriculumExperimentId=' + curriculumExperimentId);
             // admin.get({
             //     url: '/vsMpTestRecord/downloadResult?curriculumExperimentId=' + curriculumExperimentId,
             //     success: res => {

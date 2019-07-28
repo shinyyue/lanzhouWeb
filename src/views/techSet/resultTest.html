@@ -134,12 +134,12 @@
             if (layEvent === 'resultTest-add-check') {
                 formData = data
                 type = 'check'
-                window.location.href = 'index.html#/techSet/resultUpdate'
+                window.location.href = 'index.html#/techSet/resultUpdate/id=' + data.curriculumExperimentId + '/type=check'
             }
             if (layEvent === 'resultTest-add-edit') {
 //                formData = data
 //                type = 'check'
-                window.location.href = 'index.html#/techSet/resultUpdate/id=' + data.curriculumExperimentId
+                window.location.href = 'index.html#/techSet/resultUpdate/id=' + data.curriculumExperimentId + '/type=edit'
             }
         })
 
