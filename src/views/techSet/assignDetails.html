@@ -13,161 +13,166 @@
     </div>
     <table id="evaluate-list-table" lay-filter="assign-details-list-table"></table>
     <div class="app-table-page" id="assign-details-table-page"></div>
+    <div class="layui-btn" style="text-align: center" id="go_back"> 返回 </div>
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
-        var $ = layui.jquery,
-            laypage = layui.laypage,
-            tableFilter = 'assign-details-list-table',
-            table = layui.table,
-            admin = layui.admin,
-            courseId = layui.data('techSet').techSetId,
-            courseName = layui.data('techSet').techSetName,
-            route = layui.router(),
-            id = route.search.id || '',
-            pageLimit = 20,
-            layPageOption = {
-                elem: 'assign-details-table-page', //注意，这里的 test1 是 ID，不用加 # 号
-                limit: 20,
-                first: '首页',
-                last: '尾页',
-                layout: [
-                    'first',
-                    'prev',
-                    'page',
-                    'next',
-                    'last',
-                    'count',
-                    'currLimit',
-                    'curr',
-                    'pageCount'
-                ],
-                jump: function (obj, first) {
-                    //首次不执行
-                    if (!first) {
-                        getList(obj.curr)
-                    }
-                }
-            },
-            tableOption = {
-                page: false,
-                elem: '[lay-filter="' + tableFilter + '"]',
-                cols: [
-                    [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center',
-                        type: 'numbers'
-                    },
-                        {
-                            title: '姓名（学号）',
-                            field: 'stuName',
-                            align: 'center'
-                        },
-                        {
-                            title: '所属行政班级',
-                            field: 'classes',
-                            align: 'center'
-                        },
-                        {
-                            title: '手机号',
-                            field: 'mobile',
-                            align: 'center'
-                        },
-                        {
-                            title: '邮箱',
-                            field: 'classes',
-                            align: 'center'
-                        }
-                    ]
-                ]
-            }
+   layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
+       var $ = layui.jquery,
+           laypage = layui.laypage,
+           tableFilter = 'assign-details-list-table',
+           table = layui.table,
+           admin = layui.admin,
+           courseId = layui.data('techSet').techSetId,
+           courseName = layui.data('techSet').techSetName,
+           route = layui.router(),
+           id = route.search.id || '',
+           pageLimit = 20,
+           layPageOption = {
+               elem: 'assign-details-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+               limit: 20,
+               first: '首页',
+               last: '尾页',
+               layout: [
+                   'first',
+                   'prev',
+                   'page',
+                   'next',
+                   'last',
+                   'count',
+                   'currLimit',
+                   'curr',
+                   'pageCount'
+               ],
+               jump: function (obj, first) {
+                   //首次不执行
+                   if (!first) {
+                       getList(obj.curr)
+                   }
+               }
+           },
+           tableOption = {
+               page: false,
+               elem: '[lay-filter="' + tableFilter + '"]',
+               cols: [
+                   [{
+                       title: '序号',
+                       field: 'id',
+                       width: 80,
+                       align: 'center',
+                       type: 'numbers'
+                   },
+                       {
+                           title: '姓名（学号）',
+                           field: 'stuName',
+                           align: 'center'
+                       },
+                       {
+                           title: '所属行政班级',
+                           field: 'classes',
+                           align: 'center'
+                       },
+                       {
+                           title: '手机号',
+                           field: 'mobile',
+                           align: 'center'
+                       },
+                       {
+                           title: '邮箱',
+                           field: 'classes',
+                           align: 'center'
+                       }
+                   ]
+               ]
+           }
 
-        $('#courseName').html(courseName)
+       $('#courseName').html(courseName)
 
-        getList(1)
+       getList(1)
 
-        function getList(page) {
-            var data = {
-                page: page,
-                rows: pageLimit,
-                id: id
-            }
-            admin.post({
-                url: '/curriculumExperiment/queryStuInfoByCurriculumExperimentId',
-                data: JSON.stringify(data),
-                success: function (res) {
-                    tableOption.data = (res.data && res.data.items) || [];
-                    layPageOption.count = (res.data && res.data.total) || 0;
-                    table.render(tableOption)
-                    laypage.render(layPageOption)
-                },
-                error: function (err) {
-                    layer.msg(err && err.msg || '数据请求失败');
-                }
-            })
-        };
+       function getList(page) {
+           var data = {
+               page: page,
+               rows: pageLimit,
+               id: id
+           }
+           admin.post({
+               url: '/curriculumExperiment/queryStuInfoByCurriculumExperimentId',
+               data: JSON.stringify(data),
+               success: function (res) {
+                   tableOption.data = (res.data && res.data.items) || [];
+                   layPageOption.count = (res.data && res.data.total) || 0;
+                   table.render(tableOption)
+                   laypage.render(layPageOption)
+               },
+               error: function (err) {
+                   layer.msg(err && err.msg || '数据请求失败');
+               }
+           })
+       };
+       $("#go_back").click(function () {
+           window.history.go(-1)
+           // window.location.reload()
+       })
 
-    })
+   })
 </script>
 
 <style>
-    .layui-table {
-        width: 100%;
-    }
+   .layui-table {
+       width: 100%;
+   }
 
-    .evaluate-title .evaluate-title-location {
-        float: left;
-    }
+   .evaluate-title .evaluate-title-location {
+       float: left;
+   }
 
-    .evaluate-title .evaluate-title-search {
-        float: right;
-        text-align: right;
-    }
+   .evaluate-title .evaluate-title-search {
+       float: right;
+       text-align: right;
+   }
 
-    .evaluate-title .evaluate-title-search select,
-    .evaluate-title .evaluate-title-search input {
-        width: 118px;
-        height: 30px;
-        padding: 0 4px;
-        border-radius: 0;
-    }
+   .evaluate-title .evaluate-title-search select,
+   .evaluate-title .evaluate-title-search input {
+       width: 118px;
+       height: 30px;
+       padding: 0 4px;
+       border-radius: 0;
+   }
 
-    .evaluate-title .evaluate-title-search .search-project {
-        line-height: 30px;
-    }
+   .evaluate-title .evaluate-title-search .search-project {
+       line-height: 30px;
+   }
 
-    .evaluate-title .evaluate-title-search .search-confirm {
-        width: 51px;
-        height: 30px;
-        background: #ff6600;
-        border: none;
-        outline: none;
-        cursor: pointer;
-    }
+   .evaluate-title .evaluate-title-search .search-confirm {
+       width: 51px;
+       height: 30px;
+       background: #ff6600;
+       border: none;
+       outline: none;
+       cursor: pointer;
+   }
 
-    .evaluate-add {
-        text-align: right;
-        padding: 20px 0 10px;
-    }
+   .evaluate-add {
+       text-align: right;
+       padding: 20px 0 10px;
+   }
 
-    .evaluate-add .add-btn {
-        width: 70px;
-        height: 30px;
-        background: #ff6600;
-        color: #fff;
-        font-size: 16px;
-    }
+   .evaluate-add .add-btn {
+       width: 70px;
+       height: 30px;
+       background: #ff6600;
+       color: #fff;
+       font-size: 16px;
+   }
 
-    #evaluate-opt {
-        width: 200px;
-    }
+   #evaluate-opt {
+       width: 200px;
+   }
 
-    .evaluate-set-btn {
-        padding: 4px 10px;
-        border: 1px solid #ccc;
-        cursor: pointer;
-    }
+   .evaluate-set-btn {
+       padding: 4px 10px;
+       border: 1px solid #ccc;
+       cursor: pointer;
+   }
 </style>
