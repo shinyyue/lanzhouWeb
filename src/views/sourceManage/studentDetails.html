@@ -6,7 +6,8 @@
         </div>
     </div>
     <div class="source-details-inner">
-        <div class="source-display" id="fileUrl">
+        <div class="source-display" id="fileUrl" style="display: none"></div>
+        <div class="source-display" id="scorm_fileUrl" style="display: none">
             <div id="mune_area">
                 <div class="tab_a" id="tab_b">
                     <ul class="tab1 tab1ys">
@@ -169,18 +170,24 @@
                     $('#resourceDes').val(data.resourceDes)
                     //点击下载
                     $('#download').on('click', function() {
-                        debugger
-                        if(data.type!=5){
+                        if (data.type != 5) {
                             layer.msg('此类型不支持下载')
                             return
                         }
                         download()
                     })
                     var fileUrl = conf.fileRequestUrl + '/' + data.fileUrl
+                    if (data.type !== 7) {
+                        $('#fileUrl').show()
+                    }
                     if (data.type == 1) {
                         // 文档
-                        window.open(fileUrl)
-                        // $('#fileUrl').hide()
+                        $('#fileUrl').html(
+                            '<iframe src="' +
+                                fileUrl +
+                                '" width="100%" height="100%" frameborder="1"></iframe>'
+                        )
+                        $('#fileUrl').css({ height: '1000px' })
                     } else if (data.type == 2) {
                         // 图片
                         $('#fileUrl').html(
@@ -216,6 +223,7 @@
                             }
                         )
                     } else if (data.type == 7) {
+                        $('#scorm_fileUrl').show()
                         // scorm课件
                         var sourceList = JSON.parse(data.fileUrl)
                         var munebtn = document.getElementById('mune_btn')
@@ -297,7 +305,9 @@
             window.open(
                 conf.requestUrl +
                     '/dataBank/downloadFile?filePath=' +
-                    details.fileUrl+'&id='+id
+                    details.fileUrl +
+                    '&id=' +
+                    id
             )
         }
     })

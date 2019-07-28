@@ -1,7 +1,7 @@
 <div id="student-index" lay-title="首页">
     <div class="home-title">
         <span>您本学期有<i id="course-count"></i>门课程学习</span>
-        <span class="home-title-time">2018-2019-2</span>
+        <span class="home-title-time" id="cur_semester"></span>
     </div>
     <div class="student-course-list" id="checked_course_list">
         <!-- <div class="course-item">
@@ -54,9 +54,11 @@
                 url: '/report/queryStuIndexInfo',
                 data: JSON.stringify({}),
                 success: function(res) {
+                    $('#course-count').html(Number(res.data.length) || 0)
+                    // $('#cur_semester').html(res.data)
+
                     if (res.data && res.data.length > 0) {
                         var str = ''
-                        $('#course-count').html(Number(res.data.length))
                         res.data.forEach(function(item) {
                             str +=
                                 '<div class="course-item">\n' +
@@ -83,14 +85,17 @@
                                 '                </div>\n' +
                                 '                <div class="item-right-bottom">\n' +
                                 '                    待完成任务<span>' +
-                                (Number(item.unDoExp) + Number(item.unDoPaper)) +
+                                (Number(item.unDoExp) +
+                                    Number(item.unDoPaper)) +
                                 '</span>个，虚拟实验<span>' +
                                 item.unDoExp +
                                 '</span>个，理论测试<span>' +
                                 item.unDoPaper +
                                 '</span>个\n' +
                                 '                    <button class="course-details" onclick="jumpToDetails(' +
-                                item.id + ', \'' + item.courseName +
+                                item.id +
+                                ", '" +
+                                item.courseName +
                                 '\')">\n' +
                                 '                        详情\n' +
                                 '                    </button>\n' +
