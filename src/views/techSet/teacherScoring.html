@@ -136,16 +136,20 @@
 
         $('#coursePlanName').html(layui.data('techSet').techSetName)
 
-        $('#submit').on('click', () => submit())
-        $('#back').on('click', () => window.history.go(-1))
-        $('#experimentRatio').change(() => {
+        $('#submit').on('click', function () {
+            submit()
+        })
+        $('#back').on('click', function () {
+            window.history.go(-1)
+        } )
+        $('#experimentRatio').change(function () {
             $('#realExperimentRatio').html($('#experimentRatio').val() * $('#experimentProportion').text() / 100)
         })
-        $('#reportRatio').change(() => {
+        $('#reportRatio').change(function () {
             $('#realReportRatio').html($('#reportRatio').val() * $('#reportProportion').text() / 100)
         })
 
-        getDetails = () => {
+        function getDetails () {
             admin.get({
                 url:  '/vsMpTestRecord/correctionById?id=' + id,
                 success: function(res) {
@@ -210,13 +214,13 @@
         getDetails()
 
         // 渲染视频
-        renderVideo = data => {
+        function renderVideo(data) {
             var fileUrl = conf.fileRequestUrl + '/' + JSON.parse(data.resourceIds)[0].url
             $('#fileUrl').html('<video src="' + fileUrl + '" controls="controls" id="file_video_detail" style="width: 100%; height: 100%;" />');
         }
 
         // 渲染scrome
-        renderScrome = data => {
+        function renderScrome(data) {
             // scorm课件
             var sourceList = JSON.parse(data.resourceIds)[0].url
             var munebtn = document.getElementById('mune_btn')
@@ -255,21 +259,23 @@
         }
 
         // 提交
-        submit = () => {
+        function submit() {
             var data = {
                 id: id,
-                experimentRatio: $('#experimentRatio').val(),
-                reportRatio: $('#reportRatio').val(),
+                experimentRatio: $('#realExperimentRatio').html(),
+                reportRatio: $('#realReportRatio').html(),
                 content: $('#content').val()
             }
             admin.post({
                 url: '/vsMpTestRecord/correction',
                 data: JSON.stringify(data),
-                success: res => {
-                    layer.msg('提交成功')
-                    window.history.back(-1)
-                },
-                error: err => layer.msg((err && err.msg) || '数据请求失败')
+                success: function (res) {
+                    layer.msg(res.msg||'提交成功')
+//                    window.history.back(-1)
+                } ,
+                error: function (err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
             })
         }
 
