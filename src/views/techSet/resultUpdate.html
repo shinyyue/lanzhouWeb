@@ -2,20 +2,20 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>开课管理 > 铁路信号知识 > 实验结果 > 实验批改</span>
+            <span>开课管理 > <span id="coursePlanName"></span> > 实验结果 > 实验批改</span>
         </div>
         <div class="course-title-search">
             <span class="search-project">学生姓名</span>
-            <input type="text" />
+            <input type="text" id="userName"/>
             <span class="search-project">学号</span>
-            <input type="text" />
-            <span class="search-project">提交状态</span>
-            <select name="" id="">
+            <input type="text"  id="userNum"/>
+            <!--<span class="search-project">提交状态</span>
+            <select name="submit"  id="submit">
                 <option value="">请选择</option>
                 <option value="">已提交</option>
                 <option value="">未提交</option>
-            </select>
-            <button class="search-confirm">
+            </select>-->
+            <button class="search-confirm" id="searchResultTestList">
                 <img src="src/images/search.png" />
             </button>
         </div>
@@ -23,7 +23,7 @@
     <div class="course-add">
         <button class="add-btn" id="publish-score">发布成绩</button>
         <button class="add-btn" id="export-score">成绩导出</button>
-        <button class="add-btn" id="import-report">报告导出</button>
+        <!--<button class="add-btn" id="import-report">报告导出</button>-->
     </div>
     <table
         id="resultUpdate-list-table"
@@ -39,9 +39,15 @@
     layui.use(['table', 'jquery'], function(table, $) {
         var tableFilter = 'resultUpdate-list-table',
             laypage = layui.laypage,
-            $ = layui.jquery
+            admin = layui.admin,
+            $ = layui.jquery,
+            route = layui.router(),
+            curriculumExperimentId = route.search.id,
+            hasPublishScore = false;
+        $('#coursePlanName').html(layui.data('techSet').techSetName)
 
-        table.render({
+
+        tableOption = {
             page: false,
             data: [
                 {
@@ -64,62 +70,64 @@
                         title: '序号',
                         field: 'id',
                         width: 80,
-                        align: 'center'
+                        align: 'center',
+                        templet: d => d.LAY_TABLE_INDEX+1
                     },
                     {
                         title: '学生姓名',
-                        field: 'courceName',
+                        field: 'userName',
                         align: 'center'
                     },
                     {
                         title: '学号',
-                        field: 'resultUpdateCode',
+                        field: 'snoOrJno',
                         align: 'center'
                     },
                     {
                         title: '手机',
-                        field: 'responsor',
+                        field: 'mobile',
                         align: 'center'
                     },
                     {
                         title: '班级',
                         align: 'center',
-                        field: 'times',
+                        field: 'classes',
                         width: 80
                     },
                     {
-                        title: '提交状态',
+                        title: '是否批改',
                         align: 'center',
-                        field: 'score',
-                        width: 80
+                        field: 'state',
+                        width: 80,
+                        templet: d => d.state == 2? '已批该': '未批该'
                     },
                     {
-                        field: 'score',
+                        field: 'experimentRatio',
                         title: '实验成绩',
                         align: 'center'
                     },
                     {
-                        field: 'time',
+                        field: 'reportRatio',
                         title: '报告成绩',
                         align: 'center'
                     },
                     {
                         field: 'isCommon',
                         title: '总成绩',
-                        align: 'center'
+                        align: 'center',
+                        templet: d => (d.experimentRatio || 0) + (d.reportRatio || 0)
                     },
                     {
                         title: '操作',
                         align: 'center',
                         templet: '#resultUpdate-opt',
-                        width: 180
+                        width: 180,
+                        templet: d => '<button class="course-set-btn" lay-event="resultUpdate-add-edit"  '+(hasPublishScore?'disabled="disabled"':'')+'>手动批改</button>'
                     }
                 ]
             ]
-        })
-
-        //执行一个laypage实例
-        laypage.render({
+        }
+        pageOption = {
             elem: 'resultUpdate-table-page', //注意，这里的 test1 是 ID，不用加 # 号
             count: 50, //数据总数，从服务端得到
             limit: 10,
@@ -138,40 +146,97 @@
                 'curr',
                 'pageCount'
             ]
+        }
+        getTableList = page =>  {
+            admin.post({
+                url: '/vsMpTestRecord/queryCorrectionExperimentListForStu',
+                data: JSON.stringify({
+                    curriculumExperimentId: curriculumExperimentId,
+                    userName: $('#userName').val(),
+                    userNum: $('#userNum').val(),
+                    submit: $('#submit').val(),
+                    rows: 10,
+                    page: page
+                }),
+                success: res => {
+                    tableOption.data = (res.data && res.data.items) || []
+                    pageOption.count = (res.data && res.data.total) || 0
+                    table.render(tableOption)
+                    laypage.render(pageOption)
+                },
+                error: err => layer.msg((err && err.msg) || '数据请求失败')
+            })
+        }
+        getTableList(1)
+
+        $('#searchResultTestList').click(function() {
+            getTableList(1)
         })
 
-        $('#add-cource').on('click', function() {
-            location.href = 'index.html#/resultUpdate/update'
+        table.on('tool(resultUpdate-list-table)', function(obj) {
+            var data = obj.data //获得当前行数据
+            var layEvent = obj.event;
+
+            if (layEvent === 'resultUpdate-add-edit') {
+                // 手动批改
+                formData = data
+                location.href = 'index.html#/techSet/teacherScoring/id=' + data.id
+            }
         })
 
-        $('#resultUpdate-add-check').on('click', function() {
-            location.href = 'index.html#/resultUpdate/details'
+        // 发布成绩
+        $('#publish-score').click(function() {
+            publishScore()
+            // layer.confirm(
+            //     '您确定要发布么?',
+            //     {
+            //         icon: 3,
+            //         title: '提示',
+            //         shade: 0.5,
+            //         maxWidth: 500,
+            //         maxHeight: 500
+            //     },
+            //     function(confirm) {
+            //         publishScore()
+            //     },
+            //     function(cancel) {
+            //         layer.close(cancel)
+            //     }
+            // )
+        })
+        publishScore = () => {
+            admin.get({
+                url: '/vsMpTestRecord/release?curriculumExperimentId=' + curriculumExperimentId,
+                success: res => {
+                    if (res.code === 200) {
+                        hasPublishScore = true;
+                        getTableList(pageOption.curr)
+                        layer.msg('发布成功！')
+                    } else {
+                        layer.msg((res && res.msg) || '发布失败')
+                    }
+                }
+            })
+        }
+
+        // 成绩导出
+        $('#export-score').click(function() {
+            window.open('/vsMpTestRecord/downloadResult?curriculumExperimentId=' + curriculumExperimentId);
+            // admin.get({
+            //     url: '/vsMpTestRecord/downloadResult?curriculumExperimentId=' + curriculumExperimentId,
+            //     success: res => {
+            //         if (res.code === 200) {
+            //         } else {
+            //             layer.msg((res && res.msg) || '导出失败')
+            //         }
+            //     }
+            // })
         })
 
         $('#resultUpdate-add-edit').on('click', function() {
             location.href = 'index.html#/techSet/teacherScoring'
         })
 
-        $('#resultUpdate-add-delete').on('click', function() {
-            layer.confirm(
-                '您确定要删除么?',
-                {
-                    icon: 3,
-                    title: '提示',
-                    shade: 0.5,
-                    maxWidth: 500,
-                    maxHeight: 500
-                },
-                function(confirm) {
-                    // 用户点击确定
-                    layer.close(confirm)
-                },
-                function(cancel) {
-                    // 用户点击取消
-                    layer.close(cancel)
-                }
-            )
-        })
     })
 </script>
 
