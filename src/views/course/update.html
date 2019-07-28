@@ -119,7 +119,11 @@
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">适合开课年级</label>
-                    <div class="layui-col-md9" id="gradeId" name="gradeId"></div>
+                    <div
+                        class="layui-col-md9"
+                        id="gradeId"
+                        name="gradeId"
+                    ></div>
                 </div>
             </div>
             <div class="layui-row">
@@ -157,7 +161,6 @@
                     <div>
                         <div
                             class="layui-btn primary-btn"
-
                             id="experiment_submit"
                         >
                             提交
@@ -200,38 +203,44 @@
             ]
         })
 
-        $("#experiment_submit").click(function (data) {
+        $('#experiment_submit').click(function(data) {
             var data = {
-                curriculumName : $("#curriculumName").val(),
-                curriculumCode : $("#curriculumCode").val(),
-                period : $("#period").val(),
-                creditHour : $("#creditHour").val(),
-                fullMark : $("#fullMark").val(),
-                userName : $("#userName").val(),
-                profession : $("#allProfession").val(),
-                labId : $("#labId").val(),
-                noNeed_course : $("#noNeed_course").val(),
-                gradeId : $('input[name=gradeId]:checked').val(),
-                presentation : $("#course-intro-edit").val(),
-                semester : $('input[name=semester]:checked').val()
+                curriculumName: $('#curriculumName').val(),
+                curriculumCode: $('#curriculumCode').val(),
+                period: $('#period').val(),
+                creditHour: $('#creditHour').val(),
+                fullMark: $('#fullMark').val(),
+                userName: $('#userName').val(),
+                profession: $('#allProfession').val(),
+                labId: $('#labId').val(),
+                gradeId: $('input[name=gradeId]:checked').val(),
+                presentation: $('#course-intro-edit').val(),
+                semester: $('input[name=semester]:checked').val()
             }
             var noNeedCpurseList = []
             $('#noNeed_course li').each(function(index) {
                 var item = $(this).find('input[type=checkbox]')
+
                 if ($(this).find('.layui-form-checked').length > 0) {
                     noNeedCpurseList.push(item.val())
+                    console.log(
+                        11,
+                        $(this).find('.layui-form-checked').length,
+                        item.val()
+                    )
                 }
             })
-            data.noNeed_course = noNeedCpurseList.join(',')
-            debugger
+            data.prerequisiteCourse = noNeedCpurseList.join(',')
             if (!data.curriculumName) {
-                layer.msg("课程名称不能为空！")
+                layer.msg('课程名称不能为空！')
                 return
-            }if (!data.curriculumCode) {
-                layer.msg("课程代码不能为空！")
+            }
+            if (!data.curriculumCode) {
+                layer.msg('课程代码不能为空！')
                 return
-            }if (!data.semester) {
-                layer.msg("请选择开课学期！")
+            }
+            if (!data.semester) {
+                layer.msg('请选择开课学期！')
                 return
             }
             id ? updateData(data) : addData(data)
@@ -264,7 +273,6 @@
 
         function addData(data) {
             var professionList = []
-            debugger
             data.creditHour = Number(data.creditHour)
             data.fullMark = Number(data.fullMark)
             data.userId = layui.data('userInfo').userInfo.id
@@ -289,23 +297,18 @@
             }
 
             data.profession = flag ? '0' : professionList.join(',')
-            data.prerequisiteCourse = $(
-                'input[name=prerequisiteCourse]:checked'
-            ).val()
 
             admin.post({
                 url: '/vsMpCurriculum/add',
                 data: JSON.stringify(data),
                 success: function(res) {
-                    if(res.code==200){
+                    if (res.code == 200) {
                         layer.msg('添加成功')
+                    } else {
+                        layer.msg(res.msg || '添加失败')
                     }
-                    else{
-                        layer.msg(res.msg||'添加失败')
-                    }
-//                    history.go(-1)
-                   window.location.href = 'index.html#/course/index'
-                   window.location.reload()
+                    window.location.href = 'index.html#/course/index'
+                    window.location.reload()
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
@@ -314,8 +317,9 @@
         }
 
         function updateData(data) {
-            var formData = courseInfo,
+            var formData = data,
                 professionList = []
+            formData.id = id
             formData.creditHour = Number(data.creditHour)
             formData.fullMark = Number(data.fullMark)
             formData.userId = layui.data('userInfo').userInfo.id
@@ -341,9 +345,6 @@
 
             formData.profession = flag ? '0' : professionList.join(',')
             formData.labId = Number(data.labId)
-            formData.prerequisiteCourse = $(
-                'input[name=prerequisiteCourse]:checked'
-            ).val()
             formData.gradeId = $('input[name=gradeId]:checked').val()
             admin.put({
                 url: '/vsMpCurriculum/update',
@@ -479,11 +480,6 @@
                     $('#fullMark').val(data.fullMark)
                     $('#userId').val(data.userId)
                     $('#labId').val(data.labId)
-                    $(
-                        'input[name=prerequisiteCourse][value=' +
-                            data.prerequisiteCourse +
-                            ']'
-                    ).attr('checked', 'checked')
                     $('input[name=gradeId][value=' + data.gradeId + ']').attr(
                         'checked',
                         'checked'
@@ -499,6 +495,12 @@
                         : res.data.profession.split(',')
                     $('input[name=profession]').each(function(index) {
                         if (professionList.indexOf($(this).val()) > -1) {
+                            $(this).attr('checked', true)
+                        }
+                    })
+                    var prerequisiteCourse = data.prerequisiteCourse.split(',')
+                    $('input[name=prerequisiteCourse]').each(function(index) {
+                        if (prerequisiteCourse.indexOf($(this).val()) > -1) {
                             $(this).attr('checked', true)
                         }
                     })

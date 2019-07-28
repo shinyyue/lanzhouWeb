@@ -129,7 +129,6 @@
 
         ws.onmessage = function(evt) {
             console.log(33333, evt)
-            alert('收到消息')
             var msg = JSON.parse(evt.data)
             checkedItem && getChatHistory(checkedItem.coursePlanId)
             // if (msg.toUserId === checkedItem.toUserId) {
