@@ -9,7 +9,11 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属课程</label>
-                <select name="curriculumId" id="curriculumId">
+                <select
+                    name="curriculumId"
+                    id="curriculumId"
+                    lay-filter="checkCourse"
+                >
                     <option value="">请选择课程</option>
                 </select>
             </div>
@@ -200,8 +204,13 @@
 
         table.render(tableOption)
 
+        form.on('select(checkCourse)', function(obj) {
+            // getKnowList(function() {}, obj.value)
+            console.log(111, obj)
+            getKnowlegeList(obj.value)
+        })
+
         getAllCourses()
-        getKnowlegeList()
 
         $('#ploy-add-back').on('click', function() {
             window.history.back(-1)
@@ -359,9 +368,9 @@
                 knowlegeList.forEach(item => {
                     opt +=
                         '<option value="' +
-                        item.cId +
+                        item.id +
                         '">' +
-                        item.cName +
+                        item.name +
                         '</option>'
                 })
                 $(this).append(opt)
@@ -489,47 +498,45 @@
                     rows: 100000
                 }),
                 success: function(res) {
-                    res.data &&
-                        res.data.items &&
-                        res.data.items.forEach(item => {
-                            $('#curriculumId').append(
-                                '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.curriculumName +
-                                    '</option>'
-                            )
-                        })
+                    var list =
+                        (res.data &&
+                            res.data.items.length > 0 &&
+                            res.data.items) ||
+                        []
+
+                    for (var i = 0; i < list.length; i++) {
+                        var item = list[i]
+                        $('#curriculumId').append(
+                            '<option value="' +
+                                item.id +
+                                '">' +
+                                item.curriculumName +
+                                '</option>'
+                        )
+                    }
                     form.render()
                 }
             })
         }
 
-        function getKnowlegeList() {
-            var data = {
-                page: 1,
-                rows: 100000
-                ,curriculumId: $("#curriculumId").val()
-            }
-            admin.post({
-                url: '/knowledgePoint/list',
-                data: JSON.stringify(data),
+        function getKnowlegeList(id) {
+            admin.get({
+                url: '/knowledgePoint/listByCurriculumId?curriculumId=' + id,
                 success: function(res) {
-                    knowlegeList = (res.data && res.data.items) || []
+                    knowlegeList = res.data || []
                     $('.knowledgePoint').html(
                         '<option value="">请选择</option>'
                     )
-                    res.data &&
-                        res.data.items &&
-                        res.data.items.forEach(item => {
-                            $('.knowledgePoint').append(
-                                '<option value="' +
-                                    item.cId +
-                                    '">' +
-                                    item.cName +
-                                    '</option>'
-                            )
-                        })
+                    for (var i = 0; i < res.data.length; i++) {
+                        var item = res.data[i]
+                        $('.knowledgePoint').append(
+                            '<option value="' +
+                                item.id +
+                                '">' +
+                                item.name +
+                                '</option>'
+                        )
+                    }
                     form.render()
                 },
                 error: function(err) {
