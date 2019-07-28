@@ -2,10 +2,7 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span
-                >选课 > <span id="courseNameNav"></span> > 虚拟实验 >
-                虚拟实验列表 > 虚拟实验信息</span
-            >
+            <span>开课管理 > <span id="coursePlanName"></span> > 实验结构 > 手动批改</span>
         </div>
     </div>
     <div class="source-details-inner">
@@ -14,57 +11,44 @@
                 <label class="layui-form-label ">实验名称</label>
                 <span id="curriculumExperimentName"></span>
             </div>
+        </div>
+        <div class="layui-row">
             <div class="layui-col-md4 layui-form-item">
                 <label class="layui-form-label ">实验类型</label>
                 <span id="experimentType"></span>
             </div>
+        </div>
+        <div class="layui-row">
             <div class="layui-col-md4 layui-form-item">
                 <label class="layui-form-label ">所属课程名称</label>
                 <span id="courseName"></span>
             </div>
         </div>
 
-        <div class="layui-row" id="noadd">
-            <div class="layui-col-md6 layui-form-item">
-                <label class="layui-form-label ">实验成绩</label>
-                <span id="experimentRatio"></span>
-            </div>
-            <div class="layui-col-md6 layui-form-item">
-                <label class="layui-form-label ">报告成绩</label>
-                <span id="reportRatio"></span>
-            </div>
-        </div>
-
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">实验要求</label>
-                <div class="layui-col-md9" id="require">
-                    <!--<textarea name="desc" class="layui-textarea" id="require" readonly></textarea>-->
-                </div>
+                <div class="layui-col-md9" id="require"></div>
             </div>
         </div>
-        <div class="source-display" id="fileUrl" style="display: none;"></div>
-        <div class="source-display" id="scorm_fileUrl" style="display: none;">
+        <div class="source-display" id="fileUrl">
             <div id="mune_area">
-                <div class="tab_a" id="tab_b">
+                <div class="tab_a"
+                     id="tab_b">
                     <ul class="tab1 tab1ys">
                         <li>
-                            <a
-                                id="tab_ch1"
-                                class="active"
-                                href="javascript:void(0)"
-                                ><img src="src/images/xue.png"
-                            /></a>
+                            <a id="tab_ch1"
+                               class="active"
+                               href="javascript:void(0)"><img src="src/images/xue.png" /></a>
                         </li>
                     </ul>
                     <ul class="tab_con tabcon_sy">
                         <li id="tabcon1">
-                            <div
-                                class="munebtnlist"
-                                id="tabcon1_menulist"
-                            ></div>
+                            <div class="munebtnlist"
+                                 id="tabcon1_menulist"></div>
                         </li>
-                        <li id="tabcon2" class="hidden">
+                        <li id="tabcon2"
+                            class="hidden">
                             <div class="munebtnlist">
                                 <div id="tabcon2_menulist"></div>
                             </div>
@@ -72,59 +56,59 @@
                     </ul>
                 </div>
             </div>
-            <div id="mune_btn" class="munebtna" data-zt="a"></div>
-            <div
-                id="pagecon"
-                style=" min-width: 900px; height: 500px;float: left"
-            >
-                <iframe
-                    frameBorder="0"
-                    id="innerTarget"
-                    name="innerTarget"
-                    scrolling="no"
-                    src="iframe2.htm"
-                    style="width: 100%; height: 100%"
-                ></iframe>
+            <div id="mune_btn"
+                 class="munebtna"
+                 data-zt="a"></div>
+            <div id="pagecon"
+                 style=" min-width: 900px; height: 500px;float: left">
+                <iframe frameBorder="0"
+                        id="innerTarget"
+                        name="innerTarget"
+                        scrolling="no"
+                        src="iframe2.htm"
+                        style="width: 100%; height: 100%"></iframe>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md4 layui-form-item">
+                <label class="layui-form-label ">实验成绩</label>
+                <input id="experimentRatio" style="width: 50px"></input>
+                x<span id="experimentProportion"/>%=<span id="realExperimentRatio"/>
             </div>
         </div>
         <div class="layui-row" id="labReportDiv">
             <div class="layui-col-md12 layui-form-item">
-                <label class="layui-form-label">实验报告</label>
-                <div class="layui-col-md9">
-                    <!--<textarea name="desc" class="layui-textarea" id="labReport" ></textarea>-->
+                <label class="layui-form-label">实验报告内容</label>
+                <div class="layui-col-md9" >
                     <div class="layui-col-md10" id="labReport"></div>
                 </div>
             </div>
         </div>
-        <div class="layui-row" id="labReportAddressDiv">
-            <div class="layui-col-md12 layui-form-item">
-                <label class="layui-form-label">上传实验报告</label>
-                <div class="layui-col-md9">
-                    <button
-                        type="button"
-                        class="layui-btn"
-                        id="labReportAddress"
-                    >
-                        <i class="layui-icon">&#xe67c;</i>上传PDF
-                        <span id="file_path"></span>
-                    </button>
-                </div>
+        <div class="layui-row">
+            <div class="layui-col-md4 layui-form-item">
+                <label class="layui-form-label ">实验报告成绩</label>
+                <input id="reportRatio" style="width: 50px"></input>
+                x<span id="reportProportion"/>%=<span id="realReportRatio"/>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
-                <label class="layui-form-label">实验累计用时</label>
-                <span id="testTotleTime"></span>
+                <label class="layui-form-label">评语</label>
+                <div class="layui-col-md9" id="">
+                    <textarea name="desc" class="layui-textarea" id="content"></textarea>
+                </div>
             </div>
         </div>
+
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label "></label>
                 <div>
-                    <div class="layui-btn primary-btn" lay-submit id="save">
-                        暂存
-                    </div>
-                    <div class="layui-btn primary-btn" lay-submit id="submit">
+                    <div
+                        class="layui-btn primary-btn"
+                        lay-submit
+                        id="submit"
+                    >
                         提交
                     </div>
                     <div
@@ -143,211 +127,120 @@
 <script src="src/plugins/resource_url.js"></script>
 <script src="menutree/menuTree.js"></script>
 <script>
-    layui.use(['form', 'admin', 'layedit', 'upload'], function() {
+    layui.use(['form', 'admin'], function() {
         var $ = layui.jquery,
             admin = layui.admin,
-            layedit = layui.layedit,
-            upload = layui.upload,
             conf = layui.conf,
             route = layui.router(),
-            curriculumExperimentId = layui.data('course')
-                .curriculumExperimentId, // 实验课程课程id
-            experimentId = layui.data('course').experimentId, // 实验id
-            curriculumId = layui.data('course').coursePlanId, // 课程id
-            type = route.search.type,
-            startDate = new Date(),
-            reportIndex, // 实验报告富文本
-            testContent, // 资源快照状态
-            dataType = 0, // 资源类型
-            scromeChosenNode // scrome 选中node信息
+            id = route.search.id;
 
-        $('#save').on('click', function() {
-            save()
-        })
-        $('#submit').on('click', function() {
+        $('#coursePlanName').html(layui.data('techSet').techSetName)
+
+        $('#submit').on('click', function () {
             submit()
         })
-        $('#back').on('click', function() {
+        $('#back').on('click', function () {
             window.history.go(-1)
+        } )
+        $('#experimentRatio').change(function () {
+            $('#realExperimentRatio').html($('#experimentRatio').val() * $('#experimentProportion').text() / 100)
+        })
+        $('#reportRatio').change(function () {
+            $('#realReportRatio').html($('#reportRatio').val() * $('#reportProportion').text() / 100)
         })
 
-        getDetails = function() {
+        function getDetails () {
             admin.get({
-                url:
-                    '/vsMpTestRecord/startReLookTest?curriculumExperimentId=' +
-                    curriculumExperimentId,
+                url:  '/vsMpTestRecord/correctionById?id=' + id,
                 success: function(res) {
                     var data = res.data
-                    $('#curriculumExperimentName').html(
-                        data.curriculumExperimentName
-                    )
+                    $('#curriculumExperimentName').html(data.curriculumExperimentName)
                     $('#experimentType').html(data.experimentType)
                     $('#courseName').html(data.courseName)
-                    $('#courseNameNav').html(data.courseName)
                     $('#require').html(data.require)
-                    // $('#labReport').html(data.labReport)
-                    $('#testTotleTime').html(data.testTotleTime)
+                    $('#reportRatio').val(data.reportRatio)
+                    $('#experimentRatio').val(data.experimentRatio)
+                    $('#reportProportion').html(data.reportProportion)
+                    $('#experimentProportion').html(data.experimentProportion)
+                    $('#realReportRatio').html(data.reportRatio * data.reportProportion / 100)
+                    $('#realExperimentRatio').html(data.experimentRatio * data.experimentProportion / 100)
+                    $('#labReport').html(data.labReport)
+                    $('#content').val(data.content)
                     dataType = res.data.dataType
 
-                    if (dataType !== 7) {
-                        $('#fileUrl').show()
-                    }
                     if (res.data.dataType == 1) {
                         // 文档
-                        $('#fileUrl').html(
-                            '<iframe src="' +
-                                fileUrl +
-                                '" width="100%" height="100%" frameborder="1"></iframe>'
-                        )
-                        $('#fileUrl').css({ height: '1000px' })
+                        // window.open(fileUrl)
+                        $('#fileUrl').hide()
                     } else if (res.data.dataType == 2) {
                         // 图片
-                        var fileUrl =
-                            conf.fileRequestUrl +
-                            '/' +
-                            JSON.parse(res.data.resourceIds)[0].url
-                        $('#fileUrl').html(
-                            '<img src="' +
-                                fileUrl +
-                                '" style="width: 100%; height: 100%;">'
-                        )
+                        var fileUrl = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url
+                        $('#fileUrl').html('<img src="' + fileUrl + '" style="width: 100%; height: 100%;">')
                     } else if (res.data.dataType == 3) {
                         // 视频
                         renderVideo(res.data)
                     } else if (res.data.dataType == 4) {
                         // flash
-                        var fileUrl =
-                            conf.fileRequestUrl +
-                            '/' +
-                            JSON.parse(res.data.resourceIds)[0].url
-                        $('#fileUrl').html(
-                            '<embed src="' +
-                                fileUrl +
-                                '" type="application/x-shockwave-flash" style="width: 100%; height: 100%;" quality="high" />'
-                        )
+                        var fileUrl = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url
+                        $('#fileUrl').html('<embed src="' + fileUrl + '" type="application/x-shockwave-flash" style="width: 100%; height: 100%;" quality="high" />')
                     } else if (res.data.dataType == 5) {
                         // exe
                         $('#fileUrl').hide()
                     } else if (res.data.dataType == 6) {
                         // U3D
                         $('#fileUrl').html('')
-                        //                        var jsonFile = JSON.parse(res.data.fileUrl).json
-                        UnityLoader.instantiate('fileUrl', fileUrl, {
-                            onProgress: UnityProgress
-                        })
+//                        var jsonFile = JSON.parse(res.data.fileUrl).json
+                        UnityLoader.instantiate(
+                            'fileUrl',
+                            fileUrl,
+                            {
+                                onProgress: UnityProgress
+                            }
+                        )
                     } else if (res.data.dataType == 7) {
                         renderScrome(res.data)
                     }
 
-                    if (res.data.correctType == 1) {
+                    if(res.data.correctType==1){
                         $('#labReportDiv').attr('style', 'display:none;')
                     }
-                    if (res.data.correctType == 0) {
+                    if(res.data.correctType==0){
                         $('#labReportAddressDiv').attr('style', 'display:none;')
                     }
-                    if (type === 'add') {
-                        // 开始实验
-                        $('#noadd').attr('style', 'display:none;')
-                        reportIndex = layedit.build('labReport', {
-                            tool: [
-                                'strong', //加粗
-                                'italic', //斜体
-                                'underline', //下划线
-                                'del', //删除线
-                                '|', //分割线
-                                'left', //左对齐
-                                'center', //居中对齐
-                                'right', //右对齐
-                                'link' //超链接
-                                //                    , 'image' //插入图片
-                            ]
-                        })
-                        layedit.setContent(reportIndex, data.labReport)
-                    } else if (type === 'review') {
-                        // 复习实验
-                        $('#noadd').attr('style', 'display:none;')
-                        $('#save').attr('style', 'display:none;')
-                        $('#submit').attr('style', 'display:none;')
-                        /*$('#require').attr('disabled', 'true;')*/
-                        $('#testContent').attr('disabled', 'true;')
-                        $('#labReport').html(data.labReport)
-                    } else if (type === 'check') {
-                        // 查看成绩
-                        $('#experimentRatio').html(data.experimentRatio)
-                        $('#reportRatio').html(data.reportRatio)
 
-                        $('#save').attr('style', 'display:none;')
-                        $('#submit').attr('style', 'display:none;')
-                        /*$('#require').attr('disabled', 'true;')*/
-                        // $('#labReport').attr('disabled', 'true;')
-                        $('#testContent').attr('disabled', 'true;')
-                        $('#labReport').html(data.labReport)
-                    }
                 }
             })
         }
         getDetails()
 
         // 渲染视频
-        renderVideo = function(data) {
-            testContent = data.testContent || 0
-            var fileUrl =
-                conf.fileRequestUrl + '/' + JSON.parse(data.resourceIds)[0].url
-            $('#fileUrl').html(
-                '<video src="' +
-                    fileUrl +
-                    '" controls="controls" id="file_video_detail" style="width: 100%; height: 100%;" />'
-            )
-            var fileVideoDetail = document.getElementById('file_video_detail')
-            fileVideoDetail.currentTime = testContent
-            fileVideoDetail.onpause = () =>
-                (testContent = fileVideoDetail.currentTime)
-            fileVideoDetail.onended = () => (testContent = 0)
+        function renderVideo(data) {
+            var fileUrl = conf.fileRequestUrl + '/' + JSON.parse(data.resourceIds)[0].url
+            $('#fileUrl').html('<video src="' + fileUrl + '" controls="controls" id="file_video_detail" style="width: 100%; height: 100%;" />');
         }
 
         // 渲染scrome
-        renderScrome = function(data) {
+        function renderScrome(data) {
             // scorm课件
-            $('#scorm_fileUrl').show()
             var sourceList = JSON.parse(data.resourceIds)[0].url
             var munebtn = document.getElementById('mune_btn')
             var mune = document.getElementById('mune_area')
-            testContent = JSON.parse(data.testContent || '{}')
 
             for (var i = 0; i < sourceList.length; i++) {
                 var floor = ''
                 for (var k = 0; k < Number(sourceList[i].floor); k++) {
                     floor += '-'
                 }
-
-                var nameRate = ''
-                if (
-                    sourceList.filter(s => s.parentId === sourceList[i].id)
-                        .length == 0
-                ) {
-                    var nameStudented = Math.min(
-                        testContent[sourceList[i].id] || 0,
-                        sourceList[i].countTime
-                    )
-                    nameRate =
-                        '(' +
-                        (
-                            (nameStudented * 100) /
-                            sourceList[i].countTime
-                        ).toFixed(2) +
-                        '%)'
-                }
-
                 addtree(
-                    floor + sourceList[i].name + nameRate,
-                    conf.fileRequestUrl + '/' + sourceList[i].sourceName,
+                    floor + sourceList[i].name,
+                    conf.fileRequestUrl + '/' +  sourceList[i].sourceName,
                     'innerTarget',
                     sourceList[i].id
                 )
             }
             createtree('tabcon1_menulist')
             $('.menu-list').click(function() {
-                changeScromeNode($(this).data('id'), $(this).data('href'))
+                getSWFUrl('pagecon', $(this).data("href"))
             })
             munebtn.onclick = function() {
                 var p = $('#pagecon')
@@ -365,104 +258,27 @@
             }
         }
 
-        // scrome 切换节点
-        changeScromeNode = function(id, url) {
-            getSWFUrl('pagecon', url)
-            var now = new Date()
-            if (scromeChosenNode) {
-                // 非初次点击叶子节点
-                testContent[scromeChosenNode.id] =
-                    (now.getTime() - scromeChosenNode.startTime.getTime()) /
-                        1000 +
-                    (testContent[scromeChosenNode.id] || 0)
-            }
-            scromeChosenNode = {
-                id: id,
-                startTime: now
-            }
-        }
-
-        // 暂存
-        save = function() {
-            var endDate = new Date()
-            var labReport = layedit.getContent(reportIndex) || ''
-            var data = {
-                curriculumExperimentId: curriculumExperimentId,
-                curriculumId: curriculumId,
-                experimentId: experimentId,
-                dataType: dataType,
-                startTimeStr: admin.dateFormat(startDate / 1000),
-                endTimeStr: admin.dateFormat(endDate / 1000),
-                useTime: (endDate.getTime() - startDate.getTime()) / 1000,
-                testContent: JSON.stringify(testContent),
-                labReport: labReport,
-                labReportAddress: $('#file_path').html()
-            }
-
-            admin.post({
-                url: '/testStaging/add',
-                data: JSON.stringify(data),
-                success: res => {
-                    if (res.code === 200) {
-                        layer.msg('暂存成功！')
-                        window.history.back(-1)
-                    } else {
-                        layer.msg((res && res.msg) || '添加失败')
-                    }
-                },
-                error: err => layer.msg((err && err.msg) || '数据请求失败')
-            })
-        }
-
         // 提交
-        submit = function() {
-            var endDate = new Date()
-            var labReport = layedit.getContent(reportIndex) || ''
+        function submit() {
             var data = {
-                testContent: JSON.stringify(testContent),
-                curriculumExperimentId: curriculumExperimentId,
-                curriculumId: curriculumId,
-                experimentId: experimentId,
-                totalTime: (endDate.getTime() - startDate.getTime()) / 1000,
-                startTime: startDate.getTime(),
-                endTime: endDate.getTime(),
-                labReport: labReport
+                id: id,
+                experimentRatio: $('#realExperimentRatio').html(),
+                reportRatio: $('#realReportRatio').html(),
+                content: $('#content').val()
             }
             admin.post({
-                url: '/vsMpTestRecord/addMpObject',
+                url: '/vsMpTestRecord/correction',
                 data: JSON.stringify(data),
-                success: res => {
-                    layer.msg('提交成功')
-                    window.history.back(-1)
-                },
-                error: err => layer.msg((err && err.msg) || '数据请求失败')
+                success: function (res) {
+                    layer.msg(res.msg||'提交成功')
+//                    window.history.back(-1)
+                } ,
+                error: function (err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
             })
         }
-        //文件上传
-        var uploadInst = upload.render({
-            elem: '#labReportAddress', //绑定元素
-            url: conf.requestUrl + '/dataBank/oneFileUpload', //上传接口
-            field: 'file',
-            method: 'post',
-            data: {
-                type: 1
-            },
-            done: function(res) {
-                if (res.code === 401) {
-                    admin.logout()
-                } else if (res.code === 200) {
-                    $('#file_path').html(res.data)
-                    layer.msg('上传成功')
-                } else {
-                    layer.msg(res.msg || '上传失败')
-                }
-                layer.closeAll('loading') //关闭loading
-            },
-            error: function(err) {
-                layer.msg(err.msg || '上传失败')
-                layer.closeAll('loading') //关闭loading
-            }
-        })
+
     })
 </script>
 <style>
@@ -489,8 +305,8 @@
         width: 100%;
     }
 
-    #source-manage-details #fileUrl {
-    }
+     #source-manage-details #fileUrl {
+     }
 
     .source-details-inner {
         padding: 20px 0;
