@@ -219,7 +219,7 @@
             }
             admin.get({
                 url:
-                    '/chattingRecords/getList?sendTargetType=1&sendTargetId=' +
+                    '/chattingRecords/getList?desc=true&sendTargetType=1&sendTargetId=' +
                     targetId +
                     '&page=1&rows=10000',
                 // data: JSON.stringify(data),
@@ -259,7 +259,7 @@
             $('#chat_list').html(str)
 
             var timer = setInterval(function() {
-                var iScrollTop = $('#chat_list').scrollTop()
+                var iScrollTop = $('#chat_list').scrollTop() + 10
 
                 if (
                     iScrollTop >=

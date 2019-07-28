@@ -222,7 +222,10 @@
         })*/
         form.on('select(knowlegePointChange)', function(obj) {
             $('.layui-table-body').css('overflow', 'visible')
-            $('.layui-table-box').css('overflow', 'visible')
+            $('.layui-table-box').css({
+                overflow: 'visible',
+                'min-height': '300px'
+            })
             $('.layui-table-view').css('overflow', 'visible')
             var value = obj.value
             var tr = $(obj.elem).parents('tr')
@@ -245,7 +248,10 @@
 
         form.on('select(exercisesTypeChange)', function(obj) {
             $('.layui-table-body').css('overflow', 'visible')
-            $('.layui-table-box').css('overflow', 'visible')
+            $('.layui-table-box').css({
+                overflow: 'visible',
+                'min-height': '300px'
+            })
             $('.layui-table-view').css('overflow', 'visible')
             var value = obj.value
             var tr = $(obj.elem).parents('tr')
@@ -264,7 +270,10 @@
 
         form.on('select(exercisesDifficultyChange)', function(obj) {
             $('.layui-table-body').css('overflow', 'visible')
-            $('.layui-table-box').css('overflow', 'visible')
+            $('.layui-table-box').css({
+                overflow: 'visible',
+                'min-height': '300px'
+            })
             $('.layui-table-view').css('overflow', 'visible')
             var value = obj.value
             var tr = $(obj.elem).parents('tr')
@@ -355,7 +364,10 @@
 
         $('#add_ploy').on('click', function() {
             $('.layui-table-body').css('overflow', 'visible')
-            $('.layui-table-box').css('overflow', 'visible')
+            $('.layui-table-box').css({
+                overflow: 'visible',
+                'min-height': '300px'
+            })
             $('.layui-table-view').css('overflow', 'visible')
 
             strategyEntries.push(JSON.parse(JSON.stringify(option)))
@@ -421,7 +433,10 @@
         })
 
         $('.layui-table-body').css('overflow', 'visible')
-        $('.layui-table-box').css('overflow', 'visible')
+        $('.layui-table-box').css({
+            overflow: 'visible',
+            'min-height': '300px'
+        })
         $('.layui-table-view').css('overflow', 'visible')
 
         $('#save_ploy').click(function() {
@@ -607,5 +622,9 @@
 
     #examine-ploy-add .layui-table-cell {
         overflow: visible;
+    }
+
+    #ploy-content .layui-table-box {
+        height: 500px;
     }
 </style>

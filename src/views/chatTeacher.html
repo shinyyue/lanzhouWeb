@@ -160,6 +160,7 @@
                     '<img src="src/images/user_logo.png" class="member-avator" />' +
                     '<div class="member-info">' +
                     '<div>' +
+                    item.userName +
                     '</div>' +
                     '<div class="chat-info">' +
                     item.content +
@@ -172,7 +173,7 @@
             $('#chat_list').html(str)
 
             var timer = setInterval(function() {
-                var iScrollTop = $('#chat_list').scrollTop()
+                var iScrollTop = $('#chat_list').scrollTop() + 10
 
                 if (
                     iScrollTop >=
@@ -262,7 +263,7 @@
             }
             admin.get({
                 url:
-                    '/chattingRecords/getList?sendTargetType=1&sendTargetId=' +
+                    '/chattingRecords/getList?desc=false&sendTargetType=1&sendTargetId=' +
                     targetId +
                     '&page=1&rows=10000',
                 success: function(res) {
