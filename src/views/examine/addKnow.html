@@ -218,38 +218,7 @@
                                 '</option>'
                         )
                     }
-                    // res.data &&
-                    //     res.data.items &&
-                    //     res.data.items.forEach(item => {
-                    //         $('#pName').append(
-                    //             '<option value="' +
-                    //                 item.cId +
-                    //                 '">' +
-                    //                 item.cName +
-                    //                 '</option>'
-                    //         )
-                    //     })
                     form.render()
-                    // $('#pName').jstree({
-                    //     core: {
-                    //         data: res.data.items,
-                    //         check_callback: true,
-                    //         multiple: false
-                    //     },
-                    //     force_text: true,
-                    //     plugins: [
-                    //         'sort',
-                    //         'types',
-                    //         'checkbox',
-                    //         'themes',
-                    //         'html_data'
-                    //     ],
-                    //     checkbox: {
-                    //         keep_selected_style: false, //是否默认选中
-                    //         three_state: false, //父子级别级联选择
-                    //         tie_selection: false
-                    //     }
-                    // })
 
                     callback && typeof callback === 'function' && callback()
                 },
