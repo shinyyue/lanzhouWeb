@@ -151,6 +151,29 @@
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label require">实验成绩合格次数</label>
+                <input
+                    type="text"
+                    class="common-form-input"
+                    style="width: 230px;"
+                    id="ruleNum"
+                />
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label require">实验成绩合格用时</label>
+                <input
+                    type="text"
+                    class="common-form-input"
+                    style="width: 230px;"
+                    id="ruleTime"
+                />
+                <span>分钟</span>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label"></label>
                 <div class="layui-btn primary-btn" id="ready-plan">
                     安排
@@ -206,6 +229,8 @@
                 experimentRatio: $('#experimentRatio').val(),
                 startTime: new Date($('#startTime').val()).getTime(),
                 endTime: new Date($('#endTime').val()).getTime(),
+                runTime: $('#runTime').val(),
+                runNum: $('#runNum').val(),
                 experimentName: $('#experimentName').val(),
                 experimentType: Number(
                     $('input[name=experimentType]:checked').val()

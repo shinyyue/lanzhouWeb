@@ -123,6 +123,7 @@
                 .val()
                 .trim()
             wsHandler(message)
+            $('#chat_content').val('')
         })
 
         // $('.chating-add-btn').click(function() {
@@ -133,9 +134,7 @@
 
         ws.onmessage = function(evt) {
             var msg = JSON.parse(evt.data)
-            if (msg.toUserId === checkedItem.toUserId) {
-                getChatHistory(checkedItem.toUserId)
-            }
+            checkedItem && getChatHistory(checkedItem.id)
         }
 
         ws.onclose = function() {
@@ -236,11 +235,12 @@
                     $('#published_course').html(courseItem)
                     $('#published_course .member-item').click(function() {
                         checkedItem = publishedCourseList[$(this).index()]
-                        message.fromUserId = Number(checkedItem.id)
+                        message.fromUserId = 0
+                        message.toUserId = Number(checkedItem.id)
                         $('#courseName').html(checkedItem.courseName)
                         $('#send_message').css('display', 'block')
+                        // 聊天室ID：开课计划ID
                         getChatHistory(checkedItem.id)
-                        wsHandler(message)
                         $(this).addClass('active')
                         $(this)
                             .siblings()
