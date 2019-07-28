@@ -381,7 +381,9 @@
         getClassList()
         getClassRoom()
         if (id) {
-            getDetails()
+            setTimeout(function() {
+                getDetails()
+            }, 1000)
             $('#techManage-addnew').attr('style', 'display:none;')
         } else {
             $('#techManage-update').attr('style', 'display:none;')
