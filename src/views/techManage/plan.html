@@ -222,7 +222,7 @@
 
         function publish(id) {
             admin.put({
-                url: '/coursePlan/publishAll?ids=' + id,
+                url: '/coursePlan/publishById?id=' + id,
                 success: function (res) {
                     layer.msg('发布成功！')
                     getList(1)

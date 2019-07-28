@@ -147,7 +147,7 @@
 
 
         function updateUser() {
-            var data = userInfo;
+            var data = {};
             data.account = $('#account').val()
             data.snoOrJno = $('#snoOrJno').val()
             data.phonenumber = $('#phonenumber').val()
@@ -162,11 +162,18 @@
                 url: '/user/updateUser',
                 data: JSON.stringify(data),
                 success: function (res) {
-                    console.log(333, res)
-                    layer.msg('修改成功')
-//                    getUserInfo()
-                    //调转个人信息页面
-                    window.location.href = 'index.html#/personalInfo/personalInfo'
+                    if(res.code==200){
+                        layer.msg('修改成功')
+                        //调转个人信息页面
+                        window.location.href = 'index.html#/personalInfo/personalInfo'
+                        window.location.reload()
+                    }else{
+                        layer.msg(res.msg||'修改失败')
+                        return
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '修改失败')
                 }
             })
         }
@@ -207,7 +214,6 @@
 
             updateUser(formData)
         })
-
 
     })
 </script>
