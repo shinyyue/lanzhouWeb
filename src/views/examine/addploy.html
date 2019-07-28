@@ -6,7 +6,7 @@
         </div>
     </div>
     <div class="course-add">
-        <button class="primary-btn" id="examine-ploy-add">添加策略</button>
+        <div class="primary-btn" id="examine-ploy-add">添加策略</div>
     </div>
     <table id="examine-ploy-table" lay-filter="examine-ploy-table"></table>
     <script type="text/html" id="examine-ploy-opt">
@@ -17,7 +17,7 @@
 </div>
 
 <script>
-    layui.use(['table'], function (table) {
+    layui.use(['table'], function(table) {
         var table = layui.table,
             $ = layui.jquery,
             tableFilter = 'examine-ploy-table'
@@ -25,20 +25,12 @@
         table.render({
             elem: '#examine-ploy-table',
             page: false,
-            data: [{
-                id: 1,
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '未发布',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1
-            }],
+            data: [],
             elem: '[lay-filter="' + tableFilter + '"]',
             height: 'full-300',
             cols: [
-                [{
+                [
+                    {
                         title: '序号',
                         field: 'id',
                         width: 80,
@@ -53,7 +45,6 @@
                         title: '所属课程',
                         field: 'courceName',
                         align: 'center'
-
                     },
                     {
                         title: '创建时间',
@@ -63,43 +54,46 @@
                     {
                         title: '制定人',
                         field: 'responsor',
-                        align: 'center',
+                        align: 'center'
                     },
                     {
                         title: '操作',
                         align: 'center',
-                        templet: '#examine-ploy-opt',
+                        templet: '#examine-ploy-opt'
                     }
                 ]
             ]
         })
 
-
-        $('#examine-ploy-check').on('click', function () {
+        $('#examine-ploy-check').on('click', function() {
             location.href = 'index.html#/examine/ploydetail'
         })
 
-        $('#examine-ploy-edit').on('click', function () {
+        $('#examine-ploy-edit').on('click', function() {
             location.href = 'index.html#/examine/ployadd'
         })
 
-        $('#examine-ploy-add').on('click', function () {
+        $('#examine-ploy-add').on('click', function() {
             location.href = 'index.html#/examine/ployadd'
         })
 
-        $('#examine-ploy-delete').on('click', function () {
-            layer.confirm('您确定要删除么?', {
-                icon: 3,
-                title: '提示',
-                shade: 0.5,
-            }, function (confirm) {
-                // 用户点击确定
-                layer.close(confirm);
-            }, function (cancel) {
-                // 用户点击取消
-                layer.close(cancel);
-            });
+        $('#examine-ploy-delete').on('click', function() {
+            layer.confirm(
+                '您确定要删除么?',
+                {
+                    icon: 3,
+                    title: '提示',
+                    shade: 0.5
+                },
+                function(confirm) {
+                    // 用户点击确定
+                    layer.close(confirm)
+                },
+                function(cancel) {
+                    // 用户点击取消
+                    layer.close(cancel)
+                }
+            )
         })
-
     })
 </script>

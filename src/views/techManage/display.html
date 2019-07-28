@@ -18,124 +18,151 @@
         <div class="display-title">开课情况明细分析</div>
         <table id="tech-status" lay-filter="tech-status"></table>
     </div>
-
-
 </div>
 
-
 <script>
-    layui.use(['table', 'echarts'], function (table) {
+    layui.use(['table', 'echarts'], function(table) {
         var $ = layui.jquery,
-            tableFilter = 'tech-status';
-
+            tableFilter = 'tech-status',
+            tableOption = {
+                page: false,
+                data: [],
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [
+                        {
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center',
+                            type: 'numbers'
+                        },
+                        {
+                            title: '开课名称',
+                            field: 'courseName',
+                            align: 'center'
+                        },
+                        {
+                            title: '开课类型',
+                            field: 'courseCode',
+                            align: 'center',
+                            templet: function(d) {
+                                return d == 1 ? '面向全校' : '未面向全校'
+                            }
+                        },
+                        {
+                            title: '学习总时长（min）',
+                            field: 'countTime',
+                            align: 'center'
+                        },
+                        {
+                            title: '学习总人数',
+                            align: 'center',
+                            field: 'countStu'
+                        }
+                    ]
+                ]
+            },
+            admin = layui.admin
 
         function initChart(id, option) {
-            echarts.init(document.getElementById(id), layui.echartsTheme).setOption(option);
+            echarts
+                .init(document.getElementById(id), layui.echartsTheme)
+                .setOption(option)
         }
 
         var option = {
             tooltip: {
                 trigger: 'axis'
             },
-            xAxis: [{
-                name: '月份',
-                type: 'category',
-                data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '周六', '周日', '周日'],
-                axisTick: {
-                    alignWithLabel: true
+            xAxis: [
+                {
+                    name: '月份',
+                    type: 'category',
+                    data: [
+                        '1月',
+                        '2月',
+                        '3月',
+                        '4月',
+                        '5月',
+                        '6月',
+                        '7月',
+                        '8月',
+                        '周六',
+                        '周日',
+                        '周日'
+                    ],
+                    axisTick: {
+                        alignWithLabel: true
+                    }
                 }
-            }],
-            yAxis: [{
-                type: 'value',
-                name: '数量'
-            }],
-            series: [{
-                color: '#009999',
-                type: 'bar',
-                barWidth: '60%',
-                data: [10, 52, 200, 334, 390, 330, 220, 334, 390, 330, 330]
-            }]
-        };
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '数量'
+                }
+            ],
+            series: [
+                {
+                    color: '#009999',
+                    type: 'bar',
+                    barWidth: '60%',
+                    data: [10, 52, 200, 334, 390, 330, 220, 334, 390, 330, 330]
+                }
+            ]
+        }
 
         var stuOption = {
             tooltip: {
                 trigger: 'axis'
             },
-            xAxis: [{
-                name: '课程',
-                type: 'category',
-                data: ['课程1', '课程2', '课程3', '课程4'],
-                axisTick: {
-                    alignWithLabel: true
-                }
-            }],
-            yAxis: [{
-                type: 'value',
-                name: '人数'
-            }],
-            series: [{
-                color: '#009999',
-                type: 'bar',
-                barWidth: '60%',
-                data: [10, 52, 200, 334, 390, 330, 220, 334, 390, 330, 330]
-            }]
-        };
-
-        initChart('course-nums-chart', option);
-        initChart('course-stu-chart', option);
-
-
-        table.render({
-            page: false,
-            data: [{
-                id: 1,
-                courceName: '发电机哈哈',
-                courseCode: 20190101,
-                responsor: '王小虎',
-                time: '第一学期',
-                class: '所有年级',
-                isCommon: false,
-                score: 1,
-                times: 100
-            }],
-            elem: '[lay-filter="' + tableFilter + '"]',
-            height: 'full-300',
-            cols: [
-                [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center'
-                    },
-                    {
-                        title: '开课名称',
-                        field: 'courceName',
-                        align: 'center'
-
-                    },
-                    {
-                        title: '开课类型',
-                        field: 'courseCode',
-                        align: 'center'
-                    },
-                    {
-                        title: '学习总时长（h）',
-                        field: 'responsor',
-                        align: 'center',
-                    },
-                    {
-                        title: '学习总人数',
-                        align: 'center',
-                        field: 'times',
+            xAxis: [
+                {
+                    name: '课程',
+                    type: 'category',
+                    data: ['课程1', '课程2', '课程3', '课程4'],
+                    axisTick: {
+                        alignWithLabel: true
                     }
-                ]
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '人数'
+                }
+            ],
+            series: [
+                {
+                    color: '#009999',
+                    type: 'bar',
+                    barWidth: '60%',
+                    data: [10, 52, 200, 334, 390, 330, 220, 334, 390, 330, 330]
+                }
             ]
-        })
+        }
+
+        initChart('course-nums-chart', option)
+        initChart('course-stu-chart', option)
+        getList()
+
+        function getList() {
+            admin.post({
+                url: '/report/queryCourseInfo',
+                // data: {},
+                success: function(res) {
+                    tableOption.data = res.data || []
+                    table.render(tableOption)
+                }
+            })
+        }
     })
 </script>
 
 <style>
-    #tech-manage-display {}
+    #tech-manage-display {
+    }
 
     .display-course-item {
         border: 1px solid rgba(204, 204, 204, 1);
