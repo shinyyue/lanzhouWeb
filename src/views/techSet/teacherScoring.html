@@ -287,7 +287,7 @@
                 data: JSON.stringify(data),
                 success: function (res) {
                     layer.msg(res.msg||'提交成功')
-//                    window.history.back(-1)
+                    window.history.back(-1)
                 } ,
                 error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
