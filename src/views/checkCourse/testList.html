@@ -110,28 +110,31 @@
             }
 
         getList(1)
-        $("#courseName").html(layui.data('course').coursePlanName)
+        $('#courseName').html(layui.data('course').coursePlanName)
         table.on('tool(checkcourse-testlist-table)', function(obj) {
             var data = obj.data //获得当前行数据
             var layEvent = obj.event,
                 type = ''
-                // console.log(data)
+            // console.log(data)
             if (layEvent === 'check') {
                 window.location.href =
                     'index.html#/checkCourse/testDetails/id=' +
                     data.id +
+                    '/type=check' +
                     '/endTime=' +
                     new Date(data.endTime).getTime() +
                     '/startTime=' +
                     new Date(data.startTime).getTime()
-            }if (layEvent === 'test') {
-                if(new Date(data.startTime).getTime()>new Date().getTime()){
+            }
+            if (layEvent === 'test') {
+                if (new Date(data.startTime).getTime() > new Date().getTime()) {
                     layer.msg('测试未开始')
                     return
                 }
                 window.location.href =
                     'index.html#/checkCourse/testAdd/id=' +
                     data.id +
+                    '/type=test' +
                     '/endTime=' +
                     new Date(data.endTime).getTime() +
                     '/startTime=' +
