@@ -163,6 +163,7 @@
                 success: function(res) {
                     var data = res.data
                     details = data
+                    if (!res.data) return;
                     $('#resourceName').html(data.resourceName)
                     $('#teacherName').html(data.teacherName)
                     $('#accessAuthority').html(data.accessAuthority)
