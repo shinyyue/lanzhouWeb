@@ -128,7 +128,6 @@
         ws.onopen = function() {}
 
         ws.onmessage = function(evt) {
-            console.log(33333, evt)
             var msg = JSON.parse(evt.data)
             checkedItem && getChatHistory(checkedItem.coursePlanId)
             // if (msg.toUserId === checkedItem.toUserId) {
@@ -218,7 +217,7 @@
             }
             admin.get({
                 url:
-                    '/chattingRecords/getList?desc=true&sendTargetType=1&sendTargetId=' +
+                    '/chattingRecords/getList?desc=false&sendTargetType=1&sendTargetId=' +
                     targetId +
                     '&page=1&rows=10000',
                 // data: JSON.stringify(data),
