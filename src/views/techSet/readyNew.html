@@ -1,11 +1,10 @@
-<div id="ready-new" layui-title="布置新实验">
+<div id="ready-new"
+     layui-title="布置新实验">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span
-                >开课管理 > <span id="courseName"></span> 实验准备 >
-                布置新实验</span
-            >
+            <span>开课管理 > <span id="courseName"></span> 实验准备 >
+                布置新实验</span>
         </div>
     </div>
     <div class="ready-new-step">
@@ -17,7 +16,8 @@
                 选择开课
             </button> -->
             <!-- <img src="src/images/arrow-right.svg" /> -->
-            <button class="layui-btn layui-btn-primary" style="color: red;">
+            <button class="layui-btn layui-btn-primary"
+                    style="color: red;">
                 选择实验
             </button>
             <img src="src/images/arrow-right.svg" />
@@ -26,15 +26,21 @@
             <button class="layui-btn layui-btn-primary">安排成功</button>
         </div>
     </div>
-    <table id="ready-new-table" lay-filter="ready-new-table"></table>
-    <script type="text/html" id="ready-new-opt">
-        <button class="course-set-btn" lay-event="check">查看</button>
-        <button class="course-set-btn" lay-event="choose">选择</button>
+    <table id="ready-new-table"
+           lay-filter="ready-new-table"></table>
+    <script type="text/html"
+            id="ready-new-opt">
+        <button class="course-set-btn"
+                lay-event="check">查看</button>
+        <button class="course-set-btn"
+                lay-event="choose">选择</button>
+
     </script>
-    <div class="app-table-page" id="ready-new-page"></div>
+    <div class="app-table-page"
+         id="ready-new-page"></div>
 </div>
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function(table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -60,7 +66,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function(obj, first) {
+                jump: function (obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -71,8 +77,7 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [
-                        {
+                    [{
                             title: '序号',
                             field: 'id',
                             width: 80,
@@ -94,11 +99,11 @@
                             field: 'typeName',
                             align: 'center'
                         },
-                        {
-                            title: '实验时长',
-                            field: 'countTime',
-                            align: 'center'
-                        },
+                        // {
+                        //     title: '实验时长',
+                        //     field: 'countTime',
+                        //     align: 'center'
+                        // },
                         {
                             title: '创建者',
                             field: 'userName',
@@ -121,7 +126,7 @@
                 type: '',
                 remark: ''
             }
-        table.on('tool(ready-new-table)', function(obj) {
+        table.on('tool(ready-new-table)', function (obj) {
             var data = obj.data, //获得当前行数据
                 layEvent = obj.event,
                 type = ''
@@ -145,13 +150,13 @@
             admin.post({
                 url: '/curriculumExperiment/queryExpListByCurriculumId',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -160,10 +165,10 @@
         function deleteData(id) {
             admin.delete({
                 url: '/college/deleteCollege?id=' + id,
-                success: function(res) {
+                success: function (res) {
                     getList(1)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -177,10 +182,10 @@
             admin.put({
                 url: '/college/updateCollege',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     getList(1)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -189,8 +194,8 @@
         function getData(id) {
             admin.get({
                 url: '/college/queryCollege?id=' + id,
-                success: function(res) {},
-                error: function(err) {
+                success: function (res) {},
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -203,10 +208,10 @@
             admin.post({
                 url: '/college/addCollege',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     getList(1)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -222,6 +227,7 @@
             }
         }
     })
+
 </script>
 <style>
     .ready-new-step {
@@ -232,4 +238,5 @@
         width: 60%;
         margin: 0 auto;
     }
+
 </style>

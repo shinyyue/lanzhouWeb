@@ -1,4 +1,5 @@
-<div id="examine-addknow" lay-title="添加知识点">
+<div id="examine-addknow"
+     lay-title="添加知识点">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -6,15 +7,14 @@
             <span id="knowledgePoint-edit">题库管理 > 知识点 > 编辑知识点</span>
         </div>
     </div>
-    <form action="" class="layui-form my-add-form">
+    <form action=""
+          class="layui-form my-add-form">
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">所属课程名称</label>
-                <select
-                    name="curriculumId"
-                    id="curriculumId"
-                    lay-filter="checkCourse"
-                >
+                <select name="curriculumId"
+                        id="curriculumId"
+                        lay-filter="checkCourse">
                     <option value="">选择课程</option>
                 </select>
             </div>
@@ -22,7 +22,8 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">父知识点</label>
-                <select name="pName" id="pName" lay-verify="">
+                <select name="pName"
+                        id="pName">
                     <option value="">请选择</option>
                     <option value="1">根知识点</option>
                 </select>
@@ -31,25 +32,21 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">知识点名称</label>
-                <input
-                    class="common-form-input"
-                    type="text"
-                    name="name"
-                    id="name"
-                    placeholder="请输入知识点名称"
-                />
+                <input class="common-form-input"
+                       type="text"
+                       name="name"
+                       id="name"
+                       placeholder="请输入知识点名称" />
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">知识点描述</label>
                 <div class="layui-col-md9">
-                    <textarea
-                        id="describe"
-                        name="describe"
-                        placeholder="请输入内容"
-                        class="layui-textarea"
-                    ></textarea>
+                    <textarea id="describe"
+                              name="describe"
+                              placeholder="请输入内容"
+                              class="layui-textarea"></textarea>
                 </div>
             </div>
         </div>
@@ -57,26 +54,23 @@
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label"></label>
                 <div>
-                    <button
-                        class="layui-btn primary-btn"
-                        lay-submit
-                        lay-filter="submit"
-                    >
+                    <div class="layui-btn primary-btn"
+                         lay-submit
+                         id="add_know"
+                         lay-filter="submit">
                         保存
-                    </button>
-                    <button
-                        class="layui-btn layui-btn-primary cancel-btn"
-                        id="examine-addknow-back"
-                    >
+                    </div>
+                    <div class="layui-btn layui-btn-primary cancel-btn"
+                         id="examine-addknow-back">
                         返回
-                    </button>
+                    </div>
                 </div>
             </div>
         </div>
     </form>
 </div>
 <script>
-    layui.use(['form'], function() {
+    layui.use(['form'], function () {
         var form = layui.form,
             $ = layui.jquery,
             admin = layui.admin,
@@ -84,25 +78,28 @@
 
         form.render()
 
-        form.on('submit(submit)', function(data) {
-            userInfo = data.field
-            userInfo.curriculumId = Number($('#curriculumId').val())
+        $('#add_know').click(function () {
+            var data = {
+                curriculumId: Number($('#curriculumId').val()),
+                parentId: Number($('#pName').val()),
+                name: $('#name').val(),
+                describe: $('#describe').val()
+            }
 
-            id ? updateData(userInfo) : addData(userInfo)
-            // $('#login-user').addClass('show')
-            return false
+            id ? updateData(data) : addData(data)
+            return false;
         })
 
-        form.on('select(checkCourse)', function(obj) {
-            getKnowList(function() {}, obj.value)
+
+        form.on('select(checkCourse)', function (obj) {
+            getKnowList(function () {}, obj.value)
         })
 
-        $('#examine-addknow-back').on('click', function() {
+        $('#examine-addknow-back').on('click', function () {
             location.href = 'index.html#/examine/knowledge'
         })
 
-        getCourseList(function() {})
-        // getKnowList(function() {})
+        getCourseList(function () {})
         if (id) {
             $('#knowledgePoint-add').attr('style', 'display:none;')
             getDetails()
@@ -113,7 +110,7 @@
         function getDetails() {
             admin.get({
                 url: '/knowledgePoint/queryById?id=' + id,
-                success: function(res) {
+                success: function (res) {
                     $('#name').val(res.data.pName)
                     $('#pName').val(res.data.pId)
                     $('#curriculumId').val(res.data.curriculumId)
@@ -123,17 +120,11 @@
         }
 
         function updateData(data) {
-            var formData = {
-                parentId: $('#pName').val(),
-                name: data.name,
-                curriculumId: data.curriculumId,
-                describe: data.describe,
-                id: id
-            }
+            data.id = id
             admin.put({
                 url: '/knowledgePoint/update',
-                data: JSON.stringify(formData),
-                success: function() {
+                data: JSON.stringify(data),
+                success: function () {
                     layer.msg('修改成功！')
                     location.href = 'index.html#/examine/knowledge'
                     window.location.reload()
@@ -142,17 +133,10 @@
         }
 
         function addData(data) {
-            var formData = {
-                parentId: $('#pName').val(),
-                name: data.name,
-                curriculumId: data.curriculumId,
-                describe: data.describe
-            }
-
             admin.post({
                 url: '/knowledgePoint/add',
-                data: JSON.stringify(formData),
-                success: function(res) {
+                data: JSON.stringify(data),
+                success: function (res) {
                     if (res.code == 200) {
                         layer.msg('添加成功！')
                         location.href = 'index.html#/examine/knowledge'
@@ -162,7 +146,7 @@
                         return
                     }
                 },
-                error: function(res) {
+                error: function (res) {
                     layer.msg(res.msg || '添加失败！')
                     return
                 }
@@ -177,22 +161,22 @@
             admin.post({
                 url: '/vsMpCurriculum/getList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     res.data &&
                         res.data.items &&
                         res.data.items.forEach(item => {
                             $('#curriculumId').append(
                                 '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.curriculumName +
-                                    '</option>'
+                                item.id +
+                                '">' +
+                                item.curriculumName +
+                                '</option>'
                             )
                         })
                     form.render()
                     callback && typeof callback === 'function' && callback()
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -207,34 +191,35 @@
             admin.post({
                 url: '/knowledgePoint/list',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     for (var i = 0; i < res.data.items.length; i++) {
                         var item = res.data.items[i]
                         $('#pName').append(
                             '<option value="' +
-                                item.cId +
-                                '">' +
-                                item.cName +
-                                '</option>'
+                            item.cId +
+                            '">' +
+                            item.cName +
+                            '</option>'
                         )
                     }
                     form.render()
 
                     callback && typeof callback === 'function' && callback()
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
     })
+
 </script>
 
 <style>
-    #examine-addknow {
-    }
+    #examine-addknow {}
 
     .my-add-form {
         padding: 25px 0;
     }
+
 </style>
