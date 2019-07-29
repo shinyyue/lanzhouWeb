@@ -28,10 +28,12 @@
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">实验要求</label>
-                <div class="layui-col-md9" id="require"></div>
+                <div class="layui-col-md9"
+                     id="require"></div>
             </div>
         </div>
-        <div class="source-display" id="fileUrl">
+        <div class="source-display"
+             id="fileUrl">
             <div id="mune_area">
                 <div class="tab_a"
                      id="tab_b">
@@ -69,33 +71,43 @@
                         style="width: 100%; height: 100%"></iframe>
             </div>
         </div>
+        <a href="http://39.104.97.6:8080/dataBank/exportCult3D"
+           style="color: red; display: none; text-decoration: underline;"
+           id="showTip">若加载失败，点击安装Cult3D插件</a>
         <div class="layui-row">
             <div class="layui-col-md4 layui-form-item">
                 <label class="layui-form-label ">实验成绩</label>
-                <input id="experimentRatio" style="width: 50px"></input>
-                x<span id="experimentProportion"/>%=<span id="realExperimentRatio"/>
+                <input id="experimentRatio"
+                       style="width: 50px"></input>
+                x<span id="experimentProportion" />%=<span id="realExperimentRatio" />
             </div>
         </div>
-        <div class="layui-row" id="labReportDiv">
+        <div class="layui-row"
+             id="labReportDiv">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">实验报告内容</label>
-                <div class="layui-col-md9" >
-                    <div class="layui-col-md10" id="labReport"></div>
+                <div class="layui-col-md9">
+                    <div class="layui-col-md10"
+                         id="labReport"></div>
                 </div>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md4 layui-form-item">
                 <label class="layui-form-label ">实验报告成绩</label>
-                <input id="reportRatio" style="width: 50px"></input>
-                x<span id="reportProportion"/>%=<span id="realReportRatio"/>
+                <input id="reportRatio"
+                       style="width: 50px"></input>
+                x<span id="reportProportion" />%=<span id="realReportRatio" />
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">评语</label>
-                <div class="layui-col-md9" id="">
-                    <textarea name="desc" class="layui-textarea" id="content"></textarea>
+                <div class="layui-col-md9"
+                     id="">
+                    <textarea name="desc"
+                              class="layui-textarea"
+                              id="content"></textarea>
                 </div>
             </div>
         </div>
@@ -104,17 +116,13 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label "></label>
                 <div>
-                    <div
-                        class="layui-btn primary-btn"
-                        lay-submit
-                        id="submit"
-                    >
+                    <div class="layui-btn primary-btn"
+                         lay-submit
+                         id="submit">
                         提交
                     </div>
-                    <div
-                        class="layui-btn layui-btn-primary cancel-btn"
-                        id="back"
-                    >
+                    <div class="layui-btn layui-btn-primary cancel-btn"
+                         id="back">
                         返回
                     </div>
                 </div>
@@ -127,7 +135,7 @@
 <script src="src/plugins/resource_url.js"></script>
 <script src="menutree/menuTree.js"></script>
 <script>
-    layui.use(['form', 'admin'], function() {
+    layui.use(['form', 'admin'], function () {
         var $ = layui.jquery,
             admin = layui.admin,
             conf = layui.conf,
@@ -141,18 +149,19 @@
         })
         $('#back').on('click', function () {
             window.history.go(-1)
-        } )
+        })
         $('#experimentRatio').change(function () {
-            $('#realExperimentRatio').html($('#experimentRatio').val() * $('#experimentProportion').text() / 100)
+            $('#realExperimentRatio').html($('#experimentRatio').val() * $('#experimentProportion')
+                .text() / 100)
         })
         $('#reportRatio').change(function () {
             $('#realReportRatio').html($('#reportRatio').val() * $('#reportProportion').text() / 100)
         })
 
-        function getDetails () {
+        function getDetails() {
             admin.get({
-                url:  '/vsMpTestRecord/correctionById?id=' + id,
-                success: function(res) {
+                url: '/vsMpTestRecord/correctionById?id=' + id,
+                success: function (res) {
                     var data = res.data
                     $('#curriculumExperimentName').html(data.curriculumExperimentName)
                     $('#experimentType').html(data.experimentType)
@@ -163,7 +172,8 @@
                     $('#reportProportion').html(data.reportProportion)
                     $('#experimentProportion').html(data.experimentProportion)
                     $('#realReportRatio').html(data.reportRatio * data.reportProportion / 100)
-                    $('#realExperimentRatio').html(data.experimentRatio * data.experimentProportion / 100)
+                    $('#realExperimentRatio').html(data.experimentRatio * data
+                        .experimentProportion / 100)
                     $('#labReport').html(data.labReport)
                     $('#content').val(data.content)
                     dataType = res.data.dataType
@@ -176,42 +186,47 @@
                             JSON.parse(res.data.resourceIds)[0].url
                         $('#fileUrl').html(
                             '<iframe src="' +
-                                fileUrl +
-                                '" width="100%" height="100%" frameborder="1"></iframe>'
+                            fileUrl +
+                            '" width="100%" height="100%" frameborder="1"></iframe>'
                         )
                     } else if (res.data.dataType == 2) {
                         // 图片
-                        var fileUrl = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url
-                        $('#fileUrl').html('<img src="' + fileUrl + '" style="width: 100%; height: 100%;">')
+                        var fileUrl = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[
+                            0].url
+                        $('#fileUrl').html('<img src="' + fileUrl +
+                            '" style="width: 100%; height: 100%;">')
                     } else if (res.data.dataType == 3) {
                         // 视频
                         renderVideo(res.data)
                     } else if (res.data.dataType == 4) {
                         // flash
-                        var fileUrl = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url
-                        $('#fileUrl').html('<embed src="' + fileUrl + '" type="application/x-shockwave-flash" style="width: 100%; height: 100%;" quality="high" />')
+                        var fileUrl = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[
+                            0].url
+                        $('#fileUrl').html('<embed src="' + fileUrl +
+                            '" type="application/x-shockwave-flash" style="width: 100%; height: 100%;" quality="high" />'
+                        )
                     } else if (res.data.dataType == 5) {
                         // exe
                         $('#fileUrl').hide()
                     } else if (res.data.dataType == 6) {
                         // U3D
                         $('#fileUrl').html('')
-//                        var jsonFile = JSON.parse(res.data.fileUrl).json
+                        //                        var jsonFile = JSON.parse(res.data.fileUrl).json
                         UnityLoader.instantiate(
                             'fileUrl',
-                            fileUrl,
-                            {
+                            fileUrl, {
                                 onProgress: UnityProgress
                             }
                         )
                     } else if (res.data.dataType == 7) {
+                        $('#showTip').show()
                         renderScrome(res.data)
                     }
 
-                    if(res.data.correctType==1){
+                    if (res.data.correctType == 1) {
                         $('#labReportDiv').attr('style', 'display:none;')
                     }
-                    if(res.data.correctType==0){
+                    if (res.data.correctType == 0) {
                         $('#labReportAddressDiv').attr('style', 'display:none;')
                     }
 
@@ -223,7 +238,8 @@
         // 渲染视频
         function renderVideo(data) {
             var fileUrl = conf.fileRequestUrl + '/' + JSON.parse(data.resourceIds)[0].url
-            $('#fileUrl').html('<video src="' + fileUrl + '" controls="controls" id="file_video_detail" style="width: 100%; height: 100%;" />');
+            $('#fileUrl').html('<video src="' + fileUrl +
+                '" controls="controls" id="file_video_detail" style="width: 100%; height: 100%;" />');
         }
 
         // 渲染scrome
@@ -240,13 +256,13 @@
                 }
                 addtree(
                     floor + sourceList[i].name,
-                    conf.fileRequestUrl + '/' +  sourceList[i].sourceName,
+                    conf.fileRequestUrl + '/' + sourceList[i].sourceName,
                     'innerTarget',
                     sourceList[i].id
                 )
             }
             createtree('tabcon1_menulist')
-            $('.menu-list').click(function() {
+            $('.menu-list').click(function () {
                 var list = sourceList[0].sourceName.split('.')
                 var type = list[list.length - 1]
                 if (type === 'swf') {
@@ -258,18 +274,22 @@
                     )
                 }
             })
-            munebtn.onclick = function() {
+            munebtn.onclick = function () {
                 var p = $('#pagecon')
                 if (this.getAttribute('data-zt') == 'a') {
                     mune.style.display = 'none'
                     this.className = 'munebtnb'
                     this.setAttribute('data-zt', 'b')
-                    p.css({ 'min-width': '1126px' })
+                    p.css({
+                        'min-width': '1126px'
+                    })
                 } else {
                     mune.style.display = 'block'
                     this.className = 'munebtna'
                     this.setAttribute('data-zt', 'a')
-                    p.css({ 'min-width': '900px' })
+                    p.css({
+                        'min-width': '900px'
+                    })
                 }
             }
         }
@@ -286,9 +306,9 @@
                 url: '/vsMpTestRecord/correction',
                 data: JSON.stringify(data),
                 success: function (res) {
-                    layer.msg(res.msg||'提交成功')
+                    layer.msg(res.msg || '提交成功')
                     window.history.back(-1)
-                } ,
+                },
                 error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
@@ -312,10 +332,10 @@
         }
 
     })
+
 </script>
 <style>
-    #virtualTest-details {
-    }
+    #virtualTest-details {}
 
     .source-details-inner {
         padding: 20px 0;
@@ -337,8 +357,7 @@
         width: 100%;
     }
 
-     #source-manage-details #fileUrl {
-     }
+    #source-manage-details #fileUrl {}
 
     .source-details-inner {
         padding: 20px 0;
@@ -431,6 +450,7 @@
         padding-left: 20px;
         background: url('pic/1_open.png') no-repeat;
     }
+
     #tabcon1 {
         padding: 20px 10px;
     }
@@ -459,4 +479,5 @@
         overflow: visible;
         display: block;
     }
+
 </style>
