@@ -184,6 +184,9 @@ layui
                 route = self.route
             }
             route.fileurl = '/' + route.path.join('/')
+
+            console.log(11111, route.fileurl)
+
             //判断登录页面
             if (conf.loginCheck == true) {
                 // 没有token验证，暂时用role来记录用户的登录状态
@@ -198,17 +201,6 @@ layui
                         return
                     }
                 }
-                // if (self.getLoginToken()) {
-                //     if (route.fileurl == conf.loginPage) {
-                //         self.navigate('/')
-                //         return
-                //     }
-                // } else {
-                //     if (route.fileurl != conf.loginPage) {
-                //         self.logout()
-                //         return
-                //     }
-                // }
             }
 
             if ($.inArray(route.fileurl, conf.indPage) === -1) {
@@ -303,7 +295,7 @@ layui
             params = params || {}
             params.titleIcoColor = params.titleIcoColor || '#5a8bff'
             params.titleIco = params.titleIco || 'exclaimination'
-            const newLocal = ';display:inline-block;position:relative;top:-2px;height:24px;line-height:24px;text-align:center;width:24px;color:#fff;border-radius:50%;margin-right:10px;"></i>';
+            var newLocal = ';display:inline-block;position:relative;top:-2px;height:24px;line-height:24px;text-align:center;width:24px;color:#fff;border-radius:50%;margin-right:10px;"></i>';
             params.title = [
                 '<i class="layui-icon layui-icon-' +
                 params.titleIco +
