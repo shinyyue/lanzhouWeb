@@ -269,20 +269,23 @@
 </script>
 <style>
     #app-body {
-        /* width: 1130px; */
         width: 100%;
+        min-width: 1300px;
         height: calc(100% - 50px);
-        /* max-height: 80%; */
         overflow: auto;
         box-sizing: border-box;
     }
 
+    .nepadmin-tabs-item {
+        /* overflow: auto; */
+    }
+
     .common-layout {
-        /* width: 1350px; */
         width: 100%;
-        min-width: 1400px;
+        /* min-width: 1300px; */
         height: 100%;
         margin: 0 auto;
+        position: relative;
     }
 
     .common-layout .layout-sider {
@@ -333,14 +336,14 @@
     }
 
     .common-layout .layout-right {
-        /* width: 1130px; */
         width: 100%;
-        /* position: */
-        position: fixed;
+        /* min-width: 1300px; */
+        overflow: auto;
+        position: absolute;
         left: 0;
-        right: 0;
+        /* right: 0; */
         top: 0;
-        bottom: 0;
+        /* bottom: 0; */
         padding-left: 220px;
         height: 100%;
         background: #fff;
@@ -349,9 +352,10 @@
     }
 
     .common-layout .layout-right .layout-header {
+        min-width: 1300px;
         background: rgba(26, 52, 113, 1);
         height: 50px;
-        padding: 0 0 0 20px;
+        padding: 0 35px 0 20px;
     }
 
     .layout-header-left {

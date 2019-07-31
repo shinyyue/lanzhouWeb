@@ -1,3 +1,14 @@
+body,
+html,
+#app,
+.layui-body {
+    width: 100%;
+    /* min-width: 1300px; */
+    overflow: hidden;
+    height: 100%;
+    background: #f3f3f3;
+}
+
 .course-title {
     overflow: hidden;
     clear: both;
