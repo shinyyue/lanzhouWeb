@@ -2,10 +2,8 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span
-                >开课管理 > <span id="coursePlanName"></span> 实验准备 >
-                布置新实验</span
-            >
+            <span>开课管理 > <span id="coursePlanName"></span> 实验准备 >
+                布置新实验</span>
         </div>
     </div>
     <div class="ready-new-step">
@@ -17,86 +15,81 @@
                 选择开课
             </button>
             <img src="src/images/arrow-right.svg" /> -->
-            <button
-                class="layui-btn layui-btn-primary"
-                style="background-color: rgba(0, 102, 102, 1) !important; color: #fff"
-            >
+            <button class="layui-btn layui-btn-primary"
+                    style="background-color: rgba(0, 102, 102, 1) !important; color: #fff">
                 选择实验
             </button>
             <img src="src/images/arrow-right.svg" />
-            <button class="layui-btn layui-btn-primary" style="color: red;">
+            <button class="layui-btn layui-btn-primary"
+                    style="color: red;">
                 设置安排属性
             </button>
             <img src="src/images/arrow-right.svg" />
             <button class="layui-btn layui-btn-primary">安排成功</button>
         </div>
     </div>
-    <form action="" class="layui-form">
+    <form action=""
+          class="layui-form">
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">实验名称</label>
-                <input
-                    type="text"
-                    class="common-form-input"
-                    id="experimentName"
-                />
+                <input type="text"
+                       class="common-form-input"
+                       id="experimentName" />
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属开课名称</label>
-                <span class="info-details" id="courseName"></span>
+                <span class="info-details"
+                      id="courseName"></span>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">选课人数</label>
-                <span class="info-details" id="countStudent"></span>
+                <span class="info-details"
+                      id="countStudent"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">必做/选做</label>
-                <input
-                    type="radio"
-                    name="experimentType"
-                    value="1"
-                    title="必做"
-                />
-                <input
-                    type="radio"
-                    name="experimentType"
-                    value="2"
-                    title="选做"
-                    checked
-                />
+                <input type="radio"
+                       name="experimentType"
+                       value="1"
+                       title="必做" />
+                <input type="radio"
+                       name="experimentType"
+                       value="2"
+                       title="选做"
+                       checked />
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">实验类型</label>
-                <span class="info-details" id="typeName"></span>
+                <span class="info-details"
+                      id="typeName"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">成绩比重</label>
                 <span>实验成绩比例：</span>
-                <input
-                    type="text"
-                    class="common-form-input"
-                    style="width: 120px"
-                    id="experimentRatio"
-                />%
+                <input type="text"
+                       class="common-form-input"
+                       style="width: 120px"
+                       id="experimentRatio" />%
                 <span>报告成绩比例：</span>
-                <input
-                    type="text"
-                    class="common-form-input"
-                    style="width: 120px"
-                    id="reportRatio"
-                />%
+                <input type="text"
+                       class="common-form-input"
+                       style="width: 120px"
+                       id="reportRatio" />%
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">实验地点</label>
-                <select name="sourceType" lay-verify="" id="experimentLab">
+                <select name="sourceType"
+                        lay-verify=""
+                        id="experimentLab">
                     <option value="">选择实验地点</option>
                 </select>
             </div>
@@ -104,25 +97,23 @@
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">实验报告批改类型</label>
-                <input
-                    type="radio"
-                    name="correctType"
-                    value="0"
-                    title="在线编辑模式"
-                />
-                <input
-                    type="radio"
-                    name="correctType"
-                    value="1"
-                    title="上传pdf模式"
-                    checked
-                />
+                <input type="radio"
+                       name="correctType"
+                       value="0"
+                       title="在线编辑模式" />
+                <input type="radio"
+                       name="correctType"
+                       value="1"
+                       title="上传pdf模式"
+                       checked />
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">周次</label>
-                <select name="labTime" lay-verify="" id="labTime">
+                <select name="labTime"
+                        lay-verify=""
+                        id="labTime">
                     <option value="">选择周次</option>
                 </select>
             </div>
@@ -130,52 +121,45 @@
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">开始时间</label>
-                <input
-                    type="text"
-                    class="common-form-input"
-                    style="width: 230px;"
-                    id="startTime"
-                />
+                <input type="text"
+                       class="common-form-input"
+                       style="width: 230px;"
+                       id="startTime" />
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">截止时间</label>
-                <input
-                    type="text"
-                    class="common-form-input"
-                    style="width: 230px;"
-                    id="endTime"
-                />
+                <input type="text"
+                       class="common-form-input"
+                       style="width: 230px;"
+                       id="endTime" />
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">实验成绩合格次数</label>
-                <input
-                    type="number"
-                    class="common-form-input"
-                    style="width: 230px;"
-                    id="ruleNum"
-                />
+                <input type="number"
+                       class="common-form-input"
+                       style="width: 230px;"
+                       id="ruleNum" />
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">实验成绩合格用时</label>
-                <input
-                    type="number"
-                    class="common-form-input"
-                    style="width: 230px;"
-                    id="ruleTime"
-                />
+                <input type="number"
+                       class="common-form-input"
+                       style="width: 230px;"
+                       id="ruleTime" />
                 <span>分钟</span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label"></label>
-                <div class="layui-btn primary-btn" id="ready-plan">
+                <div class="layui-btn primary-btn"
+                     id="ready-plan">
                     安排
                 </div>
             </div>
@@ -184,7 +168,7 @@
 </div>
 
 <script>
-    layui.use(['form', 'laydate'], function() {
+    layui.use(['form', 'laydate'], function () {
         var form = layui.form,
             $ = layui.jquery,
             laydate = layui.laydate,
@@ -208,9 +192,8 @@
             type: 'datetime'
         })
 
-        $('#ready-plan').on('click', function() {
+        $('#ready-plan').on('click', function () {
             addData()
-            return false
         })
 
         getList()
@@ -247,7 +230,7 @@
             admin.post({
                 url: '/curriculumExperiment/teacherAdd',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     if (res.code === 200) {
                         layer.msg('添加成功')
                         window.location.href =
@@ -270,13 +253,13 @@
             admin.post({
                 url: '/curriculumExperiment/queryExpListByCurriculumId',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     details = res.data && res.data.items && res.data.items[0]
                     $('#courseName').html(details.courseName)
                     $('#countStudent').html(details.countStudent)
                     $('#typeName').html(details.typeName)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -285,7 +268,7 @@
         function getWeekList() {
             admin.get({
                 url: '/cycle/queryCycleList',
-                success: function(res) {
+                success: function (res) {
                     if (res.data) {
                         var list = res.data,
                             opt = ''
@@ -301,7 +284,7 @@
                         form.render()
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -314,15 +297,15 @@
                     page: 1,
                     rows: 100
                 }),
-                success: function(res) {
+                success: function (res) {
                     res.data.items &&
-                        res.data.items.forEach(function(item) {
+                        res.data.items.forEach(function (item) {
                             $('#experimentLab').append(
                                 '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.labAddress +
-                                    '</option>'
+                                item.id +
+                                '">' +
+                                item.labAddress +
+                                '</option>'
                             )
                         })
                     form.render()
@@ -331,6 +314,7 @@
             })
         }
     })
+
 </script>
 
 <style>
@@ -348,7 +332,9 @@
         height: 38px;
         /* width: 80%; */
     }
+
     .info-details {
         line-height: 38px;
     }
+
 </style>
