@@ -1,30 +1,43 @@
-<div id="source-manage-mylist" class="layui-fluid" lay-title="我的资源库">
+<div id="source-manage-mylist"
+     class="layui-fluid"
+     lay-title="我的资源库">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
             <span>机构管理 > 机构管理 > 学院管理</span>
         </div>
         <div class="course-title-search">
-            <input type="text" placeholder="请输入关键字" id="collegeName" />
-            <button class="search-confirm" id="searchCollegeList">
+            <input type="text"
+                   placeholder="请输入关键字"
+                   id="collegeName" />
+            <button class="search-confirm"
+                    id="searchCollegeList">
                 <img src="src/images/search.png" />
             </button>
         </div>
     </div>
     <div class="course-add">
-        <button class="primary-btn" id="add_college">添加</button>
+        <div class="layui-btn primary-btn"
+             id="add_college">添加</div>
     </div>
-    <table id="college-mylist-table" lay-filter="college-mylist-table"></table>
-    <script type="text/html" id="sourcelist-opt">
-        <button class="course-set-btn" lay-event="edit">编辑</button>
-        <button class="course-set-btn" lay-event="delete">删除</button>
-        <button class="course-set-btn" lay-event="check">查看</button>
+    <table id="college-mylist-table"
+           lay-filter="college-mylist-table"></table>
+    <script type="text/html"
+            id="sourcelist-opt">
+        <button class="course-set-btn"
+                lay-event="edit">编辑</button>
+        <button class="course-set-btn"
+                lay-event="delete">删除</button>
+        <button class="course-set-btn"
+                lay-event="check">查看</button>
+
     </script>
-    <div class="app-table-page" id="college-mylist-page"></div>
+    <div class="app-table-page"
+         id="college-mylist-page"></div>
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function(table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -48,7 +61,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function(obj, first) {
+                jump: function (obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -59,8 +72,7 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [
-                        {
+                    [{
                             title: '序号',
                             field: 'id',
                             width: 80,
@@ -105,7 +117,7 @@
                 remark: ''
             }
 
-        table.on('tool(college-mylist-table)', function(obj) {
+        table.on('tool(college-mylist-table)', function (obj) {
             var data = obj.data //获得当前行数据
             var layEvent = obj.event,
                 type = ''
@@ -121,12 +133,12 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function(index, layero) {
+                    yes: function (index, layero) {
                         // 提交
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function(index) {
+                    cancel: function (index) {
                         layer.close(index)
                     }
                 })
@@ -140,17 +152,17 @@
                 formData = data
                 type = 'check'
             }
-debugger
+            debugger
             var layerOption = {
                 type: 1,
                 offset: 'auto',
-                title: type==='edit'?'编辑':'查看',
+                title: type === 'edit' ? '编辑' : '查看',
                 content: getTemplate(formData, type),
                 area: ['700px', '70%'],
                 shade: 0.4,
                 shadeClose: true,
                 btn: type === 'check' ? [] : ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -160,7 +172,7 @@ debugger
                         updateData(formData)
                     }
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             }
@@ -169,7 +181,7 @@ debugger
             form.render()
         })
 
-        $('#add_college').on('click', function() {
+        $('#add_college').on('click', function () {
             formData = {}
             layer.open({
                 type: 1,
@@ -181,11 +193,11 @@ debugger
                 skin: 'user-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     layer.close(index)
                     addData(formData)
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             })
@@ -200,20 +212,20 @@ debugger
         function getList(page) {
             var collegeName = $("#collegeName").val(),
                 data = {
-                page: page,
-                rows: pageLimit,
-                key: collegeName
-            }
+                    page: page,
+                    rows: pageLimit,
+                    key: collegeName
+                }
             admin.post({
                 url: '/college/queryCollegeList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -222,10 +234,10 @@ debugger
         function deleteData(id) {
             admin.delete({
                 url: '/college/deleteCollege?id=' + id,
-                success: function(res) {
+                success: function (res) {
                     getList(1)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -236,15 +248,15 @@ debugger
                 id: data.id,
                 collegeName: data.collegeName,
                 collegeCode: data.collegeCode,
-                remarks:data.remarks,
+                remarks: data.remarks,
             }
             admin.put({
                 url: '/college/updateCollege',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     getList(layPageOption.curr)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -253,8 +265,8 @@ debugger
         function getData(id) {
             admin.get({
                 url: '/college/queryCollege?id=' + id,
-                success: function(res) {},
-                error: function(err) {
+                success: function (res) {},
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -271,10 +283,10 @@ debugger
             admin.post({
                 url: '/college/addCollege',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     getList(1)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -292,7 +304,7 @@ debugger
 
         function getTemplate(formData, type) {
             debugger
-            var ii= formData.remarks
+            var ii = formData.remarks || ''
             return (
                 '<div id="college_details_modal">\n' +
                 '        <form action="" class="layui-form">\n' +
@@ -362,7 +374,7 @@ debugger
                 '"' +
                 (type === 'check' ? 'disabled' : '') +
                 '                        class="layui-textarea college-remark"\n' +
-                '                    >'+ii+'</textarea>\n' +
+                '                    >' + ii + '</textarea>\n' +
                 '                </div>\n' +
                 '            </div>\n' +
                 '        </form>\n' +
@@ -370,11 +382,11 @@ debugger
             )
         }
     })
+
 </script>
 
 <style>
-    #source-manage-mylist {
-    }
+    #source-manage-mylist {}
 
     .college-edit-modal .layui-layer-content {
         padding: 20px;
@@ -383,4 +395,5 @@ debugger
     .college-remark {
         width: 63%;
     }
+
 </style>

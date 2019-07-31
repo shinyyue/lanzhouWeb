@@ -37,64 +37,64 @@
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">实验要求</label>
-                <div class="layui-col-md9"
-                     id="require">
-                    <!--<textarea name="desc" class="layui-textarea" id="require" readonly></textarea>-->
-                </div>
-            </div>
-        </div>
-        <div class="source-display"
-             id="fileUrl"
-             style="display: none"></div>
-        <div class="source-display"
-             id="scorm_fileUrl"
-             style="display: none">
-            <div id="mune_area">
-                <div class="tab_a"
-                     id="tab_b">
-                    <ul class="tab1 tab1ys">
-                        <li>
-                            <a id="tab_ch1"
-                               class="active"
-                               href="javascript:void(0)"><img src="src/images/xue.png" /></a>
-                        </li>
-                    </ul>
-                    <ul class="tab_con tabcon_sy">
-                        <li id="tabcon1">
-                            <div class="munebtnlist"
-                                 id="tabcon1_menulist"></div>
-                        </li>
-                        <li id="tabcon2"
-                            class="hidden">
-                            <div class="munebtnlist">
-                                <div id="tabcon2_menulist"></div>
+                <div class="layui-col-md9">
+                    <div id="require"
+                         style="line-height: 38px;">
+                    </div>
+                    <div class="source-display"
+                         id="fileUrl"
+                         style="display: none"></div>
+                    <div class="source-display"
+                         id="scorm_fileUrl"
+                         style="display: none">
+                        <div id="mune_area">
+                            <div class="tab_a"
+                                 id="tab_b">
+                                <ul class="tab1 tab1ys">
+                                    <li>
+                                        <a id="tab_ch1"
+                                           class="active"
+                                           href="javascript:void(0)"><img src="src/images/xue.png" /></a>
+                                    </li>
+                                </ul>
+                                <ul class="tab_con tabcon_sy">
+                                    <li id="tabcon1">
+                                        <div class="munebtnlist"
+                                             id="tabcon1_menulist"></div>
+                                    </li>
+                                    <li id="tabcon2"
+                                        class="hidden">
+                                        <div class="munebtnlist">
+                                            <div id="tabcon2_menulist"></div>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
-                        </li>
-                    </ul>
+                        </div>
+                        <div id="mune_btn"
+                             class="munebtna"
+                             data-zt="a"></div>
+                        <div id="pagecon"
+                             style=" min-width: 900px; height: 500px;float: left">
+                            <iframe frameBorder="0"
+                                    id="innerTarget"
+                                    name="innerTarget"
+                                    scrolling="no"
+                                    src="iframe2.htm"
+                                    style="width: 100%; height: 100%"></iframe>
+                        </div>
+                    </div>
+                    <a href="http://39.104.97.6:8080/dataBank/exportCult3D"
+                       style="color: red; display: none; text-decoration: underline;"
+                       id="showTip">若加载失败，点击安装Cult3D插件</a>
                 </div>
             </div>
-            <div id="mune_btn"
-                 class="munebtna"
-                 data-zt="a"></div>
-            <div id="pagecon"
-                 style=" min-width: 900px; height: 500px;float: left">
-                <iframe frameBorder="0"
-                        id="innerTarget"
-                        name="innerTarget"
-                        scrolling="no"
-                        src="iframe2.htm"
-                        style="width: 100%; height: 100%"></iframe>
-            </div>
         </div>
-        <a href="http://39.104.97.6:8080/dataBank/exportCult3D"
-           style="color: red; display: none; text-decoration: underline;"
-           id="showTip">若加载失败，点击安装Cult3D插件</a>
         <div class="layui-row"
              id="labReportDiv">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">实验报告</label>
                 <div class="layui-col-md9">
-                    <!--<textarea name="desc" class="layui-textarea" id="labReport" ></textarea>-->
                     <div class="layui-col-md10"
                          id="labReport"></div>
                 </div>
@@ -503,10 +503,11 @@
         padding: 20px 0;
     }
 
-    .source-display {
+    #virtualTest-details .source-display {
         width: 100%;
         height: 415px;
         background: rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
     }
 
     #virtualTest-details .layui-form-item span {

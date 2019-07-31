@@ -1,28 +1,29 @@
-<div class="layui-fluid" id="processDetail" lay-title="开课管理">
+<div class="layui-fluid"
+     id="processDetail"
+     lay-title="开课管理">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
             <span>开课管理 > <span id="courseName"></span> > 实验过程 > 实验统计</span>
         </div>
     </div>
-    <table
-        id="processDetail-list-table"
-        lay-filter="processDetail-list-table"
-    ></table>
-    <div class="app-table-page" id="processDetail-table-page"></div>
+    <table id="processDetail-list-table"
+           lay-filter="processDetail-list-table"></table>
+    <div class="app-table-page"
+         id="processDetail-table-page"></div>
     <div class="layui-row">
         <div class="layui-form-item layui-col-md12">
             <label class="layui-form-label"></label>
             <div>
-                <button class="layui-btn layui-btn-primary cancel-btn "
-                        id="source-add-cancle"> 返回 </button>
+                <div class="layui-btn layui-btn-primary cancel-btn "
+                     id="source-add-cancle"> 返回 </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    layui.use(['table', 'jquery'], function(table, $) {
+    layui.use(['table', 'jquery'], function (table, $) {
         var tableFilter = 'processDetail-list-table',
             laypage = layui.laypage,
             $ = layui.jquery,
@@ -37,13 +38,12 @@
             page: false,
             elem: '[lay-filter="' + tableFilter + '"]',
             cols: [
-                [
-                    {
+                [{
                         title: '序号',
                         field: 'id',
                         width: 80,
                         align: 'center',
-                        templet: d => d.LAY_TABLE_INDEX+1
+                        templet: d => d.LAY_TABLE_INDEX + 1
                     },
                     {
                         title: '学生姓名',
@@ -63,7 +63,8 @@
                         field: 'times',
                         width: 400,
                         templet: function (d) {
-                            return admin.dateFormat(new Date(d.startTime).getTime() / 1000)+"-"+admin.dateFormat(new Date(d.endTime).getTime() / 1000);
+                            return admin.dateFormat(new Date(d.startTime).getTime() / 1000) +
+                                "-" + admin.dateFormat(new Date(d.endTime).getTime() / 1000);
                         }
                     },
                     {
@@ -76,7 +77,8 @@
                         title: '累计时长',
                         align: 'totleTime',
                         width: 120,
-                        templet: d => Math.floor(d.totleTime/3600) + ":" + Math.floor(d.totleTime%3600/60) + ":" + d.totleTime%60
+                        templet: d => Math.floor(d.totleTime / 3600) + ":" + Math.floor(d
+                            .totleTime % 3600 / 60) + ":" + d.totleTime % 60
                     }
                 ]
             ]
@@ -170,6 +172,7 @@
         })
 
     })
+
 </script>
 
 <style>
@@ -229,4 +232,5 @@
         border: 1px solid #ccc;
         cursor: pointer;
     }
+
 </style>

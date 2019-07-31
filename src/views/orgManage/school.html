@@ -1,30 +1,43 @@
-<div id="source-manage-mylist" class="layui-fluid" lay-title="我的资源库">
+<div id="source-manage-mylist"
+     class="layui-fluid"
+     lay-title="我的资源库">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
             <span>机构管理 > 机构管理 > 系管理</span>
         </div>
         <div class="course-title-search">
-            <input type="text" placeholder="请输入关键字" id="schoolName"/>
-            <button class="search-confirm" id="searchSchoolList">
+            <input type="text"
+                   placeholder="请输入关键字"
+                   id="schoolName" />
+            <button class="search-confirm"
+                    id="searchSchoolList">
                 <img src="src/images/search.png" />
             </button>
         </div>
     </div>
     <div class="course-add">
-        <button class="primary-btn" id="add_school">添加</button>
+        <div class="layui-btn primary-btn"
+             id="add_school">添加</div>
     </div>
-    <table id="school-mylist-table" lay-filter="school-mylist-table"></table>
-    <script type="text/html" id="sourcelist-opt">
-        <button class="course-set-btn" lay-event="edit">编辑</button>
-        <button class="course-set-btn" lay-event="delete">删除</button>
-        <button class="course-set-btn" lay-event="check">查看</button>
+    <table id="school-mylist-table"
+           lay-filter="school-mylist-table"></table>
+    <script type="text/html"
+            id="sourcelist-opt">
+        <button class="course-set-btn"
+                lay-event="edit">编辑</button>
+        <button class="course-set-btn"
+                lay-event="delete">删除</button>
+        <button class="course-set-btn"
+                lay-event="check">查看</button>
+
     </script>
-    <div class="app-table-page" id="school-mylist-page"></div>
+    <div class="app-table-page"
+         id="school-mylist-page"></div>
 </div>
 
 <script>
-    layui.use(['table', 'jquery', 'form', 'admin'], function(table, $) {
+    layui.use(['table', 'jquery', 'form', 'admin'], function (table, $) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -48,7 +61,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function(obj, first) {
+                jump: function (obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr)
@@ -59,8 +72,7 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [
-                        {
+                    [{
                             title: '序号',
                             field: 'id',
                             width: 80,
@@ -102,7 +114,7 @@
             getList(1)
         })
 
-        table.on('tool(school-mylist-table)', function(obj) {
+        table.on('tool(school-mylist-table)', function (obj) {
             var data = obj.data //获得当前行数据
             var layEvent = obj.event,
                 type = ''
@@ -118,12 +130,12 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function(index, layero) {
+                    yes: function (index, layero) {
                         // 提交
                         layer.close(index)
                         deleteData(data.id)
                     },
-                    cancel: function(index) {
+                    cancel: function (index) {
                         layer.close(index)
                     }
                 })
@@ -138,7 +150,7 @@
                 type = 'check'
             }
 
-            getCollegeList(function() {
+            getCollegeList(function () {
                 $('#collegeId').val(formData.collegeId)
                 $('#facultyName').val(formData.facultyName)
                 $('#facultyCode').val(formData.facultyCode)
@@ -148,13 +160,13 @@
             var layerOption = {
                 type: 1,
                 offset: 'auto',
-                title: type==='edit'?'编辑':'查看',
+                title: type === 'edit' ? '编辑' : '查看',
                 content: getTemplate(formData, type),
                 area: ['700px', '70%'],
                 shade: 0.4,
                 shadeClose: true,
                 btn: type === 'check' ? [] : ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -164,7 +176,7 @@
                         updateData(formData)
                     }
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             }
@@ -173,7 +185,7 @@
             form.render()
         })
 
-        $('#add_school').on('click', function() {
+        $('#add_school').on('click', function () {
             formData = {}
             layer.open({
                 type: 1,
@@ -185,12 +197,12 @@
                 skin: 'school-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     getFormData()
                     layer.close(index)
                     addData(formData)
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             })
@@ -201,20 +213,20 @@
         function getList(page) {
             var schoolName = $('#schoolName').val(),
                 data = {
-                page: page,
-                rows: pageLimit,
-                key: schoolName
-            }
+                    page: page,
+                    rows: pageLimit,
+                    key: schoolName
+                }
             admin.post({
                 url: '/vsMpFaculty/getList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -223,10 +235,10 @@
         function deleteData(id) {
             admin.delete({
                 url: '/vsMpFaculty/delete?id=' + id,
-                success: function(res) {
+                success: function (res) {
                     getList(1)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -242,10 +254,10 @@
             admin.put({
                 url: '/vsMpFaculty/update',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     getList(layPageOption.curr)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -254,8 +266,8 @@
         function getData(id) {
             admin.get({
                 url: '/vsMpFaculty/get?id=' + id,
-                success: function(res) {},
-                error: function(err) {
+                success: function (res) {},
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -270,7 +282,7 @@
             admin.post({
                 url: '/vsMpFaculty/add',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     if (res.code === 200) {
                         layer.msg('添加成功')
                         getList(1)
@@ -278,7 +290,7 @@
                         layer.msg((res && res.msg) || '添加失败')
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '添加失败')
                 }
             })
@@ -301,23 +313,23 @@
             admin.post({
                 url: '/college/queryCollegeList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     if (res.code === 200) {
                         $('#collegeId').html('<option>请选择学院</option>')
                         res.data.items.forEach(item => {
                             $('#collegeId').append(
                                 '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.collegeName +
-                                    '</option>'
+                                item.id +
+                                '">' +
+                                item.collegeName +
+                                '</option>'
                             )
                         })
                         form.render()
                         callback && typeof callback === 'function' && callback()
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -332,7 +344,7 @@
                 '                    <label class="layui-form-label">所属学院:</label>\n' +
                 '                    <select id="collegeId" value="' +
                 formData.collegeId +
-                '"' +  (type === 'check'? 'disabled=' : '') +
+                '"' + (type === 'check' ? 'disabled=' : '') +
                 // 'disabled=' +(type === 'check' ? '"disabled"' : '"false"') +
                 '>\n' +
                 '                    </select>\n' +
@@ -369,11 +381,12 @@
             )
         }
     })
+
 </script>
 
 <style>
-    #source-manage-mylist {
-    }
+    #source-manage-mylist {}
+
     .school-edit-modal .layui-layer-content {
         padding: 20px;
     }
@@ -381,4 +394,5 @@
     .school-remark {
         width: 63%;
     }
+
 </style>

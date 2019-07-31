@@ -1,4 +1,5 @@
-<div id="examine-knowdetails" lay-title="查看知识点">
+<div id="examine-knowdetails"
+     lay-title="查看知识点">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -9,48 +10,47 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">所属课程名称</label>
-                <span class="info-details" id="curriculumId"></span>
+                <span class="info-details"
+                      id="curriculumId"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">父知识点</label>
-                <span
-                    style="color: blue;"
-                    class="info-details"
-                    id="parentId"
-                ></span>
+                <span style="color: blue;"
+                      class="info-details"
+                      id="parentId"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">知识点名称</label>
-                <span class="info-details" id="name"></span>
+                <span class="info-details"
+                      id="name"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">知识点描述</label>
-                <span class="info-details" id="describe"></span>
+                <span class="info-details"
+                      id="describe"></span>
             </div>
         </div>
 
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label"></label>
-                <button
-                    class="layui-btn layui-btn-primary cancel-btn"
-                    id="examine-knowdetails-back"
-                >
+                <div class="layui-btn layui-btn-primary cancel-btn"
+                     id="examine-knowdetails-back">
                     返回
-                </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    layui.use([], function() {
+    layui.use([], function () {
         var $ = layui.jquery,
             admin = layui.admin,
             route = layui.router(),
@@ -58,14 +58,14 @@
 
         getDetails()
 
-        $('#examine-knowdetails-back').on('click', function() {
+        $('#examine-knowdetails-back').on('click', function () {
             window.history.back(-1)
         })
 
         function getDetails() {
             admin.get({
                 url: '/knowledgePoint/queryById?id=' + id,
-                success: function(res) {
+                success: function (res) {
                     $('#name').html(res.data.cName)
                     $('#parentId').html(res.data.pName)
                     $('#curriculumId').html(res.data.curriculumName)
@@ -74,11 +74,11 @@
             })
         }
     })
+
 </script>
 
 <style>
-    #examine-knowdetails {
-    }
+    #examine-knowdetails {}
 
     #examine-knowdetails .examine-knowdetails-content {
         padding: 20px 0;
@@ -87,4 +87,5 @@
     #examine-knowdetails .info-details {
         line-height: 38px;
     }
+
 </style>

@@ -1,27 +1,29 @@
-<div id="experiment-my-add" lay-title="添加实验">
+<div id="experiment-my-add"
+     lay-title="添加实验">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span id = "experiment-my-addnew">实验管理 > 我的实验库 > 添加实验</span>
-            <span id = "experiment-my-update">实验管理 > 我的实验库 > 编辑实验</span>
+            <span id="experiment-my-addnew">实验管理 > 我的实验库 > 添加实验</span>
+            <span id="experiment-my-update">实验管理 > 我的实验库 > 编辑实验</span>
         </div>
     </div>
-    <form action="" class="layui-form my-add-form">
+    <form action=""
+          class="layui-form my-add-form">
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label require">实验名称</label>
-                <input
-                    class="common-form-input"
-                    type="text"
-                    name="name"
-                    id="name"
-                    lay-verify="required"
-                    placeholder="请输入实验名称"
-                />
+                <input class="common-form-input"
+                       type="text"
+                       name="name"
+                       id="name"
+                       lay-verify="required"
+                       placeholder="请输入实验名称" />
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label require">所属课程</label>
-                <select name="curriculumId" id="curriculumId" lay-verify = "required">
+                <select name="curriculumId"
+                        id="curriculumId"
+                        lay-verify="required">
                     <option value="">选择课程</option>
                 </select>
             </div>
@@ -29,27 +31,34 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label require">实验类型</label>
-                <select name="experimentalType" id="experimentalType" lay-verify = "required">
+                <select name="experimentalType"
+                        id="experimentalType"
+                        lay-verify="required">
                     <option value="">选择实验类型</option>
                 </select>
             </div>
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">负责老师</label>
-                <input
-                    class="common-form-input"
-                    type="text"
-                    name="teacherName"
-                    id="teacherName"
-                    readonly
-                />
+                <input class="common-form-input"
+                       type="text"
+                       name="teacherName"
+                       id="teacherName"
+                       readonly />
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">可被引用</label>
-                <div class="layui-input-block" id ="cite">
-                    <input type="radio" name="cite" value="1" title="是" />
-                    <input type="radio" name="cite" value="0" title="否" />
+                <div class="layui-input-block"
+                     id="cite">
+                    <input type="radio"
+                           name="cite"
+                           value="1"
+                           title="是" />
+                    <input type="radio"
+                           name="cite"
+                           value="0"
+                           title="否" />
                 </div>
             </div>
         </div>
@@ -59,21 +68,17 @@
                 <div class="layui-input-block score-rate-inner">
                     <span class="score-percent">
                         <span>实验成绩比例：</span>
-                        <input
-                            class="common-form-input"
-                            type="text"
-                            name="experimentRatio"
-                            id="experimentRatio"
-                        />%
+                        <input class="common-form-input"
+                               type="text"
+                               name="experimentRatio"
+                               id="experimentRatio" />%
                     </span>
                     <span class="score-percent">
                         <span>报告成绩比例：</span>
-                        <input
-                            class="common-form-input"
-                            type="text"
-                            name="reportRatio"
-                            id="reportRatio"
-                        />%
+                        <input class="common-form-input"
+                               type="text"
+                               name="reportRatio"
+                               id="reportRatio" />%
                     </span>
                 </div>
             </div>
@@ -81,19 +86,23 @@
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">实验要求</label>
-                <div class="layui-col-md10" id="experiment-rules-edit"></div>
+                <div class="layui-col-md10"
+                     id="experiment-rules-edit"></div>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">实验报告</label>
-                <div class="layui-col-md10" id="experiment-report-edit"></div>
+                <div class="layui-col-md10"
+                     id="experiment-report-edit"></div>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">选择资源</label>
-                <select name="sourceType" id="sourceType" lay-filter="change">
+                <select name="sourceType"
+                        id="sourceType"
+                        lay-filter="change">
                     <option value="">选择资源类型</option>
                     <option value="1">文档</option>
                     <option value="2">图片</option>
@@ -124,19 +133,15 @@
                 <div>
                     <!--<button class="layui-btn primary-btn" lay-submit lay-filter="stage">暂存</button>-->
                     <!-- lay-submit lay-filter="addExperiment" -->
-                    <div
-                        class="layui-btn primary-btn"
-                        lay-filter="addExperiment"
-                        id="addExperiment"
-                    >
+                    <div class="layui-btn primary-btn"
+                         lay-filter="addExperiment"
+                         id="addExperiment">
                         提交
                     </div>
-                    <button
-                        class="layui-btn layui-btn-primary cancel-btn"
-                        id="experiment-add-cancle"
-                    >
+                    <div class="layui-btn layui-btn-primary cancel-btn"
+                         id="experiment-add-cancle">
                         返回
-                    </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -144,7 +149,7 @@
 </div>
 
 <script>
-    layui.use(['form', 'layedit'], function() {
+    layui.use(['form', 'layedit'], function () {
         var form = layui.form,
             layedit = layui.layedit,
             $ = layui.jquery,
@@ -153,7 +158,7 @@
             id = route.search.id,
             requireIndex,
             reportIndex
-        if (id == null){
+        if (id == null) {
             $('#experiment-my-update').attr('style', 'display:none;')
         } else {
             $('#experiment-my-addnew').attr('style', 'display:none;')
@@ -164,28 +169,28 @@
         $('#teacherName').val(userName)
         form.render()
 
-        $('#addExperiment').on('click', function() {
-//            debugger
-            if (id){
+        $('#addExperiment').on('click', function () {
+            //            debugger
+            if (id) {
                 updateData(id)
-            }else{
+            } else {
                 addData()
             }
         })
 
-        setTimeout(function() {
+        setTimeout(function () {
             id && getDetails()
         }, 1000)
 
         function getDetails() {
             admin.get({
                 url: '/experiments/queryById?id=' + id,
-                success: function(res) {
+                success: function (res) {
                     console.log(444, res.data)
                     $('#name').val(res.data.name)
                     $('#curriculumId').val(res.data.curriculumId)
                     $('#experimentalType').val(res.data.experimentalType)
-                    $('input[name="cite"]').each(function(index) {
+                    $('input[name="cite"]').each(function (index) {
                         if ($(this).val() == res.data.cite) {
                             $(this).attr('checked', true)
                         }
@@ -215,16 +220,16 @@
                     'left', //左对齐
                     'center', //居中对齐
                     'right', //右对齐
-                    'link'//超链接
-//                    , 'image' //插入图片
+                    'link' //超链接
+                    //                    , 'image' //插入图片
                 ]
             })
         }
 
         function addData() {
-//            console.log(11111111)
+            //            console.log(11111111)
             var ids = []
-            $('input[name=resourceIds]:checked').each(function(index) {
+            $('input[name=resourceIds]:checked').each(function (index) {
                 ids.push({
                     id: $(this).val(),
                     url: $(this).data('url'),
@@ -256,33 +261,33 @@
             if (formData.experimentalType == '') {
                 layer.msg("实验类型不能为空！")
                 return
-            }if (formData.resourceIds == ''||formData.resourceIds == '[]') {
+            }
+            if (formData.resourceIds == '' || formData.resourceIds == '[]') {
                 layer.msg("请选择资源！")
                 return
             }
-            if (parseInt(formData.reportRatio)+parseInt(formData.experimentRatio)!=100){
+            if (parseInt(formData.reportRatio) + parseInt(formData.experimentRatio) != 100) {
                 layer.msg("成绩比重不足100%！")
                 return
             }
             admin.post({
                 url: '/experiments/add',
                 data: JSON.stringify(formData),
-                success: function(res) {
-                    if (res.code==200){
+                success: function (res) {
+                    if (res.code == 200) {
                         layer.msg('上传成功')
                         // window.history.back(-1)
                         window.location.href = 'index.html#/experiment/myList'
                         window.location.reload()
-                    }
-                    else{
-//                        debugger
-                        layer.msg(res.msg||'添加失败')
+                    } else {
+                        //                        debugger
+                        layer.msg(res.msg || '添加失败')
                         return
                     }
                 },
-                error:function (res) {
-//                    debugger
-                    layer.msg(res.msg||'添加失败')
+                error: function (res) {
+                    //                    debugger
+                    layer.msg(res.msg || '添加失败')
                     return
                 }
             })
@@ -290,13 +295,13 @@
 
         function updateData(id) {
             var ids = []
-            $('input[name=resourceIds]:checked').each(function(index) {
+            $('input[name=resourceIds]:checked').each(function (index) {
                 ids.push({
                     id: $(this).val(),
                     url: $(this).data('url'),
                     type: $('#sourceType').val()
                 })
-//                console.log(1222, $(this).data('url'))
+                //                console.log(1222, $(this).data('url'))
             })
             var formData = {
                 id: id,
@@ -324,34 +329,34 @@
                 layer.msg("实验类型不能为空！")
                 return
             }
-            if (formData.resourceIds == ''||formData.resourceIds == '[]') {
+            if (formData.resourceIds == '' || formData.resourceIds == '[]') {
                 layer.msg("请选择资源！")
                 return
             }
-            if (parseInt(formData.reportRatio)+parseInt(formData.experimentRatio)!=100){
+            if (parseInt(formData.reportRatio) + parseInt(formData.experimentRatio) != 100) {
                 layer.msg("成绩比重不足100%！")
                 return
             }
-//            debugger
+            //            debugger
             admin.put({
                 url: '/experiments/update',
                 data: JSON.stringify(formData),
-                success: function(res) {
-//                    debugger
-                    if (res.code==200){
+                success: function (res) {
+                    //                    debugger
+                    if (res.code == 200) {
                         layer.msg('修改成功')
                         // window.history.back(-1)
                         window.location.href = 'index.html#/experiment/myList'
                         window.location.reload()
-                    }else{
-//                        debugger
-                        layer.msg(res.msg||'修改失败')
+                    } else {
+                        //                        debugger
+                        layer.msg(res.msg || '修改失败')
                         return
                     }
                 },
-                error:function (res) {
-//                    debugger
-                    layer.msg(res.msg||'修改失败')
+                error: function (res) {
+                    //                    debugger
+                    layer.msg(res.msg || '修改失败')
                     return
                 }
             })
@@ -366,21 +371,21 @@
             admin.post({
                 url: '/vsMpCurriculum/getList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     res.data &&
                         res.data.items &&
                         res.data.items.forEach(item => {
                             $('#curriculumId').append(
                                 '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.curriculumName +
-                                    ' </option>'
+                                item.id +
+                                '">' +
+                                item.curriculumName +
+                                ' </option>'
                             )
                         })
                     form.render()
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -394,21 +399,21 @@
             admin.post({
                 url: '/experimentType/experimentTypeList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     res.data &&
                         res.data.items &&
                         res.data.items.forEach(item => {
                             $('#experimentalType').append(
                                 '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.typeName +
-                                    ' </option>'
+                                item.id +
+                                '">' +
+                                item.typeName +
+                                ' </option>'
                             )
                         })
                     form.render()
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -424,24 +429,24 @@
             admin.post({
                 url: '/dataBank/queryAllList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     $('#resourceIds').html('')
                     res.data &&
                         res.data.items &&
-                        res.data.items.forEach(function(item) {
+                        res.data.items.forEach(function (item) {
                             $('#resourceIds').append(
                                 "<input type='checkbox' name='resourceIds' data-url='" +
-                                    item.fileUrl +
-                                    "' lay-skin='primary' value='" +
-                                    item.id +
-                                    "' title='" +
-                                    item.resourceName +
-                                    "'>"
+                                item.fileUrl +
+                                "' lay-skin='primary' value='" +
+                                item.id +
+                                "' title='" +
+                                item.resourceName +
+                                "'>"
                             )
                         })
                     form.render()
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -452,11 +457,11 @@
         getCourseList()
         getExperimentList()
 
-        form.on('select(change)', function(data) {
+        form.on('select(change)', function (data) {
             getSourceList(Number(data.value))
         })
 
-        $('#experiment-add-cancle').on('click', function() {
+        $('#experiment-add-cancle').on('click', function () {
             window.history.back(-1)
         })
 
@@ -468,11 +473,11 @@
         //     return false;
         // });
     })
+
 </script>
 
 <style>
-    #experiment-my-add {
-    }
+    #experiment-my-add {}
 
     .my-add-form {
         padding: 25px 0;
@@ -492,4 +497,5 @@
         float: left;
         background: #fff;
     }
+
 </style>

@@ -49,7 +49,8 @@
                             <li class="layui-this">自定义添加</li>
                             <li>批量添加</li>
                             <li>
-                                <span style="width: 100px; margin-left: 10px; color: red;">说明：1.目录节点无资源，无需添加；2.时长最大不超过10分钟
+                                <span
+                                      style="width: 100px; margin-left: 10px; color: red;">说明：1.目录节点无资源，无需添加；2.时长最大不超过10分钟
                                 </span>
                             </li>
                         </ul>
@@ -60,33 +61,52 @@
                                        lay-filter="single_upload_table"></table>
                                 <script type="text/html"
                                         id="resourceName">
-                                    <input class="common-form-input resource-name" type="text"/>
+                                    <input class="common-form-input resource-name"
+                                           type="text" />
+
                                 </script>
                                 <script type="text/html"
                                         id="resourceTime">
-                                    <input class="common-form-input resource-time" type="text">
+                                    <input class="common-form-input resource-time"
+                                           type="text">
+
                                 </script>
                                 <script type="text/html"
                                         id="resourceHtm">
                                     <div class="course-set-btn">选择</div>
                                     <span class="resourceHtm_path"></span>
-                                    <input type="file" accept="file" name="file" class="course-set-btn upload-html" lay-event="htmUpload" />
+                                    <input type="file"
+                                           accept="file"
+                                           name="file"
+                                           class="course-set-btn upload-html"
+                                           lay-event="htmUpload" />
+
                                 </script>
                                 <script type="text/html"
                                         id="resourceSwt">
                                     <div class="course-set-btn">选择</div>
                                     <span class="resourceSwf_path"></span>
-                                    <input type="file" accept="file" name="file" class="course-set-btn upload-swt" lay-event="swtUpload" />
+                                    <input type="file"
+                                           accept="file"
+                                           name="file"
+                                           class="course-set-btn upload-swt"
+                                           lay-event="swtUpload" />
+
                                 </script>
                                 <script type="text/html"
                                         id="resource_single_opt">
-                                    <li class="course-set-btn" lay-event="delete">移除</li>
-                                    <li class="course-set-btn" lay-event="add">添加</li>
+                                    <li class="course-set-btn"
+                                        lay-event="delete">移除</li>
+                                    <li class="course-set-btn"
+                                        lay-event="add">添加</li>
                                     <!-- <li class="course-set-btn upload" lay-event="upload">上传</li> -->
                                     <div class="add-level">
-                                        <div class="level-item" lay-event="sameLevel">同级</div>
-                                        <div class="level-item" lay-event="nextLevel">下级</div>
+                                        <div class="level-item"
+                                             lay-event="sameLevel">同级</div>
+                                        <div class="level-item"
+                                             lay-event="nextLevel">下级</div>
                                     </div>
+
                                 </script>
                             </div>
                             <div class="layui-tab-item">
@@ -174,11 +194,11 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label"></label>
                 <div>
-                    <button class="layui-btn primary-btn"
-                            lay-submit
-                            lay-filter="submit"> 提交 </button>
-                    <button class="layui-btn layui-btn-primary cancel-btn"
-                            id="sourmanage-add-cancle"> 返回 </button>
+                    <div class="layui-btn primary-btn"
+                         lay-submit
+                         lay-filter="submit"> 提交 </div>
+                    <div class="layui-btn layui-btn-primary cancel-btn"
+                         id="sourmanage-add-cancle"> 返回 </div>
                 </div>
             </div>
         </div>
@@ -641,6 +661,7 @@
                 table._tableTrCurr.find('[lay-event="' + elem.attr('lay-event') + '"]').first().click()
             })
     })
+
 </script>
 <style>
     #source-manage-mylist-add {}
@@ -726,4 +747,5 @@
         padding: 0;
         width: 140px;
     }
+
 </style>

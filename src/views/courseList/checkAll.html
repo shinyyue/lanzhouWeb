@@ -30,8 +30,8 @@
     <div class="app-table-page"
          id="experiment-mylist-page"></div>
     <div style="text-align: center">
-        <button class="primary-btn "
-                id="submit_add">提交</button>
+        <div class="layui-btn primary-btn "
+             id="submit_add">提交</div>
     </div>
 </div>
 <script>
@@ -284,7 +284,8 @@
                         collegeList = res.data.items
                         var options = ''
                         res.data.items.forEach(item => {
-                            options += '<option value="' + item.id + '">' + item.collegeName +
+                            options += '<option value="' + item.id + '">' + item
+                                .collegeName +
                                 '</option>'
                         })
                         $('#college').html('<option value="">请选择开课单位</option>')
@@ -320,5 +321,6 @@
             form.render('select')
         }
     })
+
 </script>
 <style></style>

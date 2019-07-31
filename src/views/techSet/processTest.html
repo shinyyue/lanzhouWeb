@@ -1,24 +1,32 @@
-<div class="layui-fluid" id="processTest" lay-title="开课管理">
+<div class="layui-fluid"
+     id="processTest"
+     lay-title="开课管理">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
             <span>开课管理 > <span id="courseName"></span> > 实验过程 > 实验统计</span>
         </div>
         <div class="course-title-search">
-            <input type="text" placeholder="请输入关键字" id="experimentName" />
-            <button class="search-confirm" id="searchProcessTestList">
+            <input type="text"
+                   placeholder="请输入关键字"
+                   id="experimentName" />
+            <button class="search-confirm"
+                    id="searchProcessTestList">
                 <img src="src/images/search.png" />
             </button>
         </div>
     </div>
-    <table
-        id="processTest-list-table"
-        lay-filter="processTest-list-table"
-    ></table>
-    <script type="text/html" id="processTest-opt">
-        <button class="course-set-btn" id="processTest-add-check" lay-event="check">查看</button>
+    <table id="processTest-list-table"
+           lay-filter="processTest-list-table"></table>
+    <script type="text/html"
+            id="processTest-opt">
+        <div class="layui-btn btn-sm"
+             id="processTest-add-check"
+             lay-event="check">查看</div>
+
     </script>
-    <div class="app-table-page" id="processTest-table-page"></div>
+    <div class="app-table-page"
+         id="processTest-table-page"></div>
 </div>
 
 <script>
@@ -60,12 +68,12 @@
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
                     [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center',
-                        type: 'numbers'
-                    },
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center',
+                            type: 'numbers'
+                        },
                         {
                             title: '实验名称',
                             field: 'experimentName',
@@ -83,12 +91,13 @@
                             templet: function (d) {
                                 return admin.dateFormat(new Date(d.startTime).getTime() / 1000);
                             }
-                        },{
+                        }, {
                             title: '开始/结束时间',
                             field: 'startTime',
                             align: 'center',
                             templet: function (d) {
-                                return admin.dateFormat(new Date(d.startTime).getTime() / 1000)+"至"+admin.dateFormat(new Date(d.endtTime).getTime() / 1000);
+                                return admin.dateFormat(new Date(d.startTime).getTime() / 1000) + "至" +
+                                    admin.dateFormat(new Date(d.endtTime).getTime() / 1000);
                             }
                         },
                         {
@@ -112,8 +121,8 @@
                 formData = data;
                 type = 'check';
                 window.location.href = 'index.html#/techSet/readyPlan'
-            } else if(layEvent === 'check') {
-                location.href = 'index.html#/techSet/processDetails/id='+data.id
+            } else if (layEvent === 'check') {
+                location.href = 'index.html#/techSet/processDetails/id=' + data.id
             }
         })
 
@@ -128,7 +137,7 @@
                 data = {
                     page: page,
                     rows: pageLimit,
-                    curriculumId:courseId,
+                    curriculumId: courseId,
                     name: experimentName
                 }
             admin.post({
@@ -232,6 +241,7 @@
     //         location.href = 'index.html#/techSet/processDetails'
     //     })
     // })
+
 </script>
 
 <style>
@@ -291,4 +301,5 @@
         border: 1px solid #ccc;
         cursor: pointer;
     }
+
 </style>

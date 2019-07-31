@@ -45,56 +45,58 @@
             </div>
         </div>
         <div class="layui-row">
-            <div class="layui-col-md6 layui-form-item">
+            <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">课件资源</label>
-                <span id="experimentalData"></span>
-            </div>
-            <div class="source-display"
-                 id="fileUrl">
-                <div id="mune_area">
-                    <div class="tab_a"
-                         id="tab_b">
-                        <ul class="tab1 tab1ys">
-                            <li>
-                                <a id="tab_ch1"
-                                   class="active"
-                                   href="javascript:void(0)"><img src="src/images/xue.png" /></a>
-                            </li>
-                            <!-- <li>
+                <div class="layui-col-md9">
+                    <div class="source-display"
+                         id="fileUrl">
+                        <div id="mune_area">
+                            <div class="tab_a"
+                                 id="tab_b">
+                                <ul class="tab1 tab1ys">
+                                    <li>
+                                        <a id="tab_ch1"
+                                           class="active"
+                                           href="javascript:void(0)"><img src="src/images/xue.png" /></a>
+                                    </li>
+                                    <!-- <li>
                                 <a id="tab_ch2"
                                    href="javascript:void(0)"><img src="src/images/lian.png" /></a>
                             </li> -->
-                        </ul>
-                        <ul class="tab_con tabcon_sy">
-                            <li id="tabcon1">
-                                <div class="munebtnlist"
-                                     id="tabcon1_menulist"></div>
-                            </li>
-                            <li id="tabcon2"
-                                class="hidden">
-                                <div class="munebtnlist">
-                                    <div id="tabcon2_menulist"></div>
-                                </div>
-                            </li>
-                        </ul>
+                                </ul>
+                                <ul class="tab_con tabcon_sy">
+                                    <li id="tabcon1">
+                                        <div class="munebtnlist"
+                                             id="tabcon1_menulist"></div>
+                                    </li>
+                                    <li id="tabcon2"
+                                        class="hidden">
+                                        <div class="munebtnlist">
+                                            <div id="tabcon2_menulist"></div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="mune_btn"
+                             class="munebtna"
+                             data-zt="a"></div>
+                        <div id="pagecon"
+                             style=" min-width: 900px; height: 500px;float: left">
+                            <iframe frameBorder="0"
+                                    id="innerTarget"
+                                    name="innerTarget"
+                                    scrolling="no"
+                                    src="iframe2.htm"
+                                    style="width: 100%; height: 100%"></iframe>
+                        </div>
                     </div>
-                </div>
-                <div id="mune_btn"
-                     class="munebtna"
-                     data-zt="a"></div>
-                <div id="pagecon"
-                     style=" min-width: 900px; height: 500px;float: left">
-                    <iframe frameBorder="0"
-                            id="innerTarget"
-                            name="innerTarget"
-                            scrolling="no"
-                            src="iframe2.htm"
-                            style="width: 100%; height: 100%"></iframe>
+                    <a href="http://39.104.97.6:8080/dataBank/exportCult3D"
+                       style="color: red; display: none; text-decoration: underline;"
+                       id="showTip">若加载失败，点击安装Cult3D插件</a>
                 </div>
             </div>
-            <a href="http://39.104.97.6:8080/dataBank/exportCult3D"
-               style="color: red; display: none; text-decoration: underline;"
-               id="showTip">若加载失败，点击安装Cult3D插件</a>
+
         </div>
         <div class="layui-row">
             <div class="layui-form-item layui-col-md12">
@@ -104,10 +106,10 @@
                          id="my-details-update">
                         修改
                     </div>
-                    <button class="layui-btn layui-btn-primary cancel-btn "
-                            id="my-details-back">
+                    <div class="layui-btn layui-btn-primary cancel-btn "
+                         id="my-details-back">
                         返回
-                    </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -166,7 +168,7 @@
                         $('#fileUrl').html(
                             '<iframe src="' +
                             fileUrl +
-                            '" width="100%" height="100%" frameborder="1"></iframe>'
+                            '" width="100%" height="500px" frameborder="1"></iframe>'
                         )
                     } else if (res.data.dataType == 2) {
                         // 图片
@@ -301,8 +303,8 @@
 
     .source-display {
         width: 100%;
-        height: 500px;
-        background: rgba(0, 0, 0, 0.2);
+        /* height: 500px; */
+        /* background: rgba(0, 0, 0, 0.2); */
     }
 
     #source-manage-details .layui-form-item span {

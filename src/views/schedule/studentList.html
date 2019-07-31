@@ -1,4 +1,5 @@
-<div id="schedule-student-list" lay-title="学生个人课程表">
+<div id="schedule-student-list"
+     lay-title="学生个人课程表">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -6,17 +7,16 @@
         </div>
     </div>
     <div class="course-add">
-        <button class="primary-btn" id="sourcemanage-mylist">打印</button>
+        <div class="layui-btn primary-btn"
+             id="sourcemanage-mylist">打印</div>
     </div>
 
-    <table
-        id="schedule-student-table"
-        lay-filter="schedule-student-table"
-    ></table>
+    <table id="schedule-student-table"
+           lay-filter="schedule-student-table"></table>
 </div>
 
 <script>
-    layui.use(['table'], function(table) {
+    layui.use(['table'], function (table) {
         var table = layui.table,
             tableFilter = 'schedule-student-table',
             admin = layui.admin,
@@ -24,8 +24,7 @@
                 page: false,
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
-                    [
-                        {
+                    [{
                             title: '星期时间节数',
                             field: 'id',
                             align: 'center'
@@ -70,28 +69,26 @@
             }
 
         getList()
+
         function getList() {
             admin.get({
                 url: '/vsMpSchelule/getStuList',
-                success: function(res) {
+                success: function (res) {
                     tableOption.data = (res.data && res.data.items) || []
                     table.render(tableOption)
                 }
             })
         }
     })
+
 </script>
 
 <style>
-    #schedule-student-list {
-    }
+    #schedule-student-list {}
 
-    #schedule-student-list
-        .layui-table-view
-        .layui-table[lay-size='lg']
-        tbody
-        .layui-table-cell {
+    #schedule-student-list .layui-table-view .layui-table[lay-size='lg'] tbody .layui-table-cell {
         height: 110px;
         line-height: 1.2;
     }
+
 </style>

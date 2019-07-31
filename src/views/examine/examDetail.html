@@ -52,14 +52,14 @@
             </div> -->
         </div>
         <!--<div class="layui-row">-->
-            <!--<div class="layui-col-md6 layui-form-item">-->
-                <!--<label class="layui-form-label ">习题快照</label>-->
-                <!--<span id="snapshot"></span>-->
-            <!--</div>-->
-            <!--<div class="layui-col-md6 layui-form-item">-->
-                <!--<label class="layui-form-label ">所属实验</label>-->
-                <!--<span id="experimentName"></span>-->
-            <!--</div>-->
+        <!--<div class="layui-col-md6 layui-form-item">-->
+        <!--<label class="layui-form-label ">习题快照</label>-->
+        <!--<span id="snapshot"></span>-->
+        <!--</div>-->
+        <!--<div class="layui-col-md6 layui-form-item">-->
+        <!--<label class="layui-form-label ">所属实验</label>-->
+        <!--<span id="experimentName"></span>-->
+        <!--</div>-->
         <!--</div>-->
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
@@ -102,12 +102,12 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label"></label>
                 <div class="layui-col-md9">
-                    <button class="layui-btn primary-btn"
-                            lay-submit
-                            lay-filter="submit"
-                            id="examine-examdetail-add"> 继续添加 </button>
-                    <button class="layui-btn layui-btn-primary cancel-btn"
-                            id="examine-examdetail-back"> 返回习题列表 </button>
+                    <div class="layui-btn primary-btn"
+                         lay-submit
+                         lay-filter="submit"
+                         id="examine-examdetail-add"> 继续添加 </div>
+                    <div class="layui-btn layui-btn-primary cancel-btn"
+                         id="examine-examdetail-back"> 返回习题列表 </div>
                 </div>
             </div>
         </div>
@@ -162,9 +162,9 @@
                     $('#annotation').html(res.data.annotation)
                     var answer = res.data.answer;
                     $('#answer').html(answer)
-//                    for (var k in answer) {
-//                        $('#answer').append(k + ':' + answer[k])
-//                    }
+                    //                    for (var k in answer) {
+                    //                        $('#answer').append(k + ':' + answer[k])
+                    //                    }
                     $('#content').html(res.data.content)
                     $('#createTime').html(admin.dateFormat(new Date(res.data.createTime) / 1000))
                     var optionList = JSON.parse(res.data.option)
@@ -179,6 +179,7 @@
             })
         }
     })
+
 </script>
 <style>
     #examine-examadd {}
@@ -196,4 +197,5 @@
     #examine-examadd .layui-form-item span {
         line-height: 38px;
     }
+
 </style>

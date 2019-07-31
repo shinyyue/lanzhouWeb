@@ -2,28 +2,26 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span
-                >开课管理 > <span id="courseName"></span> > 试卷管理 >
-                <span id="tile_manage">添加试卷</span></span
-            >
+            <span>开课管理 > <span id="courseName"></span> > 试卷管理 >
+                <span id="tile_manage">添加试卷</span></span>
         </div>
     </div>
     <div class="course-add-content">
-        <form action="" class="layui-form">
+        <form action=""
+              class="layui-form">
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label require">试卷名称</label>
-                    <input
-                        type="text"
-                        require
-                        name="name"
-                        id="name"
-                        class="common-form-input"
-                    />
+                    <input type="text"
+                           require
+                           name="name"
+                           id="name"
+                           class="common-form-input" />
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label require">所属策略</label>
-                    <select name="strategyId" id="strategyId">
+                    <select name="strategyId"
+                            id="strategyId">
                         <option value="">请选择策略</option>
                     </select>
                 </div>
@@ -31,43 +29,35 @@
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">所属开课</label>
-                    <input
-                            type="text"
-                            name="curriculumId"
-                            id="curriculumId"
-                            class="common-form-input"
-                            readonly="readonly"
-                    />
+                    <input type="text"
+                           name="curriculumId"
+                           id="curriculumId"
+                           class="common-form-input"
+                           readonly="readonly" />
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">考试时长</label>
-                    <input
-                        type="text"
-                        name="testTime"
-                        id="testTime"
-                        class="common-form-input"
-                    />
+                    <input type="text"
+                           name="testTime"
+                           id="testTime"
+                           class="common-form-input" />
                     <span>分钟</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label require">考试开始时间</label>
-                    <input
-                        type="text"
-                        name="startTime"
-                        id="startTime"
-                        class="layui-input common-form-input"
-                    />
+                    <input type="text"
+                           name="startTime"
+                           id="startTime"
+                           class="layui-input common-form-input" />
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label require">考试结束时间</label>
-                    <input
-                        type="text"
-                        name="endTime"
-                        id="endTime"
-                        class="layui-input common-form-input"
-                    />
+                    <input type="text"
+                           name="endTime"
+                           id="endTime"
+                           class="layui-input common-form-input" />
                 </div>
             </div>
             <!-- <div class="layui-row">-->
@@ -88,22 +78,21 @@
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label"></label>
-                    <div class="layui-btn primary-btn" id="submit">
+                    <div class="layui-btn primary-btn"
+                         id="submit">
                         保存
                     </div>
-                    <button
-                        class="layui-btn layui-btn-primary cancel-btn"
-                        id="source-add-cancle"
-                    >
+                    <div class="layui-btn layui-btn-primary cancel-btn"
+                         id="source-add-cancle">
                         取消
-                    </button>
+                    </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
 <script>
-    layui.use(['form', 'laydate'], function() {
+    layui.use(['form', 'laydate'], function () {
         var form = layui.form,
             $ = layui.jquery,
             admin = layui.admin,
@@ -117,7 +106,7 @@
         $('#courseName').html(courseName)
         $('#tile_manage').html(id ? '修改试卷' : '添加试卷')
         //监听提交
-        $('#submit').on('click', function() {
+        $('#submit').on('click', function () {
             var data = {
                 name: $('#name').val(),
                 strategyId: $('#strategyId').val(),
@@ -133,7 +122,7 @@
                 addData(data)
             }
         })
-        $('#source-add-cancle').on('click', function() {
+        $('#source-add-cancle').on('click', function () {
             window.location.href = 'index.html#/techSet/paperManage'
             location.reload()
         })
@@ -157,7 +146,7 @@
         function getDetails() {
             admin.get({
                 url: '/examinationPaper/queryById?id=' + id,
-                success: function(res) {
+                success: function (res) {
                     $('#name').val(res.data.name)
                     getPloyList(res.data.strategyId)
                     $('#testTime').val(res.data.testTime)
@@ -179,7 +168,7 @@
             admin.put({
                 url: '/examinationPaper/update',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     if (res.code === 200) {
                         layer.msg('修改成功')
                         // admin.prev()
@@ -193,11 +182,11 @@
         }
 
         function addData(data) {
-//            data.publish = 1
+            //            data.publish = 1
             admin.post({
                 url: '/examinationPaper/add',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     if (res.code === 200) {
                         layer.msg('添加成功')
                         // admin.prev()
@@ -219,24 +208,28 @@
             admin.post({
                 url: '/strategy/list',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     $('#strategyId').html('')
                     res.data &&
                         res.data.items &&
                         res.data.items.forEach(item => {
-                            $('#strategyId').append('<option '+(chosenId==item.id?'selected':'')+' value="' + item.id + '">' + item.strategyName + '</option>')
+                            $('#strategyId').append('<option ' + (chosenId == item.id ?
+                                    'selected' : '') + ' value="' + item.id + '">' + item
+                                .strategyName + '</option>')
                         })
                     form.render()
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
     })
+
 </script>
 <style>
     #techset_paperdetails .course-add-content {
         padding: 20px 0;
     }
+
 </style>

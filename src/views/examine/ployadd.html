@@ -1,19 +1,19 @@
-<div id="examine-ploy-add" layui-title="添加试卷策略">
+<div id="examine-ploy-add"
+     layui-title="添加试卷策略">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
             <span>题库管理 > 试卷策略 > 添加策略</span>
         </div>
     </div>
-    <form action="" class="layui-form my-add-form">
+    <form action=""
+          class="layui-form my-add-form">
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">所属课程</label>
-                <select
-                    name="curriculumId"
-                    id="curriculumId"
-                    lay-filter="checkCourse"
-                >
+                <select name="curriculumId"
+                        id="curriculumId"
+                        lay-filter="checkCourse">
                     <option value="">请选择课程</option>
                 </select>
             </div>
@@ -21,37 +21,30 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label require">策略名称</label>
-                <input
-                    type="text"
-                    name="strategyName"
-                    class="common-form-input"
-                />
+                <input type="text"
+                       name="strategyName"
+                       class="common-form-input" />
             </div>
         </div>
     </form>
     <div class="ploy-title">试卷策略条目</div>
-    <form action="" class="layui-form my-add-form">
+    <form action=""
+          class="layui-form my-add-form">
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label require">策略条目</label>
                 <div class="ploy-content">
                     <div class="ploy-content-title">
-                        <button
-                            class="layui-btn layui-btn-primary"
-                            id="add_ploy"
-                        >
+                        <button class="layui-btn layui-btn-primary"
+                                id="add_ploy">
                             添加策略条目
                         </button>
-                        <span style="color: red;"
-                            >说明：易1分，中等2分，难3分，非常难4分</span
-                        >
+                        <span style="color: red;">说明：易1分，中等2分，难3分，非常难4分</span>
                     </div>
 
-                    <table
-                        id="ploy_add_table"
-                        lay-filter="ploy_add_table"
-                        lay-event="change"
-                    >
+                    <table id="ploy_add_table"
+                           lay-filter="ploy_add_table"
+                           lay-event="change">
                         <!-- <thead>
                             <tr>
                                 <th lay-data="{field:'sign', width:120, event: 'knowlegePoint', style:'width: 120px;cursor: pointer;'}">知识点</th>
@@ -65,37 +58,63 @@
                             </tr>
                         <tbody id="poly-add-strategy"></tbody> -->
                     </table>
-                    <script type="text/html" id="knowlegePoint">
-                        <select name="knowledgePoint" class="knowledgePoint" lay-filter="knowlegePointChange" id="knowlegePointChange"></select>
+                    <script type="text/html"
+                            id="knowlegePoint">
+                        <select name="knowledgePoint"
+                                class="knowledgePoint"
+                                lay-filter="knowlegePointChange"
+                                id="knowlegePointChange"></select>
+
                     </script>
-                    <script type="text/html" id="askType">
-                        <select name="exercisesType" class="exercisesType ploy-select" lay-filter="exercisesTypeChange">
+                    <script type="text/html"
+                            id="askType">
+                        <select name="exercisesType"
+                                class="exercisesType ploy-select"
+                                lay-filter="exercisesTypeChange">
                             <option value=""></option>
                             <option value="1">单选</option>
                             <option value="2">多选</option>
                             <option value="3">判断</option>
                         </select>
+
                     </script>
-                    <script type="text/html" id="askDiff">
-                        <select name="exercisesDifficulty" class="exercisesDifficulty ploy-select" lay-filter="exercisesDifficultyChange">
+                    <script type="text/html"
+                            id="askDiff">
+                        <select name="exercisesDifficulty"
+                                class="exercisesDifficulty ploy-select"
+                                lay-filter="exercisesDifficultyChange">
                             <option value="">选择</option>
                             <option value="4">非常难</option>
                             <option value="3">难</option>
                             <option value="2">中等</option>
                             <option value="1">易</option>
                         </select>
+
                     </script>
-                    <script type="text/html" id="referNums">
+                    <script type="text/html"
+                            id="referNums">
                         <span class="referNums"></span>
+
                     </script>
-                    <script type="text/html" id="checkedNums">
-                        <input type="number" class="common-form-input exercisesSize" name="exercisesSize" layui-filter="checkedNums">
+                    <script type="text/html"
+                            id="checkedNums">
+                        <input type="number"
+                               class="common-form-input exercisesSize"
+                               name="exercisesSize"
+                               layui-filter="checkedNums">
+
                     </script>
-                    <script type="text/html" id="allScores">
+                    <script type="text/html"
+                            id="allScores">
                         <span class="allScores"></span>
+
                     </script>
-                    <script type="text/html" id="delete">
-                        <i style="width: 20px;height:20px;cursor:pointer" class="layui-icon layui-icon-delete" lay-event="delete"></i>
+                    <script type="text/html"
+                            id="delete">
+                        <i style="width: 20px;height:20px;cursor:pointer"
+                           class="layui-icon layui-icon-delete"
+                           lay-event="delete"></i>
+
                     </script>
                 </div>
             </div>
@@ -103,30 +122,27 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label"></label>
-                <button class="layui-btn primary-btn" id="save_ploy">
+                <div class="layui-btn primary-btn"
+                     id="save_ploy">
                     保存
-                </button>
-                <button
-                    class="layui-btn layui-btn-primary cancel-btn"
-                    id="ploy-add-back"
-                >
+                </div>
+                <div class="layui-btn layui-btn-primary cancel-btn"
+                     id="ploy-add-back">
                     返回
-                </button>
+                </div>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label"></label>
-                <span style="color: red;"
-                    >注：本试卷满分100分时，方可保存。</span
-                >
+                <span style="color: red;">注：本试卷满分100分时，方可保存。</span>
             </div>
         </div>
     </form>
 </div>
 
 <script>
-    layui.use(['form', 'table'], function(table) {
+    layui.use(['form', 'table'], function (table) {
         var table = layui.table,
             $ = layui.jquery,
             form = layui.form,
@@ -148,8 +164,7 @@
                 elem: '[lay-filter="' + tableFilter + '"]',
                 data: strategyEntries,
                 cols: [
-                    [
-                        {
+                    [{
                             title: '知识点',
                             // width: 130,
                             align: 'center',
@@ -194,7 +209,7 @@
                         }
                     ]
                 ],
-                done: function(res, curr, count) {
+                done: function (res, curr, count) {
                     // merge(res, curr, count)
                 }
             },
@@ -204,7 +219,7 @@
 
         table.render(tableOption)
 
-        form.on('select(checkCourse)', function(obj) {
+        form.on('select(checkCourse)', function (obj) {
             // getKnowList(function() {}, obj.value)
             console.log(111, obj)
             getKnowlegeList(obj.value)
@@ -212,7 +227,7 @@
 
         getAllCourses()
 
-        $('#ploy-add-back').on('click', function() {
+        $('#ploy-add-back').on('click', function () {
             window.history.back(-1)
         })
 
@@ -220,7 +235,7 @@
             debugger
             getKnowlegeList()
         })*/
-        form.on('select(knowlegePointChange)', function(obj) {
+        form.on('select(knowlegePointChange)', function (obj) {
             $('.layui-table-body').css('overflow', 'visible')
             $('.layui-table-box').css({
                 overflow: 'visible',
@@ -246,7 +261,7 @@
             }
         })
 
-        form.on('select(exercisesTypeChange)', function(obj) {
+        form.on('select(exercisesTypeChange)', function (obj) {
             $('.layui-table-body').css('overflow', 'visible')
             $('.layui-table-box').css({
                 overflow: 'visible',
@@ -268,7 +283,7 @@
             }
         })
 
-        form.on('select(exercisesDifficultyChange)', function(obj) {
+        form.on('select(exercisesDifficultyChange)', function (obj) {
             $('.layui-table-body').css('overflow', 'visible')
             $('.layui-table-box').css({
                 overflow: 'visible',
@@ -290,7 +305,7 @@
             }
         })
 
-        table.on('edit(ploy_add_table)', function(obj) {
+        table.on('edit(ploy_add_table)', function (obj) {
             var value = Number(obj.value)
             var data = $(obj.tr.selector).data(index)
             var index = data.index
@@ -300,8 +315,8 @@
             if (
                 value >
                 $('.referNums')
-                    .eq(index)
-                    .html()
+                .eq(index)
+                .html()
             ) {
                 layer.msg('抽题数量应不大于参考题数')
                 return
@@ -317,12 +332,12 @@
                     .eq(index)
                     .html(
                         value *
-                            Number(strategyEntries[index].exercisesDifficulty)
+                        Number(strategyEntries[index].exercisesDifficulty)
                     )
             }
         })
 
-        table.on('tool(ploy_add_table)', function(obj) {
+        table.on('tool(ploy_add_table)', function (obj) {
             var leyEvent = obj.event
             if (leyEvent === 'delete') {
                 var index = $(obj.tr.selector).data(index).index
@@ -334,27 +349,27 @@
                 tableOption.data = strategyEntries
                 table.render(tableOption)
 
-                $('.knowledgePoint').each(function(index) {
+                $('.knowledgePoint').each(function (index) {
                     $(this).val(strategyEntries[index].knowledgePoint)
                 })
 
-                $('.exercisesType').each(function(index) {
+                $('.exercisesType').each(function (index) {
                     $(this).val(strategyEntries[index].exercisesType)
                 })
 
-                $('.exercisesDifficulty').each(function(index) {
+                $('.exercisesDifficulty').each(function (index) {
                     $(this).val(strategyEntries[index].exercisesDifficulty)
                 })
 
-                $('.exercisesSize').each(function(index) {
+                $('.exercisesSize').each(function (index) {
                     $(this).val(strategyEntries[index].exercisesSize)
                 })
 
-                $('.allScores').each(function(index) {
+                $('.allScores').each(function (index) {
                     $(this).html(strategyEntries[index].totalScore)
                 })
 
-                $('.referNums').each(function(index) {
+                $('.referNums').each(function (index) {
                     $(this).html(strategyEntries[index].referNums)
                 })
 
@@ -362,7 +377,7 @@
             }
         })
 
-        $('#add_ploy').on('click', function() {
+        $('#add_ploy').on('click', function () {
             $('.layui-table-body').css('overflow', 'visible')
             $('.layui-table-box').css({
                 overflow: 'visible',
@@ -374,7 +389,7 @@
             tableOption.data = strategyEntries
             table.render(tableOption)
 
-            $('.knowledgePoint').each(function(index) {
+            $('.knowledgePoint').each(function (index) {
                 $(this).html('<option value="">请选择</option>')
                 var opt = ''
                 knowlegeList.forEach(item => {
@@ -386,42 +401,41 @@
                         '</option>'
                 })
                 $(this).append(opt)
-                if (index === strategyEntries.length - 1) {
-                } else {
+                if (index === strategyEntries.length - 1) {} else {
                     $(this).val(strategyEntries[index].knowledgePoint)
                     form.render()
                 }
             })
 
-            $('.exercisesType').each(function(index) {
+            $('.exercisesType').each(function (index) {
                 if (index !== strategyEntries.length - 1) {
                     $(this).val(strategyEntries[index].exercisesType)
                     form.render()
                 }
             })
 
-            $('.exercisesDifficulty').each(function(index) {
+            $('.exercisesDifficulty').each(function (index) {
                 if (index !== strategyEntries.length - 1) {
                     $(this).val(strategyEntries[index].exercisesDifficulty)
                     form.render()
                 }
             })
 
-            $('.exercisesSize').each(function(index) {
+            $('.exercisesSize').each(function (index) {
                 if (index !== strategyEntries.length - 1) {
                     $(this).val(strategyEntries[index].exercisesSize)
                     form.render()
                 }
             })
 
-            $('.allScores').each(function(index) {
+            $('.allScores').each(function (index) {
                 if (index !== strategyEntries.length - 1) {
                     $(this).html(strategyEntries[index].totalScore)
                     form.render()
                 }
             })
 
-            $('.referNums').each(function(index) {
+            $('.referNums').each(function (index) {
                 if (index !== strategyEntries.length - 1) {
                     $(this).html(strategyEntries[index].referNums)
                     form.render()
@@ -439,13 +453,13 @@
         })
         $('.layui-table-view').css('overflow', 'visible')
 
-        $('#save_ploy').click(function() {
+        $('#save_ploy').click(function () {
             if (!$('input[name="strategyName"]').val()) {
                 layer.msg('请填写策略名称')
                 return
             }
             var list = []
-            strategyEntries.forEach(function(item) {
+            strategyEntries.forEach(function (item) {
                 list.push({
                     exercisesDifficulty: item.exercisesDifficulty,
                     exercisesSize: item.exercisesSize,
@@ -465,7 +479,7 @@
             admin.post({
                 url: '/strategy/add',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     if (res.code === 200) {
                         layer.msg('添加成功')
                         location.href = 'index.html#/examine/ploy'
@@ -484,8 +498,7 @@
             var formData = {
                 page: 1,
                 rows: 10000,
-                key:
-                    data.knowledgePoint +
+                key: data.knowledgePoint +
                     '|' +
                     data.exercisesType +
                     '|' +
@@ -494,7 +507,7 @@
             admin.post({
                 url: '/exercises/getListBy',
                 data: JSON.stringify(formData),
-                success: function(res) {
+                success: function (res) {
                     if (res.code === 200) {
                         data.referNums = res.data.total
                         $('.referNums')
@@ -512,21 +525,20 @@
                     page: 1,
                     rows: 100000
                 }),
-                success: function(res) {
+                success: function (res) {
                     var list =
                         (res.data &&
                             res.data.items.length > 0 &&
-                            res.data.items) ||
-                        []
+                            res.data.items) || []
 
                     for (var i = 0; i < list.length; i++) {
                         var item = list[i]
                         $('#curriculumId').append(
                             '<option value="' +
-                                item.id +
-                                '">' +
-                                item.curriculumName +
-                                '</option>'
+                            item.id +
+                            '">' +
+                            item.curriculumName +
+                            '</option>'
                         )
                     }
                     form.render()
@@ -537,7 +549,7 @@
         function getKnowlegeList(id) {
             admin.get({
                 url: '/knowledgePoint/listByCurriculumId?curriculumId=' + id,
-                success: function(res) {
+                success: function (res) {
                     knowlegeList = res.data || []
                     $('.knowledgePoint').html(
                         '<option value="">请选择</option>'
@@ -546,20 +558,21 @@
                         var item = res.data[i]
                         $('.knowledgePoint').append(
                             '<option value="' +
-                                item.id +
-                                '">' +
-                                item.name +
-                                '</option>'
+                            item.id +
+                            '">' +
+                            item.name +
+                            '</option>'
                         )
                     }
                     form.render()
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
         }
     })
+
 </script>
 
 <style>
@@ -598,6 +611,7 @@
     #poly-add-strategy .layui-form-select {
         width: 120px;
     }
+
     #poly-add-strategy .ploy-value {
         display: inline-block;
         width: 120px;
@@ -627,4 +641,5 @@
     #ploy-content .layui-table-box {
         height: 500px;
     }
+
 </style>

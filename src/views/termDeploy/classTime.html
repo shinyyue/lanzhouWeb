@@ -1,4 +1,6 @@
-<div id="source-manage-mylist" class="layui-fluid" lay-title="我的资源库">
+<div id="source-manage-mylist"
+     class="layui-fluid"
+     lay-title="我的资源库">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -11,17 +13,16 @@
             </button>
         </div>-->
     </div>
-    <table
-        id="class-time-mylist-table"
-        lay-filter="class-time-mylist-table"
-    ></table>
+    <table id="class-time-mylist-table"
+           lay-filter="class-time-mylist-table"></table>
     <div class="course-add">
-        <button class="primary-btn" id="update_class_time">修改</button>
+        <div class="layui-btn primary-btn"
+             id="update_class_time">修改</div>
     </div>
 </div>
 
 <script>
-    layui.use(['table', 'form', 'tree', 'laydate'], function(table) {
+    layui.use(['table', 'form', 'tree', 'laydate'], function (table) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -60,7 +61,7 @@
                         }
                     ]
                 ],
-                done: function(res, curr, count) {
+                done: function (res, curr, count) {
                     merge(res, curr, count)
                 }
             }
@@ -74,14 +75,14 @@
 
         getList()
 
-        $('#update_class_time').click(function() {
+        $('#update_class_time').click(function () {
             window.location.href = 'index.html#/termDeploy/classTimeEdit'
         })
 
         function getList() {
             admin.get({
                 url: '/schoolTime/get',
-                success: function(res) {
+                success: function (res) {
                     tableOption.data = res.data || []
                     table.render(tableOption)
                 }
@@ -112,11 +113,11 @@
                     if (data[i][columsName[k]] === data[i - 1][columsName[k]]) {
                         //后一行的值与前一行的值做比较，相同就需要合并
                         mark += 1
-                        tdPreArr.each(function() {
+                        tdPreArr.each(function () {
                             //相同列的第一列增加rowspan属性
                             $(this).attr('rowspan', mark)
                         })
-                        tdCurArr.each(function() {
+                        tdCurArr.each(function () {
                             //当前行隐藏
                             $(this).css('display', 'none')
                         })
@@ -130,6 +131,7 @@
             }
         }
     })
+
 </script>
 
 <style></style>

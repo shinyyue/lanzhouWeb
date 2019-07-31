@@ -68,8 +68,8 @@
                 <div class="layui-form-item layui-col-md12">
                     <label class="layui-form-label"></label>
                     <div>
-                        <button class="layui-btn layui-btn-primary cancel-btn "
-                                id="source-add-cancle"> 返回 </button>
+                        <div class="layui-btn layui-btn-primary cancel-btn "
+                             id="source-add-cancle"> 返回 </div>
                     </div>
                 </div>
             </div>
@@ -121,13 +121,15 @@
                     $('#testTime').html(res.data.testTime)
                     $('#startTime').html(admin.dateFormat(new Date(res.data.startTime).getTime() /
                         1000))
-                    $('#endTime').html(admin.dateFormat(new Date(res.data.endTime).getTime() / 1000))
+                    $('#endTime').html(admin.dateFormat(new Date(res.data.endTime).getTime() /
+                        1000))
                     $('#updateTime').html(admin.dateFormat(new Date(res.data.updateTime).getTime() /
                         1000))
                 }
             })
         }
     })
+
 </script>
 <style>
     #course-details .paper-info {
@@ -137,4 +139,5 @@
     #course-details .course-add-content {
         padding: 20px 0;
     }
+
 </style>

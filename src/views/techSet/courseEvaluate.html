@@ -2,21 +2,26 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：开课管理 > </span>
-            <span id = "courseEvaluate"></span>
+            <span id="courseEvaluate"></span>
         </div>
     </div>
-    <form action="" class="layui-form my-form">
+    <form action=""
+          class="layui-form my-form">
         <div class="layui-row">
-            <div  class="ploy-title" id="coursePlanName" name="curriculumId">课程</div>
+            <div class="ploy-title"
+                 id="coursePlanName"
+                 name="curriculumId">课程</div>
         </div>
         <hr />
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item ploy-title">
-                <div class="layui-col-md6" style="float: left">
+                <div class="layui-col-md6"
+                     style="float: left">
                     学生: <span id="userName"></span>
                 </div>
-                <div class="layui-col-md2" style="float: right">
-                    <span id="date" ></span>
+                <div class="layui-col-md2"
+                     style="float: right">
+                    <span id="date"></span>
                 </div>
             </div>
         </div>
@@ -25,17 +30,22 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">评价</label>
                 <div class="layui-col-md9">
-                    <textarea name="desc" class="layui-textarea" readonly id="evaluate"></textarea>
+                    <textarea name="desc"
+                              class="layui-textarea"
+                              readonly
+                              id="evaluate"></textarea>
                 </div>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item ploy-title">
-                <div class="layui-col-md6" style="float: left">
+                <div class="layui-col-md6"
+                     style="float: left">
                     老师: <span id="teacherName"></span>
                 </div>
-                <div class="layui-col-md2" style="float: right">
-                    <span id="nowDate" ></span>
+                <div class="layui-col-md2"
+                     style="float: right">
+                    <span id="nowDate"></span>
                 </div>
             </div>
         </div>
@@ -44,7 +54,9 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">回复</label>
                 <div class="layui-col-md9">
-                    <textarea name="desc" class="layui-textarea" id="reply">
+                    <textarea name="desc"
+                              class="layui-textarea"
+                              id="reply">
                     </textarea>
                 </div>
             </div>
@@ -53,17 +65,13 @@
             <div class="layui-form-item layui-col-md12">
                 <label class="layui-form-label"></label>
                 <div>
-                    <button
-                        class="layui-btn primary-btn"
-                        lay-submit
-                        lay-filter="submit"
-                    >
+                    <div class="layui-btn primary-btn"
+                         lay-submit
+                         lay-filter="submit">
                         提交
-                    </button>
-                    <div
-                        class="layui-btn layui-btn-primary cancel-btn"
-                        id="source-add-cancle"
-                    >
+                    </div>
+                    <div class="layui-btn layui-btn-primary cancel-btn"
+                         id="source-add-cancle">
                         取消
                     </div>
                 </div>
@@ -73,17 +81,18 @@
 </div>
 
 <script>
-    layui.use(['jquery','form'], function() {
+    layui.use(['jquery', 'form'], function () {
         var $ = layui.jquery,
             form = layui.form
-            admin = layui.admin,
-            time=getNowFormatDate,
-        $("#coursePlanName").html(layui.data('course').coursePlanName),
-        $("#coursePlanName").val(layui.data('course').coursePlanId),
-        $("#userName").html(layui.data('courseComment').stuName)
+        admin = layui.admin,
+            time = getNowFormatDate,
+            $("#coursePlanName").html(layui.data('course').coursePlanName),
+            $("#coursePlanName").val(layui.data('course').coursePlanId),
+            $("#userName").html(layui.data('courseComment').stuName)
         $("#courseEvaluate").html(layui.data('course').coursePlanName + ' > 课程评价 > 老师回复')
         $("#date").html(time);
         $("#evaluate").val(layui.data('courseComment').content);
+
         function getNowFormatDate() {
             var date = new Date();
             var seperator1 = "-";
@@ -96,12 +105,12 @@
             if (strDate >= 0 && strDate <= 9) {
                 strDate = "0" + strDate;
             }
-            var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-                + " " + date.getHours() + seperator2 + date.getMinutes()
-                + seperator2 + date.getSeconds();
+            var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate +
+                " " + date.getHours() + seperator2 + date.getMinutes() +
+                seperator2 + date.getSeconds();
             return currentdate;
         }
-        form.on('submit(submit)', function(data){
+        form.on('submit(submit)', function (data) {
             var param = {
                 curriculumId: layui.data('course').coursePlanId,
                 content: data.field.desc,
@@ -110,27 +119,28 @@
             admin.post({
                 url: '/coursre/add',
                 data: JSON.stringify(param),
-                success: function(res) {
+                success: function (res) {
                     if (res.code === 200) {
                         layer.msg('评论成功！')
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
             return false;
         });
-        $('#source-add-cancle').on('click', function() {
+        $('#source-add-cancle').on('click', function () {
             window.history.go(-1)
         })
 
     })
+
 </script>
 
 <style>
-    #checkcourse-preintro {
-    }
+    #checkcourse-preintro {}
+
     .ploy-title {
         width: 90%;
         padding: 15px;
@@ -140,4 +150,5 @@
         font-size: 16px;
         font-weight: bold;
     }
+
 </style>

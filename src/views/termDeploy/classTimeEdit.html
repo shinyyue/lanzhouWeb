@@ -1,4 +1,5 @@
-<div id="class_time_edit" class="layui-fluid">
+<div id="class_time_edit"
+     class="layui-fluid">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -11,24 +12,38 @@
             </button>
         </div> -->
     </div>
-    <table
-        id="class-time-edit-table"
-        lay-filter="class-time-edit-table"
-    ></table>
+    <table id="class-time-edit-table"
+           lay-filter="class-time-edit-table"></table>
     <div class="course-add">
-        <div class="btn primary-btn" id="confirm">确定</div>
-        <div class="btn cancel-btn" id="cancel">取消</div>
+        <div class="layui-btn primary-btn"
+             id="confirm">确定</div>
+        <div class="layui-btn cancel-btn"
+             id="cancel">取消</div>
     </div>
-    <script type="text/html" id="classStart">
-        <input class="class-time-{{d.id}}-1" style="padding: 6px 10px;" type="text" name="startTime" value="{{d.startTime}}" lay-filter="startTime">
+    <script type="text/html"
+            id="classStart">
+        <input class="class-time-{{d.id}}-1"
+               style="padding: 6px 10px;"
+               type="text"
+               name="startTime"
+               value="{{d.startTime}}"
+               lay-filter="startTime">
+
     </script>
-    <script type="text/html" id="classEnd">
-        <input class="class-time-{{d.id}}-2" style="padding: 6px 10px;" type="text" name="endTime" value="{{d.endTime}}" lay-filter="endTime" >
+    <script type="text/html"
+            id="classEnd">
+        <input class="class-time-{{d.id}}-2"
+               style="padding: 6px 10px;"
+               type="text"
+               name="endTime"
+               value="{{d.endTime}}"
+               lay-filter="endTime">
+
     </script>
 </div>
 
 <script>
-    layui.use(['table', 'form', 'tree', 'laydate'], function(table) {
+    layui.use(['table', 'form', 'tree', 'laydate'], function (table) {
         var $ = layui.jquery,
             form = layui.form,
             laypage = layui.laypage,
@@ -68,7 +83,7 @@
                         }
                     ]
                 ],
-                done: function(res, curr, count) {
+                done: function (res, curr, count) {
                     merge(res, curr, count)
                 }
             },
@@ -76,8 +91,12 @@
 
         getList()
 
-        $('#confirm').click(function() {
+        $('#confirm').click(function () {
             updateData(classTimeList)
+        })
+
+        $('#cancel').click(function () {
+            window.history.go(-1)
         })
 
         // todo:
@@ -85,12 +104,12 @@
             admin.put({
                 url: '/schoolTime/update',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     if (res.code === 200) {
                         layer.msg('更新成功！')
                         window.location.href = 'index.html#/termDeploy/classTime'
                         window.location.reload()
-//                        window.history.go(-1)
+                        //                        window.history.go(-1)
                     } else {
                         layer.msg(res.msg || '更新失败')
                     }
@@ -101,23 +120,23 @@
         function getList() {
             admin.get({
                 url: '/schoolTime/get',
-                success: function(res) {
+                success: function (res) {
                     tableOption.data = res.data || []
                     table.render(tableOption)
                     classTimeList = res.data
 
-                    res.data.forEach(function(item) {
+                    res.data.forEach(function (item) {
                         laydate.render({
                             elem: '.class-time-' + item.id + '-1',
                             type: 'time',
-                            change: function(value, date, endDate) {
+                            change: function (value, date, endDate) {
                                 item.startTime = value
                             }
                         })
                         laydate.render({
                             elem: '.class-time-' + item.id + '-2',
                             type: 'time',
-                            change: function(value, date, endDate) {
+                            change: function (value, date, endDate) {
                                 item.endTime = value
                             }
                         })
@@ -150,11 +169,11 @@
                     if (data[i][columsName[k]] === data[i - 1][columsName[k]]) {
                         //后一行的值与前一行的值做比较，相同就需要合并
                         mark += 1
-                        tdPreArr.each(function() {
+                        tdPreArr.each(function () {
                             //相同列的第一列增加rowspan属性
                             $(this).attr('rowspan', mark)
                         })
-                        tdCurArr.each(function() {
+                        tdCurArr.each(function () {
                             //当前行隐藏
                             $(this).css('display', 'none')
                         })
@@ -168,10 +187,12 @@
             }
         }
     })
+
 </script>
 
 <style>
     #class_time_edit .class-time {
         padding: 6px 10px;
     }
+
 </style>

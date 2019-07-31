@@ -1,22 +1,35 @@
-<div class="layui-fluid" id="evaluate" lay-title="开课管理">
+<div class="layui-fluid"
+     id="evaluate"
+     lay-title="开课管理">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
             <span>开课管理 > <span id="courseName"></span> > 课程评价 > 课程评价列表</span>
         </div>
         <div class="course-title-search">
-            <input type="text" placeholder="请输入关键字" id="evaluate-key"/>
-            <button class="search-confirm" id="searchEvaluateList">
+            <input type="text"
+                   placeholder="请输入关键字"
+                   id="evaluate-key" />
+            <button class="search-confirm"
+                    id="searchEvaluateList">
                 <img src="src/images/search.png" />
             </button>
         </div>
     </div>
-    <table id="evaluate-list-table" lay-filter="evaluate-list-table"></table>
-    <script type="text/html" id="evaluate-opt">
-        <button class="course-set-btn" id="evaluate-add-delete" lay-event="delete">删除</button>
-        <button class="course-set-btn" id="evaluate-add-edit" lay-event="reply">回复</button>
+    <table id="evaluate-list-table"
+           lay-filter="evaluate-list-table"></table>
+    <script type="text/html"
+            id="evaluate-opt">
+        <div class="course-set-btn"
+             id="evaluate-add-delete"
+             lay-event="delete">删除</div>
+        <div class="course-set-btn"
+             id="evaluate-add-edit"
+             lay-event="reply">回复</div>
+
     </script>
-    <div class="app-table-page" id="evaluate-table-page"></div>
+    <div class="app-table-page"
+         id="evaluate-table-page"></div>
 </div>
 
 <script>
@@ -58,12 +71,12 @@
                 elem: '[lay-filter="' + tableFilter + '"]',
                 cols: [
                     [{
-                        title: '序号',
-                        field: 'id',
-                        width: 80,
-                        align: 'center',
-                        type: 'numbers'
-                    },
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center',
+                            type: 'numbers'
+                        },
                         {
                             title: '课程名称',
                             field: 'courseName',
@@ -106,9 +119,18 @@
 
             if (layEvent === 'reply') {
                 formData = data;
-                layui.data('courseComment', {key: 'id', value: data.id});
-                layui.data('courseComment', {key: 'stuName', value: data.userName});
-                layui.data('courseComment', {key: 'content', value: data.content});
+                layui.data('courseComment', {
+                    key: 'id',
+                    value: data.id
+                });
+                layui.data('courseComment', {
+                    key: 'stuName',
+                    value: data.userName
+                });
+                layui.data('courseComment', {
+                    key: 'content',
+                    value: data.content
+                });
                 window.location.href = 'index.html#/techSet/courseEvaluate'
             } else if (layEvent === 'delete') {
                 layer.open({
@@ -173,111 +195,112 @@
     })
 
     //    layui.use(['table', 'jquery'], function(table, $) {
-//        var tableFilter = 'evaluate-list-table',
-//            laypage = layui.laypage,
-//            $ = layui.jquery
-//
-//        table.render({
-//            page: false,
-//            data: [
-//                {
-//                    id: 1,
-//                    courceName: '发电机哈哈',
-//                    evaluateCode: 20190101,
-//                    responsor: '王小虎',
-//                    time: '第一学期',
-//                    class: '所有年级',
-//                    isCommon: false,
-//                    score: 1
-//                }
-//            ],
-//            elem: '[lay-filter="' + tableFilter + '"]',
-//            height: 'full-300',
-//            cols: [
-//                [
-//                    {
-//                        title: '序号',
-//                        field: 'id',
-//                        width: 80,
-//                        align: 'center'
-//                    },
-//                    {
-//                        title: '课程名称',
-//                        field: 'evaluateCode',
-//                        align: 'center'
-//                    },
-//                    {
-//                        title: '学生名称',
-//                        field: 'courceName',
-//                        align: 'center'
-//                    },
-//                    {
-//                        title: '内容',
-//                        align: 'center',
-//                        field: 'times',
-//                        width: 200
-//                    },
-//                    {
-//                        title: '发布时间',
-//                        field: 'responsor',
-//                        align: 'center'
-//                    },
-//                    {
-//                        title: '操作',
-//                        align: 'center',
-//                        templet: '#evaluate-opt',
-//                        width: 80
-//                    }
-//                ]
-//            ]
-//        })
-//
-//        //执行一个laypage实例
-//        laypage.render({
-//            elem: 'evaluate-table-page', //注意，这里的 test1 是 ID，不用加 # 号
-//            count: 50, //数据总数，从服务端得到
-//            limit: 10,
-//            first: '首页',
-//            last: '尾页',
-//            hash: 'page',
-//            curr: location.hash.replace('#!page=', ''),
-//            layout: [
-//                'first',
-//                'prev',
-//                'page',
-//                'next',
-//                'last',
-//                'count',
-//                'currLimit',
-//                'curr',
-//                'pageCount'
-//            ]
-//        })
-//
-//        $('#evaluate-add-edit').on('click', function() {
-//            location.href = 'index.html#/techSet/resultUpdate'
-//        })
-//
-//        $('#evaluate-add-delete').on('click', function() {
-//            layer.confirm(
-//                '您确定要删除么?',
-//                {
-//                    icon: 3,
-//                    title: '提示',
-//                    shade: 0.5,
-//                    maxWidth: 500,
-//                    maxHeight: 500
-//                },
-//                function(confirm) {
-//                    // 用户点击确定
-//                    layer.close(confirm)
-//                },
-//                function(cancel) {
-//                    // 用户点击取消
-//                    layer.close(cancel)
-//                }
-//            )
-//        })
+    //        var tableFilter = 'evaluate-list-table',
+    //            laypage = layui.laypage,
+    //            $ = layui.jquery
+    //
+    //        table.render({
+    //            page: false,
+    //            data: [
+    //                {
+    //                    id: 1,
+    //                    courceName: '发电机哈哈',
+    //                    evaluateCode: 20190101,
+    //                    responsor: '王小虎',
+    //                    time: '第一学期',
+    //                    class: '所有年级',
+    //                    isCommon: false,
+    //                    score: 1
+    //                }
+    //            ],
+    //            elem: '[lay-filter="' + tableFilter + '"]',
+    //            height: 'full-300',
+    //            cols: [
+    //                [
+    //                    {
+    //                        title: '序号',
+    //                        field: 'id',
+    //                        width: 80,
+    //                        align: 'center'
+    //                    },
+    //                    {
+    //                        title: '课程名称',
+    //                        field: 'evaluateCode',
+    //                        align: 'center'
+    //                    },
+    //                    {
+    //                        title: '学生名称',
+    //                        field: 'courceName',
+    //                        align: 'center'
+    //                    },
+    //                    {
+    //                        title: '内容',
+    //                        align: 'center',
+    //                        field: 'times',
+    //                        width: 200
+    //                    },
+    //                    {
+    //                        title: '发布时间',
+    //                        field: 'responsor',
+    //                        align: 'center'
+    //                    },
+    //                    {
+    //                        title: '操作',
+    //                        align: 'center',
+    //                        templet: '#evaluate-opt',
+    //                        width: 80
+    //                    }
+    //                ]
+    //            ]
+    //        })
+    //
+    //        //执行一个laypage实例
+    //        laypage.render({
+    //            elem: 'evaluate-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+    //            count: 50, //数据总数，从服务端得到
+    //            limit: 10,
+    //            first: '首页',
+    //            last: '尾页',
+    //            hash: 'page',
+    //            curr: location.hash.replace('#!page=', ''),
+    //            layout: [
+    //                'first',
+    //                'prev',
+    //                'page',
+    //                'next',
+    //                'last',
+    //                'count',
+    //                'currLimit',
+    //                'curr',
+    //                'pageCount'
+    //            ]
+    //        })
+    //
+    //        $('#evaluate-add-edit').on('click', function() {
+    //            location.href = 'index.html#/techSet/resultUpdate'
+    //        })
+    //
+    //        $('#evaluate-add-delete').on('click', function() {
+    //            layer.confirm(
+    //                '您确定要删除么?',
+    //                {
+    //                    icon: 3,
+    //                    title: '提示',
+    //                    shade: 0.5,
+    //                    maxWidth: 500,
+    //                    maxHeight: 500
+    //                },
+    //                function(confirm) {
+    //                    // 用户点击确定
+    //                    layer.close(confirm)
+    //                },
+    //                function(cancel) {
+    //                    // 用户点击取消
+    //                    layer.close(cancel)
+    //                }
+    //            )
+    //        })
+
 </script>
 
 <style>
@@ -337,4 +360,5 @@
         border: 1px solid #ccc;
         cursor: pointer;
     }
+
 </style>

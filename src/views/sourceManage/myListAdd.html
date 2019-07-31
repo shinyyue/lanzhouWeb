@@ -51,7 +51,8 @@
                                 data-id="1">自定义添加</li>
                             <li data-id="2">批量添加</li>
                             <li>
-                                <span style="width: 100px; margin-left: 10px; color: red;">说明：1.目录节点无资源，无需添加；2.时长最大不超过10分钟
+                                <span
+                                      style="width: 100px; margin-left: 10px; color: red;">说明：1.目录节点无资源，无需添加；2.时长最大不超过10分钟
                                 </span>
                             </li>
                         </ul>
@@ -195,11 +196,11 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label"></label>
                 <div>
-                    <button class="layui-btn primary-btn"
-                            lay-submit
-                            lay-filter="submit"> 提交 </button>
-                    <button class="layui-btn layui-btn-primary cancel-btn"
-                            id="sourmanage-add-cancle"> 返回 </button>
+                    <div class="layui-btn primary-btn"
+                         lay-submit
+                         lay-filter="submit"> 提交 </div>
+                    <div class="layui-btn layui-btn-primary cancel-btn"
+                         id="sourmanage-add-cancle"> 返回 </div>
                 </div>
             </div>
         </div>
@@ -675,6 +676,7 @@
                 table._tableTrCurr.find('[lay-event="' + elem.attr('lay-event') + '"]').first().click()
             })
     })
+
 </script>
 <style>
     #source-manage-mylist-add {}
@@ -764,4 +766,5 @@
     #source-manage-mylist-add .show-scorm-upload {
         display: none;
     }
+
 </style>

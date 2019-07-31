@@ -1,37 +1,43 @@
 <div class="common-layout">
     <div class="layout-sider">
         <div class="layui-logo">
-            <img src="src/images/logo_1.png" class="layui-logo-img" />
+            <img src="src/images/logo_1.png"
+                 class="layui-logo-img" />
         </div>
         <div class="sidebar-user">
-            <img src="src/images/user_logo.png" class="user-logo" />
+            <img src="src/images/user_logo.png"
+                 class="user-logo" />
             <div class="user-info">
-                <div class="user-info-name" id="nav_user_name"></div>
+                <div class="user-info-name"
+                     id="nav_user_name"></div>
                 <div id="nav_user_role"></div>
             </div>
         </div>
         <!-- 配置部分 -->
-        <div id="home_welcome" class="home-welcome">
+        <div id="home_welcome"
+             class="home-welcome">
             <span>Welcome!</span>
             <p>欢迎您使用虚拟仿真实验教学平台！</p>
             <p>
                 教师在任课期间点击主菜单栏的“答疑室”可接受学生的咨询、整理常见问题、维护答疑库。当您不在答疑室期间，学生针对您所任课程的问题将直接发往您本人登记的电子邮件，请您及时回答学生的问题。
             </p>
         </div>
-        <ul id="side_nav" class="layui-nav" layui-filter="side_nav"></ul>
+        <ul id="side_nav"
+            class="layui-nav"
+            layui-filter="side_nav"></ul>
     </div>
     <div class="layout-right">
         <div class="layout-header">
             <div class="layout-header-left">虚拟仿真实验教学管理平台</div>
-            <ul
-                class="layui-nav layout-header-right"
+            <ul class="layui-nav layout-header-right"
                 id="header_nav"
-                lay-filter="header_nav"
-            >
-                <li class="layui-nav-item" id="logout">退出系统</li>
+                lay-filter="header_nav">
+                <li class="layui-nav-item"
+                    id="logout">退出系统</li>
             </ul>
         </div>
-        <div class="layout-containner" id="app-body"></div>
+        <div class="layout-containner"
+             id="app-body"></div>
     </div>
 </div>
 <script>
@@ -39,7 +45,7 @@
         .config({
             base: 'src/plugins/' //自定义layui组件的目录
         })
-        .use(['element', 'layer', 'navbar', 'admin'], function() {
+        .use(['element', 'layer', 'navbar', 'admin'], function () {
             var element = layui.element,
                 $ = layui.jquery,
                 layer = layui.layer,
@@ -147,20 +153,20 @@
                             display: 'block'
                         })
                         $('#side_nav').html(childNav)
-                        $('#side_nav .layui-nav-item').each(function() {
+                        $('#side_nav .layui-nav-item').each(function () {
                             var index = $(this).index()
                             var urlReg = new RegExp(
                                 '^' +
-                                    $(this)
-                                        .find('a')
-                                        .data('url'),
+                                $(this)
+                                .find('a')
+                                .data('url'),
                                 'ig'
                             )
                             if (urlReg.test(path)) {
                                 $(this).addClass('layui-this')
                             }
                         })
-                        $('#side_nav .layui-nav-item').click(function() {
+                        $('#side_nav .layui-nav-item').click(function () {
                             $(this).addClass('layui-this')
                             $(this)
                                 .siblings()
@@ -172,8 +178,8 @@
                                     .css('display', 'block')
                                 if (
                                     $(this)
-                                        .siblings()
-                                        .find('dl')
+                                    .siblings()
+                                    .find('dl')
                                 ) {
                                     $(this)
                                         .siblings()
@@ -188,7 +194,7 @@
                         })
                         $('#side_nav')
                             .find('.layui-nav-item  dd')
-                            .on('click', function() {
+                            .on('click', function () {
                                 $(this).css('background', '#fff')
                                 $(this)
                                     .find('a')
@@ -207,8 +213,8 @@
                                 window.location.href =
                                     'index.html#' +
                                     $(this)
-                                        .find('a')
-                                        .data('url')
+                                    .find('a')
+                                    .data('url')
                                 location.reload()
                                 path = $(this)
                                     .find('a')
@@ -224,23 +230,23 @@
                     $('#side_nav').css('display', 'none')
                     $('#home_welcome').html(
                         '<span>Welcome!</span>' +
-                            '<p>欢迎您使用虚拟仿真实验教学平台！</p>' +
-                            '<p>如有困难请点击主菜单栏的“答疑室”搜索常见问题或者向网上值班的老师提问。如果教师不在线你的问题将自动发送到教师的邮箱中。</p>'
+                        '<p>欢迎您使用虚拟仿真实验教学平台！</p>' +
+                        '<p>如有困难请点击主菜单栏的“答疑室”搜索常见问题或者向网上值班的老师提问。如果教师不在线你的问题将自动发送到教师的邮箱中。</p>'
                     )
                 } else if (path === '/') {
                     $('#home_welcome').css('display', 'block')
                     $('#side_nav').css('display', 'none')
                     $('#home_welcome').html(
                         '<span>Welcome!</span>' +
-                            '<p>欢迎您使用虚拟仿真实验教学平台！</p>' +
-                            '<p>教师在任课期间点击主菜单栏的“答疑室”可接受学生的咨询、整理常见问题、维护答疑库。当您不在答疑室期间，学生针对您所任课程的问题将直接发往您本人登记的电子邮件，请您及时回答学生的问题。</p>'
+                        '<p>欢迎您使用虚拟仿真实验教学平台！</p>' +
+                        '<p>教师在任课期间点击主菜单栏的“答疑室”可接受学生的咨询、整理常见问题、维护答疑库。当您不在答疑室期间，学生针对您所任课程的问题将直接发往您本人登记的电子邮件，请您及时回答学生的问题。</p>'
                     )
                 } else {
                     $('#home_welcome').css('display', 'none')
                     $('#side_nav').css('display', 'block')
                 }
             }
-            $(document).on('click', '#header_nav li', function() {
+            $(document).on('click', '#header_nav li', function () {
                 var curPath = $(this).data('path')
                 // 设置一级菜单的状态
                 $(this).addClass('active')
@@ -253,19 +259,20 @@
                 location.reload()
                 setSideNav()
             })
-            $('#logout').on('click', function() {
+            $('#logout').on('click', function () {
                 admin.logout()
             })
             $('#nav_user_name').html(layui.data('userInfo').userInfo.userName)
             $('#nav_user_role').html(layui.data('role').role.roleName || '')
         })
+
 </script>
 <style>
     #app-body {
         /* width: 1130px; */
         width: 100%;
         height: calc(100% - 50px);
-        max-height: 80%;
+        /* max-height: 80%; */
         overflow: auto;
         box-sizing: border-box;
     }
@@ -426,4 +433,5 @@
         color: #fff;
         background: rgba(0, 176, 202, 1);
     }
+
 </style>

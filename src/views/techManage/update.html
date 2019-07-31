@@ -16,7 +16,8 @@
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label require">课程名称</label>
                         <select name="curriculumId"
-                                id="plan_course_list" lay-verify = "required">
+                                id="plan_course_list"
+                                lay-verify="required">
                             <option value="">选择课程</option>
                         </select>
                     </div>
@@ -86,7 +87,8 @@
                 <div class="layui-row">
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label require">学年</label>
-                        <select name="schoolYearId" lay-verify = "required"
+                        <select name="schoolYearId"
+                                lay-verify="required"
                                 id="schoolYear">
                             <option value="">请选择学年</option>
                         </select>
@@ -102,18 +104,18 @@
                 </div>
                 <div class="layui-row">
                     <div class="layui-col-md6 layui-form-item">
-                        <label class="layui-form-label require" >上课周次</label>
+                        <label class="layui-form-label require">上课周次</label>
                         <div>
                             <input type="text"
                                    name="weekStart"
                                    id="weekStart"
-                                   lay-verify = "required"
+                                   lay-verify="required"
                                    class="common-form-input short" />
                             <span>至</span>
                             <input type="text"
                                    name="weekEnd"
                                    id="weekEnd"
-                                   lay-verify = "required"
+                                   lay-verify="required"
                                    class="common-form-input short" />
                         </div>
                     </div>
@@ -141,7 +143,8 @@
                         <label class="layui-form-label require">上课时间</label>
                         <div>
                             <div class="short">
-                                <select name="weekDay"  lay-verify = "required"
+                                <select name="weekDay"
+                                        lay-verify="required"
                                         id="weekDay">
                                     <option value="7">星期日</option>
                                     <option value="1">星期一</option>
@@ -154,7 +157,8 @@
                                 <span class="tech-update-details">第</span>
                             </div>
                             <div class="short">
-                                <select name="schooltimeStart"  lay-verify = "required"
+                                <select name="schooltimeStart"
+                                        lay-verify="required"
                                         id="schooltimeStart">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -172,7 +176,8 @@
                                 <span class="tech-update-details">节 至 第</span>
                             </div>
                             <div class="short">
-                                <select name="schooltimeEnd"  lay-verify = "required"
+                                <select name="schooltimeEnd"
+                                        lay-verify="required"
                                         id="schooltimeEnd">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -199,14 +204,15 @@
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label require">开课教师</label>
                         <input type="text"
-                               lay-verify = "required"
+                               lay-verify="required"
                                name="userName"
                                id="userName"
                                class="common-form-input" />
                     </div>
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label require">试用学生类别</label>
-                        <select name="studentTypeId" lay-verify = "required"
+                        <select name="studentTypeId"
+                                lay-verify="required"
                                 id="studentTypeId">
                             <option value="">请选择学生类别</option>
                         </select>
@@ -261,7 +267,8 @@
                                        disabled>
                                 <span>)</span><span>是否选择整个班级</span>
                             </div>
-                            <div id="classList" style="height:300px; overflow-y: scroll;"></div>
+                            <div id="classList"
+                                 style="height:300px; overflow-y: scroll;"></div>
                         </div>
                     </div>
                     <div class="layui-col-md6 layui-form-item">
@@ -272,7 +279,8 @@
                                 <input type="text"
                                        id="studentListChange">
                             </div>
-                            <div id="studentList" style="height:300px; overflow-y: scroll;"></div>
+                            <div id="studentList"
+                                 style="height:300px; overflow-y: scroll;"></div>
                         </div>
                     </div>
                 </div>
@@ -298,11 +306,11 @@
                     <div class="layui-form-item layui-col-md12">
                         <label class="layui-form-label"></label>
                         <div>
-                            <button class="layui-btn primary-btn"
-                                    lay-submit
-                                    lay-filter="updatePlan"> 提交 </button>
-                            <button class="layui-btn layui-btn-primary cancel-btn"
-                                    id="source-add-cancle"> 取消 </button>
+                            <div class="layui-btn primary-btn"
+                                 lay-submit
+                                 lay-filter="updatePlan"> 提交 </div>
+                            <div class="layui-btn layui-btn-primary cancel-btn"
+                                 id="source-add-cancle"> 取消 </div>
                         </div>
                     </div>
                 </div>
@@ -381,7 +389,7 @@
         getClassList()
         getClassRoom()
         if (id) {
-            setTimeout(function() {
+            setTimeout(function () {
                 getDetails()
             }, 1000)
             $('#techManage-addnew').attr('style', 'display:none;')
@@ -504,7 +512,8 @@
                     if (res.code === 200) {
                         $('#campus').html('<option>请选择校区</option>')
                         res.data.items.forEach(item => {
-                            $('#campus').append('<option value="' + item.id + '">' + item.campusName +
+                            $('#campus').append('<option value="' + item.id + '">' + item
+                                .campusName +
                                 '</option>')
                         })
                         form.render()
@@ -586,7 +595,8 @@
                     if (res.code === 200) {
                         $('#siteId').html('<option>请选择</option>')
                         res.data.items.forEach(item => {
-                            $('#siteId').append('<option value="' + item.id + '">' + item.classroomName +
+                            $('#siteId').append('<option value="' + item.id + '">' + item
+                                .classroomName +
                                 '</option>')
                         })
                         form.render()
@@ -609,7 +619,8 @@
                 data: JSON.stringify(data),
                 success: function (res) {
                     res.data && res.data.items && res.data.items.forEach(item => {
-                        $('#schoolYear').append('<option value="' + item.id + '">' + item.schoolYear +
+                        $('#schoolYear').append('<option value="' + item.id + '">' + item
+                            .schoolYear +
                             '</option>')
                         form.render()
                     })
@@ -681,7 +692,7 @@
             data.creditHour = Number(data.creditHour)
             data.fullMark = Number(data.fullMark)
             data.semester = Number(data.semester)
-            if(data.schoolYearId == undefined || data.schoolYearId == null || data.schoolYearId == "" ){
+            if (data.schoolYearId == undefined || data.schoolYearId == null || data.schoolYearId == "") {
                 layer.msg('学年数据不能为空！')
                 return
             }
@@ -695,7 +706,7 @@
             data.studentTypeId = Number(data.studentTypeId)
             data.minStudent = Number(data.minStudent)
             data.maxStudent = Number(data.maxStudent)
-            if(data.maxStudent <= data.minStudent){
+            if (data.maxStudent <= data.minStudent) {
                 layer.msg('最多选课人数必须大于最少选课人数！')
                 return
             }
@@ -735,7 +746,7 @@
                             layer.msg(res.msg || '更新失败')
                         }
                     },
-                    error: function(err) {
+                    error: function (err) {
                         layer.msg((err && err.msg) || '数据请求失败')
                     }
                 })
@@ -756,6 +767,7 @@
             })
         }
     })
+
 </script>
 <style>
     #techManage-add .course-add-content {
@@ -823,4 +835,5 @@
         display: inline-block;
         width: 200px;
     }
+
 </style>

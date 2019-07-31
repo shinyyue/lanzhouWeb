@@ -46,10 +46,12 @@
     </div>
     <div class="course-add">
         <!-- <button class="add-btn" id="add_cource">添加</button> -->
-        <button class="add-btn" id="download-temple">下载模板</button>
-        <button class="add-btn" id="import-cource">导入</button>
-        <button class="add-btn"
-                id="export-cource">导出</button>
+        <div class="layui-btn primary-btn"
+             id="download-temple">下载模板</div>
+        <div class="layui-btn primary-btn"
+             id="import-cource">导入</div>
+        <div class="layui-btn primary-btn"
+             id="export-cource">导出</div>
     </div>
     <table id="user_student_table"
            lay-filter="user_student_table"></table>
@@ -57,15 +59,21 @@
          id="student-mylist-page"></div>
     <script type="text/html"
             id="user_student_opt">
-        {{#if(d.state === 1){ }}
-            <button class="course-set-btn" lay-event="disabledUser">停用</button>
+    {{#if(d.state === 1){ }}
+        <button class="course-set-btn"
+                lay-event="disabledUser">停用</button>
         {{# } else if (d.state === 2) {}}
-            <button class="course-set-btn" lay-event="disabledUser">启用</button>
-        {{#}  }}
-        <button class="course-set-btn" lay-event="edit">编辑</button>
-        <button class="course-set-btn" lay-event="delete">删除</button>
-        <button class="course-set-btn" lay-event="check">查看</button>
-        <button class="course-set-btn" lay-event="resetPwd">重置密码</button>
+            <button class="course-set-btn"
+                    lay-event="disabledUser">启用</button>
+            {{#}  }}
+                <button class="course-set-btn"
+                        lay-event="edit">编辑</button>
+                <button class="course-set-btn"
+                        lay-event="delete">删除</button>
+                <button class="course-set-btn"
+                        lay-event="check">查看</button>
+                <button class="course-set-btn"
+                        lay-event="resetPwd">重置密码</button>
     </script>
 </div>
 <script>
@@ -220,7 +228,8 @@
                 var options = ''
                 $('#profession').html('<option value="">请选择</option>')
                 res.data.items.forEach(item => {
-                    options += '<option value="' + item.id + '">' + item.professionName +
+                    options += '<option value="' + item.id + '">' + item
+                        .professionName +
                         '</option>'
                 })
                 $('#profession').append(options)
@@ -280,7 +289,8 @@
                         collegeList = res.data.items
                         var options = ''
                         res.data.items.forEach(item => {
-                            options += '<option value="' + item.id + '">' + item.collegeName +
+                            options += '<option value="' + item.id + '">' + item
+                                .collegeName +
                                 '</option>'
                         })
                         $('#college').html('<option value="">请选择学院</option>')
@@ -386,16 +396,19 @@
                 '<div class="layui-row">' + '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">学(工)号:</label>' +
                 '<input type="text" name="userId" id="snoOrJno" value="' + (formData.snoOrJno || '') + '"' +
-                (type === 'check' ? 'disabled' : '') + ' class="common-form-input">' + ' </div>' + '</div>' +
+                (type === 'check' ? 'disabled' : '') + ' class="common-form-input">' + ' </div>' +
+                '</div>' +
                 '<div class="layui-row">' + '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">姓名:</label>' + '<input type="text" id="userName" value="' +
                 (formData.userName || '') + '"' + (type === 'check' ? 'disabled' : '') +
                 ' class="common-form-input">' + '</div>' + '</div>' + '<div class="layui-row">' +
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">性别:</label>' + '<div class="layui-input-block">' +
-                '<input type="radio" name="sex" value="1" title="男"' + (type === 'check' ? 'disabled ' : '') +
+                '<input type="radio" name="sex" value="1" title="男"' + (type === 'check' ? 'disabled ' :
+                    '') +
                 (formData.sex == 1 ? 'checked' : '') + '>' +
-                '<input type="radio" name="sex" value="0" title="女"' + (type === 'check' ? 'disabled' : '') +
+                '<input type="radio" name="sex" value="0" title="女"' + (type === 'check' ? 'disabled' :
+                    '') +
                 (formData.sex === 0 ? 'checked' : '') + '>' + '</div>' + ' </div>' + '</div>' +
                 '<div class="layui-row role-student">' + '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">学生类型:</label>' + '<div class="user-class">' +
@@ -404,7 +417,8 @@
                 '<option value="">请选择学生类型</option>' + '</select>' + '</div>' + '</div>' + '</div>' +
                 '<div class="layui-row">' + '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">行政班级:</label>' + '<div class="user-class">' +
-                '<select name="collegeId" id="college_model" lay-filter="college" value="' + formData.collegeId +
+                '<select name="collegeId" id="college_model" lay-filter="college" value="' + formData
+                .collegeId +
                 '"' + (type === 'check' ? 'disabled' : '') + '>' + '<option value="">请选择学院</option>' +
                 '</select>' + '<select name="facultyId" id="series_model" lay-filter="series" value="' +
                 formData.facultyId + '"' + (type === 'check' ? 'disabled' : '') + '>' +
@@ -416,11 +430,13 @@
                 '</div>' + '</div>' + '<div class="layui-row">' +
                 '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">手机:</label>' +
-                '<input type="text"  id="phone" class="common-form-input" value="' + (formData.phonenumber ||
+                '<input type="text"  id="phone" class="common-form-input" value="' + (formData
+                    .phonenumber ||
                     '') + '"' + (type === 'check' ? 'disabled' : '') + '>' + '</div>' + '</div>' +
                 '<div class="layui-row">' + '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">邮箱:</label>' +
-                '<input type="text"  id="email" class="common-form-input" value="' + (formData.email || '') +
+                '<input type="text"  id="email" class="common-form-input" value="' + (formData.email ||
+                    '') +
                 '"' + (type === 'check' ? 'disabled' : '') + '>' + '</div>' + '</div>' +
                 '<div class="layui-row">' + '<div class="layui-col-md12 layui-form-item">' +
                 '<label class="layui-form-label">初始密码:</label>' +
@@ -496,7 +512,8 @@
             form.on('select(college)', function (data) {
                 getSeriesList(function (res) {
                     res.data.items.forEach(item => {
-                        series += '<option value="' + item.id + '">' + item.facultyName +
+                        series += '<option value="' + item.id + '">' + item
+                            .facultyName +
                             '</option>'
                     })
                     $('#series_model').html(series)
@@ -506,7 +523,8 @@
             form.on('select(series)', function (data) {
                 getProfessList(function (res) {
                     res.data.items.forEach(item => {
-                        profe += '<option value="' + item.id + '">' + item.professionName +
+                        profe += '<option value="' + item.id + '">' + item
+                            .professionName +
                             '</option>'
                     })
                     $('#profess_model').html(profe)
@@ -635,7 +653,8 @@
                 success: function (res) {
                     $('#roleId').html('<option value="">请选择角色</option>')
                     res.data && res.data.items && res.data.items.forEach(item => {
-                        $('#roleId').append('<option value="' + item.id + '">' + item.roleName +
+                        $('#roleId').append('<option value="' + item.id + '">' + item
+                            .roleName +
                             '</option>')
                     })
                     form.render()
@@ -757,7 +776,8 @@
                     data: JSON.stringify(data),
                     success: function (res) {
                         $('#studentTypeId').html('<option value="">请选择学生类型</option>')
-                        res.data && res.data.items && res.data.items.forEach(function (item) {
+                        res.data && res.data.items && res.data.items.forEach(function (
+                            item) {
                             $('#studentTypeId').append('<option value="' + item.id +
                                 '">' + item.studentTypeName + '</option>')
                         })
@@ -814,8 +834,8 @@
             form.render()
         })
 
-        $('#download-temple').on('click', function() {
-            window.open(conf.requestUrl +"/excel/用户模板.xls")
+        $('#download-temple').on('click', function () {
+            window.open(conf.requestUrl + "/excel/用户模板.xls")
         })
 
         /*$('#import-cource').on('click', function() {
@@ -827,16 +847,16 @@
             field: 'file',
             accept: 'file',
             exts: 'xls|xlsx',
-            before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+            before: function (obj) { //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
                 layer.load(); //上传loading
             },
-            done: function(res, index, upload) {
+            done: function (res, index, upload) {
                 //上传后的回调
                 layer.closeAll('loading'); //关闭loading
                 layer.msg(res.msg)
                 getList(1)
             },
-            error: function(index, upload){
+            error: function (index, upload) {
                 layer.closeAll('loading'); //关闭loading
                 layer.msg(res.msg || '导入失败')
             },
@@ -883,6 +903,7 @@
         //     })
         // })
     })
+
 </script>
 <style>
     #user_student {}

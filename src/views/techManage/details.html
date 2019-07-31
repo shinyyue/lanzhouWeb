@@ -102,12 +102,12 @@
                 <div class="layui-form-item layui-col-md12">
                     <label class="layui-form-label"></label>
                     <div>
-                        <button class="layui-btn primary-btn"
-                                id="add-tech-manage"> 添加开课计划 </button>
-                        <button class="layui-btn primary-btn"
-                                id="update-tech-manage"> 修改开课计划 </button>
-                        <button class="layui-btn layui-btn-primary cancel-btn "
-                                id="source-add-cancle"> 返回 </button>
+                        <div class="layui-btn primary-btn"
+                             id="add-tech-manage"> 添加开课计划 </div>
+                        <div class="layui-btn primary-btn"
+                             id="update-tech-manage"> 修改开课计划 </div>
+                        <div class="layui-btn layui-btn-primary cancel-btn "
+                             id="source-add-cancle"> 返回 </div>
                     </div>
                 </div>
             </div>
@@ -160,7 +160,8 @@
             admin.get({
                 url: '/coursePlan/queryById?id=' + id,
                 success: function (res) {
-                    $('#singleDoubleWeek').html(res.data.singleDoubleWeek == 1 ? '全部' : res.data.singleDoubleWeek ==
+                    $('#singleDoubleWeek').html(res.data.singleDoubleWeek == 1 ? '全部' : res.data
+                        .singleDoubleWeek ==
                         2 ? '单周' : '双周')
                     $('#courseName').html(res.data.courseName)
                     $('#collegeName').html(res.data.collegeName)
@@ -172,12 +173,14 @@
                     $('#campusName').html(res.data.campusName)
                     $('#school').html(res.data.school == 1 ? '是' : '否')
                     $('#week').html('第' + res.data.weekStart + '周至第' + res.data.weekEnd + '周')
-                    $('#schooltime').html('第' + res.data.schooltimeStart + '节至第' + res.data.schooltimeEnd +
+                    $('#schooltime').html('第' + res.data.schooltimeStart + '节至第' + res.data
+                        .schooltimeEnd +
                         '节')
                 }
             })
         }
     })
+
 </script>
 <style>
     #tech_manege_details .course-add-content {
@@ -188,4 +191,5 @@
         display: inline-block;
         line-height: 38px;
     }
+
 </style>

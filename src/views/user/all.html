@@ -1,4 +1,5 @@
-<div id="user_all" lay-title="所有用户">
+<div id="user_all"
+     lay-title="所有用户">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -6,45 +7,64 @@
         </div>
         <div class="course-title-search">
             <span class="search-project">姓名</span>
-            <input type="text" id="userName" />
+            <input type="text"
+                   id="userName" />
             <span class="search-project">账号</span>
-            <input type="text" id="userCount" />
+            <input type="text"
+                   id="userCount" />
             <span class="search-project">学院</span>
-            <select name="" id="college" lay-filter="collegeAll">
+            <select name=""
+                    id="college"
+                    lay-filter="collegeAll">
                 <option value="">请选择学院</option>
             </select>
             <span class="search-project">用户类型</span>
-            <select name="" id="userType">
+            <select name=""
+                    id="userType">
                 <option value="">请选择类型</option>
             </select>
-            <button class="search-confirm" id="user-search">
+            <button class="search-confirm"
+                    id="user-search">
                 <img src="src/images/search.png" />
             </button>
         </div>
     </div>
     <div class="course-add">
-        <button class="add-btn" id="add_cource">添加</button>
-        <button class="add-btn" id="download-temple">下载模板</button>
-        <button class="add-btn" id="import-cource">导入</button>
-        <button class="add-btn" id="export-cource">导出</button>
+        <div class="layui-btn primary-btn"
+             id="add_cource">添加</div>
+        <div class="layui-btn primary-btn"
+             id="download-temple">下载模板</div>
+        <div class="layui-btn primary-btn"
+             id="import-cource">导入</div>
+        <div class="layui-btn primary-btn"
+             id="export-cource">导出</div>
     </div>
-    <table id="user_all_table" lay-filter="user_all_table"></table>
-    <div class="app-table-page" id="all-mylist-page"></div>
-    <script type="text/html" id="user_all_opt">
-        {{#if(d.state === 1){ }}
-            <button class="course-set-btn" lay-event="disabledUser">停用</button>
+    <table id="user_all_table"
+           lay-filter="user_all_table"></table>
+    <div class="app-table-page"
+         id="all-mylist-page"></div>
+    <script type="text/html"
+            id="user_all_opt">
+    {{#if(d.state === 1){ }}
+        <button class="course-set-btn"
+                lay-event="disabledUser">停用</button>
         {{# } else if (d.state === 2) {}}
-            <button class="course-set-btn" lay-event="disabledUser">启用</button>
-        {{#}  }}
-        <button class="course-set-btn" lay-event="edit">编辑</button>
-        <button class="course-set-btn" lay-event="delete">删除</button>
-        <button class="course-set-btn" lay-event="check">查看</button>
-        <button class="course-set-btn" lay-event="resetPwd">重置密码</button>
+            <button class="course-set-btn"
+                    lay-event="disabledUser">启用</button>
+            {{#}  }}
+                <button class="course-set-btn"
+                        lay-event="edit">编辑</button>
+                <button class="course-set-btn"
+                        lay-event="delete">删除</button>
+                <button class="course-set-btn"
+                        lay-event="check">查看</button>
+                <button class="course-set-btn"
+                        lay-event="resetPwd">重置密码</button>
     </script>
 </div>
 
 <script>
-    layui.use(['form', 'table', 'admin', 'upload'], function(table) {
+    layui.use(['form', 'table', 'admin', 'upload'], function (table) {
         var $ = layui.jquery,
             form = layui.form,
             admin = layui.admin,
@@ -57,8 +77,7 @@
                 page: false,
                 data: [],
                 cols: [
-                    [
-                        {
+                    [{
                             title: '序号',
                             field: 'id',
                             width: 80,
@@ -79,7 +98,7 @@
                             title: '性别',
                             field: 'sex',
                             align: 'center',
-                            templet: function(data) {
+                            templet: function (data) {
                                 return data.sex == 1 ? '男' : '女'
                             }
                         },
@@ -139,7 +158,7 @@
                     'curr',
                     'pageCount'
                 ],
-                jump: function(obj, first) {
+                jump: function (obj, first) {
                     //首次不执行
                     if (!first) {
                         getList(obj.curr, obj.limit)
@@ -188,7 +207,7 @@
             })
         })*/
 
-        getCollegeList(function(res) {
+        getCollegeList(function (res) {
             var options = ''
             res.data &&
                 res.data.items &&
@@ -205,11 +224,11 @@
             setSelectOptions()
         })
 
-        getRoleList(function(res) {
+        getRoleList(function (res) {
             var options = ''
             res.data &&
                 res.data.items &&
-                res.data.items.forEach(function(item) {
+                res.data.items.forEach(function (item) {
                     options +=
                         '<option value="' +
                         item.id +
@@ -223,12 +242,12 @@
 
         getList(1)
 
-        $('#user-search').click(function() {
+        $('#user-search').click(function () {
             getList(1)
         })
 
-        $('#college').change(function(e) {
-            getSeriesList(function(res) {
+        $('#college').change(function (e) {
+            getSeriesList(function (res) {
                 var options = ''
                 res.data &&
                     res.data.items &&
@@ -244,8 +263,8 @@
             }, Number(e.currentTarget.value))
         })
 
-        $('#series_model').change(function(e) {
-            getProfessList(function(res) {
+        $('#series_model').change(function (e) {
+            getProfessList(function (res) {
                 var options = ''
                 res.data &&
                     res.data.items &&
@@ -261,8 +280,8 @@
             }, Number(e.currentTarget.value))
         })
 
-        $('#profession').change(function(e) {
-            getClassList(function(res) {
+        $('#profession').change(function (e) {
+            getClassList(function (res) {
                 var options = ''
                 res.data &&
                     res.data.items &&
@@ -287,8 +306,7 @@
                 data = {
                     page: page,
                     rows: 20,
-                    key:
-                        userName +
+                    key: userName +
                         '|' +
                         userCount +
                         '|' +
@@ -303,13 +321,13 @@
             admin.post({
                 url: '/user/getUserList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -324,7 +342,7 @@
             admin.post({
                 url: '/college/queryCollegeList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     if (
                         res.data &&
                         res.data.items &&
@@ -356,7 +374,7 @@
                             callback(res)
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -371,7 +389,7 @@
             admin.post({
                 url: '/role/queryRoleList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     if (
                         res.data &&
                         res.data.items &&
@@ -401,7 +419,7 @@
                             callback(res)
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -419,7 +437,7 @@
             admin.post({
                 url: '/vsMpFaculty/getList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     $('#series_model').val('<option value="">请选择</option>')
                     if (
                         res.data &&
@@ -427,19 +445,19 @@
                         res.data.items.length > 0
                     ) {
                         seriesList = res.data.items
-                        res.data.items.forEach(function(item) {
+                        res.data.items.forEach(function (item) {
                             $('#series_model').append(
                                 '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.facultyName +
-                                    '</option>'
+                                item.id +
+                                '">' +
+                                item.facultyName +
+                                '</option>'
                             )
                         })
                     }
                     callback && typeof callback === 'function' && callback(res)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -458,7 +476,7 @@
                 url: '/vsMpProfession/getList',
                 data: JSON.stringify(data),
 
-                success: function(res) {
+                success: function (res) {
                     $('#profess_model').val('')
                     if (
                         res.data &&
@@ -466,19 +484,19 @@
                         res.data.items.length > 0
                     ) {
                         professList = res.data.items
-                        res.data.items.forEach(function(item) {
+                        res.data.items.forEach(function (item) {
                             $('#profess_model').append(
                                 '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.professionName +
-                                    '</option>'
+                                item.id +
+                                '">' +
+                                item.professionName +
+                                '</option>'
                             )
                         })
                     }
                     callback && typeof callback === 'function' && callback(res)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -496,7 +514,7 @@
             admin.post({
                 url: '/vsMpClass/getList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     $('#classes_model').val('')
                     if (
                         res.data &&
@@ -504,19 +522,19 @@
                         res.data.items.length > 0
                     ) {
                         classesList = res.data.items
-                        res.data.items.forEach(function(item) {
+                        res.data.items.forEach(function (item) {
                             $('#classes_model').append(
                                 '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.className +
-                                    '</option>'
+                                item.id +
+                                '">' +
+                                item.className +
+                                '</option>'
                             )
                         })
                     }
                     callback && typeof callback === 'function' && callback(res)
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -745,8 +763,8 @@
 
             form.render('select')
 
-            form.on('select(college)', function(data) {
-                getSeriesList(function(res) {
+            form.on('select(college)', function (data) {
+                getSeriesList(function (res) {
                     $('#series_model').html('<option value="">请选择</option>')
                     res.data &&
                         res.data.items &&
@@ -763,8 +781,8 @@
                 }, data.value)
             })
 
-            form.on('select(series)', function(data) {
-                getProfessList(function(res) {
+            form.on('select(series)', function (data) {
+                getProfessList(function (res) {
                     $('#profess_model').html('<option value="">请选择</option>')
                     res.data &&
                         res.data.items &&
@@ -781,8 +799,8 @@
                 }, data.value)
             })
 
-            form.on('select(profess)', function(data) {
-                getClassList(function(res) {
+            form.on('select(profess)', function (data) {
+                getClassList(function (res) {
                     $('#classes_model').html('<option value="">请选择</option>')
                     res.data &&
                         res.data.items &&
@@ -800,7 +818,7 @@
             })
         }
 
-        $('#add_cource').on('click', function() {
+        $('#add_cource').on('click', function () {
             resetFormData()
             // 加载学院/系/班级/专业列表
             var temp = getTemplate(formData)
@@ -816,24 +834,30 @@
                 skin: 'user-edit-modal',
                 shadeClose: true,
                 btn: ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     // var data = getFormData()
-                    addData(function() {
+                    addData(function () {
                         layer.close(index)
                     })
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             })
 
-            form.on('select(roleChange)', function(obj) {
+            form.on('select(roleChange)', function (obj) {
                 if (obj.value == 2) {
-                    $('.role-student').css({ display: 'none' })
+                    $('.role-student').css({
+                        display: 'none'
+                    })
                 } else if (obj.value == 3) {
-                    $('.role-student').css({ display: 'none' })
+                    $('.role-student').css({
+                        display: 'none'
+                    })
                 } else {
-                    $('.role-student').css({ display: 'block' })
+                    $('.role-student').css({
+                        display: 'block'
+                    })
                 }
             })
             form.render()
@@ -844,23 +868,23 @@
             // $('.role-teacher').css({ display: 'none' })
             // $('.role-student').css({ display: 'none' })
 
-            $('#roleId').change(function(val) {
+            $('#roleId').change(function (val) {
                 console.log(1222, val)
             })
         })
 
-        $('#export-cource').on('click', function() {
-            $('#export-cource').on('click', function() {
+        $('#export-cource').on('click', function () {
+            $('#export-cource').on('click', function () {
                 var collegeId =
-                        $('#college').val() == '' ? '' : $('#college').val(),
+                    $('#college').val() == '' ? '' : $('#college').val(),
                     roleId =
-                        $('#userType').val() == '' ? '' : $('#userType').val(),
+                    $('#userType').val() == '' ? '' : $('#userType').val(),
                     url =
-                        conf.requestUrl +
-                        '/user/exportExcel?roleId=' +
-                        roleId +
-                        '&collegeId=' +
-                        collegeId
+                    conf.requestUrl +
+                    '/user/exportExcel?roleId=' +
+                    roleId +
+                    '&collegeId=' +
+                    collegeId
                 window.open(url)
             })
         })
@@ -870,7 +894,7 @@
             admin.post({
                 url: '/user/addUser',
                 data: JSON.stringify(formData),
-                success: function(res) {
+                success: function (res) {
                     if (res.code === 200) {
                         callback()
                         layer.msg('添加成功！')
@@ -879,7 +903,7 @@
                         layer.msg((res && res.msg) || '数据请求失败')
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
@@ -889,7 +913,7 @@
         function stopData(id, callback) {
             admin.delete({
                 url: '/user/stopUse?id=' + id,
-                success: function(res) {
+                success: function (res) {
                     layer.msg('停用成功！')
                     getList(1, 20)
                     callback()
@@ -901,7 +925,7 @@
         function startData(id, callback) {
             admin.delete({
                 url: '/user/startUse?id=' + id,
-                success: function(res) {
+                success: function (res) {
                     layer.msg('启用成功！')
                     getList(1, 20)
                     callback()
@@ -913,7 +937,7 @@
         function deleteData(id) {
             admin.delete({
                 url: '/user/deleteUser?id=' + id,
-                success: function(res) {
+                success: function (res) {
                     layer.msg('删除成功！')
                     getList(1, 20)
                 }
@@ -928,7 +952,7 @@
             admin.put({
                 url: '/user/resetPassWord?id=' + id,
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     layer.msg('重置密码成功！')
                     getList(1, 20)
                     callback()
@@ -945,13 +969,13 @@
             admin.post({
                 url: '/role/queryRoleList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     callback && typeof callback === 'function' && callback(res)
                     $('#roleId').html('<option value="">请选择角色</option>')
                     res.data &&
                         res.data.items &&
-                        res.data.items.forEach(function(item) {
-                            if(formData.roleId == item.id){
+                        res.data.items.forEach(function (item) {
+                            if (formData.roleId == item.id) {
                                 $('#roleId').append(
                                     '<option value="' +
                                     item.id +
@@ -982,19 +1006,19 @@
             admin.post({
                 url: '/studentType/studentTypeList',
                 data: JSON.stringify(data),
-                success: function(res) {
+                success: function (res) {
                     $('#studentTypeId').html(
                         '<option value="">请选择学生类型</option>'
                     )
                     res.data &&
                         res.data.items &&
-                        res.data.items.forEach(function(item) {
+                        res.data.items.forEach(function (item) {
                             $('#studentTypeId').append(
                                 '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.studentTypeName +
-                                    '</option>'
+                                item.id +
+                                '">' +
+                                item.studentTypeName +
+                                '</option>'
                             )
                         })
                     form.render()
@@ -1007,7 +1031,7 @@
             admin.put({
                 url: '/user/updateUser',
                 data: JSON.stringify(formData),
-                success: function(res) {
+                success: function (res) {
                     if (res.code === 200) {
                         layer.msg('修改成功')
                         getList(layPageOption.curr)
@@ -1018,7 +1042,7 @@
             })
         }
 
-        table.on('tool(user_all_table)', function(obj) {
+        table.on('tool(user_all_table)', function (obj) {
             var data = obj.data //获得当前行数据
             var layEvent = obj.event,
                 type = ''
@@ -1036,12 +1060,12 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function(index, layero) {
+                    yes: function (index, layero) {
                         // 提交
                         layer.close(index)
                         deleteData(data.id, -1)
                     },
-                    cancel: function(index) {
+                    cancel: function (index) {
                         layer.close(index)
                     }
                 })
@@ -1052,27 +1076,26 @@
                     type: 1,
                     offset: 'auto',
                     title: '系统提示',
-                    content:
-                        '该信息为重要信息，是否' +
+                    content: '该信息为重要信息，是否' +
                         (data.state === 1 ? '停用？' : '启用？'),
                     area: ['300px', '200px'],
                     shade: 0.4,
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function(index, layero) {
+                    yes: function (index, layero) {
                         // 提交
                         if (data.state === 1) {
-                            stopData(data.id, function() {
+                            stopData(data.id, function () {
                                 layer.close(index)
                             })
                         } else {
-                            startData(data.id, function() {
+                            startData(data.id, function () {
                                 layer.close(index)
                             })
                         }
                     },
-                    cancel: function(index) {
+                    cancel: function (index) {
                         layer.close(index)
                     }
                 })
@@ -1089,12 +1112,12 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function(index, layero) {
-                        resetPwd(data.id, function() {
+                    yes: function (index, layero) {
+                        resetPwd(data.id, function () {
                             layer.close(index)
                         })
                     },
-                    cancel: function(index) {
+                    cancel: function (index) {
                         layer.close(index)
                     }
                 })
@@ -1109,30 +1132,30 @@
                 type = 'check'
             }
 
-            getRoleList(function() {
+            getRoleList(function () {
                 $('#roleId').val(formData.roleId)
                 form.render()
             })
-            getStudentTypeList(function() {
+            getStudentTypeList(function () {
                 $('#studentTypeId').val(formData.studentTypeId)
                 form.render()
             })
-            getCollegeList(function() {
+            getCollegeList(function () {
                 $('#college_model').val(formData.collegeId)
                 form.render()
             })
 
-            getSeriesList(function() {
+            getSeriesList(function () {
                 $('#series_model').val(formData.facultyId)
                 form.render()
             })
 
-            getProfessList(function() {
+            getProfessList(function () {
                 $('#profess_model').val(formData.professionId)
                 form.render()
             })
 
-            getClassList(function() {
+            getClassList(function () {
                 $('#classes_model').val(formData.classId)
                 form.render()
             })
@@ -1146,7 +1169,7 @@
                 shade: 0.4,
                 shadeClose: true,
                 btn: type === 'check' ? [] : ['确定', '取消'],
-                yes: function(index, layero) {
+                yes: function (index, layero) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -1156,7 +1179,7 @@
                         updateData(formData)
                     }
                 },
-                cancel: function(index) {
+                cancel: function (index) {
                     layer.close(index)
                 }
             }
@@ -1164,8 +1187,8 @@
             layer.open(layerOption)
             form.render()
         })
-        $('#download-temple').on('click', function() {
-            window.open(conf.requestUrl +"/excel/用户模板.xls")
+        $('#download-temple').on('click', function () {
+            window.open(conf.requestUrl + "/excel/用户模板.xls")
         })
 
         /*$('#import-cource').on('click', function() {
@@ -1177,16 +1200,16 @@
             field: 'file',
             accept: 'file',
             exts: 'xls|xlsx',
-            before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+            before: function (obj) { //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
                 layer.load(); //上传loading
             },
-            done: function(res, index, upload) {
+            done: function (res, index, upload) {
                 //上传后的回调
                 layer.closeAll('loading'); //关闭loading
                 layer.msg(res.msg)
                 getList(1)
             },
-            error: function(index, upload){
+            error: function (index, upload) {
                 layer.closeAll('loading'); //关闭loading
                 layer.msg(res.msg || '导入失败')
             },
@@ -1194,7 +1217,7 @@
 
 
 
-        $('#export-cource').click(function() {
+        $('#export-cource').click(function () {
             $.ajax({
                 type: 'get',
                 //              url: "http://127.0.0.1:8080/user/exportExcel",
@@ -1206,11 +1229,11 @@
             })
         })
     })
+
 </script>
 
 <style>
-    #user_all {
-    }
+    #user_all {}
 
     .my-add-form {
         padding: 25px;
@@ -1259,4 +1282,5 @@
     .user-edit-modal .layui-layer-content {
         padding: 20px;
     }
+
 </style>

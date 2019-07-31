@@ -62,14 +62,14 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label"></label>
-                <button class="layui-btn layui-btn-primary cancel-btn"
-                        id="ploy-detail-back"> 返回 </button>
+                <div class="layui-btn layui-btn-primary cancel-btn"
+                     id="ploy-detail-back"> 返回 </div>
             </div>
         </div>
     </form>
 </div>
 <script>
-    layui.use(['table','form'], function (table) {
+    layui.use(['table', 'form'], function (table) {
         var table = layui.table,
             form = layui.form,
             $ = layui.jquery,
@@ -94,12 +94,16 @@
                     strategyEntries = res.data.list
                     strategyEntries.forEach(item => {
                         $('#ploy_details_table').append('<tr>\n' + '   <td>\n' + '      ' +
-                            item.knowledgePointName + '\n' + '   </td>\n' + '   <td>\n' +
+                            item.knowledgePointName + '\n' + '   </td>\n' +
+                            '   <td>\n' +
                             '      ' + item.exercisesTypeName + '\n' + '   </td>\n' +
-                            '   <td>\n' + '      ' + item.exercisesDifficultyName + '\n' +
+                            '   <td>\n' + '      ' + item.exercisesDifficultyName +
+                            '\n' +
                             '   </td>\n' + '   <td>\n' + '      ' + item.allExercises +
-                            '\n' + '   </td>\n' + '   <td>\n' + '      ' + item.exercisesSize +
-                            '\n' + '   </td>\n' + '   <td>\n' + '      ' + item.totleCourse +
+                            '\n' + '   </td>\n' + '   <td>\n' + '      ' + item
+                            .exercisesSize +
+                            '\n' + '   </td>\n' + '   <td>\n' + '      ' + item
+                            .totleCourse +
                             '\n' + '   </td>\n' + '</tr>')
                     })
                     form.render()
@@ -107,6 +111,7 @@
             })
         }
     })
+
 </script>
 <style>
     #examine-ploy-detail .info-details {
@@ -143,4 +148,5 @@
     .common-form-input {
         width: 150px;
     }
+
 </style>
