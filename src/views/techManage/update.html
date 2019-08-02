@@ -484,12 +484,13 @@
                 success: function (res) {
                     if (res.code === 200) {
                         studentList = studentList.concat(res.data.items)
-                        res.data.items.forEach(item => {
+                        for(var i = 0;  i < res.data.items.length; i++) {
+                            var item = res.data.items[i];
                             $('#studentList').append('<div class="class-item">' +
                                 '<input type="checkbox" lay-skin="primary" name="student" title="' +
                                 item.userName + '" value="' + item.id + '">' + '</div>'
                             )
-                        })
+                        }
                         form.render()
                         callback && typeof callback === 'function' && callback(res)
                     }
@@ -511,11 +512,12 @@
                 success: function (res) {
                     if (res.code === 200) {
                         $('#campus').html('<option>请选择校区</option>')
-                        res.data.items.forEach(item => {
+                        for(var i = 0;  i < res.data.items.length; i++) {
+                            var item = res.data.items[i];
                             $('#campus').append('<option value="' + item.id + '">' + item
                                 .campusName +
                                 '</option>')
-                        })
+                        }
                         form.render()
                         callback && typeof callback === 'function' && callback(res)
                     }
@@ -535,8 +537,10 @@
                 url: '/vsMpClass/getList',
                 data: JSON.stringify(data),
                 success: function (res) {
+                    if (res.code === 200) {
                     classList = res.data.items
                     $('#classList').html('')
+                        
                     res.data.items.forEach(function (item) {
                         $('#classList').append('<div class="class-item">' +
                             '<input type="checkbox" name="className" lay-skin="primary" lay-filter="classListChange">' +
@@ -550,6 +554,8 @@
                     })
                     form.render()
                     classListRender()
+                    }
+                    
                     callback && typeof callback === 'function' && callback()
                 },
                 error: function (err) {
@@ -569,10 +575,11 @@
                 success: function (res) {
                     if (res.code === 200) {
                         $('#collegeId').html('<option>请选择学院</option>')
-                        res.data.items.forEach(item => {
+                        for(var i = 0; i < res.data.items.length; i++) {
+                            var item = res.data.items[i];
                             $('#collegeId').append('<option value="' + item.id + '">' +
                                 item.collegeName + '</option>')
-                        })
+                        }
                         form.render()
                         callback && typeof callback === 'function' && callback()
                     }
@@ -594,11 +601,12 @@
                 success: function (res) {
                     if (res.code === 200) {
                         $('#siteId').html('<option>请选择</option>')
-                        res.data.items.forEach(item => {
+                        for(var i = 0; i < res.data.items.length; i++) {
+                            var item = res.data.items[i];
                             $('#siteId').append('<option value="' + item.id + '">' + item
                                 .classroomName +
                                 '</option>')
-                        })
+                        }
                         form.render()
                         callback && typeof callback === 'function' && callback(res)
                     }
@@ -618,12 +626,21 @@
                 url: '/schoolYear/getList',
                 data: JSON.stringify(data),
                 success: function (res) {
-                    res.data && res.data.items && res.data.items.forEach(item => {
+                   if (res.code == 200) {
+                        for(var i = 0; i < res.data.items.length; i++) {
+                        var item = res.data.items[i];
                         $('#schoolYear').append('<option value="' + item.id + '">' + item
                             .schoolYear +
                             '</option>')
+                        }
                         form.render()
-                    })
+                }
+                    // res.data && res.data.items && res.data.items.forEach(item => {
+                    //     $('#schoolYear').append('<option value="' + item.id + '">' + item
+                    //         .schoolYear +
+                    //         '</option>')
+                    //     form.render()
+                    // })
                 }
             })
         }
@@ -636,11 +653,21 @@
                     rows: 100
                 }),
                 success: function (res) {
-                    res.data && res.data.items && res.data.items.forEach(function (item) {
-                        $('#plan_course_list').append('<option value="' + item.id + '">' +
-                            item.curriculumName + '</option>')
+                    if (res.code === 200) {
+                        for(var i = 0; i < res.data.items.length; i++) {
+                            var item = res.data.items[i];
+                            $('#schoolYear').append('<option value="' + item.id + '">' + item
+                            .schoolYear +
+                            '</option>')
+                        }
                         form.render()
-                    })
+                    }
+                    
+                    // res.data && res.data.items && res.data.items.forEach(function (item) {
+                    //     $('#plan_course_list').append('<option value="' + item.id + '">' +
+                    //         item.curriculumName + '</option>')
+                    //     form.render()
+                    // })
                 }
             })
         }
@@ -654,13 +681,22 @@
                 }),
                 success: function (res) {
                     $('#techManage_good_at').html('')
-                    res.data.items.forEach(item => {
+                    if (res.code === 200) {
+                        for(var i = 0; i < res.data.items.length; i++) {
+                            var item = res.data.items[i];
                         $('#techManage_good_at').append(
                             '<li><input type="checkbox" class="checked-forcess" lay-skin="primary" name="profession" value="' +
                             item.id + '" title="' + item.professionName + '"></li>')
-                    })
+                        }
                     form.render()
-                    callback()
+                        callback(res.data)
+                    }
+                    // res.data.items.forEach(item => {
+                    //     $('#techManage_good_at').append(
+                    //         '<li><input type="checkbox" class="checked-forcess" lay-skin="primary" name="profession" value="' +
+                    //         item.id + '" title="' + item.professionName + '"></li>')
+                    // })
+                   
                 }
             })
         }
@@ -674,11 +710,19 @@
                 url: '/studentType/studentTypeList',
                 data: JSON.stringify(data),
                 success: function (res) {
-                    res.data && res.data.items && res.data.items.forEach(item => {
+                    if (res.code === 200) {
+                        for(var i = 0; i < res.data.items.length; i++) {
+                            var item = res.data.items[i];
                         $('#studentTypeId').append('<option value="' + item.id + '">' +
                             item.studentTypeName + '</option>')
                         form.render()
-                    })
+                        }
+                    }
+                    // res.data && res.data.items && res.data.items.forEach(item => {
+                    //     $('#studentTypeId').append('<option value="' + item.id + '">' +
+                    //         item.studentTypeName + '</option>')
+                    //     form.render()
+                    // })
                 }
             })
         }
