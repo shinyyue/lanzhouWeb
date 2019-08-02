@@ -174,10 +174,17 @@
                 success: function (res) {
                     if (res.data && res.data.items && res.data.items.length > 0) {
                         var options = ''
-                        res.data.items && res.data.items.forEach(item => {
-                            options += '<option value="' + item.id + '">' + item.collegeName +
-                                '</option>'
-                        })
+                        if (res.data && res.data.items) {
+                            for(var i = 0; i < res.data.items; i++) {
+                                var item = res.data.items[i];
+                                options += '<option value="' + item.id + '">' + item.collegeName +
+                                    '</option>'
+                            }
+                        }
+                        // res.data.items && res.data.items.forEach(item => {
+                        //     options += '<option value="' + item.id + '">' + item.collegeName +
+                        //         '</option>'
+                        // })
                         $('#courseUnit').html('<option value="">请选择开课单位</option>')
                         $('#courseUnit').append(options)
                         callback && typeof callback === 'function' && callback(res)

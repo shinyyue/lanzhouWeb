@@ -1,4 +1,5 @@
-<div id="personalInfo_edit" lay-title="添加课程管理">
+<div id="personalInfo_edit"
+     lay-title="添加课程管理">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -6,14 +7,20 @@
         </div>
     </div>
     <div class="personalInfo-edit-content">
-        <form action="" class="layui-form">
+        <form action=""
+              class="layui-form">
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">个人头像</label>
-                    <button type="button" class="layui-btn" id="uploadAvator">
+                    <button type="button"
+                            class="layui-btn"
+                            id="uploadAvator">
                         <i class="layui-icon">&#xe67c;</i>上传图片
                     </button>
-                     <img src="" width="120" height="120" id="avator" />
+                    <img src=""
+                         width="120"
+                         height="120"
+                         id="avator" />
                     <span class="upload-avator">
                         图片尺寸为120*120px或等比例图片
                         支持格式为JPG、JPEG、PNG，
@@ -24,56 +31,94 @@
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label require">账号</label>
-                    <input type="text" require name="account" class="common-form-input" id="account" />
+                    <input type="text"
+                           require
+                           name="account"
+                           class="common-form-input"
+                           id="account" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label require">教师(学生)号</label>
-                    <input type="text" require name="snoOrJno" class="common-form-input" id="snoOrJno" />
+                    <input type="text"
+                           require
+                           name="snoOrJno"
+                           class="common-form-input"
+                           id="snoOrJno" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">联系电话(手机)</label>
-                    <input type="text" require name="phonenumber" class="common-form-input" id="phonenumber" />
+                    <input type="text"
+                           require
+                           name="phonenumber"
+                           class="common-form-input"
+                           id="phonenumber" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">电子邮箱</label>
-                    <input type="text" require name="email" class="common-form-input" id="email" />
+                    <input type="text"
+                           require
+                           name="email"
+                           class="common-form-input"
+                           id="email" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label require">姓名</label>
-                    <input type="text" require name="userName" class="common-form-input" id="userName" />
+                    <input type="text"
+                           require
+                           name="userName"
+                           class="common-form-input"
+                           id="userName" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">性别</label>
-                    <input type="radio" name="sex" value="1" title="男" />
-                    <input type="radio" name="sex" value="0" title="女" />
+                    <input type="radio"
+                           name="sex"
+                           value="1"
+                           title="男" />
+                    <input type="radio"
+                           name="sex"
+                           value="0"
+                           title="女" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">旧密码</label>
-                    <input type="password" require name="oldPwd" class="common-form-input" id="oldPwd" />
+                    <input type="password"
+                           require
+                           name="oldPwd"
+                           class="common-form-input"
+                           id="oldPwd" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">密码</label>
-                    <input type="password" require name="newPwd" class="common-form-input" id="newPwd" />
+                    <input type="password"
+                           require
+                           name="newPwd"
+                           class="common-form-input"
+                           id="newPwd" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">密码确认</label>
-                    <input type="password" require name="pwdConfirm" class="common-form-input" id="pwdConfirm" />
+                    <input type="password"
+                           require
+                           name="pwdConfirm"
+                           class="common-form-input"
+                           id="pwdConfirm" />
                 </div>
             </div>
             <!-- <span id="user_update">
@@ -83,10 +128,12 @@
                 <div class="layui-form-item layui-col-md12">
                     <label class="layui-form-label"></label>
                     <div>
-                        <div class="layui-btn primary-btn" id="user_update">
+                        <div class="layui-btn primary-btn"
+                             id="user_update">
                             提交
                         </div>
-                        <div class="layui-btn layui-btn-primary cancel-btn" id="user_update_cancle">
+                        <div class="layui-btn layui-btn-primary cancel-btn"
+                             id="user_update_cancle">
                             取消
                         </div>
                     </div>
@@ -115,8 +162,8 @@
             method: 'get',
             done: function (res) {
                 //上传完毕回调
-                $('#avator').attr('src', conf.fileRequestUrl+'/'+res.data)
-//                $('#uploadAvator').attr('src', conf.fileRequestUrl+'/'+res.data)
+                $('#avator').attr('src', conf.fileRequestUrl + '/' + res.data)
+                //                $('#uploadAvator').attr('src', conf.fileRequestUrl+'/'+res.data)
             },
             error: function () {
                 //请求异常回调
@@ -129,9 +176,9 @@
             admin.get({
                 url: '/user/getUserByID?id=' + layui.data('userInfo').userInfo.id,
                 success: function (res) {
-                    const data = res.data;
+                    var data = res.data;
                     userInfo = data;
-                    $('#avator').attr('src', conf.fileRequestUrl+'/'+data.photoImage)
+                    $('#avator').attr('src', conf.fileRequestUrl + '/' + data.photoImage)
                     $('#account').val(data.snoOrJno);
                     $('#snoOrJno').val(data.snoOrJno)
                     $('#phonenumber').val(data.phonenumber)
@@ -162,17 +209,17 @@
                 url: '/user/updateUser',
                 data: JSON.stringify(data),
                 success: function (res) {
-                    if(res.code==200){
+                    if (res.code == 200) {
                         layer.msg('修改成功')
                         //调转个人信息页面
                         window.location.href = 'index.html#/personalInfo/personalInfo'
-                        window.location.reload()
-                    }else{
-                        layer.msg(res.msg||'修改失败')
+
+                    } else {
+                        layer.msg(res.msg || '修改失败')
                         return
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     layer.msg((err && err.msg) || '修改失败')
                 }
             })
@@ -195,7 +242,7 @@
                 newPassWord: $('#oldPwd').val(),
                 oldPassWord: $('#newPwd').val()
             }
-            console.log(2,formData)
+            console.log(2, formData)
             // || !$('#oldPwd').val() ||
             // !$('#newPwd').val() || !$('#pwdConfirm').val()
             if (!formData.account || !formData.snoOrJno || !formData.userName) {
@@ -216,6 +263,7 @@
         })
 
     })
+
 </script>
 
 <style>
