@@ -43,7 +43,7 @@
                     </div>
                     <div class="source-display"
                          id="fileUrl"
-                         style="display: none"></div>
+                         style="display: none; overflow: scroll; "></div>
                     <div class="source-display"
                          id="scorm_fileUrl"
                          style="display: none">
@@ -208,15 +208,17 @@
                         )
                     } else if (res.data.dataType == 2) {
                         // 图片
-                        var fileUrl =
-                            conf.fileRequestUrl +
-                            '/' +
-                            JSON.parse(res.data.resourceIds)[0].url
-                        $('#fileUrl').html(
-                            '<img src="' +
-                            fileUrl +
-                            '" style="width: 100%; height: 100%;">'
-                        )
+                        var list = JSON.parse(res.data.resourceIds),
+                            str = ''
+                        for (var i = 0; i < list.length; i++) {
+                            str +=
+                                '<img src="' +
+                                conf.fileRequestUrl +
+                                '/' +
+                                list[i].url +
+                                '" style="width: 100%; margin-bottom: 10px;">'
+                        }
+                        $('#fileUrl').html(str)
                     } else if (res.data.dataType == 3) {
                         // 视频
                         renderVideo(res.data)
@@ -512,6 +514,10 @@
         margin-bottom: 20px;
     }
 
+    #virtualTest-details .source-display::-webkit-scrollbar {
+        width:12px;
+    }
+
     #virtualTest-details .layui-form-item span {
         display: inline-block;
         padding: 9px 0px;
@@ -549,7 +555,7 @@
         height: 500px;
         float: left;
         overflow-x: hidden;
-        overfloe-y: auto;
+        overflow-y: auto;
         background: #a7b7c9;
     }
 
