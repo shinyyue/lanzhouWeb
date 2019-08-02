@@ -93,8 +93,10 @@
         })
         form.render()
         $('#tech-edit-back').on('click', function () {
-            location.href = '/index.html#/techSet/techPre/id=' + id
-            location.reload()
+            // location.href = '/index.html#/techSet/techPre/id=' + id
+            // location.reload()
+            admin.navigate('/techSet/techPre/id='+id)
+            admin.setSideNav()
         })
         $('#tech-edit-save').click(function () {
             if (type === 'edit') {

@@ -134,7 +134,9 @@
             var layEvent = obj.event
             if (layEvent === 'courseSet') {
                 //编辑
-                window.location.href = 'index.html#/techSet/techPre/id=' + data.id
+                admin.navigate('/techSet/techPre/id='+data.id)
+                admin.setSideNav()
+                // window.location.href = 'index.html#/techSet/techPre/id=' + data.id
                 layui.data('techSet', {
                     key: 'techSetId',
                     value: data.id

@@ -135,8 +135,10 @@
                     key: 'kechengId',
                     value: data.kechengId
                 })
-                location.href = 'index.html#/techSet/techPre/id=' + data.id
-                location.reload()
+                // location.href = 'index.html#/techSet/techPre/id=' + data.id
+                // location.reload()
+                admin.navigate('/techSet/techPre/id='+data.id)
+                admin.setSideNav()
             }
         })
 

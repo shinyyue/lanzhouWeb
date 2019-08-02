@@ -209,13 +209,9 @@
                                 $(this).addClass('active')
                                 $(this)
                                     .siblings()
-                                    .removeClass('active')
-                                window.location.href =
-                                    'index.html#' +
-                                    $(this)
-                                    .find('a')
-                                    .data('url')
-                                location.reload()
+                                    .removeClass('active');
+                                
+                                admin.navigate( $(this).find('a').data('url'))
                                 path = $(this)
                                     .find('a')
                                     .data('url')
@@ -253,10 +249,9 @@
                 $(this)
                     .siblings()
                     .removeClass('active')
-                window.location.href = 'index.html#' + curPath
+                admin.navigate(curPath)
                 path = curPath
                 firstPath = path.split('/')[1]
-                location.reload()
                 setSideNav()
             })
             $('#logout').on('click', function () {

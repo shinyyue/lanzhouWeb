@@ -290,6 +290,145 @@ layui
             }
         }
 
+        self.setSideNav = function() {
+            var menuList = layui.data('role').role.menuTrees,
+                route = layui.router(),
+                path = route.href, // 路由后缀
+                firstPath = route.path[0];
+            // 根据一级路由找到对应的侧边列表，渲染
+            // 找到与当前页面路由一致的菜单，若该菜单无二级，则设置为选中状态；若该菜单有二级，则设置该一级菜单展开二级，并将与当前路由一致的二级菜单设为选中状态
+            for (var j = 0; j < menuList.length; j++) {
+                var menuUrlList = menuList[j].menuUrl.split('/')
+                if (menuUrlList[1] === firstPath) {
+                    var child = menuList[j].child
+                    var childNav = ''
+                    if (child.length === 0) {
+                        setHomeSide()
+                        return
+                    }
+                    for (var k = 0; k < child.length; k++) {
+                        var dlStr = ''
+                        var childFirstPath = child[k].menuUrl.split('/')[1]
+                        if (child[k].child.length > 0) {
+                            var list = child[k].child
+                            var ddStr = ''
+                            var showDl = false
+                            var pathReg = new RegExp('^' + path, 'ig')
+                            for (var f = 0; f < list.length; f++) {
+                                var isMatch = pathReg.test(list[f].menuUrl)
+                                ddStr +=
+                                    '<dd class="' +
+                                    (isMatch ? 'active' : '') +
+                                    '">' +
+                                    '   <a target="' +
+                                    ('' || '') +
+                                    '" ' +
+                                    '      lay-href="' +
+                                    (list[f].menuUrl || '') +
+                                    '" data-url="' +
+                                    (list[f].menuUrl || '') +
+                                    '">' +
+                                    list[f].menuName +
+                                    '   </a>' +
+                                    '</dd>'
+                            }
+                            showDl =
+                                firstPath === childFirstPath ? 'show' : ''
+                            dlStr =
+                                '<dl class="layui-nav-child ' +
+                                showDl +
+                                '">' +
+                                ddStr +
+                                '</dd>'
+                        }
+                        childNav +=
+                            '<li class="layui-nav-item">' +
+                            '   <a class="layui-nav-first" href="/index.html#' +
+                            child[k].menuUrl +
+                            '"data-url="' +
+                            child[k].menuUrl +
+                            '">' +
+                            '       <cite>' +
+                            child[k].menuName +
+                            '</cite>' +
+                            '   </a>' +
+                            dlStr +
+                            '</li>'
+                    }
+                    $('#home_welcome').css({
+                        display: 'none'
+                    })
+                    $('#side_nav').css({
+                        display: 'block'
+                    })
+                    $('#side_nav').html(childNav)
+                    $('#side_nav .layui-nav-item').each(function () {
+                        var index = $(this).index()
+                        var urlReg = new RegExp(
+                            '^' +
+                            $(this)
+                            .find('a')
+                            .data('url'),
+                            'ig'
+                        )
+                        if (urlReg.test(path)) {
+                            $(this).addClass('layui-this')
+                        }
+                    })
+                    $('#side_nav .layui-nav-item').click(function () {
+                        $(this).addClass('layui-this')
+                        $(this)
+                            .siblings()
+                            .removeClass('layui-this')
+                        var dl = $(this).find('dl')
+                        if (dl.length > 0) {
+                            $(this)
+                                .find('dl')
+                                .css('display', 'block')
+                            if (
+                                $(this)
+                                .siblings()
+                                .find('dl')
+                            ) {
+                                $(this)
+                                    .siblings()
+                                    .find('dl')
+                                    .css('display', 'none')
+                            }
+                        } else {
+                            // window.location.href = $(this).find('.layui-nav-first').data('url')
+                            // 
+                            // console.log(1111)
+                        }
+                    })
+                    $('#side_nav')
+                        .find('.layui-nav-item  dd')
+                        .on('click', function () {
+                            $(this).css('background', '#fff')
+                            $(this)
+                                .find('a')
+                                .css('color', '#1a3471')
+                            $(this)
+                                .siblings()
+                                .css('background', '#1a3471')
+                            $(this)
+                                .siblings()
+                                .find('a')
+                                .css('color', '#fff')
+                            $(this).addClass('active')
+                            $(this)
+                                .siblings()
+                                .removeClass('active');
+
+                            self.navigate($(this).find('a').data('url'))
+                            path = $(this)
+                                .find('a')
+                                .data('url')
+                        })
+                }
+            }
+        }
+
         self.modal = {}
         self.modal.info = function (msg, params) {
             params = params || {}
@@ -385,37 +524,38 @@ layui
         var mobileWidth = 991
         var isMobileAdapter = false
 
-        function mobileAdapter() {
-            self.flexible(false)
-            var device = layui.device()
-            if (device.weixin || device.android || device.ios) {
-                //点击空白处关闭侧边栏
-                $(document).on('click', '#' + conf.containerBody, function () {
-                    if (
-                        $(window).width() < mobileWidth &&
-                        !view.container.hasClass(self.shrinkCls)
-                    ) {
-                        self.flexible(false)
-                    }
-                })
-            }
-            isMobileAdapter = true
-        }
-        $(window).on('resize', function (e) {
-            if ($(window).width() < mobileWidth) {
-                if (isMobileAdapter == true) return
-                mobileAdapter()
-            } else {
-                isMobileAdapter = false
-            }
-        })
+        // function mobileAdapter() {
+        //     self.flexible(false)
+        //     var device = layui.device()
+        //     if (device.weixin || device.android || device.ios) {
+        //         //点击空白处关闭侧边栏
+        //         $(document).on('click', '#' + conf.containerBody, function () {
+        //             if (
+        //                 $(window).width() < mobileWidth &&
+        //                 !view.container.hasClass(self.shrinkCls)
+        //             ) {
+        //                 self.flexible(false)
+        //             }
+        //         })
+        //     }
+        //     isMobileAdapter = true
+        // }
+
+        // $(window).on('resize', function (e) {
+        //     if ($(window).width() < mobileWidth) {
+        //         if (isMobileAdapter == true) return
+        //         mobileAdapter()
+        //     } else {
+        //         isMobileAdapter = false
+        //     }
+        // })
 
         // 页面切换时触发
         $(window).on('hashchange', function (e) {
             //移动端跳转链接先把导航关闭
-            if ($(window).width() < mobileWidth) {
-                self.flexible(false)
-            }
+            // if ($(window).width() < mobileWidth) {
+            //     self.flexible(false)
+            // }
             self.route = layui.router()
             layer.closeAll()
             self.initView(self.route)
@@ -553,12 +693,12 @@ layui
             }
         })
 
-        if ($(window).width() <= mobileWidth) {
-            mobileAdapter()
-        } else {
-            var flexibleOpen = self.data().flexible
-            self.flexible(flexibleOpen === undefined ? true : flexibleOpen)
-        }
+        // if ($(window).width() <= mobileWidth) {
+        //     mobileAdapter()
+        // } else {
+        var flexibleOpen = self.data().flexible
+        self.flexible(flexibleOpen === undefined ? true : flexibleOpen)
+        // }
 
         exports('admin', self)
     })

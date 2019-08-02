@@ -77,12 +77,17 @@
         $('#tech-pre-back').on('click', function () {
             location.href = '/index.html#/'
             location.reload()
+            // admin.go(-1)
         })
         $('#tech-pre-save').click(function () {
-            location.href = $('#tech-pre-save').html() === '去添加' ?
-                '/index.html#/techSet/techPreEdit/id=' + id + '/type=add' :
-                '/index.html#/techSet/techPreEdit/id=' + id + '/type=edit'
-            location.reload()
+            // location.href = $('#tech-pre-save').html() === '去添加' ?
+            //     '/index.html#/techSet/techPreEdit/id=' + id + '/type=add' :
+            //     '/index.html#/techSet/techPreEdit/id=' + id + '/type=edit'
+            // location.reload()
+            var url = $('#tech-pre-save').html() === '去添加' ?
+            '/techSet/techPreEdit/id=' + id + '/type=add' :
+            '/techSet/techPreEdit/id=' + id + '/type=edit'
+            admin.navigate(url)
         })
         getDetails()
         getOtherList()
