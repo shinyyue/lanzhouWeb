@@ -56,7 +56,7 @@
                 firstPath = route.path[0], // 一级路由地址
                 menuList = layui.data('role').role.menuTrees
             initHeaderNav()
-            setSideNav()
+            admin.setSideNav()
 
             function initHeaderNav() {
                 var menuStr = ''
@@ -85,163 +85,163 @@
                 $('#header_nav').prepend(menuStr)
             }
 
-            function setSideNav() {
-                // 根据一级路由找到对应的侧边列表，渲染
-                // 找到与当前页面路由一致的菜单，若该菜单无二级，则设置为选中状态；若该菜单有二级，则设置该一级菜单展开二级，并将与当前路由一致的二级菜单设为选中状态
-                for (var j = 0; j < menuList.length; j++) {
-                    var menuUrlList = menuList[j].menuUrl.split('/')
-                    if (menuUrlList[1] === firstPath) {
-                        var child = menuList[j].child
-                        var childNav = ''
-                        if (child.length === 0) {
-                            setHomeSide()
-                            return
-                        }
-                        for (var k = 0; k < child.length; k++) {
-                            var dlStr = ''
-                            var childFirstPath = child[k].menuUrl.split('/')[1]
-                            if (child[k].child.length > 0) {
-                                var list = child[k].child
-                                var ddStr = ''
-                                var showDl = false
-                                var pathReg = new RegExp('^' + path, 'ig')
-                                for (var f = 0; f < list.length; f++) {
-                                    var isMatch = pathReg.test(list[f].menuUrl)
-                                    ddStr +=
-                                        '<dd class="' +
-                                        (isMatch ? 'active' : '') +
-                                        '">' +
-                                        '   <a target="' +
-                                        ('' || '') +
-                                        '" ' +
-                                        '      lay-href="' +
-                                        (list[f].menuUrl || '') +
-                                        '" data-url="' +
-                                        (list[f].menuUrl || '') +
-                                        '">' +
-                                        list[f].menuName +
-                                        '   </a>' +
-                                        '</dd>'
-                                }
-                                showDl =
-                                    firstPath === childFirstPath ? 'show' : ''
-                                dlStr =
-                                    '<dl class="layui-nav-child ' +
-                                    showDl +
-                                    '">' +
-                                    ddStr +
-                                    '</dd>'
-                            }
-                            childNav +=
-                                '<li class="layui-nav-item">' +
-                                '   <a class="layui-nav-first" href="/index.html#' +
-                                child[k].menuUrl +
-                                '"data-url="' +
-                                child[k].menuUrl +
-                                '">' +
-                                '       <cite>' +
-                                child[k].menuName +
-                                '</cite>' +
-                                '   </a>' +
-                                dlStr +
-                                '</li>'
-                        }
-                        $('#home_welcome').css({
-                            display: 'none'
-                        })
-                        $('#side_nav').css({
-                            display: 'block'
-                        })
-                        $('#side_nav').html(childNav)
-                        $('#side_nav .layui-nav-item').each(function () {
-                            var index = $(this).index()
-                            var urlReg = new RegExp(
-                                '^' +
-                                $(this)
-                                .find('a')
-                                .data('url'),
-                                'ig'
-                            )
-                            if (urlReg.test(path)) {
-                                $(this).addClass('layui-this')
-                            }
-                        })
-                        $('#side_nav .layui-nav-item').click(function () {
-                            $(this).addClass('layui-this')
-                            $(this)
-                                .siblings()
-                                .removeClass('layui-this')
-                            var dl = $(this).find('dl')
-                            if (dl.length > 0) {
-                                $(this)
-                                    .find('dl')
-                                    .css('display', 'block')
-                                if (
-                                    $(this)
-                                    .siblings()
-                                    .find('dl')
-                                ) {
-                                    $(this)
-                                        .siblings()
-                                        .find('dl')
-                                        .css('display', 'none')
-                                }
-                            } else {
-                                // window.location.href = $(this).find('.layui-nav-first').data('url')
-                                // 
-                                // console.log(1111)
-                            }
-                        })
-                        $('#side_nav')
-                            .find('.layui-nav-item  dd')
-                            .on('click', function () {
-                                $(this).css('background', '#fff')
-                                $(this)
-                                    .find('a')
-                                    .css('color', '#1a3471')
-                                $(this)
-                                    .siblings()
-                                    .css('background', '#1a3471')
-                                $(this)
-                                    .siblings()
-                                    .find('a')
-                                    .css('color', '#fff')
-                                $(this).addClass('active')
-                                $(this)
-                                    .siblings()
-                                    .removeClass('active');
+            // function setSideNav() {
+            //     // 根据一级路由找到对应的侧边列表，渲染
+            //     // 找到与当前页面路由一致的菜单，若该菜单无二级，则设置为选中状态；若该菜单有二级，则设置该一级菜单展开二级，并将与当前路由一致的二级菜单设为选中状态
+            //     for (var j = 0; j < menuList.length; j++) {
+            //         var menuUrlList = menuList[j].menuUrl.split('/')
+            //         if (menuUrlList[1] === firstPath) {
+            //             var child = menuList[j].child
+            //             var childNav = ''
+            //             if (child.length === 0) {
+            //                 setHomeSide()
+            //                 return
+            //             }
+            //             for (var k = 0; k < child.length; k++) {
+            //                 var dlStr = ''
+            //                 var childFirstPath = child[k].menuUrl.split('/')[1]
+            //                 if (child[k].child.length > 0) {
+            //                     var list = child[k].child
+            //                     var ddStr = ''
+            //                     var showDl = false
+            //                     var pathReg = new RegExp('^' + path, 'ig')
+            //                     for (var f = 0; f < list.length; f++) {
+            //                         var isMatch = pathReg.test(list[f].menuUrl)
+            //                         ddStr +=
+            //                             '<dd class="' +
+            //                             (isMatch ? 'active' : '') +
+            //                             '">' +
+            //                             '   <a target="' +
+            //                             ('' || '') +
+            //                             '" ' +
+            //                             '      lay-href="' +
+            //                             (list[f].menuUrl || '') +
+            //                             '" data-url="' +
+            //                             (list[f].menuUrl || '') +
+            //                             '">' +
+            //                             list[f].menuName +
+            //                             '   </a>' +
+            //                             '</dd>'
+            //                     }
+            //                     showDl =
+            //                         firstPath === childFirstPath ? 'show' : ''
+            //                     dlStr =
+            //                         '<dl class="layui-nav-child ' +
+            //                         showDl +
+            //                         '">' +
+            //                         ddStr +
+            //                         '</dd>'
+            //                 }
+            //                 childNav +=
+            //                     '<li class="layui-nav-item">' +
+            //                     '   <a class="layui-nav-first" href="/index.html#' +
+            //                     child[k].menuUrl +
+            //                     '"data-url="' +
+            //                     child[k].menuUrl +
+            //                     '">' +
+            //                     '       <cite>' +
+            //                     child[k].menuName +
+            //                     '</cite>' +
+            //                     '   </a>' +
+            //                     dlStr +
+            //                     '</li>'
+            //             }
+            //             $('#home_welcome').css({
+            //                 display: 'none'
+            //             })
+            //             $('#side_nav').css({
+            //                 display: 'block'
+            //             })
+            //             $('#side_nav').html(childNav)
+            //             $('#side_nav .layui-nav-item').each(function () {
+            //                 var index = $(this).index()
+            //                 var urlReg = new RegExp(
+            //                     '^' +
+            //                     $(this)
+            //                     .find('a')
+            //                     .data('url'),
+            //                     'ig'
+            //                 )
+            //                 if (urlReg.test(path)) {
+            //                     $(this).addClass('layui-this')
+            //                 }
+            //             })
+            //             $('#side_nav .layui-nav-item').click(function () {
+            //                 $(this).addClass('layui-this')
+            //                 $(this)
+            //                     .siblings()
+            //                     .removeClass('layui-this')
+            //                 var dl = $(this).find('dl')
+            //                 if (dl.length > 0) {
+            //                     $(this)
+            //                         .find('dl')
+            //                         .css('display', 'block')
+            //                     if (
+            //                         $(this)
+            //                         .siblings()
+            //                         .find('dl')
+            //                     ) {
+            //                         $(this)
+            //                             .siblings()
+            //                             .find('dl')
+            //                             .css('display', 'none')
+            //                     }
+            //                 } else {
+            //                     // window.location.href = $(this).find('.layui-nav-first').data('url')
+            //                     // 
+            //                     // console.log(1111)
+            //                 }
+            //             })
+            //             $('#side_nav')
+            //                 .find('.layui-nav-item  dd')
+            //                 .on('click', function () {
+            //                     $(this).css('background', '#fff')
+            //                     $(this)
+            //                         .find('a')
+            //                         .css('color', '#1a3471')
+            //                     $(this)
+            //                         .siblings()
+            //                         .css('background', '#1a3471')
+            //                     $(this)
+            //                         .siblings()
+            //                         .find('a')
+            //                         .css('color', '#fff')
+            //                     $(this).addClass('active')
+            //                     $(this)
+            //                         .siblings()
+            //                         .removeClass('active');
                                 
-                                admin.navigate( $(this).find('a').data('url'))
-                                path = $(this)
-                                    .find('a')
-                                    .data('url')
-                            })
-                    }
-                }
-            }
+            //                     admin.navigate( $(this).find('a').data('url'))
+            //                     path = $(this)
+            //                         .find('a')
+            //                         .data('url')
+            //                 })
+            //         }
+            //     }
+            // }
 
-            function setHomeSide() {
-                if (path === '/student') {
-                    $('#home_welcome').css('display', 'block')
-                    $('#side_nav').css('display', 'none')
-                    $('#home_welcome').html(
-                        '<span>Welcome!</span>' +
-                        '<p>欢迎您使用虚拟仿真实验教学平台！</p>' +
-                        '<p>如有困难请点击主菜单栏的“答疑室”搜索常见问题或者向网上值班的老师提问。如果教师不在线你的问题将自动发送到教师的邮箱中。</p>'
-                    )
-                } else if (path === '/') {
-                    $('#home_welcome').css('display', 'block')
-                    $('#side_nav').css('display', 'none')
-                    $('#home_welcome').html(
-                        '<span>Welcome!</span>' +
-                        '<p>欢迎您使用虚拟仿真实验教学平台！</p>' +
-                        '<p>教师在任课期间点击主菜单栏的“答疑室”可接受学生的咨询、整理常见问题、维护答疑库。当您不在答疑室期间，学生针对您所任课程的问题将直接发往您本人登记的电子邮件，请您及时回答学生的问题。</p>'
-                    )
-                } else {
-                    $('#home_welcome').css('display', 'none')
-                    $('#side_nav').css('display', 'block')
-                }
-            }
+            // function setHomeSide() {
+            //     if (path === '/student') {
+            //         $('#home_welcome').css('display', 'block')
+            //         $('#side_nav').css('display', 'none')
+            //         $('#home_welcome').html(
+            //             '<span>Welcome!</span>' +
+            //             '<p>欢迎您使用虚拟仿真实验教学平台！</p>' +
+            //             '<p>如有困难请点击主菜单栏的“答疑室”搜索常见问题或者向网上值班的老师提问。如果教师不在线你的问题将自动发送到教师的邮箱中。</p>'
+            //         )
+            //     } else if (path === '/') {
+            //         $('#home_welcome').css('display', 'block')
+            //         $('#side_nav').css('display', 'none')
+            //         $('#home_welcome').html(
+            //             '<span>Welcome!</span>' +
+            //             '<p>欢迎您使用虚拟仿真实验教学平台！</p>' +
+            //             '<p>教师在任课期间点击主菜单栏的“答疑室”可接受学生的咨询、整理常见问题、维护答疑库。当您不在答疑室期间，学生针对您所任课程的问题将直接发往您本人登记的电子邮件，请您及时回答学生的问题。</p>'
+            //         )
+            //     } else {
+            //         $('#home_welcome').css('display', 'none')
+            //         $('#side_nav').css('display', 'block')
+            //     }
+            // }
             $(document).on('click', '#header_nav li', function () {
                 var curPath = $(this).data('path')
                 // 设置一级菜单的状态
@@ -252,7 +252,7 @@
                 admin.navigate(curPath)
                 path = curPath
                 firstPath = path.split('/')[1]
-                setSideNav()
+                admin.setSideNav()
             })
             $('#logout').on('click', function () {
                 admin.logout()

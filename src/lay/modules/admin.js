@@ -303,7 +303,7 @@ layui
                     var child = menuList[j].child
                     var childNav = ''
                     if (child.length === 0) {
-                        setHomeSide()
+                        self.setHomeSide()
                         return
                     }
                     for (var k = 0; k < child.length; k++) {
@@ -426,6 +426,32 @@ layui
                                 .data('url')
                         })
                 }
+            }
+        }
+
+        self.setHomeSide = function () {
+            var route = layui.router(),
+                path = route.href; // 路由后缀
+                
+            if (path === '/student') {
+                $('#home_welcome').css('display', 'block')
+                $('#side_nav').css('display', 'none')
+                $('#home_welcome').html(
+                    '<span>Welcome!</span>' +
+                    '<p>欢迎您使用虚拟仿真实验教学平台！</p>' +
+                    '<p>如有困难请点击主菜单栏的“答疑室”搜索常见问题或者向网上值班的老师提问。如果教师不在线你的问题将自动发送到教师的邮箱中。</p>'
+                )
+            } else if (path === '/') {
+                $('#home_welcome').css('display', 'block')
+                $('#side_nav').css('display', 'none')
+                $('#home_welcome').html(
+                    '<span>Welcome!</span>' +
+                    '<p>欢迎您使用虚拟仿真实验教学平台！</p>' +
+                    '<p>教师在任课期间点击主菜单栏的“答疑室”可接受学生的咨询、整理常见问题、维护答疑库。当您不在答疑室期间，学生针对您所任课程的问题将直接发往您本人登记的电子邮件，请您及时回答学生的问题。</p>'
+                )
+            } else {
+                $('#home_welcome').css('display', 'none')
+                $('#side_nav').css('display', 'block')
             }
         }
 
