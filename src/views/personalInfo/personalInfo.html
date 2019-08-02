@@ -1,4 +1,5 @@
-<div id="personal_info" lay-title="个人信息">
+<div id="personal_info"
+     lay-title="个人信息">
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
@@ -6,66 +7,79 @@
         </div>
     </div>
     <div class="personal-info-content">
-        <form action="" class="layui-form">
+        <form action=""
+              class="layui-form">
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">个人头像</label>
-                    <img src="" width="120" height="120" id="avator" />
+                    <img src=""
+                         width="120"
+                         height="120"
+                         id="avator" />
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">账号</label>
-                    <span class="info-details" id="account">wangxiaohu</span>
+                    <span class="info-details"
+                          id="account">wangxiaohu</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">教师(学生)号</label>
-                    <span class="info-details" id="snoOrJno">JS001</span>
+                    <span class="info-details"
+                          id="snoOrJno">JS001</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">联系电话(手机)</label>
-                    <span class="info-details" id="phonenumber">13000000000</span>
+                    <span class="info-details"
+                          id="phonenumber">13000000000</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">电子邮箱</label>
-                    <span class="info-details" id="email">wangxiaohu@163.com</span>
+                    <span class="info-details"
+                          id="email">wangxiaohu@163.com</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">姓名</label>
-                    <span class="info-details" id="userName">王小虎</span>
+                    <span class="info-details"
+                          id="userName">王小虎</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">性别</label>
-                    <span class="info-details" id="sex">男</span>
+                    <span class="info-details"
+                          id="sex">男</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">角色</label>
-                    <span class="info-details" id="role">教师</span>
+                    <span class="info-details"
+                          id="role">教师</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md12 layui-form-item">
                     <label class="layui-form-label">组织机构</label>
-                    <span class="info-details" id="college"></span>
+                    <span class="info-details"
+                          id="college"></span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-form-item layui-col-md12">
                     <label class="layui-form-label"></label>
                     <div>
-                        <div class="layui-btn primary-btn" id="update-personal-info">
+                        <div class="layui-btn primary-btn"
+                             id="update-personal-info">
                             修改
                         </div>
                         <!-- <button class="layui-btn layui-btn-primary cancel-btn " id="source-add-cancle">
@@ -91,8 +105,8 @@
             admin.get({
                 url: '/user/getUserByID?id=' + layui.data('userInfo').userInfo.id,
                 success: function (res) {
-                    const data = res.data;
-                    $('#avator').attr('src', conf.fileRequestUrl+'/'+data.photoImage)
+                    var data = res.data;
+                    $('#avator').attr('src', conf.fileRequestUrl + '/' + data.photoImage)
                     $('#account').html(data.snoOrJno);
                     $('#snoOrJno').html(data.snoOrJno)
                     $('#phonenumber').html(data.phonenumber)
@@ -101,7 +115,7 @@
                     $('#sex').html(data.sex === 1 ? '男' : (data.sex === 0 ? '女' : '-'))
                     $('#role').html(data.roleName)
                     $('#college').html(data.collegeName)
-//                    $("#avator").src=conf.fileRequestUrl+'/'+data.photoImage
+                    //                    $("#avator").src=conf.fileRequestUrl+'/'+data.photoImage
                 }
             })
         }
@@ -112,6 +126,7 @@
             location.href = 'index.html#/personalInfo/update'
         })
     })
+
 </script>
 
 <style>
@@ -124,4 +139,5 @@
     #personal_info .personal-info-content {
         padding: 20px 0;
     }
+
 </style>

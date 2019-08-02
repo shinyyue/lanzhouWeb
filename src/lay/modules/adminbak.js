@@ -303,7 +303,7 @@ layui
             params = params || {}
             params.titleIcoColor = params.titleIcoColor || '#5a8bff'
             params.titleIco = params.titleIco || 'exclaimination'
-            const newLocal = ';display:inline-block;position:relative;top:-2px;height:24px;line-height:24px;text-align:center;width:24px;color:#fff;border-radius:50%;margin-right:10px;"></i>';
+            var newLocal = ';display:inline-block;position:relative;top:-2px;height:24px;line-height:24px;text-align:center;width:24px;color:#fff;border-radius:50%;margin-right:10px;"></i>';
             params.title = [
                 '<i class="layui-icon layui-icon-' +
                 params.titleIco +
