@@ -35,8 +35,8 @@
         </div>
     </div>
     <div class="course-add">
-        <button class="add-btn"
-                id="add-cource">添加</button>
+        <div class="layui-btn primary-btn"
+                id="add-cource">添加</div>
     </div>
     <table id="techManage-plan-table"
            lay-filter="techManage-plan-table"></table>
@@ -270,15 +270,17 @@
                         res.data.items.length > 0
                     ) {
                         var options = ''
-                        res.data.items &&
-                        res.data.items.forEach(item => {
-                            options +=
+                        if (res.data && res.data.items) {
+                            for(var i = 0; i < res.data.items; i++) {
+                                var item = res.data.items[i];
+                                options +=
                                 '<option value="' +
                                 item.id +
                                 '">' +
-                                item.schoolYear +
-                                '</option>'
-                        })
+                                    item.schoolYear +
+                                    '</option>'
+                            }
+                        }
                         $('#schoolYear').html(
                             '<option value="">请选择学年</option>'
                         )
@@ -307,27 +309,18 @@
                 url: '/user/getUserList',
                 data: JSON.stringify(data),
                 success: function(res) {
-                    if (
-                        res.data &&
-                        res.data.items &&
-                        res.data.items.length > 0
-                    ) {
-                        var options = ''
-                        res.data.items &&
-                        res.data.items.forEach(item => {
+                   if ( res.data &&res.data.items) {
+                        for(var i = 0; i < res.data.items; i++) {
+                            var item = res.data.items[i];
                             options +=
-                                '<option value="' +
-                                item.id +
-                                '">' +
-                                item.userName +
-                                '</option>'
-                        })
+                            '<option value="' + item.id + '">' +  item.userName + '</option>'
+                        }
                         $('#teacher').html(
                             '<option value="">请选择任课老师</option>'
                         )
                         $('#teacher').append(options)
-                        callback && typeof callback === 'function' && callback(res)
                     }
+                    callback && typeof callback === 'function' && callback(res)
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
