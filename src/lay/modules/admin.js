@@ -185,8 +185,6 @@ layui
             }
             route.fileurl = '/' + route.path.join('/')
 
-            console.log(11111, route.fileurl)
-
             //判断登录页面
             if (conf.loginCheck == true) {
                 // 没有token验证，暂时用role来记录用户的登录状态
@@ -397,7 +395,6 @@ layui
                             }
                         } else {
                             // window.location.href = $(this).find('.layui-nav-first').data('url')
-                            // 
                             // console.log(1111)
                         }
                     })
