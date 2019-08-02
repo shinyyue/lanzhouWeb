@@ -32,24 +32,11 @@
 </div>
 
 <script>
-    function jumpToDetails(id, courseName) {
-        layui.data('course', {
-            key: 'coursePlanId',
-            value: id
-        })
-        layui.data('course', {
-            key: 'coursePlanName',
-            value: courseName
-        })
-        window.location.href = 'index.html#/checkCourse/preIntro/id=' + id
-        
-    }
-
     layui.use(['admin', 'jquery'], function() {
         var admin = layui.admin,
             $ = layui.jquery
 
-        function getList() {
+        function getList(callback) {
             admin.post({
                 url: '/report/queryStuIndexInfo',
                 data: JSON.stringify({}),
@@ -92,11 +79,7 @@
                                 '</span>个，理论测试<span>' +
                                 item.unDoPaper +
                                 '</span>个\n' +
-                                '                    <button class="course-details" onclick="jumpToDetails(' +
-                                item.id +
-                                ", '" +
-                                item.courseName +
-                                '\')">\n' +
+                                '                    <button class="course-details course_details_jump" data-id="' + item.id + '" data-name="' + item.courseName + '">\n' +
                                 '                        详情\n' +
                                 '                    </button>\n' +
                                 '                </div>\n' +
@@ -107,11 +90,32 @@
                             str || '<div>暂无数据</div>'
                         )
                     }
+                    callback && typeof callback === 'function' && callback()
                 }
             })
         }
 
-        getList()
+         function jumpToDetails(id, courseName) {
+            layui.data('course', {
+                key: 'coursePlanId',
+                value: id
+            })
+            layui.data('course', {
+                key: 'coursePlanName',
+                value: courseName
+            })
+            admin.navigate('/checkCourse/preIntro/id=' + id)
+            admin.setSideNav()
+        }
+
+        getList(function() {
+            $('.course_details_jump').click(function() {
+                var id = $(this).attr('data-id'),
+                    name = $(this).attr('data-name');
+
+                jumpToDetails(id, name)
+            })
+        })
     })
 </script>
 
