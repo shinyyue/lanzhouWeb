@@ -35,10 +35,10 @@
                 <label class="layui-form-label require">策略条目</label>
                 <div class="ploy-content">
                     <div class="ploy-content-title">
-                        <button class="layui-btn layui-btn-primary"
+                        <div class="layui-btn layui-btn-primary"
                                 id="add_ploy">
                             添加策略条目
-                        </button>
+                        </div>
                         <span style="color: red;">说明：易1分，中等2分，难3分，非常难4分</span>
                     </div>
 
@@ -220,8 +220,6 @@
         table.render(tableOption)
 
         form.on('select(checkCourse)', function (obj) {
-            // getKnowList(function() {}, obj.value)
-            console.log(111, obj)
             getKnowlegeList(obj.value)
         })
 
@@ -378,30 +376,32 @@
         })
 
         $('#add_ploy').on('click', function () {
-            $('.layui-table-body').css('overflow', 'visible')
-            $('.layui-table-box').css({
-                overflow: 'visible',
-                'min-height': '300px'
-            })
-            $('.layui-table-view').css('overflow', 'visible')
-
+        
             strategyEntries.push(JSON.parse(JSON.stringify(option)))
             tableOption.data = strategyEntries
             table.render(tableOption)
 
+             $('.layui-table-body').css('overflow', 'visible')
+             $('.layui-table-box').css({
+             overflow: 'visible',
+             'min-height': '300px',
+             })
+             $('.layui-table-view').css('overflow', 'visible')
+
             $('.knowledgePoint').each(function (index) {
                 $(this).html('<option value="">请选择</option>')
                 var opt = ''
-                knowlegeList.forEach(item => {
+                for(var i = 0;  i< knowlegeList.length; i++) {
+                    var item = knowlegeList[i]
                     opt +=
-                        '<option value="' +
+                    '<option value="' +
                         item.id +
                         '">' +
                         item.name +
                         '</option>'
-                })
+                }
                 $(this).append(opt)
-                if (index === strategyEntries.length - 1) {} else {
+                if (index !== strategyEntries.length - 1) {
                     $(this).val(strategyEntries[index].knowledgePoint)
                     form.render()
                 }
@@ -554,8 +554,8 @@
                     $('.knowledgePoint').html(
                         '<option value="">请选择</option>'
                     )
-                    for (var i = 0; i < res.data.length; i++) {
-                        var item = res.data[i]
+                    for (var w = 0; w < res.data.length; w++) {
+                        var item = res.data[w]
                         $('.knowledgePoint').append(
                             '<option value="' +
                             item.id +
