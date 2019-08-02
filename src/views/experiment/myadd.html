@@ -372,9 +372,9 @@
                 url: '/vsMpCurriculum/getList',
                 data: JSON.stringify(data),
                 success: function (res) {
-                    res.data &&
-                        res.data.items &&
-                        res.data.items.forEach(item => {
+                    if (res.code === 200) {
+                        if (res.data && res.data.items) {
+                            var item = res.data.items[i];
                             $('#curriculumId').append(
                                 '<option value="' +
                                 item.id +
@@ -382,8 +382,20 @@
                                 item.curriculumName +
                                 ' </option>'
                             )
-                        })
                     form.render()
+                        }
+                    }
+                    // res.data &&
+                    //     res.data.items &&
+                    //     res.data.items.forEach(item => {
+                    //         $('#curriculumId').append(
+                    //             '<option value="' +
+                    //             item.id +
+                    //             '">' +
+                    //             item.curriculumName +
+                    //             ' </option>'
+                    //         )
+                    //     })
                 },
                 error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
@@ -400,9 +412,9 @@
                 url: '/experimentType/experimentTypeList',
                 data: JSON.stringify(data),
                 success: function (res) {
-                    res.data &&
-                        res.data.items &&
-                        res.data.items.forEach(item => {
+                    if (res.code === 200) {
+                        if (res.data && res.data.items) {
+                            var item = res.data.items[i];
                             $('#experimentalType').append(
                                 '<option value="' +
                                 item.id +
@@ -410,8 +422,21 @@
                                 item.typeName +
                                 ' </option>'
                             )
-                        })
                     form.render()
+                        }
+                    }
+                    // res.data &&
+                    //     res.data.items &&
+                    //     res.data.items.forEach(item => {
+                    //         $('#experimentalType').append(
+                    //             '<option value="' +
+                    //             item.id +
+                    //             '">' +
+                    //             item.typeName +
+                    //             ' </option>'
+                    //         )
+                    //     })
+                    // form.render()
                 },
                 error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
