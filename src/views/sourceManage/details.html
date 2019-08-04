@@ -53,10 +53,10 @@
                         style="width: 100%; height: 100%"></iframe> -->
             </div>
         </div>
-        <div>
+        <div style=" display: none; color: red;" id="showTip">
+            <div>推荐使用360浏览器兼容模式或者IE9以上</div>
             <a href="http://39.104.97.6:8080/dataBank/exportCult3D"
-               style="color: red; display: none; text-decoration: underline;"
-               id="showTip">若加载失败，点击安装Cult3D插件</a>
+               style="color: red;text-decoration: underline;">若加载失败，点击安装Cult3D插件</a>
         </div>
     </div>
 
@@ -81,6 +81,7 @@
             <span id="accessAuthority"></span>
         </div>
     </div>
+
     <div class="layui-row">
         <div class="layui-col-md12 layui-form-item">
             <label class="layui-form-label">资源描述</label>
@@ -91,6 +92,7 @@
             </div>
         </div>
     </div>
+
     <div class="layui-row">
         <div class="layui-col-md6 layui-form-item">
             <label class="layui-form-label ">点击量</label>
@@ -132,7 +134,6 @@
         </div>
     </div>
 </div>
-</div>
 <script src="src/plugins/UnityLoader.js"></script>
 <script src="src/plugins/UnityProgress.js"></script>
 <script src="src/plugins/resource_url.js"></script>
@@ -144,8 +145,10 @@
             conf = layui.conf,
             route = layui.router(),
             id = route.search.id,
-            details = {}
+            details = {};
+
         getDetails()
+
 
         $('#collect').on('click', function () {
             collect()
