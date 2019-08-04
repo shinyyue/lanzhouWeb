@@ -90,7 +90,8 @@
                             str || '<div>暂无数据</div>'
                         )
                         $(".course-step-inner").each(function (index) {
-                            $(this).css({'width': $(this).attr('data-percent')})
+                            $(this).css({'width': $(this).attr('data-percent')+'%'})
+//                            $(this).css({'width': '50%'})
                         })
                     }
                     callback && typeof callback === 'function' && callback()

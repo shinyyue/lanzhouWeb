@@ -128,6 +128,11 @@
                 <div>
                     <div class="layui-btn primary-btn"
                          lay-submit
+                         id="download">
+                        下载
+                    </div>
+                    <div class="layui-btn primary-btn"
+                         lay-submit
                          id="save">
                         暂存
                     </div>
@@ -167,6 +172,7 @@
             testContent, // 资源快照状态
             dataType = 0, // 资源类型
             scromeChosenNode // scrome 选中node信息
+            ,details = {}
 
         $('#save').on('click', () => save())
         $('#submit').on('click', () => submit())
@@ -179,6 +185,7 @@
                 success: function (res) {
                     if (!res.data) return
                     var data = res.data
+                    details = data
                     $('#curriculumExperimentName').html(
                         data.curriculumExperimentName
                     )
@@ -190,6 +197,15 @@
                     $('#testTotleTime').html(data.testTotleTime)
                     dataType = res.data.dataType
 
+                    //点击下载
+                    $('#download').on('click', function () {
+                        if (data.dataType != 5) {
+                            layer.msg('此类型不支持下载')
+                            return
+                        }
+                        download()
+
+                    })
                     if (dataType !== 7) {
                         $('#fileUrl').show()
                     } else {
@@ -496,6 +512,17 @@
                 fileName +
                 '" antialiasing="0" type="application/x-cult3d-object"></embed>' +
                 '</object>'
+        }
+
+        function download() {
+            debugger
+            window.open(
+                conf.requestUrl +
+                '/dataBank/downloadFile?filePath=' +
+                JSON.parse(details.resourceIds)[0].url+
+                '&id=' +
+                JSON.parse(details.resourceIds)[0].id
+            )
         }
     })
 
