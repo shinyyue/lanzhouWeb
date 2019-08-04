@@ -64,7 +64,7 @@
                                 '            <div class="course-item-right">\n' +
                                 '                <div class="item-right-top">\n' +
                                 '                    <span class="course-step">\n' +
-                                '                        <span class="course-step-inner"></span>\n' +
+                                '                        <span class="course-step-inner" data-percent="'+ item.percentage +'">\n' +
                                 '                    </span>\n' +
                                 '                    <span>' +
                                 item.percentage +
@@ -89,6 +89,9 @@
                         $('#checked_course_list').html(
                             str || '<div>暂无数据</div>'
                         )
+                        $(".course-step-inner").each(function (index) {
+                            $(this).css({'width': $(this).attr('data-percent')})
+                        })
                     }
                     callback && typeof callback === 'function' && callback()
                 }
