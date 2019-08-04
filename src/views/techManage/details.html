@@ -12,7 +12,7 @@
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">开课编号</label>
                     <span class="info-details"
-                          id="">--</span>
+                          id="courseCode">--</span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">选择单双周</label>
@@ -29,14 +29,14 @@
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">开课单位</label>
                     <span class="info-details"
-                          id="collegeId">--</span>
+                          id="collegeName">--</span>
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">适合学生类别</label>
                     <span class="info-details"
-                          id="studentTypeId"></span>
+                          id="studentType"></span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">满分</label>
@@ -60,12 +60,12 @@
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">任课老师</label>
                     <span class="info-details"
-                          id="teacherId">--</span>
+                          id="teacherName">--</span>
                 </div>
                 <div class="layui-col-md6 layui-form-item">
                     <label class="layui-form-label">上课地点</label>
                     <span class="info-details"
-                          id="">--</span>
+                          id="classroomName">--</span>
                 </div>
             </div>
             <div class="layui-row">
@@ -164,7 +164,11 @@
                         .singleDoubleWeek ==
                         2 ? '单周' : '双周')
                     $('#courseName').html(res.data.courseName)
+                    $('#courseCode').html(res.data.courseCode)
                     $('#collegeName').html(res.data.collegeName)
+                    $('#studentType').html(res.data.studentType)
+                    $('#teacherName').html(res.data.teacherName)
+                    $('#classroomName').html(res.data.classroomName)
                     $('#studentTypeName').html(res.data.studentTypeName)
                     $('#fullMark').html(res.data.fullMark)
                     $('#period').html(res.data.period)
