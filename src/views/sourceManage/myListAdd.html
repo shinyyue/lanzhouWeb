@@ -439,6 +439,7 @@
             })
         })
         form.on('select(typeChange)', function(obj) {
+            debugger
             resourceType = obj.value
             $('#type').find()
             if (obj.value == 7) {
@@ -730,9 +731,9 @@
                             var item = res.data.items[i];
                             $('#curriculumId').append(
                                 '<option value="' +
-                                    item.id +
+                                res.data.items[i].id +
                                     '" name="curriculumId">' +
-                                    item.curriculumName +
+                                res.data.items[i].curriculumName +
                                     '</option>'
                             )
                             form.render()
