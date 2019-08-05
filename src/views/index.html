@@ -121,7 +121,7 @@
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
                     laypage.render(layPageOption)
-                    $('#curSchoolYear').html(res.data.schoolYear)
+                    $('#curSchoolYear').html(res.data && res.data.schoolYear || '')
                     $('#course-count').html(layPageOption.count)
                 },
                 error: function (err) {
