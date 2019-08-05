@@ -170,7 +170,6 @@
         form.render()
 
         $('#addExperiment').on('click', function () {
-            //            debugger
             if (id) {
                 updateData(id)
             } else {
@@ -248,7 +247,7 @@
                 labReport: layedit.getContent(reportIndex) || '',
                 dataType: $('#sourceType').val()
             }
-            debugger
+            
             if (formData.name == '') {
                 layer.msg("实验名称不能为空！")
                 return
@@ -275,17 +274,14 @@
                 success: function (res) {
                     if (res.code == 200) {
                         layer.msg('上传成功')
-                        // window.history.back(-1)
                         window.location.href = 'index.html#/experiment/myList'
                         window.location.reload()
                     } else {
-                        //                        debugger
                         layer.msg(res.msg || '添加失败')
                         return
                     }
                 },
                 error: function (res) {
-                    //                    debugger
                     layer.msg(res.msg || '添加失败')
                     return
                 }
@@ -300,7 +296,6 @@
                     url: $(this).data('url'),
                     type: $('#sourceType').val()
                 })
-                //                console.log(1222, $(this).data('url'))
             })
             var formData = {
                 id: id,
@@ -336,25 +331,20 @@
                 layer.msg("成绩比重不足100%！")
                 return
             }
-            //            debugger
             admin.put({
                 url: '/experiments/update',
                 data: JSON.stringify(formData),
                 success: function (res) {
-                    //                    debugger
                     if (res.code == 200) {
                         layer.msg('修改成功')
-                        // window.history.back(-1)
                         window.location.href = 'index.html#/experiment/myList'
                         window.location.reload()
                     } else {
-                        //                        debugger
                         layer.msg(res.msg || '修改失败')
                         return
                     }
                 },
                 error: function (res) {
-                    //                    debugger
                     layer.msg(res.msg || '修改失败')
                     return
                 }
@@ -373,28 +363,19 @@
                 success: function (res) {
                     if (res.code === 200) {
                         if (res.data && res.data.items) {
-                            var item = res.data.items[i];
-                            $('#curriculumId').append(
-                                '<option value="' +
-                                item.id +
-                                '">' +
-                                item.curriculumName +
-                                ' </option>'
-                            )
-                    form.render()
+                            for(var i = 0; i< res.data.items.length; i++) {
+                                var item = res.data.items[i];
+                                $('#curriculumId').append(
+                                    '<option value="' +
+                                    item.id +
+                                    '">' +
+                                    item.curriculumName +
+                                    ' </option>'
+                                )
+                                form.render()
+                            }
                         }
                     }
-                    // res.data &&
-                    //     res.data.items &&
-                    //     res.data.items.forEach(item => {
-                    //         $('#curriculumId').append(
-                    //             '<option value="' +
-                    //             item.id +
-                    //             '">' +
-                    //             item.curriculumName +
-                    //             ' </option>'
-                    //         )
-                    //     })
                 },
                 error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
@@ -413,29 +394,19 @@
                 success: function (res) {
                     if (res.code === 200) {
                         if (res.data && res.data.items) {
-                            var item = res.data.items[i];
-                            $('#experimentalType').append(
-                                '<option value="' +
+                            for(var i = 0; i< res.data.items.length; i++) {
+                               var item = res.data.items[i];
+                               $('#experimentalType').append(
+                               '<option value="' +
                                 item.id +
                                 '">' +
-                                item.typeName +
-                                ' </option>'
-                            )
-                    form.render()
+                                   item.typeName +
+                                   ' </option>'
+                               )
+                               form.render()
+                            }
                         }
                     }
-                    // res.data &&
-                    //     res.data.items &&
-                    //     res.data.items.forEach(item => {
-                    //         $('#experimentalType').append(
-                    //             '<option value="' +
-                    //             item.id +
-                    //             '">' +
-                    //             item.typeName +
-                    //             ' </option>'
-                    //         )
-                    //     })
-                    // form.render()
                 },
                 error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
@@ -448,7 +419,7 @@
                 page: 1,
                 rows: 100000,
                 type: type,
-                curriculumId: $("#curriculumId").val()
+                curriculumId: Number($("#curriculumId").val())
             }
             admin.post({
                 url: '/dataBank/queryAllList',
@@ -488,14 +459,6 @@
         $('#experiment-add-cancle').on('click', function () {
             window.history.back(-1)
         })
-
-        //监听提交
-        // form.on('submit(addExperiment)', function (data) {
-        //     // layer.msg(JSON.stringify(data.field));
-        //     console.log(777, data)
-        //     addData(data.field)
-        //     return false;
-        // });
     })
 
 </script>

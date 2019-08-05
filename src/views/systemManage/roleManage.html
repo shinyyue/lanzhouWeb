@@ -225,8 +225,21 @@
                 '            <div class="layui-row">\n' +
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">分配权限:</label>\n' +
-                '                    <div id="auth_list" class="auth-list-tree"></div>\n' +
-                '                </div>\n' + '            </div>\n' +
+                '                    <div id="auth_list" class="auth-list-tree col-md-8"></div>\n' +
+                '                </div>\n' + 
+                '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '            <div class="layui-col-md12 layui-form-item required">\n' +
+                '                    <label class="layui-form-label ">首页地址:</label>\n' +
+                '                    <select id="home_url">' +
+                '                         <option value="">请选择</option>'+
+                '                         <option value="/user/all">管理员首页</option>'+
+                '                         <option value="/">老师首页</option>'+
+                '                         <option value="/student">学生首页</option>'+
+                '                         <option value="/declareExperiment/declare">申报实验</option>'+
+                '                    </select>\n' +
+                '                </div>\n' + 
+                '            </div>\n' +
                 '            <div class="layui-row">\n' +
                 '                <div class="layui-col-md12 layui-form-item">\n' +
                 '                    <label class="layui-form-label">角色描述:</label>\n' +
@@ -270,6 +283,10 @@
         }
 
         function addData() {
+            if (!$('#home_url').val()) {
+                layer.msg('请选择首页地址')
+                return;
+            }
             var data = {
                 roleName: $('#roleNameUpdate').val(),
                 menuPermissions: ''
@@ -305,6 +322,10 @@
         }
 
         function updateData(formData) {
+            if (!$('#home_url').val()) {
+                layer.msg('请选择首页地址')
+                return;
+            }
             var menuList = tree.getChecked('1')
             var list = []
             for (var i = 0; i < menuList.length; i++) {
@@ -354,7 +375,6 @@
         function initLayerOpen() {
             formData = {
                     roleName: '',
-                    //                name: '',
                     id: '',
                     desc: ''
                 },
@@ -441,10 +461,9 @@
     .role-remark {
         width: 63%;
     }
-
+    
     .auth-list-tree {
-        width: 560px;
-        float: right;
+        float: left;
     }
 
 </style>

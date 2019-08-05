@@ -6,9 +6,17 @@
         </div>
     </div>
     <div class="source-details-inner">
-        <div class="source-display"
-             id="fileUrl"
-             style="display: none"></div>
+        <div class="source-display unScorm-inner">
+            <div class="webgl-content"
+                 id="fileUrl"
+                 style="width: 100%; height: 500px;"></div>
+        </div>
+        <div style=" display: none; color: red;"
+             id="showTip">
+            <div>推荐使用360浏览器兼容模式或者IE9以上</div>
+            <a href="http://39.104.97.6:8080/dataBank/exportCult3D"
+               style="color: red;text-decoration: underline;">若加载失败，点击安装Cult3D插件</a>
+        </div>
         <div class="source-display"
              id="scorm_fileUrl"
              style="display: none">
@@ -48,11 +56,6 @@
                         src="iframe2.htm"
                         style="width: 100%; height: 100%"></iframe>
             </div>
-        </div>
-        <div style=" display: none; color: red;" id="showTip">
-            <div>推荐使用360浏览器兼容模式或者IE9以上</div>
-            <a href="http://39.104.97.6:8080/dataBank/exportCult3D"
-                style="color: red;text-decoration: underline;">若加载失败，点击安装Cult3D插件</a>
         </div>
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
@@ -94,12 +97,12 @@
                 <span id="downloadNum"></span>
             </div>
         </div>
-        <div class="layui-row">
+        <!-- <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">资源评分</label>
                 <span>没有字段</span>
             </div>
-        </div>
+        </div> -->
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label "></label>
@@ -175,7 +178,7 @@
                     })
                     var fileUrl = conf.fileRequestUrl + '/' + data.fileUrl
                     if (data.type !== 7) {
-                        $('#fileUrl').show()
+                        $('.unScorm-inner').show()
                     } else {
                         $('#showTip').show()
                     }
@@ -343,6 +346,11 @@
         width: 100%;
         height: 500px;
         background: rgba(0, 0, 0, 0.2);
+        position: relative;
+    }
+
+    .source-display.unScorm-inner{
+        display: none;
     }
 
     #source-manage-details .layui-form-item span {
@@ -431,30 +439,6 @@
 
     #tabcon1 {
         padding: 20px 10px;
-    }
-
-</style>
-<style>
-    #source-manage-details {}
-
-    .source-details-inner {
-        padding: 20px 0;
-    }
-
-    .source-display {
-        width: 100%;
-        height: 415px;
-        background: rgba(0, 0, 0, 0.2);
-    }
-
-    #source-manage-details .layui-form-item span {
-        display: inline-block;
-        padding: 9px 0px;
-        font-size: 16px;
-    }
-
-    .layui-textarea {
-        width: 100%;
     }
 
 </style>

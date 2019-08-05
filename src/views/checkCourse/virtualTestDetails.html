@@ -40,11 +40,17 @@
                 <label class="layui-form-label">实验要求</label>
                 <div class="layui-col-md9">
                     <div id="require" style="line-height: 38px;"></div>
-                    <div
-                        class="source-display"
-                        id="fileUrl"
-                        style="display: none; overflow: scroll; "
-                    ></div>
+                    <div class="source-display unScorm-inner">
+                        <div class="webgl-content"
+                             id="fileUrl"
+                             style="width: 100%; height: 500px;"></div>
+                    </div>
+                    <div style=" display: none; color: red;"
+                         id="showTip">
+                        <div>推荐使用360浏览器兼容模式或者IE9以上</div>
+                        <a href="http://39.104.97.6:8080/dataBank/exportCult3D"
+                           style="color: red;text-decoration: underline;">若加载失败，点击安装Cult3D插件</a>
+                    </div>    
                     <div
                         class="source-display"
                         id="scorm_fileUrl"
@@ -90,12 +96,7 @@
                                 style="width: 100%; height: 100%"
                             ></iframe>
                         </div>
-                    </div>
-                    <div style=" display: none; color: red;" id="showTip">
-                        <div>推荐使用360浏览器兼容模式或者IE9以上</div>
-                        <a href="http://39.104.97.6:8080/dataBank/exportCult3D"
-                            style="color: red;text-decoration: underline;">若加载失败，点击安装Cult3D插件</a>
-                    </div>
+                    </div>                 
                 </div>
             </div>
         </div>
@@ -117,7 +118,7 @@
                         id="labReportAddress"
                     >
                         <i class="layui-icon">&#xe67c;</i>上传PDF
-                        <span id="file_path"></span>
+                        <span id="file_path" style="display: none;"></span>
                     </button>
                 </div>
             </div>
@@ -214,7 +215,7 @@
 
                     })
                     if (dataType !== 7) {
-                        $('#fileUrl').show()
+                        $('.unScorm-inner').show()
                     } else {
                         $('#showTip').show()
                     }
@@ -262,8 +263,8 @@
                     } else if (res.data.dataType == 6) {
                         // U3D
                         $('#fileUrl').html('')
-                        //                        var jsonFile = JSON.parse(res.data.fileUrl).json
-                        UnityLoader.instantiate('fileUrl', fileUrl, {
+                        var jsonFile = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url.json
+                        UnityLoader.instantiate('fileUrl', jsonFile, {
                             onProgress: UnityProgress
                         })
                     } else if (res.data.dataType == 7) {
@@ -522,7 +523,7 @@
         }
 
         function download() {
-            debugger
+            
             window.open(
                 conf.requestUrl +
                 '/dataBank/downloadFile?filePath=' +
@@ -543,9 +544,14 @@
 
     #virtualTest-details .source-display {
         width: 100%;
-        height: 415px;
+        height: 500px;
         background: rgba(0, 0, 0, 0.2);
         margin-bottom: 20px;
+        position: relative;
+    }
+
+    #virtualTest-details .source-display.unScorm-inner{
+        display: none;
     }
 
     #virtualTest-details .source-display::-webkit-scrollbar {
@@ -553,29 +559,6 @@
     }
 
     #virtualTest-details .layui-form-item span {
-        display: inline-block;
-        padding: 9px 0px;
-        font-size: 16px;
-    }
-
-    .layui-textarea {
-        width: 100%;
-    }
-
-    #source-manage-details #fileUrl {
-    }
-
-    .source-details-inner {
-        padding: 20px 0;
-    }
-
-    .source-display {
-        width: 100%;
-        height: 500px;
-        background: rgba(0, 0, 0, 0.2);
-    }
-
-    #source-manage-details .layui-form-item span {
         display: inline-block;
         padding: 9px 0px;
         font-size: 16px;
