@@ -25,9 +25,11 @@
     </div>
     <table id="course-list-table" lay-filter="course-list-table"></table>
     <script type="text/html" id="course-opt">
-        <button class="course-set-btn" lay-event="edit">修改</button>
-            <button class="course-set-btn" lay-event="delete">删除</button>
-            <button class="course-set-btn" lay-event="check">查看</button>
+        <button class="layui-btn course-set-btn" lay-event="edit">修改</button>
+        <button class="layui-btn course-set-btn"
+                lay-event="delete">删除</button>
+        <button class="layui-btn course-set-btn"
+                lay-event="check">查看</button>
     </script>
     <div class="app-table-page" id="course-table-page"></div>
 </div>
@@ -159,9 +161,9 @@
                 return
             }
             if (layEvent === 'edit') {
-                location.href = 'index.html#/course/update/id=' + data.id
+                admin.navigate('/course/update/id=' + data.id)
             } else if (layEvent === 'check') {
-                location.href = 'index.html#/course/details/id=' + data.id
+                admin.navigate('/course/details/id=' + data.id)
             }
         })
 
@@ -205,7 +207,7 @@
         }
 
         $('#add-cource').on('click', function() {
-            location.href = 'index.html#/course/update'
+            admin.navigate('/course/update')
         })
 
 
@@ -226,15 +228,24 @@
                         res.data.items.length > 0
                     ) {
                         var options = ''
-                        res.data.items &&
-                        res.data.items.forEach(item => {
+                        for(var i=0; i < res.data.items.length; i++) {
+                            var item = res.data.items[i]
                             options +=
                                 '<option value="' +
                                 item.id +
                                 '">' +
                                 item.gradeName +
                                 '</option>'
-                        })
+                        }
+                        // res.data.items &&
+                        // res.data.items.forEach(item => {
+                        //     options +=
+                        //         '<option value="' +
+                        //         item.id +
+                        //         '">' +
+                        //         item.gradeName +
+                        //         '</option>'
+                        // })
                         $('#grade').html(
                             '<option value="">所有年级</option>'
                         )
@@ -310,9 +321,9 @@
     }
 
     .course-set-btn {
-        padding: 4px 10px;
+        /* padding: 4px 10px; */
         border: 1px solid #ccc;
         cursor: pointer;
+        /* background: rgb(84, 84, 84); */
     }
 </style>
-            
