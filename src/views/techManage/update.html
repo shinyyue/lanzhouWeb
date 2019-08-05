@@ -654,20 +654,14 @@
                 }),
                 success: function (res) {
                     if (res.code === 200) {
-                        for(var i = 0; i < res.data.items.length; i++) {
-                            var item = res.data.items[i];
-                            $('#schoolYear').append('<option value="' + item.id + '">' + item
-                            .schoolYear +
+                        for(var i = 0; i < res.data.length; i++) {
+                            var item = res.data[i];
+                            $('#plan_course_list').append('<option value="' + item.id + '">' + item
+                            .curriculumName +
                             '</option>')
                         }
                         form.render()
                     }
-                    
-                    // res.data && res.data.items && res.data.items.forEach(function (item) {
-                    //     $('#plan_course_list').append('<option value="' + item.id + '">' +
-                    //         item.curriculumName + '</option>')
-                    //     form.render()
-                    // })
                 }
             })
         }
@@ -691,11 +685,6 @@
                     form.render()
                         callback(res.data)
                     }
-                    // res.data.items.forEach(item => {
-                    //     $('#techManage_good_at').append(
-                    //         '<li><input type="checkbox" class="checked-forcess" lay-skin="primary" name="profession" value="' +
-                    //         item.id + '" title="' + item.professionName + '"></li>')
-                    // })
                    
                 }
             })
