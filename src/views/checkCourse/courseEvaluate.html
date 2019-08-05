@@ -86,8 +86,6 @@
             return currentdate;
         }
         form.on('submit(submit)', function (data) {
-            debugger
-
             var param = {
                 curriculumId: layui.data('course').coursePlanId,
                 content: data.field.desc
@@ -96,7 +94,7 @@
                 url: '/coursre/add',
                 data: JSON.stringify(param),
                 success: function (res) {
-                    debugger
+                    
                     if (res.code === 200) {
                         layer.msg('评论成功！')
                     }
