@@ -6,9 +6,11 @@
         </div>
     </div>
     <div class="source-details-inner">
-        <div class="source-display"
-             id="fileUrl"
-             style="display: none"></div>
+        <div class="source-display unScorm-inner">
+            <div class="webgl-content"
+                 id="fileUrl"
+                 style="width: 100%; height: 500px;"></div>
+        </div>
         <div style=" display: none; color: red;"
              id="showTip">
             <div>推荐使用360浏览器兼容模式或者IE9以上</div>
@@ -185,7 +187,7 @@
                     }
                     fileUrl = conf.fileRequestUrl + '/' + data.fileUrl
                     if (data.type != 7) {
-                        $('#fileUrl').show()
+                        $('.unScorm-inner').show()
                     } else {
                         $('#showTip').show()
                     }
@@ -383,6 +385,11 @@
         width: 100%;
         height: 500px;
         background: rgba(0, 0, 0, 0.2);
+        position: relative;
+    }
+
+    .source-display.unScorm-inner{
+        display: none;
     }
 
     #source-manage-details .layui-form-item span {
@@ -475,6 +482,8 @@
 
 </style>
 <style type="text/css">
+    /* @import 'TemplateDate/style.css'; */
+
     .blockhide {
         display: block;
     }

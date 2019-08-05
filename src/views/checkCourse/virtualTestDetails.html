@@ -40,17 +40,17 @@
                 <label class="layui-form-label">实验要求</label>
                 <div class="layui-col-md9">
                     <div id="require" style="line-height: 38px;"></div>
+                    <div class="source-display unScorm-inner">
+                        <div class="webgl-content"
+                             id="fileUrl"
+                             style="width: 100%; height: 500px;"></div>
+                    </div>
                     <div style=" display: none; color: red;"
                          id="showTip">
                         <div>推荐使用360浏览器兼容模式或者IE9以上</div>
                         <a href="http://39.104.97.6:8080/dataBank/exportCult3D"
                            style="color: red;text-decoration: underline;">若加载失败，点击安装Cult3D插件</a>
-                    </div>
-                    <div
-                        class="source-display"
-                        id="fileUrl"
-                        style="display: none; overflow: scroll; "
-                    ></div>
+                    </div>    
                     <div
                         class="source-display"
                         id="scorm_fileUrl"
@@ -215,7 +215,7 @@
 
                     })
                     if (dataType !== 7) {
-                        $('#fileUrl').show()
+                        $('.unScorm-inner').show()
                     } else {
                         $('#showTip').show()
                     }
@@ -547,6 +547,10 @@
         height: 415px;
         background: rgba(0, 0, 0, 0.2);
         margin-bottom: 20px;
+    }
+
+    #virtualTest-details .source-display.unScorm-inner{
+        display: none;
     }
 
     #virtualTest-details .source-display::-webkit-scrollbar {

@@ -100,6 +100,7 @@
         })
 
         getCourseList(function () {})
+
         if (id) {
             $('#knowledgePoint-add').attr('style', 'display:none;')
             getDetails()
@@ -163,8 +164,8 @@
                 data: JSON.stringify(data),
                 success: function (res) {
                     if( res.data && res.data.items) {
-                        for(var i = 0; i < res.data.length; i++) {
-                            var item = res.data[i];
+                        for(var i = 0; i < res.data.items.length; i++) {
+                            var item = res.data.items[i];
                             $('#curriculumId').append(
                             '<option value="' +
                                 item.id +
