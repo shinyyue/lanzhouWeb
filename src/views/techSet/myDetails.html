@@ -41,13 +41,18 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">实验报告</label>
-                <span id="labReport">333333333333</span>
+                <span id="labReport"></span>
             </div>
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">课件资源</label>
                 <div class="layui-col-md9">
+                    <div class="source-display unScorm-inner">
+                        <div class="webgl-content"
+                             id="fileUrl"
+                             style="width: 100%; height: 500px;"></div>
+                    </div>
                     <div style=" display: none; color: red;"
                          id="showTip">
                         <div>推荐使用360浏览器兼容模式或者IE9以上</div>
@@ -55,7 +60,8 @@
                            style="color: red;text-decoration: underline;">若加载失败，点击安装Cult3D插件</a>
                     </div>
                     <div class="source-display"
-                         id="fileUrl">
+                         id="scorm_fileUrl"
+                         style="display: none">
                         <div id="mune_area">
                             <div class="tab_a"
                                  id="tab_b">
@@ -65,10 +71,6 @@
                                            class="active"
                                            href="javascript:void(0)"><img src="src/images/xue.png" /></a>
                                     </li>
-                                    <!-- <li>
-                                <a id="tab_ch2"
-                                   href="javascript:void(0)"><img src="src/images/lian.png" /></a>
-                            </li> -->
                                 </ul>
                                 <ul class="tab_con tabcon_sy">
                                     <li id="tabcon1">
@@ -88,13 +90,7 @@
                              class="munebtna"
                              data-zt="a"></div>
                         <div id="pagecon"
-                             style=" min-width: 900px; height: 500px;float: left">
-                            <iframe frameBorder="0"
-                                    id="innerTarget"
-                                    name="innerTarget"
-                                    scrolling="no"
-                                    src="iframe2.htm"
-                                    style="width: 100%; height: 100%"></iframe>
+                             style=" min-width: 800px; height: 500px;float: left">
                         </div>
                     </div>
                 </div>
@@ -144,10 +140,27 @@
                     $('#cite').html(res.data.cite == 0 ? '否' : '是')
                     $('#userName').html(res.data.userName)
                     $('#require').html(res.data.require)
-                    //                    $('#resourceUrl').html(res.data.resourceUrl)
 
-                    debugger
-                    if (res.data.dataType === 2) {
+                    fileUrl =
+                        conf.fileRequestUrl +
+                        '/' +
+                        JSON.parse(res.data.resourceIds)[0].url
+
+                    if (res.data.dataType !== 7) {
+                        $('.unScorm-inner').show()
+                    } else {
+                        $('#showTip').show()
+                    }
+
+                    if (res.data.dataType == 1) {
+                        // 文档
+                        $('#fileUrl').html(
+                            '<iframe src="' +
+                            fileUrl +
+                            '" width="100%" height="500px" frameborder="1"></iframe>'
+                        )
+                    } else if (res.data.dataType == 2) {
+                        // 图片
                         var list = JSON.parse(res.data.resourceIds),
                             str = ''
                         for (var i = 0; i < list.length; i++) {
@@ -159,27 +172,6 @@
                                 '">'
                         }
                         $('#fileUrl').html(str)
-                        return
-                    }
-                    fileUrl =
-                        conf.fileRequestUrl +
-                        '/' +
-                        JSON.parse(res.data.resourceIds)[0].url
-
-                    if (res.data.dataType == 1) {
-                        // 文档
-                        $('#fileUrl').html(
-                            '<iframe src="' +
-                            fileUrl +
-                            '" width="100%" height="500px" frameborder="1"></iframe>'
-                        )
-                    } else if (res.data.dataType == 2) {
-                        // 图片
-                        $('#fileUrl').html(
-                            '<img src="' +
-                            fileUrl +
-                            '" style="width: 100%; height: 100%;">'
-                        )
                     } else if (res.data.dataType == 3) {
                         // 视频
                         $('#fileUrl').html(
@@ -199,7 +191,6 @@
                     } else if (res.data.dataType == 6) {
                         // U3D
                         $('#fileUrl').html('')
-                        //                        var jsonFile = JSON.parse(res.data.fileUrl).json
                         UnityLoader.instantiate('fileUrl', fileUrl, {
                             onProgress: UnityProgress
                         })
@@ -306,8 +297,12 @@
 
     .source-display {
         width: 100%;
-        /* height: 500px; */
-        /* background: rgba(0, 0, 0, 0.2); */
+        height: 500px;
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    .source-display.unScorm-inner{
+        display: none;
     }
 
     #source-manage-details .layui-form-item span {

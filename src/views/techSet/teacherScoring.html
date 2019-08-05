@@ -31,6 +31,11 @@
                 <div class="layui-col-md9">
                     <div id="require"
                          style="line-height: 38px;"></div>
+                    <div class="source-display unScorm-inner">
+                        <div class="webgl-content"
+                             id="fileUrl"
+                             style="width: 100%; height: 500px;"></div>
+                    </div>
                     <div style=" display: none; color: red;"
                          id="showTip">
                         <div>推荐使用360浏览器兼容模式或者IE9以上</div>
@@ -38,7 +43,8 @@
                            style="color: red;text-decoration: underline;">若加载失败，点击安装Cult3D插件</a>
                     </div>
                     <div class="source-display"
-                         id="fileUrl">
+                         id="scorm_fileUrl"
+                         style="display: none">
                         <div id="mune_area">
                             <div class="tab_a"
                                  id="tab_b">
@@ -67,13 +73,7 @@
                              class="munebtna"
                              data-zt="a"></div>
                         <div id="pagecon"
-                             style=" min-width: 900px; height: 500px;float: left">
-                            <iframe frameBorder="0"
-                                    id="innerTarget"
-                                    name="innerTarget"
-                                    scrolling="no"
-                                    src="iframe2.htm"
-                                    style="width: 100%; height: 100%"></iframe>
+                             style=" min-width: 800px; height: 500px;float: left">
                         </div>
                     </div>
                 </div>
@@ -182,7 +182,12 @@
                         .experimentProportion / 100)
                     $('#labReport').html(data.labReport)
                     $('#content').val(data.content)
-                    dataType = res.data.dataType
+
+                    if (res.data.dataType !== 7) {
+                        $('.unScorm-inner').show()
+                    } else {
+                        $('#showTip').show()
+                    }
 
                     if (res.data.dataType == 1) {
                         // 文档
@@ -351,6 +356,10 @@
         width: 100%;
         height: 415px;
         background: rgba(0, 0, 0, 0.2);
+    }
+
+    .source-display.unScorm-inner{
+        display: none;
     }
 
     #virtualTest-details .layui-form-item span {
