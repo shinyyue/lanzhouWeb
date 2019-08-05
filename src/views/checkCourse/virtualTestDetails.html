@@ -2,8 +2,10 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>选课 > <span id="courseNameNav"></span> > 虚拟实验 >
-                虚拟实验列表 > 虚拟实验信息</span>
+            <span
+                >选课 > <span id="courseNameNav"></span> > 虚拟实验 >
+                虚拟实验列表 > 虚拟实验信息</span
+            >
         </div>
     </div>
     <div class="source-details-inner">
@@ -22,8 +24,7 @@
             </div>
         </div>
 
-        <div class="layui-row"
-             id="noadd">
+        <div class="layui-row" id="noadd">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label ">实验成绩</label>
                 <span id="experimentRatio"></span>
@@ -38,32 +39,37 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">实验要求</label>
                 <div class="layui-col-md9">
-                    <div id="require"
-                         style="line-height: 38px;">
-                    </div>
-                    <div class="source-display"
-                         id="fileUrl"
-                         style="display: none; overflow: scroll; "></div>
-                    <div class="source-display"
-                         id="scorm_fileUrl"
-                         style="display: none">
+                    <div id="require" style="line-height: 38px;"></div>
+                    <div
+                        class="source-display"
+                        id="fileUrl"
+                        style="display: none; overflow: scroll; "
+                    ></div>
+                    <div
+                        class="source-display"
+                        id="scorm_fileUrl"
+                        style="display: none"
+                    >
                         <div id="mune_area">
-                            <div class="tab_a"
-                                 id="tab_b">
+                            <div class="tab_a" id="tab_b">
                                 <ul class="tab1 tab1ys">
                                     <li>
-                                        <a id="tab_ch1"
-                                           class="active"
-                                           href="javascript:void(0)"><img src="src/images/xue.png" /></a>
+                                        <a
+                                            id="tab_ch1"
+                                            class="active"
+                                            href="javascript:void(0)"
+                                            ><img src="src/images/xue.png"
+                                        /></a>
                                     </li>
                                 </ul>
                                 <ul class="tab_con tabcon_sy">
                                     <li id="tabcon1">
-                                        <div class="munebtnlist"
-                                             id="tabcon1_menulist"></div>
+                                        <div
+                                            class="munebtnlist"
+                                            id="tabcon1_menulist"
+                                        ></div>
                                     </li>
-                                    <li id="tabcon2"
-                                        class="hidden">
+                                    <li id="tabcon2" class="hidden">
                                         <div class="munebtnlist">
                                             <div id="tabcon2_menulist"></div>
                                         </div>
@@ -71,45 +77,45 @@
                                 </ul>
                             </div>
                         </div>
-                        <div id="mune_btn"
-                             class="munebtna"
-                             data-zt="a"></div>
-                        <div id="pagecon"
-                             style=" min-width: 900px; height: 500px;float: left">
-                            <iframe frameBorder="0"
-                                    id="innerTarget"
-                                    name="innerTarget"
-                                    scrolling="no"
-                                    src="iframe2.htm"
-                                    style="width: 100%; height: 100%"></iframe>
+                        <div id="mune_btn" class="munebtna" data-zt="a"></div>
+                        <div
+                            id="pagecon"
+                            style=" min-width: 900px; height: 500px;float: left">
+                            <iframe
+                                frameBorder="0"
+                                id="innerTarget"
+                                name="innerTarget"
+                                scrolling="no"
+                                src="iframe2.htm"
+                                style="width: 100%; height: 100%"
+                            ></iframe>
                         </div>
                     </div>
-                    <div>
+                    <div style=" display: none; color: red;" id="showTip">
+                        <div>推荐使用360浏览器兼容模式或者IE9以上</div>
                         <a href="http://39.104.97.6:8080/dataBank/exportCult3D"
-                           style="color: red; display: none; text-decoration: underline;"
-                           id="showTip">若加载失败，点击安装Cult3D插件</a>
+                            style="color: red;text-decoration: underline;">若加载失败，点击安装Cult3D插件</a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="layui-row"
-             id="labReportDiv">
+        <div class="layui-row" id="labReportDiv">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">实验报告</label>
                 <div class="layui-col-md9">
-                    <div class="layui-col-md10"
-                         id="labReport"></div>
+                    <div class="layui-col-md10" id="labReport"></div>
                 </div>
             </div>
         </div>
-        <div class="layui-row"
-             id="labReportAddressDiv">
+        <div class="layui-row" id="labReportAddressDiv">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">上传实验报告</label>
                 <div class="layui-col-md9">
-                    <button type="button"
-                            class="layui-btn"
-                            id="labReportAddress">
+                    <button
+                        type="button"
+                        class="layui-btn"
+                        id="labReportAddress"
+                    >
                         <i class="layui-icon">&#xe67c;</i>上传PDF
                         <span id="file_path"></span>
                     </button>
@@ -128,16 +134,21 @@
                 <div>
                     <div class="layui-btn primary-btn"
                          lay-submit
-                         id="save">
-                        暂存
+                         id="download">
+                        下载
                     </div>
                     <div class="layui-btn primary-btn"
                          lay-submit
-                         id="submit">
+                         id="save">
+                        暂存
+                    </div>
+                    <div class="layui-btn primary-btn" lay-submit id="submit">
                         提交
                     </div>
-                    <div class="layui-btn layui-btn-primary cancel-btn"
-                         id="back">
+                    <div
+                        class="layui-btn layui-btn-primary cancel-btn"
+                        id="back"
+                    >
                         返回
                     </div>
                 </div>
@@ -150,7 +161,7 @@
 <script src="src/plugins/resource_url.js"></script>
 <script src="menutree/menuTree.js"></script>
 <script>
-    layui.use(['form', 'admin', 'layedit', 'upload'], function () {
+    layui.use(['form', 'admin', 'layedit', 'upload'], function() {
         var $ = layui.jquery,
             admin = layui.admin,
             layedit = layui.layedit,
@@ -158,7 +169,7 @@
             conf = layui.conf,
             route = layui.router(),
             curriculumExperimentId = layui.data('course')
-            .curriculumExperimentId, // 实验课程课程id
+                .curriculumExperimentId, // 实验课程课程id
             experimentId = layui.data('course').experimentId, // 实验id
             curriculumId = layui.data('course').coursePlanId, // 课程id
             type = route.search.type,
@@ -167,6 +178,7 @@
             testContent, // 资源快照状态
             dataType = 0, // 资源类型
             scromeChosenNode // scrome 选中node信息
+            ,details = {}
 
         $('#save').on('click', () => save())
         $('#submit').on('click', () => submit())
@@ -174,11 +186,13 @@
 
         getDetails = () => {
             admin.get({
-                url: '/vsMpTestRecord/startReLookTest?curriculumExperimentId=' +
+                url:
+                    '/vsMpTestRecord/startReLookTest?curriculumExperimentId=' +
                     curriculumExperimentId,
-                success: function (res) {
+                success: function(res) {
                     if (!res.data) return
                     var data = res.data
+                    details = data
                     $('#curriculumExperimentName').html(
                         data.curriculumExperimentName
                     )
@@ -190,6 +204,15 @@
                     $('#testTotleTime').html(data.testTotleTime)
                     dataType = res.data.dataType
 
+                    //点击下载
+                    $('#download').on('click', function () {
+                        if (data.dataType != 5) {
+                            layer.msg('此类型不支持下载')
+                            return
+                        }
+                        download()
+
+                    })
                     if (dataType !== 7) {
                         $('#fileUrl').show()
                     } else {
@@ -203,8 +226,8 @@
                             JSON.parse(res.data.resourceIds)[0].url
                         $('#fileUrl').html(
                             '<iframe src="' +
-                            fileUrl +
-                            '" width="100%" height="100%" frameborder="1"></iframe>'
+                                fileUrl +
+                                '" width="100%" height="100%" frameborder="1"></iframe>'
                         )
                     } else if (res.data.dataType == 2) {
                         // 图片
@@ -230,8 +253,8 @@
                             JSON.parse(res.data.resourceIds)[0].url
                         $('#fileUrl').html(
                             '<embed src="' +
-                            fileUrl +
-                            '" type="application/x-shockwave-flash" style="width: 100%; height: 100%;" quality="high" />'
+                                fileUrl +
+                                '" type="application/x-shockwave-flash" style="width: 100%; height: 100%;" quality="high" />'
                         )
                     } else if (res.data.dataType == 5) {
                         // exe
@@ -297,14 +320,14 @@
         getDetails()
 
         // 渲染视频
-        renderVideo = function (data) {
+        renderVideo = function(data) {
             testContent = data.testContent || 0
             var fileUrl =
                 conf.fileRequestUrl + '/' + JSON.parse(data.resourceIds)[0].url
             $('#fileUrl').html(
                 '<video src="' +
-                fileUrl +
-                '" controls="controls" id="file_video_detail" style="width: 100%; height: 100%;" />'
+                    fileUrl +
+                    '" controls="controls" id="file_video_detail" style="width: 100%; height: 100%;" />'
             )
             var fileVideoDetail = document.getElementById('file_video_detail')
             fileVideoDetail.currentTime = testContent
@@ -314,7 +337,7 @@
         }
 
         // 渲染scrome
-        renderScrome = function (data) {
+        renderScrome = function(data) {
             $('#scorm_fileUrl').show()
             // scorm课件
             var sourceList = JSON.parse(data.resourceIds)[0].url
@@ -331,7 +354,7 @@
                 var nameRate = ''
                 if (
                     sourceList.filter(s => s.parentId === sourceList[i].id)
-                    .length == 0
+                        .length == 0
                 ) {
                     var nameStudented = Math.min(
                         testContent[sourceList[i].id] || 0,
@@ -354,10 +377,10 @@
                 )
             }
             createtree('tabcon1_menulist')
-            $('.menu-list').click(function () {
+            $('.menu-list').click(function() {
                 changeScromeNode($(this).data('id'), $(this).data('href'))
             })
-            munebtn.onclick = function () {
+            munebtn.onclick = function() {
                 var p = $('#pagecon')
                 if (this.getAttribute('data-zt') == 'a') {
                     mune.style.display = 'none'
@@ -378,7 +401,7 @@
         }
 
         // scrome 切换节点
-        changeScromeNode = function (id, href) {
+        changeScromeNode = function(id, href) {
             var list = sourceList[0].sourceName.split('.')
             var type = list[list.length - 1]
             if (type === 'swf') {
@@ -391,7 +414,7 @@
                 // 非初次点击叶子节点
                 testContent[scromeChosenNode.id] =
                     (now.getTime() - scromeChosenNode.startTime.getTime()) /
-                    1000 +
+                        1000 +
                     (testContent[scromeChosenNode.id] || 0)
             }
             scromeChosenNode = {
@@ -401,7 +424,7 @@
         }
 
         // 暂存
-        save = function () {
+        save = function() {
             var endDate = new Date()
             var labReport = layedit.getContent(reportIndex) || ''
             var data = {
@@ -433,7 +456,7 @@
         }
 
         // 提交
-        submit = function () {
+        submit = function() {
             var endDate = new Date()
             var labReport = layedit.getContent(reportIndex) || ''
             var data = {
@@ -465,7 +488,7 @@
             data: {
                 type: 1
             },
-            done: function (res) {
+            done: function(res) {
                 if (res.code === 401) {
                     admin.logout()
                 } else if (res.code === 200) {
@@ -476,7 +499,7 @@
                 }
                 layer.closeAll('loading') //关闭loading
             },
-            error: function (err) {
+            error: function(err) {
                 layer.msg(err.msg || '上传失败')
                 layer.closeAll('loading') //关闭loading
             }
@@ -497,11 +520,22 @@
                 '" antialiasing="0" type="application/x-cult3d-object"></embed>' +
                 '</object>'
         }
-    })
 
+        function download() {
+            debugger
+            window.open(
+                conf.requestUrl +
+                '/dataBank/downloadFile?filePath=' +
+                JSON.parse(details.resourceIds)[0].url+
+                '&id=' +
+                JSON.parse(details.resourceIds)[0].id
+            )
+        }
+    })
 </script>
 <style>
-    #virtualTest-details {}
+    #virtualTest-details {
+    }
 
     .source-details-inner {
         padding: 20px 0;
@@ -515,7 +549,7 @@
     }
 
     #virtualTest-details .source-display::-webkit-scrollbar {
-        width:12px;
+        width: 12px;
     }
 
     #virtualTest-details .layui-form-item span {
@@ -528,7 +562,8 @@
         width: 100%;
     }
 
-    #source-manage-details #fileUrl {}
+    #source-manage-details #fileUrl {
+    }
 
     .source-details-inner {
         padding: 20px 0;
@@ -650,5 +685,4 @@
         overflow: visible;
         display: block;
     }
-
 </style>
