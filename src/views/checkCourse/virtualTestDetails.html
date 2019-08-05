@@ -118,7 +118,7 @@
                         id="labReportAddress"
                     >
                         <i class="layui-icon">&#xe67c;</i>上传PDF
-                        <span id="file_path"></span>
+                        <span id="file_path" style="overflow: hidden;"></span>
                     </button>
                 </div>
             </div>
@@ -263,8 +263,8 @@
                     } else if (res.data.dataType == 6) {
                         // U3D
                         $('#fileUrl').html('')
-                        //                        var jsonFile = JSON.parse(res.data.fileUrl).json
-                        UnityLoader.instantiate('fileUrl', fileUrl, {
+                        var jsonFile = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url.json
+                        UnityLoader.instantiate('fileUrl', jsonFile, {
                             onProgress: UnityProgress
                         })
                     } else if (res.data.dataType == 7) {
@@ -544,9 +544,10 @@
 
     #virtualTest-details .source-display {
         width: 100%;
-        height: 415px;
+        height: 500px;
         background: rgba(0, 0, 0, 0.2);
         margin-bottom: 20px;
+        position: relative;
     }
 
     #virtualTest-details .source-display.unScorm-inner{
@@ -558,29 +559,6 @@
     }
 
     #virtualTest-details .layui-form-item span {
-        display: inline-block;
-        padding: 9px 0px;
-        font-size: 16px;
-    }
-
-    .layui-textarea {
-        width: 100%;
-    }
-
-    #source-manage-details #fileUrl {
-    }
-
-    .source-details-inner {
-        padding: 20px 0;
-    }
-
-    .source-display {
-        width: 100%;
-        height: 500px;
-        background: rgba(0, 0, 0, 0.2);
-    }
-
-    #source-manage-details .layui-form-item span {
         display: inline-block;
         padding: 9px 0px;
         font-size: 16px;

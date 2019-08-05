@@ -226,7 +226,6 @@
                         $('#fileUrl').hide()
                     } else if (data.type == 6) {
                         // U3D
-                        // $('#fileUrl').html('')
                         var jsonFile = JSON.parse(data.fileUrl).json
                         UnityLoader.instantiate(
                             'fileUrl',

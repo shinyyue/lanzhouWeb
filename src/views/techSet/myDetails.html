@@ -191,7 +191,8 @@
                     } else if (res.data.dataType == 6) {
                         // U3D
                         $('#fileUrl').html('')
-                        UnityLoader.instantiate('fileUrl', fileUrl, {
+                        var jsonFile = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url.json
+                        UnityLoader.instantiate('fileUrl', jsonFile, {
                             onProgress: UnityProgress
                         })
                     } else if (res.data.dataType == 7) {
@@ -299,6 +300,7 @@
         width: 100%;
         height: 500px;
         background: rgba(0, 0, 0, 0.2);
+        position: relative;
     }
 
     .source-display.unScorm-inner{
