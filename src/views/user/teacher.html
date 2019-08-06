@@ -199,7 +199,7 @@
             var options = ''
             res.data &&
                 res.data.items &&
-                res.data.items.forEach(item => {
+                res.data.items.forEach(function (item)  {
                     options +=
                         '<option value="' +
                         item.id +
@@ -281,7 +281,7 @@
                     ) {
                         collegeList = res.data.items
                         var options = ''
-                        res.data.items.forEach(item => {
+                        res.data.items.forEach(function (item)  {
                             options +=
                                 '<option value="' +
                                 item.id +
@@ -575,7 +575,7 @@
                 series = '',
                 classes = '',
                 profe = ''
-            collegeList.forEach(item => {
+            collegeList.forEach(function (item) {
                 col +=
                     '<option value="' +
                     item.id +
@@ -589,7 +589,7 @@
                 getSeriesList(function (res) {
                     res.data &&
                         res.data.items &&
-                        res.data.items.forEach(item => {
+                        res.data.items.forEach(function (item) {
                             series +=
                                 '<option value="' +
                                 item.id +
@@ -605,7 +605,7 @@
                 getProfessList(function (res) {
                     res.data &&
                         res.data.items &&
-                        res.data.items.forEach(item => {
+                        res.data.items.forEach(function (item) {
                             profe +=
                                 '<option value="' +
                                 item.id +
@@ -621,7 +621,7 @@
                 getClassList(function (res) {
                     res.data &&
                         res.data.items &&
-                        res.data.items.forEach(item => {
+                        res.data.items.forEach(function (item) {
                             classes +=
                                 '<option value="' +
                                 item.id +
@@ -638,7 +638,7 @@
         function setSelectOptions() {
             $('#college_model').html('')
             var col = ''
-            collegeList.forEach(item => {
+            collegeList.forEach(function (item) {
                 col +=
                     '<option value="' +
                     item.id +

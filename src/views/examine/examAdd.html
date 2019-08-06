@@ -283,7 +283,7 @@
                     $('#curriculumId').html('<option value="">请选择</option>')
                     res.data &&
                         res.data.items &&
-                        res.data.items.forEach(item => {
+                        res.data.items.forEach(function (item) {
                             $('#curriculumId').append(
                                 '<option value="' +
                                 item.id +
@@ -326,7 +326,7 @@
         function addData() {
             var optionObj = {}
             var answer = []
-            optionList.forEach((item, index) => {
+            optionList.forEach(function (item, index) {
                 $('input[name=optContent]').each(function (k) {
                     if (index === k) {
                         item.content = $(this).val()
@@ -375,7 +375,7 @@
         function updateData() {
             var optionObj = {}
             var answer = []
-            optionList.forEach((item, index) => {
+            optionList.forEach(function (item, index) {
                 $('input[name=optContent]').each(function (k) {
                     if (index === k) {
                         item.content = $(this).val()

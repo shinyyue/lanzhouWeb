@@ -211,7 +211,7 @@
             var options = ''
             res.data &&
                 res.data.items &&
-                res.data.items.forEach(item => {
+                res.data.items.forEach(function (item) {
                     options +=
                         '<option value="' +
                         item.id +
@@ -251,7 +251,7 @@
                 var options = ''
                 res.data &&
                     res.data.items &&
-                    res.data.items.forEach(item => {
+                    res.data.items.forEach(function (item) {
                         options +=
                             '<option value="' +
                             item.id +
@@ -268,7 +268,7 @@
                 var options = ''
                 res.data &&
                     res.data.items &&
-                    res.data.items.forEach(item => {
+                    res.data.items.forEach(function (item) {
                         options +=
                             '<option value="' +
                             item.id +
@@ -285,7 +285,7 @@
                 var options = ''
                 res.data &&
                     res.data.items &&
-                    res.data.items.forEach(item => {
+                    res.data.items.forEach(function (item) {
                         options +=
                             '<option value="' +
                             item.id +
@@ -352,7 +352,7 @@
                         var options = ''
 
                         res.data.items &&
-                            res.data.items.forEach(item => {
+                            res.data.items.forEach(function (item) {
                                 options +=
                                     '<option value="' +
                                     item.id +
@@ -397,7 +397,7 @@
                     ) {
                         collegeList = res.data.items
                         var options = ''
-                        res.data.items.forEach(item => {
+                        res.data.items.forEach(function (item) {
                             options +=
                                 '<option value="' +
                                 item.id +
@@ -751,7 +751,7 @@
                 classes = '',
                 profe = ''
 
-            collegeList.forEach(item => {
+            collegeList.forEach( {
                 col +=
                     '<option value="' +
                     item.id +
@@ -768,7 +768,7 @@
                     $('#series_model').html('<option value="">请选择</option>')
                     res.data &&
                         res.data.items &&
-                        res.data.items.forEach(item => {
+                        res.data.items.forEach(function (item) {
                             series +=
                                 '<option value="' +
                                 item.id +
@@ -786,7 +786,7 @@
                     $('#profess_model').html('<option value="">请选择</option>')
                     res.data &&
                         res.data.items &&
-                        res.data.items.forEach(item => {
+                        res.data.items.forEach(function (item) {
                             profe +=
                                 '<option value="' +
                                 item.id +
@@ -804,7 +804,7 @@
                     $('#classes_model').html('<option value="">请选择</option>')
                     res.data &&
                         res.data.items &&
-                        res.data.items.forEach(item => {
+                        res.data.items.forEach(function (item) {
                             classes +=
                                 '<option value="' +
                                 item.id +

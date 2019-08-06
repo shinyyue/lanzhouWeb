@@ -205,7 +205,7 @@
                             type: 'scroll',
                             orient: 'horizontal',
                             bottom: 20,
-                            data: res.data.map(item => item.faculty_name)
+                            data: res.data.map(function (item) {item.faculty_name)}
                         },
                         series: [
                             {

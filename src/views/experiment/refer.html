@@ -172,7 +172,7 @@
                     ) {
                         var options = ''
                         res.data.items &&
-                        res.data.items.forEach(item => {
+                        res.data.items.forEach(function (item) {
                             options +=
                                 '<option value="' +
                                 item.id +
@@ -214,7 +214,7 @@
                     ) {
                         var options = ''
                         res.data.items &&
-                        res.data.items.forEach(item => {
+                        res.data.items.forEach( function (item) {
                             options +=
                                 '<option value="' +
                                 item.id +

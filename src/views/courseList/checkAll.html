@@ -283,7 +283,7 @@
                     if (res.data.items && res.data.items.length > 0) {
                         collegeList = res.data.items
                         var options = ''
-                        res.data.items.forEach(item => {
+                        res.data.items.forEach(function (item) {
                             options += '<option value="' + item.id + '">' + item
                                 .collegeName +
                                 '</option>'
@@ -314,7 +314,7 @@
         function setSelectOptions() {
             $('#college_model').html('')
             var col = ''
-            collegeList.forEach(item => {
+            collegeList.forEach(function (item) {
                 col += '<option value="' + item.id + '">' + item.collegeName + '</option>'
             })
             $('#college_model').html(col)
