@@ -846,17 +846,13 @@
             })
 
             form.on('select(roleChange)', function (obj) {
-                if (obj.value == 2) {
+                if (obj.value == 1) {
                     $('.role-student').css({
-                        display: 'none'
-                    })
-                } else if (obj.value == 3) {
-                    $('.role-student').css({
-                        display: 'none'
+                        display: 'block'
                     })
                 } else {
                     $('.role-student').css({
-                        display: 'block'
+                        display: 'none'
                     })
                 }
             })
