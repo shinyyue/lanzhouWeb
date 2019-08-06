@@ -43,7 +43,9 @@
                         field: 'id',
                         width: 80,
                         align: 'center',
-                        templet: d => d.LAY_TABLE_INDEX + 1
+                        templet: function(d) {
+                            return d.LAY_TABLE_INDEX + 1
+                        }
                     },
                     {
                         title: '学生姓名',
@@ -77,8 +79,9 @@
                         title: '累计时长',
                         align: 'totleTime',
                         width: 120,
-                        templet: d => Math.floor(d.totleTime / 3600) + ":" + Math.floor(d
-                            .totleTime % 3600 / 60) + ":" + d.totleTime % 60
+                        templet: function(d){
+                            return Math.floor(d.totleTime / 3600) + ":" + Math.floor(d.totleTime % 3600 / 60) + ":" + d.totleTime % 60
+                        }
                     }
                 ]
             ]
@@ -108,7 +111,7 @@
             }
         }
 
-        getList = page => {
+        getList = function(page) {
             admin.post({
                 url: '/curriculumExperiment/queryTestResult',
                 data: JSON.stringify({
