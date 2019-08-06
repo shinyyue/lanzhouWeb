@@ -23,6 +23,7 @@
                 <label class="layui-form-label require">策略名称</label>
                 <input type="text"
                        name="strategyName"
+                       id="strategyName"
                        class="common-form-input" />
             </div>
         </div>
@@ -213,7 +214,16 @@
                     // merge(res, curr, count)
                 }
             },
-            knowlegeList = []
+            knowlegeList = [],
+            route = layui.router(),
+            id = route.search.id
+
+
+        if (id) {
+            setTimeout(function() {
+                getDetails()
+            }, 1000)
+        }
 
         form.render()
 
@@ -229,10 +239,6 @@
             window.history.back(-1)
         })
 
-        /*$("#knowlegePointChange").click(function () {
-            
-            getKnowlegeList()
-        })*/
         form.on('select(knowlegePointChange)', function (obj) {
             $('.layui-table-body').css('overflow', 'visible')
             $('.layui-table-box').css({
@@ -568,6 +574,19 @@
                 },
                 error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        function getDetails() {
+            admin.get({
+                url: '/strategy/queryById?id=' + id,
+                success: function(res) {
+                    if (res.code === 200) {
+                        console.log(res)
+                        $('#strategyName').val(res.data.strategyName || '')
+                        $('#curriculumId').val(res.data.curriculumId || '')
+                    }
                 }
             })
         }
