@@ -278,7 +278,9 @@
                             // 管理员
                         case 3:
                             admin.navigate('/user/all')
-                            break
+                            break;
+                        default:
+                            admin.navigate('/user/all')
                     }
                     layui.data('user', {
                         key: 'role',
