@@ -192,6 +192,7 @@
                     } else if (res.data.dataType == 5) {
                         // exe
                         $('#fileUrl').hide()
+                        $('.unScorm-inner').hide();
                     } else if (res.data.dataType == 6) {
                         // U3D
                         fileUrl =  conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url.json;
