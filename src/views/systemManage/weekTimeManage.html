@@ -228,7 +228,7 @@
 
         $('#add_week-time').on('click', function() {
             getSchoolYearList(function() {})
-            setTimeout(() => {
+            setTimeout(function () {
                 laydate.render({
                     elem: '#startTime',
                     type: 'date'

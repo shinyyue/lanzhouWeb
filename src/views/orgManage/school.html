@@ -316,7 +316,7 @@
                 success: function (res) {
                     if (res.code === 200) {
                         $('#collegeId').html('<option>请选择学院</option>')
-                        res.data.items.forEach(item => {
+                        res.data.items.forEach(function (item) {
                             $('#collegeId').append(
                                 '<option value="' +
                                 item.id +

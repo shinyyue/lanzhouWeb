@@ -212,7 +212,7 @@
                     $('#strategyId').html('')
                     res.data &&
                         res.data.items &&
-                        res.data.items.forEach(item => {
+                        res.data.items.forEach(function (item)  {
                             $('#strategyId').append('<option ' + (chosenId == item.id ?
                                     'selected' : '') + ' value="' + item.id + '">' + item
                                 .strategyName + '</option>')

@@ -181,11 +181,17 @@
             scromeChosenNode // scrome 选中node信息
             ,details = {}
 
-        $('#save').on('click', () => save())
-        $('#submit').on('click', () => submit())
-        $('#back').on('click', () => window.history.go(-1))
+        $('#save').on('click', function (){
+            save()
+        })
+        $('#submit').on('click', function () {
+            submit()
+        })
+        $('#back').on('click', function () {
+            window.history.go(-1)
+        })
 
-        getDetails = () => {
+        getDetails = function ()  {
             admin.get({
                 url:
                     '/vsMpTestRecord/startReLookTest?curriculumExperimentId=' +
@@ -332,9 +338,12 @@
             )
             var fileVideoDetail = document.getElementById('file_video_detail')
             fileVideoDetail.currentTime = testContent
-            fileVideoDetail.onpause = () =>
+            fileVideoDetail.onpause = function () {
                 (testContent = fileVideoDetail.currentTime)
-            fileVideoDetail.onended = () => (testContent = 0)
+            }
+            fileVideoDetail.onended = function () {
+                (testContent = 0)
+            }
         }
 
         // 渲染scrome
@@ -354,7 +363,7 @@
 
                 var nameRate = ''
                 if (
-                    sourceList.filter(s => s.parentId === sourceList[i].id)
+                    sourceList.filter(function(s){s.parentId === sourceList[i].id})
                         .length == 0
                 ) {
                     var nameStudented = Math.min(
@@ -444,7 +453,7 @@
             admin.post({
                 url: '/testStaging/add',
                 data: JSON.stringify(data),
-                success: res => {
+                success: function (res) {
                     if (res.code === 200) {
                         layer.msg('暂存成功！')
                         window.history.back(-1)
@@ -452,7 +461,9 @@
                         layer.msg((res && res.msg) || '添加失败')
                     }
                 },
-                error: err => layer.msg((err && err.msg) || '数据请求失败')
+                error: function (err){
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
             })
         }
 
@@ -473,11 +484,13 @@
             admin.post({
                 url: '/vsMpTestRecord/addMpObject',
                 data: JSON.stringify(data),
-                success: res => {
+                success: function (res) {
                     layer.msg('提交成功')
                     window.history.back(-1)
                 },
-                error: err => layer.msg((err && err.msg) || '数据请求失败')
+                error: function (err){
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
             })
         }
         //文件上传

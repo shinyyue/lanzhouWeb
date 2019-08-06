@@ -92,7 +92,7 @@
                     $('#createTime').html(admin.dateFormat(new Date(res.data.createTime).getTime() /
                         1000))
                     strategyEntries = res.data.list
-                    strategyEntries.forEach(item => {
+                    strategyEntries.forEach(function (item) {
                         $('#ploy_details_table').append('<tr>\n' + '   <td>\n' + '      ' +
                             item.knowledgePointName + '\n' + '   </td>\n' +
                             '   <td>\n' +

@@ -201,7 +201,7 @@
         //     </div>
         getCollegeList(function (res) {
             var options = ''
-            res.data.items.forEach(item => {
+            res.data.items.forEach(function (item) {
                 options += '<option value="' + item.id + '">' + item.collegeName + '</option>'
             })
             $('#college').val('')
@@ -216,7 +216,7 @@
             getSeriesList(function (res) {
                 var options = ''
                 $('#series').html('<option value="">请选择</option>')
-                res.data.items.forEach(item => {
+                res.data.items.forEach(function (item) {
                     options += '<option value="' + item.id + '">' + item.facultyName +
                         '</option>'
                 })
@@ -227,7 +227,7 @@
             getProfessList(function (res) {
                 var options = ''
                 $('#profession').html('<option value="">请选择</option>')
-                res.data.items.forEach(item => {
+                res.data.items.forEach(function (item) {
                     options += '<option value="' + item.id + '">' + item
                         .professionName +
                         '</option>'
@@ -239,7 +239,7 @@
             getClassList(function (res) {
                 var options = ''
                 $('#classes').html('<option value="">请选择</option>')
-                res.data.items.forEach(item => {
+                res.data.items.forEach(function (item) {
                     options += '<option value="' + item.id + '">' + item.className +
                         '</option>'
                 })
@@ -288,7 +288,7 @@
                     if (res.data.items && res.data.items.length > 0) {
                         collegeList = res.data.items
                         var options = ''
-                        res.data.items.forEach(item => {
+                        res.data.items.forEach(function (item) {
                             options += '<option value="' + item.id + '">' + item
                                 .collegeName +
                                 '</option>'
@@ -504,14 +504,14 @@
                 series = '',
                 classes = '',
                 profe = ''
-            collegeList.forEach(item => {
+            collegeList.forEach(function (item) {
                 col += '<option value="' + item.id + '">' + item.collegeName + '</option>'
             })
             $('#college_model').html(col)
             form.render('select')
             form.on('select(college)', function (data) {
                 getSeriesList(function (res) {
-                    res.data.items.forEach(item => {
+                    res.data.items.forEach(function (item) {
                         series += '<option value="' + item.id + '">' + item
                             .facultyName +
                             '</option>'
@@ -522,7 +522,7 @@
             })
             form.on('select(series)', function (data) {
                 getProfessList(function (res) {
-                    res.data.items.forEach(item => {
+                    res.data.items.forEach(function (item) {
                         profe += '<option value="' + item.id + '">' + item
                             .professionName +
                             '</option>'
@@ -533,7 +533,7 @@
             })
             form.on('select(profess)', function (data) {
                 getClassList(function (res) {
-                    res.data.items.forEach(item => {
+                    res.data.items.forEach(function (item) {
                         classes += '<option value="' + item.id + '">' + item.className +
                             '</option>'
                     })
@@ -652,7 +652,7 @@
                 data: JSON.stringify(data),
                 success: function (res) {
                     $('#roleId').html('<option value="">请选择角色</option>')
-                    res.data && res.data.items && res.data.items.forEach(item => {
+                    res.data && res.data.items && res.data.items.forEach(function (item) {
                         $('#roleId').append('<option value="' + item.id + '">' + item
                             .roleName +
                             '</option>')

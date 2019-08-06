@@ -116,9 +116,10 @@
                 success: function (res) {
                     $('#publish').html(res.data.publish == 0 ? '否' : '是')
                     $('#name').html(res.data.name)
-                    $('#strategyId').html(res.data.strategyId)
-                    $('#curriculumId').html(res.data.curriculumId)
+                    $('#strategyId').html(res.data.strategyName)
+                    $('#curriculumId').html(res.data.curriculumName)
                     $('#testTime').html(res.data.testTime)
+                    $('#userName').html(res.data.userName)
                     $('#startTime').html(admin.dateFormat(new Date(res.data.startTime).getTime() /
                         1000))
                     $('#endTime').html(admin.dateFormat(new Date(res.data.endTime).getTime() /
