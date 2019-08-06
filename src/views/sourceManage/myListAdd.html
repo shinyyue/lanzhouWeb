@@ -49,8 +49,7 @@
                 </button>
                 <span id="file_path" style=" display: none;"></span>
                 <span style="margin-left: 50px; color: red;"
-                    >注：U3D上传zip、rar文件包； exe上传压缩包</span
-                >
+                      id="typeTip"></span>
                 <!-- <input
                     type="text"
                     id="upload_wrapper"
@@ -70,7 +69,7 @@
                             <li>
                                 <span
                                     style="width: 100px; margin-left: 10px; color: red;"
-                                    >说明：1.目录节点无资源，无需添加；2.时长最大不超过10分钟
+                                    >说明：1.目录节点无资源，无需添加；2.时长最大不超过10分钟；3.请上传zip格式的压缩包, 且文件大小不得超过1G
                                 </span>
                             </li>
                         </ul>
@@ -264,7 +263,7 @@
             id = route.search.id,
             singlUploadOption = {
                 page: false,
-                limit: 200,
+                // limit: 200,
                 elem: '[lay-filter="single_upload_table"]',
                 data: JSON.parse(JSON.stringify(tableData)),
                 cols: [
@@ -439,9 +438,7 @@
             })
         })
         form.on('select(typeChange)', function(obj) {
-            debugger
-            resourceType = obj.value
-            $('#type').find()
+            // $('#type').find()
             if (obj.value == 7) {
                 $('.show-scorm-upload').css({
                     display: 'block'
@@ -451,13 +448,33 @@
                 })
                 uploadFile(function() {}, '#scorm_multiple_upload', 7)
             } else {
-                uploadFile(function() {}, '#upload-file', resourceType)
+                uploadFile(function() {}, '#upload-file', obj.value)
                 $('.show-scorm-upload').css({
                     display: 'none'
                 })
                 $('.show-other-upload').css({
                     display: 'block'
                 })
+            }
+
+            if (obj.value == 1) {
+                // 文档
+                $('#typeTip').html('请上传pdf、docx、doc格式的文档, 且文件大小不得超过1G')
+            } else if (obj.value == 2) {
+                // 图片
+                $('#typeTip').html('请上传png、jpeg、jpg、tiff、raw、bmp、gif格式的图片, 且文件大小不得超过1G')
+            } else if (obj.value == 3) {
+                // 视频
+                $('#typeTip').html('请上传mp4、avi、rmvb、rm、flv格式的视频, 且文件大小不得超过1G')
+            } else if (obj.value == 4) {
+                // flash
+                $('#typeTip').html('请上传flash、swf格式的flash文件, 且文件大小不得超过1G')
+            } else if (obj.value == 5) {
+                // exe
+                $('#typeTip').html('请上传exe格式的文件, 且文件大小不得超过1G')
+            } else if (obj.value == 6 || obj.value == 7) {
+                // u3d
+                $('#typeTip').html('请上传zip格式的压缩包, 且文件大小不得超过1G')
             }
         })
         var singleTable = table.render(singlUploadOption)
@@ -826,7 +843,7 @@
     }
 
     #source-manage-mylist-add .course-set-btn {
-        height: 28px;
+        /* height: 28px; */
         padding: 0 10px;
         /* line-height: 28px; */
     }
