@@ -65,7 +65,6 @@
                                 class="knowledgePoint"
                                 lay-filter="knowlegePointChange"
                                 id="knowlegePointChange"></select>
-
                     </script>
                     <script type="text/html"
                             id="askType">
@@ -583,9 +582,11 @@
                 url: '/strategy/queryById?id=' + id,
                 success: function(res) {
                     if (res.code === 200) {
-                        console.log(res)
                         $('#strategyName').val(res.data.strategyName || '')
                         $('#curriculumId').val(res.data.curriculumId || '')
+                        tableOption.data = res.data.list
+                        table.render(tableOption)
+                        form.render()
                     }
                 }
             })
