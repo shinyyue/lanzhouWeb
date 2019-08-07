@@ -212,7 +212,7 @@
                                 name: '百分比',
                                 type: 'pie',
                                 radius: '55%',
-                                data: res.data.map(item => {
+                                data: res.data.map(function(item) {
                                     return {
                                         name: item.faculty_name,
                                         value: item.count

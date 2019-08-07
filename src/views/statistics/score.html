@@ -52,9 +52,9 @@
         }
 
         // 各学院学生在各个成绩区间所占人数的百分比趋势
-        initStatisticsScoreCount = statisticsScoreCountList => {
+         function initStatisticsScoreCount (statisticsScoreCountList) {
             var xAxisData = [], goodList = [], passList = [];
-            statisticsScoreCountList.forEach(score => {
+            statisticsScoreCountList.forEach(function (score) {
                 xAxisData.push(score.facultyName)
                 goodList.push(score.goodStu)
                 passList.push(score.passStu)
@@ -93,9 +93,9 @@
         }
 
         // 各学院学生在各个成绩区间所占人数的百分比趋势
-        initStatisticsScoreStatus = statisticsScoreStatusList => {
+         function initStatisticsScoreStatus(statisticsScoreStatusList) {
             var legendData = [], series = [];
-            statisticsScoreStatusList.forEach(sl => {
+            statisticsScoreStatusList.forEach(function (sl) {
                 legendData.push(sl.facultyName)
                 series.push({
                     name: sl.facultyName,
@@ -137,7 +137,7 @@
                     field: 'id',
                     width: 80,
                     align: 'center',
-                    templet: d => d.LAY_TABLE_INDEX + 1
+                    type: 'numbers'
                 },
                     {
                         title: '学院',
@@ -167,7 +167,9 @@
                     {
                         title: '操作',
                         align: 'center',
-                        templet: d => '<button class="course-set-btn" lay-event="check">查看</button>'
+                        templet: function (d) {
+                           return '<button class="course-set-btn" lay-event="check">查看</button>'
+                        }
                     }
                 ]
             ]
@@ -178,28 +180,30 @@
             first: '首页',
             last: '尾页',
             layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
-            jump: (obj, first) => {
+            jump: function (obj, first) {
                 //首次不执行
                 if (!first) {
                     getStatisticsScoreList(obj.curr)
                 }
             }
         }
-        getStatisticsScoreList =  page => {
+        function getStatisticsScoreList(page) {
             admin.post({
                 url: '/report/queryFacultyThird',
                 data: JSON.stringify({rows: 10, page: page, key: collegeId}),
-                success: res => {
+                success: function (res) {
                     statisticsScoreTableOption.data = (res.data && res.data.items) || [];
                     table.render(statisticsScoreTableOption)
                     statisticsScorePageOption.count = (res.data && res.data.total) || 0;
                     laypage.render(statisticsScorePageOption)
                 },
-                error: err => layer.msg((err && err.msg) || '数据请求失败')
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
             })
         }
         getStatisticsScoreList(1)
-        table.on('tool(statistics_score_table)', obj => {
+        table.on('tool(statistics_score_table)', function (obj) {
             var layEvent = obj.event;
             if(layEvent == 'check') {
                 window.location.href = 'index.html#/statistics/scoreDetails/v=' + Math.ceil(Math.random()*10000)
@@ -218,7 +222,7 @@
                     field: 'id',
                     width: 80,
                     align: 'center',
-                    templet: d => d.LAY_TABLE_INDEX + 1
+                    type: 'numbers'
                 },
                     {
                         title: '学院',
@@ -229,13 +233,15 @@
                         title: '及格率',
                         field: 'passPercent1',
                         align: 'center',
-                        templet: d => d.passPercent1 + '%'
+                        templet: function (d){
+                            return d.passPercent1 + '%'
+                        }
                     },
                     {
                         title: '+升  -降  =平',
                         field: 'responsor',
                         align: 'center',
-                        templet: d => {
+                        templet: function (d) {
                             if(d.passPercent1 == d.passPercent2) return '=0%'
                             else if (d.passPercent1 > d.passPercent2) return '+' + (d.passPercent1 - d.passPercent2) + '%'
                             else return (d.passPercent1 - d.passPercent2) + '%'
@@ -245,13 +251,15 @@
                         title: '优秀率',
                         align: 'center',
                         field: 'goodPercent1',
-                        templet: d => d.goodPercent1 + '%'
+                        templet: function (d) {
+                            d.goodPercent1 + '%'
+                        }
                     },
                     {
                         title: '+升  -降  =平',
                         field: 'responsor',
                         align: 'center',
-                        templet: d => {
+                        templet: function (d) {
                             if(d.goodPercent1 == d.goodPercent2) return '=0%'
                             else if (d.goodPercent1 > d.goodPercent2) return '+' + (d.goodPercent1 - d.goodPercent2) + '%'
                             else return (d.goodPercent1 - d.goodPercent2) + '%'
@@ -266,34 +274,36 @@
             first: '首页',
             last: '尾页',
             layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
-            jump: (obj, first) => {
+            jump: function (obj, first) {
                 //首次不执行
                 if (!first) {
                     getStatisticsScoreRateTableList(obj.curr)
                 }
             }
         }
-        getStatisticsScoreRateTableList = page => {
+         function getStatisticsScoreRateTableList(page) {
             admin.post({
                 url: '/report/queryFacultyFour',
                 data: JSON.stringify({rows: 10, page: page, key: collegeId}),
-                success: res => {
+                success: function (res) {
                     statisticsScoreRateTableOption.data = (res.data && res.data.items) || [];
                     table.render(statisticsScoreRateTableOption)
                     statisticsScoreRatePageOption.count = (res.data && res.data.total) || 0;
                     laypage.render(statisticsScoreRatePageOption)
                 },
-                error: err => layer.msg((err && err.msg) || '数据请求失败')
+                error: function(err){
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
             })
         }
         getStatisticsScoreRateTableList(1)
 
         // 各学院学生及格人数和优秀人数对比分析
-        initStatisticsScoreRate = statisticsScoreRateList => {
+        function initStatisticsScoreRate(statisticsScoreRateList) {
             var xAxisData = [], goodStuDYXQList = [], passStuDYXQList = [], goodStuJYXNList = [],
                 passStuJYXNList = [], goodStuJYXQList = [], passStuJYXQList = [], goodStuJLXNList = [],
                 passStuJLXNList = [], goodStuJSXNList = [], passStuJSXNList = []
-            statisticsScoreRateList.forEach(score => {
+            statisticsScoreRateList.forEach(function(score) {
                 xAxisData.push(score.facultyName)
                 goodStuDYXQList.push(score.DQXQgoodStu)
                 passStuDYXQList.push(score.DQXQpassStu)
@@ -380,9 +390,9 @@
         }
 
         // 实验成绩统计
-        initTestScoreTable = testScoreList => {
+         function initTestScoreTable(testScoreList) {
             var yAxisData = [], aaaList = [], bbbList = [], cccList = [];
-            testScoreList.forEach(score => {
+            testScoreList.forEach(function(score) {
                 yAxisData.push(score.expName)
                 aaaList.push(score.aaa)
                 bbbList.push(score.bbb)
@@ -451,23 +461,25 @@
             first: '首页',
             last: '尾页',
             layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
-            jump: (obj, first) => {
+            jump: function (obj, first) {
                 //首次不执行
                 if (!first) {
                     getTestScoreList(obj.curr)
                 }
             }
         }
-        getTestScoreList = page => {
+        function getTestScoreList(page) {
             admin.post({
                 url: '/report/queryCollegeExpAndScoreArea',
                 data: JSON.stringify({rows: 10, page: page}),
-                success: res => {
+                success: function(res) {
                     initTestScoreTable(res.data.items)
                     testScoreRatePageOption.count = (res.data && res.data.total) || 0;
                     laypage.render(testScoreRatePageOption)
                 },
-                error: err => layer.msg((err && err.msg) || '数据请求失败')
+                error: function(err){
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
             })
         }
         getTestScoreList(1)
@@ -475,7 +487,7 @@
         // 初始化页面数据
         admin.get({
             url: '/report/queryXInfo?collegeId=' + collegeId,
-            success: res => {
+            success: function(res) {
                 if (res.data) {
                     initStatisticsScoreCount(res.data[0].first)
                     initStatisticsScoreStatus(res.data[0].second)
@@ -483,7 +495,7 @@
                     // initTestScoreTable(res.data[0].six)
                 }
             },
-            error: err => layer.msg((err && err.msg) || '数据请求失败')
+            error: function(err){layer.msg((err && err.msg) || '数据请求失败')}
         })
 
     })
