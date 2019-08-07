@@ -149,14 +149,16 @@
         function getCollegeTestNums() {
             admin.get({
                 url: '/report/queryExperimentForCollege',
-                success: res => {
+                success: function(res) {
                     var xAxisData = [], legendData = [], series = []
-                    res.data.forEach(college => {
+                    res.data.forEach( function (college) {
                         xAxisData.push(college.collegeName)
-                        college.data.forEach(detail => !legendData.includes(detail.typeName || '错误数据') && legendData.push(detail.typeName || '错误数据'))
+                        college.data.forEach(function (detail) {
+                            !legendData.includes(detail.typeName || '错误数据') && legendData.push(detail.typeName || '错误数据')
+                        } )
                     })
 
-                    series = legendData.map(legend => {
+                    series = legendData.map( function (legend) {
                         return {
                             name: legend,
                             type: 'bar',
@@ -174,8 +176,8 @@
                                     }
                                 }
                             },
-                            data: xAxisData.map(collegeName => {
-                                var t = res.data.filter(college => college.collegeName === collegeName)[0].data.filter(college => legend === college.typeName)
+                            data: xAxisData.map(function (collegeName) {
+                                var t = res.data.filter(function(college){college.collegeName === collegeName})[0].data.filter(function(college) {legend === college.typeName} )
                                 if(t && t.length > 0) return t[0].expCount
                                 return 0
                             })
@@ -190,7 +192,7 @@
                                 type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
                             }, formatter: function(params, ticket, callback) {
                                 return params[0].axisValue + "<br />" +
-                                    params.filter(p => p.value > 0).map(p => {
+                                    params.filter(function(p){p.value > 0}).map(function (p) {
                                         return '<span style="color:'+p.color+'">●</span>'+p.seriesName + ': ' + p.value
                                     }).join("<br />")
                             }
@@ -219,9 +221,9 @@
         function getCollegeTestUseNums() {
             admin.get({
                 url: '/report/queryAllCollegeExpUseInfo',
-                success: res => {
+                success: function (res) {
                     var xAxisData = [], studentCountList = [], teacherCountList = []
-                    res.data.forEach(college => {
+                    res.data.forEach(function (college) {
                         xAxisData.push(college.collegeName)
                         studentCountList.push(college.studentCount)
                         teacherCountList.push(college.teacherCount)
@@ -270,9 +272,9 @@
         function getStudentNums() {
             admin.get({
                 url: '/report/queryGlobleCollegeStuGrade',
-                success: res => {
+                success: function (res) {
                     var xAxisData = [], passCountList = [], goodCount = []
-                    res.data.forEach(college => {
+                    res.data.forEach( function (college) {
                         xAxisData.push(college.collegeName)
                         passCountList.push(college.passCount)
                         goodCount.push(college.goodCount)

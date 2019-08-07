@@ -33,8 +33,7 @@
 </div>
 
 <script>
-    layui.use(['table'], table => {
-
+    layui.use(['table'], function (table) {
         var $ = layui.jquery,
             table = layui.table,
             admin = layui.admin,
@@ -68,7 +67,7 @@
                     title: '性别',
                     field: 'sex',
                     align: 'center',
-                    templet: d => d.sex == 1? '男': '女'
+                    templet: function(d){d.sex == 1? '男': '女'}
                 }, {
                 //     title: '账号',
                 //     align: 'center',
@@ -80,7 +79,7 @@
                 }, {
                     title: '操作',
                     align: 'center',
-                    templet: d => '<button class="course-set-btn" lay-event="check">查看</button>'
+                    templet: function(d) {return '<button class="course-set-btn" lay-event="check">查看</button>'}
                 }]
             ]
         }
@@ -90,14 +89,14 @@
             first: '首页',
             last: '尾页',
             layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
-            jump: (obj, first) => {
+            jump: function(obj, first) {
                 //首次不执行
                 if (!first) {
                     getScoreList(obj.curr)
                 }
             }
         }
-        getScoreList = page => {
+        function getScoreList(page) {
             admin.post({
                 url: '/report/queryAllStuInfo',
                 data: JSON.stringify({
@@ -107,17 +106,17 @@
                     professionId: $('#professionList').val(),
                     classId: $('#classList').val()
                 }),
-                success: res => {
+                success: function (res) {
                     scoreTableOption.data = (res.data && res.data.items) || [];
                     table.render(scoreTableOption)
                     scorePageOption.count = (res.data && res.data.total) || 0;
                     laypage.render(scorePageOption)
                 },
-                error: err => layer.msg((err && err.msg) || '数据请求失败')
+                error: function (err) {layer.msg((err && err.msg) || '数据请求失败')}
             })
         }
         getScoreList(1)
-        table.on('tool(score_table)', obj => {
+        table.on('tool(score_table)', function (obj) {
             var data = obj.data //获得当前行数据
             var layEvent = obj.event;
             if(layEvent == 'check') {
@@ -127,42 +126,42 @@
         })
 
         // 专业列表
-        getProfessionList = () => {
+        function getProfessionList() {
             admin.get({
                 url: '/vsMpProfession/getAllProByCollegeId?collegeId=' + collegeId,
-                success: res => {
+                success: function (res) {
                     var options = '<option value="">请选择所在专业</option>'
-                    res.data && res.data.forEach(item => {
+                    res.data && res.data.forEach( function (item) {
                         options += '<option value="' + item.id + '">' + item.professionName + '</option>'
                     })
                     $('#professionList').val('')
                     $('#professionList').html(options)
                 },
-                error: err =>  layer.msg((err && err.msg) || '数据请求失败')
+                error: function(err) {layer.msg((err && err.msg) || '数据请求失败')}
             })
         }
 
         getProfessionList()
-        $('#professionList').change(e => getClassList(e.currentTarget.value))
+        $('#professionList').change(function(e) {getClassList(e.currentTarget.value)})
 
         // 班级列表
-        getClassList = professionId => {
+        function getClassList(professionId) {
             admin.post({
                 url: '/vsMpClass/getList',
                 data: JSON.stringify({page: 1, rows: 20, key: professionId}),
-                success: res => {
+                success: function (res) {
                     var options = '<option value="">请选择所在行政班级</option>'
-                    res.data &&res.data.items && res.data.items.forEach(item => {
+                    res.data &&res.data.items && res.data.items.forEach( function (item) {
                         options += '<option value="' + item.id + '">' + item.className + '</option>'
                     })
                     $('#classList').val('')
                     $('#classList').html(options)
                 },
-                error: err =>  layer.msg((err && err.msg) || '数据请求失败')
+                error: function(err) {layer.msg((err && err.msg) || '数据请求失败')}
             })
         }
 
-        $('#score_detail_btn').click(() => getScoreList(1))
+        $('#score_detail_btn').click(function(){getScoreList(1)} )
 
         $('#source-add-cancle').on('click', function () {
             window.location.href = 'index.html#/statisticsCollege/score'

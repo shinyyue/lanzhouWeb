@@ -136,9 +136,9 @@
         function getClassNums() {
             admin.get({
                 url: '/report/queryOpenOrNo',
-                success: res => {
+                success: function (res) {
                     var xAxisData = [], openCourseList = [], noOpenCourseList = []
-                    res.data.forEach(score => {
+                    res.data.forEach(function (score) {
                         xAxisData.push(score.collegeName)
                         openCourseList.push(score.openCourse)
                         noOpenCourseList.push(score.noOpenCourse)
@@ -205,14 +205,14 @@
                             type: 'scroll',
                             orient: 'horizontal',
                             bottom: 20,
-                            data: res.data.map(item => item.faculty_name)
+                            data: res.data.map(function(item) {return item.faculty_name})
                         },
                         series: [
                             {
                                 name: '百分比',
                                 type: 'pie',
                                 radius: '55%',
-                                data: res.data.map(item => {
+                                data: res.data.map(function (item) {
                                     return {
                                         name: item.faculty_name,
                                         value: item.count

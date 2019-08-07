@@ -191,7 +191,7 @@
             window.history.go(-1)
         })
 
-        getDetails = function ()  {
+        function getDetails ()  {
             admin.get({
                 url:
                     '/vsMpTestRecord/startReLookTest?curriculumExperimentId=' +
@@ -335,7 +335,7 @@
         getDetails()
 
         // 渲染视频
-        renderVideo = function(data) {
+        function renderVideo(data) {
             testContent = data.testContent || 0
             var fileUrl =
                 conf.fileRequestUrl + '/' + JSON.parse(data.resourceIds)[0].url
@@ -355,7 +355,7 @@
         }
 
         // 渲染scrome
-        renderScrome = function(data) {
+        function renderScrome(data) {
             $('#scorm_fileUrl').show()
             // scorm课件
             var sourceList = JSON.parse(data.resourceIds)[0].url
@@ -419,7 +419,7 @@
         }
 
         // scrome 切换节点
-        changeScromeNode = function(id, href) {
+        function changeScromeNode(id, href) {
             var list = sourceList[0].sourceName.split('.')
             var type = list[list.length - 1]
             if (type === 'swf') {
@@ -442,7 +442,7 @@
         }
 
         // 暂存
-        save = function() {
+        function save() {
             var endDate = new Date()
             var labReport = layedit.getContent(reportIndex) || ''
             var data = {
@@ -476,7 +476,7 @@
         }
 
         // 提交
-        submit = function() {
+        function submit() {
             var endDate = new Date()
             var labReport = layedit.getContent(reportIndex) || ''
             var data = {
