@@ -393,9 +393,6 @@ layui
                                     .find('dl')
                                     .css('display', 'none')
                             }
-                        } else {
-                            // window.location.href = $(this).find('.layui-nav-first').data('url')
-                            // console.log(1111)
                         }
                     })
                     $('#side_nav')

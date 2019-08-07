@@ -161,19 +161,7 @@
                 layer.alert('实验暂未开始', {icon: 6})
                 return
             }
-            // if (layEvent === 'start') {
-            //     formData = data
-            //     type = 'add'
-            //     // window.location.href = 'index.html#/checkCourse/virtualTestDetails/id=' + data.id + '&type=' + type
-            // } else if (layEvent === 'review') {
-            //     formData = data
-            //     type = 'review'
-            //     // window.location.href = 'index.html#/checkCourse/virtualTestDetails/id=' + data.id + '&type=' + type
-            // } else {
-            //     formData = data
-            //     type = 'check'
-            // }
-            window.location.href = 'index.html#/checkCourse/virtualTestDetails/id=' + data.id + '/type=' + layEvent + '/curriculumId=' + data.experimentId
+            admin.navigate('/checkCourse/virtualTestDetails/id=' + data.id + '/type=' + layEvent + '/curriculumId=' + data.experimentId)
         })
         $("#virtualTest-title").html('选课 > ' + layui.data('course').coursePlanName + ' > 虚拟实验 > 虚拟实验列表')
         getList(1)

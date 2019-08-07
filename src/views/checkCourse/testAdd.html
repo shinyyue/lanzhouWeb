@@ -97,13 +97,12 @@
                 success: function(res) {
                     if (res.code === 200) {
                         layer.msg('提交成功！')
-                        window.location.href =
-                            'index.html#/checkCourse/testDetails/id=' +
+                        admin.navigate('/checkCourse/testDetails/id=' +
                             id +
                             '/endTime=' +
                             new Date(res.data.endTime).getTime() +
                             '/startTime=' +
-                            new Date(res.data.startTime).getTime()
+                            new Date(res.data.startTime).getTime())
                     }
                 }
             })

@@ -225,6 +225,13 @@
                     } else {
                         $('#showTip').show()
                     }
+
+                    if (dataType == 5) {
+                        $('#download').show()
+                    } else {
+                        $('#download').hide()                        
+                    }
+                    
                     if (res.data.dataType == 1) {
                         // 文档
                         var fileUrl =
@@ -265,6 +272,7 @@
                         )
                     } else if (res.data.dataType == 5) {
                         // exe
+                        $('.unScorm-inner').hide();
                         $('#fileUrl').hide()
                     } else if (res.data.dataType == 6) {
                         // U3D

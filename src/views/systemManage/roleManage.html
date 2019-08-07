@@ -289,7 +289,8 @@
             }
             var data = {
                 roleName: $('#roleNameUpdate').val(),
-                menuPermissions: ''
+                menuPermissions: '',
+                skipIndex: $('#home_url').val()
             }
             var menuList = tree.getChecked('1')
             var list = []
@@ -345,6 +346,7 @@
             }
             formData.menuPermissions = list.join(',')
             formData.roleName = $('#roleNameUpdate').val()
+            formData.skipIndex = $('#home_url').val()
             admin.put({
                 url: '/role/upDateRole',
                 data: JSON.stringify(formData),

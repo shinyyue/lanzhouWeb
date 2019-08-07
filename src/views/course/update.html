@@ -247,8 +247,7 @@
             return false
         })
         $('#source-add-cancle').on('click', function() {
-            // window.history.go(-1)
-            window.location.href = 'index.html#/course/index'
+            admin.navigate('/course/index')
         })
         getAllCourses(function() {
             getExperimentRoomList(function() {
@@ -307,8 +306,7 @@
                     } else {
                         layer.msg(res.msg || '添加失败')
                     }
-                    window.location.href = 'index.html#/course/index'
-                    
+                   admin.navigate('/course/index')
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
@@ -351,8 +349,7 @@
                 data: JSON.stringify(formData),
                 success: function(res) {
                     layer.msg('修改成功')
-                    window.location.href = 'index.html#/course/index'
-                    
+                    admin.navigate('/course/index')                    
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')

@@ -654,8 +654,8 @@
                 }),
                 success: function (res) {
                     if (res.code === 200) {
-                        for(var i = 0; i < res.data.length; i++) {
-                            var item = res.data[i];
+                        for(var i = 0; i < res.data.items.length; i++) {
+                            var item = res.data.items[i];
                             $('#plan_course_list').append('<option value="' + item.id + '">' + item
                             .curriculumName +
                             '</option>')
