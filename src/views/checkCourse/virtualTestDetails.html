@@ -454,7 +454,7 @@
                 startTimeStr: admin.dateFormat(startDate / 1000),
                 endTimeStr: admin.dateFormat(endDate / 1000),
                 useTime: (endDate.getTime() - startDate.getTime()) / 1000,
-                testContent: JSON.stringify(testContent),
+                testContent: dataType==7? JSON.stringify(testContent): testContent,
                 labReport: labReport,
                 labReportAddress: $('#file_path').html()
             }
