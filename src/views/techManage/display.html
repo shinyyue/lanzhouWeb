@@ -71,80 +71,161 @@
                 .setOption(option)
         }
 
-        var option = {
-            tooltip: {
-                trigger: 'axis'
-            },
-            xAxis: [
-                {
-                    name: '月份',
-                    type: 'category',
-                    data: [
-                        '1月',
-                        '2月',
-                        '3月',
-                        '4月',
-                        '5月',
-                        '6月',
-                        '7月',
-                        '8月',
-                        '周六',
-                        '周日',
-                        '周日'
-                    ],
-                    axisTick: {
-                        alignWithLabel: true
+        queryTeacherMonthAndCount()
+        queryCourseAndStuCount()
+
+        // 开课数量及占比情况
+        function queryTeacherMonthAndCount() {
+            admin.post({
+                url: '/report/queryTeacherMonthAndCount',
+                success: function(res) {
+                    var monList = []
+                    var dataList = []
+
+                    res.data.forEach(function(item) {
+                        monList.push(item.mon)
+                        dataList.push(item.totleCount)
+                    })
+                    var option = {
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        xAxis: {
+                            name: '月份',
+                            type: 'category',
+                            data: monList
+                        },
+                        yAxis: {
+                            name: '数量',
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                data: dataList,
+                                type: 'bar',
+                                barWidth: 70
+                            }
+                        ]
                     }
+
+                    initChart('course-nums-chart', option)
                 }
-            ],
-            yAxis: [
-                {
-                    type: 'value',
-                    name: '数量'
-                }
-            ],
-            series: [
-                {
-                    color: '#009999',
-                    type: 'bar',
-                    barWidth: '60%',
-                    data: [10, 52, 200, 334, 390, 330, 220, 334, 390, 330, 330]
-                }
-            ]
+            })
         }
 
-        var stuOption = {
-            tooltip: {
-                trigger: 'axis'
-            },
-            xAxis: [
-                {
-                    name: '课程',
-                    type: 'category',
-                    data: ['课程1', '课程2', '课程3', '课程4'],
-                    axisTick: {
-                        alignWithLabel: true
+        // 课程及课程人数统计
+        function queryCourseAndStuCount() {
+            admin.post({
+                url: '/report/queryCourseAndStuCount',
+                success: function(res) {
+                    var courseNameList = []
+                    var countStuList = []
+
+                    res.data.forEach(function(item) {
+                        courseNameList.push(item.courseName)
+                        countStuList.push(item.countStu)
+                    })
+                    var option = {
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        xAxis: {
+                            name: '课程',
+                            type: 'category',
+                            data: courseNameList
+                        },
+                        yAxis: {
+                            name: '人数',
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                data: countStuList,
+                                type: 'bar',
+                                barWidth: 70
+                            }
+                        ]
                     }
+
+                    initChart('course-stu-chart', option)
                 }
-            ],
-            yAxis: [
-                {
-                    type: 'value',
-                    name: '人数'
-                }
-            ],
-            series: [
-                {
-                    color: '#009999',
-                    type: 'bar',
-                    barWidth: '60%',
-                    data: [10, 52, 200, 334, 390, 330, 220, 334, 390, 330, 330]
-                }
-            ]
+            })
         }
 
-        initChart('course-nums-chart', option)
-        initChart('course-stu-chart', option)
+        // var option = {
+        //     tooltip: {
+        //         trigger: 'axis'
+        //     },
+        //     xAxis: [
+        //         {
+        //             name: '月份',
+        //             type: 'category',
+        //             data: [
+        //                 '1月',
+        //                 '2月',
+        //                 '3月',
+        //                 '4月',
+        //                 '5月',
+        //                 '6月',
+        //                 '7月',
+        //                 '8月',
+        //                 '周六',
+        //                 '周日',
+        //                 '周日'
+        //             ],
+        //             axisTick: {
+        //                 alignWithLabel: true
+        //             }
+        //         }
+        //     ],
+        //     yAxis: [
+        //         {
+        //             type: 'value',
+        //             name: '数量'
+        //         }
+        //     ],
+        //     series: [
+        //         {
+        //             color: '#009999',
+        //             type: 'bar',
+        //             barWidth: '60%',
+        //             data: [10, 52, 200, 334, 390, 330, 220, 334, 390, 330, 330]
+        //         }
+        //     ]
+        // }
+
+        // var stuOption = {
+        //     tooltip: {
+        //         trigger: 'axis'
+        //     },
+        //     xAxis: [
+        //         {
+        //             name: '课程',
+        //             type: 'category',
+        //             data: ['课程1', '课程2', '课程3', '课程4'],
+        //             axisTick: {
+        //                 alignWithLabel: true
+        //             }
+        //         }
+        //     ],
+        //     yAxis: [
+        //         {
+        //             type: 'value',
+        //             name: '人数'
+        //         }
+        //     ],
+        //     series: [
+        //         {
+        //             color: '#009999',
+        //             type: 'bar',
+        //             barWidth: '60%',
+        //             data: [10, 52, 200, 334, 390, 330, 220, 334, 390, 330, 330]
+        //         }
+        //     ]
+        // }
+
+        // initChart('course-nums-chart', option)
+        // initChart('course-stu-chart', stuOption)
         getList()
 
         function getList() {
