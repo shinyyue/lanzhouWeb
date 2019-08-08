@@ -73,8 +73,7 @@
         })
         $('#collegeList').change(function (e) {
             querySourceByCollectId(e.currentTarget.value)
-            debugger
-            // @TODO 更新资源列表详情
+            // 更新资源列表详情
             chosenCollegeId = e.currentTarget.value
             querySourceByCollectIdInfo('college_sourcelist_detail_table', 'college_sourcelist_detail_page', 1, e.currentTarget.value + '|' + $('#college_detail_key').val());
         })
@@ -146,7 +145,7 @@
                         u3dTimes: 0,
                         scormTimes: 0
                     };
-                    if(res.code === 200) {
+                    if(res.code === 200 && res.data) {
                         res.data.forEach(function (item) {
                             innerData.allTimes += item.COUNT
                             innerData[["", "docTimes", "picTimes", "videoTimes", "flashTimes", "exeTimes", "u3dTimes", "scormTimes"][item.type]] = item.COUNT
