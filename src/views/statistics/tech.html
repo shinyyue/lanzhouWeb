@@ -31,6 +31,7 @@
         var $ = layui.jquery,
             table = layui.table,
             tableFilter = 'tech_status_table',
+            collegeId = layui.data('userInfo').userInfo.collegeId,
             admin = layui.admin
 
         function initChart(id, option) {
@@ -45,20 +46,20 @@
 
             if (layEvent === 'check') {
                 location.href =
-                    'index.html#/statistics/techDetails/id=' + data.collegeId
+                    'index.html#/statistics/techDetails/id=' + data.facultyId
             }
         })
 
         getFacultyCourse()
 
-        // getClassNums()
+        queryXiOpenOrNo()
 
         getClassNumsStatus()
 
-        // 各学院开课数量明细分析
+        // 学院开课数量明细分析
         function getClassNumsStatus() {
             admin.get({
-                url: '/report/queryFacultyInfo',
+                url: '/report/queryXiInfo?collegeId='+collegeId,
                 success: function(res) {
                     table.render({
                         page: false,
@@ -77,13 +78,13 @@
                                 },
                                 {
                                     title: '学院',
-                                    field: 'collegeName',
+                                    field: 'facultyName',
                                     align: 'center',
                                     rowspan: 2
                                 },
                                 {
                                     title: '开课数',
-                                    field: 'countSchool',
+                                    field: 'openCourseNum',
                                     align: 'center',
                                     rowspan: 2
                                 },
@@ -99,12 +100,12 @@
                                     field: 'times',
                                     colspan: 2
                                 },
-                                // {
-                                //     title: '操作',
-                                //     align: 'center',
-                                //     templet: '#statistics_tech_opt',
-                                //     rowspan: 2
-                                // }
+                                {
+                                    title: '操作',
+                                    align: 'center',
+                                    templet: '#statistics_tech_opt',
+                                    rowspan: 2
+                                }
                             ],
                             [
                                 {
@@ -133,12 +134,18 @@
                 }
             })
         }
-
-        // todo: 没接口开课未开课
-        function getClassNums() {
+        // 开课未开课
+        function queryXiOpenOrNo() {
             admin.get({
-                url: '/report/queryFacultyInfoList',
+                url: '/report/queryXiOpenOrNo?collegeId='+collegeId,
                 success: function(res) {
+                    var xAxisData = [], openCourseList = [], noOpenCourseList = []
+                    res.data.forEach(function (score) {
+                        xAxisData.push(score.facultyName)
+                        openCourseList.push(score.openCourse)
+                        noOpenCourseList.push(score.noOpenCourse)
+
+                    })
                     var statusOption = {
                         tooltip: {
                             trigger: 'axis',
@@ -151,11 +158,7 @@
                             data: ['开课', '未开课']
                         },
                         xAxis: {
-                            data: [
-                                '土木工程学院',
-                                '自动化与电气工程学院',
-                                '其他学院'
-                            ]
+                            data: xAxisData
                         },
                         yAxis: {},
                         series: [
@@ -169,7 +172,7 @@
                                         position: 'insideRight'
                                     }
                                 },
-                                data: [320, 320, 200]
+                                data: openCourseList
                             },
                             {
                                 name: '未开课',
@@ -181,7 +184,7 @@
                                         position: 'insideRight'
                                     }
                                 },
-                                data: [120, 132, 101]
+                                data: noOpenCourseList
                             }
                         ]
                     }
@@ -194,7 +197,7 @@
         // 全院开课数量及占比情况
         function getFacultyCourse() {
             admin.get({
-                url: '/report/queryFacultyCourse',
+                url: '/report/queryXiCourseAndPercent?collegeId='+collegeId,
                 success: function(res) {
                     var option = {
                         tooltip: {
@@ -205,7 +208,7 @@
                             type: 'scroll',
                             orient: 'horizontal',
                             bottom: 20,
-                            data: res.data.map(function (item) {item.faculty_name})
+                            data: res.data.map(function (item) {item.facultyName})
                         },
                         series: [
                             {
@@ -214,8 +217,8 @@
                                 radius: '55%',
                                 data: res.data.map(function(item) {
                                     return {
-                                        name: item.faculty_name,
-                                        value: item.count
+                                        name: item.facultyName,
+                                        value: item.countNum
                                     }
                                 })
                             }

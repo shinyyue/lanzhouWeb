@@ -50,8 +50,9 @@
                                 },
                                 {
                                     title: '开课类型',
-                                    field: '',
-                                    align: 'center'
+                                    field: 'school',
+                                    align: 'center',
+                                    templet: function(d) { return d.school == 1? '选修': '必修'}
                                 },
                                 {
                                     title: '课时数作',
@@ -59,7 +60,7 @@
                                     field: 'countTime'
                                 },
                                 {
-                                    title: '院系',
+                                    title: '学院',
                                     align: 'center',
                                     field: 'collegeName'
                                 }

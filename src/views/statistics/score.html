@@ -7,25 +7,25 @@
     </div>
     <div class="statistics-tech-content">
         <div class="tech-item">
-            <div class="tech-item-title">各学院学生在各个成绩区间所占人数的百分比趋势</div>
+            <div class="tech-item-title">各系学生在各个成绩区间所占人数的百分比趋势</div>
             <div id="statistics_score_count" style="height:400px;"></div>
         </div>
         <div class="tech-item">
-            <div class="tech-item-title">各学院学生在各个成绩区间所占人数的百分比趋势</div>
+            <div class="tech-item-title">各系学生在各个成绩区间所占人数的百分比趋势</div>
             <div id="statistics_score_status" style="height:400px;"></div>
         </div>
         <div class="tech-item">
-            <div class="tech-item-title">各学院开课成绩明细分析</div>
+            <div class="tech-item-title">各系开课成绩明细分析</div>
             <table id="statistics_score_table" lay-filter="statistics_score_table"></table>
             <div class="app-table-page" id="statistics_score_page"></div>
         </div>
         <div class="tech-item">
-            <div class="tech-item-title">各学院及格率和优秀率升降比例</div>
+            <div class="tech-item-title">各系及格率和优秀率升降比例</div>
             <table id="statistics_score_rate_table" lay-filter="statistics_score_rate_table"></table>
             <div class="app-table-page" id="statistics_score_rate_page"></div>
         </div>
         <div class="tech-item">
-            <div class="tech-item-title">各学院学生及格人数和优秀人数对比分析</div>
+            <div class="tech-item-title">各系学生及格人数和优秀人数对比分析</div>
             <div id="statistics_score_rate" style="height:400px;"></div>
         </div>
         <div class="tech-item">
@@ -252,7 +252,7 @@
                         align: 'center',
                         field: 'goodPercent1',
                         templet: function (d) {
-                            d.goodPercent1 + '%'
+                            return d.goodPercent1 + '%'
                         }
                     },
                     {
