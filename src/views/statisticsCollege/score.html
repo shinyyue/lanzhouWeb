@@ -230,7 +230,7 @@
                         title: '及格率',
                         field: 'passPercent1',
                         align: 'center',
-                        templet: function (d) {d.passPercent1 + '%'}
+                        templet: function (d) {return d.passPercent1 + '%'}
                     },
                     {
                         title: '+升  -降  =平',
@@ -246,7 +246,7 @@
                         title: '优秀率',
                         align: 'center',
                         field: 'goodPercent1',
-                        templet: function(d){d.goodPercent1 + '%'}
+                        templet: function(d){return d.goodPercent1 + '%'}
                     },
                     {
                         title: '+升  -降  =平',
