@@ -54,6 +54,7 @@
         var $ = layui.jquery,
             table = layui.table,
             laypage = layui.laypage,
+            chosenCollegeId = '',
             admin = layui.admin;
 
         // 查询学院列表
@@ -72,8 +73,9 @@
         })
         $('#collegeList').change(function (e) {
             querySourceByCollectId(e.currentTarget.value)
-            // @TODO 更新资源列表详情
-            querySourceByCollectIdInfo('college_sourcelist_detail_table', 'college_sourcelist_detail_page', 1, e.currentTarget.value);
+            // 更新资源列表详情
+            chosenCollegeId = e.currentTarget.value
+            querySourceByCollectIdInfo('college_sourcelist_detail_table', 'college_sourcelist_detail_page', 1, e.currentTarget.value + '|' + $('#college_detail_key').val());
         })
 
         // 资源库数量及详细信息统计
@@ -143,7 +145,7 @@
                         u3dTimes: 0,
                         scormTimes: 0
                     };
-                    if(res.code === 200) {
+                    if(res.code === 200 && res.data) {
                         res.data.forEach(function (item) {
                             innerData.allTimes += item.COUNT
                             innerData[["", "docTimes", "picTimes", "videoTimes", "flashTimes", "exeTimes", "u3dTimes", "scormTimes"][item.type]] = item.COUNT
@@ -249,10 +251,10 @@
                 }
             })
         }
-        querySourceByCollectIdInfo('sourcelist_detail_table', 'sourcelist_detail_page', 1, '');
-        querySourceByCollectIdInfo('college_sourcelist_detail_table', 'college_sourcelist_detail_page', 1, '');
-        $('#college_detail_btn').click(function(){querySourceByCollectIdInfo('college_sourcelist_detail_table', 'college_sourcelist_detail_page', 1, $('#college_detail_key').val())} )
-        $('#source_detail_btn').click(function(){querySourceByCollectIdInfo('sourcelist_detail_table', 'sourcelist_detail_page', 1, $('#source_detail_key').val())} )
+        querySourceByCollectIdInfo('sourcelist_detail_table', 'sourcelist_detail_page', 1, '|');
+        querySourceByCollectIdInfo('college_sourcelist_detail_table', 'college_sourcelist_detail_page', 1, '|');
+        $('#source_detail_btn').click(function(){querySourceByCollectIdInfo('sourcelist_detail_table', 'sourcelist_detail_page', 1, "|"+$('#source_detail_key').val())} )
+        $('#college_detail_btn').click(function(){querySourceByCollectIdInfo('college_sourcelist_detail_table', 'college_sourcelist_detail_page', 1, chosenCollegeId+"|"+$('#college_detail_key').val())} )
     })
 </script>
 

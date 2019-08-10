@@ -22,12 +22,13 @@
             tableFilter = 'tech_details_table',
             admin = layui.admin,
             route = layui.router(),
+            collegeId = layui.data('userInfo').userInfo.collegeId,
             id = route.search.id
 
         getList()
         function getList() {
             admin.get({
-                url: '/report/queryFacultyInfoList?collegeId=' + id,
+                url: '/report/queryXInfoList?facultyId=' + id + '&collegeId='+collegeId,
                 success: function(res) {
                     table.render({
                         page: false,
@@ -50,8 +51,9 @@
                                 },
                                 {
                                     title: '开课类型',
-                                    field: '',
-                                    align: 'center'
+                                    field: 'school',
+                                    align: 'center',
+                                    templet: function(d) {return d.school == 1? '选修': '必修'}
                                 },
                                 {
                                     title: '课时数作',
@@ -61,7 +63,7 @@
                                 {
                                     title: '院系',
                                     align: 'center',
-                                    field: 'collegeName'
+                                    field: 'facultyName'
                                 }
                             ]
                         ]

@@ -7,7 +7,7 @@
     </div>
     <div class="statistics-source-content">
         <div class="source-content-item">
-            <h4>全系资源库数量及详细信息统计</h4>
+            <h4>全院资源库数量及详细信息统计</h4>
             <table id="source_detail_table" lay-filter="source_detail_table"></table>
         </div>
         <div class="source-content-item">
@@ -54,6 +54,7 @@
         var $ = layui.jquery,
             table = layui.table,
             laypage = layui.laypage,
+            chosenFacultyId = '',
             admin = layui.admin;
 
         // 获取学院管理员的学院id
@@ -80,6 +81,9 @@
         $('#facultyList').change(function (e) {
             querySourceByFacultyId(e.currentTarget.value)
             // @TODO 更新资源列表详情
+            chosenFacultyId = e.currentTarget.value
+            querySourceByFacultyIdInfo('faculty_sourcelist_detail_table', 'faculty_sourcelist_detail_page', 1, e.currentTarget.value + '|' + $('#faculty_detail_key').val());
+
         })
 
         // 资源库数量及详细信息统计
@@ -136,6 +140,7 @@
             }
         }
          function querySourceByFacultyId(facultyId) {
+            debugger
             admin.get({
                 url: '/report/querySourceByFacultyId' + (facultyId &&  facultyId != undefined && facultyId != ''? ('?facultyId=' + facultyId): ''),
                 success: function (res) {
@@ -149,10 +154,10 @@
                         u3dTimes: 0,
                         scormTimes: 0
                     };
-                    if(res.code === 200) {
+                    if(res.code === 200 && res.data) {
                         res.data.forEach(function (item) {
-                            innerData.allTimes += item.COUNT
-                            innerData[["", "docTimes", "picTimes", "videoTimes", "flashTimes", "exeTimes", "u3dTimes", "scormTimes"][item.type]] = item.COUNT
+                            innerData.allTimes += item.count
+                            innerData[["", "docTimes", "picTimes", "videoTimes", "flashTimes", "exeTimes", "u3dTimes", "scormTimes"][item.type]] = item.count
                         })
                     }
                     // 渲染全系
@@ -255,10 +260,10 @@
                 }
             })
         }
-        querySourceByFacultyIdInfo('sourcelist_detail_table', 'sourcelist_detail_page', 1, '');
-        querySourceByFacultyIdInfo('faculty_sourcelist_detail_table', 'faculty_sourcelist_detail_page', 1, '');
-        $('#faculty_detail_btn').click(function(){querySourceByFacultyIdInfo('faculty_sourcelist_detail_table', 'faculty_sourcelist_detail_page', 1, $('#faculty_detail_key').val())})
-        $('#source_detail_btn').click(function(){querySourceByFacultyIdInfo('sourcelist_detail_table', 'sourcelist_detail_page', 1, $('#source_detail_key').val())})
+        querySourceByFacultyIdInfo('sourcelist_detail_table', 'sourcelist_detail_page', 1, '|');
+        querySourceByFacultyIdInfo('faculty_sourcelist_detail_table', 'faculty_sourcelist_detail_page', 1, '|');
+        $('#faculty_detail_btn').click(function(){querySourceByFacultyIdInfo('faculty_sourcelist_detail_table', 'faculty_sourcelist_detail_page', 1, "|"+$('#faculty_detail_key').val())})
+        $('#source_detail_btn').click(function(){querySourceByFacultyIdInfo('sourcelist_detail_table', 'sourcelist_detail_page', 1, "|"+$('#source_detail_key').val())})
     })
 </script>
 

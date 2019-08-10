@@ -100,7 +100,7 @@
                             title: '状态',
                             field: 'state',
                             align: 'center',
-                            templet: d => d.state == 2? '已发布成绩': '批改中'
+                            templet: function(d) {return d.state == 2? '已发布成绩': '批改中'}
                         },
                         {
                             title: '已提交',
@@ -111,7 +111,7 @@
                             title: '未批改',
                             field: 'countCorrection',
                             align: 'center',
-                            templet: d => d.countSubmit - d.countCorrection
+                            templet: function(d){return d.countSubmit - d.countCorrection}
                         },
                         {
                             title: '操作',
@@ -119,7 +119,9 @@
                             // templet: '#resultTest-opt',
                             fixed: 'right',
                             width: 200,
-                            templet: d => d.state == 2? '<button class="course-set-btn" lay-event="resultTest-add-check">查看</button>': '<button class="course-set-btn" lay-event="resultTest-add-edit">批改</button>'
+                            templet: function(d) {
+                                return d.state == 2? '<button class="course-set-btn" lay-event="resultTest-add-check">查看</button>': '<button class="course-set-btn" lay-event="resultTest-add-edit">批改</button>'
+                            }
                         }
                     ]
                 ]

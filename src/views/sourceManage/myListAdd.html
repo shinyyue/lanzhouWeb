@@ -389,6 +389,7 @@
             }
         form.render()
         $('#upload-file').click(function() {
+            resourceType = $("#type").val()
             if (!resourceType) {
                 layer.msg('请先选择上传文件类型')
                 return false
@@ -438,6 +439,7 @@
             })
         })
         form.on('select(typeChange)', function(obj) {
+            // debugger
             // $('#type').find()
             if (obj.value == 7) {
                 $('.show-scorm-upload').css({
@@ -660,6 +662,7 @@
         }
 
         function uploadFile(callback, elem, rType) {
+            // debugger
             var type = rType
             upload.render({
                 elem: elem, //绑定元素
