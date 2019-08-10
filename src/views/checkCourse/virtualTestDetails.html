@@ -41,8 +41,7 @@
                 <div class="layui-col-md9">
                     <div id="require" style="line-height: 38px;"></div>
                     <div class="source-display unScorm-inner">
-                        <div class="webgl-content"
-                             id="fileUrl"
+                        <div id="fileUrl"
                              style="width: 100%; height: 500px;"></div>
                     </div>
                     <div style=" display: none; color: red;"
@@ -276,6 +275,7 @@
                         $('#fileUrl').hide()
                     } else if (res.data.dataType == 6) {
                         // U3D
+                        $('#fileUrl').addClass('.webgl-content')
                         $('#fileUrl').html('')
                         var jsonFile = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url.json
                         UnityLoader.instantiate('fileUrl', jsonFile, {
