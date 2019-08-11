@@ -62,10 +62,28 @@
                 var menuStr = ''
                 for (var i = 0; i < menuList.length; i++) {
                     var status = '',
-                        menuUrlList = menuList[i].menuUrl.split('/')
+                        menuUrlList = menuList[i].menuUrl.split('/'),
+                        childDlStr = ''
                     // 当前页面与此nav的一级路由相同时，设置header_nav的选中状态, 并设置侧边栏
                     if (menuUrlList[1] === firstPath) {
                         status = 'active'
+                    }
+                    // 顶部二级菜单
+                    if (menuList[i].child && menuList[i].child.length === 1 && menuList[i].child[0].menuName === menuList[i].menuName &&  menuList[i].child[0].child.length > 0) {
+                        var dlList = menuList[i].child[0].child,
+                            ddStr = ''
+                        for(var k = 0; k < dlList.length; k++) {
+                            ddStr += '<dd data-href="' + dlList[k].menuUrl + '"><a href="javascript:;">' + dlList[k].menuName + '</a></dd>'
+                        }
+                        childDlStr = '<dl class="layui-nav-child">'+ ddStr + '</dl>'
+                    }
+                    if(menuList[i].child && menuList[i].child.length > 1) {
+                        var dlList = menuList[i].child,
+                            ddStr = ''
+                        for(var k = 0; k < dlList.length; k++) {
+                            ddStr += '<dd data-href="' + dlList[k].menuUrl + '"><a href="javascript:;">' + dlList[k].menuName + '</a></dd>'
+                        }
+                        childDlStr = '<dl class="layui-nav-child">'+ ddStr + '</dl>'
                     }
                     if (
                         menuList[i].menuName !== '课程内容' &&
@@ -78,26 +96,32 @@
                             'data-path="' +
                             menuList[i].menuUrl +
                             '">' +
-                            '   <a href="javascript:;">'+ menuList[i].menuName +'</a>'+
-                            '   <dl class="layui-nav-child">'+
-                            '       <dd><a href="">电商平台</a></dd>'+
-                            '   </dl>'+
+                            '   <a class="nav-item-a" href="javascript:;" data-path="' +
+                            menuList[i].menuUrl +
+                            '">'+ menuList[i].menuName +'</a>'+ childDlStr +
                             '</li>'
                     }
                 }
                 $('#header_nav').prepend(menuStr)
             }
 
-            $(document).on('click', '#header_nav li', function () {
+            $(document).on('click', '#header_nav li a.nav-item-a', function () {
                 var curPath = $(this).data('path')
                 // 设置一级菜单的状态
-                $(this).addClass('active')
-                $(this)
+                $(this).parent().addClass('active')
+                $(this).parent()
                     .siblings()
                     .removeClass('active')
                 admin.navigate(curPath)
                 path = curPath
                 firstPath = path.split('/') && path.split('/').length > 0 && path.split('/')[1]
+                admin.setSideNav()
+            })
+            $(document).on('click', '#header_nav li .layui-nav-child dd', function () {
+                var curPath = $(this).data('href')
+                admin.navigate(curPath)
+                path = curPath
+                firstPath = path && path.split('/') && path.split('/').length > 0 && path.split('/')[1]
                 admin.setSideNav()
             })
             $('#logout').on('click', function () {
@@ -281,7 +305,6 @@
 
     #side_nav .layui-nav-item.sider-nav-item {
         line-height: 50px;
-        height: 50px;
     }
 
     #side_nav .layui-nav-item.sider-nav-item .cite {
@@ -321,6 +344,11 @@
 
     #side_nav .layui-nav-child dd.active a {
         color: rgba(26, 52, 113, 1);
+        font-size: 14px;
+    }
+
+    #side_nav .layui-nav-child dd.active:hover a {
+        color: #fff;
         font-size: 14px;
     }
 

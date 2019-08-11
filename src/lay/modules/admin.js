@@ -330,8 +330,7 @@ layui
                                     '   </a>' +
                                     '</dd>'
                             }
-                            showDl =
-                                firstPath === childFirstPath ? 'show' : ''
+                            showDl = path === child[k].menuUrl ? 'show' : ''
                             dlStr =
                                 '<dl class="layui-nav-child ' +
                                 showDl +
@@ -349,6 +348,7 @@ layui
                             '       <cite class="cite">' +
                             child[k].menuName +
                             '</cite>' +
+                            '<img src="src/images/right-arrow.png" style="' + (path === child[k].menuUrl && dlStr ? 'transform: rotate(90deg);' : 'transform: rotate(0deg);') + 'margin-top: 16px; height: 18px;float:right">'+
                             '   </a>' +
                             dlStr +
                             '</li>'
@@ -378,6 +378,16 @@ layui
                         $(this)
                             .siblings()
                             .removeClass('layui-this')
+                        
+                        $(this).siblings().each(function(index) {
+                            var siDl = $(this).find('dl')
+                            if (siDl.length > 0) {
+                                $(this).find('dl').css('display', 'none')
+                                $(this).find('.layui-nav-first img').css({
+                                    'transform': 'rotate(0deg)'
+                                })
+                            }
+                        })
                         var dl = $(this).find('dl')
                         if (dl.length > 0) {
                             $(this)
@@ -393,22 +403,21 @@ layui
                                     .find('dl')
                                     .css('display', 'none')
                             }
+                            $(this).find('.layui-nav-first img').css({
+                                'transform': 'rotate(90deg)'
+                            })
                         }
                     })
                     $('#side_nav')
                         .find('.layui-nav-item  dd')
                         .on('click', function () {
-                            $(this).css('background', '#fff')
-                            $(this)
-                                .find('a')
-                                .css('color', '#126093')
-                            $(this)
-                                .siblings()
-                                .css('background', '#126093')
-                            $(this)
-                                .siblings()
-                                .find('a')
-                                .css('color', '#fff')
+                            // $(this).css('background', '#fff')
+                            // $(this)
+                            //     .find('a')
+                            //     .css('color', '#fff')
+                            // $(this)
+                            //     .siblings()
+                            //     .css('background', '#126093')
                             $(this).addClass('active')
                             $(this)
                                 .siblings()
@@ -454,7 +463,7 @@ layui
             params = params || {}
             params.titleIcoColor = params.titleIcoColor || '#5a8bff'
             params.titleIco = params.titleIco || 'exclaimination'
-            var newLocal = ';display:inline-block;position:relative;top:-2px;height:24px;line-height:24px;text-align:center;width:24px;color:#fff;border-radius:50%;margin-right:10px;"></i>';
+            var newLocal = ';display:inline-block;position:relative;top:-2px;height:24px;line-height:24px;text-align:center;width:24px;color:#fff;border-radius:50%;margin-right:10px;"></img>';
             params.title = [
                 '<i class="layui-icon layui-icon-' +
                 params.titleIco +
