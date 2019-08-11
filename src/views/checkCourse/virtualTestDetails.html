@@ -180,6 +180,7 @@
             reportIndex, // 实验报告富文本
             testContent, // 资源快照状态
             dataType = 0, // 资源类型
+            labReportAddress = '',//实验报告地址
             scromeChosenNode // scrome 选中node信息
             ,details = {}
 
@@ -480,6 +481,7 @@
 
         // 提交
         function submit() {
+            debugger
             var endDate = new Date()
             var labReport = layedit.getContent(reportIndex) || ''
             var data = {
@@ -490,6 +492,7 @@
                 totalTime: (endDate.getTime() - startDate.getTime()) / 1000,
                 startTime: startDate.getTime(),
                 endTime: endDate.getTime(),
+                labReportAddress: labReportAddress,
                 labReport: labReport
             }
             admin.post({
@@ -518,6 +521,7 @@
                     admin.logout()
                 } else if (res.code === 200) {
                     $('#file_path').html(res.data)
+                    labReportAddress = res.data
                     layer.msg('上传成功')
                 } else {
                     layer.msg(res.msg || '上传失败')
