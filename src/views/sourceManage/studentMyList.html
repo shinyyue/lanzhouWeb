@@ -125,7 +125,7 @@
             var data = obj.data //获得当前行数据
             var layEvent = obj.event
             if (layEvent === 'check') {
-                location.href = 'index.html#/sourceManage/studentDetails/id=' + data.id
+                admin.navigate('/sourceManage/studentDetails/id=' + data.id)
             } else if (layEvent === 'cancelCollect') {
                 layer.open({
                     type: 1,

@@ -123,8 +123,7 @@
                 success: function (res) {
                     if (res.code === 200) {
                         layer.msg('添加成功！')
-                        location.href = '/index.html#/techSet/techPre/id=' + id
-                        location.reload()
+                        admin.navigate('/techSet/techPre/id=' + id)
                     } else {
                         layer.msg(res.msg || '添加失败')
                     }
@@ -147,8 +146,7 @@
                 success: function (res) {
                     if (res.code === 200) {
                         layer.msg('修改成功！')
-                        location.href = '/index.html#/techSet/techPre/id=' + id
-                        location.reload()
+                        admin.navigate('/techSet/techPre/id=' + id)
                     } else {
                         layer.msg(res.msg || '修改失败')
                     }

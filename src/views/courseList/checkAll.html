@@ -169,9 +169,9 @@
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
-                        location.href = 'index.html#/experiment/myDetails'
+                        admin.navigate('/experiment/myDetails')
                     } else if (type === 'edit') {
-                        location.href = 'index.html#/experiment/myadd'
+                        admin.navigate('/experiment/myadd')
                     }
                 },
                 cancel: function (index) {
@@ -238,13 +238,13 @@
             })
         }
         $('#experiment-mylist-add').on('click', function () {
-            location.href = 'index.html#/experiment/myadd'
+            admin.navigate('/experiment/myadd')
         })
         $('#experiment-mylist-edit').on('click', function () {
-            location.href = 'index.html#/experiment/myadd'
+            admin.navigate('/experiment/myadd')
         })
         $('#experiment-mylist-check').on('click', function () {
-            location.href = 'index.html#/experiment/myDetails'
+            admin.navigate('/experiment/myDetails')
         })
         $('#experiment-mylist-delete').on('click', function () {
             layer.confirm('您确定要删除么?', {

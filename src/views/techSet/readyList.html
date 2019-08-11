@@ -117,8 +117,7 @@
                 type = ''
 
             if (layEvent === 'edit' || layEvent === 'check') {
-                window.location.href =
-                    'index.html#/techSet/readyDone/id=' + data.id
+                admin.navigate('/techSet/readyDone/id=' + data.id)
             } else if (layEvent === 'delete') {
                 layer.open({
                     type: 1,

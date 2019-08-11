@@ -131,7 +131,7 @@
             var layEvent = obj.event
 
             if (layEvent === 'check') {
-                location.href = 'index.html#/examine/ploydetail/id=' + data.id
+                admin.navigate('/examine/ploydetail/id=' + data.id)
             } else if (layEvent === 'delete') {
                 layer.confirm(
                     '您确定要删除么?',
@@ -149,12 +149,12 @@
                     }
                 )
             } else if (layEvent === 'edit') {
-                location.href = 'index.html#/examine/ployadd/id=' + data.id
+                admin.navigate('/examine/ployadd/id=' + data.id)
             }
         })
 
         $('#examine-ploy-add').on('click', function() {
-            location.href = 'index.html#/examine/ployadd'
+            admin.navigate('/examine/ployadd')
         })
     })
 </script>

@@ -154,9 +154,9 @@
             var data = obj.data //获得当前行数据
             var layEvent = obj.event
             if (layEvent === 'check') {
-                location.href = 'index.html#/examine/examDetail/id=' + data.id
+                admin.navigate('/examine/examDetail/id=' + data.id)
             } else if (layEvent === 'edit') {
-                location.href = 'index.html#/examine/examAdd/id=' + data.id
+                admin.navigate('/examine/examAdd/id=' + data.id)
             } else if (layEvent === 'publish') {
                 publishData(data.id)
             } else if (layEvent === 'copy') {
@@ -266,7 +266,7 @@
             })
         }
         $('#examine-examlist-add').on('click', function () {
-            location.href = 'index.html#/examine/examAdd'
+            admin.navigate('/examine/examAdd')
         })
 
 

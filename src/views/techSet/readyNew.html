@@ -131,9 +131,9 @@
                 layEvent = obj.event,
                 type = ''
             if (layEvent === 'check') {
-                location.href = 'index.html#/techSet/myDetails/id=' + data.id
+                admin.navigate('/techSet/myDetails/id=' + data.id)
             } else if (layEvent === 'choose') {
-                location.href = 'index.html#/techSet/readyPlan/id=' + data.id
+                admin.navigate('/techSet/readyPlan/id=' + data.id)
             }
             form.render()
             

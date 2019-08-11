@@ -123,7 +123,7 @@
             }
         })
         $('#source-add-cancle').on('click', function () {
-            window.location.href = 'index.html#/techSet/paperManage'
+            admin.navigate('/techSet/paperManage')
             location.reload()
         })
         laydate.render({
@@ -172,7 +172,7 @@
                     if (res.code === 200) {
                         layer.msg('修改成功')
                         // admin.prev()
-                        window.location.href = 'index.html#/techSet/paperManage'
+                        admin.navigate('/techSet/paperManage')
                         location.reload()
                     } else {
                         layer.msg(res.msg || '修改失败')
@@ -190,8 +190,7 @@
                     if (res.code === 200) {
                         layer.msg('添加成功')
                         // admin.prev()
-                        window.location.href = 'index.html#/techSet/paperManage'
-                        location.reload()
+                        admin.navigate('/techSet/paperManage')
                     } else {
                         layer.msg(res.msg || '添加失败')
                     }

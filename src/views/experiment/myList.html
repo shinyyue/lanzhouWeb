@@ -127,9 +127,9 @@
             }
             if (layEvent === 'edit') {
                 //编辑
-                location.href = 'index.html#/experiment/myadd/id=' + data.id
+                admin.navigate('/experiment/myadd/id=' + data.id)
             } else if (layEvent === 'check') {
-                location.href = 'index.html#/experiment/myDetails/id=' + data.id
+                admin.navigate('/experiment/myDetails/id=' + data.id)
             }
         })
 
@@ -174,7 +174,7 @@
             })
         }
         $('#experiment-mylist-add').on('click', function () {
-            location.href = 'index.html#/experiment/myadd'
+            admin.navigate('/experiment/myadd')
         })
         $('#experiment-mylist-delete').on('click', function () {
             layer.confirm('您确定要删除么?', {

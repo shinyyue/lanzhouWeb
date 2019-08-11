@@ -107,9 +107,9 @@
             var layEvent = obj.event
 
             if (layEvent === 'check') {
-                location.href = 'index.html#/examine/knowDetails/id=' + data.cId
+                admin.navigate('/examine/knowDetails/id=' + data.cId)
             } else if (layEvent === 'edit') {
-                location.href = 'index.html#/examine/addKnow/id=' + data.cId
+                admin.navigate('/examine/addKnow/id=' + data.cId)
             } else if (layEvent === 'delete') {
                 layer.open({
                     type: 1,
@@ -169,7 +169,7 @@
         }
 
         $('#examine-knowledge-add').on('click', function() {
-            location.href = 'index.html#/examine/addKnow'
+            admin.navigate('/examine/addKnow')
         })
         $('#knowledge-search').click(function() {
             getList(1)
