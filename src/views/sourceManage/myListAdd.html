@@ -39,14 +39,16 @@
                 id="single_upload"
             >
                 <label class="layui-form-label">选择文件</label>
-                <button
-                    type="button"
-                    class="layui-btn"
-                    id="upload-file"
-                    name="file"
-                >
-                    <i class="layui-icon">&#xe67c;</i>选择文件
-                </button>
+                <span style="display: inline-block;" id="upload-file-wrapper">
+                    <button
+                        type="button"
+                        class="layui-btn"
+                        id="upload-file"
+                        name="file"
+                    >
+                        <i class="layui-icon">&#xe67c;</i>选择文件
+                    </button>
+                </span>
                 <span id="file_path" style=" display: none;"></span>
                 <span style="margin-left: 50px; color: red;"
                       id="typeTip"></span>
@@ -439,8 +441,6 @@
             })
         })
         form.on('select(typeChange)', function(obj) {
-            // debugger
-            // $('#type').find()
             if (obj.value == 7) {
                 $('.show-scorm-upload').css({
                     display: 'block'
@@ -663,6 +663,20 @@
 
         function uploadFile(callback, elem, rType) {
             // debugger
+            if(rType == 7) {
+                $('#scorm_multiple_upload')
+            } else {
+                $('#upload-file').remove()
+                // todo:
+                $('#upload-file-wrapper').html('<button\n' +
+    '                        type="button"\n' +
+    '                        class="layui-btn"\n' +
+    '                        id="upload-file"\n' +
+    '                        name="file"\n' +
+    '                    >\n' +
+    '                        <i class="layui-icon">&#xe67c;</i>选择文件\n' +
+    '                    </button>')
+            }
             var type = rType
             upload.render({
                 elem: elem, //绑定元素
