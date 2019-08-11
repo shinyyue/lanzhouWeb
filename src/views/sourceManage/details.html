@@ -11,7 +11,7 @@
                  style="width: 100%; height: 500px;"></div>
             <div class="webgl-content"
                  id="u3dFileUrl"
-                 style="width: 100%; height: 500px;"></div>
+                 style="width: 100%; height: 500px;display: none;"></div>
         </div>
         <div style="display: none; color: red;"
              id="showTip">
@@ -225,14 +225,14 @@
                         )
                     } else if (data.type == 5) {
                         // exe
-                        $('#fileUrl').hide()
                         $('.unScorm-inner').hide();
                     } else if (data.type == 6) {
                         // U3D
-                        $('#fileUrl').addClass('.webgl-content')
+                        $('#fileUrl').hide()
+                        $('#u3dFileUrl').show()
                         var jsonFile = JSON.parse(data.fileUrl).json
                         UnityLoader.instantiate(
-                            'fileUrl',
+                            'u3dFileUrl',
                             'http://39.104.97.6:8001/' + jsonFile, {
                                 onProgress: UnityProgress
                             }

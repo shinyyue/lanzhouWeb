@@ -49,9 +49,11 @@
                 <label class="layui-form-label ">课件资源</label>
                 <div class="layui-col-md9">
                     <div class="source-display unScorm-inner">
+                        <div id="fileUrl"
+                                style="width: 100%; height: 500px;"></div>
                         <div class="webgl-content"
-                             id="fileUrl"
-                             style="width: 100%; height: 500px;"></div>
+                                id="u3dFileUrl"
+                                style="width: 100%; height: 500px;display: none;"></div>
                     </div>
                     <div style=" display: none; color: red;"
                          id="showTip">
@@ -187,13 +189,13 @@
                         )
                     } else if (res.data.dataType == 5) {
                         // exe
-                        $('#fileUrl').hide()
                         $('.unScorm-inner').hide();
                     } else if (res.data.dataType == 6) {
                         // U3D
-                        $('#fileUrl').html('')
+                        $('#fileUrl').hide()
+                        $('#u3dFileUrl').html('')
                         var jsonFile = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url.json
-                        UnityLoader.instantiate('fileUrl', jsonFile, {
+                        UnityLoader.instantiate('u3dFileUrl', jsonFile, {
                             onProgress: UnityProgress
                         })
                     } else if (res.data.dataType == 7) {
