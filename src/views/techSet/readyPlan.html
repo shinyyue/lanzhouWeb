@@ -233,8 +233,7 @@
                 success: function (res) {
                     if (res.code === 200) {
                         layer.msg('添加成功')
-                        window.location.href =
-                            'index.html#/techSet/readyDone/id=' + res.data.id
+                        admin.navigate('/techSet/readyDone/id=' + res.data.id)
                         
                     } else {
                         layer.msg(res.msg || '添加失败')

@@ -96,7 +96,7 @@
         })
 
         $('#examine-addknow-back').on('click', function () {
-            location.href = 'index.html#/examine/knowledge'
+            admin.navigate('/examine/knowledge')
         })
 
         getCourseList(function () {})
@@ -127,7 +127,7 @@
                 data: JSON.stringify(data),
                 success: function () {
                     layer.msg('修改成功！')
-                    location.href = 'index.html#/examine/knowledge'
+                    admin.navigate('/examine/knowledge')
                     
                 }
             })
@@ -140,7 +140,7 @@
                 success: function (res) {
                     if (res.code == 200) {
                         layer.msg('添加成功！')
-                        location.href = 'index.html#/examine/knowledge'
+                        admin.navigate('/examine/knowledge')
                         
                     } else {
                         layer.msg(res.msg || '添加失败！')

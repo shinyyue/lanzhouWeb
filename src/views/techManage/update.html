@@ -21,14 +21,14 @@
                             <option value="">选择课程</option>
                         </select>
                     </div>
-                    <div class="layui-col-md6 layui-form-item">
-                        <label class="layui-form-label">开课单位</label>
-                        <select name="collegeId"
-                                id="collegeId">
-                            <option value="">选择开课单位</option>
-                        </select>
-                        <!-- <input type="text" require name="collegeId" class="common-form-input" /> -->
-                    </div>
+                    <!--<div class="layui-col-md6 layui-form-item">-->
+                        <!--<label class="layui-form-label">开课单位</label>-->
+                        <!--<select name="collegeId"-->
+                                <!--id="collegeId">-->
+                            <!--<option value="">选择开课单位</option>-->
+                        <!--</select>-->
+                        <!--&lt;!&ndash; <input type="text" require name="collegeId" class="common-form-input" /> &ndash;&gt;-->
+                    <!--</div>-->
                 </div>
                 <div class="layui-row">
                     <div class="layui-col-md6 layui-form-item">
@@ -346,7 +346,7 @@
             return false
         })
         $('#source-add-cancle').on('click', function () {
-            window.location.href = 'index.html#/techManage/plan'
+            admin.navigate('/techManage/plan')
         })
         $('#classListChange').keyup(function (ev) {
             var reg = new RegExp(ev.currentTarget.value.trim(), 'ig')
@@ -791,8 +791,7 @@
                 success: function (res) {
                     if (res.code === 200) {
                         layer.msg('添加成功！')
-                        window.location.href = 'index.html#/techManage/plan'
-                        window.location.reload()
+                        admin.navigate('/techManage/plan')
                     } else {
                         layer.msg(res.msg || '添加失败')
                     }

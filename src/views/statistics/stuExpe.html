@@ -124,12 +124,12 @@
             var data = obj.data //获得当前行数据
             var layEvent = obj.event;
             if(layEvent == 'check') {
-                window.location.href = 'index.html#/checkCourse/virtualTestDetails/curriculumExperimentId=' + data.curriculumExperimentId +  '/studentId=' + layui.data('collegeSet').studentId
+                admin.navigate('/checkCourse/virtualTestDetails/curriculumExperimentId=' + data.curriculumExperimentId +  '/studentId=' + layui.data('collegeSet').studentId)
             }
         })
 
         $('#source-add-cancle').on('click', function () {
-            window.location.href = 'index.html#/statistics/scoreDetails'
+            admin.navigate('/statistics/scoreDetails')
         })
 
     })

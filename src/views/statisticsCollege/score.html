@@ -203,7 +203,7 @@
             if(layEvent == 'check') {
                 layui.data('collegeSet', {key: 'collegeId', value: data.id})
                 layui.data('collegeSet', {key: 'collegeName', value: data.college_name})
-                window.location.href = 'index.html#/statisticsCollege/scoreDetails/v=' + Math.ceil(Math.random()*10000)
+                admin.navigate('/statisticsCollege/scoreDetails/v=' + Math.ceil(Math.random()*10000))
             }
         })
 

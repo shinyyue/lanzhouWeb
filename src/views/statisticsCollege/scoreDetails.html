@@ -121,7 +121,7 @@
             var layEvent = obj.event;
             if(layEvent == 'check') {
                 layui.data('collegeSet', {key: 'studentId', value: data.id})
-                window.location.href = 'index.html#/statisticsCollege/stuExpe/v=' + Math.ceil(Math.random()*10000)
+                admin.navigate('/statisticsCollege/stuExpe/v=' + Math.ceil(Math.random()*10000))
             }
         })
 
@@ -164,7 +164,7 @@
         $('#score_detail_btn').click(function(){getScoreList(1)} )
 
         $('#source-add-cancle').on('click', function () {
-            window.location.href = 'index.html#/statisticsCollege/score'
+            admin.navigate('/statisticsCollege/score')
         })
 
     })

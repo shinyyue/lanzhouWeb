@@ -206,7 +206,7 @@
         table.on('tool(statistics_score_table)', function (obj) {
             var layEvent = obj.event;
             if(layEvent == 'check') {
-                window.location.href = 'index.html#/statistics/scoreDetails/v=' + Math.ceil(Math.random()*10000)
+                admin.navigate('/statistics/scoreDetails/v=' + Math.ceil(Math.random()*10000))
             }
         })
 

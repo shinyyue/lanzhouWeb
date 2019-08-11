@@ -148,9 +148,9 @@
                 return;
             }
             if (layEvent === 'edit') { //编辑
-                location.href = 'index.html#/techManage/update/id=' + data.id
+                admin.navigate('/techManage/update/id=' + data.id)
             } else if (layEvent === 'check') {
-                location.href = 'index.html#/techManage/details/id=' + data.id
+                admin.navigate('/techManage/details/id=' + data.id)
             } else if (layEvent === 'publish') {
                 layer.open({
                     type: 1,
@@ -233,7 +233,7 @@
             })
         }
         $('#add-cource').on('click', function () {
-            location.href = 'index.html#/techManage/update'
+            admin.navigate('/techManage/update')
         })
         $(document).off('mousedown', '.layui-table-grid-down').on('mousedown', '.layui-table-grid-down',
             function (event) {

@@ -143,16 +143,16 @@
         })
         $('#source-add-cancle').on('click', function () {
             // window.history.back(-2)
-            window.location.href = 'index.html#/techManage/plan'
+            admin.navigate('/techManage/plan')
         })
         $('#add-tech-manage').on('click', function () {
-            location.href = 'index.html#/techManage/update'
+            admin.navigate('/techManage/update')
         })
         $('#update-tech-manage').on('click', function () {
-            location.href = 'index.html#/techManage/update/id=' + id
+            admin.navigate('/techManage/update/id=' + id)
         })
         $('#add-tech-manage').on('click', function () {
-            location.href = 'index.html#/techManage/update'
+            admin.navigate('/techManage/update')
         })
         getDetails()
 

@@ -148,14 +148,14 @@
                 return
             }
             if (layEvent === 'edit') {
-                window.location.href = 'index.html#/techSet/paperUpdate/id=' + data.id
+                admin.navigate('/techSet/paperUpdate/id=' + data.id)
             } else if (layEvent === 'check') {
-                window.location.href = 'index.html#/techSet/paperDetails/id=' + data.id
+                admin.navigate('/techSet/paperDetails/id=' + data.id)
             }
             
         })
         $('#add_paper').on('click', function () {
-            window.location.href = 'index.html#/techSet/paperUpdate'
+            admin.navigate('/techSet/paperUpdate')
             // 
         })
 

@@ -199,13 +199,12 @@
             var layEvent = obj.event
 
             if (layEvent === 'ready-check') {
-                window.location.href =
-                    '/index.html#/techSet/assignDetails/id=' + id
+                admin.navigate('/techSet/assignDetails/id=' + id)
             }
             return false;
         })
         $('#back').on('click', function () {
-            window.location.href = '/index.html#/techSet/readyList'
+            admin.navigate('/techSet/readyList')
         })
 
         details()
@@ -259,8 +258,7 @@
                             success: function (res) {
                                 if (res.code == 200) {
                                     layer.msg('修改成功')
-                                    window.location.href =
-                                        'index.html#/techSet/readyList'
+                                    admin.navigate('/techSet/readyList')
                                     
                                 } else {
                                     layer.msg(res.msg || '修改失败')

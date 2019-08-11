@@ -193,7 +193,7 @@
             if (layEvent === 'resultUpdate-add-edit') {
                 // 手动批改
                 formData = data
-                location.href = 'index.html#/techSet/teacherScoring/id=' + data.id
+                admin.navigate('/techSet/teacherScoring/id=' + data.id)
             }
         })
 
@@ -248,7 +248,7 @@
         })
 
         $('#resultUpdate-add-edit').on('click', function() {
-            location.href = 'index.html#/techSet/teacherScoring'
+            admin.navigate('/techSet/teacherScoring')
         })
 
     })

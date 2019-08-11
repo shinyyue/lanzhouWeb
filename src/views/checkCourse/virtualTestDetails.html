@@ -350,10 +350,10 @@
             var fileVideoDetail = document.getElementById('file_video_detail')
             fileVideoDetail.currentTime = testContent
             fileVideoDetail.onpause = function () {
-                (testContent = fileVideoDetail.currentTime)
+                return (testContent = fileVideoDetail.currentTime)
             }
             fileVideoDetail.onended = function () {
-                (testContent = 0)
+                return (testContent = 0)
             }
         }
 

@@ -6,7 +6,7 @@
         </div>
     </div>
     <div class="statistics-tech-content">
-        <h4>自动化与电气工程学院开课明细</h4>
+        <h4><span id="facultyName"></span>开课明细</h4>
         <table
             class="layui-table"
             id="tech_details_table"
@@ -17,8 +17,9 @@
 </div>
 
 <script>
-    layui.use(['table'], function(table) {
+    layui.use(['table','jquery'], function(table) {
         var table = layui.table,
+            $ = layui.jquery,
             tableFilter = 'tech_details_table',
             admin = layui.admin,
             route = layui.router(),
@@ -30,6 +31,7 @@
             admin.get({
                 url: '/report/queryXInfoList?facultyId=' + id + '&collegeId='+collegeId,
                 success: function(res) {
+                    $('#facultyName').html((res.data && res.data.length > 0)? res.data[0].facultyName: '');
                     table.render({
                         page: false,
                         skin: 'row, line',
