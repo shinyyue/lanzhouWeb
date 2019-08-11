@@ -340,13 +340,13 @@ layui
                                 '</dd>'
                         }
                         childNav +=
-                            '<li class="layui-nav-item">' +
+                            '<li class="layui-nav-item sider-nav-item">' +
                             '   <a class="layui-nav-first" href="/index.html#' +
                             child[k].menuUrl +
                             '"data-url="' +
                             child[k].menuUrl +
                             '">' +
-                            '       <cite>' +
+                            '       <cite class="cite">' +
                             child[k].menuName +
                             '</cite>' +
                             '   </a>' +
@@ -401,10 +401,10 @@ layui
                             $(this).css('background', '#fff')
                             $(this)
                                 .find('a')
-                                .css('color', '#1a3471')
+                                .css('color', '#126093')
                             $(this)
                                 .siblings()
-                                .css('background', '#1a3471')
+                                .css('background', '#126093')
                             $(this)
                                 .siblings()
                                 .find('a')

@@ -32,7 +32,7 @@
             <ul class="layui-nav layout-header-right"
                 id="header_nav"
                 lay-filter="header_nav">
-                <li class="layui-nav-item"
+                <li class="layui-nav-item layui-nav-item-logout"
                     id="logout">退出系统</li>
             </ul>
         </div>
@@ -77,8 +77,11 @@
                             '"' +
                             'data-path="' +
                             menuList[i].menuUrl +
-                            '"> ' +
-                            menuList[i].menuName +
+                            '">' +
+                            '   <a href="javascript:;">'+ menuList[i].menuName +'</a>'+
+                            '   <dl class="layui-nav-child">'+
+                            '       <dd><a href="">电商平台</a></dd>'+
+                            '   </dl>'+
                             '</li>'
                     }
                 }
@@ -94,7 +97,7 @@
                     .removeClass('active')
                 admin.navigate(curPath)
                 path = curPath
-                firstPath = path.split('/')[1]
+                firstPath = path.split('/') && path.split('/').length > 0 && path.split('/')[1]
                 admin.setSideNav()
             })
             $('#logout').on('click', function () {
@@ -109,7 +112,7 @@
     #app-body {
         width: 100%;
         min-width: 1300px;
-        height: calc(100% - 50px);
+        height: calc(100% - 70px);
         overflow: auto;
         box-sizing: border-box;
     }
@@ -129,7 +132,7 @@
     .common-layout .layout-sider {
         width: 220px;
         height: 100%;
-        background: rgba(26, 52, 113, 1);
+        background: rgba(18, 96, 147, 1);
         float: left;
         overflow: auto;
         position: relative;
@@ -137,34 +140,33 @@
     }
 
     .layui-logo {
-        line-height: 50px;
+        line-height: 70px;
         text-align: center;
         color: #009688;
         font-size: 16px;
-        background: rgba(10, 96, 147, 1);
+        background: rgba(26, 52, 113, 1);
     }
 
     .layui-logo .layui-logo-img {
-        width: 158px;
-        height: 44px;
+        width: 199px;
+        /* height: 42px; */
         margin-right: 10px;
     }
 
     .sidebar-user {
-        background: rgba(26, 52, 113, 1);
-        border: 1px solid #333;
-        display: flex;
+        background: rgba(18, 96, 147, 1);
+        /* display: flex;
         flex-direction: row;
         justify-content: flex-start;
-        align-items: center;
-        padding: 20px 20px 40px;
+        align-items: center; */
         color: #fff;
+        text-align: center;
     }
 
     .sidebar-user .user-logo {
-        width: 40px;
-        height: 40px;
-        margin: 0 10px 0 30px;
+        width: 80px;
+        height: 80px;
+        margin: 20px auto;
     }
 
     .home-welcome {
@@ -191,31 +193,31 @@
 
     .common-layout .layout-right .layout-header {
         min-width: 1300px;
-        background: rgba(26, 52, 113, 1);
-        height: 50px;
+        background: rgba(18, 96, 147, 1);
+        height: 70px;
         padding: 0 35px 0 20px;
     }
 
     .layout-header-left {
         float: left;
-        font-size: 18px;
+        font-size: 20px;
         color: #fff;
-        height: 50px;
-        line-height: 50px;
+        height: 70px;
+        line-height: 70px;
     }
 
     .layout-header-right {
         float: right;
-        height: 50px;
-        line-height: 50px;
-        background: rgba(26, 52, 113, 1);
+        height: 70px;
+        line-height: 70px;
+        background: rgba(18, 96, 147, 1);
         padding: 0;
     }
 
     .layui-nav .layui-nav-item {
         float: left;
         /* height: 50px; */
-        line-height: 50px;
+        line-height: 70px;
         cursor: pointer;
         padding: 0 12px;
     }
@@ -228,6 +230,46 @@
         background: #00b0ca;
     }
 
+    .layout-header-right .layui-nav-item a {
+        color: #fff;
+    }
+
+    /* .layout-header-right .layui-nav-item.active:hover .layui-nav-child{
+        display: block;
+    }
+
+    .layout-header-right .layui-nav-item.active .layui-nav-child{
+        display: block;
+    } */
+
+    .layout-header-right .layui-nav-item .layui-nav-child dd {
+        height: 40px;
+        line-height: 40px;
+        color: #fff;
+        background: rgba(18, 96, 147, 1);
+        border-bottom: 1px solid rgba(33, 67, 146, 1);
+    }
+
+    .layout-header-right .layui-nav-item .layui-nav-child dd a:hover {
+        background: #00b0ca;
+        height: 40px;
+        line-height: 40px;
+        color: #fff;
+    }
+
+
+    .layout-header-right .layui-nav-item.active a {
+        font-weight: 900;
+    }
+
+    .layout-header-right .layui-nav-item.layui-nav-item-logout:hover {
+        background: #ff6600;
+    }
+
+    .layout-header-right .layui-nav-item:hover .layui-nav-child {
+        display: block;
+    }
+
     .layout-containner {
         padding: 20px;
     }
@@ -237,9 +279,19 @@
         width: 220px;
     }
 
-    #side_nav .layui-nav-item a {
-        height: 50px;
+    #side_nav .layui-nav-item.sider-nav-item {
         line-height: 50px;
+        height: 50px;
+    }
+
+    #side_nav .layui-nav-item.sider-nav-item .cite {
+        font-size: 16px;
+    }
+
+
+    #side_nav .layui-nav-item a {
+        line-height: 50px;
+        height: 50px;
     }
 
     #side_nav.layui-nav .layui-nav-item {
@@ -247,7 +299,7 @@
     }
 
     #side_nav .layui-nav-child {
-        background: rgba(26, 52, 113, 1);
+        background: rgba(18, 96, 147, 1);
         color: #fff;
         display: none;
         position: static;
@@ -257,6 +309,11 @@
         display: block;
     }
 
+    #side_nav .layui-nav-child dd a{
+        height: 45px;
+        line-height: 45px;
+    }
+
     #side_nav .layui-nav-child dd.active {
         background: #fff;
         color: rgba(26, 52, 113, 1);
@@ -264,11 +321,16 @@
 
     #side_nav .layui-nav-child dd.active a {
         color: rgba(26, 52, 113, 1);
+        font-size: 14px;
     }
 
     #side_nav .layui-nav-child a {
         color: #fff;
         padding-left: 50px;
+    }
+
+    #side_nav .layui-nav-child a .cite  {
+        font-size: 16px;
     }
 
     #side_nav .layui-nav-child dd a:hover {
