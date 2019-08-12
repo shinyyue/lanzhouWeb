@@ -398,7 +398,7 @@
             }
         })
         $('#download_template').on('click', function() {
-            window.open('http://39.104.97.6:8080/dataBank/exportExcelTemplete')
+            window.open('http://39.104.97.6:8080/vs-management-platform-0.0.1-SNAPSHOT/dataBank/exportExcelTemplete')
         })
         $('#check_upload_template').on('click', function() {
             layer.open({
@@ -633,7 +633,7 @@
         function scormUpload(callback, elem) {
             upload.render({
                 elem: elem, //绑定元素
-                url: 'http://39.104.97.6:8080/dataBank/oneFileUpload', //上传接口
+                url: 'http://39.104.97.6:8080/vs-management-platform-0.0.1-SNAPSHOT/dataBank/oneFileUpload', //上传接口
                 method: 'post',
                 field: 'file',
                 data: {
@@ -679,7 +679,7 @@
             var type = rType
             upload.render({
                 elem: elem, //绑定元素
-                url: 'http://39.104.97.6:8080/dataBank/oneFileUpload', //上传接口
+                url: 'http://39.104.97.6:8080/vs-management-platform-0.0.1-SNAPSHOT/dataBank/oneFileUpload', //上传接口
                 method: 'post',
                 field: 'file',
                 accept: 'file',
