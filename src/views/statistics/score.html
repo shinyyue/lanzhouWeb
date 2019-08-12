@@ -14,11 +14,11 @@
             <div class="tech-item-title">各系学生在各个成绩区间所占人数的百分比趋势</div>
             <div id="statistics_score_status" style="height:400px;"></div>
         </div>
-        <div class="tech-item">
-            <div class="tech-item-title">各系开课成绩明细分析</div>
-            <table id="statistics_score_table" lay-filter="statistics_score_table"></table>
-            <div class="app-table-page" id="statistics_score_page"></div>
-        </div>
+        <!--<div class="tech-item">-->
+            <!--<div class="tech-item-title">各系开课成绩明细分析</div>-->
+            <!--<table id="statistics_score_table" lay-filter="statistics_score_table"></table>-->
+            <!--<div class="app-table-page" id="statistics_score_page"></div>-->
+        <!--</div>-->
         <div class="tech-item">
             <div class="tech-item-title">各系及格率和优秀率升降比例</div>
             <table id="statistics_score_rate_table" lay-filter="statistics_score_rate_table"></table>
@@ -126,7 +126,7 @@
         }
 
         // 各学院开课成绩明细分析
-        statisticsScoreTableOption = {
+        /*statisticsScoreTableOption = {
             page: false,
             skin: 'row, line',
             data: [],
@@ -202,14 +202,14 @@
                 }
             })
         }
-        getStatisticsScoreList(1)
-        table.on('tool(statistics_score_table)', function (obj) {
+        getStatisticsScoreList(1)*/
+        /*table.on('tool(statistics_score_table)', function (obj) {
             debugger
             var layEvent = obj.event;
             if(layEvent == 'check') {
                 admin.navigate('/statistics/scoreDetails/v=' + Math.ceil(Math.random()*10000)+'?facultyId='+obj.data.id)
             }
-        })
+        })*/
 
         // 各学院及格率和优秀率升降比例
         statisticsScoreRateTableOption = {

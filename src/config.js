@@ -38,7 +38,7 @@ layui.define(function (exports) {
         },
         //request 基础URL
         //      requestUrl: 'http://127.0.0.1:8080',
-        requestUrl: 'http://39.104.97.6:8080/vs-management-platform-0.0.1-SNAPSHOT',
+        requestUrl: 'http://39.104.97.6:8080/',
         // 后台文件服务器地址
         fileRequestUrl: 'http://39.104.97.6:8001',
         // requestUrl: 'http://39.108.69.34:8080',
