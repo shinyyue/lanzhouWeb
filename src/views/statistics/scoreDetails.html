@@ -38,6 +38,8 @@
             table = layui.table,
             admin = layui.admin,
             laypage = layui.laypage,
+            route = layui.router(),
+            facultyId = route.search.facultyId
             collegeId = layui.data('userInfo').userInfo.collegeId || 0,
             tableFilter = 'score_table';
 
@@ -114,7 +116,8 @@
                     page: page,
                     collegeId: collegeId,
                     professionId: $('#professionList').val(),
-                    classId: $('#classList').val()
+                    classId: $('#classList').val(),
+                    facultyId: facultyId
                 }),
                 success: function (res) {
                     scoreTableOption.data = (res.data && res.data.items) || [];

@@ -4,7 +4,7 @@
             <span>您的位置：</span>
             <span
                 >选课 > <span id="courseNameNav"></span> > 虚拟实验 >
-                虚拟实验列表 > 虚拟实验信息</span
+                虚拟实验列表 > 虚拟实验信息 > <span id=""></span>></span
             >
         </div>
     </div>
@@ -113,7 +113,8 @@
         <div class="layui-row" id="labReportAddressDiv">
                 <div id="labReportFileUrl"
                  style="width: 100%; height: 500px;display: none;"></div>
-            <div class="layui-col-md12 layui-form-item">
+            <span id="file_path" style="display: none;"></span>
+            <!--<div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">上传实验报告</label>
                 <div class="layui-col-md9">
                     <button
@@ -122,12 +123,12 @@
                         id="labReportAddress"
                     >
                         <i class="layui-icon">&#xe67c;</i>上传PDF
-                        <span id="file_path" style="display: none;"></span>
+                        &lt;!&ndash;<span id="file_path" style="display: none;"></span>&ndash;&gt;
                     </button>
                     <span style="margin-left: 50px; color: red;"
                           id="typeTip"></span>
                 </div>
-            </div>
+            </div>-->
         </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
@@ -139,7 +140,7 @@
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label "></label>
                 <div>
-                    <div class="layui-btn primary-btn"
+                    <!--<div class="layui-btn primary-btn"
                          lay-submit
                          id="download">
                         下载
@@ -151,7 +152,7 @@
                     </div>
                     <div class="layui-btn primary-btn" lay-submit id="submit">
                         提交
-                    </div>
+                    </div>-->
                     <div
                         class="layui-btn layui-btn-primary cancel-btn"
                         id="back"
@@ -216,10 +217,9 @@
                     $('#require').html(data.require)
                     // $('#labReport').html(data.labReport)
                     $('#testTotleTime').html(data.testTotleTime)
-                    $('#file_path').html(data.labReportAddress)
                     dataType = res.data.dataType
 
-                    debugger
+                    // debugger
                     if (data.labReportAddress) {
                         //加载上传的实验报告
                         $('#labReportFileUrl').show()
@@ -334,7 +334,6 @@
                         $('#noadd').attr('style', 'display:none;')
                         $('#save').attr('style', 'display:none;')
                         $('#submit').attr('style', 'display:none;')
-                        $('#labReportAddressDiv').attr('style', 'display:none;')
                         /*$('#require').attr('disabled', 'true;')*/
                         $('#testContent').attr('disabled', 'true;')
                         $('#labReport').html(data.labReport)
@@ -344,7 +343,6 @@
                         $('#reportRatio').html(data.reportRatio)
 
                         $('#save').attr('style', 'display:none;')
-                        $('#labReportAddressDiv').attr('style', 'display:none;')
                         $('#submit').attr('style', 'display:none;')
                         /*$('#require').attr('disabled', 'true;')*/
                         // $('#labReport').attr('disabled', 'true;')
@@ -358,7 +356,7 @@
 
         // 渲染视频
         function renderVideo(data) {
-            debugger
+            // debugger
             testContent = data.testContent || 0
             var fileUrl =
                 conf.fileRequestUrl + '/' + JSON.parse(data.resourceIds)[0].url
@@ -500,7 +498,7 @@
 
         // 提交
         function submit() {
-            debugger
+            // debugger
             var endDate = new Date()
             var labReport = layedit.getContent(reportIndex) || ''
             var data = {

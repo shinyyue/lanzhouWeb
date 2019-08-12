@@ -87,17 +87,13 @@
                         {
                             title: '开始时间',
                             field: 'startTime',
-                            align: 'center',
-                            templet: function (d) {
-                                return admin.dateFormat(new Date(d.startTime).getTime() / 1000);
-                            }
+                            align: 'center'
                         }, {
                             title: '开始/结束时间',
                             field: 'startTime',
                             align: 'center',
                             templet: function (d) {
-                                return admin.dateFormat(new Date(d.startTime).getTime() / 1000) + "至" +
-                                    admin.dateFormat(new Date(d.endtTime).getTime() / 1000);
+                                return (d.startTime)+ "至" + d.endtTime
                             }
                         },
                         {
