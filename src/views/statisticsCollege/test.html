@@ -157,7 +157,6 @@
                             !legendData.includes(detail.typeName || '错误数据') && legendData.push(detail.typeName || '错误数据')
                         } )
                     })
-
                     series = legendData.map( function (legend) {
                         return {
                             name: legend,
@@ -177,7 +176,7 @@
                                 }
                             },
                             data: xAxisData.map(function (collegeName) {
-                                var t = res.data.filter(function(college){college.collegeName === collegeName})[0].data.filter(function(college) {legend === college.typeName} )
+                                var t = res.data.filter(function(college){return college.collegeName === collegeName})[0].data.filter(function(college) {return legend === college.typeName} )
                                 if(t && t.length > 0) return t[0].expCount
                                 return 0
                             })
@@ -228,7 +227,6 @@
                         studentCountList.push(college.studentCount)
                         teacherCountList.push(college.teacherCount)
                     })
-
                     var collegeStatusOption = {
                         xAxis: {
                             data: xAxisData
@@ -276,8 +274,8 @@
                     var xAxisData = [], passCountList = [], goodCount = []
                     res.data.forEach( function (college) {
                         xAxisData.push(college.collegeName)
-                        passCountList.push(college.passCount)
-                        goodCount.push(college.goodCount)
+                        passCountList.push(college.passStu)
+                        goodCount.push(college.goodStu)
                     })
 
                     var resultOption = {
