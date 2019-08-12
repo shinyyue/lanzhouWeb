@@ -124,12 +124,14 @@
             var data = obj.data //获得当前行数据
             var layEvent = obj.event;
             if(layEvent == 'check') {
-                admin.navigate('/checkCourse/virtualTestDetails/curriculumExperimentId=' + data.curriculumExperimentId +  '/studentId=' + layui.data('collegeSet').studentId)
+                admin.navigate('/checkCourse/virtualTestDetails/curriculumExperimentId=' + data.curriculumExperimentId +'/type=check' +  '/studentId=' + layui.data('collegeSet').studentId)
             }
         })
 
         $('#source-add-cancle').on('click', function () {
-            admin.navigate('/statistics/scoreDetails')
+            // admin.navigate('/statistics/scoreDetails')
+            //特殊情况暂时使用这种后退不刷新的功能
+            history.go(-1)
         })
 
     })
