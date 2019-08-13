@@ -22,11 +22,13 @@
         <div class="layui-row">
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label">父知识点</label>
-                <select name="pName"
+                <!--<select name="pName"
                         id="pName">
                     <option value="">请选择</option>
                     <option value="1">根知识点</option>
-                </select>
+                </select>-->
+                <div id="pName" name="pName" class="select-tree layui-form-select">
+                </div>
             </div>
         </div>
         <div class="layui-row">
@@ -69,6 +71,11 @@
         </div>
     </form>
 </div>
+
+<link href="src/plugins/ztree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+<script src="src/plugins/ztree/js/jquery-1.4.4.min.js"></script>
+<script src="src/plugins/ztree/js/jquery.ztree.all.js"></script>
+
 <script>
     layui.use(['form'], function () {
         var form = layui.form,
@@ -81,7 +88,7 @@
         $('#add_know').click(function () {
             var data = {
                 curriculumId: Number($('#curriculumId').val()),
-                parentId: Number($('#pName').val()),
+                parentId: $('#pNameHide').val(),
                 name: $('#name').val(),
                 describe: $('#describe').val()
             }
@@ -128,7 +135,7 @@
                 success: function () {
                     layer.msg('修改成功！')
                     admin.navigate('/examine/knowledge')
-                    
+
                 }
             })
         }
@@ -141,7 +148,7 @@
                     if (res.code == 200) {
                         layer.msg('添加成功！')
                         admin.navigate('/examine/knowledge')
-                        
+
                     } else {
                         layer.msg(res.msg || '添加失败！')
                         return
@@ -201,22 +208,10 @@
                 page: 1,
                 rows: 100000
             }
-            admin.post({
-                url: '/knowledgePoint/list',
-                data: JSON.stringify(data),
+            admin.get({
+                url: '/knowledgePoint/queryChildrenByPid?id='+id,
                 success: function (res) {
-                    for (var i = 0; i < res.data.items.length; i++) {
-                        var item = res.data.items[i]
-                        $('#pName').append(
-                            '<option value="' +
-                            item.cId +
-                            '">' +
-                            item.cName +
-                            '</option>'
-                        )
-                    }
-                    form.render()
-
+                    initSelectTree(treeToArray(res.data))
                     callback && typeof callback === 'function' && callback()
                 },
                 error: function (err) {
@@ -224,8 +219,122 @@
                 }
             })
         }
+
     })
 
+    $(document).ready(function(){
+        init();
+        initSelectTree();
+        hideMenu();
+    })
+
+    // ztree
+    // 初始化下拉
+    function init() {
+        var id = 'pName'
+        var html = '<div class = "layui-select-title" >' +
+            '<input id="' + id + 'Show"' + 'type = "text" placeholder = "请选择" value = "" class = "layui-input" readonly>' +
+            '<i class= "layui-edge" ></i>' +
+            '</div>';
+        $("#" + id).append(html);
+        $("#" + id).parent().append('<div class="tree-content scrollbar">' +
+            '<input hidden id="' + id + 'Hide" ' +
+            'name="' + $(".select-tree").attr("id") + '">' +
+            '<ul id="' + id + 'Tree" class="ztree scrollbar" style="margin-top:0;"></ul>' +
+            '</div>');
+        $("#" + id).bind("click", function () {
+            if ($(this).parent().find(".tree-content").css("display") !== "none") {
+                hideMenu()
+            } else {
+                $(this).addClass("layui-form-selected");
+                var position = $(this).position();
+                var width = $(this).width() - 2;
+                $(this).parent().find(".tree-content").css({
+                    left: position.left + "px",
+                    top: position.top + $(this).height() + "px",
+                    width: width,
+                    position: 'absolute',
+                    border: '1px solid',
+                    'z-index': 999,
+                    background: 'white'
+                }).slideDown("fast");
+                $("body").bind("mousedown", onBodyDown);
+            }
+        });
+    }
+    function initSelectTree(zNodes) {
+        var id = 'pName'
+        var setting = {
+            view: {
+                dblClickExpand: false,
+                showLine: false
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            check: {
+                enable: false,
+                chkboxType: {"Y": "ps", "N": "s"}
+            },
+            callback: {
+                onClick: onClick
+            }
+        };
+        $.fn.zTree.init($("#" + id + "Tree"), setting, zNodes);
+    }
+    // 点击节点
+    function onClick(event, treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj(treeId);
+        assignment(treeId, zTree.getSelectedNodes());
+        hideMenu();
+    }
+    // 隐藏下拉
+    function hideMenu() {
+        $(".select-tree").removeClass("layui-form-selected");
+        $(".tree-content").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDown);
+    }
+    function onBodyDown(event) {
+        if ($(event.target).parents(".tree-content").html() == null) {
+            hideMenu();
+        }
+    }
+    // input回显
+    function assignment(treeId, nodes) {
+        $('#pNameShow').val(nodes[0].name)
+        $('#pNameHide').val(nodes[0].id)
+    }
+    // 树转列表
+    function treeToArray(data) {
+        var l = [{id: data.id, name: data.name, pId: 0}] // 根节点
+        if(data.children && data.children.length > 0) {
+            _treeToArray(data.id, data.children).forEach(function (sl) {
+                l.push(sl)
+            })
+        }
+        console.log(l)
+        return l
+    }
+    function _treeToArray(pId, data) {
+        var l = []
+        if(data && data.length > 0) {
+            data.forEach(function(d) {
+                l.push({
+                    id: d.id,
+                    name: d.name,
+                    pId: pId
+                })
+                if(d.children && d.children.length > 0) {
+                    _treeToArray(d.id, d.children).forEach(function (sl) {
+                        l.push(sl)
+                    })
+                }
+            })
+        }
+        return l;
+    }
 </script>
 
 <style>
