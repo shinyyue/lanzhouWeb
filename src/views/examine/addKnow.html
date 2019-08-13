@@ -99,20 +99,19 @@
 
 
         form.on('select(checkCourse)', function (obj) {
-            getKnowList(function () {}, obj.value)
+            getKnowList(obj.value)
         })
 
         $('#examine-addknow-back').on('click', function () {
             admin.navigate('/examine/knowledge')
         })
 
-        getCourseList(function () {})
-
         if (id) {
             $('#knowledgePoint-add').attr('style', 'display:none;')
             getDetails()
         } else {
             $('#knowledgePoint-edit').attr('style', 'display:none;')
+            getCourseList()
         }
 
         function getDetails() {
@@ -120,9 +119,9 @@
                 url: '/knowledgePoint/queryById?id=' + id,
                 success: function (res) {
                     $('#name').val(res.data.pName)
-                    $('#pName').val(res.data.pId)
-                    $('#curriculumId').val(res.data.curriculumId)
                     $('#describe').val(res.data.describe)
+                    getCourseList(res.data.curriculumId)
+                    getKnowList(res.data.curriculumId, res.data.pId)
                 }
             })
         }
@@ -161,7 +160,7 @@
             })
         }
 
-        function getCourseList(callback) {
+        function getCourseList(chosenId) {
             var data = {
                 page: 1,
                 rows: 1000000
@@ -173,28 +172,10 @@
                     if( res.data && res.data.items) {
                         for(var i = 0; i < res.data.items.length; i++) {
                             var item = res.data.items[i];
-                            $('#curriculumId').append(
-                            '<option value="' +
-                                item.id +
-                                '">' +
-                                item.curriculumName +
-                                '</option>'
-                            )
+                            $('#curriculumId').append('<option '+(chosenId==item.id?'selected':'')+' value="' + item.id + '">' + item.curriculumName + '</option>')
                         }
                     }
-                    // res.data &&
-                    //     res.data.items &&
-                    //     res.data.items.forEach(item => {
-                    //         $('#curriculumId').append(
-                    //             '<option value="' +
-                    //             item.id +
-                    //             '">' +
-                    //             item.curriculumName +
-                    //             '</option>'
-                    //         )
-                    //     })
                     form.render()
-                    callback && typeof callback === 'function' && callback()
                 },
                 error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
@@ -202,7 +183,7 @@
             })
         }
 
-        function getKnowList(callback, id) {
+        function getKnowList(id, chosenId) {
             var data = {
                 key: '|'+id,
                 page: 1,
@@ -211,8 +192,7 @@
             admin.get({
                 url: '/knowledgePoint/queryChildrenByPid?id='+id,
                 success: function (res) {
-                    initSelectTree(treeToArray(res.data))
-                    callback && typeof callback === 'function' && callback()
+                    initSelectTree(treeToArray(res.data), chosenId)
                 },
                 error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
@@ -262,7 +242,7 @@
             }
         });
     }
-    function initSelectTree(zNodes) {
+    function initSelectTree(zNodes, chosenId) {
         var id = 'pName'
         var setting = {
             view: {
@@ -282,12 +262,18 @@
                 onClick: onClick
             }
         };
-        $.fn.zTree.init($("#" + id + "Tree"), setting, zNodes);
+        var zTree = $.fn.zTree.init($("#" + id + "Tree"), setting, zNodes);
+        if(zNodes && chosenId) {
+            var chosenNode = zTree.getNodeByParam("id", chosenId)
+            assignment([chosenNode])
+            zTree.checkNode(chosenNode, true)
+        }
+
     }
     // 点击节点
     function onClick(event, treeId, treeNode) {
         var zTree = $.fn.zTree.getZTreeObj(treeId);
-        assignment(treeId, zTree.getSelectedNodes());
+        assignment(zTree.getSelectedNodes());
         hideMenu();
     }
     // 隐藏下拉
@@ -302,7 +288,7 @@
         }
     }
     // input回显
-    function assignment(treeId, nodes) {
+    function assignment(nodes) {
         $('#pNameShow').val(nodes[0].name)
         $('#pNameHide').val(nodes[0].id)
     }
@@ -314,7 +300,6 @@
                 l.push(sl)
             })
         }
-        console.log(l)
         return l
     }
     function _treeToArray(pId, data) {
