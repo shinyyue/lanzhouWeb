@@ -10,7 +10,7 @@
             <h4>全院资源库数量及详细信息统计</h4>
             <table id="source_detail_table" lay-filter="source_detail_table"></table>
         </div>
-        <div class="source-content-item">
+        <!--<div class="source-content-item">
             <div class="source-content-title">
                 <h4>资源列表详情</h4>
                 <div class="source-content-search">
@@ -45,7 +45,7 @@
             </div>
             <table id="faculty_sourcelist_detail_table" lay-filter="faculty_sourcelist_detail_table"></table>
             <div class="app-table-page" id="faculty_sourcelist_detail_page"></div>
-        </div>
+        </div>-->
     </div>
 </div>
 
@@ -260,10 +260,10 @@
                 }
             })
         }
-        querySourceByFacultyIdInfo('sourcelist_detail_table', 'sourcelist_detail_page', 1, '|');
-        querySourceByFacultyIdInfo('faculty_sourcelist_detail_table', 'faculty_sourcelist_detail_page', 1, '|');
-        $('#faculty_detail_btn').click(function(){querySourceByFacultyIdInfo('faculty_sourcelist_detail_table', 'faculty_sourcelist_detail_page', 1, "|"+$('#faculty_detail_key').val())})
-        $('#source_detail_btn').click(function(){querySourceByFacultyIdInfo('sourcelist_detail_table', 'sourcelist_detail_page', 1, "|"+$('#source_detail_key').val())})
+        // querySourceByFacultyIdInfo('sourcelist_detail_table', 'sourcelist_detail_page', 1, '|');
+        // querySourceByFacultyIdInfo('faculty_sourcelist_detail_table', 'faculty_sourcelist_detail_page', 1, '|');
+        // $('#faculty_detail_btn').click(function(){querySourceByFacultyIdInfo('faculty_sourcelist_detail_table', 'faculty_sourcelist_detail_page', 1, "|"+$('#faculty_detail_key').val())})
+        // $('#source_detail_btn').click(function(){querySourceByFacultyIdInfo('sourcelist_detail_table', 'sourcelist_detail_page', 1, "|"+$('#source_detail_key').val())})
     })
 </script>
 
