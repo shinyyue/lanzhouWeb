@@ -110,9 +110,19 @@
                 </div>
             </div>
         </div>
+        <div class="layui-row" id="labReportAddressDivShow" style="width: 100%; height: 500px;display: none;">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label">实验报告</label>
+                <div class="layui-col-md9">
+                    <div id="labReportFileUrl" class="layui-col-md10"
+                         style="width: 100%; height: 500px;">
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="layui-row" id="labReportAddressDiv">
-                <div id="labReportFileUrl"
-                 style="width: 100%; height: 500px;display: none;"></div>
+                <!--<div id="labReportFileUrl" class="layui-col-md9"
+                 style="width: 100%; height: 500px;display: none;"></div>-->
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">上传实验报告</label>
                 <div class="layui-col-md9">
@@ -217,12 +227,12 @@
                     // $('#labReport').html(data.labReport)
                     $('#testTotleTime').html(data.testTotleTime)
                     $('#file_path').html(data.labReportAddress)
+                    labReportAddress = data.labReportAddress
                     dataType = res.data.dataType
 
-                    debugger
                     if (data.labReportAddress) {
                         //加载上传的实验报告
-                        $('#labReportFileUrl').show()
+                        $('#labReportAddressDivShow').show()
                         var labReportFileUrl = conf.fileRequestUrl + '/' + labReportAddress
                         $('#labReportFileUrl').html(
                             '<iframe src="' +
@@ -358,7 +368,6 @@
 
         // 渲染视频
         function renderVideo(data) {
-            debugger
             testContent = data.testContent || 0
             var fileUrl =
                 conf.fileRequestUrl + '/' + JSON.parse(data.resourceIds)[0].url
@@ -500,7 +509,6 @@
 
         // 提交
         function submit() {
-            debugger
             var endDate = new Date()
             var labReport = layedit.getContent(reportIndex) || ''
             var data = {
@@ -539,17 +547,18 @@
                 if (res.code === 401) {
                     admin.logout()
                 } else if (res.code === 200) {
-                    $('#labReportFileUrl').show()
+                    $('#file_path').html(res.data)
+                    labReportAddress = res.data
+                    layer.msg('上传成功')
+                    $('#typeTip').html(res.data)
+                    $('#labReportAddressDivShow').show()
                     var labReportFileUrl = conf.fileRequestUrl + '/' + labReportAddress
+                    debugger
                     $('#labReportFileUrl').html(
                         '<iframe src="' +
                         labReportFileUrl +
                         '" width="100%" height="100%" frameborder="1"></iframe>'
                     )
-                    $('#file_path').html(res.data)
-                    labReportAddress = res.data
-                    layer.msg('上传成功')
-                    $('#typeTip').html(res.data)
                 } else {
                     layer.msg(res.msg || '上传失败')
                 }
