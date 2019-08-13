@@ -89,13 +89,9 @@
                             align: 'center',
                             templet: function(d) {
                                 return (
-                                    admin.dateFormat(
-                                        new Date(d.startTime).getTime() / 1000
-                                    ) +
+                                    d.startTime+
                                     '至' +
-                                    admin.dateFormat(
-                                        new Date(d.endtTime).getTime() / 1000
-                                    )
+                                    d.endtTime
                                 )
                             }
                         },

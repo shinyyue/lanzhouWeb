@@ -236,7 +236,7 @@
             chatList.forEach(function(item) {
                 str +=
                     '<span class="chat-time">' +
-                    admin.dateFormat(new Date(item.sendTime).getTime() / 1000) +
+                    item.sendTime +
                     '</span>' +
                     '<div class="chat-dialog ' +
                     (item.toUserId == userId ? 'chat-myself' : 'chat-others') +

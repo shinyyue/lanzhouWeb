@@ -191,8 +191,8 @@
                     for (var i = 0; i < res.data.length; i++) {
                         var item = res.data[i]
                         list += '<tr>' + '<td>' + (i + 1) + '</td>' + '<td>' + item.name + '</td>' +
-                            '<td>' + item.userName + '</td>' + '<td>' + admin.dateFormat(new Date(
-                                item.createTime).getTime() / 1000) + '</td>' + '<td>' + item.recommendedScores +
+                            '<td>' + item.userName + '</td>' + '<td>' +
+                                item.createTime + '</td>' + '<td>' + item.recommendedScores +
                             '</td>' + '<td>' +
                             '<button class="layui-btn layui-btn-primary pre-check-detail" data-index="' +
                             i + '">查看</button>' + '</td>' + '</tr>'
@@ -233,8 +233,7 @@
                 '<div class="details-item-inner">' + '<span class="details-item-label">建议分数</span>' +
                 '<span class="details-item-text">' + data.recommendedScores + '</span>' + '</div>' +
                 '<div class="details-item-inner">' + '<span class="details-item-label">创建时间</span>' +
-                '<span class="details-item-text">' + admin.dateFormat(new Date(data.createTime).getTime() /
-                    1000) + '</span>' + '</div>' + '</div>' + '<div class="details-item details-item-content">' +
+                '<span class="details-item-text">' + data.createTime + '</span>' + '</div>' + '</div>' + '<div class="details-item details-item-content">' +
                 '<span class="details-item-label">课程导读内容</span>' + '<div class="details-item-text">' + data.content +
                 '</div>' + '</div>' + '</div>'
             layer.open({

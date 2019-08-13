@@ -82,22 +82,12 @@
                         {
                             title: '开始日期',
                             field: 'startTime',
-                            align: 'center',
-                            templet: function(d) {
-                                return admin.dateFormat(
-                                    new Date(d.startTime).getTime() / 1000
-                                )
-                            }
+                            align: 'center'
                         },
                         {
                             title: '结束日期',
                             field: 'endTime',
-                            align: 'center',
-                            templet: function(d) {
-                                return admin.dateFormat(
-                                    new Date(d.endTime).getTime() / 1000
-                                )
-                            }
+                            align: 'center'
                         },
                         {
                             title: '操作',
@@ -179,13 +169,9 @@
                 )
             }, 0)
 
-            formData.startTime = admin.dateFormat(
-                new Date(data.startTime).getTime() / 1000
-            )
+            formData.startTime = data.startTime
 
-            formData.endTime = admin.dateFormat(
-                new Date(data.endTime).getTime() / 1000
-            )
+            formData.endTime = data.endTime)
 
             var layerOption = {
                 type: 1,

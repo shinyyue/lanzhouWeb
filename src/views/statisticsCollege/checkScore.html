@@ -471,7 +471,7 @@
                 curriculumId: curriculumId,
                 experimentId: experimentId,
                 dataType: dataType,
-                startTimeStr: admin.dateFormat(startDate / 1000),
+                startTimeStr: startDate,
                 endTimeStr: admin.dateFormat(endDate / 1000),
                 useTime: (endDate.getTime() - startDate.getTime()) / 1000,
                 testContent: dataType==7? JSON.stringify(testContent): testContent,

@@ -85,15 +85,7 @@
                             field: 'startTime',
                             align: 'center',
                             templet: function(d) {
-                                return (
-                                    admin.dateFormat(
-                                        new Date(d.startTime).getTime() / 1000
-                                    ) +
-                                    '至' +
-                                    admin.dateFormat(
-                                        new Date(d.endTime).getTime() / 1000
-                                    )
-                                )
+                                return d.startTime + '至' + d.endTime
                             }
                         },
                         {

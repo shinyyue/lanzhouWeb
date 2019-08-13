@@ -95,7 +95,7 @@
                             field: 'createTime',
                             align: 'center',
                             templet: function (d) {
-                                return admin.dateFormat(new Date(d.createTime).getTime() / 1000)
+                                return d.createTime
                             }
                         },
                         {

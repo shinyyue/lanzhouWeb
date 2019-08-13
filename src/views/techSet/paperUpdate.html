@@ -151,14 +151,10 @@
                     getPloyList(res.data.strategyId)
                     $('#testTime').val(res.data.testTime)
                     $('#startTime').val(
-                        admin.dateFormat(
-                            new Date(res.data.startTime).getTime() / 1000
-                        )
+                        res.data.startTime
                     )
                     $('#endTime').val(
-                        admin.dateFormat(
-                            new Date(res.data.endTime).getTime() / 1000
-                        )
+                        res.data.endTime
                     )
                 }
             })
