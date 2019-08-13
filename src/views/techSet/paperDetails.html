@@ -120,12 +120,9 @@
                     $('#curriculumId').html(res.data.curriculumName)
                     $('#testTime').html(res.data.testTime)
                     $('#userName').html(res.data.userName)
-                    $('#startTime').html(admin.dateFormat(new Date(res.data.startTime).getTime() /
-                        1000))
-                    $('#endTime').html(admin.dateFormat(new Date(res.data.endTime).getTime() /
-                        1000))
-                    $('#updateTime').html(admin.dateFormat(new Date(res.data.updateTime).getTime() /
-                        1000))
+                    $('#startTime').html(res.data.startTime)
+                    $('#endTime').html(res.data.endTime)
+                    $('#updateTime').html(res.data.updateTime)
                 }
             })
         }

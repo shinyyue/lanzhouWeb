@@ -79,26 +79,12 @@
                         {
                             title: '开始日期',
                             field: 'startTime',
-                            align: 'center',
-                            templet: function(d) {
-                                return admin
-                                    .dateFormat(
-                                        new Date(d.startTime).getTime() / 1000
-                                    )
-                                    .substring(0, 11)
-                            }
+                            align: 'center'
                         },
                         {
                             title: '结束日期',
                             field: 'endTime',
-                            align: 'center',
-                            templet: function(d) {
-                                return admin
-                                    .dateFormat(
-                                        new Date(d.endTime).getTime() / 1000
-                                    )
-                                    .substring(0, 11)
-                            }
+                            align: 'center'
                         },
                         {
                             title: '操作',

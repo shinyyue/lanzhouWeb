@@ -63,14 +63,7 @@
                         {
                             title: '数据备份日期',
                             field: 'backupDate',
-                            align: 'center',
-                            templet: function(d) {
-                                return admin
-                                    .dateFormat(
-                                        new Date(d.backupDate).getTime() / 1000
-                                    )
-                                    .substring(0, 11)
-                            }
+                            align: 'center'
                         },
                         {
                             title: '版本',

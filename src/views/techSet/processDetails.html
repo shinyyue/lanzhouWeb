@@ -63,8 +63,8 @@
                         field: 'times',
                         width: 400,
                         templet: function (d) {
-                            return admin.dateFormat(new Date(d.startTime).getTime() / 1000) +
-                                "-" + admin.dateFormat(new Date(d.endTime).getTime() / 1000);
+                            return d.startTime +
+                                "-" + d.endTime;
                         }
                     },
                     {

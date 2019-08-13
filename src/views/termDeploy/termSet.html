@@ -86,9 +86,7 @@
                             field: 'startTime',
                             align: 'center',
                             templet: function(d) {
-                                return admin.dateFormat(
-                                    new Date(d.startTime).getTime() / 1000
-                                )
+                                return d.startTime
                             }
                         },
                         {
@@ -96,9 +94,7 @@
                             field: 'endTime',
                             align: 'center',
                             templet: function(d) {
-                                return admin.dateFormat(
-                                    new Date(d.endTime).getTime() / 1000
-                                )
+                                return d.endTime
                             }
                         },
                         {
@@ -186,13 +182,9 @@
                 )
             }, 0)
 
-            formData.startTime = admin.dateFormat(
-                new Date(data.startTime).getTime() / 1000
-            )
+            formData.startTime = data.startTime
 
-            formData.endTime = admin.dateFormat(
-                new Date(data.endTime).getTime() / 1000
-            )
+            formData.endTime = data.endTime
 
             var layerOption = {
                 type: 1,

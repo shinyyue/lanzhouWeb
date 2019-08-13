@@ -78,9 +78,7 @@
                             field: 'startTime',
                             align: 'center',
                             templet: function(d) {
-                                return admin.dateFormat(
-                                    new Date(d.startTime).getTime() / 1000
-                                )
+                                return d.startTime
                             }
                         },
                         {
@@ -88,9 +86,7 @@
                             field: 'endTime',
                             align: 'center',
                             templet: function(d) {
-                                return admin.dateFormat(
-                                    new Date(d.endTime).getTime() / 1000
-                                )
+                                return d.endTime
                             }
                         },
                         {
@@ -135,9 +131,9 @@
                     data.id +
                     '/type=test' +
                     '/endTime=' +
-                    new Date(data.endTime).getTime() +
+                    data.endTime +
                     '/startTime=' +
-                    new Date(data.startTime).getTime())
+                    data.startTime)
             }
         })
 

@@ -100,9 +100,9 @@
                         admin.navigate('/checkCourse/testDetails/id=' +
                             id +
                             '/endTime=' +
-                            new Date(res.data.endTime).getTime() +
+                            res.data.endTime+
                             '/startTime=' +
-                            new Date(res.data.startTime).getTime())
+                            res.data.startTime)
                     }
                 }
             })
@@ -186,8 +186,8 @@
                         $('#test_details').html(str)
                         $('#score').html(res.data.score)
                         $('#testTime').html(res.data.testTime)
-                        $('#startTime').html(formatTime(res.data.startTime))
-                        $('#endTime').html(formatTime(res.data.endTime))
+                        $('#startTime').html(res.data.startTime)
+                        $('#endTime').html(res.data.endTime)
                         $('#name').html(name)
 
                         form.render()

@@ -89,8 +89,7 @@
                     $('#curriculumName').html(res.data.curriculumName)
                     $('#strategyName').html(res.data.strategyName)
                     $('#userName').html(res.data.userName)
-                    $('#createTime').html(admin.dateFormat(new Date(res.data.createTime).getTime() /
-                        1000))
+                    $('#createTime').html(res.data.createTime)
                     strategyEntries = res.data.list
                     strategyEntries.forEach(function (item) {
                         $('#ploy_details_table').append('<tr>\n' + '   <td>\n' + '      ' +

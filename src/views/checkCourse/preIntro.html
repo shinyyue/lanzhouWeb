@@ -88,9 +88,7 @@
                         // $('#content').val(res.data.content)
                         layedit.setContent(index, res.data.content)
                         $('#createTime').html(
-                            admin.dateFormat(
-                                new Date(res.data.createTime).getTime() / 1000
-                            )
+                            res.data.createTime
                         )
                     }
                 }

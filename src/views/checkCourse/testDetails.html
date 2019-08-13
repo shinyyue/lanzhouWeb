@@ -96,12 +96,8 @@
             route = layui.router(),
             id = route.search.id,
             type = route.search.type,
-            endTime = admin.dateFormat(
-                new Date(route.search.endTime).getTime() / 1000
-            ),
-            startTime = admin.dateFormat(
-                new Date(route.search.startTime).getTime() / 1000
-            ),
+            endTime = route.search.endTime,
+            startTime = route.search.startTime,
             now = new Date().getTime()
 
         type == 'check' ? getScores() : getDeatils(id)
@@ -128,14 +124,10 @@
                     $('#full_mark').html(res.data.score)
                     $('#test_time').html(res.data.testTime)
                     $('#startTime').html(
-                        admin.dateFormat(
-                            new Date(res.data.startTime).getTime() / 1000
-                        )
+                        res.data.startTime
                     )
                     $('#endTime').html(
-                        admin.dateFormat(
-                            new Date(res.data.endTime).getTime() / 1000
-                        )
+                        res.data.endTime
                     )
                     $('#full_mark').html(res.score)
                     $('#test_details_info').html('')

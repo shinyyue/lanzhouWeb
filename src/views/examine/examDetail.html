@@ -164,7 +164,7 @@
                     //                        $('#answer').append(k + ':' + answer[k])
                     //                    }
                     $('#content').html(res.data.content)
-                    $('#createTime').html(admin.dateFormat(new Date(res.data.createTime) / 1000))
+                    $('#createTime').html(res.data.createTime)
                     var optionList = JSON.parse(res.data.option)
                     for (var key in optionList) {
                         $('#option_list').append('<div class="layui-row">\n' +
