@@ -551,7 +551,7 @@
             })
         }
 
-        function getKnowlegeList(id) {
+        function getKnowlegeList(id, callback) {
             admin.get({
                 url: '/knowledgePoint/listByCurriculumId?curriculumId=' + id,
                 success: function (res) {
@@ -570,6 +570,7 @@
                         )
                     }
                     form.render()
+                    callback && typeof callback === 'function' && callback()
                 },
                 error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
@@ -584,8 +585,13 @@
                     if (res.code === 200) {
                         $('#strategyName').val(res.data.strategyName || '')
                         $('#curriculumId').val(res.data.curriculumId || '')
-                        tableOption.data = res.data.list
-                        table.render(tableOption)
+                        debugger
+                        getKnowlegeList(res.data.curriculumId, function() {
+                            debugger
+                            tableOption.data = res.data.list
+                            table.render(tableOption)
+                            form.render()
+                        })
                         form.render()
                     }
                 }
