@@ -44,6 +44,7 @@
             tableFilter = 'college-mylist-table',
             table = layui.table,
             admin = layui.admin,
+            roleId = layui.data('userInfo').userInfo.roleId,
             pageLimit = 20,
             layPageOption = {
                 elem: 'college-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
@@ -208,6 +209,11 @@
         $("#searchCollegeList").click(function () {
             getList(1)
         })
+
+        //判断角色隐藏按钮
+        if (roleId == 6) {
+            $('#add_college').attr('style', 'display:none;')
+        }
 
         function getList(page) {
             var collegeName = $("#collegeName").val(),
