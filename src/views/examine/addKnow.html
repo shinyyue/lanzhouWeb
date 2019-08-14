@@ -99,6 +99,7 @@
 
 
         form.on('select(checkCourse)', function (obj) {
+            cleanAssignment()
             getKnowList(obj.value)
         })
 
@@ -291,6 +292,11 @@
     function assignment(nodes) {
         $('#pNameShow').val(nodes[0].name)
         $('#pNameHide').val(nodes[0].id)
+    }
+    // 删除回显
+    function cleanAssignment() {
+        $('#pNameShow').val('')
+        $('#pNameHide').val('')
     }
     // 树转列表
     function treeToArray(data) {
