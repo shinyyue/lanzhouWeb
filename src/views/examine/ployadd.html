@@ -59,12 +59,13 @@
                             </tr>
                         <tbody id="poly-add-strategy"></tbody> -->
                     </table>
-                    <script type="text/html"
-                            id="knowlegePoint">
-                        <select name="knowledgePoint"
-                                class="knowledgePoint"
-                                lay-filter="knowlegePointChange"
-                                id="knowlegePointChange"></select>
+                    <script type="text/html" id="knowlegePoint">
+                        <div class="select-tree layui-form-select">
+                            <div class = "layui-select-title" >
+                                <input type="text" placeholder="请选择" value="{{ d.knowledgePointName }}" class="layui-input">
+                                <i class= "layui-edge" ></i>
+                            </div>
+                        </div>
                     </script>
                     <script type="text/html"
                             id="askType">
@@ -139,83 +140,101 @@
             </div>
         </div>
     </form>
+    <div id="tree-content" class="scrollbar" style="display: none;">
+        <input type="text" placeholder="请选择" value="" class="layui-input pNameHide">
+        <ul class="ztree scrollbar pNameTree" id="pNameTree" style="margin-top:0;"></ul>
+    </div>
 </div>
 
+<link href="src/plugins/ztree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+<script src="src/plugins/ztree/js/jquery-1.4.4.min.js"></script>
+<script src="src/plugins/ztree/js/jquery.ztree.all.js"></script>
+
 <script>
+    var tableOption, option = {
+            exercisesDifficulty: '',
+            exercisesSize: '',
+            exercisesType: '',
+            knowledgePoint: '',
+            knowledgePointName: '',
+            referNums: '',
+            totalScore: ''
+        },
+        chosenTrIndex,
+        strategyEntries = [JSON.parse(JSON.stringify(option))];
+
     layui.use(['form', 'table'], function (table) {
-        var table = layui.table,
-            $ = layui.jquery,
-            form = layui.form,
+        var form = layui.form,
             admin = layui.admin,
+            table = layui.table,
+            $ = layui.jquery,
             kechengId = layui.data('techSet').kechengId,
-            option = {
-                exercisesDifficulty: '',
-                exercisesSize: '',
-                exercisesType: '',
-                knowledgePoint: '',
-                referNums: '',
-                totalScore: ''
-            },
-            strategyEntries = [JSON.parse(JSON.stringify(option))],
+
             tableFilter = 'ploy_add_table',
-            tableOption = {
-                page: false,
-                skin: 'row,line',
-                elem: '[lay-filter="' + tableFilter + '"]',
-                data: strategyEntries,
-                cols: [
-                    [{
-                            title: '知识点',
-                            // width: 130,
-                            align: 'center',
-                            templet: '#knowlegePoint'
-                        },
-                        {
-                            title: '习题类型',
-                            // width: 130,
-                            align: 'center',
-                            templet: '#askType'
-                        },
-                        {
-                            title: '习题难度',
-                            // width: 130,
-                            align: 'center',
-                            templet: '#askDiff'
-                        },
-                        {
-                            title: '参考题数',
-                            align: 'center',
-                            width: 80,
-                            templet: '#referNums'
-                        },
-                        {
-                            title: '抽题数量',
-                            align: 'center',
-                            // width: 120,
-                            templet: '#checkedNums',
-                            edit: 'number'
-                        },
-                        {
-                            title: '总分',
-                            align: 'center',
-                            width: 80,
-                            templet: '#allScores'
-                        },
-                        {
-                            title: '操作',
-                            width: 80,
-                            align: 'center',
-                            templet: '#delete'
-                        }
-                    ]
-                ],
-                done: function (res, curr, count) {
-                    // merge(res, curr, count)
-                }
-            },
-            knowlegeList = [],
             route = layui.router(),
-            id = route.search.id
+            id = route.search.id;
+
+        tableOption = {
+            page: false,
+            skin: 'row,line',
+            elem: '[lay-filter="' + tableFilter + '"]',
+            data: strategyEntries,
+            cols: [
+                [{
+                    title: '知识点',
+                    // width: 130,
+                    align: 'center',
+                    templet: '#knowlegePoint',
+                    event: "knowlegePointChange"
+                // },{
+                //     title: '知识点id',
+                //     align: 'center',
+                //     style:'display:none;',
+                //     field: 'knowledgePoint',
+                },
+                    {
+                        title: '习题类型',
+                        // width: 130,
+                        align: 'center',
+                        templet: '#askType'
+                    },
+                    {
+                        title: '习题难度',
+                        // width: 130,
+                        align: 'center',
+                        templet: '#askDiff'
+                    },
+                    {
+                        title: '参考题数',
+                        align: 'center',
+                        width: 80,
+                        templet: '#referNums'
+                    },
+                    {
+                        title: '抽题数量',
+                        align: 'center',
+                        // width: 120,
+                        templet: '#checkedNums',
+                        edit: 'number'
+                    },
+                    {
+                        title: '总分',
+                        align: 'center',
+                        width: 80,
+                        templet: '#allScores'
+                    },
+                    {
+                        title: '操作',
+                        width: 80,
+                        align: 'center',
+                        templet: '#delete'
+                    }
+                ]
+            ],
+            done: function (res, curr, count) {
+                // merge(res, curr, count)
+            }
+        }
 
 
         if (id) {
@@ -238,31 +257,16 @@
             window.history.back(-1)
         })
 
-        form.on('select(knowlegePointChange)', function (obj) {
+        function knowlegePointChange(obj) {
+            chosenTrIndex = obj.tr.data('index')
             $('.layui-table-body').css('overflow', 'visible')
             $('.layui-table-box').css({
                 overflow: 'visible',
                 'min-height': '300px'
             })
             $('.layui-table-view').css('overflow', 'visible')
-            var value = obj.value
-            var tr = $(obj.elem).parents('tr')
-            var index = tr.data('index')
-
-            $('.knowledgePoint')
-                .eq(index)
-                .val(value)
-
-            strategyEntries[index].knowledgePoint = Number(value)
-
-            if (
-                strategyEntries[index].knowledgePoint &&
-                strategyEntries[index].exercisesDifficulty &&
-                strategyEntries[index].exercisesType
-            ) {
-                getExerciseInfo(index)
-            }
-        })
+            openZTree(obj.elem)
+        }
 
         form.on('select(exercisesTypeChange)', function (obj) {
             $('.layui-table-body').css('overflow', 'visible')
@@ -342,6 +346,11 @@
 
         table.on('tool(ploy_add_table)', function (obj) {
             var leyEvent = obj.event
+            if(leyEvent === 'knowlegePointChange') {
+                // 编辑知识点
+                knowlegePointChange(obj)
+            }
+
             if (leyEvent === 'delete') {
                 var index = $(obj.tr.selector).data(index).index
                 if (strategyEntries.length === 1) {
@@ -381,7 +390,7 @@
         })
 
         $('#add_ploy').on('click', function () {
-        
+
             strategyEntries.push(JSON.parse(JSON.stringify(option)))
             tableOption.data = strategyEntries
             table.render(tableOption)
@@ -392,25 +401,6 @@
              'min-height': '300px',
              })
              $('.layui-table-view').css('overflow', 'visible')
-
-            $('.knowledgePoint').each(function (index) {
-                $(this).html('<option value="">请选择</option>')
-                var opt = ''
-                for(var i = 0;  i< knowlegeList.length; i++) {
-                    var item = knowlegeList[i]
-                    opt +=
-                    '<option value="' +
-                        item.id +
-                        '">' +
-                        item.name +
-                        '</option>'
-                }
-                $(this).append(opt)
-                if (index !== strategyEntries.length - 1) {
-                    $(this).val(strategyEntries[index].knowledgePoint)
-                    form.render()
-                }
-            })
 
             $('.exercisesType').each(function (index) {
                 if (index !== strategyEntries.length - 1) {
@@ -551,26 +541,12 @@
             })
         }
 
-        function getKnowlegeList(id, callback) {
+        function getKnowlegeList(id) {
             admin.get({
-                url: '/knowledgePoint/listByCurriculumId?curriculumId=' + id,
+                url: '/knowledgePoint/queryChildrenByPid?id='+id,
                 success: function (res) {
-                    knowlegeList = res.data || []
-                    $('.knowledgePoint').html(
-                        '<option value="">请选择</option>'
-                    )
-                    for (var w = 0; w < res.data.length; w++) {
-                        var item = res.data[w]
-                        $('.knowledgePoint').append(
-                            '<option value="' +
-                            item.id +
-                            '">' +
-                            item.name +
-                            '</option>'
-                        )
-                    }
-                    form.render()
-                    callback && typeof callback === 'function' && callback()
+                    cleanAssignment()
+                    initSelectTree(treeToArray(res.data))
                 },
                 error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
@@ -585,9 +561,7 @@
                     if (res.code === 200) {
                         $('#strategyName').val(res.data.strategyName || '')
                         $('#curriculumId').val(res.data.curriculumId || '')
-                        debugger
                         getKnowlegeList(res.data.curriculumId, function() {
-                            debugger
                             tableOption.data = res.data.list
                             table.render(tableOption)
                             form.render()
@@ -599,6 +573,128 @@
         }
     })
 
+    $(document).ready(function(){
+        initSelectTree();
+        hideMenu();
+    })
+
+    // ztree
+    // 初始化下拉
+    function initSelectTree(zNodes) {
+        var setting = {
+            view: {
+                dblClickExpand: false,
+                showLine: false
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            check: {
+                enable: false,
+                chkboxType: {"Y": "ps", "N": "s"}
+            },
+            callback: {
+                onClick: onClick
+            }
+        };
+        $.fn.zTree.init($("#pNameTree"), setting, zNodes);
+    }
+    // 下拉树
+    function openZTree(obj) {
+        $(obj).addClass("layui-form-selected");
+        var position = $(obj).position();
+        var width = $(obj).width() - 2;
+        $("#tree-content").css({
+            // @TODO 位置
+            // left: position.left + "px",
+            // top: position.top + $(obj).height() + "px",
+            // width: width,
+            height: '200px',
+            position: 'absolute',
+            border: '1px solid',
+            'z-index': 999,
+            background: 'white',
+            display: 'block'
+        }).slideDown("fast");
+        $("body").bind("mousedown", onBodyDown);
+    }
+    // 点击节点
+    function onClick(event, treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj(treeId);
+        assignment(zTree.getSelectedNodes());
+        hideMenu();
+
+        $('.layui-table-body').css('overflow', 'visible')
+        $('.layui-table-box').css({
+            overflow: 'visible',
+            'min-height': '300px',
+        })
+        $('.layui-table-view').css('overflow', 'visible')
+        // if (
+        //     strategyEntries[chosenTrIndex].knowledgePoint &&
+        //     strategyEntries[chosenTrIndex].exercisesDifficulty &&
+        //     strategyEntries[chosenTrIndex].exercisesType
+        // ) {
+        //     getExerciseInfo(chosenTrIndex)
+        // }
+    }
+    // 隐藏下拉
+    function hideMenu() {
+        // $(".select-tree").removeClass("layui-form-selected");
+        // $("#tree-content").fadeOut("fast");
+        $("#tree-content").hide();
+        // $("body").unbind("mousedown", onBodyDown);
+    }
+    function onBodyDown(event) {
+        if ($("#tree-content").html() == null) {
+            hideMenu();
+        }
+    }
+    // input回显
+    function assignment(nodes) {
+        strategyEntries[chosenTrIndex].knowledgePointName = nodes[0].name;
+        strategyEntries[chosenTrIndex].knowledgePoint = nodes[0].id;
+        layui.table.render(tableOption)
+    }
+    // 删除回显
+    function cleanAssignment() {
+        strategyEntries.forEach(function (s) {
+            s.knowledgePointName = ''
+            s.knowledgePoint = ''
+        })
+        console.log(strategyEntries)
+        layui.table.render(tableOption)
+    }
+    // 树转列表
+    function treeToArray(data) {
+        var l = [{id: data.id, name: data.name, pId: 0}] // 根节点
+        if(data.children && data.children.length > 0) {
+            _treeToArray(data.id, data.children).forEach(function (sl) {
+                l.push(sl)
+            })
+        }
+        return l
+    }
+    function _treeToArray(pId, data) {
+        var l = []
+        if(data && data.length > 0) {
+            data.forEach(function(d) {
+                l.push({
+                    id: d.id,
+                    name: d.name,
+                    pId: pId
+                })
+                if(d.children && d.children.length > 0) {
+                    _treeToArray(d.id, d.children).forEach(function (sl) {
+                        l.push(sl)
+                    })
+                }
+            })
+        }
+        return l;
+    }
 </script>
 
 <style>
