@@ -214,11 +214,11 @@
                         )
                     } else if (data.type == 3) {
                         // 视频
-                        // $('#fileUrl').html(
-                        //     '<video src="' +
-                        //     fileUrl +
-                        //     '" controls="controls" style="width: 100%; height: 100%;">'
-                        // )
+                        $('#fileUrl').html(
+                            '<video src="' +
+                            fileUrl +
+                            '" controls="controls" style="width: 100%; height: 100%;">'
+                        )
 
                         // rmvb
                         // avi
@@ -264,7 +264,7 @@
                                    'type="application/x-shockwave-flash">'+
                             '</embed>'+
                         '</object>'
-                        $('#fileUrl').html(inner)
+                        // $('#fileUrl').html(inner)
                     } else if (data.type == 4) {
                         $('#fileUrl').html(
                             '<embed src="' +
