@@ -70,7 +70,10 @@
                         xAxis: {
                             name: '实验类型',
                             type: 'category',
-                            data: nameList
+                            data: nameList,
+                            axisLabel:{
+                                interval:0,
+                            }
                         },
                         yAxis: {
                             type: 'value'
@@ -116,7 +119,10 @@
                                 axisTick: {
                                     show: false
                                 },
-                                data: nameList
+                                data: nameList,
+                                axisLabel:{
+                                    interval:0,
+                                }
                             }
                         ],
                         yAxis: [
@@ -154,7 +160,7 @@
                     res.data.forEach( function (college) {
                         xAxisData.push(college.collegeName)
                         college.data.forEach(function (detail) {
-                            !legendData.includes(detail.typeName || '错误数据') && legendData.push(detail.typeName || '错误数据')
+                            legendData.indexOf(detail.typeName || '错误数据')==-1 && legendData.push(detail.typeName || '错误数据')
                         } )
                     })
                     series = legendData.map( function (legend) {
@@ -204,7 +210,10 @@
                         },
                         xAxis: {
                             type : 'category',
-                            data: xAxisData
+                            data: xAxisData,
+                            axisLabel:{
+                                interval:0,
+                            }
                         },
                         yAxis: {
                             type : 'value'
@@ -229,7 +238,10 @@
                     })
                     var collegeStatusOption = {
                         xAxis: {
-                            data: xAxisData
+                            data: xAxisData,
+                            axisLabel:{
+                                interval:0,
+                            }
                         },
                         yAxis: {},
                         tooltip: {
@@ -283,7 +295,6 @@
                             data: xAxisData,
                             axisLabel:{
                                 interval:0,
-
                             }
                         },
                         yAxis: {},

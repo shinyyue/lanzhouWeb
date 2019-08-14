@@ -84,18 +84,12 @@
                         {
                             title: '开始日期',
                             field: 'startTime',
-                            align: 'center',
-                            templet: function(d) {
-                                return d.startTime
-                            }
+                            align: 'center'
                         },
                         {
                             title: '结束日期',
                             field: 'endTime',
-                            align: 'center',
-                            templet: function(d) {
-                                return d.endTime
-                            }
+                            align: 'center'
                         },
                         {
                             title: '操作',
@@ -171,13 +165,11 @@
                     type: 'date'
                 })
                 $('#startTime').val(
-                    admin
-                        .dateFormat(new Date(data.startTime).getTime() / 1000)
+                    data.startTime
                         .substring(0, 11)
                 )
                 $('#endTime').val(
-                    admin
-                        .dateFormat(new Date(data.endTime).getTime() / 1000)
+                    data.endTime
                         .substring(0, 11)
                 )
             }, 0)

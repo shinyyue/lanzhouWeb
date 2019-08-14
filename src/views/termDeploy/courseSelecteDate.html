@@ -158,20 +158,18 @@
                     type: 'date'
                 })
                 $('#startTime').val(
-                    admin
-                        .dateFormat(new Date(data.startTime).getTime() / 1000)
+                    data.startTime
                         .substring(0, 11)
                 )
                 $('#endTime').val(
-                    admin
-                        .dateFormat(new Date(data.endTime).getTime() / 1000)
+                    data.endTime
                         .substring(0, 11)
                 )
             }, 0)
 
             formData.startTime = data.startTime
 
-            formData.endTime = data.endTime)
+            formData.endTime = data.endTime
 
             var layerOption = {
                 type: 1,
