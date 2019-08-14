@@ -160,7 +160,7 @@
                     res.data.forEach( function (college) {
                         xAxisData.push(college.collegeName)
                         college.data.forEach(function (detail) {
-                            !legendData.includes(detail.typeName || '错误数据') && legendData.push(detail.typeName || '错误数据')
+                            legendData.indexOf(detail.typeName || '错误数据')==-1 && legendData.push(detail.typeName || '错误数据')
                         } )
                     })
                     series = legendData.map( function (legend) {
