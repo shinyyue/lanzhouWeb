@@ -103,6 +103,12 @@
                 userName: layui.data('userInfo').userInfo.userName
             }
 
+        if ('WebSocket' in window) {
+            console.log(12222, window.WebSocket)
+        } else {
+            alert('您的浏览器不支持websocket')
+        }
+
         getList()
 
         if (!checkedItem) {
@@ -134,6 +140,7 @@
 
         ws.onmessage = function(evt) {
             var msg = JSON.parse(evt.data)
+            console.log('收到消息-----', evt.data)
             checkedItem && getChatHistory(checkedItem.id)
         }
 
@@ -192,7 +199,9 @@
             // OPEN === 1 连接已开启并准备好进行通信。
             // CLOSING === 2 连接正在关闭的过程中。
             // CLOSED === 3 连接已经关闭，或者连接无法建立。
+            console.log('ws-------')
             if (ws.readyState === 1) {
+                console.log('发送消息体-----', sendMessage)
                 ws.send(JSON.stringify(sendMessage))
                 clearTimeout(timer)
             } else if (ws.readyState === 2) {
@@ -212,7 +221,7 @@
                 rows: 10000
             }
             admin.post({
-                url: '/coursePlan/listCourse',
+                url: 'coursePlan/listCourse',
                 data: JSON.stringify(data),
                 success: function(res) {
                     var arr = []
