@@ -1,0 +1,357 @@
+<div class="layui-fluid" id="virtualTest" lay-title="开课管理">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span id = "virtualTest-title">选课 > 铁路信号知识 > 虚拟实验 > 虚拟实验列表</span>
+        </div>
+        <div class="course-title-search">
+            <span class="search-project">实验名称</span>
+            <input type="text" id="name" />
+            <select name="" id="schoolYear">
+                <option value="">请选择学年</option>
+            </select>
+            <select name=""
+                    id="semester">
+                <option value="">请选择学期</option>
+                <option value="1">第一学期</option>
+                <option value="2">第二学期</option>
+            </select>
+            <select name=""
+                    id="experimentType">
+                <option value="">请选择实验类型</option>
+            </select>
+            <button class="search-confirm" id="experiment-search">
+                <img src="src/images/search.png" />
+            </button>
+        </div>
+    </div>
+    <table
+        id="virtualTest_list_table"
+        lay-filter="virtualTest_list_table"
+    ></table>
+    <script type="text/html" id="virtualTest-opt">
+        <button class="course-set-btn" lay-event="add">开始实验</button>
+    </script>
+    <div class="app-table-page" id="virtualTest-table-page"></div>
+</div>
+
+<script>
+    layui.use(['table', 'jquery', 'form', 'admin'], function(table, $) {
+        var $ = layui.jquery,
+            form = layui.form,
+            laypage = layui.laypage,
+            tableFilter = 'virtualTest_list_table',
+            table = layui.table,
+            admin = layui.admin,
+            pageLimit = 20,
+            layPageOption = {
+                elem: 'virtualTest-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function(obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr)
+                    }
+                }
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [
+                        {
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center',
+                            type: 'numbers'
+                        },
+                        {
+                            title: '实验名称',
+                            field: 'experimentName',
+                            align: 'center'
+                        },
+                        {
+                            title: '开课名称',
+                            field: 'courseName',
+                            align: 'center'
+                        },
+                        {
+                            title: '任课老师',
+                            field: 'userName',
+                            align: 'center'
+                        },
+                        {
+                            title: '实验类型',
+                            field: 'typeName',
+                            align: 'center'
+                        },
+                        {
+                            title: '开始/结束时间',
+                            field: 'startTime',
+                            align: 'center',
+                            templet: function(d) {
+                                return (
+                                    d.startTime +
+                                    '至' +
+                                    d.endtTime
+                                )
+                            }
+                        },
+                        {
+                            title: '必做/选做',
+                            field: 'experimentype',
+                            align: 'center',
+                            templet: function(d) {
+                                return d.experimentype == 1 ? '必做' : '选做'
+                            }
+                        },
+                        //若不是已发布成绩状态，需要根据根据根据实验结束时间判断
+                        {
+                            title: '实验状态',
+                            field: 'state',
+                            align: 'center',
+                            templet: function(d) {
+                                if(d.expState == 1) return new Date(d.startTime).getTime()>new Date().getTime()?'未开始':'实验中'
+                                else if(d.expState == 2) return '实验结束'
+                                else if(d.expState == 3) return '已发布成绩'
+                            }
+                        },
+                        {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#virtualTest-opt',
+                            fixed: 'right',
+                            width: 200
+                        }
+                    ]
+                ]
+            }
+
+        table.on('tool(virtualTest_list_table)', function(obj) {
+            var data = obj.data //获得当前行数据
+            var layEvent = obj.event,
+                type = ''
+            layui.data('course', {key: 'curriculumExperimentId',value: data.id})  // 实验课程id
+            layui.data('course', {key: 'experimentId',value: data.experimentId})  // 实验id
+
+            if (data.expState == 1&&new Date(data.startTime).getTime()>new Date().getTime()){
+                layer.alert('实验暂未开始', {icon: 6})
+                return
+            }
+            admin.navigate('/checkCourse/virtualTestDetails/id=' + data.id + '/type=' + layEvent + '/curriculumId=' + data.experimentId)
+        })
+        $("#virtualTest-title").html('选课 > ' + layui.data('course').coursePlanName + ' > 虚拟实验 > 虚拟实验列表')
+        getList(1)
+
+        function getList(page) {
+            var name = $('#name').val(),
+                schoolYear = $('#schoolYear').val(),
+                semester = $('#semester').val(),
+                experimentType = $('#experimentType').val(),
+                data = {
+                    page: page,
+                    rows: pageLimit,
+                    id: layui.data('course').coursePlanId,
+                    name: name,
+                    gradeId: schoolYear,
+                    semester: semester,
+                    experimentype: experimentType
+                }
+            admin.post({
+                url: '/curriculumExperiment/queryStudentList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        $(document)
+            .off('mousedown', '.layui-table-grid-down')
+            .on('mousedown', '.layui-table-grid-down', function(event) {
+                table._tableTrCurr = $(this).closest('td')
+            })
+
+        $(document)
+            .off('click', '.layui-table-tips-main [lay-event]')
+            .on('click', '.layui-table-tips-main [lay-event]', function(event) {
+                var elem = $(this)
+                var tableTrCurr = table._tableTrCurr
+                if (!tableTrCurr) {
+                    return
+                }
+                var layerIndex = elem.closest('.layui-table-tips').attr('times')
+                // 关闭当前这个显示更多的tip
+                layer.close(layerIndex)
+                table._tableTrCurr
+                    .find('[lay-event="' + elem.attr('lay-event') + '"]')
+                    .first()
+                    .click()
+            })
+
+        // 学年列表
+        function getSchoolYearList(callback) {
+            var data = {
+                page: 1,
+                rows: 100
+            }
+            admin.post({
+                url: '/schoolYear/getList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
+                        var options = ''
+                        res.data.items &&
+                        res.data.items.forEach(function (item)
+                        {
+                            options +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.schoolYear +
+                                '</option>'
+                        })
+                        $('#schoolYear').html(
+                            '<option value="">请选择学年</option>'
+                        )
+                        $('#schoolYear').append(options)
+                        callback && typeof callback === 'function' && callback(res)
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        getSchoolYearList(function(res) {
+        })
+        // 实验分类列表
+        function getExperimentTypeList(callback) {
+            var data = {
+                page: 1,
+                rows: 1000
+            }
+            admin.post({
+                url: '/experimentType/experimentTypeList',
+                data: JSON.stringify(data),
+                success: function(res) {
+                    if (
+                        res.data &&
+                        res.data.items &&
+                        res.data.items.length > 0
+                    ) {
+                        var options = ''
+                        res.data.items &&
+                        res.data.items.forEach(function (item) {
+                            options +=
+                                '<option value="' +
+                                item.id +
+                                '">' +
+                                item.typeName +
+                                '</option>'
+                        })
+                        $('#experimentType').html(
+                            '<option value="">请选择实验类型</option>'
+                        )
+                        $('#experimentType').append(options)
+                        callback && typeof callback === 'function' && callback(res)
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        getExperimentTypeList(function(res) {
+        })
+        $('#experiment-search').click(function() {
+            getList(1)
+        })
+
+    })
+</script>
+
+<style>
+    .layui-table {
+        width: 100%;
+    }
+
+    .virtualTest-title .virtualTest-title-location {
+        float: left;
+    }
+
+    .virtualTest-title .virtualTest-title-search {
+        float: right;
+        text-align: right;
+    }
+
+    .virtualTest-title .virtualTest-title-search select,
+    .virtualTest-title .virtualTest-title-search input {
+        width: 118px;
+        height: 30px;
+        padding: 0 4px;
+        border-radius: 0;
+    }
+
+    .virtualTest-title .virtualTest-title-search .search-project {
+        line-height: 30px;
+    }
+
+    .virtualTest-title .virtualTest-title-search .search-confirm {
+        width: 51px;
+        height: 30px;
+        background: #ff6600;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .virtualTest-add {
+        text-align: right;
+        padding: 20px 0 10px;
+    }
+
+    .virtualTest-add .add-btn {
+        width: 70px;
+        height: 30px;
+        background: #ff6600;
+        color: #fff;
+        font-size: 16px;
+    }
+
+    #virtualTest-opt {
+        width: 200px;
+    }
+
+    .virtualTest-set-btn {
+        padding: 4px 10px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+</style>
