@@ -59,6 +59,7 @@
             admin.setSideNav()
 
             function initHeaderNav() {
+                $('#header_nav').html('<li class="layui-nav-item layui-nav-item-logout" id="logout">退出系统</li>')
                 var menuStr = ''
                 for (var i = 0; i < menuList.length; i++) {
                     var status = '',
@@ -123,6 +124,7 @@
                 path = curPath
                 firstPath = path && path.split('/') && path.split('/').length > 0 && path.split('/')[1]
                 admin.setSideNav()
+                initHeaderNav()
             })
             $('#logout').on('click', function () {
                 admin.logout()
