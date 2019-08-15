@@ -98,10 +98,10 @@
             admin = layui.admin,
             laydate = layui.laydate,
             route = layui.router(),
-            courseId = layui.data('techSet').techSetId,
-            kechengId = layui.data('techSet').kechengId,
+            courseId = layui.sessionData('techSet').techSetId,
+            kechengId = layui.sessionData('techSet').kechengId,
             id = route.search.id || '',
-            courseName = layui.data('techSet').techSetName
+            courseName = layui.sessionData('techSet').techSetName
         form.render()
         $('#courseName').html(courseName)
         $('#tile_manage').html(id ? '修改试卷' : '添加试卷')

@@ -103,7 +103,7 @@
 
         function getUserInfo() {
             admin.get({
-                url: '/user/getUserByID?id=' + layui.data('userInfo').userInfo.id,
+                url: '/user/getUserByID?id=' + layui.sessionData('userInfo').userInfo.id,
                 success: function (res) {
                     var data = res.data;
                     $('#avator').attr('src', conf.fileRequestUrl + '/' + data.photoImage)

@@ -46,7 +46,7 @@
             curriculumExperimentId = route.search.id,
             type = route.search.type,
             hasPublishScore = false;
-        $('#coursePlanName').html(layui.data('techSet').techSetName)
+        $('#coursePlanName').html(layui.sessionData('techSet').techSetName)
         if(type == 'check') {
             $('#publish-score').hide()
         }

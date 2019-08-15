@@ -40,7 +40,7 @@
             laypage = layui.laypage,
             route = layui.router(),
             facultyId = route.search.facultyId
-            collegeId = layui.data('userInfo').userInfo.collegeId || 0,
+            collegeId = layui.sessionData('userInfo').userInfo.collegeId || 0,
             tableFilter = 'score_table';
 
         admin.get({
@@ -133,7 +133,7 @@
             var data = obj.data //获得当前行数据
             var layEvent = obj.event;
             if(layEvent == 'check') {
-                layui.data('collegeSet', {key: 'studentId', value: data.id})
+                layui.sessionData('collegeSet', {key: 'studentId', value: data.id})
                 admin.navigate('/statistics/stuExpe/v=' + Math.ceil(Math.random()*10000))
             }
         })

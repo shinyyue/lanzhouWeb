@@ -185,10 +185,10 @@
             upload = layui.upload,
             conf = layui.conf,
             route = layui.router(),
-            curriculumExperimentId = layui.data('course')
+            curriculumExperimentId = layui.sessionData('course')
                 .curriculumExperimentId, // 实验课程课程id
-            experimentId = layui.data('course').experimentId, // 实验id
-            curriculumId = layui.data('course').coursePlanId, // 课程id
+            experimentId = layui.sessionData('course').experimentId, // 实验id
+            curriculumId = layui.sessionData('course').coursePlanId, // 课程id
             type = route.search.type,
             startDate = new Date(),
             reportIndex, // 实验报告富文本

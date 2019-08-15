@@ -40,7 +40,7 @@
         // tableFilter = 'tech_status_table'
 
         // 获取学院管理员的学院id
-        collegeId = layui.data('userInfo').userInfo.collegeId
+        collegeId = layui.sessionData('userInfo').userInfo.collegeId
 
         function initChart(id, option) {
             echarts

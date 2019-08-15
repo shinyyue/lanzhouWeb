@@ -187,7 +187,7 @@
             id = route.search.id,
             courseInfo = {}
         form.render()
-        $('#userName').val(layui.data('userInfo').userInfo.userName)
+        $('#userName').val(layui.sessionData('userInfo').userInfo.userName)
         var index = layedit.build('course-intro-edit', {
             tool: [
                 'strong', //加粗
@@ -274,7 +274,7 @@
             var professionList = []
             data.creditHour = Number(data.creditHour)
             data.fullMark = Number(data.fullMark)
-            data.userId = layui.data('userInfo').userInfo.id
+            data.userId = layui.sessionData('userInfo').userInfo.id
             data.period = Number(data.period)
             data.presentation = layedit.getContent(index)
             data.semester = Number(data.semester)
@@ -320,7 +320,7 @@
             formData.id = id
             formData.creditHour = Number(data.creditHour)
             formData.fullMark = Number(data.fullMark)
-            formData.userId = layui.data('userInfo').userInfo.id
+            formData.userId = layui.sessionData('userInfo').userInfo.id
             formData.period = Number(data.period)
             formData.curriculumName = data.curriculumName
             formData.presentation = layedit.getContent(index)

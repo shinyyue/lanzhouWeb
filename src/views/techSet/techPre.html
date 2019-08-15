@@ -72,8 +72,8 @@
             admin = layui.admin,
             layedit = layui.layedit,
             route = layui.router(),
-            id = route.search.id || layui.data('techSet').techSetId,
-            courseName = layui.data('techSet').techSetName;
+            id = route.search.id || layui.sessionData('techSet').techSetId,
+            courseName = layui.sessionData('techSet').techSetName;
         $('#tech-pre-back').on('click', function () {
             admin.navigate('/')
             admin.setSideNav()

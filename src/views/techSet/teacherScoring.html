@@ -160,7 +160,7 @@
             route = layui.router(),
             id = route.search.id;
 
-        $('#coursePlanName').html(layui.data('techSet').techSetName)
+        $('#coursePlanName').html(layui.sessionData('techSet').techSetName)
 
         $('#submit').on('click', function () {
             submit()

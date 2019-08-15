@@ -102,7 +102,7 @@
 
         type == 'check' ? getScores() : getDeatils(id)
 
-        $('#userName').html(layui.data('userInfo').userInfo.userName)
+        $('#userName').html(layui.sessionData('userInfo').userInfo.userName)
         function getDeatils(id) {
             admin.get({
                 url: '/testQuestions/info?id=' + id,

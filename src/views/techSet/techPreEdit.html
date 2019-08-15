@@ -74,9 +74,9 @@
             form = layui.form,
             layedit = layui.layedit,
             route = layui.router(),
-            id = route.search.id || layui.data('techSet').techSetId,
+            id = route.search.id || layui.sessionData('techSet').techSetId,
             type = route.search.type,
-            courseName = layui.data('techSet').techSetName;
+            courseName = layui.sessionData('techSet').techSetName;
             courserId = '';
         var index = layedit.build('techSet_content', {
             tool: ['strong', //加粗

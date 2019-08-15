@@ -100,11 +100,11 @@
         }
 
          function jumpToDetails(id, courseName) {
-            layui.data('course', {
+            layui.sessionData('course', {
                 key: 'coursePlanId',
                 value: id
             })
-            layui.data('course', {
+            layui.sessionData('course', {
                 key: 'coursePlanName',
                 value: courseName
             })

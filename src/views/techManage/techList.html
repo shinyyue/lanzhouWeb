@@ -123,15 +123,15 @@
             var data = obj.data //获得当前行数据
             var layEvent = obj.event
             if (layEvent === 'techSet') {
-                layui.data('techSet', {
+                layui.sessionData('techSet', {
                     key: 'techSetId',
                     value: data.id
                 })
-                layui.data('techSet', {
+                layui.sessionData('techSet', {
                     key: 'techSetName',
                     value: data.courseName
                 })
-                layui.data('techSet', {
+                layui.sessionData('techSet', {
                     key: 'kechengId',
                     value: data.kechengId
                 })

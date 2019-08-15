@@ -138,8 +138,8 @@
             laydate = layui.laydate,
             tableFilter = 'timeRange-table',
             $ = layui.jquery,
-            courseId = layui.data('techSet').techSetId,
-            courseName = layui.data('techSet').techSetName,
+            courseId = layui.sessionData('techSet').techSetId,
+            courseName = layui.sessionData('techSet').techSetName,
             router = layui.router(),
             id = Number(router.search.id),
             tableOption = {

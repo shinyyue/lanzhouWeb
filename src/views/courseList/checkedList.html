@@ -124,7 +124,7 @@
             var data = {
                 page: page,
                 rows: pageLimit,
-                userId: layui.data('userInfo').userInfo.id
+                userId: layui.sessionData('userInfo').userInfo.id
             }
             admin.post({
                 url: '/selectedCourse/getList',
@@ -151,11 +151,11 @@
             //                    layer.msg(err && err.msg || '数据请求失败');
             //                }
             //            })
-            layui.data('course', {
+            layui.sessionData('course', {
                 key: 'coursePlanId',
                 value: data.coursePlanId
             })
-            layui.data('course', {
+            layui.sessionData('course', {
                 key: 'coursePlanName',
                 value: data.courseName
             })

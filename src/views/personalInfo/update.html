@@ -174,7 +174,7 @@
 
         function getUserInfo() {
             admin.get({
-                url: '/user/getUserByID?id=' + layui.data('userInfo').userInfo.id,
+                url: '/user/getUserByID?id=' + layui.sessionData('userInfo').userInfo.id,
                 success: function (res) {
                     var data = res.data;
                     userInfo = data;
@@ -203,7 +203,7 @@
             data.sex = Number($('input[name=sex]').val())
             data.newPassWord = $('#newPwd').val()
             data.oldPassWord = $('#oldPwd').val()
-            data.id = layui.data('userInfo').userInfo.id
+            data.id = layui.sessionData('userInfo').userInfo.id
 
             admin.put({
                 url: '/user/updateUser',

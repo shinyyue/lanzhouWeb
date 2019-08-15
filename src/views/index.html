@@ -111,7 +111,7 @@
             var data = {
                 page: page,
                 rows: pageLimit,
-                key: '|||' + layui.data('userInfo').userInfo.id + '|'
+                key: '|||' + layui.sessionData('userInfo').userInfo.id + '|'
             }
             admin.post({
                 url: '/coursePlan/listCourse',
@@ -136,15 +136,15 @@
                 //编辑
                 admin.navigate('/techSet/techPre/id='+data.id)
                 admin.setSideNav()
-                layui.data('techSet', {
+                layui.sessionData('techSet', {
                     key: 'techSetId',
                     value: data.id
                 })
-                layui.data('techSet', {
+                layui.sessionData('techSet', {
                     key: 'techSetName',
                     value: data.courseName
                 })
-                layui.data('techSet', {
+                layui.sessionData('techSet', {
                     key: 'kechengId',
                     value: data.kechengId
                 })

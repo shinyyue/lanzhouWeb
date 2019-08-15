@@ -31,7 +31,7 @@
         var $ = layui.jquery,
             table = layui.table,
             tableFilter = 'tech_status_table',
-            collegeId = layui.data('userInfo').userInfo.collegeId,
+            collegeId = layui.sessionData('userInfo').userInfo.collegeId,
             admin = layui.admin
 
         function initChart(id, option) {

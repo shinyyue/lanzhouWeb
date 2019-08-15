@@ -44,7 +44,7 @@
             tableFilter = 'college-mylist-table',
             table = layui.table,
             admin = layui.admin,
-            roleId = layui.data('userInfo').userInfo.roleId,
+            roleId = layui.sessionData('userInfo').userInfo.roleId,
             pageLimit = 20,
             layPageOption = {
                 elem: 'college-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号

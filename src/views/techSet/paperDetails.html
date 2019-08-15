@@ -83,8 +83,8 @@
             $ = layui.jquery,
             admin = layui.admin,
             route = layui.router(),
-            id = route.search.id || layui.data('techSet').techSetId,
-            courseName = layui.data('techSet').techSetName;
+            id = route.search.id || layui.sessionData('techSet').techSetId,
+            courseName = layui.sessionData('techSet').techSetName;
         form.render()
         layedit.build('techManage-intro-edit', {
             tool: ['strong', //加粗
