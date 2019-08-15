@@ -52,7 +52,7 @@
                         <div>推荐使用360浏览器兼容模式或者IE9以上</div>
                         <a href="http://39.104.97.6:8080/dataBank/exportCult3D"
                            style="color: red;text-decoration: underline;">若加载失败，点击安装Cult3D插件</a>
-                    </div>    
+                    </div>
                     <div
                         class="source-display"
                         id="scorm_fileUrl"
@@ -98,7 +98,7 @@
                                 style="width: 100%; height: 100%"
                             ></iframe>
                         </div>
-                    </div>                 
+                    </div>
                 </div>
             </div>
         </div>
@@ -211,7 +211,8 @@
         function getDetails ()  {
             admin.get({
                 url:
-                    '/vsMpTestRecord/startReLookTest?curriculumExperimentId=' +
+                    // '/vsMpTestRecord/startReLookTest?curriculumExperimentId=' +
+                    '/vsMpTestRecord/lookStuExpInfo?curriculumExperimentId=' +
                     curriculumExperimentId+'&userId='+studentId,
                 success: function(res) {
                     if (!res.data) return
@@ -259,9 +260,9 @@
                     if (dataType == 5) {
                         $('#download').show()
                     } else {
-                        $('#download').hide()                        
+                        $('#download').hide()
                     }
-                    
+
                     if (res.data.dataType == 1) {
                         // 文档
                         var fileUrl =
@@ -587,7 +588,7 @@
         }
 
         function download() {
-            
+
             window.open(
                 conf.requestUrl +
                 '/dataBank/downloadFile?filePath=' +

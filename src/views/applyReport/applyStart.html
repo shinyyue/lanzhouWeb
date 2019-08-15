@@ -3,8 +3,7 @@
         <div class="course-title-location">
             <span>您的位置：</span>
             <span
-                >选课 > <span id="courseNameNav"></span> > 虚拟实验 >
-                虚拟实验列表 > 虚拟实验信息</span
+                >申报实验 > <span id="courseNameNav"></span> > 申报实验信息</span
             >
         </div>
     </div>
@@ -120,25 +119,6 @@
                 </div>
             </div>
         </div>
-        <div class="layui-row" id="labReportAddressDiv">
-                <!--<div id="labReportFileUrl" class="layui-col-md9"
-                 style="width: 100%; height: 500px;display: none;"></div>-->
-            <div class="layui-col-md12 layui-form-item">
-                <label class="layui-form-label">上传实验报告</label>
-                <div class="layui-col-md9">
-                    <button
-                        type="button"
-                        class="layui-btn"
-                        id="labReportAddress"
-                    >
-                        <i class="layui-icon">&#xe67c;</i>上传PDF
-                        <span id="file_path" style="display: none;"></span>
-                    </button>
-                    <span style="margin-left: 50px; color: red;"
-                          id="typeTip"></span>
-                </div>
-            </div>
-        </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">实验累计用时</label>
@@ -188,9 +168,6 @@
             scromeChosenNode // scrome 选中node信息
             ,details = {}
 
-        $('#save').on('click', function (){
-            save()
-        })
         $('#submit').on('click', function () {
             window.history.go(-1)
         })
@@ -249,9 +226,9 @@
                     if (dataType == 5) {
                         $('#download').show()
                     } else {
-                        $('#download').hide()                        
+                        $('#download').hide()
                     }
-                    
+
                     if (res.data.dataType == 1) {
                         // 文档
                         var fileUrl =
@@ -329,27 +306,6 @@
                             ]
                         })
                         layedit.setContent(reportIndex, data.labReport)
-                    } else if (type === 'review') {
-                        // 复习实验
-                        $('#noadd').attr('style', 'display:none;')
-                        $('#save').attr('style', 'display:none;')
-                        $('#submit').attr('style', 'display:none;')
-                        $('#labReportAddressDiv').attr('style', 'display:none;')
-                        /*$('#require').attr('disabled', 'true;')*/
-                        $('#testContent').attr('disabled', 'true;')
-                        $('#labReport').html(data.labReport)
-                    } else if (type === 'check') {
-                        // 查看成绩
-                        $('#experimentRatio').html(data.experimentRatio)
-                        $('#reportRatio').html(data.reportRatio)
-
-                        $('#save').attr('style', 'display:none;')
-                        $('#labReportAddressDiv').attr('style', 'display:none;')
-                        $('#submit').attr('style', 'display:none;')
-                        /*$('#require').attr('disabled', 'true;')*/
-                        // $('#labReport').attr('disabled', 'true;')
-                        $('#testContent').attr('disabled', 'true;')
-                        $('#labReport').html(data.labReport)
                     }
                 }
             })
@@ -463,39 +419,39 @@
             }
         }
 
-        // 暂存
-        function save() {
-            var endDate = new Date()
-            var labReport = layedit.getContent(reportIndex) || ''
-            var data = {
-                curriculumExperimentId: curriculumExperimentId,
-                curriculumId: curriculumId,
-                experimentId: experimentId,
-                dataType: dataType,
-                startTimeStr: admin.dateFormat(startDate / 1000),
-                endTimeStr: admin.dateFormat(endDate / 1000),
-                useTime: (endDate.getTime() - startDate.getTime()) / 1000,
-                testContent: dataType==7? JSON.stringify(testContent): testContent,
-                labReport: labReport,
-                labReportAddress: $('#file_path').html()
-            }
-
-            admin.post({
-                url: '/testStaging/add',
-                data: JSON.stringify(data),
-                success: function (res) {
-                    if (res.code === 200) {
-                        layer.msg('暂存成功！')
-                        window.history.back(-1)
-                    } else {
-                        layer.msg((res && res.msg) || '添加失败')
-                    }
-                },
-                error: function (err){
-                    layer.msg((err && err.msg) || '数据请求失败')
-                }
-            })
-        }
+        // // 暂存
+        // function save() {
+        //     var endDate = new Date()
+        //     var labReport = layedit.getContent(reportIndex) || ''
+        //     var data = {
+        //         curriculumExperimentId: curriculumExperimentId,
+        //         curriculumId: curriculumId,
+        //         experimentId: experimentId,
+        //         dataType: dataType,
+        //         startTimeStr: admin.dateFormat(startDate / 1000),
+        //         endTimeStr: admin.dateFormat(endDate / 1000),
+        //         useTime: (endDate.getTime() - startDate.getTime()) / 1000,
+        //         testContent: dataType==7? JSON.stringify(testContent): testContent,
+        //         labReport: labReport,
+        //         labReportAddress: $('#file_path').html()
+        //     }
+        //
+        //     admin.post({
+        //         url: '/testStaging/add',
+        //         data: JSON.stringify(data),
+        //         success: function (res) {
+        //             if (res.code === 200) {
+        //                 layer.msg('暂存成功！')
+        //                 window.history.back(-1)
+        //             } else {
+        //                 layer.msg((res && res.msg) || '添加失败')
+        //             }
+        //         },
+        //         error: function (err){
+        //             layer.msg((err && err.msg) || '数据请求失败')
+        //         }
+        //     })
+        // }
 
         // 提交
         function submit() {
@@ -524,41 +480,6 @@
                 }
             })
         }
-        //文件上传
-        var uploadInst = upload.render({
-            elem: '#labReportAddress', //绑定元素
-            url: conf.requestUrl + '/dataBank/oneFileUpload', //上传接口
-            field: 'file',
-            method: 'post',
-            data: {
-                type: 1
-            },
-            done: function(res) {
-                if (res.code === 401) {
-                    admin.logout()
-                } else if (res.code === 200) {
-                    $('#file_path').html(res.data)
-                    labReportAddress = res.data
-                    layer.msg('上传成功')
-                    $('#typeTip').html(res.data)
-                    $('#labReportAddressDivShow').show()
-                    var labReportFileUrl = conf.fileRequestUrl + '/' + labReportAddress
-                    debugger
-                    $('#labReportFileUrl').html(
-                        '<iframe src="' +
-                        labReportFileUrl +
-                        '" width="100%" height="100%" frameborder="1"></iframe>'
-                    )
-                } else {
-                    layer.msg(res.msg || '上传失败')
-                }
-                layer.closeAll('loading') //关闭loading
-            },
-            error: function(err) {
-                layer.msg(err.msg || '上传失败')
-                layer.closeAll('loading') //关闭loading
-            }
-        })
 
         function getCODCRUrl(id, url) {
             var fileName = url
