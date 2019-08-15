@@ -108,10 +108,10 @@ layui
             return self.loginToken
         }
         self.logout = function () {
-            layui.data('user', null);
-            layui.data('userInfo', null);
-            layui.data('role', null);
-            layui.data('techSet', null);
+            layui.sessionData('user', null);
+            layui.sessionData('userInfo', null);
+            layui.sessionData('role', null);
+            layui.sessionData('techSet', null);
             self.navigate(conf.loginPage)
         }
         self.login = function (token, data, isSession) {
@@ -186,20 +186,20 @@ layui
             route.fileurl = '/' + route.path.join('/')
 
             //判断登录页面
-            if (conf.loginCheck == true) {
-                // 没有token验证，暂时用role来记录用户的登录状态
-                if (layui.data('user').role) {
-                    if (route.fileurl == conf.loginPage) {
-                        self.navigate('/')
-                        return
-                    }
-                } else {
-                    if (route.fileurl != conf.loginPage) {
-                        self.logout()
-                        return
-                    }
-                }
-            }
+            // if (conf.loginCheck == true) {
+            //     // 没有token验证，暂时用role来记录用户的登录状态
+            //     if (layui.sessionData('user').role) {
+            //         if (route.fileurl == conf.loginPage) {
+            //             self.navigate('/')
+            //             return
+            //         }
+            //     } else {
+            //         if (route.fileurl != conf.loginPage) {
+            //             self.logout()
+            //             return
+            //         }
+            //     }
+            // }
 
             if ($.inArray(route.fileurl, conf.indPage) === -1) {
                 var loadRenderPage = function (params) {
@@ -278,18 +278,18 @@ layui
             window.location.hash = url
         }
         self.data = function (settings, storage) {
-            if (settings == undefined) return layui.data(conf.tableName)
+            if (settings == undefined) return layui.sessionData(conf.tableName)
             if ($.isArray(settings)) {
                 layui.each(settings, function (i) {
-                    layui.data(conf.tableName, settings[i], storage)
+                    layui.sessionData(conf.tableName, settings[i], storage)
                 })
             } else {
-                layui.data(conf.tableName, settings, storage)
+                layui.sessionData(conf.tableName, settings, storage)
             }
         }
 
         self.setSideNav = function() {
-            var menuList = layui.data('role').role.menuTrees,
+            var menuList = layui.sessionData('role').role.menuTrees,
                 route = layui.router(),
                 path = route.href, // 路由后缀
                 firstPath = route.path[0];
