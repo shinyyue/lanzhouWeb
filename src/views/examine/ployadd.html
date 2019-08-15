@@ -594,10 +594,19 @@
                         $('#curriculumId').val(res.data.curriculumId || '')
                         $('.layui-table-body').css('overflow', 'visible')
 
-                        getKnowlegeTreeList(res.data.curriculumId)
+                        // getKnowlegeTreeList(res.data.curriculumId)
                         getKnowlegeList(res.data.curriculumId, function (data) {
                             tableOption.data = list
                             table.render(tableOption)
+                            strategyEntries = []
+                            list.forEach(function (item) {
+                                strategyEntries.push({
+                                    exercisesDifficulty: item.exercisesDifficulty,
+                                    exercisesSize: item.exercisesSize,
+                                    exercisesType: item.exercisesType,
+                                    knowledgePoint: item.knowledgePoint
+                                })
+                            })
                             $('.layui-table-body').css('overflow', 'visible')
                             $('.layui-table-box').css({
                                 overflow: 'visible',
@@ -658,8 +667,8 @@
         }
 
         $(document).ready(function(){
-            initSelectTree();
-            hideMenu();
+            // initSelectTree();
+            // hideMenu();
         })
 
         // ztree
