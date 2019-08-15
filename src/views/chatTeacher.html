@@ -140,7 +140,7 @@
 
         ws.onmessage = function(evt) {
             var msg = JSON.parse(evt.data)
-            console.log('收到消息-----', evt.data)
+            console.log('收到消息-----', evt.data, checkedItem)
             checkedItem && getChatHistory(checkedItem.id)
         }
 
@@ -271,6 +271,7 @@
                 rows: 10000
             }
             admin.get({
+                cache: 'false',
                 url:
                     '/chattingRecords/getList?desc=false&sendTargetType=1&sendTargetId=' +
                     targetId +
