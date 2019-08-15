@@ -164,7 +164,7 @@
                 shade: 0.4,
                 shadeClose: true,
                 btn: type === 'check' ? [] : ['确定', '取消'],
-                yes: function (index, layero) {
+                yes: function (index, layer) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -179,6 +179,7 @@
                 }
             }
             layer.open(layerOption)
+            $('#home_url').val(data.skipIndex)
             form.render()
         })
 
@@ -230,10 +231,18 @@
                 '                    <label class="layui-form-label ">首页地址:</label>\n' +
                 '                    <select id="home_url">' +
                 '                         <option value="">请选择</option>'+
-                '                         <option value="/user/all">管理员首页</option>'+
-                '                         <option value="/">老师首页</option>'+
-                '                         <option value="/student">学生首页</option>'+
-                '                         <option value="/declareExperiment/declare">申报实验</option>'+
+                '                         <option value="/user/all"'+
+                 (formData && formData.skipIndex === "/user/all" ? " selected" : "")+ '>管理员首页'+
+                '                         </option>'+
+                '                         <option value="/"'+
+                (formData && formData.skipIndex === "/" ? " selected" : "")+'">老师首页'+
+                '                         </option>'+
+                '                         <option value="/student"'+
+                (formData && formData.skipIndex === "/student" ? " selected" : "")+'">学生首页'+
+                '                         </option>'+
+                '                         <option value="/applyReport/applyList"'+
+                (formData && formData.skipIndex === "/applyReport/applyList" ? " selected" : "")+'">申报实验首页'+
+                '                         </option>'+
                 '                    </select>\n' +
                 '                </div>\n' + 
                 '            </div>\n' +

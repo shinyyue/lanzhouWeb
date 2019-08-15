@@ -104,6 +104,9 @@
                     }
                 }
                 $('#header_nav').prepend(menuStr)
+                $('#logout').on('click', function () {
+                    admin.logout()
+                })
             }
 
             $(document).on('click', '#header_nav li a.nav-item-a', function () {
@@ -125,9 +128,6 @@
                 firstPath = path && path.split('/') && path.split('/').length > 0 && path.split('/')[1]
                 admin.setSideNav()
                 initHeaderNav()
-            })
-            $('#logout').on('click', function () {
-                admin.logout()
             })
             $('#nav_user_name').html(layui.data('userInfo').userInfo.userName)
             $('#nav_user_role').html(layui.data('role').role.roleName || '')
