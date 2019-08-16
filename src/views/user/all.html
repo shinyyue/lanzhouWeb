@@ -172,53 +172,37 @@
             classesList = [],
             professList = [],
             addModalTemp = '',
-            formData,
-            importModalTemplate = `<form action="" class="layui-form my-add-form">
-                            <div class="layui-row">
-                                <div class="layui-col-md12 layui-form-item">
-                                    <label class="layui-form-label">上传</label>
-                                    <button type="button" class="layui-btn layui-btn-primary" id="uploadFile">上传表格</button>
-                                    <button id="downloadModel" type="button" class="layui-btn " style="background: rgba(0,193,222,1)">下载模版</button>
-                                </div>
-                            </div>
-                             <div class="layui-row">
-                                <div class="layui-col-md12 layui-form-item">
-                                    <input type="file" id="upload"><span style="color: red">删除</span>
-                                </div>
-                            </div>
-                            <div class="layui-row">
-                                <div class="layui-col-md12 layui-form-item">
-                                    温馨提示：清先下载模版，然后根据模版填入员工信息。
-                                </div>
-                            </div>
-                        </form>`
+            formData = {},
+            importModalTemplate = '<form action="" class="layui-form my-add-form">'+
+            '   <div class="layui-row">'+
+            '       <div class="layui-col-md12 layui-form-item">'+
+            '           <label class="layui-form-label">上传</label>'+
+            '           <button type="button" class="layui-btn layui-btn-primary" id="uploadFile">上传表格</button>'+
+            '           <button id="downloadModel" type="button" class="layui-btn " style="background: rgba(0,193,222,1)">下载模版</button>'+
+            '       </div>'+
+            '   </div>'+
+            '   <div class="layui-row">'+
+            '       <div class="layui-col-md12 layui-form-item">'+
+            '           <input type="file" id="upload"><span style="color: red">删除</span>'+
+            '       </div>'+
+            '   </div>'+
+            '   <div class="layui-row">'+
+            '       <div class="layui-col-md12 layui-form-item">'+
+            '           温馨提示：清先下载模版，然后根据模版填入员工信息。'+
+            '       </div>'+
+            '   </div>'+
+            '</form>';
 
-        /*$("#uploadModel").click(function () {
-            admin.get({
-                url:
-                    '/excel/用户模板.xls'
-                /!*+ '?collegeId=' +
-                $('#college').val() +
-                '&facultyId=' +
-                $('#series_model').val()*!/,
-                success: function(res) {
 
-                }
-            })
-        })*/
 
         getCollegeList(function (res) {
             var options = ''
-            res.data &&
-                res.data.items &&
-                res.data.items.forEach(function (item) {
-                    options +=
-                        '<option value="' +
-                        item.id +
-                        '">' +
-                        item.collegeName +
-                        '</option>'
-                })
+            if (res.data && res.data.items) {
+                for(var i = 0; i < res.data.items.length; i++) {
+                    var item = res.data.items[i];
+                    options += '<option value="' + item.id + '">' + item.collegeName + '</option>'
+                }
+            }
             $('#college').val('')
             $('#college').append(options)
             setSelectOptions()
@@ -226,16 +210,22 @@
 
         getRoleList(function (res) {
             var options = ''
-            res.data &&
-                res.data.items &&
-                res.data.items.forEach(function (item) {
-                    options +=
-                        '<option value="' +
-                        item.id +
-                        '">' +
-                        item.roleName +
-                        '</option>'
-                })
+            if (res.data && res.data.items) {
+                for(var i = 0; i < res.data.items.length; i++) {
+                    var item = res.data.items[i];
+                    options += '<option value="' + item.id + '">' + item.roleName + '</option>'
+                }
+            }
+            // res.data &&
+            //     res.data.items &&
+            //     res.data.items.forEach(function (item) {
+            //         options +=
+            //             '<option value="' +
+            //             item.id +
+            //             '">' +
+            //             item.roleName +
+            //             '</option>'
+            //     })
             $('#userType').append(options)
             //            form.render()
         })
@@ -249,16 +239,22 @@
         $('#college').change(function (e) {
             getSeriesList(function (res) {
                 var options = ''
-                res.data &&
-                    res.data.items &&
-                    res.data.items.forEach(function (item) {
-                        options +=
-                            '<option value="' +
-                            item.id +
-                            '">' +
-                            item.facultyName +
-                            '</option>'
-                    })
+                if (res.data && res.data.items) {
+                    for(var i = 0; i < res.data.items.length; i++) {
+                        var item = res.data.items[i];
+                        options += '<option value="' + item.id + '">' + item.facultyName + '</option>'
+                    }
+                }
+                // res.data &&
+                //     res.data.items &&
+                //     res.data.items.forEach(function (item) {
+                //         options +=
+                //             '<option value="' +
+                //             item.id +
+                //             '">' +
+                //             item.facultyName +
+                //             '</option>'
+                //     })
                 $('#series_model').append(options)
             }, Number(e.currentTarget.value))
         })
@@ -266,16 +262,22 @@
         $('#series_model').change(function (e) {
             getProfessList(function (res) {
                 var options = ''
-                res.data &&
-                    res.data.items &&
-                    res.data.items.forEach(function (item) {
-                        options +=
-                            '<option value="' +
-                            item.id +
-                            '">' +
-                            item.professionName +
-                            '</option>'
-                    })
+                if (res.data && res.data.items) {
+                    for(var i = 0; i < res.data.items.length; i++) {
+                        var item = res.data.items[i];
+                        options += '<option value="' + item.id + '">' + item.professionName + '</option>'
+                    }
+                }
+                // res.data &&
+                //     res.data.items &&
+                //     res.data.items.forEach(function (item) {
+                //         options +=
+                //             '<option value="' +
+                //             item.id +
+                //             '">' +
+                //             item.professionName +
+                //             '</option>'
+                //     })
                 $('#profession').append(options)
             }, Number(e.currentTarget.value))
         })
@@ -283,20 +285,267 @@
         $('#profession').change(function (e) {
             getClassList(function (res) {
                 var options = ''
-                res.data &&
-                    res.data.items &&
-                    res.data.items.forEach(function (item) {
-                        options +=
-                            '<option value="' +
-                            item.id +
-                            '">' +
-                            item.className +
-                            '</option>'
-                    })
+                if (res.data && res.data.items) {
+                    for(var i = 0; i < res.data.items.length; i++) {
+                        var item = res.data.items[i];
+                        options += '<option value="' + item.id + '">' + item.className + '</option>'
+                    }
+                }
+                // res.data &&
+                //     res.data.items &&
+                //     res.data.items.forEach(function (item) {
+                //         options +=
+                //             '<option value="' +
+                //             item.id +
+                //             '">' +
+                //             item.className +
+                //             '</option>'
+                //     })
                 $('#classes').append(options)
             }, Number(e.currentTarget.value))
         })
+        
+        $('#add_cource').on('click', function () {
+            resetFormData()
+            // 加载学院/系/班级/专业列表
+            var temp = getTemplate(formData)
 
+            layer.closeAll()
+            layer.open({
+                type: 1,
+                offset: 'auto',
+                title: '添加',
+                content: temp,
+                area: ['700px', '70%'],
+                shade: 0.4,
+                skin: 'user-edit-modal',
+                shadeClose: true,
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    // var data = getFormData()
+                    addData(function () {
+                        layer.close(index)
+                    })
+                },
+                cancel: function (index) {
+                    layer.close(index)
+                }
+            })
+
+            form.on('select(roleChange)', function (obj) {
+                if (obj.value == 1) {
+                    $('.role-student').css({
+                        display: 'block'
+                    })
+                } else {
+                    $('.role-student').css({
+                        display: 'none'
+                    })
+                }
+            })
+            form.render()
+            getRoleList()
+            getStudentTypeList()
+            getCollegeList()
+            // 隐藏学院/学生类型/行政班级
+            // $('.role-teacher').css({ display: 'none' })
+            // $('.role-student').css({ display: 'none' })
+
+            $('#roleId').change(function (val) {
+                console.log(1222, val)
+            })
+        })
+
+        $('#export-cource').on('click', function () {
+            var collegeId = $('#college').val() == '' ? '' : $('#college').val(),
+            roleId = $('#userType').val() == '' ? '' : $('#userType').val(),
+            url = conf.requestUrl + '/user/exportExcel?roleId=' + roleId +'&collegeId=' + collegeId;
+            window.open(url)
+        })
+
+        table.on('tool(user_all_table)', function (obj) {
+            var data = obj.data //获得当前行数据
+            var layEvent = obj.event,
+                type = ''
+
+            layer.closeAll()
+
+            if (layEvent === 'delete') {
+                layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '系统提示',
+                    content: '该信息为重要信息，是否删除？',
+                    area: ['300px', '200px'],
+                    shade: 0.4,
+                    skin: 'system-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        // 提交
+                        layer.close(index)
+                        deleteData(data.id, -1)
+                    },
+                    cancel: function (index) {
+                        layer.close(index)
+                    }
+                })
+                return
+            }
+            if (layEvent === 'disabledUser') {
+                layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '系统提示',
+                    content: '该信息为重要信息，是否' +
+                        (data.state === 1 ? '停用？' : '启用？'),
+                    area: ['300px', '200px'],
+                    shade: 0.4,
+                    skin: 'system-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        // 提交
+                        if (data.state === 1) {
+                            stopData(data.id, function () {
+                                layer.close(index)
+                            })
+                        } else {
+                            startData(data.id, function () {
+                                layer.close(index)
+                            })
+                        }
+                    },
+                    cancel: function (index) {
+                        layer.close(index)
+                    }
+                })
+                return
+            }
+            if (layEvent === 'resetPwd') {
+                layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '系统提示',
+                    content: '确定重置密码？',
+                    area: ['300px', '200px'],
+                    shade: 0.4,
+                    skin: 'system-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        resetPwd(data.id, function () {
+                            layer.close(index)
+                        })
+                    },
+                    cancel: function (index) {
+                        layer.close(index)
+                    }
+                })
+                return
+            }
+            if (layEvent === 'edit') {
+                //编辑
+                formData = data
+                type = 'edit'
+            } else if (layEvent === 'check') {
+                formData = data
+                type = 'check'
+            }
+
+            getRoleList(function () {
+                $('#roleId').val(formData.roleId)
+                form.render()
+            })
+            getStudentTypeList(function () {
+                $('#studentTypeId').val(formData.studentTypeId)
+                form.render()
+            })
+            getCollegeList(function () {
+                $('#college_model').val(formData.collegeId)
+                form.render()
+            })
+
+            getSeriesList(function () {
+                $('#series_model').val(formData.facultyId)
+                form.render()
+            })
+
+            getProfessList(function () {
+                $('#profess_model').val(formData.professionId)
+                form.render()
+            })
+
+            getClassList(function () {
+                $('#classes_model').val(formData.classId)
+                form.render()
+            })
+
+            var layerOption = {
+                type: 1,
+                offset: 'auto',
+                title: type === 'edit' ? '编辑' : '查看',
+                content: getTemplate(formData, type),
+                area: ['700px', '70%'],
+                shade: 0.4,
+                shadeClose: true,
+                btn: type === 'check' ? [] : ['确定', '取消'],
+                yes: function (index, layero) {
+                    layer.close(index)
+                    getFormData()
+                    if (type === 'check') {
+                        getData(data.id)
+                    } else if (type === 'edit') {
+                        formData.id = data.id
+                        updateData(formData)
+                    }
+                },
+                cancel: function (index) {
+                    layer.close(index)
+                }
+            }
+
+            layer.open(layerOption)
+            form.render()
+        })
+
+        $('#download-temple').on('click', function () {
+            window.open(conf.requestUrl + "/excel/用户模板.xls")
+        })
+
+        upload.render({
+            elem: '#import-cource',
+            url: conf.requestUrl + '/user/importExp',
+            field: 'file',
+            accept: 'file',
+            exts: 'xls|xlsx',
+            before: function (obj) { //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                layer.load(); //上传loading
+            },
+            done: function (res, index, upload) {
+                //上传后的回调
+                layer.closeAll('loading'); //关闭loading
+                layer.msg(res.msg)
+                getList(1)
+            },
+            error: function (index, upload) {
+                layer.closeAll('loading'); //关闭loading
+                layer.msg(res.msg || '导入失败')
+            },
+        })
+        
+        // $('#export-cource').click(function () {
+        //     $.ajax({
+        //         type: 'get',
+        //         url: 'http://39.104.97.6:8080/user/exportExcel',
+        //         async: false,
+        //         success: function(res) {
+        //             if (res.code === 401) {
+        //                 admin.logout()
+        //             }
+        //         }
+        //     })
+        // })
         // 用户列表
         function getList(page) {
             var userName = $('#userName').val(),
@@ -350,16 +599,21 @@
                     ) {
                         collegeList = res.data.items
                         var options = ''
-
-                        res.data.items &&
-                            res.data.items.forEach(function (item) {
-                                options +=
-                                    '<option value="' +
-                                    item.id +
-                                    '">' +
-                                    item.collegeName +
-                                    '</option>'
-                            })
+                        if (res.data && res.data.items) {
+                            for(var i = 0; i < res.data.items.length; i++) {
+                                var item = res.data.items[i];
+                                options += '<option value="' + item.id + '">' + item.collegeName + '</option>'
+                            }
+                        }
+                        // res.data.items &&
+                        //     res.data.items.forEach(function (item) {
+                        //         options +=
+                        //             '<option value="' +
+                        //             item.id +
+                        //             '">' +
+                        //             item.collegeName +
+                        //             '</option>'
+                        //     })
                         $('#college').html(
                             '<option value="">请选择学院</option>'
                         )
@@ -397,14 +651,20 @@
                     ) {
                         collegeList = res.data.items
                         var options = ''
-                        res.data.items.forEach(function (item) {
-                            options +=
-                                '<option value="' +
-                                item.id +
-                                '">' +
-                                item.roleName +
-                                '</option>'
-                        })
+                        if (res.data && res.data.items) {
+                            for(var i = 0; i < res.data.items.length; i++) {
+                                var item = res.data.items[i];
+                                options += '<option value="' + item.id + '">' + item.roleName + '</option>'
+                            }
+                        }
+                        // res.data.items.forEach(function (item) {
+                        //     options +=
+                        //         '<option value="' +
+                        //         item.id +
+                        //         '">' +
+                        //         item.roleName +
+                        //         '</option>'
+                        // })
                         $('#userType').html(
                             '<option value="">请选择用户类型</option>'
                         )
@@ -444,16 +704,29 @@
                         res.data.items &&
                         res.data.items.length > 0
                     ) {
+                        var options = ''
                         seriesList = res.data.items
-                        res.data.items.forEach(function (item) {
-                            $('#series_model').append(
-                                '<option value="' +
-                                item.id +
-                                '">' +
-                                item.facultyName +
-                                '</option>'
-                            )
-                        })
+                        if (res.data && res.data.items) {
+                            for(var i = 0; i < res.data.items.length; i++) {
+                                var item = res.data.items[i];
+                                $('#series_model').append(
+                                    '<option value="' +
+                                    item.id +
+                                    '">' +
+                                    item.facultyName +
+                                    '</option>'
+                                )
+                            }
+                        }
+                        // res.data.items.forEach(function (item) {
+                        //     $('#series_model').append(
+                        //         '<option value="' +
+                        //         item.id +
+                        //         '">' +
+                        //         item.facultyName +
+                        //         '</option>'
+                        //     )
+                        // })
                     }
                     callback && typeof callback === 'function' && callback(res)
                 },
@@ -484,15 +757,23 @@
                         res.data.items.length > 0
                     ) {
                         professList = res.data.items
-                        res.data.items.forEach(function (item) {
-                            $('#profess_model').append(
-                                '<option value="' +
-                                item.id +
-                                '">' +
-                                item.professionName +
-                                '</option>'
-                            )
-                        })
+                        // res.data.items.forEach(function (item) {
+                        //     $('#profess_model').append(
+                        //         '<option value="' +
+                        //         item.id +
+                        //         '">' +
+                        //         item.professionName +
+                        //         '</option>'
+                        //     )
+                        // })
+                        if (res.data && res.data.items) {
+                            for(var i = 0; i < res.data.items.length; i++) {
+                                var item = res.data.items[i];
+                                $('#profess_model').append(
+                                    '<option value="' + item.id + '">' + item.professionName + '</option>'
+                                )
+                            }
+                        }
                     }
                     callback && typeof callback === 'function' && callback(res)
                 },
@@ -531,6 +812,18 @@
                                 '</option>'
                             )
                         })
+                        if (res.data && res.data.items) {
+                            for(var i = 0; i < res.data.items.length; i++) {
+                                var item = res.data.items[i];
+                                $('#classes_model').append(
+                                    '<option value="' +
+                                    item.id +
+                                    '">' +
+                                        item.className +
+                                        '</option>'
+                                )
+                            }
+                        }
                     }
                     callback && typeof callback === 'function' && callback(res)
                 },
@@ -584,7 +877,7 @@
                 '<label class="layui-form-label">角色:</label>' +
                 '<div class="user-class">' +
                 '<select name="roleId" id="roleId" lay-filter="roleChange" class="common-form-input" value="' +
-                formData.roleId +
+                (formData && formData.roleId) +
                 '"' +
                 (type === 'check' ? 'disabled' : '') +
                 '>' +
@@ -751,14 +1044,15 @@
                 classes = '',
                 profe = ''
 
-            collegeList.forEach(function(item) {
+            for(var i = 0; i < collegeList.length; i++) {
+                var item = collegeList[i];
                 col +=
-                    '<option value="' +
+                '<option value="' +
                     item.id +
                     '">' +
                     item.collegeName +
                     '</option>'
-            })
+            }
             $('#college_model').html(col)
 
             form.render('select')
@@ -766,16 +1060,22 @@
             form.on('select(college)', function (data) {
                 getSeriesList(function (res) {
                     $('#series_model').html('<option value="">请选择</option>')
-                    res.data &&
-                        res.data.items &&
-                        res.data.items.forEach(function (item) {
-                            series +=
-                                '<option value="' +
-                                item.id +
-                                '">' +
-                                item.facultyName +
-                                '</option>'
-                        })
+                    // res.data &&
+                    //     res.data.items &&
+                    //     res.data.items.forEach(function (item) {
+                    //         series +=
+                    //             '<option value="' +
+                    //             item.id +
+                    //             '">' +
+                    //             item.facultyName +
+                    //             '</option>'
+                    //     })
+                    if (res.data && res.data.items) {
+                        for(var i = 0; i < res.data.items.length; i++) {
+                            var item = res.data.items[i];
+                            series += '<option value="' + item.id + '">' + item.facultyName + '</option>'
+                        }
+                    }
                     $('#series_model').html(series)
                     form.render('select')
                 }, data.value)
@@ -784,16 +1084,22 @@
             form.on('select(series)', function (data) {
                 getProfessList(function (res) {
                     $('#profess_model').html('<option value="">请选择</option>')
-                    res.data &&
-                        res.data.items &&
-                        res.data.items.forEach(function (item) {
-                            profe +=
-                                '<option value="' +
-                                item.id +
-                                '">' +
-                                item.professionName +
-                                '</option>'
-                        })
+                    // res.data &&
+                    //     res.data.items &&
+                    //     res.data.items.forEach(function (item) {
+                    //         profe +=
+                    //             '<option value="' +
+                    //             item.id +
+                    //             '">' +
+                    //             item.professionName +
+                    //             '</option>'
+                    //     })
+                    if (res.data && res.data.items) {
+                        for(var i = 0; i < res.data.items.length; i++) {
+                            var item = res.data.items[i];
+                            profe += '<option value="' + item.id + '">' + item.professionName + '</option>'
+                        }
+                    }
                     $('#profess_model').html(profe)
                     form.render('select')
                 }, data.value)
@@ -802,88 +1108,27 @@
             form.on('select(profess)', function (data) {
                 getClassList(function (res) {
                     $('#classes_model').html('<option value="">请选择</option>')
-                    res.data &&
-                        res.data.items &&
-                        res.data.items.forEach(function (item) {
-                            classes +=
-                                '<option value="' +
-                                item.id +
-                                '">' +
-                                item.className +
-                                '</option>'
-                        })
+                    // res.data &&
+                    //     res.data.items &&
+                    //     res.data.items.forEach(function (item) {
+                    //         classes +=
+                    //             '<option value="' +
+                    //             item.id +
+                    //             '">' +
+                    //             item.className +
+                    //             '</option>'
+                    //     })
+                    if (res.data && res.data.items) {
+                        for(var i = 0; i < res.data.items.length; i++) {
+                            var item = res.data.items[i];
+                            classes += '<option value="' + item.id + '">' + item.className + '</option>'
+                        }
+                    }
                     $('#classes_model').html(classes)
                     form.render('select')
                 }, data.value)
             })
         }
-
-        $('#add_cource').on('click', function () {
-            resetFormData()
-            // 加载学院/系/班级/专业列表
-            var temp = getTemplate(formData)
-
-            layer.closeAll()
-            layer.open({
-                type: 1,
-                offset: 'auto',
-                title: '添加',
-                content: temp,
-                area: ['700px', '70%'],
-                shade: 0.4,
-                skin: 'user-edit-modal',
-                shadeClose: true,
-                btn: ['确定', '取消'],
-                yes: function (index, layero) {
-                    // var data = getFormData()
-                    addData(function () {
-                        layer.close(index)
-                    })
-                },
-                cancel: function (index) {
-                    layer.close(index)
-                }
-            })
-
-            form.on('select(roleChange)', function (obj) {
-                if (obj.value == 1) {
-                    $('.role-student').css({
-                        display: 'block'
-                    })
-                } else {
-                    $('.role-student').css({
-                        display: 'none'
-                    })
-                }
-            })
-            form.render()
-            getRoleList()
-            getStudentTypeList()
-            getCollegeList()
-            // 隐藏学院/学生类型/行政班级
-            // $('.role-teacher').css({ display: 'none' })
-            // $('.role-student').css({ display: 'none' })
-
-            $('#roleId').change(function (val) {
-                console.log(1222, val)
-            })
-        })
-
-        $('#export-cource').on('click', function () {
-            $('#export-cource').on('click', function () {
-                var collegeId =
-                    $('#college').val() == '' ? '' : $('#college').val(),
-                    roleId =
-                    $('#userType').val() == '' ? '' : $('#userType').val(),
-                    url =
-                    conf.requestUrl +
-                    '/user/exportExcel?roleId=' +
-                    roleId +
-                    '&collegeId=' +
-                    collegeId
-                window.open(url)
-            })
-        })
 
         function addData(callback) {
             getFormData()
@@ -943,7 +1188,7 @@
         // 重置密码
         function resetPwd(id, callback) {
             var data = {
-                id
+                id: id
             }
             admin.put({
                 url: '/user/resetPassWord?id=' + id,
@@ -968,9 +1213,30 @@
                 success: function (res) {
                     callback && typeof callback === 'function' && callback(res)
                     $('#roleId').html('<option value="">请选择角色</option>')
-                    res.data &&
-                        res.data.items &&
-                        res.data.items.forEach(function (item) {
+                    // res.data &&
+                    //     res.data.items &&
+                    //     res.data.items.forEach(function (item) {
+                    //         if (formData.roleId == item.id) {
+                    //             $('#roleId').append(
+                    //                 '<option value="' +
+                    //                 item.id +
+                    //                 '" selected>' +
+                    //                 item.roleName +
+                    //                 '</option>'
+                    //             )
+                    //         } else {
+                    //             $('#roleId').append(
+                    //                 '<option value="' +
+                    //                 item.id +
+                    //                 '">' +
+                    //                 item.roleName +
+                    //                 '</option>'
+                    //             )
+                    //         }
+                    //     })
+                    if (res.data && res.data.items) {
+                        for(var i = 0; i < res.data.items.length; i++) {
+                            var item = res.data.items[i];
                             if (formData.roleId == item.id) {
                                 $('#roleId').append(
                                     '<option value="' +
@@ -988,7 +1254,8 @@
                                     '</option>'
                                 )
                             }
-                        })
+                        }
+                    }
                     form.render()
                 }
             })
@@ -1006,17 +1273,29 @@
                     $('#studentTypeId').html(
                         '<option value="">请选择学生类型</option>'
                     )
-                    res.data &&
-                        res.data.items &&
-                        res.data.items.forEach(function (item) {
+                    // res.data &&
+                    //     res.data.items &&
+                    //     res.data.items.forEach(function (item) {
+                    //         $('#studentTypeId').append(
+                    //             '<option value="' +
+                    //             item.id +
+                    //             '">' +
+                    //             item.studentTypeName +
+                    //             '</option>'
+                    //         )
+                    //     })
+                    if (res.data && res.data.items) {
+                        for(var i = 0; i < res.data.items.length; i++) {
+                            var item = res.data.items[i];
                             $('#studentTypeId').append(
-                                '<option value="' +
+                            '<option value="' +
                                 item.id +
                                 '">' +
                                 item.studentTypeName +
                                 '</option>'
                             )
-                        })
+                        }
+                    }
                     form.render()
                     callback && typeof callback === 'function' && callback(res)
                 }
@@ -1037,191 +1316,6 @@
                 }
             })
         }
-
-        table.on('tool(user_all_table)', function (obj) {
-            var data = obj.data //获得当前行数据
-            var layEvent = obj.event,
-                type = ''
-
-            layer.closeAll()
-
-            if (layEvent === 'delete') {
-                layer.open({
-                    type: 1,
-                    offset: 'auto',
-                    title: '系统提示',
-                    content: '该信息为重要信息，是否删除？',
-                    area: ['300px', '200px'],
-                    shade: 0.4,
-                    skin: 'system-modal',
-                    shadeClose: true,
-                    btn: ['确定', '取消'],
-                    yes: function (index, layero) {
-                        // 提交
-                        layer.close(index)
-                        deleteData(data.id, -1)
-                    },
-                    cancel: function (index) {
-                        layer.close(index)
-                    }
-                })
-                return
-            }
-            if (layEvent === 'disabledUser') {
-                layer.open({
-                    type: 1,
-                    offset: 'auto',
-                    title: '系统提示',
-                    content: '该信息为重要信息，是否' +
-                        (data.state === 1 ? '停用？' : '启用？'),
-                    area: ['300px', '200px'],
-                    shade: 0.4,
-                    skin: 'system-modal',
-                    shadeClose: true,
-                    btn: ['确定', '取消'],
-                    yes: function (index, layero) {
-                        // 提交
-                        if (data.state === 1) {
-                            stopData(data.id, function () {
-                                layer.close(index)
-                            })
-                        } else {
-                            startData(data.id, function () {
-                                layer.close(index)
-                            })
-                        }
-                    },
-                    cancel: function (index) {
-                        layer.close(index)
-                    }
-                })
-                return
-            }
-            if (layEvent === 'resetPwd') {
-                layer.open({
-                    type: 1,
-                    offset: 'auto',
-                    title: '系统提示',
-                    content: '确定重置密码？',
-                    area: ['300px', '200px'],
-                    shade: 0.4,
-                    skin: 'system-modal',
-                    shadeClose: true,
-                    btn: ['确定', '取消'],
-                    yes: function (index, layero) {
-                        resetPwd(data.id, function () {
-                            layer.close(index)
-                        })
-                    },
-                    cancel: function (index) {
-                        layer.close(index)
-                    }
-                })
-                return
-            }
-            if (layEvent === 'edit') {
-                //编辑
-                formData = data
-                type = 'edit'
-            } else if (layEvent === 'check') {
-                formData = data
-                type = 'check'
-            }
-
-            getRoleList(function () {
-                $('#roleId').val(formData.roleId)
-                form.render()
-            })
-            getStudentTypeList(function () {
-                $('#studentTypeId').val(formData.studentTypeId)
-                form.render()
-            })
-            getCollegeList(function () {
-                $('#college_model').val(formData.collegeId)
-                form.render()
-            })
-
-            getSeriesList(function () {
-                $('#series_model').val(formData.facultyId)
-                form.render()
-            })
-
-            getProfessList(function () {
-                $('#profess_model').val(formData.professionId)
-                form.render()
-            })
-
-            getClassList(function () {
-                $('#classes_model').val(formData.classId)
-                form.render()
-            })
-
-            var layerOption = {
-                type: 1,
-                offset: 'auto',
-                title: type === 'edit' ? '编辑' : '查看',
-                content: getTemplate(formData, type),
-                area: ['700px', '70%'],
-                shade: 0.4,
-                shadeClose: true,
-                btn: type === 'check' ? [] : ['确定', '取消'],
-                yes: function (index, layero) {
-                    layer.close(index)
-                    getFormData()
-                    if (type === 'check') {
-                        getData(data.id)
-                    } else if (type === 'edit') {
-                        formData.id = data.id
-                        updateData(formData)
-                    }
-                },
-                cancel: function (index) {
-                    layer.close(index)
-                }
-            }
-
-            layer.open(layerOption)
-            form.render()
-        })
-        $('#download-temple').on('click', function () {
-            window.open(conf.requestUrl + "/excel/用户模板.xls")
-        })
-
-        /*$('#import-cource').on('click', function() {
-
-        })*/
-        upload.render({
-            elem: '#import-cource',
-            url: conf.requestUrl + '/user/importExp',
-            field: 'file',
-            accept: 'file',
-            exts: 'xls|xlsx',
-            before: function (obj) { //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
-                layer.load(); //上传loading
-            },
-            done: function (res, index, upload) {
-                //上传后的回调
-                layer.closeAll('loading'); //关闭loading
-                layer.msg(res.msg)
-                getList(1)
-            },
-            error: function (index, upload) {
-                layer.closeAll('loading'); //关闭loading
-                layer.msg(res.msg || '导入失败')
-            },
-        })
-
-
-
-        $('#export-cource').click(function () {
-            $.ajax({
-                type: 'get',
-                //              url: "http://127.0.0.1:8080/user/exportExcel",
-                url: 'http://39.104.97.6:8080/user/exportExcel',
-                async: false,
-                success: function() {}
-            })
-        })
     })
 
 </script>
