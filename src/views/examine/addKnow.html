@@ -119,7 +119,7 @@
             admin.get({
                 url: '/knowledgePoint/queryById?id=' + id,
                 success: function (res) {
-                    $('#name').val(res.data.pName)
+                    $('#name').val(res.data.cName)
                     $('#describe').val(res.data.describe)
                     getCourseList(res.data.curriculumId)
                     getKnowList(res.data.curriculumId, res.data.pId)
