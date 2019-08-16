@@ -29,7 +29,7 @@
             $ = layui.jquery,
             route = layui.router(),
             admin = layui.admin,
-            courseName = layui.data('techSet').techSetName,
+            courseName = layui.sessionData('techSet').techSetName,
             pageLimit = 20;
 
         $('#courseName').html(courseName);

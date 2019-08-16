@@ -174,8 +174,8 @@
             laydate = layui.laydate,
             router = layui.router(),
             id = router.search.id,
-            courseId = layui.data('techSet').techSetId,
-            courseName = layui.data('techSet').techSetName,
+            courseId = layui.sessionData('techSet').techSetId,
+            courseName = layui.sessionData('techSet').techSetName,
             admin = layui.admin,
             details = {}
 
@@ -248,7 +248,7 @@
             var data = {
                 page: 1,
                 rows: 100,
-                curriculumId: Number(layui.data('techSet').techSetId),
+                curriculumId: Number(layui.sessionData('techSet').techSetId),
                 experimentId: Number(id)
             }
             admin.post({

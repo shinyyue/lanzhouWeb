@@ -282,15 +282,15 @@
                         default:
                             admin.navigate('/user/all')
                     }
-                    layui.data('user', {
+                    layui.sessionData('user', {
                         key: 'role',
                         value: res.data.role.id
                     })
-                    layui.data('userInfo', {
+                    layui.sessionData('userInfo', {
                         key: 'userInfo',
                         value: res.data.vsMpUser
                     })
-                    layui.data('role', {
+                    layui.sessionData('role', {
                         key: 'role',
                         value: res.data.role
                     })

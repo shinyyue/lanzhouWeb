@@ -41,7 +41,7 @@
             laypage = layui.laypage,
             tableFilter = 'expe_table';
 
-        $('#collegeName').html(layui.data('collegeSet').collegeName);
+        $('#collegeName').html(layui.sessionData('collegeSet').collegeName);
 
         // 实验成绩统计
         expeTableOption = {
@@ -109,7 +109,7 @@
                 data: JSON.stringify({
                     rows: 10,
                     page: page,
-                    key: layui.data('collegeSet').studentId
+                    key: layui.sessionData('collegeSet').studentId
                 }),
                 success: function (res) {
                     $('#expeName').html((res.data && res.data.items && res.data.items.length > 0)? res.data.items[0].experimentName: '');
@@ -126,7 +126,7 @@
             var data = obj.data //获得当前行数据
             var layEvent = obj.event;
             if(layEvent == 'check') {
-                admin.navigate('/statisticsCollege/virtualTestDetails/curriculumExperimentId=' + data.curriculumExperimentId +'/type=check' +  '/studentId=' + layui.data('collegeSet').studentId)
+                admin.navigate('/statisticsCollege/virtualTestDetails/curriculumExperimentId=' + data.curriculumExperimentId +'/type=check' +  '/studentId=' + layui.sessionData('collegeSet').studentId)
             }
         })
 

@@ -154,8 +154,8 @@
             var data = obj.data //获得当前行数据
             var layEvent = obj.event,
                 type = ''
-            layui.data('course', {key: 'curriculumExperimentId',value: data.id})  // 实验课程id
-            layui.data('course', {key: 'experimentId',value: data.experimentId})  // 实验id
+            layui.sessionData('course', {key: 'curriculumExperimentId',value: data.id})  // 实验课程id
+            layui.sessionData('course', {key: 'experimentId',value: data.experimentId})  // 实验id
 
             if (data.expState == 1&&new Date(data.startTime).getTime()>new Date().getTime()){
                 layer.alert('实验暂未开始', {icon: 6})
@@ -163,7 +163,7 @@
             }
             admin.navigate('/checkCourse/virtualTestDetails/id=' + data.id + '/type=' + layEvent + '/curriculumId=' + data.experimentId)
         })
-        $("#virtualTest-title").html('选课 > ' + layui.data('course').coursePlanName + ' > 虚拟实验 > 虚拟实验列表')
+        $("#virtualTest-title").html('选课 > ' + layui.sessionData('course').coursePlanName + ' > 虚拟实验 > 虚拟实验列表')
         getList(1)
 
         function getList(page) {
@@ -174,7 +174,7 @@
                 data = {
                     page: page,
                     rows: pageLimit,
-                    id: layui.data('course').coursePlanId,
+                    id: layui.sessionData('course').coursePlanId,
                     name: name,
                     gradeId: schoolYear,
                     semester: semester,

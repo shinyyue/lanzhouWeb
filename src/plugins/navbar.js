@@ -49,7 +49,7 @@ layui.define(['common', 'element'], function (exports) {
             _that.config.elem = $container;
         } else {
             if (_config.cached) {
-                var cacheNavbar = layui.data(cacheName);
+                var cacheNavbar = layui.sessionData(cacheName);
                 if (cacheNavbar.navbar === undefined) {
                     $.ajax({
                         type: _config.type,
@@ -58,7 +58,7 @@ layui.define(['common', 'element'], function (exports) {
                         dataType: 'json',
                         success: function (result, status, xhr) {
                             //添加缓存
-                            layui.data(cacheName, {
+                            layui.sessionData(cacheName, {
                                 key: 'navbar',
                                 value: result
                             });
@@ -81,7 +81,7 @@ layui.define(['common', 'element'], function (exports) {
                 }
             } else {
                 //清空缓存
-                layui.data(cacheName, null);
+                layui.sessionData(cacheName, null);
                 $.ajax({
                     type: _config.type,
                     url: _config.url,
@@ -184,7 +184,7 @@ layui.define(['common', 'element'], function (exports) {
      * 清除缓存
      */
     Navbar.prototype.cleanCached = function () {
-        layui.data(cacheName, null);
+        layui.sessionData(cacheName, null);
     };
     /**
      * 获取html字符串

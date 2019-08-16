@@ -62,10 +62,10 @@
             form = layui.form
         admin = layui.admin,
             time = getNowFormatDate,
-            $("#coursePlanName").html(layui.data('course').coursePlanName),
-            $("#coursePlanName").val(layui.data('course').coursePlanId),
-            $("#userName").html(layui.data('userInfo').userInfo.userName)
-        $("#courseEvaluate").html(layui.data('course').coursePlanName + ' > 课程评价 > 学生评价')
+            $("#coursePlanName").html(layui.sessionData('course').coursePlanName),
+            $("#coursePlanName").val(layui.sessionData('course').coursePlanId),
+            $("#userName").html(layui.sessionData('userInfo').userInfo.userName)
+        $("#courseEvaluate").html(layui.sessionData('course').coursePlanName + ' > 课程评价 > 学生评价')
         $("#date").html(time);
 
         function getNowFormatDate() {
@@ -87,7 +87,7 @@
         }
         form.on('submit(submit)', function (data) {
             var param = {
-                curriculumId: layui.data('course').coursePlanId,
+                curriculumId: layui.sessionData('course').coursePlanId,
                 content: data.field.desc
             }
             admin.post({

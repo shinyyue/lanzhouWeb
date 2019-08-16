@@ -154,7 +154,7 @@
             $ = layui.jquery,
             form = layui.form,
             admin = layui.admin,
-            kechengId = layui.data('techSet').kechengId,
+            kechengId = layui.sessionData('techSet').kechengId,
             option = {
                 exercisesDifficulty: '',
                 exercisesSize: '',
@@ -593,10 +593,19 @@
                         $('#curriculumId').val(res.data.curriculumId || '')
                         $('.layui-table-body').css('overflow', 'visible')
 
-                        getKnowlegeTreeList(res.data.curriculumId)
+                        // getKnowlegeTreeList(res.data.curriculumId)
                         getKnowlegeList(res.data.curriculumId, function (data) {
                             tableOption.data = list
                             table.render(tableOption)
+                            strategyEntries = []
+                            list.forEach(function (item) {
+                                strategyEntries.push({
+                                    exercisesDifficulty: item.exercisesDifficulty,
+                                    exercisesSize: item.exercisesSize,
+                                    exercisesType: item.exercisesType,
+                                    knowledgePoint: item.knowledgePoint
+                                })
+                            })
                             $('.layui-table-body').css('overflow', 'visible')
                             $('.layui-table-box').css({
                                 overflow: 'visible',

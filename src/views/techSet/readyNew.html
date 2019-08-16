@@ -48,8 +48,8 @@
             table = layui.table,
             admin = layui.admin,
             pageLimit = 20,
-            courseId = layui.data('techSet').techSetId,
-            courseName = layui.data('techSet').techSetName,
+            courseId = layui.sessionData('techSet').techSetId,
+            courseName = layui.sessionData('techSet').techSetName,
             layPageOption = {
                 elem: 'ready-new-page', //注意，这里的 test1 是 ID，不用加 # 号
                 limit: 20,
@@ -145,7 +145,7 @@
             var data = {
                 page: page,
                 rows: pageLimit,
-                curriculumId: Number(layui.data('techSet').techSetId)
+                curriculumId: Number(layui.sessionData('techSet').techSetId)
             }
             admin.post({
                 url: '/curriculumExperiment/queryExpListByCurriculumId',

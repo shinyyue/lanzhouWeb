@@ -89,7 +89,7 @@
     layui.use([], function() {
         var $ = layui.jquery,
             admin = layui.admin,
-            userId = layui.data('userInfo').userInfo.id,
+            userId = layui.sessionData('userInfo').userInfo.id,
             ws = new WebSocket('ws://39.104.97.6:8088/netty3?userId=' + userId),
             selectedCourseList = [],
             checkedItem = null,
@@ -99,7 +99,7 @@
                 type: 0,
                 fromUserId: 0,
                 isTeacher: 0,
-                userName: layui.data('userInfo').userInfo.userName
+                userName: layui.sessionData('userInfo').userInfo.userName
             }
 
         getList()

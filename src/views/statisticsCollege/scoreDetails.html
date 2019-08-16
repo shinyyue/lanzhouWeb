@@ -38,10 +38,10 @@
             table = layui.table,
             admin = layui.admin,
             laypage = layui.laypage,
-            collegeId = layui.data('collegeSet').collegeId || 0,
+            collegeId = layui.sessionData('collegeSet').collegeId || 0,
             tableFilter = 'score_table';
 
-        $('#collegeName').html(layui.data('collegeSet').collegeName);
+        $('#collegeName').html(layui.sessionData('collegeSet').collegeName);
 
         // 所有学生成绩统计
         scoreTableOption = {
@@ -120,7 +120,7 @@
             var data = obj.data //获得当前行数据
             var layEvent = obj.event;
             if(layEvent == 'check') {
-                layui.data('collegeSet', {key: 'studentId', value: data.id})
+                layui.sessionData('collegeSet', {key: 'studentId', value: data.id})
                 admin.navigate('/statisticsCollege/stuExpe/v=' + Math.ceil(Math.random()*10000))
             }
         })

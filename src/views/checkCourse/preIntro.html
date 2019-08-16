@@ -53,7 +53,7 @@
             layedit = layui.layedit,
             route = layui.router(),
             id = route.search.id,
-            coursePlanId = layui.data('course').coursePlanId;
+            coursePlanId = layui.sessionData('course').coursePlanId;
 
         var index = layedit.build('content', {
             tool: ['strong', //加粗
@@ -75,7 +75,7 @@
 
         getDetails(id)
         
-        $("#precourse_name").html(layui.data('course').coursePlanName)
+        $("#precourse_name").html(layui.sessionData('course').coursePlanName)
         function getDetails(id) {
             admin.get({
                 url: '/introduction/queryById?id=' + (id || coursePlanId),

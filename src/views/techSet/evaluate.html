@@ -40,8 +40,8 @@
             tableFilter = 'evaluate-list-table',
             table = layui.table,
             admin = layui.admin,
-            courseId = layui.data('techSet').techSetId,
-            courseName = layui.data('techSet').techSetName,
+            courseId = layui.sessionData('techSet').techSetId,
+            courseName = layui.sessionData('techSet').techSetName,
             pageLimit = 20,
             layPageOption = {
                 elem: 'evaluate-table-page', //注意，这里的 test1 是 ID，不用加 # 号
@@ -118,15 +118,15 @@
 
             if (layEvent === 'reply') {
                 formData = data;
-                layui.data('courseComment', {
+                layui.sessionData('courseComment', {
                     key: 'id',
                     value: data.id
                 });
-                layui.data('courseComment', {
+                layui.sessionData('courseComment', {
                     key: 'stuName',
                     value: data.userName
                 });
-                layui.data('courseComment', {
+                layui.sessionData('courseComment', {
                     key: 'content',
                     value: data.content
                 });

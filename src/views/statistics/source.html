@@ -58,7 +58,7 @@
             admin = layui.admin;
 
         // 获取学院管理员的学院id
-        collegeId = layui.data('userInfo').userInfo.collegeId,
+        collegeId = layui.sessionData('userInfo').userInfo.collegeId,
 
         // 查询系列表
         admin.post({

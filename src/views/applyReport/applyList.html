@@ -145,8 +145,8 @@
             var data = obj.data //获得当前行数据
             var layEvent = obj.event,
                 type = ''
-            layui.data('course', {key: 'curriculumExperimentId',value: data.id})  // 实验课程id
-            layui.data('course', {key: 'experimentId',value: data.experimentId})  // 实验id
+            layui.sessionData('course', {key: 'curriculumExperimentId',value: data.id})  // 实验课程id
+            layui.sessionData('course', {key: 'experimentId',value: data.experimentId})  // 实验id
 
             admin.navigate('/applyReport/applyStart/id=' + data.id + '/type=' + layEvent + '/curriculumId=' + data.experimentId)
         })
@@ -160,7 +160,7 @@
                 data = {
                     page: page,
                     rows: pageLimit,
-                    id: layui.data('course').coursePlanId,
+                    id: layui.sessionData('course').coursePlanId,
                     name: name,
                     gradeId: schoolYear,
                     semester: semester,

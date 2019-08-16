@@ -222,7 +222,7 @@
         function addCourse() {
             var data = {
                 nameAndNum: JSON.stringify(checkedList),
-                userId: layui.data('userInfo').userInfo.id
+                userId: layui.sessionData('userInfo').userInfo.id
             }
             admin.post({
                 url: '/selectedCourse/add',

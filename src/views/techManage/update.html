@@ -327,7 +327,7 @@
             studentList = [],
             route = layui.router(),
             id = route.search.id;
-        $('#userName').val(layui.data('userInfo').userInfo.userName)
+        $('#userName').val(layui.sessionData('userInfo').userInfo.userName)
         form.render()
         form.on('radio(schoolChange)', function (a) {
             if (a.value === '0') {

@@ -23,7 +23,7 @@
             tableFilter = 'tech_details_table',
             admin = layui.admin,
             route = layui.router(),
-            collegeId = layui.data('userInfo').userInfo.collegeId,
+            collegeId = layui.sessionData('userInfo').userInfo.collegeId,
             id = route.search.id
 
         getList()

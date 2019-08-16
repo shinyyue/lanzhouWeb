@@ -90,7 +90,7 @@
         var $ = layui.jquery,
             admin = layui.admin,
             publishedCourseList = [],
-            userId = layui.data('userInfo').userInfo.id,
+            userId = layui.sessionData('userInfo').userInfo.id,
             ws = new WebSocket('ws://39.104.97.6:8088/netty3?userId=' + userId),
             checkedItem = null,
             curChatList = [],
@@ -100,7 +100,7 @@
                 type: 0,
                 fromUserId: Number(userId),
                 isTeacher: 1,
-                userName: layui.data('userInfo').userInfo.userName
+                userName: layui.sessionData('userInfo').userInfo.userName
             }
 
         if ('WebSocket' in window) {

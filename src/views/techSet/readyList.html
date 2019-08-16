@@ -31,8 +31,8 @@
             table = layui.table,
             admin = layui.admin,
             pageLimit = 20,
-            courseId = Number(layui.data('techSet').techSetId),
-            courseName = layui.data('techSet').techSetName,
+            courseId = Number(layui.sessionData('techSet').techSetId),
+            courseName = layui.sessionData('techSet').techSetName,
             layPageOption = {
                 elem: 'readyTest-table-page', //注意，这里的 test1 是 ID，不用加 # 号
                 limit: 20,

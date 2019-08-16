@@ -54,7 +54,7 @@
                 route = layui.router(),
                 path = route.href, // 路由后缀
                 firstPath = route.path[0], // 一级路由地址
-                menuList = layui.data('role').role.menuTrees
+                menuList = layui.sessionData('role').role.menuTrees
             initHeaderNav()
             admin.setSideNav()
 
@@ -129,8 +129,8 @@
                 admin.setSideNav()
                 initHeaderNav()
             })
-            $('#nav_user_name').html(layui.data('userInfo').userInfo.userName)
-            $('#nav_user_role').html(layui.data('role').role.roleName || '')
+            $('#nav_user_name').html(layui.sessionData('userInfo').userInfo.userName)
+            $('#nav_user_role').html(layui.sessionData('role').role.roleName || '')
         })
 
 </script>
