@@ -186,20 +186,20 @@ layui
             route.fileurl = '/' + route.path.join('/')
 
             //判断登录页面
-            // if (conf.loginCheck == true) {
-            //     // 没有token验证，暂时用role来记录用户的登录状态
-            //     if (layui.sessionData('user').role) {
-            //         if (route.fileurl == conf.loginPage) {
-            //             self.navigate('/')
-            //             return
-            //         }
-            //     } else {
-            //         if (route.fileurl != conf.loginPage) {
-            //             self.logout()
-            //             return
-            //         }
-            //     }
-            // }
+            if (conf.loginCheck == true) {
+                // 没有token验证，暂时用role来记录用户的登录状态
+                if (layui.sessionData('user').role) {
+                    // if (route.fileurl == conf.loginPage) {
+                    //     self.navigate('/')
+                    //     return
+                    // }
+                } else {
+                    if (route.fileurl != conf.loginPage) {
+                        self.logout()
+                        return
+                    }
+                }
+            }
 
             if ($.inArray(route.fileurl, conf.indPage) === -1) {
                 var loadRenderPage = function (params) {
