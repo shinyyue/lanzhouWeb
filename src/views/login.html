@@ -265,6 +265,7 @@
                 url: '/login/login',
                 data: JSON.stringify(userInfo),
                 success: function (res) {
+                    console.log(111, res)
                     loading.hide()
                     switch (res.data.role.id) {
                         // 老师
@@ -280,9 +281,8 @@
                             admin.navigate('/user/all')
                             break;
                         default:
-                            admin.navigate(res.data.role.skipIndex)
-                            admin.setSideNav()
                     }
+                    admin.navigate(res.data.role.skipIndex)
                     layui.sessionData('user', {
                         key: 'role',
                         value: res.data.role.id
@@ -295,6 +295,7 @@
                         key: 'role',
                         value: res.data.role
                     })
+                    admin.setSideNav()
                 },
                 complete: function (err) {
                     loading.hide()

@@ -196,7 +196,6 @@ layui
                 } else {
                     if (route.fileurl != conf.loginPage) {
                         self.logout()
-                        return
                     }
                 }
             }
