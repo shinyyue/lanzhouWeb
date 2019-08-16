@@ -127,13 +127,13 @@
                     skin: 'system-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function (index, layero) {
+                    yes: function (index) {
                         // 提交
-                        layer.close(index)
+                        layer.closeAll(index)
                         deleteData(data.id)
                     },
                     cancel: function (index) {
-                        layer.close(index)
+                        layer.closeAll(index)
                     }
                 })
                 return
@@ -164,7 +164,7 @@
                 shade: 0.4,
                 shadeClose: true,
                 btn: type === 'check' ? [] : ['确定', '取消'],
-                yes: function (index, layer) {
+                yes: function (index) {
                     layer.close(index)
                     getFormData()
                     if (type === 'check') {
@@ -396,7 +396,7 @@
                     skin: 'user-edit-modal',
                     shadeClose: true,
                     btn: ['确定', '取消'],
-                    yes: function (index, layero) {
+                    yes: function (index) {
                         addData()
                         layer.close(index)
                     },

@@ -175,7 +175,7 @@
             $('#experiment-my-addnew').attr('style', 'display:none;')
         }
 
-        var user = JSON.parse(localStorage.userInfo)
+        var user = JSON.parse(sessionStorage.userInfo)
         var userName = user.userInfo.userName
         $('#teacherName').val(userName)
         form.render()
@@ -188,6 +188,7 @@
                 addData()
             }
         })
+        debugger
         getExperimentList()
         setTimeout(function () {
             id && getDetails()
