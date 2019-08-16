@@ -368,7 +368,7 @@
 
         // 渲染视频
         function renderVideo(data) {
-            testContent = data.testContent || 0
+            testContent = Number(data.testContent) || 0
             var fileUrl =
                 conf.fileRequestUrl + '/' + JSON.parse(data.resourceIds)[0].url
             $('#fileUrl').html(
@@ -379,10 +379,10 @@
             var fileVideoDetail = document.getElementById('file_video_detail')
             fileVideoDetail.currentTime = testContent
             fileVideoDetail.onpause = function () {
-                return (testContent = fileVideoDetail.currentTime)
+                testContent = fileVideoDetail.currentTime
             }
             fileVideoDetail.onended = function () {
-                return (testContent = 0)
+                testContent = 0
             }
         }
 
