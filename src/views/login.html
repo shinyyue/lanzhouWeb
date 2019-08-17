@@ -89,6 +89,7 @@
         height: 480px;
         background: url('/src/images/login-bg.jpeg') no-repeat 100%
             100%;
+        background-size: 100% 100%;
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -265,23 +266,7 @@
                 url: '/login/login',
                 data: JSON.stringify(userInfo),
                 success: function (res) {
-                    console.log(111, res)
                     loading.hide()
-                    switch (res.data.role.id) {
-                        // 老师
-                        case 2:
-                            admin.navigate('/')
-                            break;
-                            // 学生
-                        case 1:
-                            admin.navigate('/student')
-                            break;
-                            // 管理员
-                        case 3:
-                            admin.navigate('/user/all')
-                            break;
-                        default:
-                    }
                     admin.navigate(res.data.role.skipIndex)
                     layui.sessionData('user', {
                         key: 'role',

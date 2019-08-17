@@ -93,6 +93,7 @@ layui
             this.routeLeaveFunc = callback
         }
         self.render = function (elem) {
+            // debugger
             if (typeof elem == 'string') elem = $('#' + elem)
             if (!elem.get(0)) return
             var action = elem.get(0).tagName == 'SCRIPT' ? 'next' : 'find'
@@ -179,35 +180,52 @@ layui
          */
         //初始化视图区域,刷新时触发
         self.initView = function (route) {
+            // debugger
+            console.log(2222, route, self.route)
             if (!self.route.href || self.route.href == '/') {
                 self.route = layui.router('#' + conf.entry)
                 route = self.route
             }
             route.fileurl = '/' + route.path.join('/')
 
+            console.log(333, route.fileurl)
+
             //判断登录页面
             if (conf.loginCheck == true) {
                 // 没有token验证，暂时用role来记录用户的登录状态
+                console.log(888, layui.sessionData('user').role)
                 if (layui.sessionData('user').role) {
-                    // if (route.fileurl == conf.loginPage) {
-                    //     self.navigate('/')
-                    //     return
-                    // }
+                    console.log(111999, route.fileurl)
+                    if (route.fileurl == conf.loginPage) {
+                        self.navigate('/login')
+                        return
+                    }
                 } else {
+                    console.log(999, route.fileurl, conf.loginPage)
                     if (route.fileurl != conf.loginPage) {
                         self.logout()
+                    } else {
+                        // self.navigate('/login')
                     }
                 }
             }
 
+            console.log('单页面加载------', route.fileurl, conf.indPage, $.inArray(route.fileurl, conf.indPage))
+
             if ($.inArray(route.fileurl, conf.indPage) === -1) {
+
+                console.log('单页面加载------1', route.fileurl)
+
                 var loadRenderPage = function (params) {
                     if (conf.viewTabs == true) {
                         view.renderTabs(route)
                     } else {
+                        console.log('')
                         view.render(route.fileurl)
                     }
                 }
+
+                console.log('body', view.containerBody)
 
                 if (view.containerBody == null) {
                     //加载layout文件
@@ -288,7 +306,7 @@ layui
         }
 
         self.setSideNav = function() {
-            var menuList = layui.sessionData('role').role.menuTrees,
+            var menuList = (layui.sessionData('role').role && layui.sessionData('role').role.menuTrees) || [],
                 route = layui.router(),
                 path = route.href, // 路由后缀
                 firstPath = route.path[0];
@@ -584,6 +602,8 @@ layui
             // if ($(window).width() < mobileWidth) {
             //     self.flexible(false)
             // }
+            console.log('hashchange------')
+            // debugger
             self.route = layui.router()
             layer.closeAll()
             self.initView(self.route)
