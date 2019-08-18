@@ -3,7 +3,7 @@
         <div class="course-title-location">
             <span>您的位置：</span>
             <span
-                >申报实验 > <span id="courseNameNav"></span> > 申报实验信息</span
+                >申报实验  > 申报实验信息</span
             >
         </div>
     </div>
@@ -11,15 +11,15 @@
         <div class="layui-row">
             <div class="layui-col-md4 layui-form-item">
                 <label class="layui-form-label ">实验名称</label>
-                <span id="curriculumExperimentName"></span>
+                <span id="name"></span>
             </div>
             <div class="layui-col-md4 layui-form-item">
                 <label class="layui-form-label ">实验类型</label>
-                <span id="experimentType"></span>
+                <span id="experimentalTypeName"></span>
             </div>
             <div class="layui-col-md4 layui-form-item">
                 <label class="layui-form-label ">所属课程名称</label>
-                <span id="courseName"></span>
+                <span id="curriculumName"></span>
             </div>
         </div>
 
@@ -155,6 +155,7 @@
             upload = layui.upload,
             conf = layui.conf,
             route = layui.router(),
+            id = route.search.id,
             curriculumExperimentId = layui.sessionData('course')
                 .curriculumExperimentId, // 实验课程课程id
             experimentId = layui.sessionData('course').experimentId, // 实验id
@@ -177,18 +178,17 @@
 
         function getDetails ()  {
             admin.get({
-                url:
-                    '/vsMpTestRecord/startReLookTest?curriculumExperimentId=' +
-                    curriculumExperimentId,
+                url:'experiments/queryById?id=' +
+                    id,
                 success: function(res) {
                     if (!res.data) return
                     var data = res.data
                     details = data
-                    $('#curriculumExperimentName').html(
-                        data.curriculumExperimentName
+                    $('#name').html(
+                        data.name
                     )
-                    $('#experimentType').html(data.experimentType)
-                    $('#courseName').html(data.courseName)
+                    $('#experimentalTypeName').html(data.experimentalTypeName)
+                    $('#curriculumName').html(data.curriculumName)
                     $('#courseNameNav').html(data.courseName)
                     $('#require').html(data.require)
                     // $('#labReport').html(data.labReport)
