@@ -191,21 +191,36 @@ layui
             console.log(333, route.fileurl)
 
             //判断登录页面
+            // if (conf.loginCheck == true) {
+            //     // 没有token验证，暂时用role来记录用户的登录状态
+            //     console.log(888, layui.sessionData('user').role)
+            //     if (layui.sessionData('user').role) {
+            //         console.log(111999, route.fileurl)
+            //         if (route.fileurl == conf.loginPage) {
+            //             self.navigate('/login')
+            //             return
+            //         }
+            //     } else {
+            //         console.log(999, route.fileurl, conf.loginPage)
+            //         if (route.fileurl != conf.loginPage) {
+            //             self.logout()
+            //         } else {
+            //             // self.navigate('/login')
+            //         }
+            //     }
+            // }
+
             if (conf.loginCheck == true) {
                 // 没有token验证，暂时用role来记录用户的登录状态
-                console.log(888, layui.sessionData('user').role)
                 if (layui.sessionData('user').role) {
-                    console.log(111999, route.fileurl)
                     if (route.fileurl == conf.loginPage) {
-                        self.navigate('/login')
+                        self.navigate('/')
                         return
                     }
                 } else {
-                    console.log(999, route.fileurl, conf.loginPage)
                     if (route.fileurl != conf.loginPage) {
                         self.logout()
-                    } else {
-                        // self.navigate('/login')
+                        return
                     }
                 }
             }
