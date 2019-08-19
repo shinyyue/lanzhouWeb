@@ -355,23 +355,51 @@
         getDetails()
 
         // 渲染视频
+        // function renderVideo(data) {
+        //     // debugger
+        //     testContent = data.testContent || 0
+        //     var fileUrl =
+        //         conf.fileRequestUrl + '/' + JSON.parse(data.resourceIds)[0].url
+        //     $('#fileUrl').html(
+        //         '<video src="' +
+        //             fileUrl +
+        //             '" controls="controls" id="file_video_detail" style="width: 100%; height: 100%;" />'
+        //     )
+        //     var fileVideoDetail = document.getElementById('file_video_detail')
+        //     fileVideoDetail.currentTime = testContent
+        //     fileVideoDetail.onpause = function () {
+        //         return (testContent = fileVideoDetail.currentTime)
+        //     }
+        //     fileVideoDetail.onended = function () {
+        //         return (testContent = 0)
+        //     }
+            
+        // }
+
         function renderVideo(data) {
-            // debugger
-            testContent = data.testContent || 0
+            testContent = Number(data.testContent) || 0
             var fileUrl =
                 conf.fileRequestUrl + '/' + JSON.parse(data.resourceIds)[0].url
-            $('#fileUrl').html(
-                '<video src="' +
-                    fileUrl +
-                    '" controls="controls" id="file_video_detail" style="width: 100%; height: 100%;" />'
-            )
-            var fileVideoDetail = document.getElementById('file_video_detail')
-            fileVideoDetail.currentTime = testContent
-            fileVideoDetail.onpause = function () {
-                return (testContent = fileVideoDetail.currentTime)
-            }
-            fileVideoDetail.onended = function () {
-                return (testContent = 0)
+
+            try {
+                $('#fileUrl').html(
+                    '<video src="' + fileUrl + '" controls="controls" id="file_video_detail" style="width: 100%; height: 100%;"></video>'
+                )
+                var fileVideoDetail = document.getElementById('file_video_detail')
+                fileVideoDetail.currentTime = testContent
+                fileVideoDetail.onpause = function () {
+                    testContent = fileVideoDetail.currentTime
+                }
+                fileVideoDetail.onended = function () {
+                    testContent = 0
+                }
+            } catch (error) {
+                $('#fileUrl').html(
+                    '<object src="'+ fileUrl +'" id="file_video_detail" style="width: 100%; height: 100%;">'+
+                    '   <embed src="' + fileUrl + '" style="width: 100%; height: 100%;">'+
+                    '   </embed>'+
+                    '</object>'
+                )
             }
         }
 
