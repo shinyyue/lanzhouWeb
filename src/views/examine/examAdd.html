@@ -233,12 +233,12 @@
                 opt: arr1[optionList.length],
                 content: ''
             })
-            renderOption()
+            renderOption($('#type').val())
             return false
         })
         $('#deleteOpt').on('click', function () {
             optionList.splice(optionList.length - 1, 1)
-            renderOption()
+            renderOption($('#type').val())
             return false
         })
         $('#addData').on('click', function () {
