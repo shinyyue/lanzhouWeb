@@ -241,9 +241,6 @@
                 newPassWord: $('#oldPwd').val(),
                 oldPassWord: $('#newPwd').val()
             }
-            console.log(2, formData)
-            // || !$('#oldPwd').val() ||
-            // !$('#newPwd').val() || !$('#pwdConfirm').val()
             if (!formData.account || !formData.snoOrJno || !formData.userName) {
                 layer.msg('请检查必填项是否填写完整')
                 return;

@@ -223,11 +223,6 @@
 
                 if ($(this).find('.layui-form-checked').length > 0) {
                     noNeedCpurseList.push(item.val())
-                    console.log(
-                        11,
-                        $(this).find('.layui-form-checked').length,
-                        item.val()
-                    )
                 }
             })
             data.prerequisiteCourse = noNeedCpurseList.join(',')

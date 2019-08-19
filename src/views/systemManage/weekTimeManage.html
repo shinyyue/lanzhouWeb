@@ -207,7 +207,6 @@
                     if (type === 'check') {
                         getData(data.id)
                     } else if (type === 'edit') {
-                        console.log(111,data)
                         formData.id = data.id
                         updateData(formData)
                     }
@@ -291,7 +290,6 @@
         }
 
         function updateData(data) {
-            console.log(222,data)
             var data = {
                 id: data.id,
                 semester: data.semester,

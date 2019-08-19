@@ -198,7 +198,6 @@
             admin.get({
                 url: '/experiments/queryById?id=' + id,
                 success: function (res) {
-                    console.log(444, res.data)
                     $('#name').val(res.data.name)
                     $('#curriculumId').val(res.data.curriculumId)
                     $('#experimentalType').val(res.data.experimentalType)

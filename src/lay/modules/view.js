@@ -424,7 +424,6 @@ layui
             }
             //解析普通文件
             self.render = function (fileurl, callback) {
-                console.log('单页面html解析------', fileurl)
                 // debugger
                 self.loadHtml(fileurl, function (res) {
                     var htmlElem = $('<div>' + res.html + '</div>')

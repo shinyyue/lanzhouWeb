@@ -492,11 +492,19 @@
             }
             singlUploadOption.data = list
             singleTable = table.render(singlUploadOption)
+             $('.resourceHtm_path').each(function(index) {
+                $(this).html(list[index].resourceName)
+            })
             $('.resource-name').each(function(index) {
                 $(this).val(list[index].name)
+                form.render()
             })
             $('.resource-time').each(function(index) {
                 $(this).val(list[index].countTime)
+                form.render()
+            })
+            $('.resourceSwf_path').each(function(index) {
+                $(this).html(list[index].sourceName)
             })
             form.render()
         })
@@ -597,22 +605,52 @@
                     $('.resourceHtm_path').each(function(index) {
                         $(this).html(list[index].resourceName)
                     })
+                    $('.resource-name').each(function(index) {
+                        $(this).val(list[index].name)
+                        form.render()
+                    })
+                    $('.resource-time').each(function(index) {
+                        $(this).val(list[index].countTime)
+                        form.render()
+                    })
+                    $('.resourceSwf_path').each(function(index) {
+                        $(this).html(list[index].sourceName)
+                    })
                 }, $(obj.tr).find('.upload-html'))
             } else if (layEvent === 'swtUpload') {
                 scormUpload(function(fileData) {
                     list[index].sourceName = fileData
                     singlUploadOption.data = list
                     singleTable = table.render(singlUploadOption)
+                    $('.resourceHtm_path').each(function(index) {
+                        $(this).html(list[index].resourceName)
+                    })
+                    $('.resource-name').each(function(index) {
+                        $(this).val(list[index].name)
+                        form.render()
+                    })
+                    $('.resource-time').each(function(index) {
+                        $(this).val(list[index].countTime)
+                        form.render()
+                    })
                     $('.resourceSwf_path').each(function(index) {
                         $(this).html(list[index].sourceName)
                     })
                 }, $(obj.tr).find('.upload-swt'))
             }
+            $('.resourceHtm_path').each(function(index) {
+                $(this).html(list[index].resourceName)
+            })
             $('.resource-name').each(function(index) {
                 $(this).val(list[index].name)
+                form.render()
             })
             $('.resource-time').each(function(index) {
                 $(this).val(list[index].countTime)
+                form.render()
+            })
+            $('.resourceSwf_path').each(function(index) {
+                $(this).html(list[index].sourceName)
             })
         })
 
