@@ -497,6 +497,7 @@
                 type: type,
                 curriculumId: Number($("#curriculumId").val())
             }
+                ,inputType = 'radio'
             admin.post({
                 url: '/dataBank/queryAllList',
                 data: JSON.stringify(data),
@@ -505,8 +506,12 @@
                     res.data &&
                         res.data.items &&
                         res.data.items.forEach(function (item) {
+                            if(type==2){
+                                inputType = 'checkbox'
+                            }
                             $('#resourceIds').append(
-                                "<input type='checkbox' name='resourceIds' data-url='" +
+                                "<input type='" + inputType +
+                                "' name='resourceIds' data-url='" +
                                 item.fileUrl +
                                 "' lay-skin='primary' value='" +
                                 item.id +
