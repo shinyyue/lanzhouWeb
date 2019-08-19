@@ -249,12 +249,14 @@
             table = layui.table,
             tree = layui.tree,
             resourceType = '',
+            scormSign = '',
             tableData = [
                 {
                     id: 1,
                     parentId: 0,
                     floor: 1,
                     name: '',
+                    sign: scormSign,
                     resourceName: '',
                     sourceName: '',
                     countTime: ''
@@ -388,7 +390,8 @@
                         }
                     ]
                 ]
-            }
+            };
+            
         form.render()
         $('#upload-file').click(function() {
             resourceType = $("#type").val()
@@ -599,7 +602,10 @@
             } else if (layEvent === 'htmUpload') {
                 // 获取自定义上传的所有值 singleTable.config.data
                 scormUpload(function(fileData) {
-                    list[index].resourceName = fileData
+                    var fileData = JSON.parse(fileData)
+                    scormSign = fileData.sign
+                    list[index].resourceName = fileData.filePath
+                    list[index].sign = fileData.sign
                     singlUploadOption.data = list
                     singleTable = table.render(singlUploadOption)
                     $('.resourceHtm_path').each(function(index) {
@@ -619,7 +625,11 @@
                 }, $(obj.tr).find('.upload-html'))
             } else if (layEvent === 'swtUpload') {
                 scormUpload(function(fileData) {
-                    list[index].sourceName = fileData
+                    debugger
+                    var fileData = JSON.parse(fileData)
+                    scormSign = fileData.sign
+                    list[index].sourceName = fileData.filePath
+                    list[index].sign = fileData.sign
                     singlUploadOption.data = list
                     singleTable = table.render(singlUploadOption)
                     $('.resourceHtm_path').each(function(index) {
@@ -671,11 +681,13 @@
         function scormUpload(callback, elem) {
             upload.render({
                 elem: elem, //绑定元素
-                url: 'http://39.104.97.6:8080/dataBank/oneFileUpload', //上传接口
+                // url: 'http://39.104.97.6:8080/dataBank/oneFileUpload', //上传接口
+                url: 'http://39.104.97.6:8080/dataBank/sigleFileUpload', //上传接口
                 method: 'post',
                 field: 'file',
                 data: {
-                    type: 7
+                    type: 7,
+                    sign: scormSign
                 },
                 before: function(obj) {
                     layer.load()
