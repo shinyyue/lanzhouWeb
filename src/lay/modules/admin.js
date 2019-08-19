@@ -181,27 +181,21 @@ layui
         //初始化视图区域,刷新时触发
         self.initView = function (route) {
             // debugger
-            console.log(2222, route, self.route)
             if (!self.route.href || self.route.href == '/') {
                 self.route = layui.router('#' + conf.entry)
                 route = self.route
             }
             route.fileurl = '/' + route.path.join('/')
 
-            console.log(333, route.fileurl)
-
             //判断登录页面
             // if (conf.loginCheck == true) {
             //     // 没有token验证，暂时用role来记录用户的登录状态
-            //     console.log(888, layui.sessionData('user').role)
             //     if (layui.sessionData('user').role) {
-            //         console.log(111999, route.fileurl)
             //         if (route.fileurl == conf.loginPage) {
             //             self.navigate('/login')
             //             return
             //         }
             //     } else {
-            //         console.log(999, route.fileurl, conf.loginPage)
             //         if (route.fileurl != conf.loginPage) {
             //             self.logout()
             //         } else {
@@ -225,22 +219,15 @@ layui
                 }
             }
 
-            console.log('单页面加载------', route.fileurl, conf.indPage, $.inArray(route.fileurl, conf.indPage))
-
             if ($.inArray(route.fileurl, conf.indPage) === -1) {
-
-                console.log('单页面加载------1', route.fileurl)
 
                 var loadRenderPage = function (params) {
                     if (conf.viewTabs == true) {
                         view.renderTabs(route)
                     } else {
-                        console.log('')
                         view.render(route.fileurl)
                     }
                 }
-
-                console.log('body', view.containerBody)
 
                 if (view.containerBody == null) {
                     //加载layout文件
@@ -372,7 +359,7 @@ layui
                         }
                         childNav +=
                             '<li class="layui-nav-item sider-nav-item">' +
-                            '   <a class="layui-nav-first" href="javascript:void(0);" data-url="' +
+                            '   <a class="layui-nav-first" href="' + (dlStr ? 'javascript:void(0);' : '/index.html#' + child[k].menuUrl) + '" data-url="' +
                             child[k].menuUrl +
                             '">' +
                             '       <cite class="cite">' +
@@ -615,8 +602,6 @@ layui
             // if ($(window).width() < mobileWidth) {
             //     self.flexible(false)
             // }
-            console.log('hashchange------')
-            // debugger
             self.route = layui.router()
             layer.closeAll()
             self.initView(self.route)
