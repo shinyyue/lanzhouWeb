@@ -163,42 +163,36 @@
             classesList = [],
             professList = [],
             addModalTemp = '',
-            importModalTemplate =
-            `<form action="" class="layui-form my-add-form">
-                        <div class="layui-row">
-                            <div class="layui-col-md12 layui-form-item">
-                                <label class="layui-form-label">所属部门</label>
-                                <select class="layui-unselect layui-form-select">
-                                    <option value="">选择</option>
-                                    <option value="021">部门1</option>
-                                    <option value="022">部门2</option>
-                                    <option value="023">部门3</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="layui-row">
-                            <div class="layui-col-md12 layui-form-item">
-                                <label class="layui-form-label">上传</label>
-                                <button type="button" class="layui-btn layui-btn-primary">上传表格</button>
-                                <button type="button" class="layui-btn " style="background: rgba(0,193,222,1)">下载模版</button>
-                            </div>
-                        </div>
-                        <div class="layui-row">
-                            <div class="layui-col-md12 layui-form-item">
-                                <input type="file" id="upload"><span style="color: red">删除</span>
-                            </div>
-                        </div>
-                        <div class="layui-row">
-                            <div class="layui-col-md12 layui-form-item">
-                                温馨提示：清先下载模版，然后根据模版填入员工信息。
-                            </div>
-                        </div>
-                    </form>`
-        // <div class="layui-row">
-        //         <div class="layui-col-md12 layui-form-item">
-        //             <input type="file"><span style="color: red">删除</span>
-        //         </div>
-        //     </div>
+            importModalTemplate = '<form action="" class="layui-form my-add-form">'+
+            '<div class="layui-row">'+
+            '<div class="layui-col-md12 layui-form-item">'+
+            '<label class="layui-form-label">所属部门</label>'+
+            '<select class="layui-unselect layui-form-select">'+
+            '<option value="">选择</option>'+
+            '<option value="021">部门1</option>'+
+            '<option value="022">部门2</option>'+
+            '<option value="023">部门3</option>'+
+            '</select>'+
+            '</div>'+
+            '</div>'+
+            '<div class="layui-row">'+
+            '<div class="layui-col-md12 layui-form-item">'+
+            '<label class="layui-form-label">上传</label>'+
+            '<button type="button" class="layui-btn layui-btn-primary">上传表格</button>'+
+            '<button type="button" class="layui-btn " style="background: rgba(0,193,222,1)">下载模版</button>'+
+            '</div>'+
+            '</div>'+
+            '<div class="layui-row">'+
+            '<div class="layui-col-md12 layui-form-item">'+
+            '<input type="file" id="upload"><span style="color: red">删除</span>'+
+            '</div>'+
+            '</div>'+
+            '<div class="layui-row">'+
+            '<div class="layui-col-md12 layui-form-item">'+
+            '温馨提示：清先下载模版，然后根据模版填入员工信息。'+
+            '</div>'+
+            '</div>'+
+            '</form>'
         getCollegeList(function (res) {
             var options = ''
             res.data.items.forEach(function (item) {
@@ -570,16 +564,6 @@
             form.render()
             // setSelectOptions();
         })
-        /*$('#export-cource').on('click', function() {
-            admin.get({
-                url:
-                    '/user/exportExcel?collegeId=' +
-                    $('#college').val() +
-                    '&facultyId=' +
-                    $('#series').val(),
-                success: function(res) {}
-            })
-        })*/
         function addData(callback) {
             admin.delete({
                 url: '/user/addUser',
@@ -838,9 +822,6 @@
             window.open(conf.requestUrl + "/excel/用户模板.xls")
         })
 
-        /*$('#import-cource').on('click', function() {
-
-        })*/
         upload.render({
             elem: '#import-cource',
             url: conf.requestUrl + '/user/importExp',
@@ -862,12 +843,12 @@
             },
         })
 
-        // $('#export-cource').on('click', function () {
-        //     var collegeId = $("#college").val()==''?'':$("#college").val(),
-        //         facultyId = $("#series").val()==''?'':$("#series").val(),
-        //         url = conf.requestUrl + "/user/exportExcel?roleId=1&collegeId=" + collegeId + "&facultyId=" + facultyId
-        //     window.open(url)
-        // })
+        $('#export-cource').on('click', function () {
+            var collegeId = $("#college").val()==''?'':$("#college").val(),
+                facultyId = $("#series").val()==''?'':$("#series").val(),
+                url = conf.requestUrl + "/user/exportExcel?roleId=1&collegeId=" + collegeId + "&facultyId=" + facultyId
+            window.open(url)
+        })
         // $('#import-cource').on('click', function () {
         //     layer.open({
         //         type: 1,

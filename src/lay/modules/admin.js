@@ -372,9 +372,7 @@ layui
                         }
                         childNav +=
                             '<li class="layui-nav-item sider-nav-item">' +
-                            '   <a class="layui-nav-first" href="/index.html#' +
-                            child[k].menuUrl +
-                            '"data-url="' +
+                            '   <a class="layui-nav-first" href="javascript:void(0);" data-url="' +
                             child[k].menuUrl +
                             '">' +
                             '       <cite class="cite">' +
