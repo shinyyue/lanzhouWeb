@@ -30,10 +30,10 @@
         lay-filter="virtualTest_list_table"
     ></table>
     <script type="text/html" id="virtualTest-opt">
-        {{#  if (d.expState === 1) { }}
+        {{#  if (d.expState === 1 && new Date(d.endtTime).getTime() >= new Date().getTime() ) { }}
         <!-- 未提交 -->
         <button class="course-set-btn" lay-event="add">开始实验</button>
-        {{# } else if (d.expState === 2) { }}
+        {{# } else if (d.expState === 2||new Date(d.endtTime).getTime() < new Date().getTime()) { }}
         <!-- 已提交 -->
         <button class="course-set-btn" lay-event="review">复习实验</button>
         {{# } else { }}
