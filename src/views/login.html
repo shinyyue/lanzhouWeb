@@ -1,24 +1,41 @@
 <style>
     #VIEW-login {
+        width: 100%;
         height: 100%;
+        background: url('src/images/bg.jpg') no-repeat;
+        background-size: 100% 100%;
         padding-top: 1px;
         margin-top: -1px;
+        position: relative;
+    }
+
+    #VIEW-login .login-wrap {
+        width: 1202px;
+        height: 440px;
+        margin: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -220px;
+        margin-left: -601px;
     }
 
     #VIEW-login .layui-form {
         box-sizing: border-box;
-        padding: 20px;
+        /* padding: 20px; */
         border-radius: 0px;
         position: relative;
     }
 
     #VIEW-login .layui-form-item {
         position: relative;
-        width: 260px;
+        width: 250px;
     }
 
     #VIEW-login .layui-form-item .layui-input {
-        width: 260px;
+        width: 250px;
+        height: 35px;
+        line-height: 35px;
     }
 
     #VIEW-login .verify-block {
@@ -45,8 +62,10 @@
     }
 
     #VIEW-login .login-type-tab li.active {
-        color: rgba(255, 102, 0, 0.8);
+        /* color: rgba(255, 102, 0, 0.8); */
         font-weight: bold;
+        color: #1e1e1e;
+        font-size: 28px;
     }
 
     #VIEW-login .login-type-tab li .qrcode-icon {
@@ -64,48 +83,62 @@
     }
 
     #VIEW-login .login-wrap .login-header {
-        width: 1330px;
-        margin: 0 auto;
-        padding: 120px 0 60px;
+        width: 100%;
+        /* margin: 0 auto; */
+        /* padding: 120px 0 0px; */
+        vertical-align: middle;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 6px;
+    }
+
+    .login-logo {
+        width: 242px;
+        height: 67px;
+    }
+
+    .login-name {
+        font-size: 36px;
+        color: #fff;
+        margin-left: 20px;
+    }
+
+    .login-container {
+        height: 370px;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
     }
 
-    .login-logo {
-        width: 220px;
-        height: 60px;
-    }
-
-    .login-name {
-        font-size: 36px;
-        color: #1a3471;
-        font-weight: 700;
-        margin-left: 20px;
-    }
-
-    .login-container {
-        height: 480px;
-        background: url('/src/images/login-bg.jpeg') no-repeat 100%
-            100%;
-        background-size: 100% 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
+    .login-container .login-left-wrapper {
+        width: 810px;
+        height: 100%;
+        background: #fff;
+        text-align: center;
     }
 
     .login-left {
-        width: 510px;
-        height: 386px;
-        margin-right: 120px;
+        width: 536px;
+        height: 363px;
+    }
+
+    .login-container .login-right-wrapper{
+        width: 386px;
+        height: 370px;
+        background: rgba(255, 255, 255, 0.8);
+        position: relative;
     }
 
     .login-right {
-        width: 300px;
-        height: 280px;
-        background: rgba(255, 255, 255, 0.8);
+        width: 260px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -130px;
+        margin-top: -108px;
     }
 
     .forget-pwd {
@@ -164,60 +197,64 @@
      lay-title="登录">
     <div class="login-wrap">
         <div class="login-header">
-            <img src="/src/images/logo.png"
+            <img src="/src/images/u17.png"
                  class="login-logo" />
             <span class="login-name">虚拟仿真实验教学管理平台</span>
         </div>
         <div class="login-container">
-            <img src="/src/images/login-left.png"
+            <div class="login-left-wrapper">
+                <img src="/src/images/u15.png"
                  class="login-left" />
-            <div class="layui-form login-right"
-                 lay-filter="login-form">
-                <ul class="login-type-tab">
-                    <li login-type="password"
-                        class="active">用户登录</li>
-                </ul>
-                <div class="normal-login-form">
-                    <div class="layui-form-item">
-                        <label class="layui-icon label-icon layui-icon-username"></label>
-                        <input type="text"
-                               name="snoOrJno"
-                               lay-verify="snoOrJno"
-                               lay-verType="tips"
-                               placeholder="学（工）号"
-                               maxlength="11"
-                               autocomplete="off"
-                               class="layui-input" />
-                    </div>
-                    <div class="layui-form-item password-block">
-                        <label class="layui-icon label-icon layui-icon-password"></label>
-                        <input type="password"
-                               name="password"
-                               value=""
-                               lay-verify="password"
-                               lay-verType="tips"
-                               placeholder="密码"
-                               autocomplete="off"
-                               class="layui-input" />
-                    </div>
-                    <div class="forget-pwd">
-                        <a id="forget_password">忘记密码？</a>
-                    </div>
-                    <div class="layui-form-item">
-                        <div class="layui-btn layui-btn-normal layui-btn-fluid"
+            </div>
+            <div class="login-right-wrapper">
+                <div class="layui-form login-right"
+                    lay-filter="login-form">
+                    <ul class="login-type-tab">
+                        <li login-type="password"
+                            class="active">用户登录</li>
+                    </ul>
+                    <div class="normal-login-form">
+                        <div class="layui-form-item">
+                            <label class="layui-icon label-icon layui-icon-username"></label>
+                            <input type="text"
+                                name="snoOrJno"
+                                lay-verify="snoOrJno"
+                                lay-verType="tips"
+                                placeholder="学（工）号"
+                                maxlength="11"
+                                autocomplete="off"
+                                class="layui-input" />
+                        </div>
+                        <div class="layui-form-item password-block">
+                            <label class="layui-icon label-icon layui-icon-password"></label>
+                            <input type="password"
+                                name="password"
+                                value=""
+                                lay-verify="password"
+                                lay-verType="tips"
+                                placeholder="密码"
+                                autocomplete="off"
+                                class="layui-input" />
+                        </div>
+                        <div class="forget-pwd">
+                            <a id="forget_password">忘记密码？</a>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-btn layui-btn-normal layui-btn-fluid"
+                                    lay-submit
+                                    lay-filter="login-submit">
+                                <i style="display: none"
+                                class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>
+                                登录 </div>
+                            <!-- <ul class="login-user"
+                                id="login-user"
                                 lay-submit
-                                lay-filter="login-submit">
-                            <i style="display: none"
-                               class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>
-                            登录 </div>
-                        <!-- <ul class="login-user"
-                            id="login-user"
-                            lay-submit
-                            lay-filter="login-user-submit">
-                            <li data-value="admin">管理员</li>
-                            <li data-value="teacher">老师</li>
-                            <li data-value="student">学生</li>
-                        </ul> -->
+                                lay-filter="login-user-submit">
+                                <li data-value="admin">管理员</li>
+                                <li data-value="teacher">老师</li>
+                                <li data-value="student">学生</li>
+                            </ul> -->
+                        </div>
                     </div>
                 </div>
             </div>
