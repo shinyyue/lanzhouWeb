@@ -305,8 +305,8 @@
             var data = {
                 id: data.id,
                 studentTypeId: data.studentTypeId,
-                startTime: new Date(data.startTime),
-                endTime: new Date(data.endTime)
+                startTime: data.startTime,
+                endTime: data.endTime
             }
             admin.put({
                 url: '/selectionTime/update',
@@ -340,7 +340,11 @@
                 url: '/selectionTime/add',
                 data: JSON.stringify(data),
                 success: function(res) {
-                    getList(1)
+                    if(res.code==200){
+                        getList(1)
+                    }else{
+                        layer.msg((res && res.msg) || '数据请求失败')
+                    }
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
