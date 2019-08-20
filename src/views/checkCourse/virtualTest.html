@@ -134,9 +134,15 @@
                             field: 'state',
                             align: 'center',
                             templet: function(d) {
-                                if(d.expState == 1) return new Date(d.startTime).getTime()>new Date().getTime()?'未开始':'实验中'
-                                else if(d.expState == 2) return '实验结束'
+                                if(d.expState == 2) return '实验结束'
                                 else if(d.expState == 3) return '已发布成绩'
+                                else if(d.expState == 1){
+                                    if (new Date(d.startTime).getTime()>new Date().getTime())
+                                        return '未开始'
+                                    else if (new Date(d.endtTime).getTime()<new Date().getTime())
+                                        return '实验结束'
+                                    else return '实验中'
+                                }
                             }
                         },
                         {
