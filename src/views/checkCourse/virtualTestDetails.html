@@ -506,7 +506,7 @@
                         layer.msg('暂存成功！')
                         window.history.back(-1)
                     } else {
-                        layer.msg((res && res.msg) || '添加失败')
+                        layer.msg((res && res.msg) || '暂存失败')
                     }
                 },
                 error: function (err){
@@ -534,8 +534,13 @@
                 url: '/vsMpTestRecord/addMpObject',
                 data: JSON.stringify(data),
                 success: function (res) {
-                    layer.msg('提交成功')
-                    window.history.back(-1)
+                    if (res.code==200){
+                        layer.msg('提交成功')
+                        window.history.back(-1)
+                    } else{
+                        layer.msg((res && res.msg) || '数据请求失败')
+                    }
+
                 },
                 error: function (err){
                     layer.msg((err && err.msg) || '数据请求失败')
