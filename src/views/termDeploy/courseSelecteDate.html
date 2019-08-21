@@ -304,8 +304,8 @@
             var data = {
                 id: data.id,
                 studentTypeId: data.studentTypeId,
-                startTime: new Date(data.startTime),
-                endTime: new Date(data.endTime)
+                startTime: data.startTime,
+                endTime: data.endTime
             }
             admin.put({
                 url: '/selectionTime/update',
