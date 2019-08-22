@@ -164,7 +164,7 @@
             layui.sessionData('course', {key: 'experimentId',value: data.experimentId})  // 实验id
 
             if (data.expState == 1&&new Date(data.startTime).getTime()>new Date().getTime()){
-                layer.alert('实验暂未开始', {icon: 6})
+                layer.msg('实验未开始')
                 return
             }
             admin.navigate('/checkCourse/virtualTestDetails/id=' + data.id + '/type=' + layEvent + '/curriculumId=' + data.experimentId)
