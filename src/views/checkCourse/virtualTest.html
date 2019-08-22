@@ -30,10 +30,10 @@
         lay-filter="virtualTest_list_table"
     ></table>
     <script type="text/html" id="virtualTest-opt">
-        {{#  if (d.expState === 1 && new Date(d.endtTime).getTime() >= new Date().getTime() ) { }}
+        {{#  if (d.expState === 1 && new Date(d.endtTime) >= new Date() ) { }}
         <!-- 未提交 -->
         <button class="course-set-btn" lay-event="add">开始实验</button>
-        {{# } else if (d.expState === 2||new Date(d.endtTime).getTime() < new Date().getTime()) { }}
+        {{# } else if (d.expState === 2||new Date(d.endtTime) < new Date()) { }}
         <!-- 已提交 -->
         <button class="course-set-btn" lay-event="review">复习实验</button>
         {{# } else { }}
@@ -171,6 +171,24 @@
         })
         $("#virtualTest-title").html('选课 > ' + layui.sessionData('course').coursePlanName + ' > 虚拟实验 > 虚拟实验列表')
         getList(1)
+
+        // function NewDate(str) { //解决new Date()IE10不支持参数
+        //     //首先将日期分隔 ，获取到日期部分 和 时间部分
+        //     var day = str.split(' ');
+        //     //获取日期部分的年月日
+        //     var days = day[0].split('-');
+        //     //获取时间部分的 时分秒
+        //     var mi = day[day.length - 1].split(':');
+        //     //获取当前date类型日期
+        //     var date = new Date();
+        //     //给date赋值  年月日
+        //     date.setUTCFullYear(days[0], days[1] - 1, days[2]);
+        //     //给date赋值 时分秒  首先转换utc时区 ：+8
+        //     date.setUTCHours(mi[0] - 8, mi[1], mi[2]);
+        //     return date;
+        // };
+
+        // console.log('111',new Date('2019/09/08 10:00:00')>new Date())
 
         function getList(page) {
             var name = $('#name').val(),

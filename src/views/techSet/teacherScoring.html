@@ -85,7 +85,7 @@
         <div class="layui-row">
             <div class="layui-col-md4 layui-form-item">
                 <label class="layui-form-label ">实验成绩</label>
-                <input id="experimentRatio"
+                <input id="experimentRatio" type="number"
                        style="width: 50px"></input>
                 x<span id="experimentProportion" />%=<span id="realExperimentRatio" />
             </div>
@@ -113,7 +113,7 @@
         <div class="layui-row">
             <div class="layui-col-md4 layui-form-item">
                 <label class="layui-form-label ">实验报告成绩</label>
-                <input id="reportRatio"
+                <input id="reportRatio" type="number"
                        style="width: 50px"></input>
                 x<span id="reportProportion" />%=<span id="realReportRatio" />
             </div>
@@ -169,10 +169,24 @@
             window.history.go(-1)
         })
         $('#experimentRatio').change(function () {
+            if ($('#experimentRatio').val()>100){
+                layer.msg('成绩不能高于100！');
+                $('#experimentRatio').val('')
+            }if ($('#experimentRatio').val()<0){
+                layer.msg('成绩不能低于0！');
+                $('#experimentRatio').val('')
+            }
             $('#realExperimentRatio').html($('#experimentRatio').val() * $('#experimentProportion')
                 .text() / 100)
         })
         $('#reportRatio').change(function () {
+            if ($('#reportRatio').val()>100){
+                layer.msg('成绩不能高于100！');
+                $('#reportRatio').val('')
+            }if ($('#reportRatio').val()<0){
+                layer.msg('成绩不能低于0！');
+                $('#reportRatio').val('')
+            }
             $('#realReportRatio').html($('#reportRatio').val() * $('#reportProportion').text() / 100)
         })
 

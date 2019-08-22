@@ -112,8 +112,8 @@
                 strategyId: $('#strategyId').val(),
                 curriculumId: courseId,
                 testTime: $('#testTime').val(),
-                startTime: new Date($('#startTime').val()).getTime(),
-                endTime: new Date($('#endTime').val()).getTime()
+                startTime: $('#startTime').val(),
+                endTime: $('#endTime').val()
             }
             if (id) {
                 data.id = id

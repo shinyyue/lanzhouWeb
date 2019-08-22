@@ -139,6 +139,16 @@
                     opt: 'D',
                     content: ''
                 }
+            ],
+            //判断题
+            optionList3 = [{
+                    opt: 'A',
+                    content: ''
+                },
+                {
+                    opt: 'B',
+                    content: ''
+                }
             ]
         renderOption()
 
@@ -157,19 +167,21 @@
         })
 
         function renderOption(type) {
+            //临时变量
+            var optionListTem = optionList
             $('#optionWrapper').html('')
-
-            for (var i = 0; i < optionList.length; i++) {
+            //如果是判断题默认展示两个选项
+            if (type == 3){
+                optionListTem = optionList3
+            }
+            for (var i = 0; i < optionListTem.length; i++) {
+                var inputType = 'radio'
+                if (type == 2) {
+                    inputType = 'checkbox'
+                }
                 var str =
-                    type != 2 ?
-                    '<input type="radio" name="option" data-opt="' +
-                    optionList[i].opt +
-                    '" value="' +
-                    optionList[i].content +
-                    '" ' +
-                    (optionList[i].checked == optionList[i].opt ? ' checked' : '') +
-                    '>\n' :
-                    '<input type="checkbox" lay-skin="primary" name="option" data-opt="' +
+                    '<input type="' + inputType +
+                    '" name="option" data-opt="' +
                     optionList[i].opt +
                     '" value="' +
                     optionList[i].content +
