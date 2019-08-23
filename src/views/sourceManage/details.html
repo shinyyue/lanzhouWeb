@@ -214,57 +214,20 @@
                         )
                     } else if (data.type == 3) {
                         // 视频
-                        $('#fileUrl').html(
-                            '<video src="' +
-                            fileUrl +
-                            '" controls="controls" style="width: 100%; height: 100%;">'
-                        )
-
-                        // rmvb
-                        // avi
-                        var inner = '<object id="video"'+
-                               ' width="400"'+
-                                'height="200"'+
-                                'border="0"'+
-                                'classid="clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA">'+
-                            '<embed width="100%"'+
-                                   'height="500"'+
-                                   'border="0"'+
-                                   'showdisplay="0"'+
-                                   'showcontrols="1"'+
-                                   'autostart="1"'+
-                                   'autorewind="0"'+
-                                   'playcount="0"'+
-                                   'moviewindowheight="240"'+
-                                   'moviewindowwidth="320"'+
-                                   'filename="/Mbar.avi"'+
-                                   'src="' + fileUrl + '">'+
-                            '</embed>'+
-                        '</object>'
-
-                        // flv
-                        inner = '<object '+
-                                'codebase=" http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" '+
-                                'width="100%" '+
-                                'height="500" '+
-                                'classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">'+
-                            '<param name="quality" '+
-                                   'value="high">'+
-                            // '<param name="allowFullScreen" '+
-                            //        'value="true">'+
-                            '<param name="movie" '+
-                                   'value="src/images/flvplayer.swf">'+
-                            '<embed src="src/images/flvplayer.swf" '+
-                                   'flashvars="vcastr_file=' + fileUrl + '&IsContinue=1" '+
-                                   'width="100%" '+
-                                   'height="500" '+ 
-                                   'pluginspage="http://www.macromedia.com/go/getflashplayer" '+
-                                   'quality="high" '+
-                                   'allowfullscreen="true" '+
-                                   'type="application/x-shockwave-flash">'+
-                            '</embed>'+
-                        '</object>'
-                        // $('#fileUrl').html(inner)
+                        try {
+                            $('#fileUrl').html(
+                                '<video src="' +
+                                fileUrl +
+                                '" controls="controls" style="width: 100%; height: 100%;">'
+                            )
+                        } catch (error) {
+                            $('#fileUrl').html(
+                                '<object src="'+ fileUrl +'" id="file_video_detail" style="width: 100%; height: 100%;">'+
+                                '   <embed src="' + fileUrl + '" style="width: 100%; height: 100%;">'+
+                                '   </embed>'+
+                                '</object>'
+                            )
+                        }
                     } else if (data.type == 4) {
                         $('#fileUrl').html(
                             '<embed src="' +
