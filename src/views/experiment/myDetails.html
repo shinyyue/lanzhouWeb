@@ -2,7 +2,7 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>实验管理 > 我的实验库 > 查看实验信息</span>
+            <span>实验管理 > <span id="nav_title"></span> > 查看实验信息</span>
         </div>
     </div>
     <div class="my-details-inner">
@@ -128,9 +128,11 @@
             admin = layui.admin,
             router = layui.router(),
             conf = layui.conf,
-            id = router.search.id
+            id = router.search.id,
+            type = router.search.type || ''
 
         getDetails()
+        $('#nav_title').html(type === 'refer' ? '参考实验库' : '我的实验库')
 
         function getDetails() {
             admin.get({
