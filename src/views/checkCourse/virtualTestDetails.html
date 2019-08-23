@@ -436,7 +436,7 @@
             }
             createtree('tabcon1_menulist')
             $('.menu-list').click(function() {
-                changeScromeNode($(this).data('id'), $(this).data('href'))
+                changeScromeNode($(this).data('id'), $(this).data('href'), sourceList)
             })
             munebtn.onclick = function() {
                 var p = $('#pagecon')
@@ -459,7 +459,7 @@
         }
 
         // scrome 切换节点
-        function changeScromeNode(id, href) {
+        function changeScromeNode(id, href, sourceList) {
             var list = sourceList[0].sourceName.split('.')
             var type = list[list.length - 1]
             if (type === 'swf') {
