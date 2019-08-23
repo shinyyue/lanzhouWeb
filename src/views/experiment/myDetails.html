@@ -104,7 +104,8 @@
                 <label class="layui-form-label"></label>
                 <div>
                     <div class="layui-btn primary-btn"
-                         id="my-details-update">
+                         id="my-details-update"
+                         style="display: none;">
                         修改
                     </div>
                     <div class="layui-btn layui-btn-primary cancel-btn "
@@ -133,6 +134,9 @@
 
         getDetails()
         $('#nav_title').html(type === 'refer' ? '参考实验库' : '我的实验库')
+        if (type !== 'refer') {
+            $('#my-details-update').show()
+        }
 
         function getDetails() {
             admin.get({
