@@ -360,32 +360,35 @@
                 strategyEntries.splice(index, 1)
                 tableOption.data = strategyEntries
                 table.render(tableOption)
+                getKnowlegeList(Number($('#curriculumId').val()), function (data) {
+                    renderKnownPoints(data)
 
-                $('.knowledgePoint').each(function (index) {
-                    $(this).val(strategyEntries[index].knowledgePoint)
+                    $('.knowledgePoint').each(function (index) {
+                        $(this).val(strategyEntries[index].knowledgePoint)
+                    })
+
+                    $('.exercisesType').each(function (index) {
+                        $(this).val(strategyEntries[index].exercisesType)
+                    })
+
+                    $('.exercisesDifficulty').each(function (index) {
+                        $(this).val(strategyEntries[index].exercisesDifficulty)
+                    })
+
+                    $('.exercisesSize').each(function (index) {
+                        $(this).val(strategyEntries[index].exercisesSize)
+                    })
+
+                    $('.allScores').each(function (index) {
+                        $(this).html(strategyEntries[index].totalScore)
+                    })
+
+                    $('.referNums').each(function (index) {
+                        $(this).html(strategyEntries[index].referNums)
+                    })
+
+                    form.render()
                 })
-
-                $('.exercisesType').each(function (index) {
-                    $(this).val(strategyEntries[index].exercisesType)
-                })
-
-                $('.exercisesDifficulty').each(function (index) {
-                    $(this).val(strategyEntries[index].exercisesDifficulty)
-                })
-
-                $('.exercisesSize').each(function (index) {
-                    $(this).val(strategyEntries[index].exercisesSize)
-                })
-
-                $('.allScores').each(function (index) {
-                    $(this).html(strategyEntries[index].totalScore)
-                })
-
-                $('.referNums').each(function (index) {
-                    $(this).html(strategyEntries[index].referNums)
-                })
-
-                form.render()
             }
         })
 
@@ -394,6 +397,7 @@
             strategyEntries.push(JSON.parse(JSON.stringify(option)))
             tableOption.data = strategyEntries
             table.render(tableOption)
+
 
             $('.layui-table-body').css('overflow', 'visible')
             $('.layui-table-box').css({
@@ -603,7 +607,11 @@
                                     exercisesDifficulty: item.exercisesDifficulty,
                                     exercisesSize: item.exercisesSize,
                                     exercisesType: item.exercisesType,
-                                    knowledgePoint: item.knowledgePoint
+                                    knowledgePoint: item.knowledgePoint,
+                                    allExercises: item.allExercises,
+                                    totleCourse: item.totleCourse,
+                                    referNums: item.allExercises,
+                                    totalScore: item.totleCourse
                                 })
                             })
                             $('.layui-table-body').css('overflow', 'visible')
