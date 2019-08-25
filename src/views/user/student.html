@@ -194,12 +194,12 @@
             '</div>'+
             '</form>'
         getCollegeList(function (res) {
-            var options = ''
-            res.data.items.forEach(function (item) {
-                options += '<option value="' + item.id + '">' + item.collegeName + '</option>'
-            })
-            $('#college').val('')
-            $('#college').append(options)
+            // var options = ''
+            // res.data.items.forEach(function (item) {
+            //     options += '<option value="' + item.id + '">' + item.collegeName + '</option>'
+            // })
+            // $('#college').val('')
+            // $('#college').append(options)
             setSelectOptions()
         })
         getList(1)

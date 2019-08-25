@@ -124,7 +124,6 @@
         })
         $('#source-add-cancle').on('click', function () {
             admin.navigate('/techSet/paperManage')
-            location.reload()
         })
         laydate.render({
             elem: '#startTime', //指定元素
@@ -167,9 +166,7 @@
                 success: function (res) {
                     if (res.code === 200) {
                         layer.msg('修改成功')
-                        // admin.prev()
                         admin.navigate('/techSet/paperManage')
-                        location.reload()
                     } else {
                         layer.msg(res.msg || '修改失败')
                     }
@@ -185,7 +182,6 @@
                 success: function (res) {
                     if (res.code === 200) {
                         layer.msg('添加成功')
-                        // admin.prev()
                         admin.navigate('/techSet/paperManage')
                     } else {
                         layer.msg(res.msg || '添加失败')
