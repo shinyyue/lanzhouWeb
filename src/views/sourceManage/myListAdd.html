@@ -248,6 +248,7 @@
             admin = layui.admin,
             table = layui.table,
             tree = layui.tree,
+            conf = layui.conf,
             resourceType = '',
             scormSign = '',
             tableData = [
@@ -401,7 +402,7 @@
             }
         })
         $('#download_template').on('click', function() {
-            window.open('http://39.104.97.6:8080/dataBank/exportExcelTemplete')
+            window.open(conf.requestUrl + '/dataBank/exportExcelTemplete')
         })
         $('#check_upload_template').on('click', function() {
             layer.open({
@@ -682,7 +683,7 @@
             upload.render({
                 elem: elem, //绑定元素
                 // url: 'http://39.104.97.6:8080/dataBank/oneFileUpload', //上传接口
-                url: 'http://39.104.97.6:8080/dataBank/sigleFileUpload', //上传接口
+                url: conf.requestUrl + '/dataBank/sigleFileUpload', //上传接口
                 method: 'post',
                 field: 'file',
                 data: {
@@ -729,7 +730,7 @@
             var type = rType
             upload.render({
                 elem: elem, //绑定元素
-                url: 'http://39.104.97.6:8080/dataBank/oneFileUpload', //上传接口
+                url: conf.requestUrl + '/dataBank/oneFileUpload', //上传接口
                 method: 'post',
                 field: 'file',
                 accept: 'file',
