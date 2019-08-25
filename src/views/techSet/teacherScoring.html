@@ -269,6 +269,7 @@
                         )
                     } else if (res.data.dataType == 7) {
                         $('#showTip').show()
+                        $('#scorm_fileUrl').show()
                         renderScrome(res.data)
                     }
 
@@ -310,6 +311,7 @@
 
         // 渲染scrome
         function renderScrome(data) {
+            console.log(12222, data)
             // scorm课件
             var sourceList = JSON.parse(data.resourceIds)[0].url
             var munebtn = document.getElementById('mune_btn')
