@@ -219,12 +219,23 @@
             </div>
         </div>
         <div class="layui-row">
+            <div class="layui-col-md6 layui-form-item">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-block avoidReponseWrapper">
+                    <input style="margin-top: 0;" type="checkbox" name="avoidReponse" lay-skin="primary">
+                    <span style="cursor: pointer" id="avoidReponseCheck">同意并阅读</span>
+                    <span style="color: rgba(18, 96, 147, 1);cursor:pointer;" id="avoidReponse">《免责声明》</span>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label"></label>
                 <div>
                     <div
                         class="layui-btn primary-btn"
                         lay-submit
+                        id="addSource"
                         lay-filter="submit"
                     >
                         提交
@@ -239,7 +250,18 @@
             </div>
         </div>
     </form>
+    <div id="avoidReponseContent" style="display: none;word-break: break-all;">
+        <div class="my-dialog-content">
+            <p style="font-weight: bold; font-size: 16px;">免责声明：</p>
+            <p style="font-size: 14px; margin: 20px 0;">本平台只提供在线服务，用户行为由用户自己本身承担责任，一切违反法律法规行为，平台会配合处理，但不承担对应责任。</p>
+            <p style="font-size: 14px; margin: 20px 0;">1、请勿上传违反国家法律法规的资源文件；</p>
+            <p style="font-size: 14px; margin: 20px 0;">2、请勿上传任何未经授权及涉及版权问题的资源；</p>
+            <p style="font-size: 14px; margin: 20px 0;">3、如果您上传的资源涉及版权、内容等原因被举报并审核确认，将会移除您上传的资源；</p>
+            <p style="font-size: 14px; margin: 20px 0;">4、严禁任何涉及商业盈利目的的均不得使用，否则产生的一切后果将由上传者自己承担！</p>
+        </div>
+    </div>
 </div>
+
 <script>
     layui.use(['form', 'upload', 'table', 'tree'], function(table) {
         var form = layui.form,
@@ -768,23 +790,36 @@
             })
         }
         //监听提交
-        form.on('submit(submit)', function(data) {
-            var tabId = $('.layui-tab-title')
-                    .find('.layui-this')
-                    .data('id'),
-                scormFileUrl =
-                    tabId === 1
-                        ? JSON.stringify(singleTable.config.data)
-                        : scormUrl
-            data.field.type = Number(data.field.type)
-            data.field.accessAuthority = Number(data.field.accessAuthority)
-            data.field.canDownload = Number(data.field.canDownload)
-            data.field.curriculumId = Number($('#curriculumId').val())
-            data.field.fileUrl =
-                data.field.type === 7 ? scormFileUrl : $('#file_path').html()
+        $('#addSource').on('click', function() {
+            var data = {};
+            debugger;
+            data.name = $('#name').val().trim();
+            data.type = Number($('#type').val());
+            data.curriculumId = Number($('#curriculumId').val());
+            data.fileUrl = Number(type) === 7 ? scormFileUrl : $('#file_path').html();
+            data.accessAuthority = $('input[name=accessAuthority]:checked').val();
+            data.canDownload = Number($('input[name=canDownload]:checked').val());
+            data.description = $('#description').val();
+
+            if(!data.name) {
+                layer.msg('请输入资源名称')
+                return;
+            }
+            if(!data.type) {
+                layer.msg('请选择资源类型')
+                return;
+            }
+            if(!data.curriculumId) {
+                layer.msg('请选择所属课程')
+                return;
+            }
+            if (!$('#avoidReponse').find('.layui-form-checked') || $('#avoidReponse').find('.layui-form-checked').length === 0) {
+                layer.msg('请同意免责声明')
+                return;
+            }
             admin.post({
                 url: '/dataBank/add',
-                data: JSON.stringify(data.field),
+                data: JSON.stringify(data),
                 success: function(res) {
                     if (res.code === 200) {
                         layer.msg('添加成功')
@@ -794,7 +829,32 @@
                     }
                 }
             })
-            return false
+            return false;
+        })
+        $('#avoidReponse').on('click', function() {
+            layer.closeAll()
+            $('#avoidReponseContent').show()
+            layer.open({
+                maxWidth: '512px',
+                type: 1,
+                title: '免责声明',
+                content: $('#avoidReponseContent'),
+                btn: [],
+                end: function() {
+                    $('#avoidReponseContent').hide()
+                }
+            });   
+        })
+        $('#avoidReponseCheck').on('click', function() {
+            var parent = $(this).parent('.avoidReponseWrapper')
+            var checkbox = parent.find('.layui-form-checked')
+
+            if (!checkbox || checkbox.length === 0) {
+                $('.avoidReponseWrapper input[name=avoidReponse]').prop("checked", true)
+            } else {
+                $('.avoidReponseWrapper input[name=avoidReponse]').prop("checked", false)
+            }
+            form.render()
         })
         $('#sourmanage-add-cancle').on('click', function() {
             window.history.back(-1)
@@ -939,5 +999,14 @@
 
     #source-manage-mylist-add .show-scorm-upload {
         display: none;
+    }
+    #source-manage-mylist-add .layui-form-item .layui-form-checkbox[lay-skin=primary] {
+        margin-top: 0;
+    }
+    #source-manage-mylist-add .my-dialog-content {
+        padding: 10px 30px;
+    }
+    #source-manage-mylist-add .layui-layer {
+        width: 512px;
     }
 </style>
