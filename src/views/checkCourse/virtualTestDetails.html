@@ -151,6 +151,11 @@
                 <div>
                     <div class="layui-btn primary-btn"
                          lay-submit
+                         id="downloadModel" style="display: none;">
+                        下载模板
+                    </div>
+                    <div class="layui-btn primary-btn"
+                         lay-submit
                          id="download">
                         下载
                     </div>
@@ -250,6 +255,13 @@
                         download()
 
                     })
+                    //点击模板
+                    $('#downloadModel').on('click', function () {
+                        window.open(
+                            conf.requestUrl +
+                            '/dataBank/downloadFile?filePath=' + res.data.reportModel
+                        )
+                    })
                     if (dataType !== 7) {
                         $('.unScorm-inner').show()
                     } else {
@@ -324,6 +336,9 @@
                     if (type === 'add') {
                         // 开始实验
                         $('#noadd').attr('style', 'display:none;')
+                        if (res.data && res.data.reportForm){
+                            $('#downloadModel').show()
+                        }
                         reportIndex = layedit.build('labReport', {
                             tool: [
                                 'strong', //加粗
