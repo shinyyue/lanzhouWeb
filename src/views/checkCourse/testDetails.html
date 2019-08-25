@@ -2,7 +2,7 @@
     <div class="test-title" id="exam_name"></div>
     <div class="test-info">
         <div class="test-info-item">
-            <span>试卷满分为<i id="full_mark"></i>分</span>
+            <span>试卷满分为100分</span>
             <span>考试时间为<i id="test_time"></i>分钟</span>
             <span>本次测试的考试时间：</span>
             <span>从<i id="startTime"></i>至<i id="endTime"></i></span>
@@ -107,9 +107,7 @@
             admin.get({
                 url: '/testQuestions/info?id=' + id,
                 success: function(res) {
-                    $('#full_mark').html(res.data.score)
                     $('#test_time').html(res.data.testTime)
-                    $('#full_mark').html(res.score)
                 }
             })
         }
@@ -129,7 +127,6 @@
                     $('#endTime').html(
                         res.data.endTime
                     )
-                    $('#full_mark').html(res.score)
                     $('#test_details_info').html('')
                     var str = ''
                     for (key in res.data.list) {
