@@ -793,11 +793,10 @@
         //监听提交
         $('#addSource').on('click', function() {
             var data = {};
-            debugger;
             data.name = $('#name').val().trim();
             data.type = Number($('#type').val());
             data.curriculumId = Number($('#curriculumId').val());
-            data.fileUrl = Number(type) === 7 ? scormFileUrl : $('#file_path').html();
+            data.fileUrl = Number(data.type) === 7 ? scormFileUrl : $('#file_path').html();
             data.accessAuthority = $('input[name=accessAuthority]:checked').val();
             data.canDownload = Number($('input[name=canDownload]:checked').val());
             data.description = $('#description').val();
@@ -814,10 +813,12 @@
                 layer.msg('请选择所属课程')
                 return;
             }
-            if (!$('#avoidReponse').find('.layui-form-checked') || $('#avoidReponse').find('.layui-form-checked').length === 0) {
+            if (!$('.avoidReponseWrapper').find('.layui-form-checked') || $('.avoidReponseWrapper').find('.layui-form-checked').length === 0) {
                 layer.msg('请同意免责声明')
                 return;
             }
+
+
             admin.post({
                 url: '/dataBank/add',
                 data: JSON.stringify(data),

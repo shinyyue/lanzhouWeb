@@ -213,7 +213,11 @@
                 success: function (res) {
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
+                    layPageOption.curr = page
                     table.render(tableOption)
+//                    layPageOption.jump = function(obj, first) {
+//                        console.log(2222, obj, first)
+//                    }
                     laypage.render(layPageOption)
                 },
                 error: function (err) {
