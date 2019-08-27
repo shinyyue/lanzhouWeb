@@ -234,6 +234,7 @@
                     $('#file_path').html(data.labReportAddress)
                     labReportAddress = data.labReportAddress
                     dataType = res.data.dataType
+                    var reportModel = res.data.reportForm
 
                     if (data.labReportAddress) {
                         //加载上传的实验报告
@@ -259,7 +260,7 @@
                     $('#downloadModel').on('click', function () {
                         window.open(
                             conf.requestUrl +
-                            '/dataBank/downloadFile?filePath=' + res.data.reportModel
+                            '/dataBank/downloadFile?filePath=' + reportModel
                         )
                     })
                     if (dataType !== 7) {
