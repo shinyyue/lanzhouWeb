@@ -200,6 +200,7 @@
                         })
                     } else if (res.data.dataType == 7) {
                         $('#showTip').show()
+                        $('#scorm_fileUrl').show()
                         // scorm课件
                         var sourceList = JSON.parse(res.data.resourceIds)[0].url
                         var munebtn = document.getElementById('mune_btn')
