@@ -219,6 +219,8 @@
 
                         for (var i = 0; i < sourceList.length; i++) {
                             var floor = ''
+                            var id = ''
+                            id = sourceList[i].id
                             for (
                                 var k = 0; k < Number(sourceList[i].floor); k++
                             ) {
@@ -228,14 +230,22 @@
                                 floor + sourceList[i].name,
                                 'http://39.104.97.6:8001/' +
                                 sourceList[i].sourceName,
-                                'innerTarget'
+                                'innerTarget',id
                             )
                         }
                         createtree('tabcon1_menulist')
 
                         $('.menu-list').click(function () {
-                            var list = sourceList[0].sourceName.split('.')
-                            var type = list[list.length - 1]
+                            var list = '',
+                                type = ''
+                            for (var i = 0; i < sourceList.length; i++) {
+                                if (sourceList[i].id == index.target.dataset.id ) {
+                                    list = sourceList[i].sourceName.split('.')
+                                    type = list[list.length - 1]
+                                    break
+                                }
+                            }
+
                             if (type === 'swf') {
                                 getSWFUrl('pagecon', $(this).attr('data-href'))
                             } else if (type === 'co') {
