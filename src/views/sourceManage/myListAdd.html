@@ -796,7 +796,7 @@
             data.name = $('#name').val().trim();
             data.type = Number($('#type').val());
             data.curriculumId = Number($('#curriculumId').val());
-            data.fileUrl = Number(data.type) === 7 ? scormFileUrl : $('#file_path').html();
+            data.fileUrl = Number(data.type) === 7 ? scormUrl : $('#file_path').html();
             data.accessAuthority = $('input[name=accessAuthority]:checked').val();
             data.canDownload = Number($('input[name=canDownload]:checked').val());
             data.description = $('#description').val();
