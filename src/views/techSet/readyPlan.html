@@ -185,11 +185,13 @@
 
         laydate.render({
             elem: '#startTime',
-            type: 'datetime'
+            type: 'datetime',
+            format: 'yyyy/MM/dd HH:mm:ss'
         })
         laydate.render({
             elem: '#endTime',
-            type: 'datetime'
+            type: 'datetime',
+            format: 'yyyy/MM/dd HH:mm:ss'
         })
 
         $('#ready-plan').on('click', function () {

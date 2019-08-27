@@ -158,11 +158,13 @@
             setTimeout(function() {
                 laydate.render({
                     elem: '#startTime',
-                    type: 'date'
+                    type: 'date',
+                    format: 'yyyy/MM/dd'
                 })
                 laydate.render({
                     elem: '#endTime',
-                    type: 'date'
+                    type: 'date',
+                    format: 'yyyy/MM/dd'
                 })
                 $('#startTime').val(
                     data.startTime
@@ -216,14 +218,23 @@
             setTimeout(function() {
                 laydate.render({
                     elem: '#startTime',
-                    type: 'date'
+                    type: 'date',
+                    format: 'yyyy/MM/dd'
                 })
                 laydate.render({
                     elem: '#endTime',
-                    type: 'date'
+                    type: 'date',
+                    format: 'yyyy/MM/dd'
                 })
+                $('#startTime').val(
+                    data.startTime
+                        .substring(0, 11)
+                )
+                $('#endTime').val(
+                    data.endTime
+                        .substring(0, 11)
+                )
             }, 0)
-
             layer.open({
                 type: 1,
                 offset: 'auto',
@@ -371,6 +382,7 @@
         }
 
         function getTemplate(formData, type) {
+            console.log(333, formData.startTime)
             return (
                 '<div id="term_details_modal">\n' +
                 '        <form action=" " class="layui-form">\n' +
@@ -401,7 +413,7 @@
                 '                    <input\n' +
                 '                        type="text"\n' +
                 '                        name="startTime"\n' +
-                '                        id="startTime"\n' +
+                '                        id="startTime" \n' +
                 '                        class="common-form-input"\n' +
                 '                        value="' +
                 formData.startTime +
