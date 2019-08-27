@@ -39,9 +39,9 @@
             </div>
         </div>
         <div class="layui-row">
-            <div class="layui-col-md6 layui-form-item">
+            <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label ">实验报告</label>
-                <span id="labReport"></span>
+                <div class="layui-col-md9" id="labReport"></div>
             </div>
         </div>
         <div class="layui-row">
@@ -142,6 +142,7 @@
                     $('#cite').html(res.data.cite == 0 ? '否' : '是')
                     $('#userName').html(res.data.userName)
                     $('#require').html(res.data.require)
+                    $('#labReport').html(res.data.labReport)
 
                     fileUrl =
                         conf.fileRequestUrl +

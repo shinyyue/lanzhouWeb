@@ -131,9 +131,10 @@
                     data.id +
                     '/type=test' +
                     '/endTime=' +
-                    data.endTime +
+                    (data.endTime && data.endTime.replace(/\//g, '-') || '') +
                     '/startTime=' +
-                    data.startTime)
+                    (data.startTime && data.startTime.replace(/\//g, '-') || '')
+                )
             }
         })
 

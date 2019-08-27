@@ -34,8 +34,8 @@
             admin = layui.admin,
             route = layui.router(),
             id = route.search.id,
-            endTime = route.search.endTime,
-            startTime = route.search.startTime,
+            endTime = route.search.endTime && route.search.endTime.replace(/-/g, '/') || '',
+            startTime = route.search.startTime && route.search.startTime.replace(/-/g, '/') || '',
             now = new Date().getTime()
 
         form.render()
