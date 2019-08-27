@@ -193,7 +193,7 @@
                     } else if (res.data.dataType == 6) {
                         // U3D
                         $('#fileUrl').hide()
-                        $('#u3dFileUrl').html('')
+                        $('#u3dFileUrl').show()
                         var jsonFile = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url.json
                         UnityLoader.instantiate('u3dFileUrl', jsonFile, {
                             onProgress: UnityProgress
