@@ -59,7 +59,7 @@
                     >
                         <div id="mune_area">
                             <div class="tab_a" id="tab_b">
-                                <ul class="tab1 tab1ys">
+                                <!-- <ul class="tab1 tab1ys">
                                     <li>
                                         <a
                                             id="tab_ch1"
@@ -68,7 +68,7 @@
                                             ><img src="src/images/xue.png"
                                         /></a>
                                     </li>
-                                </ul>
+                                </ul> -->
                                 <ul class="tab_con tabcon_sy">
                                     <li id="tabcon1">
                                         <div
@@ -87,7 +87,7 @@
                         <div id="mune_btn" class="munebtna" data-zt="a"></div>
                         <div
                             id="pagecon"
-                            style=" min-width: 900px; height: 500px;float: left">
+                            style="min-width: 500px; overflow: auto;height: 500px;float: left">
                             <iframe
                                 frameBorder="0"
                                 id="innerTarget"
@@ -396,14 +396,14 @@
                     this.className = 'munebtnb'
                     this.setAttribute('data-zt', 'b')
                     p.css({
-                        'min-width': '1126px'
+                        'min-width': '800px'
                     })
                 } else {
                     mune.style.display = 'block'
                     this.className = 'munebtna'
                     this.setAttribute('data-zt', 'a')
                     p.css({
-                        'min-width': '900px'
+                        'min-width': '500px'
                     })
                 }
             }
