@@ -345,11 +345,13 @@
             }
         }
 
+
         // 渲染scrome
         function renderScrome(data) {
             $('#scorm_fileUrl').show()
             // scorm课件
-            var sourceList = JSON.parse(data.resourceIds)[0].url
+            var url = JSON.parse(data.resourceIds)[0].url
+            var sourceList = JSON.parse(url.fileUrl)
             var munebtn = document.getElementById('mune_btn')
             var mune = document.getElementById('mune_area')
             testContent = JSON.parse(data.testContent || '{}')
@@ -360,23 +362,30 @@
                     floor += '-'
                 }
 
-                var nameRate = ''
-                if (
-                    sourceList.filter(function(s){s.parentId === sourceList[i].id})
-                        .length == 0
-                ) {
-                    var nameStudented = Math.min(
-                        testContent[sourceList[i].id] || 0,
-                        sourceList[i].countTime
-                    )
-                    nameRate =
-                        '(' +
-                        (
-                            (nameStudented * 100) /
-                            sourceList[i].countTime
-                        ).toFixed(2) +
-                        '%)'
-                }
+                var nameRate = '';
+//                var filterList = []
+
+//                for(var l = 0; l < sourceList.length; l++) {
+//                    if (sourceList[l].parentId == sourceList[i].id) {
+//                        filterList.push(sourceList[l])
+//                        break;
+//                    }
+//                }
+//
+//
+//                if (filterList.length == 0  ) {
+//                    var nameStudented = Math.min(
+//                        testContent[sourceList[i].id] || 0,
+//                        sourceList[i].countTime
+//                    )
+//                    nameRate =
+//                        '(' +
+//                        (
+//                            (nameStudented * 100) /
+//                            sourceList[i].countTime
+//                        ).toFixed(2) +
+//                        '%)'
+//                }
 
                 addtree(
                     floor + sourceList[i].name + nameRate,
