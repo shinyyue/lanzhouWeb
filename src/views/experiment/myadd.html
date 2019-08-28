@@ -191,7 +191,9 @@
             upload = layui.upload,
             requireIndex,
             reportIndex,
-            experimentTypeList = []
+            experimentTypeList = [],
+            resourceList= [];
+
         if (id == null) {
             $('#experiment-my-update').attr('style', 'display:none;')
         } else {
@@ -246,6 +248,7 @@
                     if(res.data.experimentalType == experimentalTypeId){
                         $('#userNumDiv').attr('style','display: block')
                     }
+//                    getSourceList()
                     form.render()
                 }
             })
@@ -275,7 +278,7 @@
             $('input[name=resourceIds]:checked').each(function (index) {
                 ids.push({
                     id: $(this).val(),
-                    url: $(this).data('url'),
+                    url: resourceList[index],
                     type: $('#sourceType').val()
                 })
             })
@@ -526,6 +529,7 @@
                 data: JSON.stringify(data),
                 success: function (res) {
                     $('#resourceIds').html('')
+                    resourceList = res.data && res.data.items || [];
                     res.data &&
                         res.data.items &&
                         res.data.items.forEach(function (item) {
@@ -534,9 +538,7 @@
                             }
                             $('#resourceIds').append(
                                 "<input type='" + inputType +
-                                "' name='resourceIds' data-url='" +
-                                item.fileUrl +
-                                "' lay-skin='primary' value='" +
+                                "' name='resourceIds' lay-skin='primary' value='" +
                                 item.id +
                                 "' title='" +
                                 item.resourceName +

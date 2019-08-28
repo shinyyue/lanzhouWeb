@@ -48,15 +48,15 @@
             <div class="layui-col-md12 layui-form-item"
                  style="clear: both; overflow: auto;">
                 <label class="layui-form-label ">课件资源</label>
-                <div class="layui-col-md9">
+                <div class="source-details-inner layui-col-md9">
                     <div class="source-display unScorm-inner">
                         <div id="fileUrl"
-                                style="width: 100%; height: 500px;"></div>
+                             style="width: 100%; height: 500px;"></div>
                         <div class="webgl-content"
-                                id="u3dFileUrl"
-                                style="width: 100%; height: 500px;display: none;"></div>
+                             id="u3dFileUrl"
+                             style="width: 100%; height: 500px;display: none;"></div>
                     </div>
-                    <div style=" display: none; color: red;"
+                    <div style="display: none; color: red;"
                          id="showTip">
                         <div>推荐使用360浏览器兼容模式或者IE9以上</div>
                         <a href="http://39.104.97.6:8080/dataBank/exportCult3D"
@@ -68,13 +68,6 @@
                         <div id="mune_area">
                             <div class="tab_a"
                                  id="tab_b">
-                                <!-- <ul class="tab1 tab1ys">
-                                    <li>
-                                        <a id="tab_ch1"
-                                           class="active"
-                                           href="javascript:void(0)"><img src="src/images/xue.png" /></a>
-                                    </li>
-                                </ul> -->
                                 <ul class="tab_con tabcon_sy">
                                     <li id="tabcon1">
                                         <div class="munebtnlist"
@@ -94,6 +87,12 @@
                              data-zt="a"></div>
                         <div id="pagecon"
                              style=" min-width: 800px; height: 500px;float: left">
+                            <!-- <iframe frameBorder="0"
+                                    id="innerTarget"
+                                    name="innerTarget"
+                                    scrolling="no"
+                                    src="iframe2.htm"
+                                    style="width: 100%; height: 100%"></iframe> -->
                         </div>
                     </div>
                 </div>
@@ -212,24 +211,28 @@
                     } else if (res.data.dataType == 7) {
                         $('#scorm_fileUrl').show()
                         // scorm课件
-                        var sourceList = JSON.parse(res.data.resourceIds)[0].url
+                        debugger
+                        var url = JSON.parse(res.data.resourceIds)[0].url
+                        var sourceList = JSON.parse(url.fileUrl)
                         var munebtn = document.getElementById('mune_btn')
                         var mune = document.getElementById('mune_area')
                         var treeStr = ''
 
-                        for (var i = 0; i < sourceList.length; i++) {
+                        console.log(3333, sourceList)
+                        for (var w = 0; w < sourceList.length; w++) {
                             var floor = ''
                             var id = ''
-                            id = sourceList[i].id
+                            id = sourceList[w].id
                             for (
-                                var k = 0; k < Number(sourceList[i].floor); k++
+                                var k = 0; k < Number(sourceList[w].floor); k++
                             ) {
                                 floor += '-'
                             }
+                            console.log(4444, sourceList)
                             addtree(
-                                floor + sourceList[i].name,
+                                floor + sourceList[w].name,
                                 'http://39.104.97.6:8001/' +
-                                sourceList[i].sourceName,
+                                sourceList[w].sourceName,
                                 'innerTarget',id
                             )
                         }
@@ -239,7 +242,7 @@
                             var list = '',
                                 type = ''
                             for (var i = 0; i < sourceList.length; i++) {
-                                if (sourceList[i].id == index.target.dataset.id ) {
+                                if (sourceList[i].id == $(this).data('id')) {
                                     list = sourceList[i].sourceName.split('.')
                                     type = list[list.length - 1]
                                     break
@@ -420,6 +423,7 @@
     }
 
 </style>
+
 <style>
     #experiment-my-details {}
 
@@ -431,6 +435,40 @@
         display: inline-block;
         padding: 9px 15px;
         font-size: 16px;
+    }
+
+</style>
+
+<style type="text/css">
+    /* @import 'TemplateDate/style.css'; */
+
+    .blockhide {
+        display: block;
+    }
+
+    .blockmove {
+        overflow: hidden;
+        height: 1px;
+        display: block;
+    }
+
+    .blockshow {
+        overflow: visible;
+        display: none;
+    }
+
+    .hideme {
+        overflow: visible;
+        display: none;
+    }
+
+    .showme {
+        overflow: visible;
+        display: block;
+    }
+
+    .faisunMenu td {
+        font-size: 10pt;
     }
 
 </style>
