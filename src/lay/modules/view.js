@@ -477,7 +477,7 @@ layui
                 }
 
                 var defaultParams = {
-                    timeout: 5000,
+                    timeout: 30000,
                     type: 'get',
                     dataType: 'json',
                     xhrFields: {
