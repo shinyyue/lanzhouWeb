@@ -126,6 +126,10 @@
                 </button>
             </span>
             <span id="reportForm" name="reportForm" style="display: none;"></span>
+            <div class="layui-col-md8">
+                <div id="reportFormFile"
+                     style="width: 100%; height: 500px;" style="display: none"></div>
+            </div>
         </div>
         <br>
         <div class="layui-row">
@@ -239,7 +243,13 @@
                     $('#resourceUrl').val(res.data.resourceUrl)
                     $('#sourceType').val(res.data.dataType)
                     $('#userNum').val(res.data.userNum)
-                    $('#reportForm').val(res.data.reportForm)
+                    if (res.data.reportForm) {
+                        $('#reportFormFile').html(
+                            '<iframe src="' + 
+                            (conf.fileRequestUrl + '/' + res.data.reportForm) +
+                            '" width="100%" height="500px;" frameborder="1"></iframe>'
+                        )
+                    }
                     var experimentalTypeId = '';
                     for(var i = 0; i< experimentTypeList.length; i++) {
                         var item = experimentTypeList[i];
