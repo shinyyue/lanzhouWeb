@@ -221,6 +221,7 @@
             admin.get({
                 url: '/experiments/queryById?id=' + id,
                 success: function (res) {
+                    var recordsId = res.data.resourceIds && JSON.parse(res.data.resourceIds)
                     $('#name').val(res.data.name)
                     $('#curriculumId').val(res.data.curriculumId)
                     $('#experimentalType').val(res.data.experimentalType)
@@ -235,7 +236,7 @@
                     $('#reportRatio').val(res.data.reportRatio)
                     layedit.setContent(requireIndex, res.data.require)
                     layedit.setContent(reportIndex, res.data.labReport)
-                    $('#resourceUrl').val(res.data.resourceUrl)
+                    $('#sourceType').val(res.data.dataType)
                     $('#userNum').val(res.data.userNum)
                     $('#reportForm').val(res.data.reportForm)
                     var experimentalTypeId = '';
@@ -248,8 +249,17 @@
                     if(res.data.experimentalType == experimentalTypeId){
                         $('#userNumDiv').attr('style','display: block')
                     }
-//                    getSourceList()
                     form.render()
+                    getSourceList(Number(res.data.dataType), function(data) {
+                        for(var k = 0; k < recordsId.length; k++) {
+                            $('input[name="resourceIds"]').each(function (index) {
+                                if ($(this).val() == recordsId[k].id) {
+                                    $(this).attr('checked', true)
+                                }
+                            })
+                            form.render()
+                        }
+                    })
                 }
             })
         }
@@ -516,7 +526,7 @@
                 }
             })
         }
-        function getSourceList(type) {
+        function getSourceList(type, callback) {
             var data = {
                 page: 1,
                 rows: 100000,
@@ -546,6 +556,7 @@
                             )
                         })
                     form.render()
+                    callback && typeof callback === 'function' && callback(res.data);
                 },
                 error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')
