@@ -87,7 +87,7 @@
                         <div id="mune_btn" class="munebtna" data-zt="a"></div>
                         <div
                             id="pagecon"
-                            style="min-width: 500px; overflow: auto;height: 500px;float: left">
+                            style="overflow: auto;height: 500px;float: left">
                             <iframe
                                 frameBorder="0"
                                 id="innerTarget"
@@ -180,6 +180,8 @@
         $('#back').on('click', function () {
             window.history.go(-1)
         })
+
+        // $('#pagecon').width($('#scorm_fileUrl').width - 16) + 'px';
 
         function getDetails ()  {
             admin.get({
@@ -279,10 +281,14 @@
                         // U3D
                         $('#fileUrl').hide()
                         $('#u3dFileUrl').show()
-                        var jsonFile = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url.json
-                        UnityLoader.instantiate('u3dFileUrl', jsonFile, {
-                            onProgress: UnityProgress
-                        })
+                        var jsonFile = JSON.parse(res.data.resourceIds)[0].url.fileUrl;
+                        var url = conf.fileRequestUrl + '/' + JSON.parse(jsonFile).json
+                        UnityLoader.instantiate(
+                            'u3dFileUrl',
+                            url, {
+                                onProgress: UnityProgress
+                            }
+                        )
                     } else if (res.data.dataType == 7) {
                         renderScrome(res.data)
                     }
@@ -363,29 +369,6 @@
                 }
 
                 var nameRate = '';
-//                var filterList = []
-
-//                for(var l = 0; l < sourceList.length; l++) {
-//                    if (sourceList[l].parentId == sourceList[i].id) {
-//                        filterList.push(sourceList[l])
-//                        break;
-//                    }
-//                }
-//
-//
-//                if (filterList.length == 0  ) {
-//                    var nameStudented = Math.min(
-//                        testContent[sourceList[i].id] || 0,
-//                        sourceList[i].countTime
-//                    )
-//                    nameRate =
-//                        '(' +
-//                        (
-//                            (nameStudented * 100) /
-//                            sourceList[i].countTime
-//                        ).toFixed(2) +
-//                        '%)'
-//                }
 
                 addtree(
                     floor + sourceList[i].name + nameRate,
@@ -398,6 +381,7 @@
             $('.menu-list').click(function() {
                 changeScromeNode(sourceList,$(this).data('id'), $(this).data('href'))
             })
+            $('#pagecon').width(($('#scorm_fileUrl').width() - 342) + 'px')
             munebtn.onclick = function() {
                 var p = $('#pagecon')
                 if (this.getAttribute('data-zt') == 'a') {
@@ -405,14 +389,15 @@
                     this.className = 'munebtnb'
                     this.setAttribute('data-zt', 'b')
                     p.css({
-                        'min-width': '800px'
+                        'min-width': ($('#scorm_fileUrl').width() - 16) + 'px'
                     })
                 } else {
                     mune.style.display = 'block'
                     this.className = 'munebtna'
                     this.setAttribute('data-zt', 'a')
+                    console.log(3333, $('#scorm_fileUrl').width())
                     p.css({
-                        'min-width': '500px'
+                        'min-width': ($('#scorm_fileUrl').width() - 342) + 'px'
                     })
                 }
             }
