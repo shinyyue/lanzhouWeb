@@ -11,7 +11,7 @@
         <button class="primary-btn"
                 id="add_plugin">添加</button>
     </div>
-    <div id="test1"></div>
+    <!--<div id="test1"></div>-->
     <table id="plugin-mylist-table"
            lay-filter="plugin-mylist-table"></table>
     <script type="text/html"
@@ -20,15 +20,53 @@
                 lay-event="edit">编辑</button>
         <button class="course-set-btn"
                 lay-event="delete">删除</button>
-        <button class="course-set-btn"
-                lay-event="check">查看</button>
+        <!--<button class="course-set-btn"
+                lay-event="check">查看</button>-->
         <button class="course-set-btn"
                 lay-event="download">下载</button>
 
     </script>
     <div class="app-table-page"
          id="plugin-mylist-page"></div>
+    <div id="dialog-wrapper" style="display: none">
+        <div class="layui-layer-shade" id="layui-layer-shade" style="z-index: 19891014; background-color: rgb(0, 0, 0); opacity: 0.4;"></div>
+        <div class="layui-layer layui-layer-page" style="z-index: 19891015; width: 700px; height: 70%; top: 76px; left: 411px;">
+            <div class="layui-layer-title" style="cursor: move;">编辑</div>
+            <span class="layui-layer-setwin" id="close">
+                <a class="layui-layer-ico layui-layer-close layui-layer-close1" href="javascript:void(0);"></a>
+            </span>
+            <div id="" class="layui-layer-content" style="height: 250px;"><div id="college_details_modal">
+                <form action="" class="layui-form">
+                    <div class="layui-row">
+                        <div class="layui-col-md12 layui-form-item">
+                            <label class="layui-form-label">插件名称：</label>
+                            <input type="text" name="name" class="common-form-input" id="pluginNameUpdate" value="">
+                        </div>
+                    </div>
+                    <div class="layui-row">
+                        <div class="layui-col-md12 layui-form-item required">
+                            <label class="layui-form-label ">请上传插件:</label>
+                            <button type="button" class="layui-btn" id="upload_file">
+                                <i class="layui-icon"></i>选择插件
+                            </button>
+                            <div id="fileUrl" style="display: none"></div>
+                        </div>
+                            <!--<div name="fileUrl" id="fileUrl" style="display: none"></div>-->
+                    </div>
+                </form>
+            </div>
+            <div>
+                <div class="layui-layer-btn layui-layer-btn-">
+                    <a class="layui-layer-btn0" id="confirm">确定</a>
+                    <a class="layui-layer-btn1" id="cancel">取消</a>
+                </div>
+                <span class="layui-layer-resize"></span>
+            </div>
+        </div>
+    </div>
 </div>
+
+
 <script>
     layui.use(['element', 'table', 'jquery', 'form', 'tree', 'admin','upload'], function (table, $) {
         var $ = layui.jquery,
@@ -40,11 +78,10 @@
             tree = layui.tree,
             conf = layui.conf,
             upload = layui.upload,
+            isAddOrEdit = true,
             formData = {
-                pluginName: '',
                 name: '',
-                id: '',
-                desc: ''
+                fileUrl: ''
             },
             layPageOption = {
                 elem: 'plugin-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
@@ -91,11 +128,57 @@
                         }
                     ]
                 ]
+            };
+
+        upload.render({
+            elem: '#upload_file', //绑定元素
+            url: conf.requestUrl + '/plugin/pluginUpload', //上传接口
+            method: 'post',
+            field: 'file',
+            data: {
+                type: 1
+            },
+            done: function(res){
+                if (res.code === 401) {
+                    admin.logout()
+                } else if (res.code === 200) {
+                    layer.msg('上传成功')
+//                    $('#fileUrl').show()
+                    $('#fileUrl').val(res.data)
+                } else {
+                    layer.msg(res.msg || '上传失败')
+                }
+                layer.closeAll('loading')
+            },
+            error: function(err) {
+                console.log(444, err)
+                layer.closeAll('loading')
             }
-        getList(1, 20)
+        });
+        getList(1, 20);
         $('#searchpluginList').click(function () {
             getList(1)
-        })
+        });
+        /*$('#upload-file').click(function() {
+//            console.log(44444)
+            //选择插件
+            initLayerOpen()
+        });*/
+        $('#close').click(function() {
+            $('#dialog-wrapper').hide()
+            $('#pluginNameUpdate').val('');
+            $('#fileUrl').val('');
+        });
+        $('#cancel').click(function() {
+
+            $('#dialog-wrapper').hide()
+            $('#pluginNameUpdate').val('');
+            $('#fileUrl').val('');
+        });
+        $('#confirm').click(function() {
+            isAddOrEdit ? addData() : updateData(formData)
+        });
+
         table.on('tool(plugin-mylist-table)', function (obj) {
             var data = obj.data //获得当前行数据
             var layEvent = obj.event,
@@ -113,8 +196,8 @@
                     btn: ['确定', '取消'],
                     yes: function (index) {
                         // 提交
-                        layer.closeAll(index)
                         deleteData(data.id)
+                        layer.closeAll(index)
                     },
                     cancel: function (index) {
                         layer.closeAll(index)
@@ -126,97 +209,38 @@
                 //编辑
                 formData = data
                 type = 'edit'
+                isAddOrEdit = false;
+
+                $('#pluginNameUpdate').val(formData.name);
+                $('#fileUrl').val(formData.fileUrl);
+                $('#dialog-wrapper').show();
+//                $('#fileUrl').show();
             } else if (layEvent === 'check') {
                 formData = data
                 type = 'check'
+                $('#pluginNameUpdate').val(formData.name);
+                $('#fileUrl').val(formData.fileUrl);
+                $('#dialog-wrapper').show();
             }else if (layEvent === 'download') {
-                debugger
+                formData = data
                 window.open(conf.requestUrl + '/dataBank/downloadFile?filePath='+formData.fileUrl)
             }
-
-            var layerOption = {
-                type: 1,
-                offset: 'auto',
-                title: type === 'edit' ? '编辑' : '查看',
-                content: getTemplate(formData, type),
-                area: ['700px', '70%'],
-                shade: 0.4,
-                shadeClose: true,
-                btn: type === 'check' ? [] : ['确定', '取消'],
-                yes: function (index) {
-                    layer.close(index)
-                    getFormData()
-                    if (type === 'check') {
-                        getData(data.id)
-                    } else if (type === 'edit') {
-                        formData.id = data.id
-                        updateData(formData)
-                    }
-                },
-                cancel: function (index) {
-                    layer.close(index)
-                }
-            }
-            layer.open(layerOption)
-            $('#home_url').val(data.skipIndex)
+//            $('#home_url').val(data.skipIndex);
             form.render()
         })
 
-        function getTemplate(formData, type) {
-            return ('<div id="college_details_modal">\n' + '        <form action="" class="layui-form">\n' +
-                '            <div class="layui-row">\n' +
-                '                <div class="layui-col-md12 layui-form-item">\n' +
-                '                    <label class="layui-form-label">插件名称：</label>\n' +
-                '                    <input\n' + '                        type="text"\n' +
-                '                        name="name"\n' +
-                '                        class="common-form-input"\n' +
-                '                        id="pluginNameUpdate"\n' +
-                '                        value="' + (formData.name || '') + '"\n' + (type === 'check' ? 'disabled' : '') +
-                '                    />\n' +
-                '                </div>\n' +
-                '            </div>\n' +
-
-                '            <div class="layui-row">\n' +
-                '                <div class="layui-col-md12 layui-form-item required">\n' +
-                '                    <label class="layui-form-label ">请上传插件:</label>\n' +
-                '                   <button type="button" class="layui-btn" id="test1">\n' +
-                '                       <i class="layui-icon">&#xe67c;</i>选择插件\n' +
-                '                   </button>'  +
-                '                </div>\n' +
-                '            </div>\n'
-/*+
-                '            <div class="layui-row">\n' +
-                '                <div class="layui-col-md12 layui-form-item">\n' +
-                '                    <label class="layui-form-label">角色描述:</label>\n' +
-                '                    <textarea\n' + '                        name="desc"\n' +
-                '                        class="layui-textarea plugin-remark"\n' +
-                '                        id="plugin-remark"\n' +
-                '                        value="' + (formData.desc || '') + '"\n' + (type === 'check' ? 'disabled' : '') +
-                '                    ></textarea>\n' +
-                '                </div>\n' +
-                '            </div>\n' +
-                '        </form>\n' +
-                '    </div>'*/
-            )
-        }
-
-
-
-        function getFormData() {
+        /*function getFormData(formData) {
+            debugger
             formData = {
-                name: $('#pluginNameUpdate').val(),
-                // name: $('#usName').val(),
-                id: $('#showId').val(),
-                desc: $('#plugin-remark').val()
+                name: formData.items.name,
+                fileUrl: formData.items.fileUrl
             }
-        }
+        }*/
 
         function getList(page, rows) {
-            var pluginName = $('#pluginName').val(),
-                data = {
+            var data = {
                     page: page,
-                    rows: 20,
-                    key: pluginName
+                    rows: 20
                 }
             admin.post({
                 url: 'plugin/queryPluginList',
@@ -235,30 +259,53 @@
 
         function addData() {
             var data = {
-                name: $('#pluginNameUpdate').val()
-            }
+                name: $('#pluginNameUpdate').val(),
+                fileUrl: $('#fileUrl').val()
+            };
+
             admin.post({
                 url: 'plugin/addPlugin',
                 data: JSON.stringify(data),
                 success: function (res) {
                     if (res.code === 200) {
                         layer.msg('添加成功！')
+                        layer.closeAll('loading')
+                        $('#dialog-wrapper').hide();
+                        $('#pluginNameUpdate').val('');
+                        $('#fileUrl').val('');
                         getList(1, 20)
+                    } else {
+                        layer.msg(res.msg || '添加失败')
                     }
+                }, error: function(err) {
+                    layer.msg(err.msg || '添加失败')
+                    layer.closeAll('loading')
                 }
             })
         }
 
         function updateData(formData) {
-            formData.name = $('#pluginNameUpdate').val()
+            formData = {
+                name: $('#pluginNameUpdate').val(),
+                fileUrl: $('#fileUrl').val()
+            };
             admin.put({
                 url: '/plugin/updatePlugin',
                 data: JSON.stringify(formData),
                 success: function (res) {
                     if (res.code === 200) {
                         layer.msg('更新成功！')
-                        getList(layPageOption.curr)
+                        layer.closeAll('loading')
+                        $('#dialog-wrapper').hide();
+                        $('#pluginNameUpdate').val('');
+                        $('#fileUrl').val('');
+                        getList(1, 20)
+                    } else {
+                        layer.msg(res.msg || '更新失败')
                     }
+                }, error: function(err) {
+                    layer.msg(err.msg || '更新失败')
+                    layer.closeAll('loading')
                 }
             })
         }
@@ -269,67 +316,24 @@
                 success: function (res) {
                     if (res.code === 200) {
                         layer.msg('删除成功！')
+                        layer.closeAll('loading')
+                        $('#dialog-wrapper').hide();
+                        $('#pluginNameUpdate').val('');
+                        $('#fileUrl').val('');
                         getList(1, 20)
+                    }else {
+                        layer.msg(res.msg || '删除失败')
                     }
                 },
                 error: function (err) {
-                    layer.msg((err && err.msg) || '数据请求失败')
+                    layer.msg((err && err.msg) || '数据删除失败')
                 }
             })
         }
 
-        function initLayerOpen() {
-            formData = {
-                    name: '',
-                    id: '',
-                    fileUrl: ''
-                },
-                layer.open({
-                    type: 1,
-                    offset: 'auto',
-                    title: '添加',
-                    content: getTemplate(formData),
-                    area: ['700px', '70%'],
-                    shade: 0.4,
-                    skin: 'user-edit-modal',
-                    shadeClose: true,
-                    btn: ['确定', '取消'],
-                    yes: function (index) {
-                        addData()
-                        layer.close(index)
-                    },
-                    cancel: function (index) {
-                        layer.close(index)
-                    }
-                })
-
-            //选择插件
-            upload.render({
-                elem: '#test1' //绑定元素
-                ,url: '/plugin/pluginUpload/' //上传接口
-                ,done: function(res){
-                    if (res.code === 401) {
-                        admin.logout()
-                    } else if (res.code === 200) {
-                        layer.msg('上传成功')
-                        callback &&
-                        typeof callback === 'function' &&
-                        callback(res.data)
-                    } else {
-                        layer.msg(res.msg || '上传失败')
-                    }
-                    layer.closeAll('loading')
-                },
-                error: function(err) {
-                    layer.closeAll('loading')
-                }
-            });
-
-            form.render()
-        }
-
         $('#add_plugin').on('click', function () {
-            initLayerOpen()
+            $('#dialog-wrapper').show()
+            isAddOrEdit = true;
         })
     })
 
@@ -338,6 +342,4 @@
     .plugin-edit-modal .layui-layer-content {
         padding: 20px;
     }
-
-
 </style>
