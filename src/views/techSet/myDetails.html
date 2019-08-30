@@ -58,7 +58,7 @@
                     <div style=" display: none; color: red;"
                          id="showTip">
                         <div>推荐使用360浏览器兼容模式或者IE9以上</div>
-                        <a href="http://39.104.97.6:8080/dataBank/exportCult3D"
+                        <a href="http://47.105.130.130:8080/dataBank/exportCult3D"
                            style="color: red;text-decoration: underline;">若加载失败，点击安装Cult3D插件</a>
                     </div>
                     <div class="source-display"
@@ -120,7 +120,7 @@
 <script src="src/plugins/UnityLoader.js"></script>
 <script src="src/plugins/UnityProgress.js"></script>
 <script src="src/plugins/resource_url.js"></script>
-<script src="menutree/menuTree.js"></script>
+<script src="src/plugins/menuTree.js"></script>
 
 <script>
     layui.use(['table'], function (table) {
@@ -219,7 +219,7 @@
                             }
                             addtree(
                                 floor + sourceList[i].name,
-                                'http://39.104.97.6:8001/' +
+                                'http://47.105.130.130:8001/' +
                                 sourceList[i].sourceName,
                                 'innerTarget',id
                             )

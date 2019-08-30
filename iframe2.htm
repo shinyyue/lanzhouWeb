@@ -1,44 +1,47 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML
+          PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
-<head>
-    <style type="text/css">
-        < !-- body {
-            margin-left: 0px;
-            margin-top: 0px;
-            margin-right: 0px;
-            margin-bottom: 0px;
-        }
+    <head>
 
-        -->
-    </style>
-    <meta http-equiv="Content-Type"
-          content="text/html; charset=gb2312">
-    <title>�ޱ����ĵ�</title>
-    <script language="javascript">
-        function Request() {
-            var strHref = window.document.location.href;
-            var intPos = strHref.indexOf("?");
-            var strRight = strHref.substr(intPos + 1);
-            //var arrTmp = strRight.split("&"); 
-            //var innerString = strRight;
-            var innerString =
-                '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="1080" height="680"> <param name="movie" value="' +
-                strRight + '"><param name="quality" value="high"><embed src="' + strRight +
-                '" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="1080" height="680"></embed></object>';
-            if (intPos >= 0) {
-                document.getElementById("innerSTR").innerHTML = innerString;
-            } else {
-                document.getElementById("innerSTR").innerHTML = '<img src="pic/start.jpg">';
+        <style type="text/css">
+            <!--
+            body {
+                margin-left: 0px;
+                margin-top: 0px;
+                margin-right: 0px;
+                margin-bottom: 0px;
             }
-        }
-    </script>
-</head>
+            -->
+        </style>
 
-<body onLoad="Request()">
-    <div id="innerSTR"
-         align="left"></div>
-</body>
+        <meta http-equiv="Content-Type"
+              content="text/html; charset=gb2312">
+        /* <title>�ޱ����ĵ�</title> */
+        <script language="javascript">
+            function Request() {
+                var strHref = window.document.location.href;
+                var intPos = strHref.indexOf("?");
+                var strRight = strHref.substr(intPos + 1);
+                //var arrTmp = strRight.split("&"); 
+                //var innerString = strRight;
+                var innerString =
+                    '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="1080" height="680"> <param name="movie" value="' +
+                    strRight + '"><param name="quality" value="high"><embed src="' + strRight +
+                    '" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="1080" height="680"></embed></object>';
+                if (intPos >= 0) {
+                    document.getElementById("innerSTR").innerHTML = innerString;
+                } else {
+                    document.getElementById("innerSTR").innerHTML = '<img src="pic/start.jpg">';
+                }
+            }
+        </script>
+    </head>
+
+    <body onLoad="Request()">
+        <div id="innerSTR"
+             align="left"></div>
+
+    </body>
 
 </html>

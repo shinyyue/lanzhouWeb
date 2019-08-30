@@ -72,10 +72,13 @@ function showhideit(itemNo) {
 }
 
 function addtree(text, url, target, id) {
+    // faisunMenu_treetext.push(text);
+    // faisunMenu_treeurl.push("iframe2.htm" + url ? url : "");
+    // faisunMenu_treeurltarget.push(target ? target : "mainframe");
+    // faisunMenu_tree_data_id.push(id);
     faisunMenu_treetext.push(text);
     faisunMenu_treeurl.push("iframe2.htm" + url ? url : "");
     faisunMenu_treeurltarget.push(target ? target : "mainframe");
-    faisunMenu_tree_data_id.push(id);
 
 }
 
@@ -143,8 +146,8 @@ function createtree(elemId) {
         }
         var clicktoshowhide = (havechild ? " onclick='showhideit(" + faisunMenu_treeNum + "" + i + ")' style='cursor:pointer;' " : "");
         echo += "<td width='22' valign=bottom " + clicktoshowhide + "><img name='openedfolderimage" + faisunMenu_treeNum + "" + i + "' src='" + (havechild ? faisunMenu_openedfolderimage_src : faisunMenu_menufileimage_src) + "' class='" + (openfold ? "showme" : "hideme") + "' width='20' height='20'><img name='closedfolderimage" + faisunMenu_treeNum + "" + i + "' src='" + (havechild ? faisunMenu_closedfolderimage_src : faisunMenu_menufileimage_src) + "' class='" + (openfold ? "hideme" : "showme") + "' width='20' height='20'></td>";
-        // echo += "<td nowrap valign=bottom><a onmousedown='return 0;' " + clicktoshowhide + " " + (faisunMenu_treeurl[i] ? "href='" + faisunMenu_treeurl[i] + "'" : "name='#'") + " target='" + faisunMenu_treeurltarget[i] + "'>" + newtext + "</a></td></tr></table>\n\n";
-        echo += "<td nowrap valign=bottom><div style='cursor:pointer'  " + clicktoshowhide + (havechild? '': 'class="menu-list"') + " data-id='"+(faisunMenu_tree_data_id[i])+"'" + (faisunMenu_treeurl[i] && !havechild ? "data-href='" + faisunMenu_treeurl[i] + "'" : "name='#'") + " target='" + faisunMenu_treeurltarget[i] + "'>" + newtext + "</div></td></tr></table>\n\n";
+        echo += "<td nowrap valign=bottom><a onmousedown='return 0;' " + clicktoshowhide + " " + (faisunMenu_treeurl[i] ? "href='" + faisunMenu_treeurl[i] + "'" : "name='#'") + " target='" + faisunMenu_treeurltarget[i] + "'>" + newtext + "</a></td></tr></table>\n\n";
+        // echo += "<td nowrap valign=bottom><div style='cursor:pointer'  " + clicktoshowhide + (havechild? '': 'class="menu-list"') + " data-id='"+(faisunMenu_tree_data_id[i])+"'" + (faisunMenu_treeurl[i] && !havechild ? "data-href='" + faisunMenu_treeurl[i] + "'" : "name='#'") + " target='" + faisunMenu_treeurltarget[i] + "'>" + newtext + "</div></td></tr></table>\n\n";
 
         if (barstatus == 2 && !havechild) {
             for (j = subnum; j >= 0; j--) {
