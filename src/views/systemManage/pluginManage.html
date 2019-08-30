@@ -31,7 +31,7 @@
     <div id="dialog-wrapper" style="display: none">
         <div class="layui-layer-shade" id="layui-layer-shade" style="z-index: 19891014; background-color: rgb(0, 0, 0); opacity: 0.4;"></div>
         <div class="layui-layer layui-layer-page" style="z-index: 19891015; width: 700px; height: 70%; top: 76px; left: 411px;">
-            <div class="layui-layer-title" style="cursor: move;">编辑</div>
+            <div class="layui-layer-title" style="cursor: move;" id="title">编辑</div>
             <span class="layui-layer-setwin" id="close">
                 <a class="layui-layer-ico layui-layer-close layui-layer-close1" href="javascript:void(0);"></a>
             </span>
@@ -49,7 +49,7 @@
                             <button type="button" class="layui-btn" id="upload_file">
                                 <i class="layui-icon"></i>选择插件
                             </button>
-                            <div id="fileUrl" style="display: none"></div>
+                            <span id="fileUrl" style="display: none"></span>
                         </div>
                             <!--<div name="fileUrl" id="fileUrl" style="display: none"></div>-->
                     </div>
@@ -143,8 +143,9 @@
                     admin.logout()
                 } else if (res.code === 200) {
                     layer.msg('上传成功')
-//                    $('#fileUrl').show()
+                    $('#fileUrl').show()
                     $('#fileUrl').val(res.data)
+                    $('#fileUrl').html(res.data)
                 } else {
                     layer.msg(res.msg || '上传失败')
                 }
@@ -168,12 +169,16 @@
             $('#dialog-wrapper').hide()
             $('#pluginNameUpdate').val('');
             $('#fileUrl').val('');
+            $('#title').html('')
+            $('#fileUrl').html('')
         });
         $('#cancel').click(function() {
 
             $('#dialog-wrapper').hide()
             $('#pluginNameUpdate').val('');
             $('#fileUrl').val('');
+            $('#title').html('')
+            $('#fileUrl').html('')
         });
         $('#confirm').click(function() {
             isAddOrEdit ? addData() : updateData(formData)
@@ -210,11 +215,12 @@
                 formData = data
                 type = 'edit'
                 isAddOrEdit = false;
-
+                $('#title').html('编辑')
                 $('#pluginNameUpdate').val(formData.name);
                 $('#fileUrl').val(formData.fileUrl);
+                $('#fileUrl').html(formData.fileUrl);
                 $('#dialog-wrapper').show();
-//                $('#fileUrl').show();
+                $('#fileUrl').show();
             } else if (layEvent === 'check') {
                 formData = data
                 type = 'check'
@@ -273,6 +279,8 @@
                         $('#dialog-wrapper').hide();
                         $('#pluginNameUpdate').val('');
                         $('#fileUrl').val('');
+                        $('#title').html('')
+                        $('#fileUrl').html('')
                         getList(1, 20)
                     } else {
                         layer.msg(res.msg || '添加失败')
@@ -300,6 +308,8 @@
                         $('#dialog-wrapper').hide();
                         $('#pluginNameUpdate').val('');
                         $('#fileUrl').val('');
+                        $('#title').html('')
+                        $('#fileUrl').html('')
                         getList(1, 20)
                     } else {
                         layer.msg(res.msg || '更新失败')
@@ -317,10 +327,7 @@
                 success: function (res) {
                     if (res.code === 200) {
                         layer.msg('删除成功！')
-                        layer.closeAll('loading')
-                        $('#dialog-wrapper').hide();
-                        $('#pluginNameUpdate').val('');
-                        $('#fileUrl').val('');
+                        layer.closeAll()
                         getList(1, 20)
                     }else {
                         layer.msg(res.msg || '删除失败')
@@ -334,6 +341,7 @@
 
         $('#add_plugin').on('click', function () {
             $('#dialog-wrapper').show()
+            $('#title').html('添加')
             isAddOrEdit = true;
         })
     })
