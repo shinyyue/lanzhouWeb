@@ -1,0 +1,352 @@
+<div id="source-manage-mylist"
+     class="layui-fluid"
+     lay-title="角色管理">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span>资源库 > 插件列表</span>
+        </div>
+    </div>
+    <!--<div class="course-add">
+        <button class="primary-btn"
+                id="add_plugin">添加</button>
+    </div>-->
+    <!--<div id="test1"></div>-->
+    <table id="plugin-mylist-table"
+           lay-filter="plugin-mylist-table"></table>
+    <script type="text/html"
+            id="plugin-manage-opt">
+        <!--<button class="course-set-btn" lay-event="edit">编辑</button>-->
+        <!--<button class="course-set-btn" lay-event="delete">删除</button>-->
+        <!--<button class="course-set-btn"
+                lay-event="check">查看</button>-->
+        <button class="course-set-btn"
+                lay-event="download">下载</button>
+
+    </script>
+    <div class="app-table-page"
+         id="plugin-mylist-page"></div>
+    <div id="dialog-wrapper" style="display: none">
+        <div class="layui-layer-shade" id="layui-layer-shade" style="z-index: 19891014; background-color: rgb(0, 0, 0); opacity: 0.4;"></div>
+        <div class="layui-layer layui-layer-page" style="z-index: 19891015; width: 700px; height: 70%; top: 76px; left: 411px;">
+            <div class="layui-layer-title" style="cursor: move;" id="title">编辑</div>
+            <span class="layui-layer-setwin" id="close">
+                <a class="layui-layer-ico layui-layer-close layui-layer-close1" href="javascript:void(0);"></a>
+            </span>
+            <div id="" class="layui-layer-content" style="height: 250px;"><div id="college_details_modal">
+                <form action="" class="layui-form">
+                    <div class="layui-row">
+                        <div class="layui-col-md12 layui-form-item">
+                            <label class="layui-form-label">插件名称：</label>
+                            <input type="text" name="name" class="common-form-input" id="pluginNameUpdate" value="">
+                        </div>
+                    </div>
+                    <div class="layui-row">
+                        <div class="layui-col-md12 layui-form-item required">
+                            <label class="layui-form-label ">请上传插件:</label>
+                            <button type="button" class="layui-btn" id="upload_file">
+                                <i class="layui-icon"></i>选择插件
+                            </button>
+                            <span id="fileUrl" style="display: none"></span>
+                        </div>
+                            <!--<div name="fileUrl" id="fileUrl" style="display: none"></div>-->
+                    </div>
+                </form>
+            </div>
+            <div>
+                <div class="layui-layer-btn layui-layer-btn-">
+                    <a class="layui-layer-btn0" id="confirm">确定</a>
+                    <a class="layui-layer-btn1" id="cancel">取消</a>
+                </div>
+                <span class="layui-layer-resize"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    layui.use(['element', 'table', 'jquery', 'form', 'tree', 'admin','upload'], function (table, $) {
+        var $ = layui.jquery,
+            form = layui.form,
+            laypage = layui.laypage,
+            tableFilter = 'plugin-mylist-table',
+            table = layui.table,
+            admin = layui.admin,
+            tree = layui.tree,
+            conf = layui.conf,
+            upload = layui.upload,
+            isAddOrEdit = true,
+            formData = {
+                name: '',
+                fileUrl: ''
+            },
+            layPageOption = {
+                elem: 'plugin-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
+                jump: function (obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr, obj.limit)
+                    }
+                }
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [{
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center',
+                            type: 'numbers'
+                        }, {
+                            title: '插件名称',
+                            field: 'name',
+                            align: 'center'
+                        },
+                        {
+                            title: '创建时间',
+                            field: 'createTime',
+                            align: 'center'
+                        },
+                        {   title: '更新时间',
+                            field: 'updateTime',
+                            align: 'center'
+                        }, {
+                            title: '操作',
+                            align: 'center',
+                            templet: '#plugin-manage-opt',
+                            fixed: 'right',
+                            width: 200
+                        }
+                    ]
+                ]
+            };
+
+        upload.render({
+            elem: '#upload_file', //绑定元素
+            url: conf.requestUrl + '/plugin/pluginUpload', //上传接口
+            method: 'post',
+            field: 'file',
+            data: {
+                type: 1
+            },
+            done: function(res){
+                if (res.code === 401) {
+                    admin.logout()
+                } else if (res.code === 200) {
+                    layer.msg('上传成功')
+                    $('#fileUrl').show()
+                    $('#fileUrl').val(res.data)
+                    $('#fileUrl').html(res.data)
+                } else {
+                    layer.msg(res.msg || '上传失败')
+                }
+                layer.closeAll('loading')
+            },
+            error: function(err) {
+                console.log(444, err)
+                layer.closeAll('loading')
+            }
+        });
+        getList(1, 20);
+        $('#searchpluginList').click(function () {
+            getList(1)
+        });
+        /*$('#upload-file').click(function() {
+//            console.log(44444)
+            //选择插件
+            initLayerOpen()
+        });*/
+        $('#close').click(function() {
+            $('#dialog-wrapper').hide()
+            $('#pluginNameUpdate').val('');
+            $('#fileUrl').val('');
+            $('#title').html('')
+            $('#fileUrl').html('')
+        });
+        $('#cancel').click(function() {
+
+            $('#dialog-wrapper').hide()
+            $('#pluginNameUpdate').val('');
+            $('#fileUrl').val('');
+            $('#title').html('')
+            $('#fileUrl').html('')
+        });
+        $('#confirm').click(function() {
+            isAddOrEdit ? addData() : updateData(formData)
+        });
+
+        table.on('tool(plugin-mylist-table)', function (obj) {
+            var data = obj.data //获得当前行数据
+            var layEvent = obj.event,
+                type = ''
+            if (layEvent === 'delete') {
+                layer.open({
+                    type: 1,
+                    offset: 'auto',
+                    title: '系统提示',
+                    content: '该信息为重要信息，是否删除？',
+                    area: ['300px', '200px'],
+                    shade: 0.4,
+                    skin: 'system-modal',
+                    shadeClose: true,
+                    btn: ['确定', '取消'],
+                    yes: function (index) {
+                        // 提交
+                        deleteData(data.id)
+                        layer.closeAll(index)
+                    },
+                    cancel: function (index) {
+                        layer.closeAll(index)
+                    }
+                })
+                return
+            }
+            if (layEvent === 'edit') {
+                //编辑
+                formData = data
+                type = 'edit'
+                isAddOrEdit = false;
+                $('#title').html('编辑')
+                $('#pluginNameUpdate').val(formData.name);
+                $('#fileUrl').val(formData.fileUrl);
+                $('#fileUrl').html(formData.fileUrl);
+                $('#dialog-wrapper').show();
+                $('#fileUrl').show();
+            } else if (layEvent === 'check') {
+                formData = data
+                type = 'check'
+                $('#pluginNameUpdate').val(formData.name);
+                $('#fileUrl').val(formData.fileUrl);
+                $('#dialog-wrapper').show();
+            }else if (layEvent === 'download') {
+                formData = data
+                window.open(conf.requestUrl + '/dataBank/downloadFile?filePath='+formData.fileUrl)
+            }
+//            $('#home_url').val(data.skipIndex);
+            form.render()
+        })
+
+        /*function getFormData(formData) {
+            debugger
+            formData = {
+                name: formData.items.name,
+                fileUrl: formData.items.fileUrl
+            }
+        }*/
+
+        function getList(page, rows) {
+            var data = {
+                    page: page,
+                    rows: 20
+                }
+            admin.post({
+                url: 'plugin/queryPluginList',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    tableOption.data = (res.data && res.data.items) || []
+                    layPageOption.count = (res.data && res.data.total) || 0
+                    table.render(tableOption)
+                    laypage.render(layPageOption)
+                },
+                error: function (err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        function addData() {
+            var data = {
+                name: $('#pluginNameUpdate').val(),
+                fileUrl: $('#fileUrl').val()
+            };
+
+            admin.post({
+                url: 'plugin/addPlugin',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    if (res.code === 200) {
+                        layer.msg('添加成功！')
+                        layer.closeAll('loading')
+                        $('#dialog-wrapper').hide();
+                        $('#pluginNameUpdate').val('');
+                        $('#fileUrl').val('');
+                        $('#title').html('')
+                        $('#fileUrl').html('')
+                        getList(1, 20)
+                    } else {
+                        layer.msg(res.msg || '添加失败')
+                    }
+                }, error: function(err) {
+                    layer.msg(err.msg || '添加失败')
+                    layer.closeAll('loading')
+                }
+            })
+        }
+
+        function updateData(formData) {
+            formData = {
+                id: formData.id,
+                name: $('#pluginNameUpdate').val(),
+                fileUrl: $('#fileUrl').val()
+            };
+            admin.put({
+                url: '/plugin/updatePlugin',
+                data: JSON.stringify(formData),
+                success: function (res) {
+                    if (res.code === 200) {
+                        layer.msg('更新成功！')
+                        layer.closeAll('loading')
+                        $('#dialog-wrapper').hide();
+                        $('#pluginNameUpdate').val('');
+                        $('#fileUrl').val('');
+                        $('#title').html('')
+                        $('#fileUrl').html('')
+                        getList(1, 20)
+                    } else {
+                        layer.msg(res.msg || '更新失败')
+                    }
+                }, error: function(err) {
+                    layer.msg(err.msg || '更新失败')
+                    layer.closeAll('loading')
+                }
+            })
+        }
+
+        function deleteData(id) {
+            admin.delete({
+                url: '/plugin/deletePlugin?id=' + id,
+                success: function (res) {
+                    if (res.code === 200) {
+                        layer.msg('删除成功！')
+                        layer.closeAll()
+                        getList(1, 20)
+                    }else {
+                        layer.msg(res.msg || '删除失败')
+                    }
+                },
+                error: function (err) {
+                    layer.msg((err && err.msg) || '数据删除失败')
+                }
+            })
+        }
+
+        $('#add_plugin').on('click', function () {
+            $('#dialog-wrapper').show()
+            $('#title').html('添加')
+            isAddOrEdit = true;
+        })
+    })
+
+</script>
+<style>
+    .plugin-edit-modal .layui-layer-content {
+        padding: 20px;
+    }
+</style>
