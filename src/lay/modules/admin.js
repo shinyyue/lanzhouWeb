@@ -689,6 +689,25 @@ layui
             layer.closeAll('tips')
         })
 
+        $(document).off('mousedown', '.layui-table-grid-down').on('mousedown', '.layui-table-grid-down',
+            function (event) {
+                table._tableTrCurr = $(this).closest('td')
+            })
+        $(document).off('click', '.layui-table-tips-main [lay-event]').on('click',
+            '.layui-table-tips-main [lay-event]',
+            function (event) {
+                var elem = $(this)
+                var tableTrCurr = table._tableTrCurr
+                if (!tableTrCurr) {
+                    return
+                }
+                var layerIndex = elem.closest('.layui-table-tips').attr('times')
+                // 关闭当前这个显示更多的tip
+                layer.close(layerIndex)
+                table._tableTrCurr.find('[lay-event="' + elem.attr('lay-event') + '"]').first().click()
+            })
+
+
         self.on('flexible', function (init) {
             var status = view.container.hasClass(self.shrinkCls)
             self.flexible(status)

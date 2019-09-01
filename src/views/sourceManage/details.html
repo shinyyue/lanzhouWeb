@@ -129,9 +129,7 @@
 </div>
 <script src="src/plugins/UnityLoader.js"></script>
 <script src="src/plugins/UnityProgress.js"></script>
-<script src="src/plugins/resource_url.js"></script>
 <script src="src/plugins/menuTree.js"></script>
-<script src="src/plugins/operateCO.js"></script>
 <script>
     layui.use(['form', 'admin'], function () {
         var $ = layui.jquery,
@@ -231,7 +229,7 @@
                         var jsonFile = JSON.parse(data.fileUrl).json
                         UnityLoader.instantiate(
                             'u3dFileUrl',
-                            'http://47.105.130.130:8001/' + jsonFile, {
+                            conf.fileRequestUrl + '/' +  + jsonFile, {
                                 onProgress: UnityProgress
                             }
                         )
@@ -247,17 +245,27 @@
                             var floor = ''
                             var id = ''
                             id = sourceList[i].id
+                            var list = sourceList[i].sourceName.split('.');
+                            var type = list[list.length - 1]
                             for (
                                 var k = 0; k < Number(sourceList[i].floor); k++
                             ) {
                                 floor += '-'
                             }
-                            addtree(
-                                floor + sourceList[i].name,
-                                'http://47.105.130.130:8001/' +
-                                sourceList[i].resourceName,
-                                'innerTarget',id
-                            )
+                            
+                            if (!type || (type !== 'co' && type !== 'swf')) {
+                                addtree(
+                                    floor + sourceList[i].name
+                                )
+                            } else {
+                                addtree(
+                                    floor + sourceList[i].name,
+                                    conf.fileRequestUrl + '/' +
+                                    sourceList[i].resourceName,
+                                    'innerTarget',id
+                                )
+                            }
+                            
                         }
                         createtree('tabcon1_menulist')
 
@@ -271,21 +279,12 @@
                                     break
                                 }
                             }
-
-                            console.log(7777)
-
-
-                            if (type === 'swf') {
-                                getSWFUrl('pagecon', $(this).attr('data-href'))
-                            } else if (type === 'co') {
-                                getCODCRUrl(
-                                    'pagecon',
-                                    $(this).attr('data-href')
-                                )
-                            }else{
-                                getSWFUrl('pagecon', $(this).attr('data-href'))
-                            }
                         })
+
+                        var minWidth = ($('#scorm_fileUrl').width() - 342) + 'px'
+                        var maxWidth = ($('#scorm_fileUrl').width() - 16) + 'px'
+                        $('#pagecon').width(minWidth)
+
                         munebtn.onclick = function () {
                             var p = $('#pagecon')
                             if (this.getAttribute('data-zt') == 'a') {
@@ -293,14 +292,14 @@
                                 this.className = 'munebtnb'
                                 this.setAttribute('data-zt', 'b')
                                 p.css({
-                                    'min-width': '1126px'
+                                    'min-width': maxWidth
                                 })
                             } else {
                                 mune.style.display = 'block'
                                 this.className = 'munebtna'
                                 this.setAttribute('data-zt', 'a')
                                 p.css({
-                                    'min-width': '900px'
+                                    'min-width': minWidth
                                 })
                             }
                         }
@@ -341,69 +340,6 @@
                 '&filePath=' +
                 details.fileUrl
             )
-        }
-
-        function getCODCRUrl(id, url) {
-            var fileName = url
-            document.getElementById(id).innerHTML =
-                '<object classid="clsid:31B7EB4E-8B4B-11D1-A789-00A0CC6651A8" style = "width: 100%; height:100%;" codebase="http://www.cult3d.com/download/cult.cab#version=5,2,0,99" > ' +
-                '<param name="SRC" value="' +
-                fileName +
-                '">' +
-                '<param name="ANTIALIASING" value="0">' +
-                '<embed pluginspage="http://www.cult3d.com/newuser/index.html"' +
-                'style = "width: 100%; height:100%;"' +
-                'src = "' +
-                fileName +
-                '" antialiasing="0" type="application/x-cult3d-object"></embed>' +
-                '</object>'
-        }
-
-        function getCOUrl(id, url) {
-            var fileName = url
-            document.getElementById(id).innerHTML =
-                '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="1100" height="713">' +
-                '<param name="movie" value="' +
-                fileName +
-                '">' +
-                '<param name="quality" value="high">' +
-                '<embed src="' +
-                fileName +
-                '" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-cult3d-object"  style="width: 100%; height: 100%"></embed>' +
-                '</object>'
-        }
-
-        function getSWFUrl(id, url) {
-            var fileName = url
-            console.log(111)
-            document.getElementById("swf_url").innerHTML =
-                '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="1400" height="713">' +
-                '<param name="movie" value="' +
-                fileName +
-                '">' +
-                '<param name="quality" value="high">' +
-                '<embed src="' +
-                fileName +
-                '" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" style="width: 100%; height: 100%"></embed>' +
-                '</object>'
-        }
-
-        function getCult3dCO(fileName) {
-
-            if (fileName.indexOf('/') != -1) 
-                fileName = fileName.substring(fileName.lastIndexOf('/') + 1);
-                document.getElementById("cult_co").innerHTML = '<OBJECT ID="CultObject"'
-                                                        + 'classid="clsid:31B7EB4E-8B4B-11D1-A789-00A0CC6651A8"'
-                                                        + 'codebase="http://www.cult3d.com/download/cult.cab#version=5,3,0,212"'
-                                                        + 'width=1100 height=640>'
-                                                        + '<PARAM NAME="SRC" VALUE="resources/' + fileName + '">'
-                                                        + '<EMBED NAME="CultEmbed" ID="CultEmbed"'
-                                                        + 'PLUGINSPAGE="http://www.cult3d.com/newuser/index.html"'
-                                                        + 'TYPE="application/x-cult3d-object"'
-                                                        + 'SRC="resources/' + fileName + '"WIDTH="1100" HEIGHT="640"'
-                                                        + 'onLoadFinished="enableWrite(' + 'CultEmbed' + ');">'
-                                                        + '</EMBED>'
-                                                        + '</OBJECT>';
         }
     })
 

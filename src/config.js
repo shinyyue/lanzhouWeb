@@ -40,7 +40,7 @@ layui.define(function (exports) {
         requestUrl: 'http://47.105.130.130:8100/',
         // requestUrl: 'http://39.104.97.6:8080/',
         // 后台文件服务器地址
-        fileRequestUrl: 'http://47.105.130.130::8001',
+        fileRequestUrl: 'http://47.105.130.130:8001',
         // fileRequestUrl: 'http://47.105.130.130:8001',
         //独立页面路由，可随意添加（无需写参数）
         indPage: [

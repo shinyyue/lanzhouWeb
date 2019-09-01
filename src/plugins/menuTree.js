@@ -73,11 +73,10 @@ function showhideit(itemNo) {
 
 function addtree(text, url, target, id) {
     // faisunMenu_treetext.push(text);
-    // faisunMenu_treeurl.push("iframe2.htm" + url ? url : "");
+    faisunMenu_treeurl.push("iframe2.htm" + url ? url : "");
     // faisunMenu_treeurltarget.push(target ? target : "mainframe");
     // faisunMenu_tree_data_id.push(id);
     faisunMenu_treetext.push(text);
-    faisunMenu_treeurl.push("iframe2.htm" + url ? url : "");
     faisunMenu_treeurltarget.push(target ? target : "mainframe");
 
 }

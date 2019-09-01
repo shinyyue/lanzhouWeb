@@ -60,16 +60,6 @@
                     >
                         <div id="mune_area">
                             <div class="tab_a" id="tab_b">
-                                <!-- <ul class="tab1 tab1ys">
-                                    <li>
-                                        <a
-                                            id="tab_ch1"
-                                            class="active"
-                                            href="javascript:void(0)"
-                                            ><img src="src/images/xue.png"
-                                        /></a>
-                                    </li>
-                                </ul> -->
                                 <ul class="tab_con tabcon_sy">
                                     <li id="tabcon1">
                                         <div
@@ -88,12 +78,11 @@
                         <div id="mune_btn" class="munebtna" data-zt="a"></div>
                         <div
                             id="pagecon"
-                            style=" min-width: 900px; height: 500px;float: left">
+                            style="height: 500px;float: left">
                             <iframe
                                 frameBorder="0"
                                 id="innerTarget"
                                 name="innerTarget"
-                                scrolling="no"
                                 src="iframe2.htm"
                                 style="width: 100%; height: 100%"
                             ></iframe>
@@ -426,6 +415,8 @@
                 }
 
                 var nameRate = ''
+                var list = sourceList[i].sourceName.split('.');
+                var type = list[list.length - 1]
                 if (
                     sourceList.filter(function(s){s.parentId === sourceList[i].id})
                         .length == 0
@@ -443,17 +434,26 @@
                         '%)'
                 }
 
-                addtree(
-                    floor + sourceList[i].name + nameRate,
-                    conf.fileRequestUrl + '/' + sourceList[i].sourceName,
-                    'innerTarget',
-                    sourceList[i].id
-                )
+                if (!type || (type !== 'co' && type !== 'swf')) {
+                    addtree(
+                        floor + sourceList[i].name + nameRate,
+                    )
+                } else {
+                    addtree(
+                        floor + sourceList[i].name + nameRate,
+                        conf.fileRequestUrl + '/' + sourceList[i].resourceName,
+                        'innerTarget',
+                        sourceList[i].id
+                    )
+                }
             }
             createtree('tabcon1_menulist')
             $('.menu-list').click(function() {
                 changeScromeNode($(this).data('id'), $(this).data('href'), sourceList)
             })
+            var minWidth = ($('#scorm_fileUrl').width() - 350) + 'px'
+            var maxWidth = ($('#scorm_fileUrl').width() - 20) + 'px'
+            $('#pagecon').width(minWidth)
             munebtn.onclick = function() {
                 var p = $('#pagecon')
                 if (this.getAttribute('data-zt') == 'a') {
@@ -461,14 +461,14 @@
                     this.className = 'munebtnb'
                     this.setAttribute('data-zt', 'b')
                     p.css({
-                        'min-width': '1126px'
+                        'min-width': maxWidth
                     })
                 } else {
                     mune.style.display = 'block'
                     this.className = 'munebtna'
                     this.setAttribute('data-zt', 'a')
                     p.css({
-                        'min-width': '900px'
+                        'min-width': minWidth
                     })
                 }
             }

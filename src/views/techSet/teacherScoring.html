@@ -50,13 +50,6 @@
                         <div id="mune_area">
                             <div class="tab_a"
                                  id="tab_b">
-                                <!-- <ul class="tab1 tab1ys">
-                                    <li>
-                                        <a id="tab_ch1"
-                                           class="active"
-                                           href="javascript:void(0)"><img src="src/images/xue.png" /></a>
-                                    </li>
-                                </ul> -->
                                 <ul class="tab_con tabcon_sy">
                                     <li id="tabcon1">
                                         <div class="munebtnlist"
@@ -75,7 +68,14 @@
                              class="munebtna"
                              data-zt="a"></div>
                         <div id="pagecon"
-                             style=" min-width: 800px; height: 500px;float: left">
+                             style="height: 500px;float: left">
+                             <iframe
+                                frameBorder="0"
+                                id="innerTarget"
+                                name="innerTarget"
+                                src="iframe2.htm"
+                                style="width: 100%; height: 100%"
+                            ></iframe>
                         </div>
                     </div>
                 </div>
@@ -150,7 +150,6 @@
 </div>
 <script src="src/plugins/UnityLoader.js"></script>
 <script src="src/plugins/UnityProgress.js"></script>
-<script src="src/plugins/resource_url.js"></script>
 <script src="src/plugins/menuTree.js"></script>
 <script>
     layui.use(['form', 'admin'], function () {
@@ -311,7 +310,6 @@
 
         // 渲染scrome
         function renderScrome(data) {
-            console.log(12222, data)
             // scorm课件
             var sourceList = JSON.parse(data.resourceIds)[0].url
             var munebtn = document.getElementById('mune_btn')
@@ -319,29 +317,32 @@
 
             for (var i = 0; i < sourceList.length; i++) {
                 var floor = ''
+                var list = sourceList[i].sourceName.split('.')
+                var type = list[list.length - 1]
                 for (var k = 0; k < Number(sourceList[i].floor); k++) {
                     floor += '-'
                 }
-                addtree(
-                    floor + sourceList[i].name,
-                    conf.fileRequestUrl + '/' + sourceList[i].sourceName,
-                    'innerTarget',
-                    sourceList[i].id
-                )
+                if (!type || (type !== 'co' && type !== 'swf')) {
+                    addtree(
+                        floor + sourceList[i].name
+                    )
+                } else {
+                    addtree(
+                        floor + sourceList[i].name,
+                        conf.fileRequestUrl + '/' + sourceList[i].resourceName,
+                        'innerTarget',
+                        sourceList[i].id
+                    )
+                }
             }
             createtree('tabcon1_menulist')
             $('.menu-list').click(function () {
                 var list = sourceList[0].sourceName.split('.')
                 var type = list[list.length - 1]
-                if (type === 'swf') {
-                    getSWFUrl('pagecon', $(this).attr('data-href'))
-                } else if (type === 'co') {
-                    getCODCRUrl(
-                        'pagecon',
-                        $(this).attr('data-href')
-                    )
-                }
             })
+            var minWidth = ($('#scorm_fileUrl').width() - 342) + 'px'
+            var maxWidth = ($('#scorm_fileUrl').width() - 16) + 'px'
+            $('#pagecon').width(minWidth)
             munebtn.onclick = function () {
                 var p = $('#pagecon')
                 if (this.getAttribute('data-zt') == 'a') {
@@ -349,14 +350,14 @@
                     this.className = 'munebtnb'
                     this.setAttribute('data-zt', 'b')
                     p.css({
-                        'min-width': '1126px'
+                        'min-width': maxWidth
                     })
                 } else {
                     mune.style.display = 'block'
                     this.className = 'munebtna'
                     this.setAttribute('data-zt', 'a')
                     p.css({
-                        'min-width': '900px'
+                        'min-width': minWidth
                     })
                 }
             }
@@ -381,22 +382,6 @@
                     layer.msg((err && err.msg) || '数据请求失败')
                 }
             })
-        }
-
-        function getCODCRUrl(id, url) {
-            var fileName = url
-            document.getElementById(id).innerHTML =
-                '<object classid="clsid:31B7EB4E-8B4B-11D1-A789-00A0CC6651A8" style = "width: 100%; height:100%;" codebase="http://www.cult3d.com/download/cult.cab#version=5,2,0,99" > ' +
-                '<param name="SRC" value="' +
-                fileName +
-                '">' +
-                '<param name="ANTIALIASING" value="0">' +
-                '<embed pluginspage="http://www.cult3d.com/newuser/index.html"' +
-                'style = "width: 100%; height:100%;"' +
-                'src = "' +
-                fileName +
-                '" antialiasing="0" type="application/x-cult3d-object"></embed>' +
-                '</object>'
         }
 
     })

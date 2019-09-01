@@ -86,13 +86,12 @@
                              class="munebtna"
                              data-zt="a"></div>
                         <div id="pagecon"
-                             style=" min-width: 800px; height: 500px;float: left">
-                            <!-- <iframe frameBorder="0"
+                             style="height: 500px;float: left">
+                            <iframe frameBorder="0"
                                     id="innerTarget"
                                     name="innerTarget"
-                                    scrolling="no"
                                     src="iframe2.htm"
-                                    style="width: 100%; height: 100%"></iframe> -->
+                                    style="width: 100%; height: 100%"></iframe>
                         </div>
                     </div>
                 </div>
@@ -119,7 +118,6 @@
 
 <script src="src/plugins/UnityLoader.js"></script>
 <script src="src/plugins/UnityProgress.js"></script>
-<script src="src/plugins/resource_url.js"></script>
 <script src="src/plugins/menuTree.js"></script>
 
 <script>
@@ -211,9 +209,8 @@
                     } else if (res.data.dataType == 7) {
                         $('#scorm_fileUrl').show()
                         // scorm课件
-                        debugger
                         var url = JSON.parse(res.data.resourceIds)[0].url
-                        var sourceList = JSON.parse(url.fileUrl)
+                        var sourceList = JSON.parse(url)
                         var munebtn = document.getElementById('mune_btn')
                         var mune = document.getElementById('mune_area')
                         var treeStr = ''
@@ -222,17 +219,25 @@
                             var floor = ''
                             var id = ''
                             id = sourceList[w].id
+                            var list = sourceList[w].sourceName.split('.');
+                            var type = list[list.length - 1]
                             for (
                                 var k = 0; k < Number(sourceList[w].floor); k++
                             ) {
                                 floor += '-'
                             }
-                            addtree(
-                                floor + sourceList[w].name,
-                                'http://47.105.130.130:8001/' +
-                                sourceList[w].sourceName,
-                                'innerTarget',id
-                            )
+                            if (!type || (type !== 'co' && type !== 'swf')) {
+                                addtree(
+                                    floor + sourceList[i].name
+                                )
+                            } else {
+                                addtree(
+                                    floor + sourceList[w].name,
+                                    conf.fileRequestUrl + '/' +
+                                    sourceList[w].resourceName,
+                                    'innerTarget',id
+                                )
+                            }
                         }
                         createtree('tabcon1_menulist')
 
@@ -246,16 +251,10 @@
                                     break
                                 }
                             }
-
-                            if (type === 'swf') {
-                                getSWFUrl('pagecon', $(this).attr('data-href'))
-                            } else if (type === 'co') {
-                                getCODCRUrl(
-                                    'pagecon',
-                                    $(this).attr('data-href')
-                                )
-                            }
                         })
+                        var minWidth = ($('#scorm_fileUrl').width() - 350) + 'px'
+                        var maxWidth = ($('#scorm_fileUrl').width() - 20) + 'px'
+                        $('#pagecon').width(minWidth)
                         munebtn.onclick = function () {
                             var p = $('#pagecon')
                             if (this.getAttribute('data-zt') == 'a') {
@@ -263,14 +262,14 @@
                                 this.className = 'munebtnb'
                                 this.setAttribute('data-zt', 'b')
                                 p.css({
-                                    'min-width': '1126px'
+                                    'min-width': maxWidth
                                 })
                             } else {
                                 mune.style.display = 'block'
                                 this.className = 'munebtna'
                                 this.setAttribute('data-zt', 'a')
                                 p.css({
-                                    'min-width': '900px'
+                                    'min-width': minWidth
                                 })
                             }
                         }
@@ -293,22 +292,6 @@
                 '/dataBank/downloadFile?filePath=' +
                 details.fileUrl
             )
-        }
-
-        function getCODCRUrl(id, url) {
-            var fileName = url
-            document.getElementById(id).innerHTML =
-                '<object classid="clsid:31B7EB4E-8B4B-11D1-A789-00A0CC6651A8" style = "width: 100%; height:100%;" codebase="http://www.cult3d.com/download/cult.cab#version=5,2,0,99" > ' +
-                '<param name="SRC" value="' +
-                fileName +
-                '">' +
-                '<param name="ANTIALIASING" value="0">' +
-                '<embed pluginspage="http://www.cult3d.com/newuser/index.html"' +
-                'style = "width: 100%; height:100%;"' +
-                'src = "' +
-                fileName +
-                '" antialiasing="0" type="application/x-cult3d-object"></embed>' +
-                '</object>'
         }
     })
 

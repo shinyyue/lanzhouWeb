@@ -27,13 +27,6 @@
                     <div id="mune_area">
                         <div class="tab_a"
                                 id="tab_b">
-                            <!-- <ul class="tab1 tab1ys">
-                                <li>
-                                    <a id="tab_ch1"
-                                        class="active"
-                                        href="javascript:void(0)"><img src="src/images/xue.png" /></a>
-                                </li>
-                            </ul> -->
                             <ul class="tab_con tabcon_sy">
                                 <li id="tabcon1">
                                     <div class="munebtnlist"
@@ -52,11 +45,10 @@
                             class="munebtna"
                             data-zt="a"></div>
                     <div id="pagecon"
-                            style=" min-width: 900px; height: 500px;float: left">
+                            style="height: 500px;float: left">
                         <iframe frameBorder="0"
                                 id="innerTarget"
                                 name="innerTarget"
-                                scrolling="no"
                                 src="iframe2.htm"
                                 style="width: 100%; height: 100%"></iframe>
                     </div>
@@ -137,7 +129,6 @@
 </div>
 <script src="src/plugins/UnityLoader.js"></script>
 <script src="src/plugins/UnityProgress.js"></script>
-<script src="src/plugins/resource_url.js"></script>
 <script src="src/plugins/menuTree.js"></script>
 <script>
     layui.use(['form', 'admin'], function () {
@@ -195,9 +186,6 @@
                             fileUrl +
                             '" width="100%" height="100%" frameborder="1"></iframe>'
                         )
-                        // $('#fileUrl').css({
-                        //     height: '1000px'
-                        // })
                     } else if (data.type == 2) {
                         // 图片
                         $('#fileUrl').html(
@@ -228,7 +216,7 @@
                         var jsonFile = JSON.parse(data.fileUrl).json
                         UnityLoader.instantiate(
                             'u3dFileUrl',
-                            'http://47.105.130.130:8001/' + jsonFile, {
+                            conf.fileRequestUrl + '/' + jsonFile, {
                                 onProgress: UnityProgress
                             }
                         )
@@ -244,20 +232,31 @@
                             var floor = ''
                             var id = ''
                             id = sourceList[i].id
+                            var list = sourceList[i].sourceName.split('.');
+                            var type = list[list.length - 1]
                             for (
                                 var k = 0; k < Number(sourceList[i].floor); k++
                             ) {
                                 floor += '-'
                             }
-                            addtree(
-                                floor + sourceList[i].name,
-                                'http://47.105.130.130:8001/' +
-                                sourceList[i].sourceName,
-                                'innerTarget',id
-                            )
+                            
+                            if (!type || (type !== 'co' && type !== 'swf')) {
+                                addtree(
+                                    floor + sourceList[i].name
+                                )
+                            } else {
+                                addtree(
+                                    floor + sourceList[i].name,
+                                    conf.fileRequestUrl + '/' +
+                                    sourceList[i].resourceName,
+                                    'innerTarget',id
+                                )
+                            }
+                            
                         }
                         createtree('tabcon1_menulist')
-                        $('.menu-list').click(function () {
+
+                        $('.menu-list').click(function (index) {
                             var list = '',
                                 type = ''
                             for (var i = 0; i < sourceList.length; i++) {
@@ -267,15 +266,12 @@
                                     break
                                 }
                             }
-                            if (type === 'swf') {
-                                getSWFUrl('pagecon', $(this).attr('data-href'))
-                            } else if (type === 'co') {
-                                getCODCRUrl(
-                                    'pagecon',
-                                    $(this).attr('data-href')
-                                )
-                            }
                         })
+
+                        var minWidth = ($('#scorm_fileUrl').width() - 342) + 'px'
+                        var maxWidth = ($('#scorm_fileUrl').width() - 16) + 'px'
+                        $('#pagecon').width(minWidth)
+
                         munebtn.onclick = function () {
                             var p = $('#pagecon')
                             if (this.getAttribute('data-zt') == 'a') {
@@ -283,14 +279,14 @@
                                 this.className = 'munebtnb'
                                 this.setAttribute('data-zt', 'b')
                                 p.css({
-                                    'min-width': '1126px'
+                                    'min-width': maxWidth
                                 })
                             } else {
                                 mune.style.display = 'block'
                                 this.className = 'munebtna'
                                 this.setAttribute('data-zt', 'a')
                                 p.css({
-                                    'min-width': '900px'
+                                    'min-width': minWidth
                                 })
                             }
                         }
@@ -455,6 +451,39 @@
 
     #tabcon1 {
         padding: 20px 10px;
+    }
+
+</style>
+<style type="text/css">
+    /* @import 'TemplateDate/style.css'; */
+
+    .blockhide {
+        display: block;
+    }
+
+    .blockmove {
+        overflow: hidden;
+        height: 1px;
+        display: block;
+    }
+
+    .blockshow {
+        overflow: visible;
+        display: none;
+    }
+
+    .hideme {
+        overflow: visible;
+        display: none;
+    }
+
+    .showme {
+        overflow: visible;
+        display: block;
+    }
+
+    .faisunMenu td {
+        font-size: 10pt;
     }
 
 </style>
