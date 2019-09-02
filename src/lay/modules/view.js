@@ -415,7 +415,7 @@ layui
                     self.parse(container)
                 }
                 //重新对面包屑进行渲染
-                layui.element.render('breadcrumb', 'nepadmin-breadcrumb')
+                // layui.element.render('breadcrumb', 'nepadmin-breadcrumb')
                 return {
                     title: title,
                     url: url,
@@ -424,7 +424,6 @@ layui
             }
             //解析普通文件
             self.render = function (fileurl, callback) {
-                // debugger
                 self.loadHtml(fileurl, function (res) {
                     var htmlElem = $('<div>' + res.html + '</div>')
                     var params = self.fillHtml(res.url, htmlElem, 'html')
