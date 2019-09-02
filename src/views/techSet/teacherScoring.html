@@ -322,7 +322,7 @@
                 for (var k = 0; k < Number(sourceList[i].floor); k++) {
                     floor += '-'
                 }
-                if (!type || (type !== 'html')) {
+                if (!type || (type !== 'html' && type !== 'htm')) {                
                     addtree(
                         floor + sourceList[i].name
                     )
