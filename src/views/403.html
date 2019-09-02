@@ -1,0 +1,29 @@
+    <div class="layui-fluid"
+         id="VIEW-icon-index"
+         lay-title="403">
+      <div class="layui-row layui-col-space10"
+           style="margin-top:100px">
+        <div class="layui-col-xs3 layui-col-xs-offset2">
+          <img src="https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg"
+               alt=""
+               width="85%" />
+        </div>
+        <div class="layui-col-xs7">
+          <h1 style="font-size: 60px">403</h1>
+          <h2 class="nepadmin-mar-b20 nepadmin-c-gray">抱歉，你无权访问该页面</h2>
+          <button class="layui-btn layui-btn-normal" id="backHome">返回首页</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      layui.use(['admin', 'util', 'form'], function () {
+        var $ = layui.jquery,
+          admin = layui.admin;
+
+        $('#backHome').click(function () {
+          var role = JSON.parse(sessionStorage.role)
+          admin.navigate(role.role && role.role.skipIndex || '/')
+        })
+      })
+    </script>

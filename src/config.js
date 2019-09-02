@@ -47,6 +47,9 @@ layui.define(function (exports) {
             '/login', //登入页
             '/chatStudent', // 聊天室
             '/chatTeacher', // 聊天室
+            '/400',
+            '/500',
+            '/404'
         ],
         //登录页面，当未登录或登录失效时进入
         loginPage: '/login',

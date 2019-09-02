@@ -382,12 +382,28 @@
     .member-item {
         padding: 10px 20px;
         font-size: 16px;
+        clear:both;
+        overflow: hidden;
     }
 
     .member-item .member-avator {
         width: 48px;
         height: 48px;
         margin-right: 10px;
+        float: left;
+    }
+
+    .member-item > span{
+        float: left;
+        display: block;
+        width: calc(100% - 58px);
+        text-overflow: -o-ellipsis-lastline;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 
     .member-item:hover,
