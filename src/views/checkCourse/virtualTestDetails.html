@@ -415,7 +415,7 @@
                 }
 
                 var nameRate = ''
-                var list = sourceList[i].sourceName.split('.');
+                var list = sourceList[i].resourceName.split('.');
                 var type = list[list.length - 1]
                 if (
                     sourceList.filter(function(s){s.parentId === sourceList[i].id})
@@ -434,9 +434,9 @@
                         '%)'
                 }
 
-                if (!type || (type !== 'co' && type !== 'swf')) {
+                if (!type || (type !== 'html')) {
                     addtree(
-                        floor + sourceList[i].name + nameRate,
+                        floor + sourceList[i].name + nameRate
                     )
                 } else {
                     addtree(

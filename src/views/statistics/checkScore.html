@@ -403,7 +403,7 @@
 
             for (var i = 0; i < sourceList.length; i++) {
                 var floor = ''
-                var list = sourceList[i].sourceName.split('.');
+                var list = sourceList[i].resourceName.split('.');
                 var type = list[list.length - 1]
                 for (var k = 0; k < Number(sourceList[i].floor); k++) {
                     floor += '-'
@@ -427,7 +427,7 @@
                         '%)'
                 }
 
-                if (!type || (type !== 'co' && type !== 'swf')) {
+                if (!type || (type !== 'html')) {
                     addtree(
                         floor + sourceList[i].name + nameRate
                     )

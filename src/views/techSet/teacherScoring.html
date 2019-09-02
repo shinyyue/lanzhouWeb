@@ -317,12 +317,12 @@
 
             for (var i = 0; i < sourceList.length; i++) {
                 var floor = ''
-                var list = sourceList[i].sourceName.split('.')
+                var list = sourceList[i].resourceName.split('.')
                 var type = list[list.length - 1]
                 for (var k = 0; k < Number(sourceList[i].floor); k++) {
                     floor += '-'
                 }
-                if (!type || (type !== 'co' && type !== 'swf')) {
+                if (!type || (type !== 'html')) {
                     addtree(
                         floor + sourceList[i].name
                     )
@@ -340,8 +340,8 @@
                 var list = sourceList[0].sourceName.split('.')
                 var type = list[list.length - 1]
             })
-            var minWidth = ($('#scorm_fileUrl').width() - 342) + 'px'
-            var maxWidth = ($('#scorm_fileUrl').width() - 16) + 'px'
+            var minWidth = ($('#scorm_fileUrl').width() - 360) + 'px'
+            var maxWidth = ($('#scorm_fileUrl').width() - 40) + 'px'
             $('#pagecon').width(minWidth)
             munebtn.onclick = function () {
                 var p = $('#pagecon')

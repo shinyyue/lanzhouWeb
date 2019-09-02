@@ -219,14 +219,14 @@
                             var floor = ''
                             var id = ''
                             id = sourceList[w].id
-                            var list = sourceList[w].sourceName.split('.');
+                            var list = sourceList[w].resourceName.split('.');
                             var type = list[list.length - 1]
                             for (
                                 var k = 0; k < Number(sourceList[w].floor); k++
                             ) {
                                 floor += '-'
                             }
-                            if (!type || (type !== 'co' && type !== 'swf')) {
+                            if (!type || (type !== 'html')) {
                                 addtree(
                                     floor + sourceList[w].name
                                 )
