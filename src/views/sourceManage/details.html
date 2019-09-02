@@ -43,7 +43,7 @@
                  class="munebtna"
                  data-zt="a"></div>
             <div id="pagecon"
-                 style=" min-width: 800px; height: 500px;float: left">
+                 style="height: 500px;float: left">
                 <iframe frameBorder="0"
                         id="innerTarget"
                         name="innerTarget"
@@ -281,8 +281,8 @@
                             }
                         })
 
-                        var minWidth = ($('#scorm_fileUrl').width() - 342) + 'px'
-                        var maxWidth = ($('#scorm_fileUrl').width() - 16) + 'px'
+                        var minWidth = ($('#scorm_fileUrl').width() - 360) + 'px'
+                        var maxWidth = ($('#scorm_fileUrl').width() - 40) + 'px'
                         $('#pagecon').width(minWidth)
 
                         munebtn.onclick = function () {
@@ -351,6 +351,12 @@
         padding: 20px 0;
     }
 
+    body {
+        scrollbar-3dlight-color: transparent;
+        scrollbar-track-color: transparent;
+        scrollbar-base-color: transparent;
+    }
+
     .source-display {
         width: 100%;
         height: 500px;
@@ -361,6 +367,10 @@
 
     .source-display.unScorm-inner{
         display: none;
+    }
+
+    #pagecon::-webkit-scrollbar {
+        width: 0;
     }
 
     #source-manage-details .layui-form-item span {
