@@ -444,8 +444,9 @@
             $('.menu-list').click(function() {
                 changeScromeNode($(this).data('id'), $(this).data('href'))
             })
-            var minWidth = ($('#scorm_fileUrl').width() - 342) + 'px'
-            var maxWidth = ($('#scorm_fileUrl').width() - 16) + 'px'
+            var minWidth = ($('#scorm_fileUrl')[0].offsetWidth - $('#mune_area')[0].offsetWidth -
+            $('#mune_btn')[0].offsetWidth) + 'px'
+            var maxWidth = ($('#scorm_fileUrl')[0].offsetWidth - $('#mune_btn')[0].offsetWidth) + 'px'
             $('#pagecon').width(minWidth)
             munebtn.onclick = function() {
                 var p = $('#pagecon')

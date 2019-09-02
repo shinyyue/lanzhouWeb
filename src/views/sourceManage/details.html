@@ -281,8 +281,10 @@
                             }
                         })
 
-                        var minWidth = ($('#scorm_fileUrl').width() - 360) + 'px'
-                        var maxWidth = ($('#scorm_fileUrl').width() - 40) + 'px'
+                        var minWidth = ($('#scorm_fileUrl')[0].offsetWidth - $('#mune_area')[0].offsetWidth -
+                        $('#mune_btn')[0].offsetWidth) + 'px'
+                        var maxWidth = ($('#scorm_fileUrl')[0].offsetWidth - $('#mune_btn')[0].offsetWidth) + 'px'
+
                         $('#pagecon').width(minWidth)
 
                         munebtn.onclick = function () {
@@ -367,6 +369,9 @@
 
     .source-display.unScorm-inner{
         display: none;
+    }
+    #pagecon {
+        overflow: hidden;
     }
 
     #pagecon::-webkit-scrollbar {
