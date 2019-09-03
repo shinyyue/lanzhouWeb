@@ -309,7 +309,8 @@
                         // U3D
                         $('#fileUrl').hide()
                         $('#u3dFileUrl').show()
-                        var jsonFile = conf.fileRequestUrl + '/' + JSON.parse(res.data.resourceIds)[0].url.json
+                        var jsonFile = conf.fileRequestUrl + '/' +
+                        JSON.parse(JSON.parse(res.data.resourceIds)[0].url).json
                         UnityLoader.instantiate('u3dFileUrl', jsonFile, {
                             onProgress: UnityProgress
                         })
