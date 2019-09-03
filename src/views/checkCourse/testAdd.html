@@ -55,7 +55,6 @@
                 $(this)
                     .find('ul li')
                     .each(function(index) {
-                        //
                         if ($(this).attr('data-type') === '多选') {
                             if (
                                 $(this).find('.layui-form-checked').length > 0
@@ -97,12 +96,13 @@
                 success: function(res) {
                     if (res.code === 200) {
                         layer.msg('提交成功！')
-                        admin.navigate('/checkCourse/testDetails/id=' +
-                            id +
-                            '/endTime=' +
-                            res.data.endTime+
-                            '/startTime=' +
-                            res.data.startTime)
+                        admin.navigate('/checkCourse/testDetails/id=' + id +
+                        '/type=check' + 
+                        '/endTime=' +
+                        new Date(res.data.endTime).getTime() +
+                        '/startTime=' +
+                        new Date(res.data.startTime).getTime()
+                        )
                     }
                 }
             })
