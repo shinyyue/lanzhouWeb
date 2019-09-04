@@ -395,7 +395,7 @@
         function renderScrome(data) {
             $('#scorm_fileUrl').show()
             // scorm课件
-            var sourceList = JSON.parse(data.resourceIds)[0].url
+            var sourceList = JSON.parse(JSON.parse(data.resourceIds)[0].url)
             var munebtn = document.getElementById('mune_btn')
             var mune = document.getElementById('mune_area')
             testContent = JSON.parse(data.testContent || '{}')
