@@ -130,7 +130,11 @@
             <div class="layui-col-md6 layui-form-item">
                 <label class="layui-form-label"></label>
                 <div class="layui-btn primary-btn"
-                     id="save_ploy">
+                     id="save_ploy" style="display: none">
+                    保存
+                </div>
+                <div class="layui-btn primary-btn"
+                     id="update_ploy" style="display: none">
                     保存
                 </div>
                 <div class="layui-btn layui-btn-primary cancel-btn"
@@ -224,13 +228,14 @@
             route = layui.router(),
             id = route.search.id
 
-
         if (id) {
             getAllCourses(function() {
                 getDetails()
             })
+            $('#update_ploy').show()
         } else {
             getAllCourses()
+            $('#save_ploy').show()
         }
 
         form.render()
@@ -503,6 +508,45 @@
                         admin.navigate('/examine/ploy')
                     } else {
                         layer.msg(res.msg || '添加失败')
+                    }
+                }
+            })
+            return false
+        })
+
+        $('#update_ploy').click(function () {
+            if (!$('input[name="strategyName"]').val()) {
+                layer.msg('请填写策略名称')
+                return
+            }
+            var list = []
+            strategyEntries.forEach(function (item) {
+                list.push({
+                    exercisesDifficulty: item.exercisesDifficulty,
+                    exercisesSize: item.exercisesSize,
+                    exercisesType: item.exercisesType,
+                    knowledgePoint: item.knowledgePoint
+                })
+            })
+            var data = {
+                id: id,
+                curriculumId: Number($('#curriculumId').val()),
+                strategyName: $('input[name="strategyName"]')
+                    .val()
+                    .trim(),
+                // strategyEntries: list
+                strategyEntries: JSON.stringify(list)
+            }
+
+            admin.put({
+                url: '/strategy/update',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    if (res.code === 200) {
+                        layer.msg('编辑成功')
+                        admin.navigate('/examine/ploy')
+                    } else {
+                        layer.msg(res.msg || '编辑失败')
                     }
                 }
             })

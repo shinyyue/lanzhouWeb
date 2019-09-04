@@ -230,7 +230,7 @@
                             content: option[key]
                         })
                     }
-                    renderOption()
+                    renderOption(res.data.type)
                 }
             })
         }
@@ -254,6 +254,26 @@
             return false
         })
         $('#addData').on('click', function () {
+            if (!$('#type').val()) {
+                layer.msg('请选择习题类型')
+                return;
+            }
+
+            if (!$('#difficulty').val()) {
+                layer.msg('请选择习题难度')
+                return;
+            }
+
+            if (!$('#knowledgePoint').val()) {
+                layer.msg('请选择所属知识点')
+                return;
+            }
+
+            if(!layedit.getText(layEditIndex) || !layedit.getText(layEditIndex).trim()) {
+                layer.msg('请填写题目内容')
+                return;
+            }
+
             if (id) {
                 updateData()
             } else {
@@ -338,14 +358,24 @@
         function addData() {
             var optionObj = {}
             var answer = []
-            optionList.forEach(function (item, index) {
+
+            for(var i = 0; i < optionList.length; i++) {
+                var item = optionList[i];
+                var flag = false;
                 $('input[name=optContent]').each(function (k) {
-                    if (index === k) {
-                        item.content = $(this).val()
+                    if (i === k) {
+                        item.content = $(this).val() && $(this).val().trim()
                         optionObj[item.opt] = item.content
+                        if (!item.content) {
+                            flag = true
+                        }
                     }
                 })
-            })
+                if (flag) {
+                    layer.msg('请将选项内容填写完整')
+                    return;
+                }
+            }
 
             if ($('#type').val() == 2) {
                 $('input[name=option]').each(function () {
@@ -358,6 +388,12 @@
                 var key = $('input[name=option]:checked').attr('data-opt')
                 answer.push(key)
             }
+
+            if (answer.length === 0) {
+                layer.msg('请选择正确答案')
+                return;
+            }
+
 
             var data = {
                 type: $('#type').val(),
@@ -385,15 +421,25 @@
 
         function updateData() {
             var optionObj = {}
-            var answer = []
-            optionList.forEach(function (item, index) {
+            var answer = [];
+            for(var i = 0; i < optionList.length; i++) {
+                var item = optionList[i];
+                var flag = false;
                 $('input[name=optContent]').each(function (k) {
-                    if (index === k) {
-                        item.content = $(this).val()
+                    if (i === k) {
+                        item.content = $(this).val() && $(this).val().trim()
                         optionObj[item.opt] = item.content
+                        if (!item.content) {
+                            flag = true
+                        }
                     }
                 })
-            })
+                if (flag) {
+                    layer.msg('请将选项内容填写完整')
+                    return;
+                }
+            }
+
             if ($('#type').val() == 2) {
                 $('input[name=option]').each(function () {
                     var checked = $(this).siblings('.layui-form-checked')
@@ -403,7 +449,12 @@
                 })
             } else {
                 var key = $('input[name=option]:checked').attr('data-opt')
-                answer.push(key)
+                key && answer.push(key);
+            }
+
+            if (answer.length === 0) {
+                layer.msg('请选择正确答案')
+                return;
             }
             var data = {
                 id: id,

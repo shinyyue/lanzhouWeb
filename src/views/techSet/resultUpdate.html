@@ -235,7 +235,20 @@
 
         // 成绩导出
         $('#export-score').click(function() {
-            window.open(conf.requestUrl + '/vsMpTestRecord/downloadResult?curriculumExperimentId=' + curriculumExperimentId);
+            admin.get({
+                url: '/vsMpTestRecord/isDownload?curriculumExperimentId=' + curriculumExperimentId,
+                success: function (res) {
+                    if (res.code == 200){
+                        window.open(conf.requestUrl + '/vsMpTestRecord/downloadResult?curriculumExperimentId=' + curriculumExperimentId);
+                    }else{
+                        layer.msg(res.msg || '导出失败')
+                    }
+                },error:function (err) {
+                    layer.msg(err.msg || '导出失败')
+                }
+            })
+//            window.open(conf.requestUrl + '/vsMpTestRecord/downloadResult?curriculumExperimentId=' + curriculumExperimentId);
+
             // admin.get({
             //     url: '/vsMpTestRecord/downloadResult?curriculumExperimentId=' + curriculumExperimentId,
             //     success: function (res)  {
