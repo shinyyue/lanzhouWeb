@@ -86,10 +86,10 @@
             form = layui.form
         admin = layui.admin,
             time = getNowFormatDate,
-            $("#coursePlanName").html(layui.sessionData('course').coursePlanName),
-            $("#coursePlanName").val(layui.sessionData('course').coursePlanId),
+            $("#coursePlanName").html(layui.sessionData('techSet').techSetName),
+            $("#coursePlanName").val(layui.sessionData('techSet').techSetId),
             $("#userName").html(layui.sessionData('courseComment').stuName)
-        $("#courseEvaluate").html(layui.sessionData('course').coursePlanName + ' > 课程评价 > 老师回复')
+        $("#courseEvaluate").html(layui.sessionData('techSet').techSetName + ' > 课程评价 > 老师回复')
         $("#date").html(time);
         $("#evaluate").val(layui.sessionData('courseComment').content);
 
@@ -112,7 +112,7 @@
         }
         form.on('submit(submit)', function (data) {
             var param = {
-                curriculumId: layui.sessionData('course').coursePlanId,
+                curriculumId: layui.sessionData('techSet').techSetId,
                 content: data.field.desc,
                 reviewId: layui.sessionData('courseComment').id
             }
@@ -123,6 +123,7 @@
                     if (res.code === 200) {
                         layer.msg('评论成功！')
                     }
+                    window.history.go(-1)
                 },
                 error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')

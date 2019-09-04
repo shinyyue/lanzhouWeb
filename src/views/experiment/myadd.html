@@ -613,6 +613,9 @@
             ,data: {
                 type: 1
             }
+            ,before: function (obj) {
+                    layer.load(); //上传loading
+                }
             ,done: function(res){
                 if (res.code === 401) {
                     admin.logout()
