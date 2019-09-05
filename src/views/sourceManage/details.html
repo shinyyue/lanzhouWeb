@@ -8,15 +8,15 @@
     <div class="source-details-inner">
         <div class="source-display unScorm-inner">
             <div id="fileUrl"
-                 style="width: 100%; height: 500px;"></div>
+                 style="width: 100%; height: 780px;"></div>
             <div class="webgl-content"
                  id="u3dFileUrl"
-                 style="width: 100%; height: 500px;display: none;"></div>
+                 style="width: 100%; height: 780px;display: none;"></div>
         </div>
         <div style="display: none; color: red;"
              id="showTip">
             <div>推荐使用360浏览器兼容模式或者IE9以上</div>
-            <a href="http://202.201.21.44:8100/dataBank/exportCult3D"
+            <a href="http://47.105.130.130:8100/dataBank/exportCult3D"
                style="color: red;text-decoration: underline;">若加载失败，点击安装Cult3D插件</a>
         </div>
         <div class="source-display"
@@ -185,17 +185,14 @@
                         $('#fileUrl').html(
                             '<iframe src="' + 
                             fileUrl +
-                            '" width="100%" height="500px;" frameborder="1"></iframe>'
+                            '" width="100%" height="780px;" frameborder="1"></iframe>'
                         )
-                        $('#fileUrl').css({
-                            height: '1000px'
-                        })
                     } else if (data.type == 2) {
                         // 图片
                         $('#fileUrl').html(
                             '<img src="' +
                             fileUrl +
-                            '" style="width: 100%; height: 100%;">'
+                            '" style="width: 100%;">'
                         )
                     } else if (data.type == 3) {
                         // 视频
@@ -214,10 +211,16 @@
                             )
                         }
                     } else if (data.type == 4) {
+                        var width = $('.source-details-inner').width()
                         $('#fileUrl').html(
-                            '<embed src="' +
+                            '<object class="flash_object"  width="' + width +'" height="' + $('#fileUrl').height() +'">'+
+                            '<param name="src" value="'+ fileUrl +'" />'+
+                            '<param name="quality" value="high" />'+
+                            '<param value="transparent">'+
+                            '<embed wmode="transparent" class="flash_object" src="' +
                             fileUrl +
-                            '" type="application/x-shockwave-flash" style="width: 100%; height: 100%;" quality="high" />'
+                            '" type="application/x-shockwave-flash" width="' + width +'" height="' +
+                            $('#fileUrl').height() +'" quality="high" /><object>'
                         )
                     } else if (data.type == 5) {
                         // exe

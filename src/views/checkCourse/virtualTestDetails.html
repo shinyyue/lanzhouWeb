@@ -42,7 +42,7 @@
                     <div id="require" style="line-height: 38px;"></div>
                     <div class="source-display unScorm-inner">
                         <div id="fileUrl"
-                             style="width: 100%; height: 500px;"></div>
+                             style="width: 100%; height: 780px;"></div>
                         <div class="webgl-content"
                              id="u3dFileUrl"
                              style="width: 100%; height: 780px;display: none;"></div>
@@ -50,7 +50,7 @@
                     <div style=" display: none; color: red;"
                          id="showTip">
                         <div>推荐使用360浏览器兼容模式或者IE9以上</div>
-                        <a href="http://202.201.21.44:8100/dataBank/exportCult3D"
+                        <a href="http://47.105.130.130:8100/dataBank/exportCult3D"
                            style="color: red;text-decoration: underline;">若加载失败，点击安装Cult3D插件</a>
                     </div>    
                     <div
@@ -298,10 +298,16 @@
                             conf.fileRequestUrl +
                             '/' +
                             JSON.parse(res.data.resourceIds)[0].url
+                        var width = $('.source-details-inner').width()
                         $('#fileUrl').html(
-                            '<object><embed src="' +
-                                fileUrl +
-                                '" type="application/x-shockwave-flash" style="width: 100%; height: 100%;" quality="high" /></object>'
+                            '<object class="flash_object"  width="' + width +'" height="' + $('#fileUrl').height() +'">'+
+                            '<param name="src" value="'+ fileUrl +'" />'+
+                            '<param name="quality" value="high" />'+
+                            '<param value="transparent">'+
+                            '<embed wmode="transparent" class="flash_object" src="' +
+                            fileUrl +
+                            '" type="application/x-shockwave-flash" width="' + width +'" height="' +
+                            $('#fileUrl').height() +'" quality="high" /><object>'
                         )
                     } else if (res.data.dataType == 5) {
                         // exe
@@ -642,7 +648,7 @@
 
     #virtualTest-details .source-display {
         width: 100%;
-        height: 500px;
+        height: 780px;
         background: rgba(0, 0, 0, 0.2);
         margin-bottom: 20px;
         position: relative;
