@@ -150,7 +150,6 @@
             var newList = []
             getMenuList(function (allList) {
                 allList.menuTrees.forEach(function (item) {
-//                    item.checked = list.indexOf(String(item.id)) > -1
                     newList.push(item)
                 })
                 renderTree(newList, 'update')
@@ -335,14 +334,15 @@
                 return;
             }
             var menuList = tree.getChecked('1')
+            console.log(111, menuList);
             var list = []
             for (var i = 0; i < menuList.length; i++) {
                 list.push(menuList[i].id)
-                if (menuList[i].children.length > 0) {
+                if (menuList[i].children && menuList[i].children.length > 0) {
                     for (var j = 0; j < menuList[i].children.length; j++) {
                         var item = menuList[i].children[j]
                         list.push(item.id)
-                        if (item.children.length > 0) {
+                        if (item.children && item.children.length > 0) {
                             for (var m = 0; m < item.children.length; m++) {
                                 var c = item.children[m]
                                 list.push(c.id)
@@ -407,9 +407,9 @@
                 })
             form.render()
             // 渲染权限列表
-            getMenuList(function (list) {
-                if (list){
-                    renderTree(list)
+            getMenuList(function (data) {
+                if (data.menuTrees && data.menuTrees.length > 0){
+                    renderTree(data.menuTrees)
                 }
             },0)
         }
@@ -430,24 +430,26 @@
             for (var i = 0; i < treeData.length; i++) {
                 treeData[i].title = treeData[i].menuName
                 treeData[i].spread = true
-                treeData[i].checked = treeData[i].select
                 if (treeData[i].child.length > 0) {
                     for (var j = 0; j < treeData[i].child.length; j++) {
                         var item = treeData[i].child[j]
                         item.title = item.menuName
                         item.spread = true
-                        item.checked = item.select
                         if (item.child.length > 0) {
                             for (var m = 0; m < item.child.length; m++) {
                                 var c = item.child[m]
                                 c.title = c.menuName
                                 c.checked = c.select
                             }
+                        } else {
+                            item.checked = item.select
                         }
                         item.children = item.child
                     }
-                    treeData[i].children = treeData[i].child
+                } else {
+                    treeData[i].checked = treeData[i].select
                 }
+                treeData[i].children = treeData[i].child
             }
             tree.render({
                 elem: '#auth_list',
