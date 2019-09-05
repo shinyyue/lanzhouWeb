@@ -168,3 +168,15 @@ html,
 .layui-nav-tree .layui-nav-itemed:after {
     height: 0;
 }
+
+#mune_area, #tabcon1 {
+    background: #4b4b57;
+    
+}
+
+#tabcon1 a {
+    color: #fff;
+}
+#tabcon1 a:hover {
+    color: #5a8bff;
+}
