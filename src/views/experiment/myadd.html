@@ -376,7 +376,7 @@
             $('input[name=resourceIds]:checked').each(function (index) {
                 ids.push({
                     id: $(this).val(),
-                    url: $(this).data('url'),
+                    url: resourceList[index].fileUrl,
                     type: $('#sourceType').val()
                 })
             })
