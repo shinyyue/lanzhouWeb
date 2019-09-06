@@ -229,6 +229,7 @@
                     $('#downloadNum').html(data.downloadNum)
                     $('#curriculumId').html(data.curriculumId)
                     $('#resourceDes').val(data.resourceDes)
+                    form.render()
                     if (data.canDownload == 0 || data.type != 5) {
                         //$('#download').attr('style', 'display:none;')
                         // $('#download').hide()
