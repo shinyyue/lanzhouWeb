@@ -295,12 +295,14 @@
 
         function addData() {
             var ids = []
-            $('input[name=resourceIds]:checked').each(function (index) {
-                ids.push({
-                    id: $(this).val(),
-                    url: resourceList[index].fileUrl,
-                    type: $('#sourceType').val()
-                })
+            $('#resourceIds .layui-form-radio').each(function (index) {
+                if ($(this).hasClass('layui-form-radioed')) {
+                    ids.push({
+                        id: resourceList[index].id,
+                        url: resourceList[index].fileUrl,
+                        type: $('#sourceType').val()
+                    })
+                }
             })
             var formData = {
                 name: $('#name').val() || '',
@@ -372,12 +374,14 @@
 
         function updateData(id) {
             var ids = []
-            $('input[name=resourceIds]:checked').each(function (index) {
-                ids.push({
-                    id: $(this).val(),
-                    url: resourceList[index].fileUrl,
-                    type: $('#sourceType').val()
-                })
+            $('#resourceIds .layui-form-radio').each(function (index) {
+                if ($(this).hasClass('layui-form-radioed')) {
+                    ids.push({
+                        id: resourceList[index].id,
+                        url: resourceList[index].fileUrl,
+                        type: $('#sourceType').val()
+                    })
+                }
             })
             var formData = {
                 id: id,
