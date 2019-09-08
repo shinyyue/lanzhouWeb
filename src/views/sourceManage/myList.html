@@ -41,9 +41,51 @@
             id="sourcelist-opt">
         <button class="course-set-btn" lay-event="check">查看</button>
         <button class="course-set-btn" lay-event="edit">修改</button>
+        {{#if(d.isShare == 0) { }}
+        <button class="course-set-btn share-btn" lay-event="share">共享</button>
+        {{# } }}
     </script>
     <div class="app-table-page"
          id="sourcemanage-mylist-page"></div>
+         
+    <div id="dialog-wrapper" style="display: none">
+        <div class="layui-layer-shade" id="layui-layer-shade" style="z-index: 19891014; background-color: rgb(0, 0, 0); opacity: 0.4;"></div>
+        <div class="layui-layer layui-layer-page" style="z-index: 19891015; width: 700px; top: 76px; left: 411px;">
+            <div class="layui-layer-title" style="cursor: move;" id="title">老师列表</div>
+            <span class="layui-layer-setwin" id="close">
+                <a class="layui-layer-ico layui-layer-close layui-layer-close1" href="javascript:void(0);"></a>
+            </span>
+            <div id="" class="layui-layer-content" style="width: 100%; height: 500px; overflow: auto; padding: 20px; box-sizing: border-box">
+                <table id="teacher_list"
+                    lay-filter="teacher_list"></table>
+            </div>
+            <div>
+                <div class="layui-layer-btn layui-layer-btn-">
+                    <a class="layui-layer-btn0" id="confirm">下一步</a>
+                </div>
+                <span class="layui-layer-resize"></span>
+            </div>
+        </div>
+    </div>
+    <div id="course_list_wrapper" style="display: none">
+        <div class="layui-layer-shade" id="layui-layer-shade" style="z-index: 19891014; background-color: rgb(0, 0, 0); opacity: 0.4;"></div>
+        <div class="layui-layer layui-layer-page" style="z-index: 19891015; width: 700px; top: 76px; left: 411px;">
+            <div class="layui-layer-title" style="cursor: move;">课程列表</div>
+            <span class="layui-layer-setwin" id="course_close">
+                <a class="layui-layer-ico layui-layer-close layui-layer-close1" href="javascript:void(0);"></a>
+            </span>
+            <div id="" class="layui-layer-content" style="width: 100%; height: 500px; overflow: auto; padding: 20px; box-sizing: border-box">
+                <table id="course_list"
+                    lay-filter="course_list"></table>
+            </div>
+            <div>
+                <div class="layui-layer-btn layui-layer-btn-">
+                    <a class="layui-layer-btn0" id="course_confirm">确定</a>
+                </div>
+                <span class="layui-layer-resize"></span>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     layui.use(['table', 'jquery', 'form', 'admin'], function (table) {
@@ -54,6 +96,12 @@
             table = layui.table,
             admin = layui.admin,
             pageLimit = 20,
+            teacherId = '',
+            courseId = '',
+            teacherList= [],
+            courseList = [],
+            checkedSourceId = '',
+            isShare = layui.sessionData('userInfo').userInfo.isShare,
             layPageOption = {
                 elem: 'sourcemanage-mylist-page', //注意，这里的 test1 是 ID，不用加 # 号
                 limit: 20,
@@ -109,10 +157,6 @@
                         field: 'downloadNum',
                         align: 'center'
                     }, {
-//                        title: '评分',
-//                        field: 'publish',
-//                        align: 'center'
-//                    }, {
                         title: '操作',
                         align: 'center',
                         templet: '#sourcelist-opt',
@@ -120,10 +164,65 @@
                         width: 200
                     }]
                 ]
+            },
+            teacherOption = {
+                page: false,
+                elem: '[lay-filter="teacher_list"]',
+                cols: [[
+                    {type:'radio', width: 80,},
+                    {field:'id', width: 100, title: 'ID'},
+                    {field:'userName', width: 300, title: '老师名称'}
+                ]]
+            },
+            courseOption= {
+                page: false,
+                elem: '[lay-filter="course_list"]',
+                cols: [[
+                    {type:'radio', width: 80,},
+                    {field:'id', width: 100, title: '课程ID'},
+                    {field:'curriculumName', width: 300, title: '课程名称'}
+                ]]
             }
         getList(1)
+        getCourseList(function(res) {
+        })
+        getTeacherList()
         $('#add_source').click(function () {
             admin.navigate('/sourceManage/myListAdd')
+        })
+        $('#close').click(function() {
+            $('#dialog-wrapper').hide()
+        })
+        $('#course_close').click(function() {
+            $('#course_list_wrapper').hide()
+        })
+        $('#source-search').click(function() {
+            getList(1)
+        })
+        $('#confirm').click(function() {
+            $('#dialog-wrapper').hide()
+            $('#course_list_wrapper').show()  
+            $('#dialog-wrapper .layui-table tr').each(function(index) {
+                var list = $(this).find('.layui-form-radioed') || []
+                if (list.length > 0) {
+                    teacherId = teacherList[index].id
+                }
+            })
+            getCourseListByTid(teacherId)       
+        })
+        $('#course_confirm').click(function() {
+            if (!teacherId) {
+                layer.msg('请选择分享资源的老师！')
+                return;
+            }
+            $('#course_list_wrapper').hide()   
+            $('#course_list_wrapper .layui-table tr').each(function(index) {
+                var list = $(this).find('.layui-form-radioed') || []
+                if (list.length > 0) {
+                    courseId = courseList[index].id
+                }
+            }) 
+            shareSource()    
         })
         table.on('tool(sourcemanage-mylist-table)', function (obj) {
             var data = obj.data //获得当前行数据
@@ -132,7 +231,12 @@
                 admin.navigate('/sourceManage/details/id=' + data.id)
             } else if (layEvent === 'edit') {
                 admin.navigate('/sourceManage/update/id=' + data.id)
-            }else if (layEvent === 'cancelCollect') {
+            } else if (layEvent == 'share') {
+                checkedSourceId = data.id
+                $('#dialog-wrapper').css({
+                    'display': 'block'
+                })
+            } else if (layEvent === 'cancelCollect') {
                 layer.open({
                     type: 1,
                     offset: 'auto',
@@ -153,7 +257,6 @@
                 })
             }
         })
-
         function cancleCollect(id) {
             admin.delete({
                 url: '/resCollect/del?id=' + id,
@@ -180,6 +283,12 @@
                 url: '/dataBank/queryList',
                 data: JSON.stringify(data),
                 success: function (res) {
+                    if(res.data && res.data.items) {
+                        for(var i = 0; i <res.data.items.length; i++) {
+                            var item = res.data.items[i];
+                            item.isShare = isShare;
+                        }  
+                    }
                     tableOption.data = (res.data && res.data.items) || []
                     layPageOption.count = (res.data && res.data.total) || 0
                     table.render(tableOption)
@@ -238,14 +347,50 @@
             })
         }
 
-        getCourseList(function(res) {
-        })
+        function getTeacherList() {
+            admin.get({
+                url: '/dataBank/teacherList',
+                success: function(res) {
+                    teacherList = res.data || [];
+                    teacherOption.data = res.data || []
+                    table.render(teacherOption)
+                }
+            })
+        }
 
-        $('#source-search').click(function() {
-            getList(1)
-        })
+        function getCourseListByTid(id) {
+            admin.get({
+                url: '/dataBank/curriculumList?teacherId='+id,
+                success: function(res) {
+                    courseList = res.data || []
+                    courseOption.data = res.data || []
+                    table.render(courseOption)
+                }
+            })
+        }
+
+        function shareSource() {
+            admin.get({
+                url: '/dataBank/shareResource?teacherId='+teacherId + '&resourceId='+checkedSourceId + '&curriculmId='+courseId,
+                success: function(res) {
+                    if (res.code == 200) {
+                        layer.msg('分享成功！');
+                        $('#course_list_wrapper').hide()
+                    } else {
+                        layer.msg(res.msg || '分享失败！');
+                    }
+                }
+            })
+        }
+        
     })
 </script>
 <style>
     #source-manage-mylist {}
+    #dialog-wrapper .layui-table{
+        width: 100%;
+    }
+    #course_list_wrapper .layui-table{
+        width: 100%;
+    }
 </style>
