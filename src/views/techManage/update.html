@@ -219,13 +219,13 @@
                     </div>
                 </div>
                 <div class="layui-row">
-                    <div class="layui-col-md6 layui-form-item">
-                        <label class="layui-form-label">校区</label>
-                        <select name="campusId"
-                                id="campus">
-                            <option value="">请选择校区</option>
-                        </select>
-                    </div>
+                    <!--<div class="layui-col-md6 layui-form-item">-->
+                        <!--<label class="layui-form-label">校区</label>-->
+                        <!--<select name="campusId"-->
+                                <!--id="campus">-->
+                            <!--<option value="">请选择校区</option>-->
+                        <!--</select>-->
+                    <!--</div>-->
                     <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">上课地点</label>
                         <select name="siteId"
@@ -233,9 +233,7 @@
                             <option value="">请选择上课地点</option>
                         </select>
                     </div>
-                </div>
-                <div class="layui-row">
-                    <div class="layui-col-md12 layui-form-item">
+                    <div class="layui-col-md6 layui-form-item">
                         <label class="layui-form-label">面向全校选课</label>
                         <div class="layui-input-block">
                             <input type="radio"
@@ -252,6 +250,24 @@
                         </div>
                     </div>
                 </div>
+                <!--<div class="layui-row">-->
+                    <!--<div class="layui-col-md12 layui-form-item">-->
+                        <!--<label class="layui-form-label">面向全校选课</label>-->
+                        <!--<div class="layui-input-block">-->
+                            <!--<input type="radio"-->
+                                   <!--name="school"-->
+                                   <!--value="1"-->
+                                   <!--title="是"-->
+                                   <!--lay-filter="schoolChange"-->
+                                   <!--checked />-->
+                            <!--<input type="radio"-->
+                                   <!--name="school"-->
+                                   <!--value="0"-->
+                                   <!--lay-filter="schoolChange"-->
+                                   <!--title="否" />-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="layui-row"
                      style="display: none;"
                      id="show_all">
@@ -511,7 +527,7 @@
                 data: JSON.stringify(data),
                 success: function (res) {
                     if (res.code === 200) {
-                        $('#campus').html('<option>请选择校区</option>')
+//                        $('#campus').html('<option>请选择校区</option>')
                         for(var i = 0;  i < res.data.items.length; i++) {
                             var item = res.data.items[i];
                             $('#campus').append('<option value="' + item.id + '">' + item

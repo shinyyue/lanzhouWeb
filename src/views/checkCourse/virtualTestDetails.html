@@ -33,8 +33,15 @@
                 <label class="layui-form-label ">报告成绩</label>
                 <span id="reportRatio"></span>
             </div>
+
         </div>
 
+        <div class="layui-row">
+            <div class="layui-col-md12 layui-form-item">
+                <label class="layui-form-label ">老师评语</label>
+                <span id="content"></span>
+            </div>
+        </div>
         <div class="layui-row">
             <div class="layui-col-md12 layui-form-item">
                 <label class="layui-form-label">实验要求</label>
@@ -228,6 +235,7 @@
                     // $('#labReport').html(data.labReport)
                     $('#testTotleTime').html(data.testTotleTime)
                     $('#file_path').html(data.labReportAddress)
+                    $('#content').html(data.content)
                     labReportAddress = data.labReportAddress
                     dataType = res.data.dataType
                     var reportModel = res.data.reportForm

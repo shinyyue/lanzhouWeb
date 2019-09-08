@@ -5,6 +5,9 @@
             <span>资源管理 > 教学资源库</span>
         </div>
         <div class="course-title-search">
+            <span class="search-project">资源名称</span>
+            <input type="text"
+                   id="resourceName" placeholder="请输入资源名称"/>
             <span class="search-project">所属课程</span>
             <select name="" id="course">
                 <option value="">选择课程</option>
@@ -150,11 +153,13 @@
             var course = $('#course').val(),
                 source = $('#source').val(),
                 teacher = $('#teacher').val(),
+                resourceName = $('#resourceName').val(),
                 data = {
                     page: page,
                     rows: pageLimit,
                     curriculumId: course,
                     userId: teacher,
+                    resourceName: resourceName,
                     type: source
                 }
             admin.post({
