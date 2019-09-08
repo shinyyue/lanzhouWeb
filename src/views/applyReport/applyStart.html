@@ -163,9 +163,19 @@
             ,details = {}
 
         $('#submit').on('click', function () {
+            var fileVideoDetail = document.getElementById('file_video_detail')
+            if (fileVideoDetail) {
+                $('#file_video_detail').hide()
+                $('#file_video_detail').html('')
+            }
             window.history.go(-1)
         })
         $('#back').on('click', function () {
+            var fileVideoDetail = document.getElementById('file_video_detail')
+            if (fileVideoDetail) {
+                $('#file_video_detail').hide()
+                $('#file_video_detail').html('')
+            }
             window.history.go(-1)
         })
 
@@ -453,6 +463,7 @@
                 data: JSON.stringify(data),
                 success: function (res) {
                     layer.msg('提交成功')
+
                     window.history.back(-1)
                 },
                 error: function (err){

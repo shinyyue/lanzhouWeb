@@ -1,0 +1,224 @@
+<div class="layui-fluid" id="resultTest" lay-title="开课管理">
+    <div class="course-title">
+        <div class="course-title-location">
+            <span>您的位置：</span>
+            <span
+                >开课管理 > <span id="paperName"></span> 试卷成绩 </span
+            >
+        </div>
+        <!--<div class="course-title-search">-->
+            <!--<input type="text" placeholder="请输入关键字" id="resultTestName" />-->
+            <!--<button class="search-confirm" id="searchResultTestList">-->
+                <!--<img src="src/images/search.png" />-->
+            <!--</button>-->
+        <!--</div>-->
+    </div>
+    <table
+        id="resultTest-list-table"
+        lay-filter="resultTest-list-table"
+    ></table>
+    <!--<script type="text/html" id="resultTest-opt">-->
+        <!--<button class="course-set-btn" lay-event="resultTest-add-edit">批改</button>-->
+        <!--<button class="course-set-btn" lay-event="resultTest-add-check">查看</button>-->
+    <!--</script>-->
+    <div class="app-table-page" id="resultTest-table-page"></div>
+</div>
+
+<script>
+    layui.use(['table', 'jquery', 'form', 'admin'], function(table, $) {
+        var $ = layui.jquery,
+            form = layui.form,
+            laypage = layui.laypage,
+            tableFilter = 'resultTest-list-table',
+            table = layui.table,
+            admin = layui.admin,
+            route = layui.router(),
+            id = route.search.id
+            pageLimit = 20,
+            layPageOption = {
+                elem: 'app-table-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 20,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function(obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr)
+                    }
+                }
+            },
+            tableOption = {
+                page: false,
+                elem: '[lay-filter="' + tableFilter + '"]',
+                cols: [
+                    [
+                        {
+                            title: '序号',
+                            field: 'id',
+                            width: 80,
+                            align: 'center',
+                            type: 'numbers'
+                        },
+                        {
+                            title: '试卷名称',
+                            field: 'paperName',
+                            align: 'center'
+                        },
+                        {
+                            title: '班级',
+                            field: 'list',
+                            align: 'center',
+                            templet: function(d) {
+                                return d.className
+                            }
+                        },
+                        {
+                            title: '学生姓名',
+                            field: 'list',
+                            align: 'center',
+                            templet: function(d) {
+                                return d.stuName
+                            }
+                        },
+                        {
+                            title: '学生学号',
+                            field: 'list',
+                            align: 'center',
+                            templet: function(d) {
+                                return d.stuNum
+                            }
+                        },{
+                            title: '学生成绩',
+                            field: 'list',
+                            align: 'center',
+                            templet: function(d) {
+                                return d.score
+                            }
+                        }
+//                        , {
+//                            title: '操作',
+//                            align: 'center',
+//                            // templet: '#resultTest-opt',
+//                            fixed: 'right',
+//                            width: 200,
+//                            templet: function(d) {
+//                                return d.state == 2? '<button class="course-set-btn" lay-event="resultTest-add-check">查看</button>': '<button class="course-set-btn" lay-event="resultTest-add-edit">批改</button>'
+//                            }
+//                        }
+                    ]
+                ]
+            }
+
+//        table.on('tool(resultTest-list-table)', function(obj) {
+//            var data = obj.data //获得当前行数据
+//            var layEvent = obj.event,
+//                type = ''
+//
+//            if (layEvent === 'resultTest-add-check') {
+//                formData = data
+//                type = 'check'
+//                admin.navigate('/techSet/resultUpdate/id=' + data.curriculumExperimentId + '/type=check')
+//            }
+//            if (layEvent === 'resultTest-add-edit') {
+////                formData = data
+////                type = 'check'
+//                admin.navigate('/techSet/resultUpdate/id=' + data.curriculumExperimentId + '/type=edit')
+//            }
+//        })
+
+        getList(1)
+//        $('#searchResultTestList').click(function() {
+//            getList(1)
+//        })
+
+        function getList(page) {
+            admin.get({
+                url: '/dataBank/queryTheoryResult?paperId='+id,
+                success: function(res) {
+                    if(res.code == 200){
+                        $('#paperName').html(res.data.paperName + ' >')
+                        tableOption.data = (res.data && res.data.items) || []
+                        layPageOption.count = (res.data && res.data.total) || 0
+                        table.render(tableOption)
+                        laypage.render(layPageOption)
+                    }else{
+                        return (res.msg||'暂无数据')
+                    }
+                },
+                error: function(err) {
+                    layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+    })
+</script>
+
+<style>
+    .layui-table {
+        width: 100%;
+    }
+
+    .resultTest-title .resultTest-title-location {
+        float: left;
+    }
+
+    .resultTest-title .resultTest-title-search {
+        float: right;
+        text-align: right;
+    }
+
+    .resultTest-title .resultTest-title-search select,
+    .resultTest-title .resultTest-title-search input {
+        width: 118px;
+        height: 30px;
+        padding: 0 4px;
+        border-radius: 0;
+    }
+
+    .resultTest-title .resultTest-title-search .search-project {
+        line-height: 30px;
+    }
+
+    .resultTest-title .resultTest-title-search .search-confirm {
+        width: 51px;
+        height: 30px;
+        background: #ff6600;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .resultTest-add {
+        text-align: right;
+        padding: 20px 0 10px;
+    }
+
+    .resultTest-add .add-btn {
+        width: 70px;
+        height: 30px;
+        background: #ff6600;
+        color: #fff;
+        font-size: 16px;
+    }
+
+    #resultTest-opt {
+        width: 200px;
+    }
+
+    .resultTest-set-btn {
+        padding: 4px 10px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+</style>

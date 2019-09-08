@@ -16,6 +16,7 @@
     <script type="text/html"
             id="paperManage-opt">
         <button class="course-set-btn" lay-event="check">查看</button>
+        <button class="course-set-btn" lay-event="checkScore">查看成绩</button>
         {{#  if (d.publish == 0) {}}
         <button class="course-set-btn" lay-event="edit">编辑</button>
         <button class="course-set-btn" lay-event="publish">发布</button>
@@ -151,6 +152,8 @@
                 admin.navigate('/techSet/paperUpdate/id=' + data.id)
             } else if (layEvent === 'check') {
                 admin.navigate('/techSet/paperDetails/id=' + data.id)
+            }else if (layEvent === 'checkScore') {
+                admin.navigate('/techSet/paperScore/id=' + data.id)
             }
             
         })
