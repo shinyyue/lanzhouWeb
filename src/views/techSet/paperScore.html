@@ -70,41 +70,29 @@
                             align: 'center',
                             type: 'numbers'
                         },
+                        // {
+                        //     title: '试卷名称',
+                        //     field: 'paperName',
+                        //     align: 'center'
+                        // },
                         {
-                            title: '试卷名称',
-                            field: 'paperName',
+                            title: '班级',
+                            field: 'className',
                             align: 'center'
                         },
                         {
-                            title: '班级',
-                            field: 'list',
-                            align: 'center',
-                            templet: function(d) {
-                                return d.className
-                            }
-                        },
-                        {
                             title: '学生姓名',
-                            field: 'list',
-                            align: 'center',
-                            templet: function(d) {
-                                return d.stuName
-                            }
+                            field: 'stuName',
+                            align: 'center'
                         },
                         {
                             title: '学生学号',
-                            field: 'list',
-                            align: 'center',
-                            templet: function(d) {
-                                return d.stuNum
-                            }
+                            field: 'stuNum',
+                            align: 'center'
                         },{
                             title: '学生成绩',
-                            field: 'list',
-                            align: 'center',
-                            templet: function(d) {
-                                return d.score
-                            }
+                            field: 'score',
+                            align: 'center'
                         }
 //                        , {
 //                            title: '操作',

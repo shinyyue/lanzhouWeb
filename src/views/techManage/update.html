@@ -405,9 +405,7 @@
         getClassList()
         getClassRoom()
         if (id) {
-            setTimeout(function () {
-                getDetails()
-            }, 1000)
+            getDetails()
             $('#techManage-addnew').attr('style', 'display:none;')
         } else {
             $('#techManage-update').attr('style', 'display:none;')
@@ -424,16 +422,19 @@
                     $('#period').val(res.data.period)
                     $('#creditHour').val(res.data.creditHour)
                     var professionList = res.data.profession.split(',')
-                    $('input[name=profession]').each(function (index) {
-                        if (professionList.indexOf($(this).val()) > -1) {
-                            $(this).attr('checked', true)
-                        }
-                    })
-                    $('input[name=singleDoubleWeek]').each(function (index) {
-                        if ($(this).val() == res.data.singleDoubleWeek) {
-                            $(this).attr('checked', true)
-                        }
-                    })
+                    // setTimeout(function () {
+                        $('input[name=profession]').each(function (index) {
+                            if (professionList.indexOf($(this).val()) > -1) {
+                                $(this).attr('checked', true)
+                            }
+                        })
+                        $('input[name=singleDoubleWeek]').each(function (index) {
+                            if ($(this).val() == res.data.singleDoubleWeek) {
+                                $(this).attr('checked', true)
+                            }
+                        })
+                        $('input[name=school][value=' + res.data.school + ']').attr('checked', true)
+                    // },1000)
                     $('#schoolYear').val(String(res.data.schoolYearId))
                     $('#semester').val(res.data.semester)
                     $('#weekStart').val(res.data.weekStart)
@@ -443,7 +444,6 @@
                     $('#studentTypeId').val(res.data.studentTypeId)
                     $('#campus').val(res.data.campusId)
                     $('#siteId').val(res.data.siteId)
-                    $('input[name=school][value=' + res.data.school + ']').attr('checked', true)
                     $('#minStudent').val(res.data.minStudent)
                     $('#maxStudent').val(res.data.maxStudent)
                 }
