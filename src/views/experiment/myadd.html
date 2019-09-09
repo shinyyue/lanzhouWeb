@@ -295,15 +295,27 @@
 
         function addData() {
             var ids = []
-            $('#resourceIds .layui-form-radio').each(function (index) {
-                if ($(this).hasClass('layui-form-radioed')) {
-                    ids.push({
-                        id: resourceList[index].id,
-                        url: resourceList[index].fileUrl,
-                        type: $('#sourceType').val()
-                    })
-                }
-            })
+            if ($('#sourceType').val() == 2) {
+                $('#resourceIds .layui-form-checkbox').each(function (index) {
+                    if ($(this).hasClass('layui-form-checked')) {
+                        ids.push({
+                            id: resourceList[index].id,
+                            url: resourceList[index].fileUrl,
+                            type: $('#sourceType').val()
+                        })
+                    }
+                })
+            } else {
+                $('#resourceIds .layui-form-radio').each(function (index) {
+                    if ($(this).hasClass('layui-form-radioed')) {
+                        ids.push({
+                            id: resourceList[index].id,
+                            url: resourceList[index].fileUrl,
+                            type: $('#sourceType').val()
+                        })
+                    }
+                })
+            }
             var formData = {
                 name: $('#name').val() || '',
                 curriculumId: Number($('#curriculumId').val()) || '',
@@ -374,15 +386,28 @@
 
         function updateData(id) {
             var ids = []
-            $('#resourceIds .layui-form-radio').each(function (index) {
-                if ($(this).hasClass('layui-form-radioed')) {
-                    ids.push({
-                        id: resourceList[index].id,
-                        url: resourceList[index].fileUrl,
-                        type: $('#sourceType').val()
-                    })
-                }
-            })
+            if ($('#sourceType').val() == 2) {
+                $('#resourceIds .layui-form-checkbox').each(function (index) {
+                    if ($(this).hasClass('layui-form-checked')) {
+                        ids.push({
+                            id: resourceList[index].id,
+                            url: resourceList[index].fileUrl,
+                            type: $('#sourceType').val()
+                        })
+                    }
+                })
+            } else {
+                $('#resourceIds .layui-form-radio').each(function (index) {
+                    if ($(this).hasClass('layui-form-radioed')) {
+                        ids.push({
+                            id: resourceList[index].id,
+                            url: resourceList[index].fileUrl,
+                            type: $('#sourceType').val()
+                        })
+                    }
+                })
+            }
+
             var formData = {
                 id: id,
                 name: $('#name').val() || '',
