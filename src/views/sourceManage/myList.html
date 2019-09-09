@@ -202,7 +202,8 @@
         $('#confirm').click(function() {
             $('#dialog-wrapper').hide()
             $('#course_list_wrapper').show()  
-            $('#dialog-wrapper .layui-table tr').each(function(index) {
+            $('#dialog-wrapper .layui-table tr').each(function() {
+                var index = $(this).index();
                 var list = $(this).find('.layui-form-radioed') || []
                 if (list.length > 0) {
                     teacherId = teacherList[index].id
@@ -216,7 +217,8 @@
                 return;
             }
             $('#course_list_wrapper').hide()   
-            $('#course_list_wrapper .layui-table tr').each(function(index) {
+            $('#course_list_wrapper .layui-table tr').each(function() {
+                var index = $(this).index();
                 var list = $(this).find('.layui-form-radioed') || []
                 if (list.length > 0) {
                     courseId = courseList[index].id
