@@ -234,6 +234,8 @@
             } else if (layEvent === 'edit') {
                 admin.navigate('/sourceManage/update/id=' + data.id)
             } else if (layEvent == 'share') {
+                courseId = '';
+                teacherId = '';
                 checkedSourceId = data.id
                 $('#dialog-wrapper').css({
                     'display': 'block'
