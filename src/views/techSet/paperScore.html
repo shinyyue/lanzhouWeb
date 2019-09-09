@@ -148,7 +148,7 @@
                 success: function(res) {
                     if(res.code == 200){
                         $('#paperName').html(res.data.paperName + ' >')
-                        tableOption.data = (res.data && res.data.items) || []
+                        tableOption.data = (res.data && res.data.list) || []
                         layPageOption.count = (res.data && res.data.total) || 0
                         table.render(tableOption)
                         laypage.render(layPageOption)
