@@ -294,7 +294,11 @@ layui
         }
         self.navigate = function (url) {
             if (url == conf.entry) url = '/'
-            window.location.hash = url
+            if (url === '/chatTeacher' || url === '/chatStudent') {
+                window.open('/index.html#' + url, '_blank')
+            } else {
+                window.location.hash = url
+            }
         }
         self.data = function (settings, storage) {
             if (settings == undefined) return layui.sessionData(conf.tableName)
