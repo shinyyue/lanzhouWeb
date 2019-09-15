@@ -2,7 +2,7 @@
     <div class="course-title">
         <div class="course-title-location">
             <span>您的位置：</span>
-            <span>课程管理 > 修改课程</span>
+            <span>课程管理 > <span id="course_update_title"></span></span>
         </div>
     </div>
     <div class="course-add-content">
@@ -188,6 +188,7 @@
             courseInfo = {}
         form.render()
         $('#userName').val(layui.sessionData('userInfo').userInfo.userName)
+        $('#course_update_title').html(id ? '修改课程': '添加课程')
         var index = layedit.build('course-intro-edit', {
             tool: [
                 'strong', //加粗

@@ -5,8 +5,8 @@
                  class="layui-logo-img" />
         </div>
         <div class="sidebar-user">
-            <img src="src/images/user_logo.png"
-                 class="user-logo" />
+            <img class="user-logo"
+                 id="user_logo"/>
             <div class="user-info">
                 <div class="user-info-name"
                      id="nav_user_name"></div>
@@ -52,9 +52,14 @@
                 navbar = layui.navbar(),
                 admin = layui.admin,
                 route = layui.router(),
+                conf = layui.conf,
                 path = route.href, // 路由后缀
                 firstPath = route.path[0], // 一级路由地址
                 menuList = layui.sessionData('role').role.menuTrees
+                userInfo = layui.sessionData('userInfo').userInfo.photoImage;
+
+            var src = userInfo ? (conf.fileRequestUrl + '/' + userInfo) : 'src/images/user_logo.png'
+            $('#user_logo').attr('src', src)
             initHeaderNav()
             admin.setSideNav()
 
