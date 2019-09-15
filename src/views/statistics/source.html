@@ -10,7 +10,7 @@
             <h4>全院资源库数量及详细信息统计</h4>
             <table id="source_detail_table" lay-filter="source_detail_table"></table>
         </div>
-        <!--<div class="source-content-item">
+        <div class="source-content-item">
             <div class="source-content-title">
                 <h4>资源列表详情</h4>
                 <div class="source-content-search">
@@ -23,7 +23,7 @@
             <table id="sourcelist_detail_table" lay-filter="sourcelist_detail_table"></table>
             <div class="app-table-page" id="sourcelist_detail_page"></div>
         </div>
-        <div class="source-content-item">
+        <!-- <div class="source-content-item">
             <h4>各系资源库数量及详细信息统计</h4>
             <div>
                 <span>选择系：</span>
@@ -45,7 +45,7 @@
             </div>
             <table id="faculty_sourcelist_detail_table" lay-filter="faculty_sourcelist_detail_table"></table>
             <div class="app-table-page" id="faculty_sourcelist_detail_page"></div>
-        </div>-->
+        </div> -->
     </div>
 </div>
 
@@ -139,7 +139,7 @@
                 ]
             }
         }
-         function querySourceByFacultyId(facultyId) {
+        function querySourceByFacultyId(facultyId) {
             debugger
             admin.get({
                 url: '/report/querySourceByFacultyId' + (facultyId &&  facultyId != undefined && facultyId != ''? ('?facultyId=' + facultyId): ''),
@@ -192,11 +192,6 @@
                             align: 'center',
                         },
                         {
-                            title: '所属学院',
-                            field: 'faculty_name',
-                            align: 'center',
-                        },
-                        {
                             title: '资源类型',
                             field: 'type_name',
                             align: 'center',
@@ -237,12 +232,11 @@
         function querySourceByFacultyIdInfo (tableFilter, pageFilter, page, key){
             currPage = page
             admin.post({
-                url: '/report/querySourceByFacultyIdInfo',
+                url: '/report/queryCollegeResourceInfo',
                 data: JSON.stringify({
                     page: page,
                     rows: 10,
-                    key: key,
-                    desc: true
+                    key: key
                 }),
                 success:function (res) {
                     var count = 0, data = []
@@ -260,10 +254,10 @@
                 }
             })
         }
-        // querySourceByFacultyIdInfo('sourcelist_detail_table', 'sourcelist_detail_page', 1, '|');
+        querySourceByFacultyIdInfo('sourcelist_detail_table', 'sourcelist_detail_page', 1, '');
         // querySourceByFacultyIdInfo('faculty_sourcelist_detail_table', 'faculty_sourcelist_detail_page', 1, '|');
         // $('#faculty_detail_btn').click(function(){querySourceByFacultyIdInfo('faculty_sourcelist_detail_table', 'faculty_sourcelist_detail_page', 1, "|"+$('#faculty_detail_key').val())})
-        // $('#source_detail_btn').click(function(){querySourceByFacultyIdInfo('sourcelist_detail_table', 'sourcelist_detail_page', 1, "|"+$('#source_detail_key').val())})
+        $('#source_detail_btn').click(function(){querySourceByFacultyIdInfo('sourcelist_detail_table', 'sourcelist_detail_page', 1, $('#source_detail_key').val())})
     })
 </script>
 
