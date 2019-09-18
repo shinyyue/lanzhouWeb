@@ -112,7 +112,7 @@
                     key: layui.sessionData('collegeSet').studentId
                 }),
                 success: function (res) {
-                    $('#expeName').html((res.data && res.data.items && res.data.items.length > 0)? res.data.items[0].experimentName: '');
+                    $('#expeName').html((res.data && res.data.items && res.data.items.length > 0)? res.data.items[0].userName: '');
                     expeTableOption.data = (res.data && res.data.items) || [];
                     table.render(expeTableOption)
                     expePageOption.count = (res.data && res.data.total) || 0;
