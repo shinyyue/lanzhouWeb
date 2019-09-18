@@ -23,18 +23,40 @@
             admin = layui.admin,
             $ = layui.jquery,
             route = layui.router(),
-            id = route.search.id
+            id = route.search.id,
+            laypage = layui.laypage,
+            pageOption = {
+                elem: 'tech_details_page',
+                limit: 10,
+                first: '首页',
+                last: '尾页',
+                layout: ['first', 'prev', 'page', 'next', 'last', 'count', 'currLimit', 'curr', 'pageCount'],
+                jump: function(obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getList(obj.curr)
+                    }
+                }
+            }
 
-        getList()
-        function getList() {
-            admin.get({
-                url: '/report/queryFacultyInfoList?collegeId=' + id,
+        getList(1)
+        function getList(page) {
+            var data = {
+                key: id,
+                page: page,
+                rows: 10
+            }
+            admin.post({
+                url: '/report/queryFacultyInfoList',
+                data: JSON.stringify(data),
                 success: function(res) {
-                    $('#collegeName').html((res.data && res.data.length > 0)? res.data[0].collegeName: '');
+                    if (!res.data || !res.data.items) return;
+                    $('#collegeName').html((res.data.items && res.data.items.length > 0)? res.data.items[0].collegeName:
+                    '');
                     table.render({
                         page: false,
                         skin: 'row, line',
-                        data: res.data,
+                        data: res.data.items,
                         elem: '[lay-filter="' + tableFilter + '"]',
                         cols: [
                             [
@@ -69,6 +91,8 @@
                             ]
                         ]
                     })
+                    pageOption.count = res.data.total
+                    laypage.render(pageOption)
                 }
             })
         }

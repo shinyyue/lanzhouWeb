@@ -22,7 +22,7 @@ layui.define(function (exports) {
         //是否开启调试模式，开启的话接口异常会抛出异常 URL信息
         debug: layui.cache.debug,
         //网站名称
-        name: '学校平台',
+        name: '虚拟仿真实验教学管理平台',
 
         //默认视图文件名
         entry: '/index',
