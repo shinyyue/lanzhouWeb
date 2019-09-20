@@ -149,7 +149,8 @@
         // })
 
         $('#sourmanage_add_cancle').on('click', function () {
-            window.history.go(-1)
+            admin.navigate('/sourceManage/studentMyList')
+            // window.history.go(-1)
         })
 
         function getDetails() {
@@ -312,8 +313,13 @@
                 url: '/resCollect/add?id=' + id,
                 // data: JSON.stringify(data),
                 success: function (res) {
-                    layer.msg('收藏成功')
-                    getDetails()
+                    if (res.code == 200){
+                        layer.msg('收藏成功')
+                        getDetails()
+                    } else{
+                        layer.msg(res.msg)
+                    }
+
                 }
             })
         }

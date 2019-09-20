@@ -161,7 +161,8 @@
             admin = layui.admin,
             conf = layui.conf,
             route = layui.router(),
-            id = route.search.id;
+            id = route.search.id,
+            curriculumExperimentId = route.search.curriculumExperimentId;
 
         $('#coursePlanName').html(layui.sessionData('techSet').techSetName)
 
@@ -169,7 +170,8 @@
             submit()
         })
         $('#back').on('click', function () {
-            window.history.go(-1)
+            admin.navigate('/techSet/resultUpdate/id='+curriculumExperimentId)
+            // window.history.go(-1)
         })
         $('#experimentRatio').change(function () {
             if ($('#experimentRatio').val()>100){
@@ -389,7 +391,8 @@
                 data: JSON.stringify(data),
                 success: function (res) {
                     layer.msg(res.msg || '提交成功')
-                    window.history.back(-1)
+                    admin.navigate('/techSet/resultUpdate/id='+curriculumExperimentId)
+                    // window.history.back(-1)
                 },
                 error: function (err) {
                     layer.msg((err && err.msg) || '数据请求失败')

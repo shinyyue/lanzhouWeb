@@ -613,7 +613,8 @@
         })
 
         $('#experiment-add-cancle').on('click', function () {
-            window.history.back(-1)
+            admin.navigate('/experiment/myList')
+            // window.history.back(-1)
         })
         form.on('select(experimentalType)', function(data){
             var experimentalTypeId = '';

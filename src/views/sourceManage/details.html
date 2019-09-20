@@ -156,7 +156,8 @@
             download()
         })
         $('#sourmanage_add_cancle').on('click', function () {
-            window.history.go(-1)
+            admin.navigate('/sourceManage/myList')
+            // window.history.go(-1)
         })
 
         function getDetails() {
