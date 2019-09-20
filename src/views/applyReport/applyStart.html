@@ -171,7 +171,8 @@
                 $('#file_video_detail').hide()
                 $('#file_video_detail').html('')
             }
-            window.history.go(-1)
+            // window.history.go(-1)
+            admin.navigate('/applyReport/applyList')
         })
         $('#back').on('click', function () {
             var fileVideoDetail = document.getElementById('file_video_detail')
@@ -179,7 +180,8 @@
                 $('#file_video_detail').hide()
                 $('#file_video_detail').html('')
             }
-            window.history.go(-1)
+            // window.history.go(-1)
+            admin.navigate('/applyReport/applyList')
         })
 
         // $('#pagecon').width($('#scorm_fileUrl').width - 16) + 'px';
