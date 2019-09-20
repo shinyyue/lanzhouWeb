@@ -170,7 +170,7 @@
                     //点击下载
                     $('#download').on('click', function () {
                         if (data.type != 5) {
-                            layer.msg('此类型不支持下载')
+                            layer.msg('此类型不支持下载',{offset: '850px'})
                             return
                         }
                         download()
@@ -314,10 +314,10 @@
                 // data: JSON.stringify(data),
                 success: function (res) {
                     if (res.code == 200){
-                        layer.msg('收藏成功')
+                        layer.msg('收藏成功',{offset: '850px'})
                         getDetails()
                     } else{
-                        layer.msg(res.msg)
+                        layer.msg(res.msg,{offset: '850px'})
                     }
 
                 }
