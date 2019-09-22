@@ -137,6 +137,7 @@
             conf = layui.conf,
             route = layui.router(),
             id = route.search.id,
+            curPage = route.search.curPage,
             details = {}
         getDetails()
         $('#collect').on('click', function () {
@@ -147,7 +148,7 @@
         // })
 
         $('#sourmanage_add_cancle').on('click', function () {
-            admin.navigate('/sourceManage/studentMyList')
+            admin.navigate('/sourceManage/'+curPage)
             // window.history.go(-1)
         })
 
