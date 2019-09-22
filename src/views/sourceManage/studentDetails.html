@@ -108,7 +108,6 @@
                 <label class="layui-form-label "></label>
                 <div>
                     <div class="layui-btn primary-btn"
-                         lay-submit
                          id="collect">
                         收藏
                     </div>
@@ -116,7 +115,6 @@
                             lay-submit
                             id="canclecollect"> 取消收藏 </button> -->
                     <div class="layui-btn primary-btn"
-                         lay-submit
                          id="download">
                         下载
                     </div>
@@ -149,7 +147,7 @@
         // })
 
         $('#sourmanage_add_cancle').on('click', function () {
-            admin.navigate('/sourceManage/sourceList')
+            admin.navigate('/sourceManage/studentMyList')
             // window.history.go(-1)
         })
 
@@ -169,8 +167,9 @@
                     $('#resourceDes').val(data.resourceDes)
                     //点击下载
                     $('#download').on('click', function () {
+                        debugger
                         if (data.type != 5) {
-                            layer.msg('此类型不支持下载',{offset: '850px'})
+                            layer.msg('此类型不支持下载',{offset: 'b'})
                             return
                         }
                         download()
@@ -312,12 +311,14 @@
             admin.put({
                 url: '/resCollect/add?id=' + id,
                 // data: JSON.stringify(data),
+
                 success: function (res) {
+                    debugger
                     if (res.code == 200){
-                        layer.msg('收藏成功',{offset: '850px'})
+                        layer.msg('收藏成功',{offset: 'b'})
                         getDetails()
                     } else{
-                        layer.msg(res.msg,{offset: '850px'})
+                        layer.msg(res.msg,{offset: 'b'})
                     }
 
                 }
