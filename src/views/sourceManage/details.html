@@ -141,6 +141,7 @@
             conf = layui.conf,
             route = layui.router(),
             id = route.search.id,
+            curPage = route.search.curPage,
             details = {};
 
         getDetails()
@@ -156,7 +157,7 @@
             download()
         })
         $('#sourmanage_add_cancle').on('click', function () {
-            admin.navigate('/sourceManage/techList')
+            admin.navigate('/sourceManage/'+curPage)
             // window.history.go(-1)
         })
 

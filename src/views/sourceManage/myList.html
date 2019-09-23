@@ -231,7 +231,7 @@
             var data = obj.data //获得当前行数据
             var layEvent = obj.event
             if (layEvent === 'check') {
-                admin.navigate('/sourceManage/details/id=' + data.id)
+                admin.navigate('/sourceManage/details/id=' + data.id+'/curPage=myList')
             } else if (layEvent === 'edit') {
                 admin.navigate('/sourceManage/update/id=' + data.id)
             } else if (layEvent == 'share') {
