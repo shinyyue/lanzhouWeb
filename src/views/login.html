@@ -293,14 +293,61 @@
         //             break
         //     }
         // })
+        var idx = location.href.indexOf("token="),
+            token = '';
+        if (idx>-1){
+            token = location.href.substr(idx);
+            token = token.replace('token=', '');
+        }
+        var url = '/login/login'
+        if (token){
+            debugger
+            url = 'login/loginForIlab?token='+token;
+            admin.get({
+                url: url,
+                success: function (res) {
+                    admin.navigate(res.data.role.skipIndex)
+                    layui.sessionData('user', {
+                        key: 'role',
+                        value: res.data.role.id
+                    })
+                    layui.sessionData('userInfo', {
+                        key: 'userInfo',
+                        value: res.data.vsMpUser
+                    })
+                    layui.sessionData('role', {
+                        key: 'role',
+                        value: res.data.role
+                    })
+                    if (res.data.curriculumId){
+                        layui.sessionData('course', {
+                            key: 'coursePlanId',
+                            value: res.data.curriculumId
+                        })
+                    }
+                    if (res.data.coursePlanName || res.data.curriculumName) {
+                        layui.sessionData('course', {
+                            key: 'coursePlanName',
+                            value: res.data.coursePlanName || res.data.curriculumName
+                        })
+                    }
+                    admin.setSideNav()
+                },
+                complete: function (err) {
+                }
+            })
+            return;
+        }
+
         //提交登录表单
         form.on('submit(login-submit)', function (data) {
             userInfo = data.field
             var loading = $(this).find('.layui-icon')
             if (loading.is(':visible')) return
             loading.show()
+            debugger
             admin.post({
-                url: '/login/login',
+                url: url,
                 data: JSON.stringify(userInfo),
                 success: function (res) {
                     loading.hide()
@@ -317,6 +364,18 @@
                         key: 'role',
                         value: res.data.role
                     })
+                    if (res.data.curriculumId){
+                        layui.sessionData('course', {
+                            key: 'coursePlanId',
+                            value: res.data.curriculumId
+                        })
+                    }
+                    if (res.data.coursePlanName) {
+                        layui.sessionData('course', {
+                            key: 'coursePlanName',
+                            value: res.data.coursePlanName
+                        })
+                    }
                     admin.setSideNav()
                 },
                 complete: function (err) {

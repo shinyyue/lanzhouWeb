@@ -181,6 +181,7 @@ layui
         //初始化视图区域,刷新时触发
         self.initView = function (route) {
             // debugger
+            console.log(3333, self.route)
             if (!self.route.href || self.route.href == '/') {
                 self.route = layui.router('#' + conf.entry)
                 route = self.route
@@ -204,10 +205,20 @@ layui
             //     }
             // }
 
+            var idx = location.href.indexOf("token="),
+                token = '';
+            if (idx>-1){
+                token = location.href.substr(idx);
+                token = token.replace('token=', '');
+            }
+
             if (conf.loginCheck == true) {
+                console.log(3455555)
+                debugger
                 // 没有token验证，暂时用role来记录用户的登录状态
-                if (layui.sessionData('user').role) {
+                if (layui.sessionData('user').role || token) {
                     if (route.fileurl == conf.loginPage) {
+                        console.log(6666, route.fileurl, conf.loginPage)
                         self.navigate('/')
                         return
                     }
