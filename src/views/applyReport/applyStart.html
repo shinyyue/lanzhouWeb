@@ -352,10 +352,10 @@
             } else if((/.flv/ig).test(fileUrl)) {
                 $('#fileUrl').html(
                     '<object  classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" style="width: 100%; height: 100%;">'+
-                        '<param name="movie" value="' + conf.webUrl + '"flvplayer.swf"/>'+
+                        '<param name="movie" value="' + conf.webUrl + 'flvplayer.swf"/>'+
                         '<param name="quality" value="high" />'+
                         '<param name="allowFullScreen" value="true" />'+
-                    '   <embed  src="' + conf.webUrl + '"flvplayer.swf" flashvars="vcastr_file=' + fileUrl + '&IsAutoPlay=1" type="application/x-shockwave-flash" style="width: 100%; height: 100%;">'+
+                    '   <embed  src="' + conf.webUrl + 'flvplayer.swf" flashvars="vcastr_file=' + fileUrl + '&IsAutoPlay=1" type="application/x-shockwave-flash" style="width: 100%; height: 100%;">'+
                     '   </embed>'+
                     '</object>'
                 )
