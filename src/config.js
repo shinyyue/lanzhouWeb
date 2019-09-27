@@ -36,6 +36,7 @@ layui.define(function (exports) {
             'content-type': 'application/json;charset=UTF-8'
             // 'Test-User-Agent': 'os=pc;ver=0.0.1;imei=asdasdas'
         },
+        webUrl: 'http://47.105.130.130:8099/',
         //request 基础URL
         requestUrl: 'http://47.105.130.130:8100/',
         // requestUrl: 'http://39.104.97.6:8080/',

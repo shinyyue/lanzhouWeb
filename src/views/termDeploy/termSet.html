@@ -280,7 +280,7 @@
         }
 
         function deleteData(id) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/schoolYear/delete?id=' + id,
                 success: function(res) {
                     getList(1)

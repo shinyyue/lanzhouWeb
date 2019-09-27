@@ -271,7 +271,7 @@
         }
 
         function deleteData(id) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/vsMpClass/delete?id=' + id,
                 success: function (res) {
                     if (res.code === 200) {

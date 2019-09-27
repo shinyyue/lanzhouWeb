@@ -150,7 +150,7 @@ layui
             }, params))
         }
 
-        self.delete = function (params) {
+        self.deleteOpt = function (params) {
             view.request($.extend({
                 type: 'delete'
             }, params))
@@ -776,8 +776,8 @@ layui
         // if ($(window).width() <= mobileWidth) {
         //     mobileAdapter()
         // } else {
-        var flexibleOpen = self.data().flexible
-        self.flexible(flexibleOpen === undefined ? true : flexibleOpen)
+        // var flexibleOpen = self.data().flexible
+        // self.flexible(flexibleOpen === undefined ? true : flexibleOpen)
         // }
 
         exports('admin', self)

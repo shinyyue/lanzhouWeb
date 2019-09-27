@@ -293,7 +293,7 @@
         }
 
         function deleteData(id) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/selectionTime/del?id=' + id,
                 success: function(res) {
                     getList(1)

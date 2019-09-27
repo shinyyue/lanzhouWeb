@@ -7,7 +7,7 @@ layui.define(['jquery'],function(exports){
         config:{
             color:'#5a8bff',
             errorColor:'#FF5722',
-            height:2,
+            height:2
         }
     }
 

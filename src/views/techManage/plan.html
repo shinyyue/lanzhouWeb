@@ -210,7 +210,7 @@
         };
 
         function deleteData(id) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/coursePlan/del?id=' + id,
                 success: function (res) {
                     getList(1)

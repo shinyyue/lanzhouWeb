@@ -235,7 +235,7 @@
         }
 
         function deleteData(id) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/vsMpRule/del?id=' + id,
                 success: function(res) {
                     getList(layPageOption.curr)

@@ -115,7 +115,7 @@
         }
 
         function deleteData(id) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/strategy/del?id=' + id,
                 success: function() {
                     layer.msg('删除成功！')

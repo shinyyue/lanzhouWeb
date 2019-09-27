@@ -214,7 +214,7 @@
         }
 
         function deleteData(id) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/studentType/del?id=' + id,
                 success: function(res) {
                     if (res.code === 200) {

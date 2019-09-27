@@ -159,7 +159,7 @@
         }
 
         function deleteData(id) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/knowledgePoint/del?id=' + id,
                 success: function() {
                     layer.msg('删除成功！')

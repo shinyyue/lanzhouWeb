@@ -708,7 +708,7 @@
         }
         // 停用
         function stopData(id, callback) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/user/stopUse?id=' + id,
                 success: function (res) {
                     layer.msg('停用成功！')
@@ -719,7 +719,7 @@
         }
         // 启用
         function startData(id, callback) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/user/startUse?id=' + id,
                 success: function (res) {
                     layer.msg('启用成功！')
@@ -730,7 +730,7 @@
         }
         // 删除
         function deleteData(id) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/user/deleteUser?id=' + id,
                 success: function (res) {
                     layer.msg('删除成功！')

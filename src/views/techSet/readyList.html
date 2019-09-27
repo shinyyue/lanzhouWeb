@@ -170,7 +170,7 @@
         }
 
         function deleteData(id) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/curriculumExperiment/delete?id=' + id,
                 success: function(res) {
                     if (res.code == 200) {

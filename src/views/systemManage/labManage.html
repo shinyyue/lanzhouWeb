@@ -212,7 +212,7 @@
         };
 
         function deleteData(id) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/mpLab/del?id=' + id,
                 success: function (res) {
                     getList(layPageOption.curr)
