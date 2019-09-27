@@ -375,7 +375,7 @@
             var fileUrl =
                 conf.fileRequestUrl + '/' + JSON.parse(data.resourceIds)[0].url
 
-            try {
+            if((/(.mp4)/ig).test(fileUrl)) {
                 $('#fileUrl').html(
                     '<video src="' + fileUrl + '" controls="controls" id="file_video_detail" style="width: 100%; height: 100%;"></video>'
                 )
@@ -387,10 +387,13 @@
                 fileVideoDetail.onended = function () {
                     testContent = 0
                 }
-            } catch (error) {
+            } else if((/.flv/ig).test(fileUrl)) {
                 $('#fileUrl').html(
-                    '<object src="'+ fileUrl +'" id="file_video_detail" style="width: 100%; height: 100%;">'+
-                    '   <embed src="' + fileUrl + '" style="width: 100%; height: 100%;">'+
+                    '<object  classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" style="width: 100%; height: 100%;">'+
+                        '<param name="movie" value="' + conf.webUrl + '"flvplayer.swf"/>'+
+                        '<param name="quality" value="high" />'+
+                        '<param name="allowFullScreen" value="true" />'+
+                    '   <embed  src="' + conf.webUrl + '"flvplayer.swf" flashvars="vcastr_file=' + fileUrl + '&IsAutoPlay=1" type="application/x-shockwave-flash" style="width: 100%; height: 100%;">'+
                     '   </embed>'+
                     '</object>'
                 )
