@@ -238,7 +238,7 @@
         }
 
         function deleteData(id) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/college/deleteCollege?id=' + id,
                 success: function (res) {
                     getList(1)

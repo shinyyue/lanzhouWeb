@@ -370,7 +370,7 @@
         }
 
         function deleteData(id) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/role/deleteRole?id=' + id,
                 success: function (res) {
                     if (res.code === 200) {

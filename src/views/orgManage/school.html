@@ -233,7 +233,7 @@
         }
 
         function deleteData(id) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/vsMpFaculty/delete?id=' + id,
                 success: function (res) {
                     getList(1)

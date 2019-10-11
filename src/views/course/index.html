@@ -198,7 +198,7 @@
         }
 
         function deleteData(id) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/vsMpCurriculum/delete?id=' + id,
                 success: function(res) {
                     layer.msg('删除成功！')

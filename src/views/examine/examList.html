@@ -229,7 +229,7 @@
         }
 
         function deleteData(id) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/exercises/delete?id=' + id,
                 success: function (res) {
                     layer.msg('删除成功')
