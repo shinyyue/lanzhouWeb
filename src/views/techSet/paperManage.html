@@ -186,7 +186,7 @@
         }
 
         function deleteData(id) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/examinationPaper/del?id=' + id,
                 success: function (res) {
                     if (res.code === 200) {

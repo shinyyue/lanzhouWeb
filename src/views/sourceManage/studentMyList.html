@@ -149,7 +149,7 @@
         })
 
         function cancleCollect(id) {
-            admin.delete({
+            admin.deleteOpt({
                 url: '/resCollect/del?id=' + id,
                 success: function (res) {
                     layer.msg('取消收藏成功')
