@@ -49,15 +49,16 @@
          id="sourcemanage-mylist-page"></div>
          
     <div id="dialog-wrapper" style="display: none">
-        <div class="layui-layer-shade" id="layui-layer-shade" style="z-index: 19891014; background-color: rgb(0, 0, 0); opacity: 0.4;"></div>
-        <div class="layui-layer layui-layer-page" style="z-index: 19891015; width: 700px; top: 76px; left: 411px;">
+        <div class="layui-layer-shade" style="z-index: 19891014; background-color: rgb(0, 0, 0); opacity: 0.4;"></div>
+        <div class="layui-layer layui-layer-page" id="layui-layer-shade-teacher"  style="z-index: 19891015; width: 700px; top: 76px; left: 411px; height: 65%">
             <div class="layui-layer-title" style="cursor: move;" id="title">老师列表</div>
             <span class="layui-layer-setwin" id="close">
                 <a class="layui-layer-ico layui-layer-close layui-layer-close1" href="javascript:void(0);"></a>
             </span>
-            <div id="" class="layui-layer-content" style="width: 100%; height: 500px; overflow: auto; padding: 20px; box-sizing: border-box">
+            <div id="teacher_list_height" class="layui-layer-content" style="width: 100%; overflow: auto; padding: 20px; box-sizing: border-box">
                 <table id="teacher_list"
                     lay-filter="teacher_list"></table>
+                <div class="app-table-page" id="teacher-list-page"></div>
             </div>
             <div>
                 <div class="layui-layer-btn layui-layer-btn-">
@@ -68,15 +69,16 @@
         </div>
     </div>
     <div id="course_list_wrapper" style="display: none">
-        <div class="layui-layer-shade" id="layui-layer-shade" style="z-index: 19891014; background-color: rgb(0, 0, 0); opacity: 0.4;"></div>
-        <div class="layui-layer layui-layer-page" style="z-index: 19891015; width: 700px; top: 76px; left: 411px;">
+        <div class="layui-layer-shade" style="z-index: 19891014; background-color: rgb(0, 0, 0); opacity: 0.4;"></div>
+        <div class="layui-layer layui-layer-page"  id="layui-layer-shade-course" style="z-index: 19891015; width: 700px; top: 76px; left: 411px; height:65%;">
             <div class="layui-layer-title" style="cursor: move;">课程列表</div>
             <span class="layui-layer-setwin" id="course_close">
                 <a class="layui-layer-ico layui-layer-close layui-layer-close1" href="javascript:void(0);"></a>
             </span>
-            <div id="" class="layui-layer-content" style="width: 100%; height: 500px; overflow: auto; padding: 20px; box-sizing: border-box">
+            <div id="course_list_height" class="layui-layer-content" style="width: 100%; height: 65%; overflow: auto; padding: 20px; box-sizing: border-box">
                 <table id="course_list"
                     lay-filter="course_list"></table>
+                <div class="app-table-page" id="course-list-page"></div>
             </div>
             <div>
                 <div class="layui-layer-btn layui-layer-btn-">
@@ -183,11 +185,58 @@
                     {field:'id', width: 100, title: '课程ID'},
                     {field:'curriculumName', width: 300, title: '课程名称'}
                 ]]
+            },
+            teacherPageOption = {
+                elem: 'teacher-list-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 10,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function(obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getTeacherList(obj.curr)
+                    }
+                }
+            },
+            coursePageOption = {
+                elem: 'course-list-page', //注意，这里的 test1 是 ID，不用加 # 号
+                limit: 10,
+                first: '首页',
+                last: '尾页',
+                layout: [
+                    'first',
+                    'prev',
+                    'page',
+                    'next',
+                    'last',
+                    'count',
+                    'currLimit',
+                    'curr',
+                    'pageCount'
+                ],
+                jump: function(obj, first) {
+                    //首次不执行
+                    if (!first) {
+                        getCourseListByTid(teacherId, obj.curr)
+                    }
+                }
             }
+
         getList(1)
         getCourseList(function(res) {
         })
-        getTeacherList()
+        getTeacherList(1)
         $('#add_source').click(function () {
             admin.navigate('/sourceManage/myListAdd')
         })
@@ -210,7 +259,10 @@
                     teacherId = teacherList[index].id
                 }
             })
-            getCourseListByTid(teacherId)       
+            getCourseListByTid(teacherId, 1)   
+            $('#course_list_height').css({
+                'height': ($('#layui-layer-shade-course').height() - 100) +'px'
+            })    
         })
         $('#course_confirm').click(function() {
             if (!teacherId) {
@@ -240,6 +292,9 @@
                 checkedSourceId = data.id
                 $('#dialog-wrapper').css({
                     'display': 'block'
+                })
+                $('#teacher_list_height').css({
+                    'height': ($('#layui-layer-shade-teacher').height() - 100) +'px'
                 })
             } else if (layEvent === 'cancelCollect') {
                 layer.open({
@@ -354,24 +409,37 @@
             })
         }
 
-        function getTeacherList() {
-            admin.get({
+        function getTeacherList(page) {
+            admin.post({
                 url: '/dataBank/teacherList',
+                data: JSON.stringify({
+                    page: page,
+                    rows: 10
+                }),
                 success: function(res) {
-                    teacherList = res.data || [];
-                    teacherOption.data = res.data || []
+                    teacherList = (res.data && res.data.items) || [];
+                    teacherOption.data = teacherList
                     table.render(teacherOption)
+                    teacherPageOption.count = (res.data && res.data.total) || 0
+                    laypage.render(teacherPageOption)
                 }
             })
         }
 
-        function getCourseListByTid(id) {
-            admin.get({
-                url: '/dataBank/curriculumList?teacherId='+id,
+        function getCourseListByTid(id, page) {
+            admin.post({
+                url: '/dataBank/curriculumList',
+                data: JSON.stringify({
+                    teacherId: id,
+                    page: page,
+                    rows: 10
+                }),
                 success: function(res) {
-                    courseList = res.data || []
-                    courseOption.data = res.data || []
-                    table.render(courseOption)
+                    courseList = (res.data && res.data.items) || []
+                    courseOption.data = courseList;
+                    coursePageOption.count = (res.data && res.data.total) || 0
+                    table.render(courseOption);
+                    laypage.render(coursePageOption);
                 }
             })
         }
