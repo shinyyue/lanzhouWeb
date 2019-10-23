@@ -90,7 +90,7 @@
             <div class="layui-col-md4 layui-form-item">
                 <label class="layui-form-label ">实验成绩</label>
                 <input id="experimentRatio" type="number"
-                       style="width: 50px"></input>
+                       style="width: 50px" />
                 x<span id="experimentProportion" />%=<span id="realExperimentRatio" />
             </div>
         </div>
@@ -118,8 +118,14 @@
             <div class="layui-col-md4 layui-form-item">
                 <label class="layui-form-label ">实验报告成绩</label>
                 <input id="reportRatio" type="number"
-                       style="width: 50px"></input>
+                       style="width: 50px" />
                 x<span id="reportProportion" />%=<span id="realReportRatio" />
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-col-md4 layui-form-item">
+                <label class="layui-form-label ">总成绩</label>
+                <span id="totalRatio"></span>
             </div>
         </div>
         <div class="layui-row">
@@ -183,6 +189,7 @@
             }
             $('#realExperimentRatio').html($('#experimentRatio').val() * $('#experimentProportion')
                 .text() / 100)
+            $('#totalRatio').html((parseFloat($('#realExperimentRatio').html())*100 + parseFloat($('#realReportRatio').html())*100)/100)
         })
         $('#reportRatio').change(function () {
             if ($('#reportRatio').val()>100){
@@ -193,6 +200,7 @@
                 $('#reportRatio').val('')
             }
             $('#realReportRatio').html($('#reportRatio').val() * $('#reportProportion').text() / 100)
+            $('#totalRatio').html((parseFloat($('#realExperimentRatio').html())*100 + parseFloat($('#realReportRatio').html())*100)/100)
         })
 
         function getDetails() {
@@ -213,6 +221,7 @@
                         .experimentProportion / 100)
                     $('#labReport').html(data.labReport)
                     $('#content').val(data.content)
+                    $('#totalRatio').html((parseFloat($('#realExperimentRatio').html())*100 + parseFloat($('#realReportRatio').html())*100)/100)
 
                     if (res.data.dataType !== 7) {
                         $('.unScorm-inner').show()

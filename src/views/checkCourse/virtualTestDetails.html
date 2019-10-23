@@ -25,13 +25,17 @@
         </div>
 
         <div class="layui-row" id="noadd">
-            <div class="layui-col-md6 layui-form-item">
+            <div class="layui-col-md4 layui-form-item">
                 <label class="layui-form-label ">实验成绩</label>
                 <span id="experimentRatio"></span>
             </div>
-            <div class="layui-col-md6 layui-form-item">
+            <div class="layui-col-md4 layui-form-item">
                 <label class="layui-form-label ">报告成绩</label>
                 <span id="reportRatio"></span>
+            </div>
+            <div class="layui-col-md4 layui-form-item">
+                <label class="layui-form-label ">总成绩</label>
+                <span id="totalRatio"></span>
             </div>
 
         </div>
@@ -398,6 +402,7 @@
                         // 查看成绩
                         $('#experimentRatio').html(data.experimentRatio)
                         $('#reportRatio').html(data.reportRatio)
+                        $('#totalRatio').html((data.reportRatio*100+data.experimentRatio*100)/100)
 
                         $('#save').attr('style', 'display:none;')
                         $('#labReportAddressDiv').attr('style', 'display:none;')

@@ -382,7 +382,7 @@
         }
 
         function getTemplate(formData, type) {
-            console.log(333, formData.startTime)
+//            console.log(333, formData.startTime)
             return (
                 '<div id="term_details_modal">\n' +
                 '        <form action=" " class="layui-form">\n' +
@@ -460,8 +460,14 @@
                 // '                    />\n' +
                 '                </div>\n' +
                 '            </div>\n' +
+                '            <div class="layui-row">\n' +
+                '                <div class="layui-col-md12 layui-form-item">\n' +
+                '                     <span style="color: red;display:block" >注：学年请按照20XX-20XX的格式输入，如2019-2020</span>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
                 '        </form>\n' +
                 '    </div>'
+
             )
         }
     })
