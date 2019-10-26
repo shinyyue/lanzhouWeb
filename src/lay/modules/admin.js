@@ -305,8 +305,24 @@ layui
         }
         self.navigate = function (url) {
             if (url == conf.entry) url = '/'
-            if (url === '/chatTeacher' || url === '/chatStudent') {
-                window.open('/index.html#' + url, '_blank')
+            layer.closeAll('iframe')
+            if (url === '/chatTeacher') {
+                // window.open('/index.html#' + url, '_blank');
+                layer.open({
+                    title: '答疑室',
+                    type: 2,
+                    content: '/index.html#/chatTeacher',
+                    area: ['1335px', '600px'],
+                    zIndex: 1000
+                })
+            } else if (url === '/chatStudent') {
+                layer.open({
+                    title: '聊天室列表',
+                    type: 2,
+                    content: '/index.html#/chatStudent',
+                    area: ['1335px', '600px'],
+                    zIndex: 1000
+                })
             } else {
                 window.location.hash = url
             }
