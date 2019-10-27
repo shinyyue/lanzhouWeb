@@ -17,7 +17,8 @@
                         <label class="layui-form-label require">课程名称</label>
                         <select name="curriculumId"
                                 id="plan_course_list"
-                                lay-verify="required">
+                                lay-verify="required"
+                                lay-filter="course_name">
                             <option value="">选择课程</option>
                         </select>
                     </div>
@@ -731,6 +732,23 @@
                 }
             })
         }
+
+        form.on('select(course_name)', function(obj) {
+            admin.get({
+                url: '/vsMpCurriculum/get?id='+obj.value,
+                success: function (res) {
+                    $('#courseName').val(res.data.curriculumName),
+                    $('#period').val(res.data.period),
+                    $('#creditHour').val(res.data.creditHour),
+                    $('#fullMark').val(res.data.fullMark)
+                    // res.data && res.data.items && res.data.items.forEach(item => {
+                    //     $('#studentTypeId').append('<option value="' + item.id + '">' +
+                    //         item.studentTypeName + '</option>')
+                    //     form.render()
+                    // })
+                }
+            })
+        })
 
         function addCoursePlan(formData) {
             var data = formData,
