@@ -1058,35 +1058,41 @@
 
             form.on('select(college)', function (data) {
                 getSeriesList(function (res) {
-                    $('#series_model').html('<option value="">请选择</option>')
+                    $('#series_model').html('<option value="">请选择</option>');
+                    var series = '<option value="">请选择</option>';
                     if (res.data && res.data.items) {
                         for(var i = 0; i < res.data.items.length; i++) {
                             var item = res.data.items[i];
                             series += '<option value="' + item.id + '">' + item.facultyName + '</option>'
                         }
                     }
-                    $('#series_model').html(series)
+                    $('#series_model').html(series);
+                    $('#profess_model').html('<option value="">请选择</option>');
+                    $('#classes_model').html('<option value="">请选择</option>');
                     form.render('select')
                 }, data.value)
             })
 
             form.on('select(series)', function (data) {
                 getProfessList(function (res) {
-                    $('#profess_model').html('<option value="">请选择</option>')
+                    $('#profess_model').html('<option value="">请选择</option>');
+                    var profe = '<option value="">请选择</option>';
                     if (res.data && res.data.items) {
                         for(var i = 0; i < res.data.items.length; i++) {
                             var item = res.data.items[i];
                             profe += '<option value="' + item.id + '">' + item.professionName + '</option>'
                         }
                     }
-                    $('#profess_model').html(profe)
+                    $('#profess_model').html(profe);
+                    $('#classes_model').html('<option value="">请选择</option>');
                     form.render('select')
                 }, data.value)
             })
 
             form.on('select(profess)', function (data) {
                 getClassList(function (res) {
-                    $('#classes_model').html('<option value="">请选择</option>')
+                    $('#classes_model').html('<option value="">请选择</option>');
+                    var classes = '<option value="">请选择</option>';
                     if (res.data && res.data.items) {
                         for(var i = 0; i < res.data.items.length; i++) {
                             var item = res.data.items[i];

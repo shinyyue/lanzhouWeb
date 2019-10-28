@@ -305,7 +305,7 @@ layui
         }
         self.navigate = function (url) {
             if (url == conf.entry) url = '/'
-            layer.closeAll('iframe')
+            layer.closeAll('iframe' )
             if (url === '/chatTeacher') {
                 // window.open('/index.html#' + url, '_blank');
                 layer.open({
