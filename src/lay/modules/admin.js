@@ -311,16 +311,16 @@ layui
                 layer.open({
                     title: '答疑室',
                     type: 2,
-                    content: '/index.html#/chatTeacher',
-                    area: ['1335px', '600px'],
+                    content: conf.webUrl+ 'index.html#/chatTeacher',
+                    area: ['1335px', '640px'],
                     zIndex: 1000
                 })
             } else if (url === '/chatStudent') {
                 layer.open({
                     title: '聊天室列表',
                     type: 2,
-                    content: '/index.html#/chatStudent',
-                    area: ['1335px', '600px'],
+                    content:  conf.webUrl+ 'index.html#/chatStudent',
+                    area: ['1335px', '640px'],
                     zIndex: 1000
                 })
             } else {
