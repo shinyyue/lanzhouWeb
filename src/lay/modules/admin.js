@@ -313,7 +313,10 @@ layui
                     type: 2,
                     content: conf.webUrl+ 'index.html#/chatTeacher',
                     area: ['1335px', '640px'],
-                    zIndex: 1000
+                    zIndex: 1000,
+                    maxmin:true,
+                    shade: 0,
+                    shadeClose:true
                 })
             } else if (url === '/chatStudent') {
                 layer.open({
@@ -321,7 +324,10 @@ layui
                     type: 2,
                     content:  conf.webUrl+ 'index.html#/chatStudent',
                     area: ['1335px', '640px'],
-                    zIndex: 1000
+                    zIndex: 1000,
+                    maxmin:true,
+                    shade: 0,
+                    shadeClose:true
                 })
             } else {
                 window.location.hash = url

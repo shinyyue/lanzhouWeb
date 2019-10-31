@@ -123,7 +123,12 @@
                            class="layui-icon layui-icon-delete"
                            lay-event="delete"></i>
                     </script>
-                </div>
+                    <div class="layui-row">
+                        <div class="layui-col-md6 layui-form-item">
+                            <label class="layui-form-label ">总分</label>
+                            <div id="allScoresSum" style="line-height:38px;"></div>
+                        </div>
+                    </div>
             </div>
         </div>
         <div class="layui-row">
@@ -351,6 +356,12 @@
                         value *
                         Number(strategyEntries[index].exercisesDifficulty)
                     )
+                // todo:计算总分
+                var sum = 0;
+                for(var k = 0; k < strategyEntries.length; k++) {
+                    sum += strategyEntries[k].totalScore;
+                }
+                $('#allScoresSum').html(sum)
             }
         })
 
@@ -393,6 +404,11 @@
                     })
 
                     form.render()
+                    var sum = 0;
+                    for(var k = 0; k < strategyEntries.length; k++) {
+                        sum += strategyEntries[k].totalScore;
+                    }
+                    $('#allScoresSum').html(sum)
                 })
             }
         })
@@ -657,7 +673,12 @@
                                     referNums: item.allExercises,
                                     totalScore: item.totleCourse
                                 })
-                            })
+                            });
+                            var sum = 0;
+                            for(var k = 0; k < strategyEntries.length; k++) {
+                                sum += strategyEntries[k].totalScore;
+                            }
+                            $('#allScoresSum').html(sum)
                             $('.layui-table-body').css('overflow', 'visible')
                             $('.layui-table-box').css({
                                 overflow: 'visible',
