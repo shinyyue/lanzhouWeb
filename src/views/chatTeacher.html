@@ -19,11 +19,11 @@
             <div class="chating-title">
                 <span>答疑库</span>
                 <span class="chating-title-center" id="courseName"></span>
-                <ul class="chating-add-btn">
+                <!-- <ul class="chating-add-btn">
                     <li></li>
                     <li></li>
                     <li></li>
-                </ul>
+                </ul> -->
             </div>
             <div class="chating-content" id="chat_list"></div>
             <div class="chating-replay">
@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <div class="chat-member-list" style="display: none;">
+        <!-- <div class="chat-member-list" style="display: none;">
             <div class="history-search">
                 <input
                     type="text"
@@ -72,7 +72,7 @@
                 </div>
             </div>
             <div class="get-more">点击查看更多成员</div>
-        </div>
+        </div> -->
     </div>
 </div>
 <!-- <div class="layui-row">
@@ -91,7 +91,7 @@
             admin = layui.admin,
             publishedCourseList = [],
             userId = layui.sessionData('userInfo').userInfo.id,
-            ws = new WebSocket('ws://47.105.130.130:8088/netty3?userId=' + userId),
+            // ws = new WebSocket('ws://47.105.130.130:8088/netty3?userId=' + userId),
             checkedItem = null,
             curChatList = [],
             message = {
@@ -102,6 +102,10 @@
                 isTeacher: 1,
                 userName: layui.sessionData('userInfo').userInfo.userName
             }
+
+        if (!window.ws) {
+            window.ws = new WebSocket('ws://47.105.130.130:8088/netty3?userId=' + userId);
+        }
 
         if ('WebSocket' in window) {
             console.log(12222, window.WebSocket)
@@ -227,38 +231,64 @@
                     var arr = []
                     var courseItem = ''
 
-                    res.data &&
-                        res.data.items &&
-                        res.data.items.forEach(function(item) {
-                            // if (item.publish == 1) {
-                            arr.push(item)
-                            courseItem +=
-                                '<div class="member-item">' +
-                                '<img src="src/images/user_logo.png" class="member-avator" />' +
-                                '<span>' +
-                                item.courseName +
-                                '</span>' +
-                                '</div>'
-                            // }
+                    if (res.data && res.data.items) {
+                        getTeacherChatNums(function(unReadList) {
+                            for(var i  =0; i < unReadList.length; i++) {
+                                for(var j  =0; j < res.data.items.length; j++) {
+                                    if (unReadList[i].sendTargetId == res.data.items[j].id) {
+                                        res.data.items[j].isUnRead = true;
+                                    }
+                                }
+                            }
+
+                            for(var k = 0; k < res.data.items.length; k ++) {
+                                var item = res.data.items[k];
+                                arr.push(item);
+                                courseItem +=
+                                    '<div class="member-item">' +
+                                    '<img src="src/images/user_logo.png" class="member-avator" />' +
+                                    '<span>' +
+                                    item.courseName +
+                                    '</span>' +
+                                    (item.isUnRead ? '<i class="chat-icons"></i>' : '') +
+                                    '</div>'
+                            }
+
+                            publishedCourseList = arr
+                            $('#published_course').html(courseItem)
+                            $('#published_course .member-item').click(function() {
+                                checkedItem = publishedCourseList[$(this).index()]
+                                message.fromUserId = 0
+                                message.toUserId = Number(checkedItem.id)
+                                $('#courseName').html(checkedItem.courseName)
+                                $('#send_message').css('display', 'block')
+                                // 聊天室ID：开课计划ID
+                                getChatHistory(checkedItem.id)
+                                $(this).addClass('active')
+                                $(this)
+                                    .siblings()
+                                    .removeClass('active')
+                            })
                         })
-                    publishedCourseList = arr
-                    $('#published_course').html(courseItem)
-                    $('#published_course .member-item').click(function() {
-                        checkedItem = publishedCourseList[$(this).index()]
-                        message.fromUserId = 0
-                        message.toUserId = Number(checkedItem.id)
-                        $('#courseName').html(checkedItem.courseName)
-                        $('#send_message').css('display', 'block')
-                        // 聊天室ID：开课计划ID
-                        getChatHistory(checkedItem.id)
-                        $(this).addClass('active')
-                        $(this)
-                            .siblings()
-                            .removeClass('active')
-                    })
+                    }
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        function getTeacherChatNums(callback) {
+            admin.get({
+                url: '/chattingRecords/queryTeaMessageNum',
+                success: function(res) {
+                    debugger
+                    if (res.data.totleNum === 0) {
+                        $('#chat_nums').css({
+                            display: 'none'
+                        })
+                    }
+                    callback && typeof callback === 'function' && callback(res.data.everyOne);
                 }
             })
         }
@@ -281,8 +311,18 @@
                         curChatList = res.data.items
                     }
                     chatTemplate(curChatList)
+                    clearUnRead(targetId);
                 },
                 error: function() {}
+            })
+        }
+
+        function clearUnRead(id) {
+            admin.get({
+                url: 'chattingRecords/teacherOneClear?curriculumId='+id,
+                success: function (res) {
+                    getList()
+                }
             })
         }
 
@@ -384,6 +424,17 @@
         font-size: 16px;
         clear:both;
         overflow: hidden;
+        position: relative;
+    }
+
+    .member-item .chat-icons {
+        position: absolute;
+        top: 5px;
+        right: 20px;
+        width: 10px;
+        height: 10px;
+        background: red;
+        border-radius: 50%;
     }
 
     .member-item .member-avator {

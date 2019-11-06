@@ -19,11 +19,11 @@
             <div class="chating-title">
                 <span>答疑库</span>
                 <span class="chating-title-center" id="courseName"></span>
-                <ul class="chating-add-btn">
+                <!-- <ul class="chating-add-btn">
                     <li></li>
                     <li></li>
                     <li></li>
-                </ul>
+                </ul> -->
             </div>
             <div class="chating-content" id="chat_list"></div>
             <div class="chating-replay">
@@ -90,7 +90,7 @@
         var $ = layui.jquery,
             admin = layui.admin,
             userId = layui.sessionData('userInfo').userInfo.id,
-            ws = new WebSocket('ws://47.105.130.130:8088/netty3?userId=' + userId),
+            // ws = new WebSocket('ws://47.105.130.130:8088/netty3?userId=' + userId),
             selectedCourseList = [],
             checkedItem = null,
             message = {
@@ -101,6 +101,10 @@
                 isTeacher: 0,
                 userName: layui.sessionData('userInfo').userInfo.userName
             }
+
+        if (!window.ws) {
+            window.ws = new WebSocket('ws://47.105.130.130:8088/netty3?userId=' + userId);
+        }
 
         getList()
 
@@ -174,36 +178,58 @@
                 success: function(res) {
                     if (res.data && res.data.items) {
                         var courseItem = ''
-                        selectedCourseList = res.data.items
-                        res.data.items.forEach(function(item) {
-                            courseItem +=
-                                '<div class="member-item">' +
-                                '<img src="src/images/user_logo.png" class="member-avator" />' +
-                                '<span>' +
-                                item.courseName +
-                                '</span>' +
-                                '</div>'
-                        })
-                        $('#checked_course_list').html(courseItem)
-                        $('#checked_course_list .member-item').click(
-                            function() {
-                                checkedItem =
-                                    selectedCourseList[$(this).index()]
-                                $('#courseName').html(checkedItem.courseName)
-                                $('#send_message').css('display', 'block')
-                                // 聊天室ID：开课计划ID
-                                getChatHistory(checkedItem.coursePlanId)
-                                // wsHandler(message)
-                                $(this).addClass('active')
-                                $(this)
-                                    .siblings()
-                                    .removeClass('active')
+
+                        getChatNums(function(unReadList) {
+                            for(var i  =0; i < unReadList.length; i++) {
+                                for(var j  =0; j < res.data.items.length; j++) {
+                                    if (unReadList[i].sendTargetId == res.data.items[j].coursePlanId) {
+                                        res.data.items[j].isUnRead = true;
+                                    }
+                                }
                             }
-                        )
+                            selectedCourseList = res.data.items
+                            res.data.items.forEach(function(item) {
+                                courseItem +=
+                                    '<div class="member-item">' +
+                                    '<img src="src/images/user_logo.png" class="member-avator" />' +
+                                    '<span>' +
+                                    item.courseName +
+                                    '</span>' +
+                                    (item.isUnRead ? '<i class="chat-icons"></i>' : '') +
+                                    '</div>'
+                            })
+                            $('#checked_course_list').html(courseItem)
+                            $('#checked_course_list .member-item').click(
+                                function() {
+                                    checkedItem =
+                                        selectedCourseList[$(this).index()]
+                                    $('#courseName').html(checkedItem.courseName)
+                                    $('#send_message').css('display', 'block')
+                                    // 聊天室ID：开课计划ID
+                                    getChatHistory(checkedItem.coursePlanId)
+                                    // wsHandler(message)
+                                    $(this).addClass('active')
+                                    $(this)
+                                        .siblings()
+                                        .removeClass('active')
+                                }
+                            )
+                        })
+
+                        
                     }
                 },
                 error: function(err) {
                     layer.msg((err && err.msg) || '数据请求失败')
+                }
+            })
+        }
+
+        function clearUnRead(id) {
+            admin.get({
+                url: 'chattingRecords/stuOneClear?curriculumId='+id,
+                success: function (res) {
+                    getList()
                 }
             })
         }
@@ -226,6 +252,7 @@
                         curChatList = res.data.items
                     }
                     chatTemplate(curChatList)
+                    clearUnRead(targetId)
                 },
                 error: function() {}
             })
@@ -239,7 +266,7 @@
                     item.sendTime +
                     '</span>' +
                     '<div class="chat-dialog ' +
-                    (item.toUserId == userId ? 'chat-myself' : 'chat-others') +
+                    ((item.sendUserId == userId) ? 'chat-myself' : 'chat-others') +
                     '">' +
                     '<img src="src/images/user_logo.png" class="member-avator" />' +
                     '<div class="member-info">' +
@@ -268,6 +295,21 @@
                 }
                 $('#chat_list').scrollTop((iScrollTop += 50))
             }, 20)
+        }
+
+        function getChatNums(callback) {
+            admin.get({
+                url: '/chattingRecords/queryStuMessageNum',
+                success: function(res) {
+                    debugger
+                    if (res.data.totleNum === 0) {
+                        $('#chat_nums').css({
+                            display: 'none'
+                        })
+                    }
+                    callback && typeof callback === 'function' && callback(res.data.everyOne);
+                }
+            })
         }
 
         function search() {
@@ -367,6 +409,17 @@
         font-size: 16px;
         clear:both;
         overflow: hidden;
+        position: relative;
+    }
+
+    .member-item .chat-icons {
+        position: absolute;
+        top: 5px;
+        right: 20px;
+        width: 10px;
+        height: 10px;
+        background: red;
+        border-radius: 50%;
     }
 
     .member-item .member-avator {

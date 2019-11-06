@@ -95,6 +95,10 @@
                         menuList[i].menuName !== '课程内容' &&
                         menuList[i].menuName !== '课程设置'
                     ) {
+                        var tag = '';
+                        if (menuList[i].menuUrl === '/chatTeacher' || menuList[i].menuUrl === '/chatStudent') {
+                            tag = '<i id="chat_nums" class="chat-icons" style="display:none;"></i>'
+                        }
                         menuStr +=
                             '<li class="layui-nav-item ' +
                             status +
@@ -104,7 +108,7 @@
                             '">' +
                             '   <a class="nav-item-a" href="javascript:;" data-path="' +
                             menuList[i].menuUrl +
-                            '">'+ menuList[i].menuName +'</a>'+ childDlStr +
+                            '">'+ menuList[i].menuName +'</a>'+ tag + childDlStr +
                             '</li>'
                     }
                 }
@@ -252,6 +256,7 @@
         line-height: 70px;
         cursor: pointer;
         padding: 0 12px;
+        position: relative;
     }
 
     .layui-nav .layui-nav-item.active {
@@ -309,6 +314,16 @@
     #side_nav .layui-nav-item {
         box-sizing: border-box;
         width: 220px;
+    }
+
+    #header_nav .layui-nav-item .chat-icons {
+        position: absolute;
+        top: 5px;
+        right: 20px;
+        width: 10px;
+        height: 10px;
+        background: red;
+        border-radius: 50%;
     }
 
     #side_nav .layui-nav-item.sider-nav-item {
@@ -374,5 +389,6 @@
         color: #fff;
         background: rgba(0, 176, 202, 1);
     }
+
 
 </style>

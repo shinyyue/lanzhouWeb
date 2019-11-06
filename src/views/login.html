@@ -345,7 +345,6 @@
             var loading = $(this).find('.layui-icon')
             if (loading.is(':visible')) return
             loading.show()
-            debugger
             admin.post({
                 url: url,
                 data: JSON.stringify(userInfo),
@@ -377,6 +376,16 @@
                         })
                     }
                     admin.setSideNav()
+
+                    var userId = res.data.vsMpUser.id;
+                    if (!window.ws) {
+                        window.ws = new WebSocket('ws://47.105.130.130:8088/netty3?userId=' + userId);
+                    }
+                    if (res.data.role.id === 2) {
+                        getTeacherChatNums()
+                    } else if (res.data.role.id === 1) {
+                        getStudentChatNums()
+                    }
                 },
                 complete: function (err) {
                     loading.hide()
@@ -385,6 +394,30 @@
             return false
         })
 
+        function getTeacherChatNums() {
+            admin.get({
+                url: '/chattingRecords/queryTeaMessageNum',
+                success: function(res) {
+                    if (res.data.totleNum > 0) {
+                        $('#chat_nums').css({
+                            display: 'block'
+                        })
+                    }
+                }
+            })
+        }
+        function getStudentChatNums() {
+            admin.get({
+                url: '/chattingRecords/queryTeaMessageNum',
+                success: function(res) {
+                    if (res.data.totleNum > 0) {
+                        $('#chat_nums').css({
+                            display: 'block'
+                        })
+                    }
+                }
+            })
+        }
         function setCookie(name, value) {
             var Days = 30
             var exp = new Date()

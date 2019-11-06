@@ -28,6 +28,15 @@ layui
         self.routeLeaveFunc = null
         self.loginToken = null
 
+        if (window.ws) {
+            window.ws.onmessage = function(evt) {
+                var msg = JSON.parse(evt.data)
+                $('#chat_nums').css({
+                    display: 'block'
+                })
+            }
+        }
+
 
         /**
          * 设置编辑器内容
@@ -181,7 +190,6 @@ layui
         //初始化视图区域,刷新时触发
         self.initView = function (route) {
             // debugger
-            console.log(3333, self.route)
             if (!self.route.href || self.route.href == '/') {
                 self.route = layui.router('#' + conf.entry)
                 route = self.route
@@ -213,8 +221,6 @@ layui
             }
 
             if (conf.loginCheck == true) {
-                console.log(3455555)
-                debugger
                 // 没有token验证，暂时用role来记录用户的登录状态
                 if (layui.sessionData('user').role || token) {
                     if (route.fileurl == conf.loginPage) {
@@ -312,22 +318,34 @@ layui
                     title: '答疑室',
                     type: 2,
                     content: conf.webUrl+ 'index.html#/chatTeacher',
+                    // content: 'http://127.0.0.1:8020/index.html#/chatTeacher',
                     area: ['1335px', '640px'],
                     zIndex: 1000,
                     maxmin:true,
                     shade: 0,
-                    shadeClose:true
+                    shadeClose:true,
+                    cancel: function(index, layero){ 
+                        getTeacherChatNums();
+                        layer.close(index)
+                        return false; 
+                    }  
                 })
             } else if (url === '/chatStudent') {
                 layer.open({
                     title: '聊天室列表',
                     type: 2,
                     content:  conf.webUrl+ 'index.html#/chatStudent',
+                    // content: 'http://127.0.0.1:8020/index.html#/chatStudent',
                     area: ['1335px', '640px'],
                     zIndex: 1000,
                     maxmin:true,
                     shade: 0,
-                    shadeClose:true
+                    shadeClose:true,
+                    cancel: function(index, layero){ 
+                        getStudentChatNums();
+                        layer.close(index)
+                        return false; 
+                    }  
                 })
             } else {
                 window.location.hash = url
@@ -801,6 +819,46 @@ layui
         // var flexibleOpen = self.data().flexible
         // self.flexible(flexibleOpen === undefined ? true : flexibleOpen)
         // }
+
+        if (layui.sessionData('role').role.id === 2) {
+            getTeacherChatNums()
+        } else if (layui.sessionData('role').role.id === 1) {
+            getStudentChatNums()
+        }
+
+
+        function getTeacherChatNums() {
+            self.get({
+                url: '/chattingRecords/queryTeaMessageNum',
+                success: function(res) {
+                    if (res.data.totleNum > 0) {
+                        $('#chat_nums').css({
+                            display: 'block'
+                        })
+                    } else {
+                        $('#chat_nums').css({
+                            display: 'none'
+                        })
+                    }
+                }
+            })
+        }
+        function getStudentChatNums() {
+            self.get({
+                url: '/chattingRecords/queryStuMessageNum',
+                success: function(res) {
+                    if (res.data.totleNum > 0) {
+                        $('#chat_nums').css({
+                            display: 'block'
+                        })
+                    } else {
+                        $('#chat_nums').css({
+                            display: 'none'
+                        })
+                    }
+                }
+            })
+        }
 
         exports('admin', self)
     })
