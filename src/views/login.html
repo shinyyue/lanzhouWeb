@@ -408,7 +408,7 @@
         }
         function getStudentChatNums() {
             admin.get({
-                url: '/chattingRecords/queryTeaMessageNum',
+                url: '/chattingRecords/queryStuMessageNum',
                 success: function(res) {
                     if (res.data.totleNum > 0) {
                         $('#chat_nums').css({
