@@ -820,9 +820,9 @@ layui
         // self.flexible(flexibleOpen === undefined ? true : flexibleOpen)
         // }
 
-        if (layui.sessionData('role').role.id === 2) {
+        if (layui.sessionData('role').role && layui.sessionData('role').role.id === 2) {
             getTeacherChatNums()
-        } else if (layui.sessionData('role').role.id === 1) {
+        } else if (layui.sessionData('role').role && layui.sessionData('role').role.id === 1) {
             getStudentChatNums()
         }
 
