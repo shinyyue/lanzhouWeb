@@ -819,12 +819,13 @@ layui
         // var flexibleOpen = self.data().flexible
         // self.flexible(flexibleOpen === undefined ? true : flexibleOpen)
         // }
-
-        if (layui.sessionData('role').role && layui.sessionData('role').role.id === 2) {
-            getTeacherChatNums()
-        } else if (layui.sessionData('role').role && layui.sessionData('role').role.id === 1) {
-            getStudentChatNums()
-        }
+        setTimeout(function() {
+            if (layui.sessionData('role').role && layui.sessionData('role').role.id === 2) {
+                getTeacherChatNums()
+            } else if (layui.sessionData('role').role && layui.sessionData('role').role.id === 1) {
+                getStudentChatNums()
+            }
+        }, 500)
 
 
         function getTeacherChatNums() {
