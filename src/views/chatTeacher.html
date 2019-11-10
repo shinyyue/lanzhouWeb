@@ -108,7 +108,7 @@
         }
 
         if ('WebSocket' in window) {
-            console.log(12222, window.WebSocket)
+            // console.log(12222, window.WebSocket)
         } else {
             alert('您的浏览器不支持websocket')
         }
@@ -148,6 +148,7 @@
             checkedItem && getChatHistory(checkedItem.id);
             checkedItem && clearUnRead(checkedItem.id)
             !checkedItem && getList()
+            getTeacherChatNums()
         }
 
         window.parent.ws.onclose = function() {

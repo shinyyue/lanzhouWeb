@@ -31,15 +31,6 @@ layui
         if (window.ws) {
             window.ws.onmessage = function(evt) {
                 var msg = JSON.parse(evt.data)
-                $('#chat_nums').css({
-                    display: 'block'
-                })
-            }
-        } else if (!window.ws && !(window.parent && window.parent.ws)) {
-            var userId = layui.sessionData('userInfo').userInfo && layui.sessionData('userInfo').userInfo.id
-            userId && (window.ws = new WebSocket('ws://47.105.130.130:8088/netty3?userId=' + userId));
-            window.ws && (window.ws.onmessage = function(evt) {
-                var msg = JSON.parse(evt.data) 
                 setTimeout(function() {
                     if (layui.sessionData('role').role && layui.sessionData('role').role.id === 2) {
                         getTeacherChatNums()
@@ -47,7 +38,22 @@ layui
                         getStudentChatNums()
                     }
                 }, 500)       
-            })
+            }
+        } else if (!window.ws && !(window.parent && window.parent.ws)) {
+            var userId = layui.sessionData('userInfo').userInfo && layui.sessionData('userInfo').userInfo.id
+            userId && (window.ws = new WebSocket('ws://47.105.130.130:8088/netty3?userId=' + userId));
+            if (window.ws) {
+                window.ws.onmessage = function(evt) {
+                    var msg = JSON.parse(evt.data) 
+                    setTimeout(function() {
+                        if (layui.sessionData('role').role && layui.sessionData('role').role.id === 2) {
+                            getTeacherChatNums()
+                        } else if (layui.sessionData('role').role && layui.sessionData('role').role.id === 1) {
+                            getStudentChatNums()
+                        }
+                    }, 500)       
+                }
+            }
         }
 
 

@@ -380,11 +380,25 @@
                     var userId = res.data.vsMpUser.id;
                     window.ws = null;
                     window.ws = new WebSocket('ws://47.105.130.130:8088/netty3?userId=' + userId);
-                    if (res.data.role.id === 2) {
-                        getTeacherChatNums()
-                    } else if (res.data.role.id === 1) {
-                        getStudentChatNums()
+                    if (window.ws) {
+                        window.ws.onmessage = function(evt) {
+                            var msg = JSON.parse(evt.data) 
+                            setTimeout(function() {
+                                if (res.data.role.id === 2) {
+                                    getTeacherChatNums()
+                                } else if (res.data.role.id === 1) {
+                                    getStudentChatNums()
+                                }
+                            }, 500)       
+                        }
                     }
+                    setTimeout(function () {
+                        if (res.data.role.id === 2) {
+                            getTeacherChatNums()
+                        } else if (res.data.role.id === 1) {
+                            getStudentChatNums()
+                        }
+                    }, 500)
                 },
                 complete: function (err) {
                     loading.hide()

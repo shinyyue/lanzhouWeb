@@ -127,6 +127,7 @@
                 .trim()
             message.toUserId = checkedItem && checkedItem.coursePlanId
             wsHandler(message)
+            $('#chat_content').val('')
         })
 
         window.parent.ws.onopen = function() {}
@@ -136,6 +137,7 @@
             checkedItem && getChatHistory(checkedItem.coursePlanId)
             checkedItem && clearUnRead(checkedItem.coursePlanId)
             !checkedItem && getList()
+            getChatNums()
         }
 
         window.parent.ws.onclose = function() {
