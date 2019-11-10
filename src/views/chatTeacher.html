@@ -143,9 +143,9 @@
         ws.onopen = function() {}
 
         ws.onmessage = function(evt) {
-            var msg = JSON.parse(evt.data)
-            console.log('收到消息-----', evt.data, checkedItem)
-            checkedItem && getChatHistory(checkedItem.id)
+            var msg = JSON.parse(evt.data);
+            checkedItem && getChatHistory(checkedItem.id);
+            checkedItem && clearUnRead(checkedItem.id)
         }
 
         ws.onclose = function() {
@@ -237,6 +237,7 @@
                                 for(var j  =0; j < res.data.items.length; j++) {
                                     if (unReadList[i].sendTargetId == res.data.items[j].id) {
                                         res.data.items[j].isUnRead = true;
+                                        res.data.items[j].chatNum = unReadList[i].chatNum;
                                     }
                                 }
                             }
@@ -250,7 +251,7 @@
                                     '<span>' +
                                     item.courseName +
                                     '</span>' +
-                                    (item.isUnRead ? '<i class="chat-icons"></i>' : '') +
+                                    (item.isUnRead ? '<i class="chat-icons">' + (item.chatNum > 99 ? '99+' : item.chatNum) +'</i>' : '') +
                                     '</div>'
                             }
 
@@ -429,12 +430,15 @@
 
     .member-item .chat-icons {
         position: absolute;
-        top: 5px;
+        top: 0px;
         right: 20px;
-        width: 10px;
-        height: 10px;
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        text-align: center;
         background: red;
         border-radius: 50%;
+        color: #ffffff;
     }
 
     .member-item .member-avator {
