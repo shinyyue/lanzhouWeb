@@ -39,12 +39,14 @@ layui
             var userId = layui.sessionData('userInfo').userInfo && layui.sessionData('userInfo').userInfo.id
             userId && (window.ws = new WebSocket('ws://47.105.130.130:8088/netty3?userId=' + userId));
             window.ws.onmessage = function(evt) {
-                var msg = JSON.parse(evt.data)
-                if (msg.chatMessageVo.totleNum > 0) {
-                    $('#chat_nums').css({
-                        display: 'block'
-                    })
-                }             
+                var msg = JSON.parse(evt.data) 
+                setTimeout(function() {
+                    if (layui.sessionData('role').role && layui.sessionData('role').role.id === 2) {
+                        getTeacherChatNums()
+                    } else if (layui.sessionData('role').role && layui.sessionData('role').role.id === 1) {
+                        getStudentChatNums()
+                    }
+                }, 500)       
             }
         }
 
