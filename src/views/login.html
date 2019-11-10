@@ -301,7 +301,7 @@
         }
         var url = '/login/login'
         if (token){
-            debugger
+            // debugger
             url = 'login/loginForIlab?token='+token;
             admin.get({
                 url: url,
@@ -378,9 +378,8 @@
                     admin.setSideNav()
 
                     var userId = res.data.vsMpUser.id;
-                    if (!window.ws) {
-                        window.ws = new WebSocket('ws://47.105.130.130:8088/netty3?userId=' + userId);
-                    }
+                    window.ws = null;
+                    window.ws = new WebSocket('ws://47.105.130.130:8088/netty3?userId=' + userId);
                     if (res.data.role.id === 2) {
                         getTeacherChatNums()
                     } else if (res.data.role.id === 1) {

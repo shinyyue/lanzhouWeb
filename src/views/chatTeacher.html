@@ -103,8 +103,8 @@
                 userName: layui.sessionData('userInfo').userInfo.userName
             }
 
-        if (!window.ws) {
-            window.ws = new WebSocket('ws://47.105.130.130:8088/netty3?userId=' + userId);
+        if (!window.parent.ws) {
+            window.parent.ws = new WebSocket('ws://47.105.130.130:8088/netty3?userId=' + userId);
         }
 
         if ('WebSocket' in window) {
@@ -140,16 +140,17 @@
         //     $('.chat-member-list').css({ display: 'block' })
         // })
 
-        ws.onopen = function() {}
+        window.parent.ws.onopen = function() {}
 
-        ws.onmessage = function(evt) {
+        window.parent.ws.onmessage = function(evt) {
+            console.log('teacher---onmessage')
             var msg = JSON.parse(evt.data);
             checkedItem && getChatHistory(checkedItem.id);
             checkedItem && clearUnRead(checkedItem.id)
             !checkedItem && getList()
         }
 
-        ws.onclose = function() {
+        window.parent.ws.onclose = function() {
             // 关闭 websocket
             alert('连接已关闭...')
         }
@@ -205,15 +206,15 @@
             // CLOSING === 2 连接正在关闭的过程中。
             // CLOSED === 3 连接已经关闭，或者连接无法建立。
             console.log('ws-------')
-            if (ws.readyState === 1) {
+            if (window.parent.ws.readyState === 1) {
                 console.log('发送消息体-----', sendMessage)
-                ws.send(JSON.stringify(sendMessage))
+                window.parent.ws.send(JSON.stringify(sendMessage))
                 clearTimeout(timer)
-            } else if (ws.readyState === 2) {
+            } else if (window.parent.ws.readyState === 2) {
                 timer = setTimeout(function () {
                     wsHandler(sendMessage)
                 }, 500)
-            } else if (ws.readyState === 3) {
+            } else if (window.parent.ws.readyState === 3) {
                 clearTimeout(timer)
             }
         }
@@ -284,7 +285,7 @@
             admin.get({
                 url: '/chattingRecords/queryTeaMessageNum',
                 success: function(res) {
-                    debugger
+                    // debugger
                     if (res.data.totleNum === 0) {
                         $('#chat_nums').css({
                             display: 'none'

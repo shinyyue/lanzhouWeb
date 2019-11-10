@@ -140,7 +140,7 @@
             }
         }
         function querySourceByFacultyId(facultyId) {
-            debugger
+            // debugger
             admin.get({
                 url: '/report/querySourceByFacultyId' + (facultyId &&  facultyId != undefined && facultyId != ''? ('?facultyId=' + facultyId): ''),
                 success: function (res) {

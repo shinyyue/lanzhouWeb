@@ -5,7 +5,7 @@ layui.extend({admin:'lay/modules/admin'}).define(['admin','conf'],function(expor
         = c.clear = c.exception = c.trace = c.assert = function () { };
         return c;
     })();
-    // debugger
+    // // debugger
     layui.admin.initPage();
     exports('index',{});
 });

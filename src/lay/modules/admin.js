@@ -35,6 +35,17 @@ layui
                     display: 'block'
                 })
             }
+        } else if (!window.ws && !(window.parent && window.parent.ws)) {
+            var userId = layui.sessionData('userInfo').userInfo && layui.sessionData('userInfo').userInfo.id
+            userId && (window.ws = new WebSocket('ws://47.105.130.130:8088/netty3?userId=' + userId));
+            window.ws.onmessage = function(evt) {
+                var msg = JSON.parse(evt.data)
+                if (msg.chatMessageVo.totleNum > 0) {
+                    $('#chat_nums').css({
+                        display: 'block'
+                    })
+                }             
+            }
         }
 
 
@@ -102,7 +113,7 @@ layui
             this.routeLeaveFunc = callback
         }
         self.render = function (elem) {
-            // debugger
+            // // debugger
             if (typeof elem == 'string') elem = $('#' + elem)
             if (!elem.get(0)) return
             var action = elem.get(0).tagName == 'SCRIPT' ? 'next' : 'find'
@@ -189,7 +200,7 @@ layui
          */
         //初始化视图区域,刷新时触发
         self.initView = function (route) {
-            // debugger
+            // // debugger
             if (!self.route.href || self.route.href == '/') {
                 self.route = layui.router('#' + conf.entry)
                 route = self.route

@@ -648,7 +648,7 @@
                 }, $(obj.tr).find('.upload-html'))
             } else if (layEvent === 'swtUpload') {
                 scormUpload(function(fileData) {
-                    debugger
+                    // debugger
                     var fileData = JSON.parse(fileData)
                     scormSign = fileData.sign
                     list[index].sourceName = fileData.filePath
@@ -735,7 +735,7 @@
         }
 
         function uploadFile(callback, elem, rType) {
-            // debugger
+            // // debugger
             if(rType == 7) {
                 $('#scorm_multiple_upload')
             } else {

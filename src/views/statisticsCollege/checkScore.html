@@ -208,7 +208,7 @@
                     $('#testTotleTime').html(data.testTotleTime)
                     dataType = res.data.dataType
 
-                    // debugger
+                    // // debugger
                     if (data.labReportAddress) {
                         //加载上传的实验报告
                         $('#labReportFileUrl').show()
@@ -351,7 +351,7 @@
 
         // 渲染视频
         // function renderVideo(data) {
-        //     // debugger
+        //     // // debugger
         //     testContent = data.testContent || 0
         //     var fileUrl =
         //         conf.fileRequestUrl + '/' + JSON.parse(data.resourceIds)[0].url
@@ -535,7 +535,7 @@
 
         // 提交
         function submit() {
-            // debugger
+            // // debugger
             var endDate = new Date()
             var labReport = layedit.getContent(reportIndex) || ''
             var data = {

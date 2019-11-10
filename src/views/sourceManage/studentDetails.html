@@ -168,7 +168,7 @@
                     $('#resourceDes').val(data.resourceDes)
                     //点击下载
                     $('#download').on('click', function () {
-                        debugger
+                        // debugger
                         if (data.type != 5) {
                             layer.msg('此类型不支持下载',{offset: 'b'})
                             return
@@ -326,7 +326,7 @@
                 // data: JSON.stringify(data),
 
                 success: function (res) {
-                    debugger
+                    // debugger
                     if (res.code == 200){
                         layer.msg('收藏成功',{offset: 'b'})
                         getDetails()
