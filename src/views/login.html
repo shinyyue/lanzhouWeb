@@ -385,9 +385,9 @@
                             var msg = JSON.parse(evt.data) 
                             setTimeout(function() {
                                 if (res.data.role.id === 2) {
-                                    getTeacherChatNums()
+                                    getTeacherChatNums(userId)
                                 } else if (res.data.role.id === 1) {
-                                    getStudentChatNums()
+                                    getStudentChatNums(userId)
                                 }
                             }, 500)       
                         }
@@ -407,9 +407,9 @@
             return false
         })
 
-        function getTeacherChatNums() {
+        function getTeacherChatNums(id) {
             admin.get({
-                url: '/chattingRecords/queryTeaMessageNum',
+                url: '/chattingRecords/queryTeaMessageNumById?id='+id,
                 success: function(res) {
                     if (res.data.totleNum > 0) {
                         $('#chat_nums').css({
@@ -419,9 +419,9 @@
                 }
             })
         }
-        function getStudentChatNums() {
+        function getStudentChatNums(id) {
             admin.get({
-                url: '/chattingRecords/queryStuMessageNum',
+                url: '/chattingRecords/queryStuMessageNumById?id='+id,
                 success: function(res) {
                     if (res.data.totleNum > 0) {
                         $('#chat_nums').css({

@@ -300,8 +300,9 @@
         }
 
         function getChatNums(callback) {
+            var id = layui.sessionData('userInfo').userInfo.id;
             admin.get({
-                url: '/chattingRecords/queryStuMessageNum',
+                url: '/chattingRecords/queryStuMessageNumById?id='+id,
                 success: function(res) {
                     // debugger
                     if (res.data.totleNum === 0) {

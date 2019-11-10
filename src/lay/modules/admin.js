@@ -848,8 +848,9 @@ layui
 
 
         function getTeacherChatNums() {
+            var id = layui.sessionData('userInfo').userInfo.id;
             self.get({
-                url: '/chattingRecords/queryTeaMessageNum',
+                url: '/chattingRecords/queryTeaMessageNumByIdById?id='+id,
                 success: function(res) {
                     if (res.data.totleNum > 0) {
                         $('#chat_nums').css({
@@ -864,8 +865,9 @@ layui
             })
         }
         function getStudentChatNums() {
+            var id = layui.sessionData('userInfo').userInfo.id;
             self.get({
-                url: '/chattingRecords/queryStuMessageNum',
+                url: '/chattingRecords/queryStuMessageNumById?id='+id,
                 success: function(res) {
                     if (res.data.totleNum > 0) {
                         $('#chat_nums').css({
