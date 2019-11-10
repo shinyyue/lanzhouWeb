@@ -38,7 +38,7 @@ layui
         } else if (!window.ws && !(window.parent && window.parent.ws)) {
             var userId = layui.sessionData('userInfo').userInfo && layui.sessionData('userInfo').userInfo.id
             userId && (window.ws = new WebSocket('ws://47.105.130.130:8088/netty3?userId=' + userId));
-            window.ws.onmessage = function(evt) {
+            window.ws && (window.ws.onmessage = function(evt) {
                 var msg = JSON.parse(evt.data) 
                 setTimeout(function() {
                     if (layui.sessionData('role').role && layui.sessionData('role').role.id === 2) {
@@ -47,7 +47,7 @@ layui
                         getStudentChatNums()
                     }
                 }, 500)       
-            }
+            })
         }
 
 
