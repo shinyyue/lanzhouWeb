@@ -135,6 +135,7 @@
             var msg = JSON.parse(evt.data)
             checkedItem && getChatHistory(checkedItem.coursePlanId)
             checkedItem && clearUnRead(checkedItem.coursePlanId)
+            !checkedItem && getList()
         }
 
         ws.onclose = function() {
