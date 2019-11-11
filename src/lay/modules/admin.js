@@ -850,7 +850,7 @@ layui
         function getTeacherChatNums() {
             var id = layui.sessionData('userInfo').userInfo.id;
             self.get({
-                url: '/chattingRecords/queryTeaMessageNumByIdById?userId='+id,
+                url: '/chattingRecords/queryTeaMessageNumById?userId='+id,
                 success: function(res) {
                     if (res.data.totleNum > 0) {
                         $('#chat_nums').css({
