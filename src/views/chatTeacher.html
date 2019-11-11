@@ -292,6 +292,10 @@
                         $('#chat_nums').css({
                             display: 'none'
                         })
+                    } else {
+                        $('#chat_nums').css({
+                            display: 'block'
+                        })
                     }
                     callback && typeof callback === 'function' && callback(res.data.everyOne);
                 }

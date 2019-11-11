@@ -133,6 +133,7 @@
         window.parent.ws.onopen = function() {}
 
         window.parent.ws.onmessage = function(evt) {
+            console.log(3333)
             var msg = JSON.parse(evt.data)
             checkedItem && getChatHistory(checkedItem.coursePlanId)
             checkedItem && clearUnRead(checkedItem.coursePlanId)
@@ -308,6 +309,10 @@
                     if (res.data.totleNum === 0) {
                         $('#chat_nums').css({
                             display: 'none'
+                        })
+                    } else {
+                        $('#chat_nums').css({
+                            display: 'block'
                         })
                     }
                     callback && typeof callback === 'function' && callback(res.data.everyOne);

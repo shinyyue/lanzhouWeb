@@ -32,6 +32,7 @@ layui
             window.ws.onmessage = function(evt) {
                 var msg = JSON.parse(evt.data)
                 setTimeout(function() {
+                    console.log(111)
                     if (layui.sessionData('role').role && layui.sessionData('role').role.id === 2) {
                         getTeacherChatNums()
                     } else if (layui.sessionData('role').role && layui.sessionData('role').role.id === 1) {
@@ -45,6 +46,7 @@ layui
             if (window.ws) {
                 window.ws.onmessage = function(evt) {
                     var msg = JSON.parse(evt.data) 
+                    console.log(22222)
                     setTimeout(function() {
                         if (layui.sessionData('role').role && layui.sessionData('role').role.id === 2) {
                             getTeacherChatNums()
@@ -54,7 +56,7 @@ layui
                     }, 500)       
                 }
             }
-        }
+        } 
 
 
         /**
@@ -346,6 +348,18 @@ layui
                     cancel: function(index, layero){ 
                         getTeacherChatNums();
                         layer.close(index)
+                        if (window.ws) {
+                            window.ws.onmessage = function (evt) {
+                                var msg = JSON.parse(evt.data)
+                                setTimeout(function () {
+                                    if (layui.sessionData('role').role && layui.sessionData('role').role.id === 2) {
+                                        getTeacherChatNums()
+                                    } else if (layui.sessionData('role').role && layui.sessionData('role').role.id === 1) {
+                                        getStudentChatNums()
+                                    }
+                                }, 500)
+                            }
+                        }
                         return false; 
                     }  
                 })
@@ -362,6 +376,18 @@ layui
                     shadeClose:true,
                     cancel: function(index, layero){ 
                         getStudentChatNums();
+                        if (window.ws) {
+                            window.ws.onmessage = function (evt) {
+                                var msg = JSON.parse(evt.data)
+                                setTimeout(function () {
+                                    if (layui.sessionData('role').role && layui.sessionData('role').role.id === 2) {
+                                        getTeacherChatNums()
+                                    } else if (layui.sessionData('role').role && layui.sessionData('role').role.id === 1) {
+                                        getStudentChatNums()
+                                    }
+                                }, 500)
+                            }
+                        }
                         layer.close(index)
                         return false; 
                     }  
