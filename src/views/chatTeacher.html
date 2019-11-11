@@ -285,7 +285,7 @@
         function getTeacherChatNums(callback) {
             var id = layui.sessionData('userInfo').userInfo.id;
             admin.get({
-                url: '/chattingRecords/queryTeaMessageNumById?id='+id,
+                url: '/chattingRecords/queryTeaMessageNumById?userId='+id,
                 success: function(res) {
                     // debugger
                     if (res.data.totleNum === 0) {

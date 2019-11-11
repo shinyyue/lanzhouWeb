@@ -302,7 +302,7 @@
         function getChatNums(callback) {
             var id = layui.sessionData('userInfo').userInfo.id;
             admin.get({
-                url: '/chattingRecords/queryStuMessageNumById?id='+id,
+                url: '/chattingRecords/queryStuMessageNumById?userId='+id,
                 success: function(res) {
                     // debugger
                     if (res.data.totleNum === 0) {

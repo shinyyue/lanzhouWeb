@@ -409,7 +409,7 @@
 
         function getTeacherChatNums(id) {
             admin.get({
-                url: '/chattingRecords/queryTeaMessageNumById?id='+id,
+                url: '/chattingRecords/queryTeaMessageNumById?userId='+id,
                 success: function(res) {
                     if (res.data.totleNum > 0) {
                         $('#chat_nums').css({
@@ -421,7 +421,7 @@
         }
         function getStudentChatNums(id) {
             admin.get({
-                url: '/chattingRecords/queryStuMessageNumById?id='+id,
+                url: '/chattingRecords/queryStuMessageNumById?userId='+id,
                 success: function(res) {
                     if (res.data.totleNum > 0) {
                         $('#chat_nums').css({
