@@ -394,9 +394,9 @@
                     }
                     setTimeout(function () {
                         if (res.data.role.id === 2) {
-                            getTeacherChatNums()
+                            getTeacherChatNums(userId)
                         } else if (res.data.role.id === 1) {
-                            getStudentChatNums()
+                            getStudentChatNums(userId)
                         }
                     }, 500)
                 },
